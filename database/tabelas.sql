@@ -12,11 +12,31 @@ CREATE TABLE config_geral
 DROP TABLE IF EXISTS curso;
 CREATE TABLE curso
 (
-    id_curso   INT         NOT NULL PRIMARY KEY, --entrada manual
+    id_curso   SERIAL      NOT NULL PRIMARY KEY,
     nome_curso VARCHAR(30) NOT NULL,
-    --cor VARCHAR(6) NOT NULL,
+    cor        VARCHAR(6)  NOT NULL,
     ativo      BOOLEAN     NOT NULL DEFAULT TRUE
 );
+
+INSERT INTO curso VALUES
+(DEFAULT, 'Mecânica', '000000', DEFAULT);
+INSERT INTO curso VALUES
+(DEFAULT, 'Eletrotécnica', 'AAAAAA', FALSE);
+
+INSERT INTO curso VALUES
+(DEFAULT, 'Edificações', 'BBBBBB', FALSE);
+
+INSERT INTO curso VALUES
+(DEFAULT, 'Processamento de dados', 'CCCCCC', FALSE);
+
+INSERT INTO curso VALUES
+(DEFAULT, 'Eletrônica', 'DDDDDD', DEFAULT);
+
+INSERT INTO curso VALUES
+(DEFAULT, 'Decoração', 'EEEEEE', FALSE);
+
+INSERT INTO curso VALUES
+(DEFAULT, 'Informática', 'FFFFFF', DEFAULT);
 
 DROP TABLE IF EXISTS config_curso;
 CREATE TABLE config_curso
@@ -87,14 +107,26 @@ DROP TABLE IF EXISTS estagio;
 CREATE TABLE estagio
 (
     --Identificação
-    id_estagio BIGSERIAL NOT NULL PRIMARY KEY,
-    --ra BIGINT NOT NULL,
-    id_empresa BIGINT    NOT NULL REFERENCES empresa,
+    id_estagio BIGSERIAL  NOT NULL PRIMARY KEY,
+    ra         VARCHAR(7) NOT NULL,
+    id_empresa BIGINT     NOT NULL REFERENCES empresa,
     --Datas
-    data_ini   DATE      NOT NULL,
-    data_fim   DATE      NOT NULL
-    --Dias da Semana
-    --????
+    data_ini   DATE       NOT NULL,
+    data_fim   DATE       NOT NULL,
+
+    --Horários da semana
+    segunda_entrada TIME DEFAULT NULL,
+    segunda_saida   TIME DEFAULT NULL,
+    terca_entrada   TIME DEFAULT NULL,
+    terca_saida     TIME DEFAULT NULL,
+    quarta_entrada  TIME DEFAULT NULL,
+    quarta_saida    TIME DEFAULT NULL,
+    quinta_entrada  TIME DEFAULT NULL,
+    quinta_saida    TIME DEFAULT NULL,
+    sexta_entrada   TIME DEFAULT NULL,
+    sexta_saida     TIME DEFAULT NULL,
+    sabado_entrada  TIME DEFAULT NULL,
+    sabado_saida    TIME DEFAULT NULL
 );
 
 /*-------------------PAPELADA-------------------------*/
@@ -103,12 +135,12 @@ DROP TABLE IF EXISTS aditivo;
 CREATE TABLE aditivo
 (
     --Controle
-    id_aditivo      BIGINT NOT NULL PRIMARY KEY,
-    --ra
-    data_ini        DATE   NOT NULL,
-    data_fim        DATE   NOT NULL, --!!!!!!!
+    id_aditivo      BIGINT     NOT NULL PRIMARY KEY,
+    ra              VARCHAR(7) NOT NULL,
+    data_ini        DATE       NOT NULL,
+    data_fim        DATE       NOT NULL,
 
-    --Novos Horários
+    --Novos horários
     segunda_entrada TIME DEFAULT NULL,
     segunda_saida   TIME DEFAULT NULL,
     terca_entrada   TIME DEFAULT NULL,
@@ -126,10 +158,10 @@ CREATE TABLE aditivo
 DROP TABLE IF EXISTS relatorio;
 CREATE TABLE relatorio
 (
-    id_relatorio BIGSERIAL NOT NULL PRIMARY KEY,
-    --ra
-    tipo         INT       NOT NULL DEFAULT 1,
-    dia          DATE      NOT NULL
+    id_relatorio BIGSERIAL  NOT NULL PRIMARY KEY,
+    ra           VARCHAR(7) NOT NULL,
+    tipo         INT        NOT NULL DEFAULT 1,
+    dia          DATE       NOT NULL
 );
 
 /*-------------------DADOS DO ALUNO-------------------------*/

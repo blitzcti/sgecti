@@ -77,6 +77,7 @@ Para isso, siga as intruções abaixo:
 
 2. Rode os seguintes comandos para armazenar as configurações em `.env` em cache e gerar as tabelas no banco:
     ```console
+    php artisan key:generate
     php artisan config:cache
     php artisan migrate
     ```

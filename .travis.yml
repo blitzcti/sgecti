@@ -8,6 +8,6 @@ services:
 before_script:
   - psql -c 'create database sgecti;' -U postgres
   - composer install
-  - php artisan key:generate
-  - php artisan config:cache
-  - php artisan migrate
+  - php artisan key:generate --env=testing
+  - php artisan config:cache --env=testing
+  - php artisan migrate --env=testing

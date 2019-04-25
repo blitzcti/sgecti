@@ -1,6 +1,6 @@
 ﻿# SGE - Sistema de Gerenciamento de Estágio
 O SGE é um Trabalho de Conclusão de Curso apresentado ao CTI - Colégio Técnico Industrial "Prof. Isaac Portal Roldán" - Unesp - Universidade Estadual Paulista "Júlio de Mesquita Filho" - Campus de Bauru.
-Desevolvido pela equipe Blitz, esse projeto tem como finalidade gerenciar os estágios do CTI.
+Desenvolvido pela equipe Blitz, esse projeto tem como finalidade gerenciar os estágios do CTI.
 
 ## Instalação e configuração inicial
 O SGE é feito em cima do framework Laravel, o qual utiliza do PHP 7 para ser executado.

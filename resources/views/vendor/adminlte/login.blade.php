@@ -68,6 +68,12 @@
             </div>
         </div>
         <!-- /.login-box-body -->
+        <div class="box-footer" style="text-align: center;">
+            <small>Colégio Técnico Industrial "Prof. Isaac Portal Roldán" UNESP Bauru<br/>
+                Copyright © 2019 SGE
+            </small>
+        </div>
+        <!-- /.box-footer -->
     </div><!-- /.login-box -->
 @stop
 

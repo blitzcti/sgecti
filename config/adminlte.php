@@ -132,44 +132,24 @@ return [
             'url'  => 'admin/settings',
             'icon' => 'lock',
         ],
+        'Cursos',
         [
-            'text'    => 'Multilevel',
-            'icon'    => 'share',
+            'text' => 'Novo',
+            'url'  => 'curso/novo'
+        ],
+        [
+            'text' => 'Editar',
+            'url'  => 'curso/editar'
+        ],
+        [
+            'text'    => 'Configurações',
             'submenu' => [
                 [
-                    'text' => 'Level One',
-                    'url'  => '#',
-                ],
-                [
-                    'text'    => 'Level One',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'Level Two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'Level Two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'Level Three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'Level Three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'Level One',
-                    'url'  => '#',
-                ],
-            ],
-        ],
+                    'text' => 'Adicionar',
+                    'url'  => 'curso/configuracao/novo'
+                ]
+            ]
+        ]
     ],
 
     /*

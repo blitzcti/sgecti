@@ -31,9 +31,13 @@ Route::prefix('curso')->name('curso.')->group(function () {
         Route::get('editar', 'CourseController@edit')->name('editar');
 
         Route::prefix('configuracao')->name('configuracao.')->group(function () {
+            Route::prefix('{id_config}')->group(function ($id_config) {
+                Route::get('editar', 'CourseConfigurationController@edit')->name('editar');
+            });
+
             Route::get('', 'CourseConfigurationController@index')->name('index');
             Route::get('novo', 'CourseConfigurationController@new')->name('novo');
-            Route::get('editar', 'CourseConfigurationController@edit')->name('editar');
+            Route::post('salvar', 'CourseConfigurationController@save')->name('salvar');
         });
     });
 });

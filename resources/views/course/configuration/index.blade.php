@@ -7,8 +7,24 @@
 @stop
 
 @section('content')
+    @if(session()->has('message'))
+        <div class="alert {{ session('saved') ? 'alert-success' : 'alert-error' }} alert-dismissible"
+             role="alert">
+            {{ session()->get('message') }}
+
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+
+
     <div class="box box-default">
         <div class="box-body">
+            <form action="{{ route('curso.configuracao.novo', $course->id) }}" style="margin-bottom: 10px;">
+                <button type="submit" class="btn btn-default">Adicionar configuração</button>
+            </form>
+
             <table id="courseConfigurations" class="table table-bordered table-hover">
                 <thead>
                 <tr>
@@ -37,7 +53,7 @@
                         <td>{{ $configuration->min_grade }}</td>
 
                         <td>
-                            <a href="curso/{{ $course->id }}/editar">Editar</a>
+                            <a href="{{ route('curso.configuracao.editar', ['id' => $course->id, 'id_config' => $configuration->id]) }}">Editar</a>
                         </td>
                     </tr>
 

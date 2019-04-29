@@ -20,7 +20,7 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <form action="{{ route('curso.novo') }}" style="margin: 10px 0;">
+            <form action="{{ route('curso.novo') }}" style="margin-bottom: 10px;">
                 <button type="submit" class="btn btn-default">Adicionar curso</button>
             </form>
 

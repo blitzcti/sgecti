@@ -7,15 +7,30 @@
 @stop
 
 @section('content')
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <div class="box box-default">
-        <form class="form-horizontal" action="/curso/salvar" method="post">
+        <form class="form-horizontal" action="{{ route('curso.salvar') }}" method="post">
+            @csrf
+
             <div class="box-body">
                 <div class="form-group">
                     <label for="inputName" class="col-sm-2 control-label">Nome do curso</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputName" name="name" placeholder="Informática"
-                               required/>
+                        <input type="text" class="form-control" id="inputName" name="name" placeholder="Informática"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -45,8 +60,8 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                <button type="submit" class="btn btn-default">Cancelar</button>
-                <button type="submit" class="btn btn-info pull-right">Adicionar</button>
+                <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
+                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
             </div>
             <!-- /.box-footer -->
         </form>

@@ -19,8 +19,14 @@ class CreateCourseConfigurationsTable extends Migration
             $table->bigInteger('id_course')->nullable(false)->unsigned();
             $table->foreign('id_course')->references('id')->on('courses');
 
-            $table->integer('ano_min')->nullable(false);
-            $table->integer('semestre_min')->nullable(false);
+            $table->integer('min_year')->nullable(false);
+            $table->integer('min_semester')->nullable(false);
+
+            $table->integer('min_hours')->nullable(false);
+            $table->integer('min_months')->nullable(false);
+            $table->integer('min_months_ctps')->nullable(false);
+
+            $table->integer('min_grade')->nullable(false);
 
             $table->timestamps();
         });

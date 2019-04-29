@@ -134,5 +134,9 @@ return [
     | of "email". This simply helps us make messages a little cleaner.
     |
     */
-    'attributes' => [],
+    'attributes' => [
+        'name'   => 'Nome',
+        'color'  => 'Cor',
+        'active' => 'Ativo'
+    ],
 ];

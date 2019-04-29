@@ -14,15 +14,26 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+Route::get('', function () {
     return view('index');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/curso', 'CourseController@index');
+Route::get('home', 'HomeController@index')->name('home');
 
-Route::get('/curso/novo', 'CourseController@new');
-Route::get('/curso/editar', 'CourseController@edit');
-Route::get('/curso/salvar', 'CourseController@save');
+Route::prefix('curso')->name('curso.')->group(function () {
+    Route::get('', 'CourseController@index')->name('index');
+    Route::get('novo', 'CourseController@new')->name('novo');
+    Route::post('salvar', 'CourseController@save')->name('salvar');
+
+    Route::prefix('{id}')->group(function ($id) {
+        Route::get('editar', 'CourseController@edit')->name('editar');
+
+        Route::prefix('configuracao')->name('configuracao.')->group(function () {
+            Route::get('', 'CourseConfigurationController@index')->name('index');
+            Route::get('novo', 'CourseConfigurationController@new')->name('novo');
+            Route::get('editar', 'CourseConfigurationController@edit')->name('editar');
+        });
+    });
+});

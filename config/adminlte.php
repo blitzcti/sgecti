@@ -58,7 +58,7 @@ return [
     |
     */
 
-    'layout' => null,
+    'layout' => 'fixed',
 
     /*
     |--------------------------------------------------------------------------
@@ -132,16 +132,19 @@ return [
             'url'  => 'admin/settings',
             'icon' => 'lock',
         ],
-        'Cursos',
+        'CURSOS',
         [
-            'text' => 'Novo',
-            'url'  => 'curso/novo'
+            'text'   => 'Visualizar',
+            'route'  => 'curso.index',
+            'icon'   => 'th-list',
+            'active' => ['curso/'] // If not set, even if at /curso/novo this item will be .active
         ],
         [
-            'text' => 'Editar',
-            'url'  => 'curso/editar'
+            'text'  => 'Novo',
+            'route' => 'curso.novo',
+            'icon'  => 'edit'
         ],
-        [
+        /*[
             'text'    => 'Configurações',
             'submenu' => [
                 [
@@ -149,7 +152,7 @@ return [
                     'url'  => 'curso/configuracao/novo'
                 ]
             ]
-        ]
+        ]*/
     ],
 
     /*

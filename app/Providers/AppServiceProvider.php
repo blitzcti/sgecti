@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
-            $courses = Course::all();
+            $courses = Course::all()->sortBy('id');
             $event->menu->add('CURSOS');
 
             foreach ($courses as $course) {

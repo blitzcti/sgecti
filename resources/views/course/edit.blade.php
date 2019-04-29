@@ -7,15 +7,33 @@
 @stop
 
 @section('content')
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <div class="box box-default">
-        <form class="form-horizontal" action="/curso/salvar" method="post">
+        <form class="form-horizontal" action="{{ route('curso.salvar') }}" method="post">
+            @csrf
+
             <div class="box-body">
+                <input type="hidden" name="id" value="{{ $course->id }}">
+
                 <div class="form-group">
                     <label for="inputName" class="col-sm-2 control-label">Nome do curso</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputName" name="name" placeholder="Informática"
-                               required/>
+                               value="{{ $course->name }}"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -23,12 +41,15 @@
 
                     <div class="col-sm-10">
                         <select class="form-control selection" id="inputColor" name="color">
-                            <option value="red">Vermelho</option>
-                            <option value="green">Verde</option>
-                            <option value="aqua">Aqua</option>
-                            <option value="blue">Azul</option>
-                            <option value="yellow">Amarelo</option>
-                            <option value="black">Preto</option>
+
+                            @foreach($colors as $color)
+
+                                <option value="{{ $color->id }}" {{ $course->color == $color->id ? 'selected=selected' : '' }}>
+                                    {{ $color->name }}
+                                </option>
+
+                            @endforeach
+
                         </select>
                     </div>
                 </div>
@@ -37,16 +58,16 @@
 
                     <div class="col-sm-10">
                         <select class="form-control selection" id="inputActive" name="active">
-                            <option value="true">Sim</option>
-                            <option value="false">Não</option>
+                            <option value="true" {{ $course->active ? 'selected=selected' : '' }}>Sim</option>
+                            <option value="false" {{! $course->active ? 'selected=selected' : '' }}>Não</option>
                         </select>
                     </div>
                 </div>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                <button type="submit" class="btn btn-default">Cancelar</button>
-                <button type="submit" class="btn btn-info pull-right">Adicionar</button>
+                <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
+                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
             </div>
             <!-- /.box-footer -->
         </form>

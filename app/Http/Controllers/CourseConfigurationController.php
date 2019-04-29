@@ -14,7 +14,7 @@ class CourseConfigurationController extends Controller
         }
 
         $course = Course::findOrFail($id);
-        $configurations = CourseConfiguration::all()->where('id_course', '=', $course->id);
+        $configurations = CourseConfiguration::all()->where('id_course', '=', $course->id)->sortByDesc('id');
 
         return view('course.configuration.index')->with(['course' => $course, 'configurations' => $configurations]);
     }

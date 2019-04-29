@@ -20,6 +20,10 @@
 
     <div class="box box-default">
         <div class="box-body">
+            <form action="{{ route('curso.novo') }}" style="margin: 10px 0;">
+                <button type="submit" class="btn btn-default">Adicionar curso</button>
+            </form>
+
             <table id="courses" class="table table-bordered table-hover">
                 <thead>
                 <tr>
@@ -40,6 +44,7 @@
 
                         <td>
                             <a href="{{ route('curso.editar', ['id' => $course->id]) }}">Editar</a>
+                            |
                             <a href="{{ route('curso.configuracao.index', ['id' => $course->id]) }}">Configurações</a>
                         </td>
                     </tr>
@@ -54,7 +59,11 @@
 @section('js')
     <script>
         jQuery(function () {
-            jQuery("#courses").DataTable();
+            jQuery("#courses").DataTable({
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
+                }
+            });
         });
     </script>
 @endsection

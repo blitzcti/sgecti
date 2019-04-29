@@ -33,7 +33,7 @@
                         <td>{{ $configuration->min_semester }}</td>
                         <td>{{ $configuration->min_hours }}</td>
                         <td>{{ $configuration->min_months }}</td>
-                        <td>{{ $configuration->min_months->ctps }}</td>
+                        <td>{{ $configuration->min_months_ctps }}</td>
                         <td>{{ $configuration->min_grade }}</td>
 
                         <td>
@@ -52,7 +52,11 @@
 @section('js')
     <script>
         jQuery(function () {
-            jQuery("#courses").DataTable();
+            jQuery("#courses").DataTable({
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
+                }
+            });
         });
     </script>
 @endsection

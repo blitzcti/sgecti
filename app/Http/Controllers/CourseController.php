@@ -107,4 +107,20 @@ class CourseController extends Controller
 
         return redirect()->route('curso.index')->with($params);
     }
+
+    public function delete(Request $request)
+    {
+        $params = [];
+        $saved = false;
+
+        if ($request->exists('id')) {
+            $id = $request->input('id');
+            $course = Course::findOrFail($id);
+            $saved = $course->delete();
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Excluído com sucesso' : 'Erro ao excluir!';
+        return redirect()->route('curso.index')->with($params);
+    }
 }

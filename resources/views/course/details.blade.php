@@ -7,6 +7,8 @@
 @stop
 
 @section('content')
+    @include('course.deleteModal')
+
     <div class="box box-default">
         <div class="box-body">
             <div class="btn-group" style="display: inline-flex; margin: 0">
@@ -15,6 +17,9 @@
 
                 <a href="{{ route('curso.configuracao.novo', $course->id) }}"
                    class="btn btn-default">Adicionar configuração</a>
+
+                <a href="#" onclick="courseId('{{ $course->id }}'); course('{{ $course->name }}'); return false;"
+                   data-toggle="modal" data-target="#deleteModal" class="btn btn-danger">Excluir curso</a>
             </div>
 
             <h3>Dados do curso</h3>
@@ -67,4 +72,20 @@
         </div>
         <!-- /.box-body -->
     </div>
+@endsection
+
+@section('js')
+    <script>
+        function courseId(id) {
+            jQuery(() => {
+                jQuery('#deleteModalCourseId').val(id);
+            });
+        }
+
+        function course(name) {
+            jQuery(() => {
+                jQuery('#deleteModalCourseName').text(name);
+            });
+        }
+    </script>
 @endsection

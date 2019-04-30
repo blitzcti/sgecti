@@ -27,11 +27,12 @@ Route::prefix('curso')->name('curso.')->group(function () {
     Route::get('novo', 'CourseController@new')->name('novo');
     Route::post('salvar', 'CourseController@save')->name('salvar');
 
-    Route::prefix('{id}')->group(function ($id) {
+    Route::prefix('{id}')->group(function () {
+        Route::get('', 'CourseController@details')->name('detalhes');
         Route::get('editar', 'CourseController@edit')->name('editar');
 
         Route::prefix('configuracao')->name('configuracao.')->group(function () {
-            Route::prefix('{id_config}')->group(function ($id_config) {
+            Route::prefix('{id_config}')->group(function () {
                 Route::get('editar', 'CourseConfigurationController@edit')->name('editar');
             });
 

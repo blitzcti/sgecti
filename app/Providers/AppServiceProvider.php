@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Color;
 use App\Course;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Schema;
@@ -36,9 +37,11 @@ class AppServiceProvider extends ServiceProvider
 
             foreach ($courses as $course) {
                 if ($course->active) {
+                    $color = Color::all()->find($course->id_color);
+
                     $event->menu->add([
                         'text' => $course->name,
-                        'icon_color' => $course->color
+                        'icon_color' => $color->name
                     ]);
                 }
             }

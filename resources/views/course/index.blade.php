@@ -20,9 +20,10 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <form action="{{ route('curso.novo') }}" style="margin-bottom: 10px;">
-                <button type="submit" class="btn btn-default">Adicionar curso</button>
-            </form>
+            <div class="btn-group" style="display: inline-flex; margin: 0 0 10px 0">
+                <a href="{{ route('curso.novo') }}"
+                   class="btn btn-default">Adicionar curso</a>
+            </div>
 
             <table id="courses" class="table table-bordered table-hover">
                 <thead>
@@ -43,6 +44,8 @@
                         <td>{{ ($course->active) ? 'Sim' : 'Não' }}</td>
 
                         <td>
+                            <a href="{{ route('curso.detalhes', ['id' => $course->id]) }}">Detalhes</a>
+                            |
                             <a href="{{ route('curso.editar', ['id' => $course->id]) }}">Editar</a>
                             |
                             <a href="{{ route('curso.configuracao.index', ['id' => $course->id]) }}">Configurações</a>

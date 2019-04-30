@@ -2,7 +2,7 @@
 
 @section('css')
     <style type="text/css">
-        .login-page {
+        .register-page {
             overflow: hidden;
             background-image: url('{{ asset('/img/register.jpg') }}');
             background-position: center;

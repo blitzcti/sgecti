@@ -3,7 +3,8 @@
 @section('title', 'Editar configurações do curso - SGE CTI')
 
 @section('content_header')
-    <h1>Editar configurações do curso <a href="{{ route('curso.editar', ['id' => $course->id]) }}">{{ $course->name }}</a></h1>
+    <h1>Editar configurações do curso <a
+                href="{{ route('curso.editar', ['id' => $course->id]) }}">{{ $course->name }}</a></h1>
 @stop
 
 @section('content')
@@ -22,7 +23,8 @@
     @endif
 
     <div class="box box-default">
-        <form class="form-horizontal" action="{{ route('curso.configuracao.salvar', $config->id_course) }}" method="post">
+        <form class="form-horizontal" action="{{ route('curso.configuracao.salvar', $config->id_course) }}"
+              method="post">
             @csrf
 
             <div class="box-body">
@@ -32,10 +34,11 @@
                     <label for="inputMinYear" class="col-sm-2 control-label">Ano mínimo</label>
 
                     <div class="col-sm-10">
-                        <select class="form-control selection" id="inputMinYear" name="minYear">
-                            <option value="1" {{ $config->min_year == 1 ? 'selected=selected' : '' }}>1º Ano</option>
-                            <option value="2" {{ $config->min_year == 2 ? 'selected=selected' : '' }}>2º Ano</option>
-                            <option value="3" {{ $config->min_year == 3 ? 'selected=selected' : '' }}>3º Ano</option>
+                        <select class="form-control selection" data-minimum-results-for-search="Infinity"
+                                id="inputMinYear" name="minYear">
+                            <option value="1" {{ $config->min_year == 1 ? 'selected=selected' : '' }}>1º ano</option>
+                            <option value="2" {{ $config->min_year == 2 ? 'selected=selected' : '' }}>2º ano</option>
+                            <option value="3" {{ $config->min_year == 3 ? 'selected=selected' : '' }}>3º ano</option>
                         </select>
                     </div>
                 </div>
@@ -43,10 +46,11 @@
                     <label for="inputMinSemester" class="col-sm-2 control-label">Semestre mínimo</label>
 
                     <div class="col-sm-10">
-                        <select class="form-control selection" id="inputMinSemester" name="minSemester">
-                            <option value="1" {{ $config->min_semester == 1 ? 'selected=selected' : '' }}>1º Semestre
+                        <select class="form-control selection" data-minimum-results-for-search="Infinity"
+                                id="inputMinSemester" name="minSemester">
+                            <option value="1" {{ $config->min_semester == 1 ? 'selected=selected' : '' }}>1º semestre
                             </option>
-                            <option value="2" {{ $config->min_semester == 2 ? 'selected=selected' : '' }}>2º Semestre
+                            <option value="2" {{ $config->min_semester == 2 ? 'selected=selected' : '' }}>2º semestre
                             </option>
                         </select>
                     </div>

@@ -44,8 +44,8 @@
 
                             @foreach($colors as $color)
 
-                                <option value="{{ $color->id }}" {{ $course->color == $color->id ? 'selected=selected' : '' }}>
-                                    {{ $color->name }}
+                                <option value="{{ $color->id }}" {{ $course->id_color == $color->id ? 'selected=selected' : '' }}>
+                                    {{ __('colors.' . $color->name) }}
                                 </option>
 
                             @endforeach
@@ -57,7 +57,8 @@
                     <label for="inputActive" class="col-sm-2 control-label">Ativo</label>
 
                     <div class="col-sm-10">
-                        <select class="form-control selection" id="inputActive" name="active">
+                        <select class="form-control selection" data-minimum-results-for-search="Infinity"
+                                id="inputActive" name="active">
                             <option value="true" {{ $course->active ? 'selected=selected' : '' }}>Sim</option>
                             <option value="false" {{! $course->active ? 'selected=selected' : '' }}>Não</option>
                         </select>

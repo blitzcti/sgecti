@@ -1,10 +1,10 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateCoursesTable extends Migration
 {
@@ -19,69 +19,63 @@ class CreateCoursesTable extends Migration
             $table->bigIncrements('id');
 
             $table->string('name', 30)->nullable(false);
-            $table->string('color', 6)->nullable(false);
+            $table->bigInteger('id_color')->nullable(false);
+            $table->foreign('id_color')->references('id')->on('colors');
 
             $table->boolean('active')->nullable(false)->default(true);
 
             $table->timestamps();
         });
 
-        DB::table('courses')->insert(
-            [
-                'name' => 'Mecânica',
-                'color' => 'red',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ]);
-
         DB::table('courses')->insert([
-
-            'name' => 'Eletrotécnica',
-            'color' => 'purple',
-            'active' => false,
+            'name'       => 'Mecânica',
+            'id_color'   => 3,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('courses')->insert([
-
-            'name' => 'Edificações',
-            'color' => 'yellow',
-            'active' => false,
+            'name'       => 'Eletrotécnica',
+            'id_color'   => 2,
+            'active'     => false,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('courses')->insert([
-
-            'name' => 'Processamento de dados',
-            'color' => 'black',
-            'active' => false,
+            'name'       => 'Edificações',
+            'id_color'   => 5,
+            'active'     => false,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('courses')->insert([
-
-            'name' => 'Eletrônica',
-            'color' => 'green',
+            'name'       => 'Processamento de dados',
+            'id_color'   => 11,
+            'active'     => false,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('courses')->insert([
-
-            'name' => 'Decoração',
-            'color' => 'aqua',
-            'active' => false,
+            'name'       => 'Eletrônica',
+            'id_color'   => 6,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('courses')->insert([
+            'name'       => 'Decoração',
+            'id_color'   => 10,
+            'active'     => false,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
 
-            'name' => 'Informática',
-            'color' => 'blue',
+        DB::table('courses')->insert([
+            'name'       => 'Informática',
+            'id_color'   => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);

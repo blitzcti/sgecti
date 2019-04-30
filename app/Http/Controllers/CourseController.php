@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Color;
 use App\Course;
 use App\CourseConfiguration;
 use Carbon\Carbon;
@@ -15,9 +16,24 @@ class CourseController extends Controller
         return view('course.index')->with(['courses' => $courses]);
     }
 
+    public function details($id)
+    {
+        if (!is_numeric($id)) {
+            return redirect()->route('curso.index');
+        }
+
+        $course = Course::findOrFail($id);
+        $color = Color::all()->find($course->id_color);
+        $config = CourseConfiguration::all()->where('id_course', '=', $id)->sortByDesc('id');
+        $config = sizeof($config) > 0 ? $config[0] : null;
+
+        return view('course.details')->with(['course' => $course, 'config' => $config, 'color' => $color]);
+    }
+
     public function new()
     {
-        return view('course.new');
+        $colors = Color::all();
+        return view('course.new')->with(['colors' => $colors]);
     }
 
     public function edit($id)
@@ -27,15 +43,7 @@ class CourseController extends Controller
         }
 
         $course = Course::findOrFail($id);
-        $colors = [
-            (object)['id' => 'red', 'name' => 'Vermelho'],
-            (object)['id' => 'green', 'name' => 'Verde'],
-            (object)['id' => 'aqua', 'name' => 'Aqua'],
-            (object)['id' => 'purple', 'name' => 'Roxo'],
-            (object)['id' => 'blue', 'name' => 'Azul'],
-            (object)['id' => 'yellow', 'name' => 'Amarelo'],
-            (object)['id' => 'black', 'name' => 'Preto']
-        ];
+        $colors = Color::all();
 
         return view('course.edit')->with(['course' => $course, 'colors' => $colors]);
     }
@@ -49,7 +57,7 @@ class CourseController extends Controller
             $validatedData = (object)$request->validate(
                 [
                     'name' => 'required|max:30',
-                    'color' => 'required|max:6',
+                    'color' => 'required',
                     'active' => 'required'
                 ]);
 
@@ -82,7 +90,7 @@ class CourseController extends Controller
             }
 
             $course->name = $validatedData->name;
-            $course->color = $validatedData->color;
+            $course->id_color = $validatedData->color;
             $course->active = $validatedData->active == 'true';
 
             $saved = $course->save();

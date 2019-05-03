@@ -108,44 +108,35 @@ return [
     */
 
     'menu' => [
-        'MAIN NAVIGATION',
+        'menu.accountSettings',
         [
-            'text' => 'Blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
-        'ACCOUNT SETTINGS',
-        [
-            'text' => 'Profile',
+            'text' => 'menu.profile',
             'url'  => 'admin/settings',
             'icon' => 'user',
         ],
         [
-            'text' => 'Change Password',
+            'text' => 'menu.changePassword',
             'url'  => 'admin/settings',
             'icon' => 'lock',
         ],
-        'CURSOS',
+        'ADMINISTRADOR',
         [
-            'text'   => 'Visualizar',
-            'route'  => 'curso.index',
-            'icon'   => 'th-list',
-            'active' => ['curso/'] // If not set, even if at /curso/novo this item will be .active
-        ],
-        [
-            'text'  => 'Novo',
-            'route' => 'curso.novo',
-            'icon'  => 'edit'
-        ],
-        /*[
-            'text'    => 'Configurações',
+            'text' => 'menu.courses',
             'submenu' => [
                 [
-                    'text' => 'Adicionar',
-                    'url'  => 'curso/configuracao/novo'
-                ]
+                    'text'   => 'menu.view',
+                    'route'  => 'curso.index',
+                    'icon'   => 'th-list',
+                    'active' => ['curso/'] // If not set, even if at /curso/novo this item will be .active
+                ],
+                [
+                    'text'  => 'menu.new',
+                    'route' => 'curso.novo',
+                    'icon'  => 'edit',
+                    'active' => ['curso/novo']
+                ],
             ]
-        ]*/
+        ]
     ],
 
     /*
@@ -181,7 +172,7 @@ return [
 
     'plugins' => [
         'datatables' => true,
-        'select2'    => true,
-        'chartjs'    => true,
+        'select2' => true,
+        'chartjs' => true,
     ],
 ];

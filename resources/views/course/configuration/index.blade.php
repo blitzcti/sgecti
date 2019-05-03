@@ -3,7 +3,7 @@
 @section('title', 'Configurações do curso - SGE CTI')
 
 @section('content_header')
-    <h1>Configurações do curso <a href="{{ route('curso.editar', ['id' => $course->id]) }}">{{ $course->name }}</a></h1>
+    <h1>Configurações do curso <a href="{{ route('curso.detalhes', ['id' => $course->id]) }}">{{ $course->name }}</a></h1>
 @stop
 
 @section('content')
@@ -23,7 +23,7 @@
         <div class="box-body">
             <div class="btn-group" style="display: inline-flex; margin: 0 0 10px 0">
                 <a href="{{ route('curso.configuracao.novo', $course->id) }}"
-                   class="btn btn-default">Adicionar configuração</a>
+                   class="btn btn-success">Adicionar configuração</a>
             </div>
 
             <table id="courseConfigurations" class="table table-bordered table-hover">

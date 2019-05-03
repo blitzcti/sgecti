@@ -13,10 +13,10 @@
         <div class="box-body">
             <div class="btn-group" style="display: inline-flex; margin: 0">
                 <a href="{{ route('curso.editar', $course->id) }}"
-                   class="btn btn-default">Editar curso</a>
+                   class="btn btn-primary">Editar curso</a>
 
                 <a href="{{ route('curso.configuracao.novo', $course->id) }}"
-                   class="btn btn-default">Adicionar configuração</a>
+                   class="btn btn-success">Adicionar configuração</a>
 
                 <a href="#" onclick="courseId('{{ $course->id }}'); course('{{ $course->name }}'); return false;"
                    data-toggle="modal" data-target="#deleteModal" class="btn btn-danger">Excluir curso</a>

@@ -24,7 +24,7 @@
         <div class="box-body">
             <div class="btn-group" style="display: inline-flex; margin: 0 0 10px 0">
                 <a href="{{ route('curso.novo') }}"
-                   class="btn btn-default">Adicionar curso</a>
+                   class="btn btn-success">Adicionar curso</a>
             </div>
 
             <table id="courses" class="table table-bordered table-hover">

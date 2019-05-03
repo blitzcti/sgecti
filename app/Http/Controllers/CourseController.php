@@ -24,8 +24,8 @@ class CourseController extends Controller
 
         $course = Course::findOrFail($id);
         $color = Color::all()->find($course->id_color);
-        $config = CourseConfiguration::all()->where('id_course', '=', $id)->sortByDesc('id');
-        $config = sizeof($config) > 0 ? $config[0] : null;
+        $config = CourseConfiguration::all()->where('id_course', '=', $id)->sortBy('id');
+        $config = sizeof($config) > 0 ? $config->last() : null;
 
         return view('course.details')->with(['course' => $course, 'config' => $config, 'color' => $color]);
     }

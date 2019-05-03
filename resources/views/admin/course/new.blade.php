@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Nova configuracao - SGE CTI')
+@section('title', 'Novo curso - SGE CTI')
 
 @section('content_header')
-    <h1>Adicionar nova configuração do curso <a href="{{ route('curso.detalhes', ['id' => $course->id]) }}">{{ $course->name }}</a></h1>
+    <h1>Adicionar novo curso</h1>
 @stop
 
 @section('content')
@@ -22,18 +22,61 @@
     @endif
 
     <div class="box box-default">
-        <form class="form-horizontal" action="{{ route('curso.configuracao.salvar', $course->id) }}" method="post">
+        <form class="form-horizontal" action="{{ route('admin.curso.salvar') }}" method="post">
             @csrf
 
             <div class="box-body">
+                <h3>Dados do curso</h3>
+                <hr/>
+
+                <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">Nome do curso</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputName" name="name" placeholder="Informática"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputColor" class="col-sm-2 control-label">Cor do curso</label>
+
+                    <div class="col-sm-10">
+                        <select class="form-control selection" id="inputColor" name="color">
+
+                            @foreach($colors as $color)
+
+                                <option value="{{ $color->id }}">
+                                    {{ __('colors.' . $color->name) }}
+                                </option>
+
+                            @endforeach
+
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputActive" class="col-sm-2 control-label">Ativo</label>
+
+                    <div class="col-sm-10">
+                        <select class="form-control selection" data-minimum-results-for-search="Infinity"
+                                id="inputActive" name="active">
+                            <option value="true">Sim</option>
+                            <option value="false">Não</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h3>Configurações do curso</h3>
+                <hr/>
+
                 <div class="form-group">
                     <label for="inputMinYear" class="col-sm-2 control-label">Ano mínimo</label>
 
                     <div class="col-sm-10">
-                        <select class="form-control selection" id="inputMinYear" name="minYear">
-                            <option value="1">1º Ano</option>
-                            <option value="2">2º Ano</option>
-                            <option value="3">3º Ano</option>
+                        <select class="form-control selection" data-minimum-results-for-search="Infinity"
+                                id="inputMinYear" name="minYear">
+                            <option value="1">1º ano</option>
+                            <option value="2">2º ano</option>
+                            <option value="3">3º ano</option>
                         </select>
                     </div>
                 </div>
@@ -41,11 +84,10 @@
                     <label for="inputMinSemester" class="col-sm-2 control-label">Semestre mínimo</label>
 
                     <div class="col-sm-10">
-                        <select class="form-control selection" id="inputMinSemester" name="minSemester">
-                            <option value="1">1º Semestre
-                            </option>
-                            <option value="2">2º Semestre
-                            </option>
+                        <select class="form-control selection" data-minimum-results-for-search="Infinity"
+                                id="inputMinSemester" name="minSemester">
+                            <option value="1">1º semestre</option>
+                            <option value="2">2º semestre</option>
                         </select>
                     </div>
                 </div>

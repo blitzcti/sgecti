@@ -18,12 +18,12 @@
         </div>
     @endif
 
-    @include('course.deleteModal')
+    @include('admin.course.deleteModal')
 
     <div class="box box-default">
         <div class="box-body">
             <div class="btn-group" style="display: inline-flex; margin: 0 0 10px 0">
-                <a href="{{ route('curso.novo') }}"
+                <a href="{{ route('admin.curso.novo') }}"
                    class="btn btn-success">Adicionar curso</a>
             </div>
 
@@ -46,11 +46,11 @@
                         <td>{{ ($course->active) ? 'Sim' : 'Não' }}</td>
 
                         <td>
-                            <a href="{{ route('curso.detalhes', ['id' => $course->id]) }}">Detalhes</a>
+                            <a href="{{ route('admin.curso.detalhes', ['id' => $course->id]) }}">Detalhes</a>
                             |
-                            <a href="{{ route('curso.editar', ['id' => $course->id]) }}">Editar</a>
+                            <a href="{{ route('admin.curso.editar', ['id' => $course->id]) }}">Editar</a>
                             |
-                            <a href="{{ route('curso.configuracao.index', ['id' => $course->id]) }}">Configurações</a>
+                            <a href="{{ route('admin.curso.configuracao.index', ['id' => $course->id]) }}">Configurações</a>
                             |
                             <a href="#"
                                onclick="courseId('{{ $course->id }}'); course('{{ $course->name }}'); return false;"

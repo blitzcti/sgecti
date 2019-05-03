@@ -119,24 +119,176 @@ return [
             'url'  => 'admin/settings',
             'icon' => 'lock',
         ],
-        'ADMINISTRADOR',
+        'menu.system',
+        [
+            'text' => 'menu.configuration',
+            'icon'   => 'gear',
+            'submenu' => [
+                [
+                    'text' => 'menu.parameters', //CTI
+                    //'route'  => 'configuracao.parameters.index',
+                    'icon'   => 'wrench',
+                    'active' => ['configuracao/parametros/'],
+                ],
+                [
+                    'text' => 'menu.backup',
+                    //'route'  => 'configuracao.backup.index',
+                    'icon'   => 'floppy-o',
+                    'active' => ['configuracao/backup/'],
+                ],
+            ],
+        ],
+        [
+            'text' => 'menu.message',
+            //'route'  => 'mensagem.index',
+            'icon'   => 'envelope',
+            'active' => ['mensagem/']
+        ],
+        [
+            'text' => 'menu.help',
+            //'route'  => 'ajuda.index',
+            'icon'   => 'question-circle',
+            'active' => ['ajuda/']
+        ],
+        'menu.administration',
         [
             'text' => 'menu.courses',
+            'icon' => 'graduation-cap',
             'submenu' => [
                 [
                     'text'   => 'menu.view',
-                    'route'  => 'curso.index',
+                    'route'  => 'admin.curso.index',
                     'icon'   => 'th-list',
-                    'active' => ['curso/'] // If not set, even if at /curso/novo this item will be .active
+                    'active' => ['admin/curso/'] // If not set, even if at /curso/novo this item will be .active
                 ],
                 [
                     'text'  => 'menu.new',
-                    'route' => 'curso.novo',
+                    'route' => 'admin.curso.novo',
                     'icon'  => 'edit',
-                    'active' => ['curso/novo']
+                    'active' => ['admin/curso/novo']
                 ],
             ]
-        ]
+        ],
+        [
+            'text' => 'menu.company',
+            'icon' => 'building',
+            'submenu' => [
+                [
+                    'text'   => 'menu.view',
+                    'route'  => 'admin.empresa.index',
+                    'icon'   => 'th-list',
+                    'active' => ['admin/empresa/']
+                ],
+                [
+                    'text'   => 'menu.new',
+                    'route'  => 'admin.empresa.novo',
+                    'icon'   => 'edit',
+                    'active' => ['admin/empresa/novo']
+                ],
+                [
+                    'text' => 'menu.sector',
+                    'icon' => 'balance-scale',
+                    'submenu' => [
+                        [
+                            'text'   => 'menu.view',
+                            //'route'  => 'admin.empresa.setor.index',
+                            'icon'   => 'th-list',
+                            'active' => ['admin/empresa/setor/']
+                        ],
+                        [
+                            'text'   => 'menu.new',
+                            //'route'  => 'admin.empresa.setor.novo',
+                            'icon'   => 'edit',
+                            'active' => ['admin/empresa/setor/novo']
+                        ]
+                    ]
+                ]
+            ]
+        ],
+        [
+            'text' => 'menu.internship',
+            'icon' => 'id-badge',
+            'submenu' => [
+                [
+                    'text'   => 'menu.view',
+                    //'route'  => 'admin.estagio.index',
+                    'icon'   => 'th-list',
+                    'active' => ['admin/estagio/']
+                ],
+                [
+                    'text'   => 'menu.new',
+                    //'route'  => 'admin.estagio.novo',
+                    'icon'   => 'edit',
+                    'active' => ['admin/estagio/novo']
+                ],
+                [
+                    'text'   => 'menu.ctps',
+                    //'route'  => 'admin.estagio.ctps',
+                    'icon'   => 'edit',
+                    'active' => ['admin/estagio/novo']
+                ],
+                [
+                    'text'   => 'menu.aditive',
+                    'icon' => 'plus',
+                    'submenu' => [
+                        [
+                            'text'   => 'menu.view',
+                            //'route'  => 'admin.estagio.aditivo.index',
+                            'icon'   => 'th-list',
+                            'active' => ['admin/estagio/aditivo/'] // If not set, even if at /curso/novo this item will be .active
+                        ],
+                        [
+                            'text'   => 'menu.new',
+                            //'route'  => 'aditive.novo',
+                            'icon'   => 'edit',
+                            'active' => ['admin/estagio/aditivo/novo']
+                        ],
+                    ],
+                ],
+            ]
+        ],
+        [
+            'text' => 'menu.report',
+            'icon' => 'book',
+            'submenu' => [
+                [
+                    'text'   => 'menu.view',
+                    //'route'  => 'admin.relatorio.index',
+                    'icon'   => 'th-list',
+                    'active' => ['admin/relatorio/'] // If not set, even if at /curso/novo this item will be .active
+                ],
+                [
+                    'text'   => 'menu.proposal',
+                    //'route'  => 'admin.relatorio.proposta',
+                    'icon'   => 'edit',
+                    'active' => ['admin/relatorio/proposta']
+                ],
+                [
+                    'text'   => 'menu.bimestral',
+                    //'route'  => 'admin.relatorio.bimestral',
+                    'icon'   => 'edit',
+                    'active' => ['admin/relatorio/bimestral']
+                ],
+                [
+                    'text'   => 'menu.final',
+                    //'route'  => 'admin.relatorio.final',
+                    'icon'   => 'edit',
+                    'active' => ['admin/relatorio/final']
+                ],
+            ]
+        ],
+        [
+            'text' => 'menu.student',
+            'icon' => 'users',
+            'submenu' => [
+                [
+                    'text'   => 'menu.history',
+                    //'route'  => 'aluno.index',
+                    'icon'   => 'hourglass-1',
+                    'active' => ['admin/aluno/'] // If not set, even if at /curso/novo this item will be .active
+                ],
+            ]
+        ],
     ],
 
     /*

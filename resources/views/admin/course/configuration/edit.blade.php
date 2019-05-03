@@ -1,9 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'Novo curso - SGE CTI')
+@section('title', 'Editar configurações do curso - SGE CTI')
 
 @section('content_header')
-    <h1>Adicionar novo curso</h1>
+    <h1>Editar configurações do curso <a
+                href="{{ route('admin.curso.editar', ['id' => $course->id]) }}">{{ $course->name }}</a></h1>
 @stop
 
 @section('content')
@@ -22,51 +23,12 @@
     @endif
 
     <div class="box box-default">
-        <form class="form-horizontal" action="{{ route('curso.salvar') }}" method="post">
+        <form class="form-horizontal" action="{{ route('admin.curso.configuracao.salvar', $config->id_course) }}"
+              method="post">
             @csrf
 
             <div class="box-body">
-                <h3>Dados do curso</h3>
-                <hr/>
-
-                <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Nome do curso</label>
-
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputName" name="name" placeholder="Informática"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputColor" class="col-sm-2 control-label">Cor do curso</label>
-
-                    <div class="col-sm-10">
-                        <select class="form-control selection" id="inputColor" name="color">
-
-                            @foreach($colors as $color)
-
-                                <option value="{{ $color->id }}">
-                                    {{ __('colors.' . $color->name) }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputActive" class="col-sm-2 control-label">Ativo</label>
-
-                    <div class="col-sm-10">
-                        <select class="form-control selection" data-minimum-results-for-search="Infinity"
-                                id="inputActive" name="active">
-                            <option value="true">Sim</option>
-                            <option value="false">Não</option>
-                        </select>
-                    </div>
-                </div>
-
-                <h3>Configurações do curso</h3>
-                <hr/>
+                <input type="hidden" name="id_config" value="{{ $config->id }}">
 
                 <div class="form-group">
                     <label for="inputMinYear" class="col-sm-2 control-label">Ano mínimo</label>
@@ -74,9 +36,9 @@
                     <div class="col-sm-10">
                         <select class="form-control selection" data-minimum-results-for-search="Infinity"
                                 id="inputMinYear" name="minYear">
-                            <option value="1">1º ano</option>
-                            <option value="2">2º ano</option>
-                            <option value="3">3º ano</option>
+                            <option value="1" {{ $config->min_year == 1 ? 'selected=selected' : '' }}>1º ano</option>
+                            <option value="2" {{ $config->min_year == 2 ? 'selected=selected' : '' }}>2º ano</option>
+                            <option value="3" {{ $config->min_year == 3 ? 'selected=selected' : '' }}>3º ano</option>
                         </select>
                     </div>
                 </div>
@@ -86,8 +48,10 @@
                     <div class="col-sm-10">
                         <select class="form-control selection" data-minimum-results-for-search="Infinity"
                                 id="inputMinSemester" name="minSemester">
-                            <option value="1">1º semestre</option>
-                            <option value="2">2º semestre</option>
+                            <option value="1" {{ $config->min_semester == 1 ? 'selected=selected' : '' }}>1º semestre
+                            </option>
+                            <option value="2" {{ $config->min_semester == 2 ? 'selected=selected' : '' }}>2º semestre
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -96,7 +60,8 @@
 
                     <div class="col-sm-10">
                         <input type="number" class="form-control" id="inputMinHour" name="minHour" placeholder="420"
-                               min="1"/>
+                               min="1"
+                               value="{{ $config->min_hours }}"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -104,7 +69,8 @@
 
                     <div class="col-sm-10">
                         <input type="number" class="form-control" id="inputMinMonth" name="minMonth" placeholder="6"
-                               min="1"/>
+                               min="1"
+                               value="{{ $config->min_months }}"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -112,7 +78,8 @@
 
                     <div class="col-sm-10">
                         <input type="number" class="form-control" id="inputMinMonth" name="minMonthCTPS" placeholder="6"
-                               min="1"/>
+                               min="1"
+                               value="{{ $config->min_months_ctps }}"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -120,14 +87,15 @@
 
                     <div class="col-sm-10">
                         <input type="number" class="form-control" id="inputMinMark" name="minMark" placeholder="10"
-                               min="0" max="10" step="0.5"/>
+                               min="0" max="10" step="0.5"
+                               value="{{ $config->min_grade }}"/>
                     </div>
                 </div>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
                 <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
-                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
+                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
             </div>
             <!-- /.box-footer -->
         </form>
@@ -137,9 +105,7 @@
 @section('js')
     <script type="text/javascript">
         jQuery(document).ready(function () {
-            jQuery('.selection').select2({
-                language: "pt-br"
-            });
+            jQuery('.selection').select2();
         });
     </script>
 @endsection

@@ -18,13 +18,13 @@ class CourseConfigurationController extends Controller
         $course = Course::findOrFail($id);
         $configurations = CourseConfiguration::all()->where('id_course', '=', $course->id)->sortByDesc('id');
 
-        return view('course.configuration.index')->with(['course' => $course, 'configurations' => $configurations]);
+        return view('admin.course.configuration.index')->with(['course' => $course, 'configurations' => $configurations]);
     }
 
     public function new($id)
     {
         $course = Course::findOrFail($id);
-        return view('course.configuration.new')->with(['course' => $course]);
+        return view('admin.course.configuration.new')->with(['course' => $course]);
     }
 
     public function edit($id, $id_config)
@@ -36,7 +36,7 @@ class CourseConfigurationController extends Controller
         $course = Course::findOrFail($id);
         $config = CourseConfiguration::findOrFail($id_config);
 
-        return view('course.configuration.edit')->with(['config' => $config, 'course' => $course]);
+        return view('admin.course.configuration.edit')->with(['config' => $config, 'course' => $course]);
     }
 
     public function save(Request $request, $id)

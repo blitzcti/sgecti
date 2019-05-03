@@ -22,7 +22,7 @@
     @endif
 
     <div class="box box-default">
-        <form class="form-horizontal" action="{{ route('curso.salvar') }}" method="post">
+        <form class="form-horizontal" action="{{ route('admin.curso.salvar') }}" method="post">
             @csrf
 
             <div class="box-body">

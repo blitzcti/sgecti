@@ -13,7 +13,7 @@ class CourseController extends Controller
     public function index()
     {
         $courses = Course::all();
-        return view('course.index')->with(['courses' => $courses]);
+        return view('admin.course.index')->with(['courses' => $courses]);
     }
 
     public function details($id)
@@ -27,13 +27,13 @@ class CourseController extends Controller
         $config = CourseConfiguration::all()->where('id_course', '=', $id)->sortBy('id');
         $config = sizeof($config) > 0 ? $config->last() : null;
 
-        return view('course.details')->with(['course' => $course, 'config' => $config, 'color' => $color]);
+        return view('admin.course.details')->with(['course' => $course, 'config' => $config, 'color' => $color]);
     }
 
     public function new()
     {
         $colors = Color::all();
-        return view('course.new')->with(['colors' => $colors]);
+        return view('admin.course.new')->with(['colors' => $colors]);
     }
 
     public function edit($id)
@@ -45,7 +45,7 @@ class CourseController extends Controller
         $course = Course::findOrFail($id);
         $colors = Color::all();
 
-        return view('course.edit')->with(['course' => $course, 'colors' => $colors]);
+        return view('admin.course.edit')->with(['course' => $course, 'colors' => $colors]);
     }
 
     public function save(Request $request)

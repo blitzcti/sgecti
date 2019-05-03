@@ -10,7 +10,7 @@
                 <h4 class="modal-title" id="deleteModalTitle">Excluir curso</h4>
             </div>
 
-            <form action="{{ route('curso.excluir') }}" method="post">
+            <form action="{{ route('admin.curso.excluir') }}" method="post">
                 <div class="modal-body">
                     @csrf
 

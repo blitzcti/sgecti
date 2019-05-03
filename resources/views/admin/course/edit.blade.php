@@ -59,8 +59,8 @@
                     <div class="col-sm-10">
                         <select class="form-control selection" data-minimum-results-for-search="Infinity"
                                 id="inputActive" name="active">
-                            <option value="true" {{ $course->active ? 'selected=selected' : '' }}>Sim</option>
-                            <option value="false" {{! $course->active ? 'selected=selected' : '' }}>Não</option>
+                            <option value="1" {{ $course->active ? 'selected=selected' : '' }}>Sim</option>
+                            <option value="0" {{! $course->active ? 'selected=selected' : '' }}>Não</option>
                         </select>
                     </div>
                 </div>

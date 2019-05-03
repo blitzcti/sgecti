@@ -3,17 +3,21 @@
 @section('title', 'Detalhes do curso - SGE CTI')
 
 @section('content_header')
-    <h1>Detalhes do curso <a href="{{ route('admin.curso.editar', ['id' => $course->id]) }}">{{ $course->name }}</a></h1>
+    <h1>Detalhes do curso <a href="{{ route('admin.curso.editar', ['id' => $course->id]) }}">{{ $course->name }}</a>
+    </h1>
 @stop
 
 @section('content')
-    @include('course.deleteModal')
+    @include('admin.course.deleteModal')
 
     <div class="box box-default">
         <div class="box-body">
             <div class="btn-group" style="display: inline-flex; margin: 0">
                 <a href="{{ route('admin.curso.editar', $course->id) }}"
                    class="btn btn-primary">Editar curso</a>
+
+                <a href="{{ route('admin.curso.configuracao.index', $course->id) }}" class="btn btn-default">Exibir
+                    configurações</a>
 
                 <a href="{{ route('admin.curso.configuracao.novo', $course->id) }}"
                    class="btn btn-success">Adicionar configuração</a>

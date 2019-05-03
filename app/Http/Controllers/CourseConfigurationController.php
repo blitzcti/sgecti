@@ -12,7 +12,7 @@ class CourseConfigurationController extends Controller
     public function index($id)
     {
         if (!is_numeric($id)) {
-            return redirect()->route('curso.index');
+            return redirect()->route('admin.curso.index');
         }
 
         $course = Course::findOrFail($id);
@@ -30,7 +30,7 @@ class CourseConfigurationController extends Controller
     public function edit($id, $id_config)
     {
         if (!is_numeric($id_config)) {
-            return redirect()->route('curso.configuracao.index');
+            return redirect()->route('admin.curso.configuracao.index');
         }
 
         $course = Course::findOrFail($id);
@@ -47,12 +47,12 @@ class CourseConfigurationController extends Controller
         if (!$request->exists('cancel')) {
             $validatedData = (object)$request->validate(
                 [
-                    'minYear' => 'required',
-                    'minSemester' => 'required',
-                    'minHour' => 'required',
-                    'minMonth' => 'required',
-                    'minMonthCTPS' => 'required',
-                    'minMark' => 'required'
+                    'minYear' => 'required|numeric|min:1|max:3',
+                    'minSemester' => 'required|numeric|min:1|max:2',
+                    'minHour' => 'required|numeric|min:1',
+                    'minMonth' => 'required|numeric|min:1',
+                    'minMonthCTPS' => 'required|numeric|min:1',
+                    'minMark' => 'required|numeric|min:0|max:10'
                 ]
             );
 
@@ -80,6 +80,6 @@ class CourseConfigurationController extends Controller
             $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
         }
 
-        return redirect()->route('curso.configuracao.index', $id)->with($params);
+        return redirect()->route('admin.curso.configuracao.index', $id)->with($params);
     }
 }

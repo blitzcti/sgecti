@@ -60,7 +60,6 @@
 
                     <div class="col-sm-10">
                         <input type="number" class="form-control" id="inputMinHour" name="minHour" placeholder="420"
-                               min="1"
                                value="{{ $config->min_hours }}"/>
                     </div>
                 </div>
@@ -69,7 +68,6 @@
 
                     <div class="col-sm-10">
                         <input type="number" class="form-control" id="inputMinMonth" name="minMonth" placeholder="6"
-                               min="1"
                                value="{{ $config->min_months }}"/>
                     </div>
                 </div>
@@ -78,7 +76,6 @@
 
                     <div class="col-sm-10">
                         <input type="number" class="form-control" id="inputMinMonth" name="minMonthCTPS" placeholder="6"
-                               min="1"
                                value="{{ $config->min_months_ctps }}"/>
                     </div>
                 </div>
@@ -87,8 +84,7 @@
 
                     <div class="col-sm-10">
                         <input type="number" class="form-control" id="inputMinMark" name="minMark" placeholder="10"
-                               min="0" max="10" step="0.5"
-                               value="{{ $config->min_grade }}"/>
+                               step="0.5" value="{{ $config->min_grade }}"/>
                     </div>
                 </div>
             </div>

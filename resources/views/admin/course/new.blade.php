@@ -59,8 +59,8 @@
                     <div class="col-sm-10">
                         <select class="form-control selection" data-minimum-results-for-search="Infinity"
                                 id="inputActive" name="active">
-                            <option value="true">Sim</option>
-                            <option value="false">Não</option>
+                            <option value="1">Sim</option>
+                            <option value="0">Não</option>
                         </select>
                     </div>
                 </div>
@@ -95,24 +95,22 @@
                     <label for="inputMinHour" class="col-sm-2 control-label">Horas mínimas</label>
 
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" id="inputMinHour" name="minHour" placeholder="420"
-                               min="1"/>
+                        <input type="number" class="form-control" id="inputMinHour" name="minHour" placeholder="420"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputMinMonth" class="col-sm-2 control-label">Meses mínimos</label>
 
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" id="inputMinMonth" name="minMonth" placeholder="6"
-                               min="1"/>
+                        <input type="number" class="form-control" id="inputMinMonth" name="minMonth" placeholder="6"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputMinMonthCTPS" class="col-sm-2 control-label">Meses mínimos (CTPS)</label>
 
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" id="inputMinMonth" name="minMonthCTPS" placeholder="6"
-                               min="1"/>
+                        <input type="number" class="form-control" id="inputMinMonth" name="minMonthCTPS"
+                               placeholder="6"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -120,7 +118,7 @@
 
                     <div class="col-sm-10">
                         <input type="number" class="form-control" id="inputMinMark" name="minMark" placeholder="10"
-                               min="0" max="10" step="0.5"/>
+                               step="0.5"/>
                     </div>
                 </div>
             </div>

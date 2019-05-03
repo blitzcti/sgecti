@@ -147,7 +147,14 @@ return [
     'attributes' => [
         'name'   => 'Name',
         'color'  => 'Color',
-        'active' => 'Active'
+        'active' => 'Active',
+
+        'minYear' => 'Minimum Year',
+        'minSemester' => 'Minimum Semester',
+        'minHour' => 'Minimum hours',
+        'minMonth' => 'Minimum months',
+        'minMonthCTPS' => 'Minimum months (CTPS)',
+        'minMark' => 'Minimum mark'
     ],
 
 ];

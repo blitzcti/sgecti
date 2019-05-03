@@ -19,7 +19,7 @@ class CourseController extends Controller
     public function details($id)
     {
         if (!is_numeric($id)) {
-            return redirect()->route('curso.index');
+            return redirect()->route('admin.curso.index');
         }
 
         $course = Course::findOrFail($id);
@@ -39,7 +39,7 @@ class CourseController extends Controller
     public function edit($id)
     {
         if (!is_numeric($id)) {
-            return redirect()->route('curso.index');
+            return redirect()->route('admin.curso.index');
         }
 
         $course = Course::findOrFail($id);
@@ -57,8 +57,8 @@ class CourseController extends Controller
             $validatedData = (object)$request->validate(
                 [
                     'name' => 'required|max:30',
-                    'color' => 'required',
-                    'active' => 'required'
+                    'color' => 'required|numeric|min:1',
+                    'active' => 'required|boolean'
                 ]);
 
             if ($request->exists('id')) { // Edit
@@ -72,12 +72,12 @@ class CourseController extends Controller
                 $config = new CourseConfiguration();
                 $configValidatedData = (object)$request->validate(
                     [
-                        'minYear' => 'required',
-                        'minSemester' => 'required',
-                        'minHour' => 'required',
-                        'minMonth' => 'required',
-                        'minMonthCTPS' => 'required',
-                        'minMark' => 'required'
+                        'minYear' => 'required|numeric|min:1|max:3',
+                        'minSemester' => 'required|numeric|min:1|max:2',
+                        'minHour' => 'required|numeric|min:1',
+                        'minMonth' => 'required|numeric|min:1',
+                        'minMonthCTPS' => 'required|numeric|min:1',
+                        'minMark' => 'required|numeric|min:0|max:10'
                     ]
                 );
 
@@ -91,7 +91,7 @@ class CourseController extends Controller
 
             $course->name = $validatedData->name;
             $course->id_color = $validatedData->color;
-            $course->active = $validatedData->active == 'true';
+            $course->active = $validatedData->active;
 
             $saved = $course->save();
 
@@ -105,7 +105,7 @@ class CourseController extends Controller
             $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
         }
 
-        return redirect()->route('curso.index')->with($params);
+        return redirect()->route('admin.curso.index')->with($params);
     }
 
     public function delete(Request $request)
@@ -121,6 +121,6 @@ class CourseController extends Controller
 
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Excluído com sucesso' : 'Erro ao excluir!';
-        return redirect()->route('curso.index')->with($params);
+        return redirect()->route('admin.curso.index')->with($params);
     }
 }

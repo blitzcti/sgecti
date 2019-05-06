@@ -36,89 +36,122 @@
                         <input type="text" class="form-control" id="inputName" name="name" placeholder="Informática"/>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="inputColor" class="col-sm-2 control-label">Cor do curso</label>
 
-                    <div class="col-sm-10">
-                        <select class="form-control selection" id="inputColor" name="color">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputColor" class="col-sm-4 control-label">Cor do curso</label>
 
-                            @foreach($colors as $color)
+                            <div class="col-sm-8">
+                                <select class="form-control selection" id="inputColor" name="color">
 
-                                <option value="{{ $color->id }}">
-                                    {{ __('colors.' . $color->name) }}
-                                </option>
+                                    @foreach($colors as $color)
 
-                            @endforeach
+                                        <option value="{{ $color->id }}">
+                                            {{ __('colors.' . $color->name) }}
+                                        </option>
 
-                        </select>
+                                    @endforeach
+
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputActive" class="col-sm-2 control-label">Ativo</label>
 
-                    <div class="col-sm-10">
-                        <select class="form-control selection" data-minimum-results-for-search="Infinity"
-                                id="inputActive" name="active">
-                            <option value="1">Sim</option>
-                            <option value="0">Não</option>
-                        </select>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputActive" class="col-sm-4 control-label">Ativo</label>
+
+                            <div class="col-sm-8">
+                                <select class="form-control selection" data-minimum-results-for-search="Infinity"
+                                        id="inputActive" name="active">
+                                    <option value="1">Sim</option>
+                                    <option value="0">Não</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <h3>Configurações do curso</h3>
                 <hr/>
 
-                <div class="form-group">
-                    <label for="inputMinYear" class="col-sm-2 control-label">Ano mínimo</label>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputMinYear" class="col-sm-4 control-label">Ano mínimo</label>
 
-                    <div class="col-sm-10">
-                        <select class="form-control selection" data-minimum-results-for-search="Infinity"
-                                id="inputMinYear" name="minYear">
-                            <option value="1">1º ano</option>
-                            <option value="2">2º ano</option>
-                            <option value="3">3º ano</option>
-                        </select>
+                            <div class="col-sm-8">
+                                <select class="form-control selection" data-minimum-results-for-search="Infinity"
+                                        id="inputMinYear" name="minYear">
+                                    <option value="1">1º ano</option>
+                                    <option value="2">2º ano</option>
+                                    <option value="3">3º ano</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputMinSemester" class="col-sm-4 control-label">Semestre mínimo</label>
+
+                            <div class="col-sm-8">
+                                <select class="form-control selection" data-minimum-results-for-search="Infinity"
+                                        id="inputMinSemester" name="minSemester">
+                                    <option value="1">1º semestre</option>
+                                    <option value="2">2º semestre</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="inputMinSemester" class="col-sm-2 control-label">Semestre mínimo</label>
 
-                    <div class="col-sm-10">
-                        <select class="form-control selection" data-minimum-results-for-search="Infinity"
-                                id="inputMinSemester" name="minSemester">
-                            <option value="1">1º semestre</option>
-                            <option value="2">2º semestre</option>
-                        </select>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputMinHour" class="col-sm-4 control-label">Horas mínimas</label>
+
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="inputMinHour" name="minHour"
+                                       placeholder="420"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputMinMonth" class="col-sm-4 control-label">Meses mínimos</label>
+
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="inputMinMonth" name="minMonth"
+                                       placeholder="6"/>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="inputMinHour" class="col-sm-2 control-label">Horas mínimas</label>
 
-                    <div class="col-sm-10">
-                        <input type="number" class="form-control" id="inputMinHour" name="minHour" placeholder="420"/>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputMinMonthCTPS" class="col-sm-4 control-label">Meses mínimos (CTPS)</label>
+
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="inputMinMonth" name="minMonthCTPS"
+                                       placeholder="6"/>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputMinMonth" class="col-sm-2 control-label">Meses mínimos</label>
 
-                    <div class="col-sm-10">
-                        <input type="number" class="form-control" id="inputMinMonth" name="minMonth" placeholder="6"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputMinMonthCTPS" class="col-sm-2 control-label">Meses mínimos (CTPS)</label>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputMinMark" class="col-sm-4 control-label">Nota mínima</label>
 
-                    <div class="col-sm-10">
-                        <input type="number" class="form-control" id="inputMinMonth" name="minMonthCTPS"
-                               placeholder="6"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputMinMark" class="col-sm-2 control-label">Nota mínima</label>
-
-                    <div class="col-sm-10">
-                        <input type="number" class="form-control" id="inputMinMark" name="minMark" placeholder="10"
-                               step="0.5"/>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="inputMinMark" name="minMark"
+                                       placeholder="10" step="0.5"/>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -36,32 +36,40 @@
                                value="{{ $course->name }}"/>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="inputColor" class="col-sm-2 control-label">Cor do curso</label>
 
-                    <div class="col-sm-10">
-                        <select class="form-control selection" id="inputColor" name="color">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputColor" class="col-sm-4 control-label">Cor do curso</label>
 
-                            @foreach($colors as $color)
+                            <div class="col-sm-8">
+                                <select class="form-control selection" id="inputColor" name="color">
 
-                                <option value="{{ $color->id }}" {{ $course->id_color == $color->id ? 'selected=selected' : '' }}>
-                                    {{ __('colors.' . $color->name) }}
-                                </option>
+                                    @foreach($colors as $color)
 
-                            @endforeach
+                                        <option value="{{ $color->id }}" {{ $course->id_color == $color->id ? 'selected=selected' : '' }}>
+                                            {{ __('colors.' . $color->name) }}
+                                        </option>
 
-                        </select>
+                                    @endforeach
+
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputActive" class="col-sm-2 control-label">Ativo</label>
 
-                    <div class="col-sm-10">
-                        <select class="form-control selection" data-minimum-results-for-search="Infinity"
-                                id="inputActive" name="active">
-                            <option value="1" {{ $course->active ? 'selected=selected' : '' }}>Sim</option>
-                            <option value="0" {{! $course->active ? 'selected=selected' : '' }}>Não</option>
-                        </select>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputActive" class="col-sm-4 control-label">Ativo</label>
+
+                            <div class="col-sm-8">
+                                <select class="form-control selection" data-minimum-results-for-search="Infinity"
+                                        id="inputActive" name="active">
+                                    <option value="1" {{ $course->active ? 'selected=selected' : '' }}>Sim</option>
+                                    <option value="0" {{! $course->active ? 'selected=selected' : '' }}>Não</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

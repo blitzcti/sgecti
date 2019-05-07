@@ -1701,7 +1701,7 @@ Expr = Sizzle.selectors = {
 					Sizzle.error( match[0] );
 				}
 
-				// numeric x and y parameters for Expr.filter.CHILD
+				// numeric x and y configurations for Expr.filter.CHILD
 				// remember that false/true cast respectively to 0/1
 				match[4] = +( match[4] ? match[5] + (match[6] || 1) : 2 * ( match[3] === "even" || match[3] === "odd" ) );
 				match[5] = +( ( match[7] + match[8] ) || match[3] === "odd" );
@@ -3250,7 +3250,7 @@ function createOptions( options ) {
 }
 
 /*
- * Create a callback list using the following parameters:
+ * Create a callback list using the following configurations:
  *
  *	options: an optional list of space-separated options that will change how
  *			the callback list behaves or a more traditional option object
@@ -6792,7 +6792,7 @@ function createFxNow() {
 	return ( fxNow = jQuery.now() );
 }
 
-// Generate parameters to create a standard animation
+// Generate configurations to create a standard animation
 function genFx( type, includeWidth ) {
 	var which,
 		i = 0,

@@ -11,7 +11,7 @@ return [
     'system' => 'SISTEMA',
     'configuration' => 'Configurações',
 
-    'parameters' => 'Parâmetros',
+    'configurations' => 'Parâmetros',
     'backup' => 'Backup do sistema',
 
     'message' => 'Mensagem',

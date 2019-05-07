@@ -23,6 +23,18 @@ Auth::routes();
 Route::get('home', 'HomeController@index')->name('home');
 
 Route::prefix('admin')->name('admin.')->group(function () {
+    Route::prefix('configuracoes')->name('configuracoes.')->group(function () {
+        Route::prefix('parametros')->name('parametros.')->group(function () {
+            Route::get('', 'SystemConfigurationController@index')->name('index');
+            Route::get('novo', 'SystemConfigurationController@new')->name('novo');
+            Route::post('salvar', 'SystemConfigurationController@save')->name('salvar');
+
+            Route::prefix('{id}')->group(function () {
+                Route::get('editar', 'SystemConfigurationController@edit')->name('editar');
+            });
+        });
+    });
+
     Route::prefix('curso')->name('curso.')->group(function () {
         Route::get('', 'CourseController@index')->name('index');
         Route::get('novo', 'CourseController@new')->name('novo');

@@ -9,7 +9,7 @@ return [
     'system' => 'SYSTEM',
     'configuration' => 'Configuration',
 
-    'parameters' => 'Parameters',
+    'configurations' => 'Parameters',
     'backup' => 'System backup',
 
     'message' => 'MESSAGE',

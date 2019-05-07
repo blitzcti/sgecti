@@ -125,16 +125,16 @@ return [
             'icon'   => 'gear',
             'submenu' => [
                 [
-                    'text' => 'menu.parameters', //CTI
-                    //'route'  => 'configuracao.parameters.index',
+                    'text' => 'menu.configurations', //CTI
+                    'route'  => 'admin.configuracoes.parametros.index',
                     'icon'   => 'wrench',
-                    'active' => ['configuracao/parametros/'],
+                    'active' => ['admin/configuracoes/parametros/'],
                 ],
                 [
                     'text' => 'menu.backup',
-                    //'route'  => 'configuracao.backup.index',
+                    //'route'  => 'admin.configuracoes.backup.index',
                     'icon'   => 'floppy-o',
-                    'active' => ['configuracao/backup/'],
+                    'active' => ['admin/configuracoes/backup/'],
                 ],
             ],
         ],
@@ -142,7 +142,7 @@ return [
             'text' => 'menu.message',
             //'route'  => 'mensagem.index',
             'icon'   => 'envelope',
-            'active' => ['mensagem/']
+            'active' => ['admin/mensagem/']
         ],
         [
             'text' => 'menu.help',

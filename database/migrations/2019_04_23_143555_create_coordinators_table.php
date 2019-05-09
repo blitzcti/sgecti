@@ -16,7 +16,8 @@ class CreateCoordinatorsTable extends Migration
         Schema::create('coordinators', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('name', 30)->nullable(false);
+            $table->bigInteger('id_user')->nullable(false)->unsigned();
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
 
             $table->bigInteger('id_course')->nullable(false)->unsigned();
             $table->foreign('id_course')->references('id')->on('courses')->onDelete('cascade');

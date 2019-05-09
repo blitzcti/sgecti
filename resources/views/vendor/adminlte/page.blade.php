@@ -125,7 +125,13 @@
             @endif
         </div>
         <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Versão</b> 0.1
+            </div>
 
+            <b>Copyright © 2019 Blitz.</b> Todos os direitos reservados.
+        </footer>
     </div>
     <!-- ./wrapper -->
 @stop

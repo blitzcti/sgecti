@@ -86,7 +86,9 @@
 @section('js')
     <script type="text/javascript">
         jQuery(document).ready(function () {
-            jQuery('.selection').select2();
+            jQuery('.selection').select2({
+                language: "pt-BR"
+            });
         });
     </script>
 @endsection

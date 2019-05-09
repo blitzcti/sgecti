@@ -121,7 +121,7 @@
     <script type="text/javascript">
         jQuery(document).ready(function () {
             jQuery('.selection').select2({
-                language: "pt-br"
+                language: "pt-BR"
             });
         });
     </script>

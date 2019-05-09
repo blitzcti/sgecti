@@ -326,5 +326,6 @@ return [
         'datatables' => true,
         'select2' => true,
         'chartjs' => true,
+        'inputmask' => true,
     ],
 ];

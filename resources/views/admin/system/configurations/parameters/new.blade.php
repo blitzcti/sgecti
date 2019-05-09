@@ -27,105 +27,169 @@
 
             <div class="box-body">
                 <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Nome do curso</label>
+                    <label for="inputName" class="col-sm-2 control-label">Nome do colégio</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputName" name="nome" placeholder="Informática"/>
+                        <input type="text" class="form-control" id="inputName" name="name"
+                               placeholder="Colégio Técnico Industrial"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="inputCep" class="col-sm-6 control-label">CEP</label>
+
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="inputCep" name="cep"
+                                       placeholder="17033-260" data-inputmask="'mask': '99999-999'"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="inputUf" class="col-sm-4 control-label">UF</label>
+
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputUf" name="uf" placeholder="SP"
+                                       readonly/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="inputCidade" class="col-sm-4 control-label">Cidade</label>
+
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputCidade" name="cidade"
+                                       placeholder="Bauru" readonly/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label for="inputRua" class="col-sm-3 control-label">Rua</label>
+
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="inputRua" name="rua"
+                                       placeholder="Avenida Nações Unidas" readonly/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="inputNumero" class="col-sm-4 control-label">Número</label>
+
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputNumero" name="numero"
+                                       placeholder="58-50"/>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">CEP</label>
-
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputCep" name="cep" placeholder="Informática"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">UF</label>
-
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputUf" name="uf" placeholder="Informática"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Cidade</label>
-
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputCidade" name="cidade"
-                               placeholder="Informática"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Rua</label>
-
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputRua" name="rua" placeholder="Informática"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Número</label>
-
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputNumero" name="numero"
-                               placeholder="Informática"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Bairro</label>
+                    <label for="inputBairro" class="col-sm-2 control-label">Bairro</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputBairro" name="bairro"
-                               placeholder="Informática"/>
+                               placeholder="Vargem Limpa" readonly/>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Telefone</label>
+                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputFone" name="fone" placeholder="Informática"/>
+                        <input type="email" class="form-control" id="inputEmail" name="email"
+                               placeholder="dir_cti@feb.unesp.com.br"/>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Email</label>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="inputFone" class="col-sm-6 control-label">Telefone</label>
 
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputEmail" name="email" placeholder="Informática"/>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="inputFone" name="fone"
+                                       placeholder="(14) 3103-6150" data-inputmask="'mask': '(99) 9999-9999'"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="inputRamal" class="col-sm-4 control-label">Ramal</label>
+
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputRamal" name="ramal"
+                                       placeholder="3845" data-inputmask="'mask': '9999'"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputValidadeConvenio" class="col-sm-4 control-label">Validade do
+                                convênio</label>
+
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputValidadeConvenio"
+                                       name="validade_convenio" placeholder="5"/>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Ramal</label>
-
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputRamal" name="ramal" placeholder="Informática"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Validade do Convênio</label>
-
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputValidade_convenio" name="validade_convenio"
-                               placeholder="Informática"/>
-                    </div>
-                </div>
-
-
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
                 <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
-                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
+                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
             </div>
             <!-- /.box-footer -->
         </form>
     </div>
+@endsection
+
+@section('js')
+    <script type="text/javascript">
+        jQuery(document).ready(() => {
+            jQuery(':input').inputmask({removeMaskOnSubmit: true});
+
+            jQuery('#inputCep').change(() => {
+                console.log(this);
+                let xhttp = new XMLHttpRequest();
+                xhttp.open("GET", `https://viacep.com.br/ws/${jQuery('#inputCep').inputmask('unmaskedvalue')}/json/`, true);
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState === 4 && this.status === 200 && this.responseText !== "ViaCEP Bad Request (400)") {
+                        let address = JSON.parse(xhttp.responseText);
+                        jQuery('#inputRua').val(address.logradouro).change();
+                        jQuery('#inputBairro').val(address.bairro).change();
+                        jQuery('#inputCidade').val(address.localidade).change();
+                        jQuery('#inputUf').val(address.uf).change();
+
+                        let inputFields = [
+                            "#inputRua",
+                            "#inputBairro",
+                            "#inputCidade",
+                            "#inputUf"
+                        ];
+
+                        inputFields.forEach(field => {
+                            jQuery(field).prop('readonly', jQuery(field).val() !== "");
+                        });
+                    }
+                };
+
+                xhttp.send();
+            });
+        });
+    </script>
 @endsection

@@ -28,7 +28,6 @@ class CreateSystemConfigurationsTable extends Migration
             $table->string('email', 50)->nullable(false);
             $table->string('ramal', 5)->nullable(true)->default(null);
             $table->integer('validade_convenio')->nullable(false);
-            $table->date('ultimo_backup')->nullable(true)->default(null);
 
             $table->timestamps();
         });
@@ -38,7 +37,7 @@ class CreateSystemConfigurationsTable extends Migration
             'cep' => '17033260',
             'uf' => 'SP',
             'cidade' => 'Bauru',
-            'rua' => 'Avenida Nações Unidas - de Quadra 43 ao fim',
+            'rua' => 'Avenida Nações Unidas',
             'numero' => '58-50',
             'bairro' => 'Núcleo Residencial Presidente Geisel',
             'fone' => '1431036150',

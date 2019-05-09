@@ -36,7 +36,7 @@ class SystemConfigurationController extends Controller
         $params = [];
         if (!$request->exists('cancel')) {
             $validatedData = (object)$request->validate([
-                'nome' => 'required|max:60',
+                'name' => 'required|max:60',
                 'cep' => 'required|numeric',
                 'uf' => 'required|max:2',
                 'cidade' => 'required|max:30',
@@ -58,7 +58,7 @@ class SystemConfigurationController extends Controller
                 $systemConfig->created_at = Carbon::now();
             }
 
-            $systemConfig->nome = $validatedData->nome;
+            $systemConfig->nome = $validatedData->name;
             $systemConfig->cep = $validatedData->cep;
             $systemConfig->uf = $validatedData->uf;
             $systemConfig->cidade = $validatedData->cidade;

@@ -35,10 +35,8 @@
                     <th>Cidade</th>
                     <th>Endereço</th>
                     <th>Bairro</th>
-                    <th>Fone</th>
                     <th>Email</th>
                     <th>Validade do convênio</th>
-                    <th>Último Backup</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
@@ -55,10 +53,8 @@
                         <td>{{ $systemConfig->cidade }}</td>
                         <td>{{ $systemConfig->rua . ', nº ' .  $systemConfig->numero }}</td>
                         <td>{{ $systemConfig->bairro }}</td>
-                        <td>{{ $systemConfig->fone }}</td>
                         <td>{{ $systemConfig->email }}</td>
                         <td>{{ $systemConfig->validade_convenio }}</td>
-                        <td>{{ $systemConfig->ultimo_backup }}</td>
 
                         <td>
                             <a href="{{ route('admin.configuracoes.parametros.editar', ['id' => $systemConfig->id]) }}">Editar</a>

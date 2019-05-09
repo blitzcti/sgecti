@@ -154,7 +154,18 @@ return [
         'minHour' => 'Minimum hours',
         'minMonth' => 'Minimum months',
         'minMonthCTPS' => 'Minimum months (CTPS)',
-        'minMark' => 'Minimum mark'
+        'minMark' => 'Minimum mark',
+
+        'cep' => 'CEP',
+        'uf' => 'State',
+        'cidade' => 'City',
+        'rua' => 'Street',
+        'numero' => 'Number',
+        'bairro' => 'District',
+        'fone' => 'Phone',
+        'email' => 'Email',
+        'ramal' => 'Branch line',
+        'validade_convenio' => 'Agreement validity',
     ],
 
 ];

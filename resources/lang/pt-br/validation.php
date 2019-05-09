@@ -144,6 +144,17 @@ return [
         'minHour' => 'Horas mínimas',
         'minMonth' => 'Meses mínimos',
         'minMonthCTPS' => 'Meses mínimos (CTPS)',
-        'minMark' => 'Nota mínima'
+        'minMark' => 'Nota mínima',
+
+        'cep' => 'CEP',
+        'uf' => 'UF',
+        'cidade' => 'Cidade',
+        'rua' => 'Rua',
+        'numero' => 'Número',
+        'bairro' => 'Bairro',
+        'fone' => 'Telefone',
+        'email' => 'Email',
+        'ramal' => 'Ramal',
+        'validade_convenio' => 'Validade do convênio',
     ],
 ];

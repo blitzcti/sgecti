@@ -23,6 +23,12 @@ Auth::routes();
 Route::get('home', 'HomeController@index')->name('home');
 
 Route::prefix('admin')->name('admin.')->group(function () {
+    Route::prefix('usuario')->name('usuario.')->group(function () {
+        Route::get('', 'UserController@index')->name('index');
+        Route::get('novo', 'UserController@new')->name('novo');
+        Route::post('salvar', 'UserController@save')->name('salvar');
+    });
+
     Route::prefix('configuracoes')->name('configuracoes.')->group(function () {
         Route::prefix('parametros')->name('parametros.')->group(function () {
             Route::get('', 'SystemConfigurationController@index')->name('index');

@@ -33,11 +33,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         });
     });
 
-    Route::prefix('grupo')->name( 'grupo.')->group(function () {
-        Route::get('', 'UserGroupController@index')->name('index');
-        Route::get('novo', 'UserGroupController@new')->name('novo');
-    });
-
     Route::prefix('configuracoes')->name('configuracoes.')->group(function () {
         Route::prefix('parametros')->name('parametros.')->group(function () {
             Route::get('', 'SystemConfigurationController@index')->name('index');

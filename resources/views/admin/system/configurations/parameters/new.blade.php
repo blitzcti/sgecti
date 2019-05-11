@@ -7,6 +7,9 @@
 @stop
 
 @section('content')
+    @extends('loadingModal')
+    @include('admin/system/configurations/parameters/cepErrorModal')
+
     @if ($errors->any())
         <div class="alert alert-danger alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -52,8 +55,7 @@
                             <label for="inputUf" class="col-sm-4 control-label">UF</label>
 
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="inputUf" name="uf" placeholder="SP"
-                                       readonly/>
+                                <input type="text" class="form-control" id="inputUf" name="uf" placeholder="SP"/>
                             </div>
                         </div>
                     </div>
@@ -64,7 +66,7 @@
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputCidade" name="cidade"
-                                       placeholder="Bauru" readonly/>
+                                       placeholder="Bauru"/>
                             </div>
                         </div>
                     </div>
@@ -77,7 +79,7 @@
 
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="inputRua" name="rua"
-                                       placeholder="Avenida Nações Unidas" readonly/>
+                                       placeholder="Avenida Nações Unidas"/>
                             </div>
                         </div>
                     </div>
@@ -99,7 +101,7 @@
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputBairro" name="bairro"
-                               placeholder="Vargem Limpa" readonly/>
+                               placeholder="Vargem Limpa"/>
                     </div>
                 </div>
 
@@ -158,37 +160,79 @@
     </div>
 @endsection
 
+@section('loadingModalText')
+    <p>Buscando CEP, por favor aguarde...</p>
+@endsection
+
 @section('js')
     <script type="text/javascript">
         jQuery(document).ready(() => {
             jQuery(':input').inputmask({removeMaskOnSubmit: true});
 
-            jQuery('#inputCep').change(() => {
-                console.log(this);
+            function loadCep() {
+                $("#loadingModal").modal({
+                    backdrop: "static",
+                    keyboard: false,
+                    show: true
+                });
+
                 let xhttp = new XMLHttpRequest();
                 xhttp.open("GET", `https://viacep.com.br/ws/${jQuery('#inputCep').inputmask('unmaskedvalue')}/json/`, true);
                 xhttp.onreadystatechange = function () {
-                    if (this.readyState === 4 && this.status === 200 && this.responseText !== "ViaCEP Bad Request (400)") {
-                        let address = JSON.parse(xhttp.responseText);
-                        jQuery('#inputRua').val(address.logradouro).change();
-                        jQuery('#inputBairro').val(address.bairro).change();
-                        jQuery('#inputCidade').val(address.localidade).change();
-                        jQuery('#inputUf').val(address.uf).change();
+                    $("#loadingModal").modal("hide");
 
-                        let inputFields = [
-                            "#inputRua",
-                            "#inputBairro",
-                            "#inputCidade",
-                            "#inputUf"
-                        ];
+                    if (this.readyState === 4) {
+                        if (this.status === 200 && this.responseText !== "ViaCEP Bad Request (400)") {
+                            let address = JSON.parse(xhttp.responseText);
+                            if (address.erro) {
+                                $("#cepErrorModal").modal({
+                                    backdrop: "static",
+                                    keyboard: false,
+                                    show: true
+                                });
 
-                        inputFields.forEach(field => {
-                            jQuery(field).prop('readonly', jQuery(field).val() !== "");
-                        });
+                                jQuery('#inputCep').val('').change();
+
+                                address.logradouro = '';
+                                address.bairro = '';
+                                address.localidade = '';
+                                address.uf = '';
+                            }
+
+                            jQuery('#inputRua').val(address.logradouro).change();
+                            jQuery('#inputBairro').val(address.bairro).change();
+                            jQuery('#inputCidade').val(address.localidade).change();
+                            jQuery('#inputUf').val(address.uf).change();
+
+                            let inputFields = [
+                                "#inputRua",
+                                "#inputBairro",
+                                "#inputCidade",
+                                "#inputUf"
+                            ];
+
+                            inputFields.forEach(field => {
+                                jQuery(field).prop('readonly', jQuery(field).val() !== "");
+                            });
+                        } else {
+                            $("#cepErrorModal").modal({
+                                backdrop: "static",
+                                keyboard: false,
+                                show: true
+                            });
+
+                            jQuery('#inputCep').val('').change();
+                        }
                     }
                 };
 
                 xhttp.send();
+            }
+
+            jQuery('#inputCep').blur(() => {
+                if (jQuery('#inputCep').val() !== "") {
+                    loadCep();
+                }
             });
         });
     </script>

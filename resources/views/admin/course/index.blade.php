@@ -50,6 +50,8 @@
                             |
                             <a href="{{ route('admin.curso.editar', ['id' => $course->id]) }}">Editar</a>
                             |
+                            <a href="#">Coordenador</a>
+                            |
                             <a href="{{ route('admin.curso.configuracao.index', ['id' => $course->id]) }}">Configurações</a>
                             |
                             <a href="#"

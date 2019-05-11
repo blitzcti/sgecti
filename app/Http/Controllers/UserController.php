@@ -61,5 +61,5 @@ class UserController extends Controller
         }
 
         return redirect()->route('admin.usuario.index')->with($params);
-    }//
+    }
 }

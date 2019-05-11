@@ -23,11 +23,14 @@ Auth::routes();
 Route::get('home', 'HomeController@index')->name('home');
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::prefix('usuario')->name( 'usuario.')->group(function () {
+    Route::prefix('usuario')->name('usuario.')->group(function () {
         Route::get('', 'UserController@index')->name('index');
         Route::get('novo', 'UserController@new')->name('novo');
-        Route::get('detalhes', 'UserController@new')->name('detalhes');
-        Route::get('editar', 'UserController@new')->name('editar');
+        Route::post('salvar', 'UserController@save')->name('salvar');
+
+        Route::prefix('{id}')->group(function () {
+            Route::get('editar', 'UserController@edit')->name('editar');
+        });
     });
 
     Route::prefix('grupo')->name( 'grupo.')->group(function () {

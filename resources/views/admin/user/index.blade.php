@@ -21,8 +21,8 @@
     <div class="box box-default">
         <div class="box-body">
             <div class="btn-group" style="display: inline-flex; margin: 0 0 10px 0">
-                <a href="{{ route('admin.curso.novo') }}"
-                   class="btn btn-success">Novo</a>
+                <a href="{{ route('admin.usuario.novo') }}"
+                   class="btn btn-success">Adicionar usuário</a>
             </div>
 
 
@@ -31,7 +31,7 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th>Nome</th>
-                    <th>Ativo</th>
+                    <th>Grupo</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
@@ -42,16 +42,10 @@
                     <tr>
                         <th scope="row">{{ $user->id }}</th>
                         <td>{{ $user->name }}</td>
-                        <td>{{ ($user->active) ? 'Sim' : 'Não' }}</td>
+                        <td>{{ App\UserGroup::find($user->id_group)->name }}</td>
 
                         <td>
-                            <a href="{{ route('admin.usuario.detalhes', ['id' => $user->id]) }}">Detalhes</a>
-                            |
                             <a href="{{ route('admin.usuario.editar', ['id' => $user->id]) }}">Editar</a>
-                            |
-                            <a href="#"
-                               onclick="userId('{{ $user->id }}'); user('{{ $user->name }}'); return false;"
-                               data-toggle="modal" class="text-red" data-target="#deleteModal">Excluir</a>
                         </td>
                     </tr>
 
@@ -64,18 +58,6 @@
 
 @section('js')
     <script>
-        function userId(id) {
-            jQuery(() => {
-                jQuery('#deleteModaluserId').val(id);
-            });
-        }
-
-        function user(name) {
-            jQuery(() => {
-                jQuery('#deleteModaluserName').text(name);
-            });
-        }
-
         jQuery(() => {
             jQuery("#users").DataTable({
                 "language": {

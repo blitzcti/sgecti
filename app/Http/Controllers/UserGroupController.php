@@ -14,4 +14,19 @@ class UserGroupController extends Controller
 
         return view('admin.group.index')->with(['userGroups' => $userGroups]);
     }
+
+    public function new()
+    {
+
+    }
+
+    public function edit($id)
+    {
+
+    }
+
+    public function save(Request $request)
+    {
+
+    }
 }

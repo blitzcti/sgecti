@@ -139,20 +139,8 @@ return [
             ],
         ],
         [
-            'text' => 'menu.message',
-            //'route'  => 'mensagem.index',
-            'icon'   => 'envelope',
-            'active' => ['admin/mensagem/']
-        ],
-        [
-            'text' => 'menu.help',
-            //'route'  => 'ajuda.index',
-            'icon'   => 'question-circle',
-            'active' => ['ajuda/']
-        ],
-        'menu.teste',
-        [
-            'text' => 'Usuario',
+            'text' => 'menu.users',
+            'icon' => 'user',
             'submenu' => [
                 [
                     'text'   => 'menu.view',
@@ -169,21 +157,16 @@ return [
             ]
         ],
         [
-            'text' => 'Grupos',
-            'submenu' => [
-                [
-                    'text'   => 'menu.view',
-                    'route'  => 'admin.grupo.index',
-                    'icon'   => 'th-list',
-                    'active' => ['admin/grupo/']
-                ],
-                [
-                    'text'  => 'menu.new',
-                    'route' => 'admin.grupo.novo',
-                    'icon'  => 'edit',
-                    'active' => ['admin/grupo/novo']
-                ],
-            ]
+            'text' => 'menu.message',
+            //'route'  => 'mensagem.index',
+            'icon'   => 'envelope',
+            'active' => ['admin/mensagem/']
+        ],
+        [
+            'text' => 'menu.help',
+            //'route'  => 'ajuda.index',
+            'icon'   => 'question-circle',
+            'active' => ['ajuda/']
         ],
         'menu.administration',
         [

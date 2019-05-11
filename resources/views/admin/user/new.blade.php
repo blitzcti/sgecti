@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Novo usuario - SGE CTI')
+@section('title', 'Novo usuário - SGE CTI')
 
 @section('content_header')
-    <h1>Adicionar novo usuario</h1>
+    <h1>Adicionar novo usuário</h1>
 @stop
 
 @section('content')
@@ -26,14 +26,14 @@
             @csrf
 
             <div class="box-body">
-                <h3>Dados do usuario</h3>
+                <h3>Dados do usuário</h3>
                 <hr/>
 
                 <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Nome do usuario</label>
+                    <label for="inputName" class="col-sm-2 control-label">Nome do usuário</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputName" name="name" placeholder="Celsinho"/>
+                        <input type="text" class="form-control" id="inputName" name="name" placeholder="André Castro"/>
                     </div>
                 </div>
 
@@ -42,16 +42,16 @@
 
                     <div class="col-sm-10">
                         <input type="email" class="form-control" id="inputEmail" name="email"
-                               placeholder="Celsinho@gmail.com"/>
+                               placeholder="andcastro28@gmail.com"/>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Senha</label>
+                    <label for="inputPassword" class="col-sm-2 control-label">Senha</label>
 
                     <div class="col-sm-10">
                         <input type="password" class="form-control" id="inputPassword" name="password"
-                               placeholder="picanhafatiada"/>
+                               placeholder="Deve ser de no mínimo 8 caracteres"/>
                     </div>
                 </div>
 

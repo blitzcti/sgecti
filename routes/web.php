@@ -23,6 +23,18 @@ Auth::routes();
 Route::get('home', 'HomeController@index')->name('home');
 
 Route::prefix('admin')->name('admin.')->group(function () {
+    Route::prefix('usuario')->name( 'usuario.')->group(function () {
+        Route::get('', 'UserController@index')->name('index');
+        Route::get('novo', 'UserController@new')->name('novo');
+        Route::get('detalhes', 'UserController@new')->name('detalhes');
+        Route::get('editar', 'UserController@new')->name('editar');
+    });
+
+    Route::prefix('grupo')->name( 'grupo.')->group(function () {
+        Route::get('', 'UserGroupController@index')->name('index');
+        Route::get('novo', 'UserGroupController@new')->name('novo');
+    });
+
     Route::prefix('configuracoes')->name('configuracoes.')->group(function () {
         Route::prefix('parametros')->name('parametros.')->group(function () {
             Route::get('', 'SystemConfigurationController@index')->name('index');

@@ -150,6 +150,41 @@ return [
             'icon'   => 'question-circle',
             'active' => ['ajuda/']
         ],
+        'menu.teste',
+        [
+            'text' => 'Usuario',
+            'submenu' => [
+                [
+                    'text'   => 'menu.view',
+                    'route'  => 'admin.usuario.index',
+                    'icon'   => 'th-list',
+                    'active' => ['admin/usuario/'] // If not set, even if at /curso/novo this item will be .active
+                ],
+                [
+                    'text'  => 'menu.new',
+                    'route' => 'admin.usuario.novo',
+                    'icon'  => 'edit',
+                    'active' => ['admin/usuario/novo']
+                ],
+            ]
+        ],
+        [
+            'text' => 'Grupos',
+            'submenu' => [
+                [
+                    'text'   => 'menu.view',
+                    'route'  => 'admin.grupo.index',
+                    'icon'   => 'th-list',
+                    'active' => ['admin/grupo/']
+                ],
+                [
+                    'text'  => 'menu.new',
+                    'route' => 'admin.grupo.novo',
+                    'icon'  => 'edit',
+                    'active' => ['admin/grupo/novo']
+                ],
+            ]
+        ],
         'menu.administration',
         [
             'text' => 'menu.courses',

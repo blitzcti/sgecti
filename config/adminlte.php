@@ -139,6 +139,24 @@ return [
             ],
         ],
         [
+            'text' => 'menu.users',
+            'icon' => 'user',
+            'submenu' => [
+                [
+                    'text'   => 'menu.view',
+                    'route'  => 'admin.usuario.index',
+                    'icon'   => 'th-list',
+                    'active' => ['admin/usuario/'] // If not set, even if at /curso/novo this item will be .active
+                ],
+                [
+                    'text'  => 'menu.new',
+                    'route' => 'admin.usuario.novo',
+                    'icon'  => 'edit',
+                    'active' => ['admin/usuario/novo']
+                ],
+            ]
+        ],
+        [
             'text' => 'menu.message',
             //'route'  => 'mensagem.index',
             'icon'   => 'envelope',

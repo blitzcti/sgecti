@@ -73,6 +73,10 @@
                 <p>Não há configurações para este curso!</p>
 
             @endif
+
+            <h3>Coordenador do curso</h3>
+            <hr/>
+
         </div>
         <!-- /.box-body -->
     </div>

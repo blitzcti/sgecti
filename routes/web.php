@@ -43,6 +43,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::get('editar', 'SystemConfigurationController@edit')->name('editar');
             });
         });
+
+        Route::prefix('backup')->name('backup.')->group(function () {
+            Route::get('', 'BackupController@index')->name('index');
+        });
     });
 
     Route::prefix('curso')->name('curso.')->group(function () {
@@ -67,8 +71,49 @@ Route::prefix('admin')->name('admin.')->group(function () {
         });
     });
 
-    Route::prefix('empresa')->name('empresa.')->group(function () {
-        Route::get('', 'CourseController@index')->name('index');
-        Route::get('novo', 'CourseController@new')->name('novo');
+    Route::prefix('mensagem')->name('mensagem.')->group(function () {
+        Route::get('', 'MessageController@index')->name('index');
     });
+});
+
+Route::prefix('coordenador')->name('coordenador.')->group(function () {
+    Route::prefix('empresa')->name('empresa.')->group(function () {
+        Route::get('', 'CompanyController@index')->name('index');
+        Route::get('novo', 'CompanyController@new')->name('novo');
+
+        Route::prefix('setor')->name('setor.')->group(function () {
+            Route::get('', 'SectorController@index')->name('index');
+            Route::get('novo', 'SectorController@new')->name('novo');
+        });
+    });
+
+    Route::prefix('estagio')->name('estagio.')->group(function () {
+        Route::get('', 'InternshipController@index')->name('index');
+        Route::get('novo', 'InternshipController@new')->name('novo');
+        Route::get('ctps', 'InternshipController@ctps')->name('ctps');
+
+        Route::prefix('aditivo')->name('aditivo.')->group(function () {
+            Route::get('', 'AditiveController@index')->name('index');
+            Route::get('novo', 'AditiveController@new')->name('novo');
+        });
+    });
+
+    Route::prefix('relatorio')->name('relatorio.')->group(function () {
+        Route::get('', 'ReportController@index')->name('index');
+        Route::get('proposta', 'ReportController@proposal')->name('proposta');
+        Route::get('bimestral', 'ReportController@bimestral')->name('bimestral');
+        Route::get('final', 'ReportController@final')->name('final');
+    });
+
+    Route::prefix('mensagem')->name('mensagem.')->group(function () {
+        Route::get('', 'MessageController@index')->name('index');
+    });
+});
+
+Route::prefix('aluno')->name('aluno.')->group(function () {
+    Route::get('', 'StudentController@index')->name('index');
+});
+
+Route::prefix('ajuda')->name('ajuda.')->group(function () {
+    Route::get('', 'HelpController@index')->name('index');
 });

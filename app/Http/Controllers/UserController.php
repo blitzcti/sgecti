@@ -43,6 +43,9 @@ class UserController extends Controller
 
         if (!$request->exists('cancel')) {
             if ($request->exists('id')) { // Edit
+                $id = $request->input('id');
+                $user = User::all()->find($id);
+
                 $validatedData = (object)$request->validate([
                     'name' => 'required|max:30',
                     'email' => 'required|max:30',
@@ -50,20 +53,7 @@ class UserController extends Controller
                     'group' => 'required|numeric|min:1'
                 ]);
 
-                $id = $request->input('id');
-                $user = User::all()->find($id);
-
                 $user->updated_at = Carbon::now();
-
-                $user->name = $validatedData->name;
-                $user->email = $validatedData->email;
-                $user->password = Hash::make($validatedData->password);
-                $user->id_group = $validatedData->group;
-
-                $saved = $user->update();
-
-                $params['saved'] = $saved;
-                $params['message'] = ($saved) ? 'Alterado com sucesso' : 'Erro ao alterar!';
             } else { // New
                 $validatedData = (object)$request->validate([
                     'name' => 'required|max:30',
@@ -73,17 +63,17 @@ class UserController extends Controller
                 ]);
 
                 $user->created_at = Carbon::now();
-
-                $user->name = $validatedData->name;
-                $user->email = $validatedData->email;
-                $user->password = Hash::make($validatedData->password);
-                $user->id_group = $validatedData->group;
-
-                $saved = $user->save();
-
-                $params['saved'] = $saved;
-                $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
             }
+
+            $user->name = $validatedData->name;
+            $user->email = $validatedData->email;
+            $user->password = Hash::make($validatedData->password);
+            $user->id_group = $validatedData->group;
+
+            $saved = $user->save();
+
+            $params['saved'] = $saved;
+            $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
         }
 
         return redirect()->route('admin.usuario.index')->with($params);

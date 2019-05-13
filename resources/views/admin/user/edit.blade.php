@@ -26,6 +26,8 @@
             @csrf
 
             <div class="box-body">
+                <input type="hidden" name="id" value="{{ $user->id }}">
+
                 <h3>Dados do usuário</h3>
                 <hr/>
 

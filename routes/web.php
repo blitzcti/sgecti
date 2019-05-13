@@ -35,6 +35,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         });
     });
 
+    Route::prefix('coordenador')->name('coordenador.')->group(function () {
+        Route::get('', 'CoordinatorController@index')->name('index');
+        Route::get('novo', 'CoordinatorController@new')->name('novo');
+        Route::post('salvar', 'CoordinatorController@save')->name('salvar');
+
+        Route::prefix('{id}')->group(function () {
+            Route::get('editar', 'CoordinatorController@edit')->name('editar');
+        });
+    });
+
     Route::prefix('curso')->name('curso.')->group(function () {
         Route::get('', 'CourseController@index')->name('index');
         Route::get('novo', 'CourseController@new')->name('novo');

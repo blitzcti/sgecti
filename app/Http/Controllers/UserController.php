@@ -26,7 +26,14 @@ class UserController extends Controller
 
     public function edit($id)
     {
+        if (!is_numeric($id)) {
+            return redirect()->route('admin.user.index');
+        }
 
+        $user = User::findOrFail($id);
+        $groups = UserGroup::all();
+
+        return view('admin.user.edit')->with(['user' => $user, 'groups' => $groups]);
     }
 
     public function save(Request $request)
@@ -35,19 +42,36 @@ class UserController extends Controller
         $params = [];
 
         if (!$request->exists('cancel')) {
-            $validatedData = (object)$request->validate([
-                'name' => 'required|max:30',
-                'email' => 'required|max:30|unique:users,email',
-                'password' => 'required|min:8',
-                'group' => 'required|numeric|min:1'
-            ]);
-
             if ($request->exists('id')) { // Edit
+                $validatedData = (object)$request->validate([
+                    'name' => 'required|max:30',
+                    'email' => 'required|max:30',
+                    'password' => 'required|min:8',
+                    'group' => 'required|numeric|min:1'
+                ]);
+
                 $id = $request->input('id');
                 $user = User::all()->find($id);
 
                 $user->updated_at = Carbon::now();
+
+                $user->name = $validatedData->name;
+                $user->email = $validatedData->email;
+                $user->password = Hash::make($validatedData->password);
+                $user->id_group = $validatedData->group;
+
+                $saved = $user->update();
+
+                $params['saved'] = $saved;
+                $params['message'] = ($saved) ? 'Alterado com sucesso' : 'Erro ao alterar!';
             } else { // New
+                $validatedData = (object)$request->validate([
+                    'name' => 'required|max:30',
+                    'email' => 'required|max:30|unique:users,email',
+                    'password' => 'required|min:8',
+                    'group' => 'required|numeric|min:1'
+                ]);
+
                 $user->created_at = Carbon::now();
 
                 $user->name = $validatedData->name;

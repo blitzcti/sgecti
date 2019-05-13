@@ -31,6 +31,7 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th>Nome</th>
+                    <th>Email</th>
                     <th>Grupo</th>
                     <th>Ações</th>
                 </tr>
@@ -42,7 +43,8 @@
                     <tr>
                         <th scope="row">{{ $user->id }}</th>
                         <td>{{ $user->name }}</td>
-                        <td>{{ App\UserGroup::find($user->id_group)->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ App\UserGroup::all()->find($user->id_group)->name }}</td>
 
                         <td>
                             <a href="{{ route('admin.usuario.editar', ['id' => $user->id]) }}">Editar</a>

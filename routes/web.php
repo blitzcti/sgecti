@@ -27,9 +27,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('', 'UserController@index')->name('index');
         Route::get('novo', 'UserController@new')->name('novo');
         Route::post('salvar', 'UserController@save')->name('salvar');
+        Route::post('salvarSenha', 'UserController@savePassword')->name('salvarSenha');
 
         Route::prefix('{id}')->group(function () {
             Route::get('editar', 'UserController@edit')->name('editar');
+            Route::get('alterarSenha', 'UserController@changePassword')->name('alterarSenha');
         });
     });
 

@@ -63,7 +63,7 @@ class AppServiceProvider extends ServiceProvider
                     ],
                     [
                         'text' => 'menu.backup',
-                        'route'  => 'admin.configuracoes.backup.index',
+                        'route' => 'admin.configuracoes.backup.index',
                         'icon' => 'floppy-o',
                         'active' => ['admin/configuracoes/backup/'],
                     ],
@@ -74,28 +74,28 @@ class AppServiceProvider extends ServiceProvider
                 'icon' => 'user',
                 'submenu' => [
                     [
-                        'text'   => 'menu.view',
-                        'route'  => 'admin.usuario.index',
-                        'icon'   => 'th-list',
+                        'text' => 'menu.view',
+                        'route' => 'admin.usuario.index',
+                        'icon' => 'th-list',
                         'active' => ['admin/usuario/'] // If not set, even if at /curso/novo this item will be .active
                     ],
                     [
-                        'text'  => 'menu.new',
+                        'text' => 'menu.new',
                         'route' => 'admin.usuario.novo',
-                        'icon'  => 'edit',
+                        'icon' => 'edit',
                         'active' => ['admin/usuario/novo']
                     ],
                 ]
             ],
             [
                 'text' => 'menu.message',
-                'route'  => 'admin.mensagem.index',
+                'route' => 'admin.mensagem.index',
                 'icon' => 'envelope',
                 'active' => ['admin/mensagem/']
             ],
             [
                 'text' => 'menu.help',
-                'route'  => 'ajuda.index',
+                'route' => 'ajuda.index',
                 'icon' => 'question-circle',
                 'active' => ['ajuda/']
             ]
@@ -144,7 +144,7 @@ class AppServiceProvider extends ServiceProvider
                 'submenu' => [
                     [
                         'text' => 'menu.history',
-                        'route'  => 'aluno.index',
+                        'route' => 'aluno.index',
                         'icon' => 'hourglass-1',
                         'active' => ['admin/aluno/']
                     ],
@@ -172,7 +172,7 @@ class AppServiceProvider extends ServiceProvider
         $event->menu->add(
             [
                 'text' => 'menu.help',
-                'route'  => 'ajuda.index',
+                'route' => 'ajuda.index',
                 'icon' => 'question-circle',
                 'active' => ['ajuda/']
             ]
@@ -202,13 +202,13 @@ class AppServiceProvider extends ServiceProvider
                         'submenu' => [
                             [
                                 'text' => 'menu.view',
-                                'route'  => 'coordenador.empresa.setor.index',
+                                'route' => 'coordenador.empresa.setor.index',
                                 'icon' => 'th-list',
                                 'active' => ['coordenador/empresa/setor/']
                             ],
                             [
                                 'text' => 'menu.new',
-                                'route'  => 'coordenador.empresa.setor.novo',
+                                'route' => 'coordenador.empresa.setor.novo',
                                 'icon' => 'edit',
                                 'active' => ['coordenador/empresa/setor/novo']
                             ]
@@ -222,19 +222,19 @@ class AppServiceProvider extends ServiceProvider
                 'submenu' => [
                     [
                         'text' => 'menu.view',
-                        'route'  => 'coordenador.estagio.index',
+                        'route' => 'coordenador.estagio.index',
                         'icon' => 'th-list',
                         'active' => ['coordenador/estagio/']
                     ],
                     [
                         'text' => 'menu.new',
-                        'route'  => 'coordenador.estagio.novo',
+                        'route' => 'coordenador.estagio.novo',
                         'icon' => 'edit',
                         'active' => ['coordenador/estagio/novo']
                     ],
                     [
                         'text' => 'menu.ctps',
-                        'route'  => 'coordenador.estagio.ctps',
+                        'route' => 'coordenador.estagio.ctps',
                         'icon' => 'edit',
                         'active' => ['coordenador/estagio/novo']
                     ],
@@ -244,13 +244,13 @@ class AppServiceProvider extends ServiceProvider
                         'submenu' => [
                             [
                                 'text' => 'menu.view',
-                                'route'  => 'coordenador.estagio.aditivo.index',
+                                'route' => 'coordenador.estagio.aditivo.index',
                                 'icon' => 'th-list',
                                 'active' => ['coordenador/estagio/aditivo/']
                             ],
                             [
                                 'text' => 'menu.new',
-                                'route'  => 'coordenador.estagio.aditivo.novo',
+                                'route' => 'coordenador.estagio.aditivo.novo',
                                 'icon' => 'edit',
                                 'active' => ['coordenador/estagio/aditivo/novo']
                             ],
@@ -264,25 +264,25 @@ class AppServiceProvider extends ServiceProvider
                 'submenu' => [
                     [
                         'text' => 'menu.view',
-                        'route'  => 'coordenador.relatorio.index',
+                        'route' => 'coordenador.relatorio.index',
                         'icon' => 'th-list',
                         'active' => ['coordenador/relatorio/'] // If not set, even if at /curso/novo this item will be .active
                     ],
                     [
                         'text' => 'menu.proposal',
-                        'route'  => 'coordenador.relatorio.proposta',
+                        'route' => 'coordenador.relatorio.proposta',
                         'icon' => 'edit',
                         'active' => ['coordenador/relatorio/proposta']
                     ],
                     [
                         'text' => 'menu.bimestral',
-                        'route'  => 'coordenador.relatorio.bimestral',
+                        'route' => 'coordenador.relatorio.bimestral',
                         'icon' => 'edit',
                         'active' => ['coordenador/relatorio/bimestral']
                     ],
                     [
                         'text' => 'menu.final',
-                        'route'  => 'coordenador.relatorio.final',
+                        'route' => 'coordenador.relatorio.final',
                         'icon' => 'edit',
                         'active' => ['coordenador/relatorio/final']
                     ],
@@ -297,7 +297,7 @@ class AppServiceProvider extends ServiceProvider
                 'submenu' => [
                     [
                         'text' => 'menu.history',
-                        'route'  => 'aluno.index',
+                        'route' => 'aluno.index',
                         'icon' => 'hourglass-1',
                         'active' => ['aluno/'] // If not set, even if at /curso/novo this item will be .active
                     ],
@@ -305,7 +305,7 @@ class AppServiceProvider extends ServiceProvider
             ],
             [
                 'text' => 'menu.message',
-                'route'  => 'coordenador.mensagem.index',
+                'route' => 'coordenador.mensagem.index',
                 'icon' => 'envelope',
                 'active' => ['coordenador/mensagem/']
             ]

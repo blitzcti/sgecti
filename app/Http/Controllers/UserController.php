@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\CurrentPassword;
 use App\User;
 use App\UserGroup;
 use Carbon\Carbon;
@@ -36,6 +37,17 @@ class UserController extends Controller
         return view('admin.user.edit')->with(['user' => $user, 'groups' => $groups]);
     }
 
+    public function changePassword($id)
+    {
+        if (!is_numeric($id)) {
+            return redirect()->route('admin.user.index');
+        }
+
+        $user = User::findOrFail($id);
+
+        return view('admin.user.changePassword')->with(['user' => $user]);
+    }
+
     public function save(Request $request)
     {
         $user = new User();
@@ -49,7 +61,6 @@ class UserController extends Controller
                 $validatedData = (object)$request->validate([
                     'name' => 'required|max:30',
                     'email' => 'required|max:30',
-                    'password' => 'required|min:8',
                     'group' => 'required|numeric|min:1'
                 ]);
 
@@ -58,7 +69,6 @@ class UserController extends Controller
                 $validatedData = (object)$request->validate([
                     'name' => 'required|max:30',
                     'email' => 'required|max:30|unique:users,email',
-                    'password' => 'required|min:8',
                     'group' => 'required|numeric|min:1'
                 ]);
 
@@ -67,8 +77,33 @@ class UserController extends Controller
 
             $user->name = $validatedData->name;
             $user->email = $validatedData->email;
-            $user->password = Hash::make($validatedData->password);
             $user->id_group = $validatedData->group;
+
+            $saved = $user->save();
+
+            $params['saved'] = $saved;
+            $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+        }
+
+        return redirect()->route('admin.usuario.index')->with($params);
+    }
+
+    public function savePassword(Request $request)
+    {
+        $params = [];
+
+        if (!$request->exists('cancel')) {
+            $id = $request->input('id');
+            $user = User::all()->find($id);
+
+            $validatedData = (object)$request->validate([
+                'old_password' => new CurrentPassword,
+                'password' => 'required|confirmed|min:8',
+            ]);
+
+            $user->updated_at = Carbon::now();
+
+            $user->password = Hash::make($validatedData->password);
 
             $saved = $user->save();
 

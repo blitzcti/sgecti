@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Editar usuário - SGE CTI')
+@section('title', 'Alterar senha - SGE CTI')
 
 @section('content_header')
-    <h1>Editar usuário</h1>
+    <h1>Alterar senha</h1>
 @stop
 
 @section('content')
@@ -22,56 +22,43 @@
     @endif
 
     <div class="box box-default">
-        <form class="form-horizontal" action="{{ route('admin.usuario.salvar') }}" method="post">
+        <form class="form-horizontal" action="{{ route('admin.usuario.salvarSenha') }}" method="post">
             @csrf
 
             <div class="box-body">
                 <input type="hidden" name="id" value="{{ $user->id }}">
 
-                <h3>Dados do usuário</h3>
-                <hr/>
-
                 <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Nome do usuário</label>
+                    <label for="inputOldPassword" class="col-sm-2 control-label">Senha atual</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputName" name="name" placeholder="André Castro"
-                               value="{{$user->name}}"/>
+                        <input type="password" class="form-control" id="inputOldPassword" name="old_password"
+                               placeholder="Senha atualmente em uso"/>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                    <label for="inputPassword" class="col-sm-2 control-label">Nova senha</label>
 
                     <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputEmail" name="email"
-                               placeholder="andcastro28@gmail.com"
-                               value="{{$user->email}}"/>
+                        <input type="password" class="form-control" id="inputPassword" name="password"
+                               placeholder="Nova senha (Deve ser de no mínimo 8 caracteres)"/>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputGroup" class="col-sm-2 control-label">Grupo do usuário</label>
+                    <label for="inputPasswordConfirmation" class="col-sm-2 control-label">Confirmar senha</label>
 
                     <div class="col-sm-10">
-                        <select class="form-control selection" id="inputGroup" name="group">
-
-                            @foreach($groups as $group)
-
-                                <option value="{{ $group->id }}" {{$user->$group == $group->id ? 'selected' : ''}}>
-                                    {{ $group->name }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
+                        <input type="password" class="form-control" id="inputPasswordConfirmation"
+                               name="password_confirmation" placeholder="Confirme a nova senha"/>
                     </div>
                 </div>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
                 <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
-                <button type="submit" class="btn btn-primary pull-right">Alterar</button>
+                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
             </div>
             <!-- /.box-footer -->
         </form>

@@ -28,6 +28,7 @@ return [
     ],
     'boolean'              => 'O campo :attribute deve ser verdadeiro ou falso.',
     'confirmed'            => 'O campo :attribute de confirmação não confere.',
+    'current_password'     => 'O campo :attribute deve ser a senha atual do usuário.',
     'date'                 => 'O campo :attribute não é uma data válida.',
     'date_format'          => 'O campo :attribute não corresponde ao formato :format.',
     'different'            => 'Os campos :attribute e :other devem ser diferentes.',
@@ -139,6 +140,7 @@ return [
         'color'  => 'Cor',
         'active' => 'Ativo',
 
+        'old_password' => 'Senha atual',
         'password' => 'Senha',
         'group' => 'Grupo',
 

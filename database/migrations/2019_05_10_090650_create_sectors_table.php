@@ -18,10 +18,7 @@ class CreateSectorsTable extends Migration
 
             $table->string('nome', 50)->nullable(false);
             $table->text('descricao');
-            $table->boolean('ativo', 100)->nullable(false)->default(true);
-
-            $table->bigInteger('id_company')->nullable(false)->unsigned();
-            $table->foreign('id_company')->references('id')->on('companies')->onDelete('cascade');
+            $table->boolean('ativo')->nullable(false)->default(true);
 
             $table->timestamps();
         });

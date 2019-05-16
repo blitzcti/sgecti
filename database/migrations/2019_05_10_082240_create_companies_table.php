@@ -27,7 +27,7 @@ class CreateCompaniesTable extends Migration
             $table->string('representante', 50)->nullable(false);
             $table->string('cargo', 50)->nullable(false);
 
-            $table->boolean('ativa')->nullable(false)->default(true);
+            $table->boolean('ativo')->nullable(false)->default(true);
 
             $table->bigInteger('id_adress')->nullable(false)->unsigned();
             $table->foreign('id_adress')->references('id')->on('adresses')->onDelete('cascade');

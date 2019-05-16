@@ -68,6 +68,12 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
 @endif
 
+@if(config('adminlte.plugins.icheck'))
+    <!-- JQuery Input Mask -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js"></script>
+@endif
+
+
 @yield('adminlte_js')
 
 </body>

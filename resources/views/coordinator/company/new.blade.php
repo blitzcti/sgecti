@@ -213,14 +213,18 @@
                 <hr/>
                 <h3>Setores</h3>
 
-                <hr/>
-                <h3>Supervisores</h3>
+                <h5>field de arrastar</h5>
 
                 <hr/>
                 <h3>Convênio</h3>
 
+                <label for="inputHasConvenio">Convênio?</label>
+                <input type="checkbox" id="inputHasConvenio">
+
                 <hr/>
                 <h3>Cursos para estágio</h3>
+
+                <h5>field de arrastar</h5>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
@@ -393,6 +397,8 @@
             });
 
             pj(true);
+
+            jQuery('#inputHasConvenio').iCheck('check');
         });
     </script>
 @endsection

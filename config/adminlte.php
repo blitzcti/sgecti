@@ -147,5 +147,6 @@ return [
         'select2' => true,
         'chartjs' => true,
         'inputmask' => true,
+        'icheck' => true,
     ],
 ];

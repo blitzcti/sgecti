@@ -38,6 +38,6 @@ class CompanyController extends Controller
 
         }
 
-        return redirect()->route('admin.curso.index')->with($params);
+        return redirect()->route('coordenador.empresa.index')->with($params);
     }
 }

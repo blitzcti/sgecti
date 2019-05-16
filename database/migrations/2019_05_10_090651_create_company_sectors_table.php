@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSupervisorsTable extends Migration
+class CreateCompanySectorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,14 @@ class CreateSupervisorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('supervisors', function (Blueprint $table) {
+        Schema::create('company_sectors', function (Blueprint $table) {
             $table->bigIncrements('id');
-
-            $table->string('nome', 50)->nullable(false);
-            $table->string('email', 50)->nullable(false);
-            $table->string('telefone', 11)->nullable(false);
-            $table->boolean('ativo')->nullable(false)->default(true);
 
             $table->bigInteger('id_company')->nullable(false)->unsigned();
             $table->foreign('id_company')->references('id')->on('companies')->onDelete('cascade');
+
+            $table->bigInteger('id_sector')->nullable(false)->unsigned();
+            $table->foreign('id_sector')->references('id')->on('sectors')->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -35,6 +33,6 @@ class CreateSupervisorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('supervisors');
+        Schema::dropIfExists('company_sectors');
     }
 }

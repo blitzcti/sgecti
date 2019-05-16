@@ -1,4 +1,4 @@
-<div class="modal fade" id="cepErrorModal" tabindex="-1" role="dialog" aria-labelledby="cepErrorModal"
+<div class="modal fade" id="{{ $id }}" tabindex="-1" role="dialog" aria-labelledby="{{ $id }}"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -7,11 +7,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
 
-                <h4 class="modal-title" id="deleteModalTitle">CEP não encontrado</h4>
+                <h4 class="modal-title" id="deleteModalTitle">@yield('modalTitle')</h4>
             </div>
 
             <div class="modal-body">
-                <p>O CEP informado não foi localizado.</p>
+                @yield('modalText')
             </div>
 
             <div class="modal-footer">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Color;
+use App\Coordinator;
 use App\Course;
 use App\CourseConfiguration;
 use Carbon\Carbon;
@@ -24,10 +25,14 @@ class CourseController extends Controller
 
         $course = Course::findOrFail($id);
         $color = Color::all()->find($course->id_color);
+
         $config = CourseConfiguration::all()->where('id_course', '=', $id)->sortBy('id');
         $config = sizeof($config) > 0 ? $config->last() : null;
 
-        return view('admin.course.details')->with(['course' => $course, 'config' => $config, 'color' => $color]);
+        $coordinator = Coordinator::all()->where('id_course', '=', $id)->sortBy('id');
+        $coordinator = sizeof($coordinator) > 0 ? $coordinator->last() : null;
+
+        return view('admin.course.details')->with(['course' => $course, 'config' => $config, 'coordinator' => $coordinator, 'color' => $color]);
     }
 
     public function new()

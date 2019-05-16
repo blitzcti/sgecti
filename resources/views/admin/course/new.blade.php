@@ -27,7 +27,6 @@
 
             <div class="box-body">
                 <h3>Dados do curso</h3>
-                <hr/>
 
                 <div class="form-group">
                     <label for="inputName" class="col-sm-2 control-label">Nome do curso</label>
@@ -73,8 +72,8 @@
                     </div>
                 </div>
 
+                <hr />
                 <h3>Configurações do curso</h3>
-                <hr/>
 
                 <div class="row">
                     <div class="col-sm-6">

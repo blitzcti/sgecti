@@ -27,7 +27,6 @@
             </div>
 
             <h3>Dados do curso</h3>
-            <hr/>
 
             <dl class="row">
                 <dt class="col-sm-2">Nome do curso</dt>
@@ -40,8 +39,8 @@
                 <dd class="col-sm-10">{{ $course->active ? 'Sim' : 'Não' }}</dd>
             </dl>
 
+            <hr />
             <h3>Configuração ativa do curso</h3>
-            <hr/>
 
             @if ($config != null)
 
@@ -74,8 +73,23 @@
 
             @endif
 
+            <hr />
             <h3>Coordenador do curso</h3>
-            <hr/>
+
+            @if ($coordinator != null)
+
+                <dl class="row">
+                    <dt class="col-sm-2"></dt>
+                    <dd class="col-sm-10">{{ $coordinator }}</dd>
+
+
+                </dl>
+
+            @else
+
+                <p>Não há um coordenador ativo para este curso!</p>
+
+            @endif
 
         </div>
         <!-- /.box-body -->

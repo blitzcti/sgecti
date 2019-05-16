@@ -90,7 +90,7 @@ Siga as instruções em https://nodejs.org/en/download/ para baixar o Node.js no
 Com o Node instalado, execute o seguinte comando para instalar as dependências do front-end do SGE:
 
 ```console
-npm install
+npm ci
 ```
 
 

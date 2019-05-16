@@ -82,6 +82,11 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
     Route::prefix('empresa')->name('empresa.')->group(function () {
         Route::get('', 'CompanyController@index')->name('index');
         Route::get('novo', 'CompanyController@new')->name('novo');
+        Route::post('salvar', 'CompanyController@save')->name('salvar');
+
+        Route::prefix('{id}')->group(function () {
+            Route::get('editar', 'CompanyController@edit')->name('editar');
+        });
 
         Route::prefix('setor')->name('setor.')->group(function () {
             Route::get('', 'SectorController@index')->name('index');

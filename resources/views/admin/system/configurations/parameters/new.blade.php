@@ -7,8 +7,8 @@
 @stop
 
 @section('content')
-    @extends('loadingModal')
-    @include('admin/system/configurations/parameters/cepErrorModal')
+    @include('modals.cepLoadingModal')
+    @include('modals.cepErrorModal')
 
     @if ($errors->any())
         <div class="alert alert-danger alert-dismissible" role="alert">
@@ -160,17 +160,13 @@
     </div>
 @endsection
 
-@section('loadingModalText')
-    <p>Buscando CEP, por favor aguarde...</p>
-@endsection
-
 @section('js')
     <script type="text/javascript">
         jQuery(document).ready(() => {
             jQuery(':input').inputmask({removeMaskOnSubmit: true});
 
             function loadCep() {
-                $("#loadingModal").modal({
+                $("#cepLoadingModal").modal({
                     backdrop: "static",
                     keyboard: false,
                     show: true
@@ -179,7 +175,7 @@
                 let xhttp = new XMLHttpRequest();
                 xhttp.open("GET", `https://viacep.com.br/ws/${jQuery('#inputCep').inputmask('unmaskedvalue')}/json/`, true);
                 xhttp.onreadystatechange = function () {
-                    $("#loadingModal").modal("hide");
+                    $("#cepLoadingModal").modal("hide");
 
                     if (this.readyState === 4) {
                         if (this.status === 200 && this.responseText !== "ViaCEP Bad Request (400)") {
@@ -203,17 +199,6 @@
                             jQuery('#inputBairro').val(address.bairro).change();
                             jQuery('#inputCidade').val(address.localidade).change();
                             jQuery('#inputUf').val(address.uf).change();
-
-                            let inputFields = [
-                                "#inputRua",
-                                "#inputBairro",
-                                "#inputCidade",
-                                "#inputUf"
-                            ];
-
-                            inputFields.forEach(field => {
-                                jQuery(field).prop('readonly', jQuery(field).val() !== "");
-                            });
                         } else {
                             $("#cepErrorModal").modal({
                                 backdrop: "static",

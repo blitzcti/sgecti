@@ -69,10 +69,12 @@ class UserController extends Controller
                 $validatedData = (object)$request->validate([
                     'name' => 'required|max:30',
                     'email' => 'required|max:30|unique:users,email',
+                    'password' => 'required|min:8',
                     'group' => 'required|numeric|min:1'
                 ]);
 
                 $user->created_at = Carbon::now();
+                $user->password = Hash::make($validatedData->password);
             }
 
             $user->name = $validatedData->name;

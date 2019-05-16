@@ -28,9 +28,6 @@
             <div class="box-body">
                 <input type="hidden" name="id" value="{{ $user->id }}">
 
-                <h3>Dados do usuário</h3>
-                <hr/>
-
                 <div class="form-group">
                     <label for="inputName" class="col-sm-2 control-label">Nome do usuário</label>
 

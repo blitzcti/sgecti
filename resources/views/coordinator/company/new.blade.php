@@ -1,3 +1,13 @@
+{{--TODO: mensagem
+=> alunos de qual periodo (manha, noite, 4º ano)
+
+empresa
+=> insc municipal, estadual (mei, pf)
+
+=> abre popup pra setor
+
+imprimir dados da tabela (pesquisa)--}}
+
 @extends('adminlte::page')
 
 @section('title', 'Nova empresa - SGE CTI')
@@ -5,6 +15,12 @@
 @section('content_header')
     <h1>Adicionar nova empresa</h1>
 @stop
+
+@section('css')
+
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/plugins/iCheck/square/blue.css') }}">
+
+@endsection
 
 @section('content')
     @include('modals.cnpjLoadingModal')
@@ -211,20 +227,57 @@
                 </div>
 
                 <hr/>
+
+                <div class="btn-group pull-right" style="display: inline-flex; margin: 0 0 10px 0">
+                    <a href="{{ route('coordenador.empresa.setor.novo') }}"
+                       class="btn btn-success" target="_blank">Adicionar setor</a>
+                </div>
+
                 <h3>Setores</h3>
 
-                <h5>field de arrastar</h5>
+                <div class="form-group">
+                    <label for="inputSectors" class="col-sm-2 control-label">Setores</label>
 
-                <hr/>
-                <h3>Convênio</h3>
-
-                <label for="inputHasConvenio">Convênio?</label>
-                <input type="checkbox" id="inputHasConvenio">
+                    <div class="col-sm-10">
+                        <select class="selection" name="sectors[]" multiple="multiple" id="inputSectors"
+                                style="width: 100%">
+                            @foreach($sectors as $sector)
+                                <option value="{{ $sector->id }}">{{ $sector->nome }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
 
                 <hr/>
                 <h3>Cursos para estágio</h3>
 
-                <h5>field de arrastar</h5>
+                <div class="form-group">
+                    <label for="inputCourses" class="col-sm-2 control-label">Cursos</label>
+
+                    <div class="col-sm-10">
+                        <select class="selection" name="courses[]" multiple="multiple" id="inputCourses"
+                                style="width: 100%">
+                            @foreach($courses as $course)
+                                <option value="{{ $course->id }}">{{ $course->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <hr/>
+
+                <div class="form-group">
+                    <label for="inputHasConvenio" class="col-sm-2 control-label" style="padding-top: 0">Registrar
+                        convênio?</label>
+
+                    <div class="col-sm-10">
+                        <input type="checkbox" id="inputHasConvenio">
+                    </div>
+                </div>
+
+                <div id="div-convenio" style="display: none">
+                    <h3>Convênio</h3>
+                </div>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
@@ -266,6 +319,14 @@
             });
 
             jQuery(':input').inputmask({removeMaskOnSubmit: true});
+
+            jQuery('#inputHasConvenio').on('ifChanged', function () {
+                if (this.checked) {
+                    jQuery('#div-convenio').css('display', 'initial');
+                } else {
+                    jQuery('#div-convenio').css('display', 'none');
+                }
+            });
 
             function loadCnpj() {
                 if (jQuery('#inputPj').val() === '1') {
@@ -398,7 +459,11 @@
 
             pj(true);
 
-            jQuery('#inputHasConvenio').iCheck('check');
+            jQuery('#inputHasConvenio').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
         });
     </script>
 @endsection

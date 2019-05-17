@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Course;
+use App\Sector;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -15,7 +17,10 @@ class CompanyController extends Controller
 
     public function new()
     {
-        return view('coordinator.company.new');
+        $sectors = Sector::all()->where('ativo', '=', true);
+        $courses = Course::all()->where('active', '=', true);
+
+        return view('coordinator.company.new')->with(['sectors' => $sectors, 'courses' => $courses]);
     }
 
     public function edit($id)

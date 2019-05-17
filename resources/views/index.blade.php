@@ -72,7 +72,7 @@
                     @else
                         <a href="{{ route('login') }}">{{ __("Login") }}</a>
 
-                        @if (Route::has('register'))
+                        @if (config('adminlte.register_url', 'register'))
                             <a href="{{ route('register') }}">{{ __("Register") }}</a>
                         @endif
                     @endauth

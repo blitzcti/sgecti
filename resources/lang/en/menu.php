@@ -6,8 +6,12 @@ return [
     'profile' => 'Profile',
     'changePassword' => 'Change Password',
 
+
+
     'system' => 'SYSTEM',
     'configuration' => 'Configuration',
+
+    'users' => 'Users',
 
     'configurations' => 'Parameters',
     'backup' => 'System backup',

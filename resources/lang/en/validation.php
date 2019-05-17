@@ -149,6 +149,9 @@ return [
         'color'  => 'Color',
         'active' => 'Active',
 
+        'password' => 'Password',
+        'group' => 'Group',
+
         'minYear' => 'Minimum Year',
         'minSemester' => 'Minimum Semester',
         'minHour' => 'Minimum hours',

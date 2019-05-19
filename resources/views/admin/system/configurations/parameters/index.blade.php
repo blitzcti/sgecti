@@ -72,10 +72,36 @@
 @section('js')
     <script>
         jQuery(function () {
-            jQuery("#systemConfigurations").DataTable({
+            let table = jQuery("#systemConfigurations").DataTable({
                 "language": {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
-                }
+                },
+                lengthChange: false,
+                buttons: [
+                    {
+                        extend: 'csv',
+                        text: '<span class="glyphicon glyphicon-download-alt"></span> CSV',
+                        charset: 'UTF-8',
+                        fieldSeparator: ';',
+                        bom: true,
+                        className: 'btn btn-default',
+                        exportOptions: {
+                            columns: 'th:not(:last-child)'
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: '<span class="glyphicon glyphicon-print"></span> Imprimir',
+                        className: 'btn btn-default',
+                        exportOptions: {
+                            columns: 'th:not(:last-child)'
+                        }
+                    }
+                ],
+                initComplete : function () {
+                    table.buttons().container().appendTo( $('#systemConfigurations_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().addClass('btn-group');
+                },
             });
         });
     </script>

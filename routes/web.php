@@ -90,8 +90,10 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
 
         Route::prefix('setor')->name('setor.')->group(function () {
             Route::get('', 'SectorController@index')->name('index');
+            Route::get('getAjax', 'SectorController@getAjax')->name('getAjax');
             Route::get('novo', 'SectorController@new')->name('novo');
             Route::post('salvar', 'SectorController@save')->name('salvar');
+            Route::post('salvarAjax', 'SectorController@saveAjax')->name('salvarAjax');
 
             Route::prefix('{id}')->group(function () {
                 Route::get('editar', 'SectorController@edit')->name('editar');

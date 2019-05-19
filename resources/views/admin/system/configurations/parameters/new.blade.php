@@ -152,8 +152,8 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
                 <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
+                <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
             </div>
             <!-- /.box-footer -->
         </form>
@@ -187,8 +187,6 @@
                                     show: true
                                 });
 
-                                jQuery('#inputCep').val('').change();
-
                                 address.logradouro = '';
                                 address.bairro = '';
                                 address.localidade = '';
@@ -205,8 +203,6 @@
                                 keyboard: false,
                                 show: true
                             });
-
-                            jQuery('#inputCep').val('').change();
                         }
                     }
                 };

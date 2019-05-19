@@ -14,6 +14,12 @@ class SectorController extends Controller
         return view('coordinator.company.sector.index')->with(['sectors' => $sectors]);
     }
 
+    public function getAjax()
+    {
+        $sectors = Sector::all();
+        return response()->json(['sectors' => $sectors]);
+    }
+
     public function new()
     {
         return view('coordinator.company.sector.new');
@@ -62,5 +68,42 @@ class SectorController extends Controller
         }
 
         return redirect()->route('coordenador.empresa.setor.index')->with($params);
+    }
+
+    public function saveAjax(Request $request)
+    {
+        $sector = new Sector();
+        $params = [];
+
+        if (!$request->exists('cancel')) {
+            $validatedData = Validator::make($request->all(), [
+                'name' => 'required|max:50',
+                'description' => '',
+                'active' => 'required|boolean'
+            ]);
+
+            if ($validatedData->fails()) {
+                return response()->json(['errors' => $validatedData->errors()->all()]);
+            }
+
+            if ($request->exists('id')) { // Edit
+                $id = $request->input('id');
+                $sector = Sector::all()->find($id);
+
+                $sector->updated_at = Carbon::now();
+            } else { // New
+                $sector->created_at = Carbon::now();
+            }
+
+            $sector->nome = $request->input('name');
+            $sector->descricao = $request->input('description');
+            $sector->ativo = $request->input('active');
+
+            $saved = $sector->save();
+
+            $params['saved'] = $saved;
+        }
+
+        return response()->json($params);
     }
 }

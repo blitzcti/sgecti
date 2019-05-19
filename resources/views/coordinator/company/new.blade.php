@@ -1,12 +1,10 @@
-{{--TODO: mensagem
-=> alunos de qual periodo (manha, noite, 4º ano)
+{{--
+    TODO: mensagem
+    TODO: => alunos de qual periodo (manha, noite, 4º ano)
 
-empresa
-=> insc municipal, estadual (mei, pf)
-
-=> abre popup pra setor
-
-imprimir dados da tabela (pesquisa)--}}
+    TODO: empresa
+    TODO: => insc municipal, estadual (mei, pf)
+--}}
 
 @extends('adminlte::page')
 
@@ -28,6 +26,8 @@ imprimir dados da tabela (pesquisa)--}}
 
     @include('modals.cepLoadingModal')
     @include('modals.cepErrorModal')
+
+    @include('modals.newCompanySectorModal')
 
     @if ($errors->any())
         <div class="alert alert-danger alert-dismissible" role="alert">
@@ -228,12 +228,14 @@ imprimir dados da tabela (pesquisa)--}}
 
                 <hr/>
 
-                <div class="btn-group pull-right" style="display: inline-flex; margin: 0 0 10px 0">
-                    <a href="{{ route('coordenador.empresa.setor.novo') }}"
-                       class="btn btn-success" target="_blank">Adicionar setor</a>
-                </div>
+                <div>
+                    <div class="btn-group pull-right" style="display: inline-flex; margin: 0 0 10px 0">
+                        <a href="#" class="btn btn-success" id="aAddSector" data-toggle="modal" data-target="#newCompanySectorModal">Adicionar
+                            setor</a>
+                    </div>
 
-                <h3>Setores</h3>
+                    <h3>Setores</h3>
+                </div>
 
                 <div class="form-group">
                     <label for="inputSectors" class="col-sm-2 control-label">Setores</label>
@@ -281,8 +283,8 @@ imprimir dados da tabela (pesquisa)--}}
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
                 <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
+                <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
             </div>
             <!-- /.box-footer -->
         </form>
@@ -314,6 +316,14 @@ imprimir dados da tabela (pesquisa)--}}
         }
 
         jQuery(document).ready(function () {
+            jQuery('#aAddSector').on('click', () => {
+                setTimeout(() => {
+                    jQuery('#inputSectorActive').select2({
+                        language: "pt-BR"
+                    });
+                }, 250);
+            });
+
             jQuery('.selection').select2({
                 language: "pt-BR"
             });
@@ -325,6 +335,33 @@ imprimir dados da tabela (pesquisa)--}}
                     jQuery('#div-convenio').css('display', 'initial');
                 } else {
                     jQuery('#div-convenio').css('display', 'none');
+                }
+            });
+
+            jQuery('#inputSectors').select2({
+                ajax: {
+                    url: '{{ route('coordenador.empresa.setor.getAjax') }}',
+                    dataType: 'json',
+                    method: 'GET',
+                    cache: true,
+                    data: function (params) {
+                        return {
+                            searchTerm: params.term // search term
+                        };
+                    },
+
+                    processResults: function (response) {
+                        sectors = [];
+                        response.sectors.forEach(sector => {
+                            if (sector.ativo) {
+                                sectors.push({id: sector.id, text: sector.nome});
+                            }
+                        });
+
+                        return {
+                            results: sectors
+                        };
+                    },
                 }
             });
 
@@ -349,8 +386,6 @@ imprimir dados da tabela (pesquisa)--}}
                                     keyboard: false,
                                     show: true
                                 });
-
-                                jQuery('#inputCpfCnpj').val('').change();
 
                                 company.nome = '';
                                 company.fantasia = '';
@@ -387,8 +422,6 @@ imprimir dados da tabela (pesquisa)--}}
                                 keyboard: false,
                                 show: true
                             });
-
-                            jQuery('#inputCpfCnpj').val('').change();
                         }
                     });
                 }
@@ -416,8 +449,6 @@ imprimir dados da tabela (pesquisa)--}}
                                     show: true
                                 });
 
-                                jQuery('#inputCep').val('').change();
-
                                 address.logradouro = '';
                                 address.complemento = '';
                                 address.bairro = '';
@@ -436,8 +467,6 @@ imprimir dados da tabela (pesquisa)--}}
                                 keyboard: false,
                                 show: true
                             });
-
-                            jQuery('#inputCep').val('').change();
                         }
                     }
                 };

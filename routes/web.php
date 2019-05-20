@@ -137,7 +137,7 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
     });
 
     Route::prefix('mensagem')->name('mensagem.')->group(function () {
-        Route::get('', 'MessageController@index')->name('index');
+        Route::get('', 'CoordinatorMessageController@index')->name('index');
     });
 });
 

@@ -20,6 +20,11 @@
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css">
 @endif
 
+@if(config('adminlte.plugins.wysihtml5'))
+    <!-- WYSIHTML5 -->
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap3-wysiwyg/0.3.3/bootstrap3-wysihtml5.min.css">
+@endif
+
 <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/AdminLTE.min.css') }}">
 
@@ -74,6 +79,11 @@
 @if(config('adminlte.plugins.icheck'))
     <!-- JQuery Input Mask -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js"></script>
+@endif
+
+@if(config('adminlte.plugins.wysihtml5'))
+    <!-- WYSIHTML5 -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap3-wysiwyg/0.3.3/amd/bootstrap3-wysihtml5.all.min.js"></script>
 @endif
 
 

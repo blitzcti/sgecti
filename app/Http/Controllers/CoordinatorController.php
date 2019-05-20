@@ -27,7 +27,15 @@ class CoordinatorController extends Controller
 
     public function edit($id)
     {
+        if (!is_numeric($id)) {
+            return redirect()->route('admin.coordinator.index');
+        }
 
+        $coordinator = Coordinator::findOrFail($id);
+        $users = User::all();
+        $courses = Course::all();
+
+        return view('admin.coordinator.edit')->with(['coordinator' => $coordinator, 'users' => $users, 'courses' => $courses]);
     }
 
     public function save(Request $request)

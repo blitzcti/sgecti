@@ -65,25 +65,31 @@
 
                         </select>
                     </div>
-
                 </div>
-                <div class="form-group">
-                    <label for="inputValidity_ini" class="col-sm-2 control-label">Vigência Início</label>
 
-                    <div class="col-sm-10">
-                        <input type="date" class="form-control" id="inputValidity_ini" name="validity_ini"
-                               placeholder="Data do início da vigência"/>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputValidity_ini" class="col-sm-4 control-label">Vigência Início</label>
+
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" id="inputStart" name="start"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputValidity_fim" class="col-sm-4 control-label">Vigência Fim</label>
+
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" id="inputEnd" name="end"/>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="inputValidity_fim" class="col-sm-2 control-label">Vigência Fim</label>
-
-                    <div class="col-sm-10">
-                        <input type="date" class="form-control" id="inputValidity_fim" name="validity_fim"
-                               placeholder="Data do fim da vigência"/>
-                    </div>
-                </div>
+                <h4>Botoes de hoje, ano que vem, ...</h4>
 
 
             </div>

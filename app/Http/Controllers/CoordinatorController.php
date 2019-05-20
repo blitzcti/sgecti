@@ -10,6 +10,7 @@ class CoordinatorController extends Controller
     public function index()
     {
         $coordinators = Coordinator::all();
+
         return view('admin.coordinator.index')->with(['coordinators' => $coordinators]);
     }
 

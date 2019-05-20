@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Cursos - SGE CTI')
+@section('title', 'Coordenadores - SGE CTI')
 
 @section('content_header')
-    <h1>Coordenador</h1>
+    <h1>Coordenadores</h1>
 @stop
 
 @section('content')
@@ -18,13 +18,11 @@
         </div>
     @endif
 
-    @include('admin.coordinator.deleteModal')
-
     <div class="box box-default">
         <div class="box-body">
             <div class="btn-group" style="display: inline-flex; margin: 0 0 10px 0">
                 <a href="{{ route('admin.coordenador.novo') }}"
-                   class="btn btn-success">Adicionar curso</a>
+                   class="btn btn-success">Adicionar coordenador</a>
             </div>
 
             <table id="coordinators" class="table table-bordered table-hover">
@@ -32,7 +30,9 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th>Nome</th>
-                    <th>Ativo</th>
+                    <th>Curso</th>
+                    <th>Início</th>
+                    <th>Fim</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
@@ -42,21 +42,13 @@
 
                     <tr>
                         <th scope="row">{{ $coordinator->id }}</th>
-                        <td>{{ $coordinator->name }}</td>
-                        <td>{{ ($coordinator->active) ? 'Sim' : 'Não' }}</td>
+                        <td><a href="{{ route('admin.usuario.editar', ['id' => $coordinator->id_user]) }}">{{ App\User::all()->find($coordinator->id_user)->name }}</a></td>
+                        <td><a href="{{ route('admin.curso.editar', ['id' => $coordinator->id_course]) }}">{{ App\Course::all()->find($coordinator->id_course)->name }}</a></td>
+                        <td>{{ $coordinator->vigencia_ini }}</td>
+                        <td>{{ $coordinator->vigencia_fim }}</td>
 
                         <td>
-                            <a href="{{ route('admin.coordenador.detalhes', ['id' => $coordinator->id]) }}">Detalhes</a>
-                            |
                             <a href="{{ route('admin.coordenador.editar', ['id' => $coordinator->id]) }}">Editar</a>
-                            |
-                            <a href="#">Coordenador</a>
-                            |
-                            <a href="{{ route('admin.coordenador.configuracao.index', ['id' => $coordinator->id]) }}">Configurações</a>
-                            |
-                            <a href="#"
-                               onclick="coordinatorId('{{ $coordinator->id }}'); coordinator('{{ $coordinator->name }}'); return false;"
-                               data-toggle="modal" class="text-red" data-target="#deleteModal">Excluir</a>
                         </td>
                     </tr>
 
@@ -69,18 +61,6 @@
 
 @section('js')
     <script>
-        function coordinatorId(id) {
-            jQuery(() => {
-                jQuery('#deleteModalcoordinatorId').val(id);
-            });
-        }
-
-        function coordinator(name) {
-            jQuery(() => {
-                jQuery('#deleteModalcoordinatorName').text(name);
-            });
-        }
-
         jQuery(() => {
             jQuery("#coordinators").DataTable({
                 "language": {

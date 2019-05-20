@@ -29,8 +29,8 @@ class CreateCompaniesTable extends Migration
 
             $table->boolean('ativo')->nullable(false)->default(true);
 
-            $table->bigInteger('id_adress')->nullable(false)->unsigned();
-            $table->foreign('id_adress')->references('id')->on('adresses')->onDelete('cascade');
+            $table->bigInteger('id_address')->nullable(false)->unsigned();
+            $table->foreign('id_address')->references('id')->on('addresses')->onDelete('cascade');
 
             $table->timestamps();
         });

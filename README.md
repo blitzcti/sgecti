@@ -79,7 +79,7 @@ Para isso, siga as intruções abaixo:
     ```console
     php artisan key:generate
     php artisan config:cache
-    php artisan migrate
+    php artisan migrate --seed
     ```
 
 

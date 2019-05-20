@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 
 class SectorController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('coordinator');
+        $this->middleware('permission:companySector-list');
+        $this->middleware('permission:companySector-create', ['only' => ['new', 'save']]);
+        $this->middleware('permission:companySector-edit', ['only' => ['edit', 'save']]);
+    }
+
     public function index()
     {
         $sectors = Sector::all();
@@ -17,7 +25,14 @@ class SectorController extends Controller
     public function getAjax()
     {
         $sectors = Sector::all();
-        return response()->json(['sectors' => $sectors]);
+        return response()->json(
+            ['sectors' => $sectors],
+            200,
+            [
+                'Content-Type' => 'application/json; charset=UTF-8',
+                'charset' => 'utf-8'
+            ],
+            JSON_UNESCAPED_UNICODE);
     }
 
     public function new()
@@ -76,7 +91,7 @@ class SectorController extends Controller
         $params = [];
 
         if (!$request->exists('cancel')) {
-            $validatedData = Validator::make($request->all(), [
+            $validatedData = \Validator::make($request->all(), [
                 'name' => 'required|max:50',
                 'description' => '',
                 'active' => 'required|boolean'

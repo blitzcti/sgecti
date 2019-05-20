@@ -53,15 +53,15 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputGroup" class="col-sm-2 control-label">Grupo do usuário</label>
+                    <label for="inputRole" class="col-sm-2 control-label">Grupo do usuário</label>
 
                     <div class="col-sm-10">
-                        <select class="form-control selection" id="inputGroup" name="group">
+                        <select class="form-control selection" id="inputRole" name="role">
 
-                            @foreach($groups as $group)
+                            @foreach($roles as $role)
 
-                                <option value="{{ $group->id }}">
-                                    {{ $group->name }}
+                                <option value="{{ $role->id }}">
+                                    {{ $role->friendlyName }}
                                 </option>
 
                             @endforeach

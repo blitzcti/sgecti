@@ -2,16 +2,16 @@
 
 return [
 
-    'blue'   => 'Azul',
+    'blue' => 'Azul',
     'purple' => 'Roxo',
-    'red'    => 'Vermelho',
+    'red' => 'Vermelho',
     'orange' => 'Laranja',
     'yellow' => 'Amarelo',
-    'green'  => 'Verde',
-    'teal'   => 'Verde-azulado',
-    'lime'   => 'Lima',
-    'cyan'   => 'Ciano',
-    'aqua'   => 'Aqua',
-    'black'  => 'Preto',
+    'green' => 'Verde',
+    'teal' => 'Verde-azulado',
+    'lime' => 'Lima',
+    'cyan' => 'Ciano',
+    'aqua' => 'Aqua',
+    'black' => 'Preto',
 
 ];

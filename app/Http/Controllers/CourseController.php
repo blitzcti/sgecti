@@ -11,6 +11,14 @@ use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:course-list');
+        $this->middleware('permission:course-create', ['only' => ['new', 'save']]);
+        $this->middleware('permission:course-edit', ['only' => ['edit', 'save']]);
+        $this->middleware('permission:course-delete', ['only' => ['edit', 'delete']]);
+    }
+
     public function index()
     {
         $courses = Course::all();

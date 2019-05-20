@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Color;
 use App\Course;
-use App\UserGroup;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
@@ -34,24 +33,18 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
-            $courses = Course::all()->sortBy('id');
-
-            $user = Auth::user();
-            $group = UserGroup::all()->find($user->id_group);
-
-            if ($group->id == 1)
-                $this->LoadAdminMenu($courses, $event);
-            else if ($group->id == 2)
-                $this->LoadCoordinatorMenu($courses, $event /*, $curso_do_coordenador*/);
+            $this->loadMenu($event->menu);
         });
     }
 
-    public function LoadAdminMenu($courses, $event)
+    public function loadMenu($menu)
     {
-        //Sistema
-        $event->menu->add('SISTEMA');
-        $event->menu->add(
-            [
+        $courses = Course::all()->sortBy('id');
+        $user = Auth::user();
+
+        $menu->add('SISTEMA');
+        if ($user->can('systemConfiguration-list')) {
+            $menu->add([
                 'text' => 'menu.configuration',
                 'icon' => 'gear',
                 'submenu' => [
@@ -68,8 +61,11 @@ class AppServiceProvider extends ServiceProvider
                         'active' => ['admin/configuracoes/backup/'],
                     ],
                 ],
-            ],
-            [
+            ]);
+        }
+
+        if ($user->can('user-list')) {
+            $menu->add([
                 'text' => 'menu.users',
                 'icon' => 'user',
                 'submenu' => [
@@ -77,7 +73,7 @@ class AppServiceProvider extends ServiceProvider
                         'text' => 'menu.view',
                         'route' => 'admin.usuario.index',
                         'icon' => 'th-list',
-                        'active' => ['admin/usuario/'] // If not set, even if at /curso/novo this item will be .active
+                        'active' => ['admin/usuario/']
                     ],
                     [
                         'text' => 'menu.new',
@@ -86,7 +82,10 @@ class AppServiceProvider extends ServiceProvider
                         'active' => ['admin/usuario/novo']
                     ],
                 ]
-            ],
+            ]);
+        }
+
+        $menu->add(
             [
                 'text' => 'menu.message',
                 'route' => 'admin.mensagem.index',
@@ -100,45 +99,49 @@ class AppServiceProvider extends ServiceProvider
                 'active' => ['ajuda/']
             ]
         );
-        $event->menu->add('ADMINISTRACAO');
-        $event->menu->add(
-            [
-                'text' => 'menu.courses',
-                'icon' => 'graduation-cap',
-                'submenu' => [
-                    [
-                        'text' => 'menu.view',
-                        'route' => 'admin.curso.index',
-                        'icon' => 'th-list',
-                        'active' => ['admin/curso/']
-                    ],
-                    [
-                        'text' => 'menu.new',
-                        'route' => 'admin.curso.novo',
-                        'icon' => 'edit',
-                        'active' => ['admin/curso/novo']
-                    ],
-                    [
-                        'text' => 'Coordenadores',
-                        'icon' => 'street-view',
-                        'submenu' => [
-                            [
-                                'text' => 'menu.view',
-                                //'route'  => 'admin.coordenadores.index',
-                                'icon' => 'th-list',
-                                'active' => ['admin/curso/']
-                            ],
-                            [
-                                'text' => 'menu.new',
-                                //'route' => 'admin.coordenadores.novo',
-                                'icon' => 'edit',
-                                'active' => ['admin/curso/novo']
-                            ],
+
+        if ($user->hasRole('admin')) {
+            $menu->add('ADMINISTRACAO');
+            if ($user->can('user-list')) {
+                $menu->add([
+                    'text' => 'menu.courses',
+                    'icon' => 'graduation-cap',
+                    'submenu' => [
+                        [
+                            'text' => 'menu.view',
+                            'route' => 'admin.curso.index',
+                            'icon' => 'th-list',
+                            'active' => ['admin/curso/']
+                        ],
+                        [
+                            'text' => 'menu.new',
+                            'route' => 'admin.curso.novo',
+                            'icon' => 'edit',
+                            'active' => ['admin/curso/novo']
+                        ],
+                        [
+                            'text' => 'Coordenadores',
+                            'icon' => 'street-view',
+                            'submenu' => [
+                                [
+                                    'text' => 'menu.view',
+                                    //'route'  => 'admin.coordenador.index',
+                                    'icon' => 'th-list',
+                                    'active' => ['admin/coordenador/']
+                                ],
+                                [
+                                    'text' => 'menu.new',
+                                    //'route' => 'admin.coordenador.novo',
+                                    'icon' => 'edit',
+                                    'active' => ['admin/coordenador/novo']
+                                ],
+                            ]
                         ]
                     ]
-                ]
-            ],
-            [
+                ]);
+            }
+
+            $menu->add([
                 'text' => 'menu.student',
                 'icon' => 'users',
                 'submenu' => [
@@ -149,74 +152,65 @@ class AppServiceProvider extends ServiceProvider
                         'active' => ['admin/aluno/']
                     ],
                 ]
-            ]
-        );
+            ]);
 
-        //Cursos tab
-        $event->menu->add('CURSOS');
-        foreach ($courses as $course) {
-            if ($course->active) {
-                $color = Color::all()->find($course->id_color);
+            //Cursos tab
+            $menu->add('CURSOS');
+            foreach ($courses as $course) {
+                if ($course->active) {
+                    $color = Color::all()->find($course->id_color);
 
-                $event->menu->add([
-                    'text' => $course->name,
-                    'icon_color' => $color->name
-                ]);
+                    $menu->add([
+                        'text' => $course->name,
+                        'icon_color' => $color->name
+                    ]);
+                }
             }
         }
-    }
 
-    public function LoadCoordinatorMenu($courses, $event)
-    {
-        $event->menu->add('SISTEMA');
-        $event->menu->add(
-            [
-                'text' => 'menu.help',
-                'route' => 'ajuda.index',
-                'icon' => 'question-circle',
-                'active' => ['ajuda/']
-            ]
-        );
+        if ($user->coordinator() != null) {
+            $menu->add('COORDENAÇÃO DE ESTÁGIO');
 
-        $event->menu->add('COORDENAÇÃO DE ESTÁGIO');
-        $event->menu->add(
-            [
-                'text' => 'menu.company',
-                'icon' => 'building',
-                'submenu' => [
-                    [
-                        'text' => 'menu.view',
-                        'route' => 'coordenador.empresa.index',
-                        'icon' => 'th-list',
-                        'active' => ['coordenador/empresa/']
-                    ],
-                    [
-                        'text' => 'menu.new',
-                        'route' => 'coordenador.empresa.novo',
-                        'icon' => 'edit',
-                        'active' => ['coordenador/empresa/novo']
-                    ],
-                    [
-                        'text' => 'menu.sector',
-                        'icon' => 'balance-scale',
-                        'submenu' => [
-                            [
-                                'text' => 'menu.view',
-                                'route' => 'coordenador.empresa.setor.index',
-                                'icon' => 'th-list',
-                                'active' => ['coordenador/empresa/setor/']
-                            ],
-                            [
-                                'text' => 'menu.new',
-                                'route' => 'coordenador.empresa.setor.novo',
-                                'icon' => 'edit',
-                                'active' => ['coordenador/empresa/setor/novo']
+            if ($user->can('company-list')) {
+                $menu->add([
+                    'text' => 'menu.company',
+                    'icon' => 'building',
+                    'submenu' => [
+                        [
+                            'text' => 'menu.view',
+                            'route' => 'coordenador.empresa.index',
+                            'icon' => 'th-list',
+                            'active' => ['coordenador/empresa/']
+                        ],
+                        [
+                            'text' => 'menu.new',
+                            'route' => 'coordenador.empresa.novo',
+                            'icon' => 'edit',
+                            'active' => ['coordenador/empresa/novo']
+                        ],
+                        [
+                            'text' => 'menu.sector',
+                            'icon' => 'balance-scale',
+                            'submenu' => [
+                                [
+                                    'text' => 'menu.view',
+                                    'route' => 'coordenador.empresa.setor.index',
+                                    'icon' => 'th-list',
+                                    'active' => ['coordenador/empresa/setor/']
+                                ],
+                                [
+                                    'text' => 'menu.new',
+                                    'route' => 'coordenador.empresa.setor.novo',
+                                    'icon' => 'edit',
+                                    'active' => ['coordenador/empresa/setor/novo']
+                                ]
                             ]
                         ]
                     ]
-                ]
-            ],
-            [
+                ]);
+            }
+
+            $menu->add([
                 'text' => 'menu.internship',
                 'icon' => 'id-badge',
                 'submenu' => [
@@ -257,8 +251,9 @@ class AppServiceProvider extends ServiceProvider
                         ],
                     ],
                 ]
-            ],
-            [
+            ]);
+
+            $menu->add([
                 'text' => 'menu.report',
                 'icon' => 'book',
                 'submenu' => [
@@ -266,7 +261,7 @@ class AppServiceProvider extends ServiceProvider
                         'text' => 'menu.view',
                         'route' => 'coordenador.relatorio.index',
                         'icon' => 'th-list',
-                        'active' => ['coordenador/relatorio/'] // If not set, even if at /curso/novo this item will be .active
+                        'active' => ['coordenador/relatorio/']
                     ],
                     [
                         'text' => 'menu.proposal',
@@ -287,11 +282,10 @@ class AppServiceProvider extends ServiceProvider
                         'active' => ['coordenador/relatorio/final']
                     ],
                 ]
-            ]
-        );
-        $event->menu->add('ALUNOS');
-        $event->menu->add(
-            [
+            ]);
+
+            $menu->add('ALUNOS');
+            $menu->add([
                 'text' => 'menu.student',
                 'icon' => 'users',
                 'submenu' => [
@@ -299,16 +293,10 @@ class AppServiceProvider extends ServiceProvider
                         'text' => 'menu.history',
                         'route' => 'aluno.index',
                         'icon' => 'hourglass-1',
-                        'active' => ['aluno/'] // If not set, even if at /curso/novo this item will be .active
+                        'active' => ['aluno/']
                     ],
                 ]
-            ],
-            [
-                'text' => 'menu.message',
-                'route' => 'coordenador.mensagem.index',
-                'icon' => 'envelope',
-                'active' => ['coordenador/mensagem/']
-            ]
-        );
+            ]);
+        }
     }
 }

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Coordinator;
+use App\Course;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +26,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $user = Auth::user();
+        $courseName = null;
+
+        if ($user->coordinator() != null) {
+            $courseName = Course::findOrFail($user->coordinator()->id_course)->name;
+        }
+
+        return view('home')->with(['user' => $user, 'courseName' => $courseName]);
     }
 }

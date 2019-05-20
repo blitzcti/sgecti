@@ -10,4 +10,4 @@ before_script:
   - composer install
   - php artisan key:generate --env=testing
   - php artisan config:cache --env=testing
-  - php artisan migrate --env=testing
+  - php artisan migrate --seed --env=testing

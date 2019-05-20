@@ -21,8 +21,7 @@
     <div class="box box-default">
         <div class="box-body">
             <div class="btn-group" style="display: inline-flex; margin: 0 0 10px 0">
-                <a href="{{ route('admin.usuario.novo') }}"
-                   class="btn btn-success">Adicionar usuário</a>
+                <a href="{{ route('admin.usuario.novo') }}" class="btn btn-success">Adicionar usuário</a>
             </div>
 
 
@@ -44,7 +43,7 @@
                         <th scope="row">{{ $user->id }}</th>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ App\UserGroup::all()->find($user->id_group)->name }}</td>
+                        <td>{{ $user->roles->pluck('friendlyName')[0] }}</td>
 
                         <td>
                             <a href="{{ route('admin.usuario.editar', ['id' => $user->id]) }}">Editar</a>
@@ -89,8 +88,8 @@
                         }
                     }
                 ],
-                initComplete : function () {
-                    table.buttons().container().appendTo( $('#users_wrapper .col-sm-6:eq(0)'));
+                initComplete: function () {
+                    table.buttons().container().appendTo($('#users_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                 },
             });

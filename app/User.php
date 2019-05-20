@@ -2,12 +2,15 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
+    use HasRoles;
     use Notifiable;
 
     /**
@@ -36,4 +39,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function coordinator()
+    {
+        if ($this->roles->pluck('name')[0] == 'teacher') {
+            $coordinator = Coordinator::where('id_user', '=', $this->id)
+                ->where(function ($query) {
+                    $query->where('vigencia_fim', '=', null)
+                    ->orWhere('vigencia_fim', '>=', Carbon::today()->toDateString());
+                })
+                ->get()->sortBy('id');
+
+            if (sizeof($coordinator) > 0) {
+                return $coordinator->last();
+            }
+        }
+
+        return null;
+    }
 }

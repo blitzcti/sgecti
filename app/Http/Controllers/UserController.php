@@ -4,13 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Rules\CurrentPassword;
 use App\User;
-use App\UserGroup;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:user-list');
+        $this->middleware('permission:user-create', ['only' => ['new', 'save']]);
+        $this->middleware('permission:user-edit', ['only' => ['edit', 'save']]);
+    }
+
     public function index()
     {
         $users = User::all();
@@ -20,9 +27,9 @@ class UserController extends Controller
 
     public function new()
     {
-        $groups = UserGroup::all();
+        $roles = Role::all();
 
-        return view('admin.user.new')->with(['groups' => $groups]);
+        return view('admin.user.new')->with(['roles' => $roles]);
     }
 
     public function edit($id)
@@ -32,9 +39,9 @@ class UserController extends Controller
         }
 
         $user = User::findOrFail($id);
-        $groups = UserGroup::all();
+        $roles = Role::all();
 
-        return view('admin.user.edit')->with(['user' => $user, 'groups' => $groups]);
+        return view('admin.user.edit')->with(['user' => $user, 'roles' => $roles]);
     }
 
     public function changePassword($id)
@@ -61,7 +68,7 @@ class UserController extends Controller
                 $validatedData = (object)$request->validate([
                     'name' => 'required|max:30',
                     'email' => 'required|max:30',
-                    'group' => 'required|numeric|min:1'
+                    'role' => 'required|numeric|min:1'
                 ]);
 
                 $user->updated_at = Carbon::now();
@@ -70,7 +77,7 @@ class UserController extends Controller
                     'name' => 'required|max:30',
                     'email' => 'required|max:30|unique:users,email',
                     'password' => 'required|min:8',
-                    'group' => 'required|numeric|min:1'
+                    'role' => 'required|numeric|min:1'
                 ]);
 
                 $user->created_at = Carbon::now();
@@ -79,7 +86,7 @@ class UserController extends Controller
 
             $user->name = $validatedData->name;
             $user->email = $validatedData->email;
-            $user->id_group = $validatedData->group;
+            $user->syncRoles([Role::findOrFail($validatedData->role)->name]);
 
             $saved = $user->save();
 

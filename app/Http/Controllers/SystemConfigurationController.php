@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class SystemConfigurationController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:systemConfiguration-list');
+        $this->middleware('permission:systemConfiguration-create', ['only' => ['new', 'save']]);
+        $this->middleware('permission:systemConfiguration-edit', ['only' => ['edit', 'save']]);
+    }
+
     public function index()
     {
         $systemConfigs = SystemConfiguration::all();

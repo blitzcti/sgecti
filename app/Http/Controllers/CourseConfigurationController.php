@@ -9,6 +9,13 @@ use Illuminate\Http\Request;
 
 class CourseConfigurationController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:courseConfiguration-list');
+        $this->middleware('permission:courseConfiguration-create', ['only' => ['new', 'save']]);
+        $this->middleware('permission:courseConfiguration-edit', ['only' => ['edit', 'save']]);
+    }
+
     public function index($id)
     {
         if (!is_numeric($id)) {

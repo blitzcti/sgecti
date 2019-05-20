@@ -30,6 +30,8 @@ return [
         'array' => 'The :attribute must have between :min and :max items.',
     ],
     'boolean' => 'The :attribute field must be true or false.',
+    'cnpj' => 'The :attribute should be a valid CNPJ.',
+    'cpf' => 'The :attribute should be a valid CPF.',
     'confirmed' => 'The :attribute confirmation does not match.',
     'current_password' => 'The :attribute should be the current password for the user.',
     'date' => 'The :attribute is not a valid date.',
@@ -146,8 +148,8 @@ return [
     */
 
     'attributes' => [
-        'name'   => 'Name',
-        'color'  => 'Color',
+        'name' => 'Name',
+        'color' => 'Color',
         'active' => 'Active',
 
         'old_password' => 'Current password',
@@ -171,6 +173,8 @@ return [
         'email' => 'Email',
         'ramal' => 'Branch line',
         'validade_convenio' => 'Agreement validity',
+
+        'cpf_cnpj' => 'CPF / CNPJ'
     ],
 
 ];

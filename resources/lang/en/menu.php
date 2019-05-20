@@ -7,7 +7,6 @@ return [
     'changePassword' => 'Change Password',
 
 
-
     'system' => 'SYSTEM',
     'configuration' => 'Configuration',
 
@@ -19,7 +18,6 @@ return [
     'message' => 'MESSAGE',
 
     'help' => 'HELP',
-
 
 
     'administration' => 'ADMINISTRATION',
@@ -38,7 +36,6 @@ return [
     'final' => 'Final',
 
     'student' => 'Students',
-
 
 
     'view' => 'View',

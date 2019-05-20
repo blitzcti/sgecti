@@ -7,7 +7,6 @@ return [
     'changePassword' => 'Alterar senha',
 
 
-
     'system' => 'SISTEMA',
     'configuration' => 'Configurações',
 
@@ -19,7 +18,6 @@ return [
     'message' => 'Mensagem',
 
     'help' => 'Ajuda',
-
 
 
     'administration' => 'ADMINISTRAÇÃO',
@@ -38,7 +36,6 @@ return [
     'final' => 'Final',
 
     'student' => 'Alunos',
-
 
 
     'view' => 'Visualizar',

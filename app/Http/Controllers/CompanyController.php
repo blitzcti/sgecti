@@ -4,11 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Course;
+use App\Rules\CNPJ;
+use App\Rules\CPF;
 use App\Sector;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('coordinator');
+        $this->middleware('permission:company-list');
+        $this->middleware('permission:company-create', ['only' => ['new', 'save']]);
+        $this->middleware('permission:company-edit', ['only' => ['edit', 'save']]);
+    }
+
     public function index()
     {
         $companies = Company::all();
@@ -40,7 +50,19 @@ class CompanyController extends Controller
         $params = [];
 
         if (!$request->exists('cancel')) {
+            $validatedData = (object)$request->validate([
+                'pj' => 'required|boolean'
+            ]);
 
+            if ($validatedData->pj) {
+                $validatedData = (object)$request->validate([
+                    'cpf_cnpj' =>  new CNPJ,
+                ]);
+            } else {
+                $validatedData = (object)$request->validate([
+                    'cpf_cnpj' =>  new CPF,
+                ]);
+            }
         }
 
         return redirect()->route('coordenador.empresa.index')->with($params);

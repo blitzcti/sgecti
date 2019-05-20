@@ -22,6 +22,11 @@ Auth::routes();
 
 Route::get('home', 'HomeController@index')->name('home');
 
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource('roles','RoleController');
+    Route::resource('users','UserController');
+});
+
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::prefix('usuario')->name('usuario.')->group(function () {
         Route::get('', 'UserController@index')->name('index');
@@ -48,6 +53,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::prefix('backup')->name('backup.')->group(function () {
             Route::get('', 'BackupController@index')->name('index');
+            Route::get('fazerBackup', 'BackupController@backup')->name('fazerBackup');
+            Route::post('restaurar', 'BackupController@restore')->name('restaurar');
         });
     });
 

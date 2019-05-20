@@ -31,19 +31,6 @@ class CreateSystemConfigurationsTable extends Migration
 
             $table->timestamps();
         });
-
-        DB::table('system_configurations')->insert([
-            'nome' => 'Colégio Técnico Industrial "Prof. Isaac Portal Roldán"',
-            'cep' => '17033260',
-            'uf' => 'SP',
-            'cidade' => 'Bauru',
-            'rua' => 'Avenida Nações Unidas',
-            'numero' => '58-50',
-            'bairro' => 'Núcleo Residencial Presidente Geisel',
-            'fone' => '1431036150',
-            'email' => 'dir_cti@feb.unesp.com.br',
-            'validade_convenio' => '5'
-        ]);
     }
 
     /**

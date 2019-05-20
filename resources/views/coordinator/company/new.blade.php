@@ -229,7 +229,7 @@
                 <hr/>
 
                 <div>
-                    <div class="btn-group pull-right" style="display: inline-flex; margin: 0 0 10px 0">
+                    <div class="btn-group pull-right" style="display: inline-flex; margin: -5px 0 0 0">
                         <a href="#" class="btn btn-success" id="aAddSector" data-toggle="modal" data-target="#newCompanySectorModal">Adicionar
                             setor</a>
                     </div>
@@ -273,7 +273,7 @@
                         convênio?</label>
 
                     <div class="col-sm-10">
-                        <input type="checkbox" id="inputHasConvenio">
+                        <input type="checkbox" id="inputHasConvenio" name="hasConvenio">
                     </div>
                 </div>
 

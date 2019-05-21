@@ -83,7 +83,8 @@
 
 @if(config('adminlte.plugins.wysihtml5'))
     <!-- WYSIHTML5 -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap3-wysiwyg/0.3.3/amd/bootstrap3-wysihtml5.all.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap3-wysiwyg/0.3.3/bootstrap3-wysihtml5.all.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap3-wysiwyg/0.3.3/locales/bootstrap-wysihtml5.pt-BR.min.js"></script>
 @endif
 
 

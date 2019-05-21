@@ -72,7 +72,7 @@
                     </div>
                 </div>
 
-                <hr />
+                <hr/>
                 <h3>Configurações do curso</h3>
 
                 <div class="row">

@@ -91,7 +91,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::prefix('mensagem')->name('mensagem.')->group(function () {
-        Route::get('', 'MessageController@index')->name('index');
+        Route::get('', 'MessageController@adminIndex')->name('index');
     });
 });
 
@@ -137,7 +137,7 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
     });
 
     Route::prefix('mensagem')->name('mensagem.')->group(function () {
-        Route::get('', 'CoordinatorMessageController@index')->name('index');
+        Route::get('', 'MessageController@coordinatorIndex')->name('index');
     });
 });
 

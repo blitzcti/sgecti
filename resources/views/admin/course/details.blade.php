@@ -39,7 +39,7 @@
                 <dd class="col-sm-10">{{ $course->active ? 'Sim' : 'Não' }}</dd>
             </dl>
 
-            <hr />
+            <hr/>
             <h3>Configuração ativa do curso</h3>
 
             @if ($config != null)
@@ -73,7 +73,7 @@
 
             @endif
 
-            <hr />
+            <hr/>
             <h3>Coordenador do curso</h3>
 
             @if ($coordinator != null)

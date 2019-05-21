@@ -20,9 +20,11 @@ class CoordinatorController extends Controller
     public function new()
     {
         $courses = Course::all();
-        $users = User::all()->where('id_group', '=', 2);
+        $users = User::whereHas("roles", function ($q) {
+            $q->where("name", "teacher");
+        })->get();
 
-        return view('admin.coordinator.new')->with(["courses"=> $courses,"users"=> $users]);
+        return view('admin.coordinator.new')->with(["courses" => $courses, "users" => $users]);
     }
 
     public function edit($id)

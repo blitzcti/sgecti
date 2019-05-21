@@ -74,7 +74,7 @@
 
                             <div class="col-sm-8">
                                 <input type="date" class="form-control" id="inputStart" name="start"
-                                    value="{{ $coordinator->vigencia_ini }}"/>
+                                       value="{{ $coordinator->vigencia_ini }}"/>
                             </div>
                         </div>
                     </div>
@@ -85,7 +85,7 @@
 
                             <div class="col-sm-8">
                                 <input type="date" class="form-control" id="inputEnd" name="end"
-                                    value="{{ $coordinator->vigencia_fim }}"/>
+                                       value="{{ $coordinator->vigencia_fim }}"/>
                             </div>
                         </div>
                     </div>

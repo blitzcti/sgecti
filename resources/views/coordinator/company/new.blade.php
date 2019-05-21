@@ -230,7 +230,8 @@
 
                 <div>
                     <div class="btn-group pull-right" style="display: inline-flex; margin: -5px 0 0 0">
-                        <a href="#" class="btn btn-success" id="aAddSector" data-toggle="modal" data-target="#newCompanySectorModal">Adicionar
+                        <a href="#" class="btn btn-success" id="aAddSector" data-toggle="modal"
+                           data-target="#newCompanySectorModal">Adicionar
                             setor</a>
                     </div>
 

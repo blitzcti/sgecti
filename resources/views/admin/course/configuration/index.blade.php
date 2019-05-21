@@ -3,7 +3,8 @@
 @section('title', 'Configurações do curso - SGE CTI')
 
 @section('content_header')
-    <h1>Configurações do curso <a href="{{ route('admin.curso.detalhes', ['id' => $course->id]) }}">{{ $course->name }}</a></h1>
+    <h1>Configurações do curso <a
+                href="{{ route('admin.curso.detalhes', ['id' => $course->id]) }}">{{ $course->name }}</a></h1>
 @stop
 
 @section('content')
@@ -95,8 +96,8 @@
                         }
                     }
                 ],
-                initComplete : function () {
-                    table.buttons().container().appendTo( $('#courseConfigurations_wrapper .col-sm-6:eq(0)'));
+                initComplete: function () {
+                    table.buttons().container().appendTo($('#courseConfigurations_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                 },
             });

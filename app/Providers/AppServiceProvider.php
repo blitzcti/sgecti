@@ -88,7 +88,7 @@ class AppServiceProvider extends ServiceProvider
         $menu->add(
             [
                 'text' => 'menu.message',
-                'route' => 'admin.mensagem.index',
+                'route' => ($user->hasRole('admin')) ? 'admin.mensagem.index' : ($user->coordinator() != null) ? 'coordenador.mensagem.index' : null,
                 'icon' => 'envelope',
                 'active' => ['admin/mensagem/']
             ],

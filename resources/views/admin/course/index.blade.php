@@ -108,8 +108,8 @@
                         }
                     }
                 ],
-                initComplete : function () {
-                    table.buttons().container().appendTo( $('#courses_wrapper .col-sm-6:eq(0)'));
+                initComplete: function () {
+                    table.buttons().container().appendTo($('#courses_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                 },
             });

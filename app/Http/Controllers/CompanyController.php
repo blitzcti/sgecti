@@ -56,11 +56,11 @@ class CompanyController extends Controller
 
             if ($validatedData->pj) {
                 $validatedData = (object)$request->validate([
-                    'cpf_cnpj' =>  new CNPJ,
+                    'cpf_cnpj' => new CNPJ,
                 ]);
             } else {
                 $validatedData = (object)$request->validate([
-                    'cpf_cnpj' =>  new CPF,
+                    'cpf_cnpj' => new CPF,
                 ]);
             }
         }

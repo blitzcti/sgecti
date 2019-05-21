@@ -31,7 +31,8 @@
                     <label for="inputName" class="col-sm-2 control-label">Nome do setor</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputName" name="name" placeholder="Administrativo"/>
+                        <input type="text" class="form-control" id="inputName" name="name"
+                               placeholder="Administrativo"/>
                     </div>
                 </div>
 
@@ -39,7 +40,8 @@
                     <label for="inputDescription" class="col-sm-2 control-label">Descrição</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputDescription" name="description" placeholder=""/>
+                        <input type="text" class="form-control" id="inputDescription" name="description"
+                               placeholder=""/>
                     </div>
                 </div>
 

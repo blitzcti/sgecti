@@ -5,7 +5,6 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -15,6 +14,7 @@ class User extends Authenticatable
 
     /**
      * The attributes that are mass assignable.
+     *
      *
      * @var array
      */
@@ -46,7 +46,7 @@ class User extends Authenticatable
             $coordinator = Coordinator::where('id_user', '=', $this->id)
                 ->where(function ($query) {
                     $query->where('vigencia_fim', '=', null)
-                    ->orWhere('vigencia_fim', '>=', Carbon::today()->toDateString());
+                        ->orWhere('vigencia_fim', '>=', Carbon::today()->toDateString());
                 })
                 ->get()->sortBy('id');
 

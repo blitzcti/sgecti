@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Coordinator;
 use App\Course;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\Auth;

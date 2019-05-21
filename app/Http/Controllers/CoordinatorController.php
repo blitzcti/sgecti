@@ -10,6 +10,13 @@ use Illuminate\Http\Request;
 
 class CoordinatorController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:coordinator-list');
+        $this->middleware('permission:coordinator-create', ['only' => ['new', 'save']]);
+        $this->middleware('permission:coordinator-edit', ['only' => ['edit', 'save']]);
+    }
+
     public function index()
     {
         $coordinators = Coordinator::all();

@@ -35,6 +35,10 @@ class PermissionTableSeeder extends Seeder
             'systemConfiguration-create',
             'systemConfiguration-edit',
 
+            'coordinator-list',
+            'coordinator-create',
+            'coordinator-edit',
+
             'company-list',
             'company-create',
             'company-edit',

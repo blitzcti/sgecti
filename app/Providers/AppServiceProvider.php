@@ -125,13 +125,13 @@ class AppServiceProvider extends ServiceProvider
                             'submenu' => [
                                 [
                                     'text' => 'menu.view',
-                                    //'route'  => 'admin.coordenador.index',
+                                    'route'  => 'admin.coordenador.index',
                                     'icon' => 'th-list',
                                     'active' => ['admin/coordenador/']
                                 ],
                                 [
                                     'text' => 'menu.new',
-                                    //'route' => 'admin.coordenador.novo',
+                                    'route' => 'admin.coordenador.novo',
                                     'icon' => 'edit',
                                     'active' => ['admin/coordenador/novo']
                                 ],

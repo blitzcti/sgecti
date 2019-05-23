@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\CourseConfiguration;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CourseController extends Controller
 {
@@ -74,6 +75,8 @@ class CourseController extends Controller
                 $course = Course::all()->find($id);
 
                 $course->updated_at = Carbon::now();
+                Log::info("Alteração");
+                Log::info("Dados antigos: " . json_encode($course, JSON_UNESCAPED_UNICODE));
             } else { // New
                 $course->created_at = Carbon::now();
 

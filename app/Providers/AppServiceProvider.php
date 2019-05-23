@@ -64,15 +64,6 @@ class AppServiceProvider extends ServiceProvider
             ]);
         }
 
-        if ($user->hasRole('admin')) {
-            $menu->add([
-                'text' => 'menu.logs',
-                'icon' => 'calendar',
-                'route' => 'admin.logs',
-                'active' => ['admin/logs*'],
-            ]);
-        }
-
         if ($user->can('user-list')) {
             $menu->add([
                 'text' => 'menu.users',
@@ -94,20 +85,28 @@ class AppServiceProvider extends ServiceProvider
             ]);
         }
 
-        $menu->add(
-            [
-                'text' => 'menu.message',
-                'route' => $user->hasRole('admin') ? 'admin.mensagem.index' : ($user->isCoordinator() ? 'coordenador.mensagem.index' : null),
-                'icon' => 'envelope',
-                'active' => ['admin/mensagem/', 'coordenador/mensagem']
-            ],
-            [
-                'text' => 'menu.help',
-                'route' => 'ajuda.index',
-                'icon' => 'question-circle',
-                'active' => ['ajuda/']
-            ]
-        );
+        $menu->add([
+            'text' => 'menu.message',
+            'route' => $user->hasRole('admin') ? 'admin.mensagem.index' : ($user->isCoordinator() ? 'coordenador.mensagem.index' : null),
+            'icon' => 'envelope',
+            'active' => ['admin/mensagem/', 'coordenador/mensagem']
+        ]);
+
+        if ($user->hasRole('admin')) {
+            $menu->add([
+                'text' => 'menu.logs',
+                'icon' => 'calendar',
+                'route' => 'admin.logs',
+                'active' => ['admin/logs*'],
+            ]);
+        }
+
+        $menu->add([
+            'text' => 'menu.help',
+            'route' => 'ajuda.index',
+            'icon' => 'question-circle',
+            'active' => ['ajuda/']
+        ]);
 
         if ($user->hasRole('admin')) {
             $menu->add('menu.administration');

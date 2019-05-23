@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Coordinator;
-use App\Course;
-use App\User;
+use App\Models\Coordinator;
+use App\Models\Course;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 

@@ -8,7 +8,12 @@
 @stop
 
 @section('content')
-    @include('admin.course.deleteModal')
+
+    @if(auth()->user()->can('course-delete'))
+
+        @include('admin.course.deleteModal')
+
+    @endif
 
     <div class="box box-default">
         <div class="box-body">
@@ -22,8 +27,12 @@
                 <a href="{{ route('admin.curso.configuracao.novo', $course->id) }}"
                    class="btn btn-success">Adicionar configuração</a>
 
-                <a href="#" onclick="courseId('{{ $course->id }}'); course('{{ $course->name }}'); return false;"
-                   data-toggle="modal" data-target="#deleteModal" class="btn btn-danger">Excluir curso</a>
+                @if(auth()->user()->can('course-delete'))
+
+                    <a href="#" onclick="courseId('{{ $course->id }}'); course('{{ $course->name }}'); return false;"
+                       data-toggle="modal" data-target="#deleteModal" class="btn btn-danger">Excluir curso</a>
+
+                @endif
             </div>
 
             <h3>Dados do curso</h3>
@@ -79,10 +88,18 @@
             @if ($coordinator != null)
 
                 <dl class="row">
-                    <dt class="col-sm-2"></dt>
-                    <dd class="col-sm-10">{{ $coordinator }}</dd>
+                    <dt class="col-sm-2">Nome</dt>
+                    <dd class="col-sm-10">{{ $coordinator->user()->name }}</dd>
 
+                    <dt class="col-sm-2">Início da vigência</dt>
+                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($coordinator->vigencia_ini)) }}</dd>
 
+                    @if ($coordinator->vigencia_fim != null)
+
+                    <dt class="col-sm-2">Fim da vigência</dt>
+                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($coordinator->vigencia_fim)) }}</dd>
+
+                    @endif
                 </dl>
 
             @else

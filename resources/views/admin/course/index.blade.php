@@ -18,7 +18,11 @@
         </div>
     @endif
 
-    @include('admin.course.deleteModal')
+    @if(auth()->user()->can('course-delete'))
+
+        @include('admin.course.deleteModal')
+
+    @endif
 
     <div class="box box-default">
         <div class="box-body">
@@ -53,10 +57,12 @@
                             <a href="#">Coordenador</a>
                             |
                             <a href="{{ route('admin.curso.configuracao.index', ['id' => $course->id]) }}">Configurações</a>
-                            |
-                            <a href="#"
-                               onclick="courseId('{{ $course->id }}'); course('{{ $course->name }}'); return false;"
-                               data-toggle="modal" class="text-red" data-target="#deleteModal">Excluir</a>
+                            @if(auth()->user()->can('course-delete'))
+                                |
+                                <a href="#"
+                                   onclick="courseId('{{ $course->id }}'); course('{{ $course->name }}'); return false;"
+                                   data-toggle="modal" class="text-red" data-target="#deleteModal">Excluir</a>
+                            @endif
                         </td>
                     </tr>
 

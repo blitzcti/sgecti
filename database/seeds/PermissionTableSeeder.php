@@ -24,7 +24,7 @@ class PermissionTableSeeder extends Seeder
             'course-list',
             'course-create',
             'course-edit',
-            'course-delete',
+            //'course-delete',
 
             'courseConfiguration-list',
             'courseConfiguration-create',

@@ -1,13 +1,13 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ModelHasPermission extends Model
+class ModelHasRole extends Model
 {
     protected $fillable = [
-        'permission_id', 'model_type', 'model_morph_key',
+        'role_id', 'model_type', 'model_morph_key',
     ];
 
     /**
@@ -15,7 +15,7 @@ class ModelHasPermission extends Model
      *
      * @var string
      */
-    protected $table = 'model_has_permissions';
+    protected $table = 'model_has_roles';
 
     /**
      * primaryKey

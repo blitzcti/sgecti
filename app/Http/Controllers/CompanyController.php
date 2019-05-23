@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Company;
-use App\Course;
+use App\Models\Company;
+use App\Models\Course;
+use App\Models\Sector;
 use App\Rules\CNPJ;
 use App\Rules\CPF;
-use App\Sector;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -54,15 +54,11 @@ class CompanyController extends Controller
                 'pj' => 'required|boolean'
             ]);
 
-            if ($validatedData->pj) {
-                $validatedData = (object)$request->validate([
-                    'cpf_cnpj' => new CNPJ,
-                ]);
-            } else {
-                $validatedData = (object)$request->validate([
-                    'cpf_cnpj' => new CPF,
-                ]);
-            }
+            $validatedData = (object)$request->validate([
+                'cpf_cnpj' => ['required', 'numeric', ($validatedData->pj) ? new CNPJ : new CPF, 'unique:companies,cpf_cnpj'],
+                'sectors' => 'required|array|min:1',
+                'courses' => 'required|array|min:1'
+            ]);
         }
 
         return redirect()->route('coordenador.empresa.index')->with($params);

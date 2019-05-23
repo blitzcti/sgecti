@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Sector;
+use App\Models\Sector;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -59,7 +59,7 @@ class SectorController extends Controller
         if (!$request->exists('cancel')) {
             $validatedData = (object)$request->validate([
                 'name' => 'required|max:50',
-                'description' => '',
+                'description' => 'required',
                 'active' => 'required|boolean'
             ]);
 
@@ -93,7 +93,7 @@ class SectorController extends Controller
         if (!$request->exists('cancel')) {
             $validatedData = \Validator::make($request->all(), [
                 'name' => 'required|max:50',
-                'description' => '',
+                'description' => 'required',
                 'active' => 'required|boolean'
             ]);
 

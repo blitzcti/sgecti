@@ -1,6 +1,6 @@
 <?php
 
-use App\SystemConfiguration;
+use App\Models\SystemConfiguration;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 

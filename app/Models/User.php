@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -42,7 +42,7 @@ class User extends Authenticatable
 
     public function coordinator()
     {
-        if ($this->roles->pluck('name')[0] == 'teacher') {
+        if ($this->hasRole('teacher')) {
             $coordinator = Coordinator::where('id_user', '=', $this->id)
                 ->where(function ($query) {
                     $query->where('vigencia_fim', '=', null)
@@ -56,5 +56,10 @@ class User extends Authenticatable
         }
 
         return null;
+    }
+
+    public function isCoordinator()
+    {
+        return $this->coordinator() != null;
     }
 }

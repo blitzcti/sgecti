@@ -17,7 +17,7 @@ class Coordinator
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::user()->coordinator() != null) {
+        if (Auth::user()->isCoordinator()) {
             return $next($request);
         }
 

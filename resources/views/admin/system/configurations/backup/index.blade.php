@@ -58,7 +58,7 @@
     <div class="box box-default">
         <div class="box-body">
             <div class="btn-group" style="display: inline-flex; margin: 0 0 10px 0">
-                <a href="{{ route('admin.configuracoes.backup.fazerBackup') }}" class="btn btn-success">Fazer backup</a>
+                <a href="{{ route('admin.configuracoes.backup.download') }}" class="btn btn-success">Fazer backup</a>
                 <a href="#" class="btn btn-success" data-toggle="modal" data-target="#restaurarModal">Restaurar</a>
             </div>
         </div>

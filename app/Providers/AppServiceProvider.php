@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Color;
-use App\Course;
+use App\Models\Color;
+use App\Models\Course;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
@@ -42,7 +42,7 @@ class AppServiceProvider extends ServiceProvider
         $courses = Course::all()->sortBy('id');
         $user = Auth::user();
 
-        $menu->add('SISTEMA');
+        $menu->add('menu.system');
         if ($user->can('systemConfiguration-list')) {
             $menu->add([
                 'text' => 'menu.configuration',
@@ -61,6 +61,15 @@ class AppServiceProvider extends ServiceProvider
                         'active' => ['admin/configuracoes/backup/'],
                     ],
                 ],
+            ]);
+        }
+
+        if ($user->hasRole('admin')) {
+            $menu->add([
+                'text' => 'menu.logs',
+                'icon' => 'calendar',
+                'route' => 'admin.logs',
+                'active' => ['admin/logs*'],
             ]);
         }
 
@@ -88,9 +97,9 @@ class AppServiceProvider extends ServiceProvider
         $menu->add(
             [
                 'text' => 'menu.message',
-                'route' => ($user->hasRole('admin')) ? 'admin.mensagem.index' : ($user->coordinator() != null) ? 'coordenador.mensagem.index' : null,
+                'route' => $user->hasRole('admin') ? 'admin.mensagem.index' : ($user->isCoordinator() ? 'coordenador.mensagem.index' : null),
                 'icon' => 'envelope',
-                'active' => ['admin/mensagem/']
+                'active' => ['admin/mensagem/', 'coordenador/mensagem']
             ],
             [
                 'text' => 'menu.help',
@@ -101,7 +110,7 @@ class AppServiceProvider extends ServiceProvider
         );
 
         if ($user->hasRole('admin')) {
-            $menu->add('ADMINISTRACAO');
+            $menu->add('menu.administration');
             if ($user->can('user-list')) {
                 $menu->add([
                     'text' => 'menu.courses',
@@ -125,7 +134,7 @@ class AppServiceProvider extends ServiceProvider
                             'submenu' => [
                                 [
                                     'text' => 'menu.view',
-                                    'route'  => 'admin.coordenador.index',
+                                    'route' => 'admin.coordenador.index',
                                     'icon' => 'th-list',
                                     'active' => ['admin/coordenador/']
                                 ],

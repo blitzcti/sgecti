@@ -15,6 +15,8 @@ return [
     'configurations' => 'Parameters',
     'backup' => 'System backup',
 
+    'logs' => 'Logs',
+
     'message' => 'MESSAGE',
 
     'help' => 'HELP',

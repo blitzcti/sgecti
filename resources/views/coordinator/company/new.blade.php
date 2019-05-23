@@ -1,7 +1,4 @@
 {{--
-    TODO: mensagem
-    TODO: => alunos de qual periodo (manha, noite, 4º ano)
-
     TODO: empresa
     TODO: => insc municipal, estadual (mei, pf)
 --}}
@@ -340,6 +337,7 @@
             });
 
             jQuery('#inputSectors').select2({
+                language: "pt-BR",
                 ajax: {
                     url: '{{ route('coordenador.empresa.setor.getAjax') }}',
                     dataType: 'json',

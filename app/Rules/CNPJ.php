@@ -47,32 +47,29 @@ class CNPJ implements Rule
             return false;
 
         } else {
-
             $j = 5;
             $k = 6;
-            $soma1 = "";
-            $soma2 = "";
+            $soma1 = 0;
+            $soma2 = 0;
 
             for ($i = 0; $i < 13; $i++) {
+                $j = ($j == 1) ? 9 : $j;
+                $k = ($k == 1) ? 9 : $k;
 
-                $j = $j == 1 ? 9 : $j;
-                $k = $k == 1 ? 9 : $k;
-
-                $soma2 .= ($value{$i} * $k);
+                $soma2 += ($value[$i] * $k);
 
                 if ($i < 12) {
-                    $soma1 .= ($value{$i} * $j);
+                    $soma1 += ($value[$i] * $j);
                 }
 
                 $k--;
                 $j--;
-
             }
 
-            $digito1 = $soma1 % 11 < 2 ? 0 : 11 - $soma1 % 11;
-            $digito2 = $soma2 % 11 < 2 ? 0 : 11 - $soma2 % 11;
+            $digito1 = ($soma1 % 11 < 2) ? 0 : 11 - $soma1 % 11;
+            $digito2 = ($soma2 % 11 < 2) ? 0 : 11 - $soma2 % 11;
 
-            return (($value{12} == $digito1) and ($value{13} == $digito2));
+            return $value[12] == $digito1 && $value[13] == $digito2;
         }
     }
 

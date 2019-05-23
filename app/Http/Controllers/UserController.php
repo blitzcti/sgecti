@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Rules\CurrentPassword;
-use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -66,16 +66,16 @@ class UserController extends Controller
                 $user = User::all()->find($id);
 
                 $validatedData = (object)$request->validate([
-                    'name' => 'required|max:30',
-                    'email' => 'required|max:30',
+                    'name' => 'required|max:255',
+                    'email' => 'required|max:255',
                     'role' => 'required|numeric|min:1'
                 ]);
 
                 $user->updated_at = Carbon::now();
             } else { // New
                 $validatedData = (object)$request->validate([
-                    'name' => 'required|max:30',
-                    'email' => 'required|max:30|unique:users,email',
+                    'name' => 'required|max:255',
+                    'email' => 'required|max:255|unique:users,email',
                     'password' => 'required|min:8',
                     'role' => 'required|numeric|min:1'
                 ]);

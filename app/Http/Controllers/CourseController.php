@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Color;
-use App\Coordinator;
-use App\Course;
-use App\CourseConfiguration;
+use App\Models\Color;
+use App\Models\Course;
+use App\Models\CourseConfiguration;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -32,13 +31,10 @@ class CourseController extends Controller
         }
 
         $course = Course::findOrFail($id);
-        $color = Color::all()->find($course->id_color);
 
-        $config = CourseConfiguration::all()->where('id_course', '=', $id)->sortBy('id');
-        $config = sizeof($config) > 0 ? $config->last() : null;
-
-        $coordinator = Coordinator::all()->where('id_course', '=', $id)->sortBy('id');
-        $coordinator = sizeof($coordinator) > 0 ? $coordinator->last() : null;
+        $color = $course->color();
+        $config = $course->configuration();
+        $coordinator = $course->coordinator();
 
         return view('admin.course.details')->with(['course' => $course, 'config' => $config, 'coordinator' => $coordinator, 'color' => $color]);
     }

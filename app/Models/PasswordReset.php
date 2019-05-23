@@ -1,13 +1,13 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RoleHasPermission extends Model
+class PasswordReset extends Model
 {
     protected $fillable = [
-        'permission_id', 'role_id',
+        'email', 'token',
     ];
 
     /**
@@ -15,7 +15,7 @@ class RoleHasPermission extends Model
      *
      * @var string
      */
-    protected $table = 'role_has_permissions';
+    protected $table = 'model_has_roles';
 
     /**
      * primaryKey

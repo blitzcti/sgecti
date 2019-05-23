@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Course;
-use App\CourseConfiguration;
+use App\Models\Course;
+use App\Models\CourseConfiguration;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 

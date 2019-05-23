@@ -43,10 +43,10 @@
                     <tr>
                         <th scope="row">{{ $coordinator->id }}</th>
                         <td>
-                            <a href="{{ route('admin.usuario.editar', ['id' => $coordinator->id_user]) }}">{{ App\User::all()->find($coordinator->id_user)->name }}</a>
+                            <a href="{{ route('admin.usuario.editar', ['id' => $coordinator->id_user]) }}">{{ $coordinator->user()->name }}</a>
                         </td>
                         <td>
-                            <a href="{{ route('admin.curso.editar', ['id' => $coordinator->id_course]) }}">{{ App\Course::all()->find($coordinator->id_course)->name }}</a>
+                            <a href="{{ route('admin.curso.editar', ['id' => $coordinator->id_course]) }}">{{ $coordinator->course()->name }}</a>
                         </td>
                         <td>{{ $coordinator->vigencia_ini }}</td>
                         <td>{{ $coordinator->vigencia_fim }}</td>

@@ -1,6 +1,6 @@
 <?php
 
-use App\Color;
+use App\Models\Color;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 

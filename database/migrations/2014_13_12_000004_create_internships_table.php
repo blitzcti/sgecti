@@ -22,19 +22,19 @@ class CreateInternshipsTable extends Migration
             $table->foreign('id_ctps')->references('id')->on('ctps');
 
             $table->bigInteger('id_company')->nullable(false)->unsigned();
-            $table->foreign('id_company')->references('id')->on('company');
+            $table->foreign('id_company')->references('id')->on('companies');
 
             $table->bigInteger('id_sector')->nullable(false)->unsigned();
-            $table->foreign('id_sector')->references('id')->on('sector');
+            $table->foreign('id_sector')->references('id')->on('sectors');
 
             $table->bigInteger('id_coordinator')->nullable(false)->unsigned();
-            $table->foreign('id_coordinator')->references('id')->on('coordinator');
+            $table->foreign('id_coordinator')->references('id')->on('coordinators');
 
             $table->bigInteger('id_schedule')->nullable(false)->unsigned();
-            $table->foreign('id_schedule')->references('id')->on('schedule');
+            $table->foreign('id_schedule')->references('id')->on('schedules');
 
             $table->bigInteger('id_state')->nullable(false)->unsigned();
-            $table->foreign('id_state')->references('id')->on('state');
+            $table->foreign('id_state')->references('id')->on('states');
 
             $table->date('data_ini');
             $table->date('data_fim');

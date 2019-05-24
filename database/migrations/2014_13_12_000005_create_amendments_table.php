@@ -23,7 +23,7 @@ class CreateAmendmentsTable extends Migration
             $table->date('data_fim');
 
             $table->bigInteger('id_schedule')->nullable(false)->unsigned();
-            $table->foreign('id_schedule')->references('id')->on('schedule');
+            $table->foreign('id_schedule')->references('id')->on('schedules');
 
             $table->string('protocolo', 15);
             $table->text('observacao')->nullable(true)->default(null);

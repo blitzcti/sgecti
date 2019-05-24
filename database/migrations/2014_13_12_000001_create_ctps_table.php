@@ -16,6 +16,8 @@ class CreateCTPSTable extends Migration
         Schema::create('ctps', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('ctps', 11)->nullable(false);
+
+            $table->timestamps();
         });
     }
 

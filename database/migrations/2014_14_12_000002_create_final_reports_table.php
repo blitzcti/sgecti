@@ -15,6 +15,35 @@ class CreateFinalReportsTable extends Migration
     {
         Schema::create('final_reports', function (Blueprint $table) {
             $table->bigIncrements('id');
+
+            $table->bigInteger('id_internship')->nullable(false)->unsigned();
+            $table->foreign('id_internship')->references('id')->on('internships');
+
+            $table->date('dia');
+
+            $table->integer('nota_1_a');
+            $table->integer('nota_1_b');
+            $table->integer('nota_1_c');
+            $table->integer('nota_2_a');
+            $table->integer('nota_2_b');
+            $table->integer('nota_2_c');
+            $table->integer('nota_2_d');
+            $table->integer('nota_3_a');
+            $table->integer('nota_3_b');
+            $table->integer('nota_4_a');
+            $table->integer('nota_4_b');
+            $table->integer('nota_4_c');
+            $table->integer('nota_final');
+
+            $table->integer('horas_cumpridas');
+            $table->date('data_termino');
+            $table->string('numero_aprovacao');
+
+            $table->bigInteger('id_coordinator')->nullable(false)->unsigned();
+            $table->foreign('id_coordinator')->references('id')->on('coordinators');
+
+            $table->text('observacao')->nullable(true)->default(null);
+
             $table->timestamps();
         });
     }

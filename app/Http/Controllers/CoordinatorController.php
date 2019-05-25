@@ -69,8 +69,8 @@ class CoordinatorController extends Controller
                 $coordinator->created_at = Carbon::now();
             }
 
-            $coordinator->id_user = $validatedData->user;
-            $coordinator->id_course = $validatedData->course;
+            $coordinator->user_id = $validatedData->user;
+            $coordinator->course_id = $validatedData->course;
             $coordinator->vigencia_ini = $validatedData->start;
             $coordinator->vigencia_fim = $validatedData->end;
 

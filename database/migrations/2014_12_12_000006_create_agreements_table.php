@@ -16,8 +16,8 @@ class CreateAgreementsTable extends Migration
         Schema::create('agreements', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->bigInteger('id_company')->nullable(false)->unsigned();
-            $table->foreign('id_company')->references('id')->on('companies')->onDelete('cascade');
+            $table->bigInteger('company_id')->nullable(false)->unsigned();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
 
             $table->date('validade')->nullable(false);
             $table->text('observacao')->nullable(true);

@@ -33,7 +33,7 @@ class CourseController extends Controller
 
         $course = Course::findOrFail($id);
 
-        $color = $course->color();
+        $color = $course->color;
         $config = $course->configuration();
         $coordinator = $course->coordinator();
 
@@ -99,13 +99,13 @@ class CourseController extends Controller
             }
 
             $course->name = $validatedData->name;
-            $course->id_color = $validatedData->color;
+            $course->color_id = $validatedData->color;
             $course->active = $validatedData->active;
 
             $saved = $course->save();
 
             if (isset($config)) {
-                $config->id_course = $course->id;
+                $config->course_id = $course->id;
 
                 $saved = $config->save();
             }

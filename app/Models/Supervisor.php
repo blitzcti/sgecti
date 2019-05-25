@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Supervisor extends Model
 {
     protected $fillable = [
-        'nome', 'email', 'telefone', 'ativo', 'id_company',
+        'nome', 'email', 'telefone', 'ativo', 'company_id',
     ];
 
     public function company()
     {
-        return Company::findOrFail($this->id_company);
+        return $this->belongsTo(Company::class);
     }
 }

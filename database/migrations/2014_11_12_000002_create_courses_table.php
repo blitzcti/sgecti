@@ -17,8 +17,8 @@ class CreateCoursesTable extends Migration
             $table->bigIncrements('id');
 
             $table->string('name', 30)->nullable(false);
-            $table->bigInteger('id_color')->nullable(false)->unsigned();
-            $table->foreign('id_color')->references('id')->on('colors');
+            $table->bigInteger('color_id')->nullable(false)->unsigned();
+            $table->foreign('color_id')->references('id')->on('colors');
 
             $table->boolean('active')->nullable(false)->default(true);
 

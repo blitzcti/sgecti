@@ -14,13 +14,11 @@ class CreateCompanySectorsTable extends Migration
     public function up()
     {
         Schema::create('company_sectors', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigInteger('company_id')->nullable(false)->unsigned();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
 
-            $table->bigInteger('id_company')->nullable(false)->unsigned();
-            $table->foreign('id_company')->references('id')->on('companies')->onDelete('cascade');
-
-            $table->bigInteger('id_sector')->nullable(false)->unsigned();
-            $table->foreign('id_sector')->references('id')->on('sectors')->onDelete('cascade');
+            $table->bigInteger('sector_id')->nullable(false)->unsigned();
+            $table->foreign('sector_id')->references('id')->on('sectors')->onDelete('cascade');
 
             $table->timestamps();
         });

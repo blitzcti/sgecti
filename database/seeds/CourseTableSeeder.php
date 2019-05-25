@@ -15,47 +15,47 @@ class CourseTableSeeder extends Seeder
     {
         $course = new Course();
         $course->name = 'Mecânica';
-        $course->id_color = 3;
+        $course->color_id = 3;
         $course->created_at = Carbon::now();
         $course->save();
 
         $course = new Course();
         $course->name = 'Eletrotécnica';
-        $course->id_color = 2;
+        $course->color_id = 2;
         $course->active = false;
         $course->created_at = Carbon::now();
         $course->save();
 
         $course = new Course();
         $course->name = 'Edificações';
-        $course->id_color = 5;
+        $course->color_id = 5;
         $course->active = false;
         $course->created_at = Carbon::now();
         $course->save();
 
         $course = new Course();
         $course->name = 'Processamento de dados';
-        $course->id_color = 11;
+        $course->color_id = 11;
         $course->active = false;
         $course->created_at = Carbon::now();
         $course->save();
 
         $course = new Course();
         $course->name = 'Eletrônica';
-        $course->id_color = 6;
+        $course->color_id = 6;
         $course->created_at = Carbon::now();
         $course->save();
 
         $course = new Course();
         $course->name = 'Decoração';
-        $course->id_color = 10;
+        $course->color_id = 10;
         $course->active = false;
         $course->created_at = Carbon::now();
         $course->save();
 
         $course = new Course();
         $course->name = 'Informática';
-        $course->id_color = 1;
+        $course->color_id = 1;
         $course->created_at = Carbon::now();
         $course->save();
     }

@@ -16,16 +16,16 @@ class CreateProposalsTable extends Migration
         Schema::create('proposals', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->bigInteger('id_company')->nullable(false)->unsigned();
-            $table->foreign('id_company')->references('id')->on('companies');
+            $table->bigInteger('company_id')->nullable(false)->unsigned();
+            $table->foreign('company_id')->references('id')->on('companies');
 
-            $table->bigInteger('id_course')->nullable(false)->unsigned();
-            $table->foreign('id_course')->references('id')->on('courses');
+            $table->bigInteger('course_id')->nullable(false)->unsigned();
+            $table->foreign('course_id')->references('id')->on('courses');
 
             $table->date('data_limite');
 
-            $table->bigInteger('id_schedule')->nullable(false)->unsigned();
-            $table->foreign('id_schedule')->references('id')->on('schedule');
+            $table->bigInteger('schedule_id')->nullable(false)->unsigned();
+            $table->foreign('schedule_id')->references('id')->on('schedules');
 
             $table->float('remuneracao')->default(0);
             $table->text('descricao');

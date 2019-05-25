@@ -23,7 +23,7 @@ class CourseConfigurationController extends Controller
         }
 
         $course = Course::findOrFail($id);
-        $configurations = CourseConfiguration::all()->where('id_course', '=', $course->id)->sortByDesc('id');
+        $configurations = $course->configurations->sortByDesc('id');
 
         return view('admin.course.configuration.index')->with(['course' => $course, 'configurations' => $configurations]);
     }
@@ -63,7 +63,7 @@ class CourseConfigurationController extends Controller
                 ]
             );
 
-            $config->id_course = $id;
+            $config->course_id = $id;
 
             if ($request->exists('id_config')) { // Edit
                 $id_config = $request->input('id_config');

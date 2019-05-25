@@ -6,36 +6,18 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class BackupController extends Controller
 {
-    private $tables = [
-        'users' => "App\Models\User",
-        'password_resets' => "App\Models\PasswordReset",
-        'colors' => "App\Models\Color",
-        'courses' => "App\Models\Course",
-        'course_configurations' => "App\Models\CourseConfiguration",
-        'coordinators' => "App\Models\Coordinator",
-        'general_configurations' => "App\Models\GeneralConfiguration",
-        'system_configurations' => "App\Models\SystemConfiguration",
-        'addresses' => "App\Models\Address",
-        'companies' => "App\Models\Company",
-        'sectors' => "App\Models\Sector",
-        'supervisors' => "App\Models\Supervisor",
-        'agreements' => "App\Models\Agreement",
-        'company_courses' => "App\Models\CompanyCourses",
-        'permissions' => "Spatie\Permission\Models\Permission",
-        'roles' => "Spatie\Permission\Models\Role",
-        'model_has_permissions' => "App\Models\ModelHasPermission",
-        'model_has_roles' => "App\Models\ModelHasRole",
-        'role_has_permissions' => "App\Models\RoleHasPermission",
-    ];
+    private $tables;
 
     function __construct()
     {
         $this->middleware('permission:systemConfiguration-backup');
+        $this->tables = Config::get('backup.tables');
     }
 
     public function index()
@@ -47,6 +29,7 @@ class BackupController extends Controller
     {
         $data = json_encode($this->getData(), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         $fileName = Carbon::now()->toDateTimeString() . '.json';
+        Log::info("Solicitação de backup.");
         return response()->streamDownload(function () use ($data) {
             echo $data;
         }, $fileName);
@@ -67,8 +50,13 @@ class BackupController extends Controller
 
                     $params["saved"] = true;
                     $params["message"] = "Backup restaurado!";
+                    Log::info("Backup restaurado!");
                 } catch (Exception $e) {
-                    Artisan::call('migrate:fresh', ['seed']);
+                    Log::error("Erro ao restaurar do arquivo de backup: {$e}");
+                    Artisan::call('cache:forget', ['spatie.permission.cache' => true]);
+                    Artisan::call('cache:clear');
+                    Artisan::call('migrate:fresh', ['--seed' => true]);
+                    Log::info("Banco de dados reiniciado.");
 
                     $params["saved"] = false;
                     $params["message"] = "Ocorreu um erro ao restaurar o backup! Reiniciando banco de dados...";
@@ -76,6 +64,7 @@ class BackupController extends Controller
             } else {
                 $params["saved"] = false;
                 $params["message"] = "Arquivo de backup inválido.";
+                Log::warning("Arquivo de backup inválido.");
             }
         }
 
@@ -93,9 +82,6 @@ class BackupController extends Controller
                 new $class($innerData);
             }
         } catch (Exception $e) {
-            Log::error("Error in verify: {$class}");
-            Log::info("  Data: " . json_encode($data));
-            Log::info("  Error: {$e->getMessage()}");
             throw new Exception("Error in verify.");
         }
 

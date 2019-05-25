@@ -7,11 +7,31 @@ use Illuminate\Database\Eloquent\Model;
 class CompanySector extends Model
 {
     protected $fillable = [
-        'id_company', 'id_sector',
+        'company_id', 'sector_id',
     ];
+
+    /**
+     * primaryKey
+     *
+     * @var integer
+     * @access protected
+     */
+    protected $primaryKey = null;
+
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
 
     public function company()
     {
-        return Company::findOrFail($this->id_company);
+        return $this->belongsTo(Company::class);
+    }
+
+    public function sector()
+    {
+        return $this->belongsTo(Sector::class);
     }
 }

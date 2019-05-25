@@ -166,7 +166,7 @@ class AppServiceProvider extends ServiceProvider
             $menu->add('CURSOS');
             foreach ($courses as $course) {
                 if ($course->active) {
-                    $color = Color::all()->find($course->id_color);
+                    $color = $course->color;
 
                     $menu->add([
                         'text' => $course->name,

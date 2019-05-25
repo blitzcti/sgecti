@@ -38,7 +38,7 @@
 
                             @foreach($users as $user)
 
-                                <option value="{{ $user->id }}" {{ $user->id == $coordinator->id_user ? 'selected=selected' : '' }}>
+                                <option value="{{ $user->id }}" {{ $user->id == $coordinator->user->id ? 'selected=selected' : '' }}>
                                     {{ __($user->name) }}
                                 </option>
 
@@ -57,7 +57,7 @@
 
                             @foreach($courses as $course)
 
-                                <option value="{{ $course->id }}" {{ $course->id == $coordinator->id_course ? 'selected=selected' : '' }}>
+                                <option value="{{ $course->id }}" {{ $course->id == $coordinator->course->id ? 'selected=selected' : '' }}>
                                     {{ __($course->name) }}
                                 </option>
 

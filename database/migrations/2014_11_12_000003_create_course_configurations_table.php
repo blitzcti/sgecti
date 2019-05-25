@@ -16,8 +16,8 @@ class CreateCourseConfigurationsTable extends Migration
         Schema::create('course_configurations', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->bigInteger('id_course')->nullable(false)->unsigned();
-            $table->foreign('id_course')->references('id')->on('courses')->onDelete('cascade');
+            $table->bigInteger('course_id')->nullable(false)->unsigned();
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
 
             $table->integer('min_year')->nullable(false);
             $table->integer('min_semester')->nullable(false);

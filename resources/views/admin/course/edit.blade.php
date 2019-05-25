@@ -47,7 +47,7 @@
 
                                     @foreach($colors as $color)
 
-                                        <option value="{{ $color->id }}" {{ $course->id_color == $color->id ? 'selected=selected' : '' }}>
+                                        <option value="{{ $color->id }}" {{ $course->color_id == $color->id ? 'selected=selected' : '' }}>
                                             {{ __('colors.' . $color->name) }}
                                         </option>
 

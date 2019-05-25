@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     protected $fillable = [
-        'name', 'id_color', 'active',
+        'name', 'color_id', 'active',
     ];
 
     public function coordinatorAt($date)
     {
-        $coordinator = Coordinator::where('id_course', '=', $this->id)
+        $coordinator = Coordinator::where('course_id', '=', $this->id)
             ->where(function ($query) use ($date) {
                 $query->where('vigencia_fim', '=', null)
                     ->orWhere('vigencia_fim', '>=', $date);
@@ -32,9 +32,14 @@ class Course extends Model
         return $this->coordinatorAt(Carbon::today()->toDateString());
     }
 
+    public function coordinators()
+    {
+        return $this->hasMany(Coordinator::class);
+    }
+
     public function configurationAt($dateTime)
     {
-        $config = CourseConfiguration::where('id_course', '=', $this->id)
+        $config = CourseConfiguration::where('course_id', '=', $this->id)
             ->where('created_at', '<=', $dateTime)
             ->get()->sortBy('id');
 
@@ -50,8 +55,13 @@ class Course extends Model
         return $this->configurationAt(Carbon::now());
     }
 
+    public function configurations()
+    {
+        return $this->hasMany(CourseConfiguration::class);
+    }
+
     public function color()
     {
-        return Color::findOrFail($this->id_color);
+        return $this->belongsTo(Color::class);
     }
 }

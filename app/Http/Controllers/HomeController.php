@@ -28,7 +28,7 @@ class HomeController extends Controller
         $courseName = null;
 
         if ($user->isCoordinator()) {
-            $courseName = $user->coordinator()->course()->name;
+            $courseName = $user->coordinator()->course->name;
         }
 
         return view('home')->with(['user' => $user, 'courseName' => $courseName]);

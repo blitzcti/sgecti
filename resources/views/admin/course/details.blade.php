@@ -89,7 +89,7 @@
 
                 <dl class="row">
                     <dt class="col-sm-2">Nome</dt>
-                    <dd class="col-sm-10">{{ $coordinator->user()->name }}</dd>
+                    <dd class="col-sm-10">{{ $coordinator->user->name }}</dd>
 
                     <dt class="col-sm-2">Início da vigência</dt>
                     <dd class="col-sm-10">{{ date("d/m/Y", strtotime($coordinator->vigencia_ini)) }}</dd>

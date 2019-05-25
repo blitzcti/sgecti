@@ -16,14 +16,14 @@ class CreateAmendmentsTable extends Migration
         Schema::create('amendments', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->bigInteger('id_internship')->nullable(false)->unsigned();
-            $table->foreign('id_internship')->references('id')->on('internships');
+            $table->bigInteger('internship_id')->nullable(false)->unsigned();
+            $table->foreign('internship_id')->references('id')->on('internships');
 
             $table->date('data_ini');
             $table->date('data_fim');
 
-            $table->bigInteger('id_schedule')->nullable(false)->unsigned();
-            $table->foreign('id_schedule')->references('id')->on('schedules');
+            $table->bigInteger('schedule_id')->nullable(false)->unsigned();
+            $table->foreign('schedule_id')->references('id')->on('schedules');
 
             $table->string('protocolo', 15);
             $table->text('observacao')->nullable(true)->default(null);

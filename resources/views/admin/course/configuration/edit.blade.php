@@ -23,7 +23,7 @@
     @endif
 
     <div class="box box-default">
-        <form class="form-horizontal" action="{{ route('admin.curso.configuracao.salvar', $config->id_course) }}"
+        <form class="form-horizontal" action="{{ route('admin.curso.configuracao.salvar', $config->course_id) }}"
               method="post">
             @csrf
 

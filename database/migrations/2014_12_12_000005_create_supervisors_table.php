@@ -21,8 +21,8 @@ class CreateSupervisorsTable extends Migration
             $table->string('telefone', 11)->nullable(false);
             $table->boolean('ativo')->nullable(false)->default(true);
 
-            $table->bigInteger('id_company')->nullable(false)->unsigned();
-            $table->foreign('id_company')->references('id')->on('companies')->onDelete('cascade');
+            $table->bigInteger('company_id')->nullable(false)->unsigned();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
 
             $table->timestamps();
         });

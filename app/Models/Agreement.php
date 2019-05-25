@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Agreement extends Model
 {
     protected $fillable = [
-        'id_company', 'validade', 'observacao',
+        'company_id', 'validade', 'observacao',
     ];
+
+    public function company()
+    {
+        return $this->hasOne(Company::class);
+    }
 }

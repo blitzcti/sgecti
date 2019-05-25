@@ -43,7 +43,7 @@ class User extends Authenticatable
     public function coordinator()
     {
         if ($this->hasRole('teacher')) {
-            $coordinator = Coordinator::where('id_user', '=', $this->id)
+            $coordinator = Coordinator::where('user_id', '=', $this->id)
                 ->where(function ($query) {
                     $query->where('vigencia_fim', '=', null)
                         ->orWhere('vigencia_fim', '>=', Carbon::today()->toDateString());

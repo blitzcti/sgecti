@@ -18,23 +18,23 @@ class CreateInternshipsTable extends Migration
 
             $table->string('ra', 7);
 
-            $table->bigInteger('id_ctps')->nullable(true)->default(null)->unsigned();
-            $table->foreign('id_ctps')->references('id')->on('ctps');
+            $table->bigInteger('ctps_id')->nullable(true)->default(null)->unsigned();
+            $table->foreign('ctps_id')->references('id')->on('ctps');
 
-            $table->bigInteger('id_company')->nullable(false)->unsigned();
-            $table->foreign('id_company')->references('id')->on('companies');
+            $table->bigInteger('company_id')->nullable(false)->unsigned();
+            $table->foreign('company_id')->references('id')->on('companies');
 
-            $table->bigInteger('id_sector')->nullable(false)->unsigned();
-            $table->foreign('id_sector')->references('id')->on('sectors');
+            $table->bigInteger('sector_id')->nullable(false)->unsigned();
+            $table->foreign('sector_id')->references('id')->on('sectors');
 
-            $table->bigInteger('id_coordinator')->nullable(false)->unsigned();
-            $table->foreign('id_coordinator')->references('id')->on('coordinators');
+            $table->bigInteger('coordinator_id')->nullable(false)->unsigned();
+            $table->foreign('coordinator_id')->references('id')->on('coordinators');
 
-            $table->bigInteger('id_schedule')->nullable(false)->unsigned();
-            $table->foreign('id_schedule')->references('id')->on('schedules');
+            $table->bigInteger('schedule_id')->nullable(false)->unsigned();
+            $table->foreign('schedule_id')->references('id')->on('schedules');
 
-            $table->bigInteger('id_state')->nullable(false)->unsigned();
-            $table->foreign('id_state')->references('id')->on('states');
+            $table->bigInteger('state_id')->nullable(false)->unsigned();
+            $table->foreign('state_id')->references('id')->on('states');
 
             $table->date('data_ini');
             $table->date('data_fim');

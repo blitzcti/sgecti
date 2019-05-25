@@ -16,11 +16,11 @@ class CreateCoordinatorsTable extends Migration
         Schema::create('coordinators', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->bigInteger('id_user')->nullable(false)->unsigned();
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+            $table->bigInteger('user_id')->nullable(false)->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->bigInteger('id_course')->nullable(false)->unsigned();
-            $table->foreign('id_course')->references('id')->on('courses')->onDelete('cascade');
+            $table->bigInteger('course_id')->nullable(false)->unsigned();
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
 
             $table->date('vigencia_ini')->nullable(false);
             $table->date('vigencia_fim')->nullable(true)->default(null);

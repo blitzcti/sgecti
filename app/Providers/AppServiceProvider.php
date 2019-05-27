@@ -129,7 +129,7 @@ class AppServiceProvider extends ServiceProvider
                         ],
                         [
                             'text' => 'Coordenadores',
-                            'icon' => 'street-view',
+                            'icon' => 'black-tie',
                             'submenu' => [
                                 [
                                     'text' => 'menu.view',

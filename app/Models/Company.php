@@ -12,7 +12,7 @@ class Company extends Model
 
     public function address()
     {
-        return $this->hasOne(Address::class);
+        return $this->belongsTo(Address::class);
     }
 
     public function courses()
@@ -30,7 +30,7 @@ class Company extends Model
         return $this->hasMany(Supervisor::class);
     }
 
-    public function agreement()
+    public function agreements()
     {
         return $this->hasMany(Agreement::class);
     }
@@ -60,7 +60,7 @@ class Company extends Model
         foreach ($sectors as $sector) {
             $companySector = new CompanySector();
             $companySector->company_id = $this->id;
-            $companySector->course_id = intval($sector);
+            $companySector->sector_id = intval($sector);
             $companySector->save();
         }
     }

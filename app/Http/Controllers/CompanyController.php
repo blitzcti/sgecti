@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Address;
 use App\Models\Agreement;
 use App\Models\Company;
-use App\Models\CompanyCourses;
-use App\Models\CompanySector;
 use App\Models\Course;
 use App\Models\Sector;
 use App\Rules\CNPJ;
@@ -46,8 +44,14 @@ class CompanyController extends Controller
         }
 
         $company = Company::findOrFail($id);
+        $address = $company->address;
+        $sectors = Sector::all()->where('ativo', '=', true);
+        $courses = Course::all()->where('active', '=', true);
+        $agreement = $company->agreements->last();
 
-        return view('coordinator.company.edit')->with(['company' => $company]);
+        return view('coordinator.company.edit')->with([
+            'company' => $company, 'address' => $address, 'sectors' => $sectors, 'courses' => $courses, 'agreement' => $agreement
+        ]);
     }
 
     public function save(Request $request)
@@ -127,11 +131,11 @@ class CompanyController extends Controller
             if($boolData->hasConvenio)
             {
                 $agreement = new Agreement();
-                $agreement->validade = $validatedData->validade;
-                $agreement->obervacao = $validatedData->obervacao;
+                $agreement->validade = $validatedData->expirationDate;
+                $agreement->observacao = $validatedData->observation;
 
                 $agreement->company_id = $company->id;
-                $saved = $company->save();
+                $saved = $agreement->save();
             }
 
             $params['saved'] = $saved;

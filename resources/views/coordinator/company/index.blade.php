@@ -42,8 +42,8 @@
                     <tr>
                         <th scope="row">{{ $company->id }}</th>
                         <td>{{ $company->cpf_cnpj }}</td>
-                        <td>{{ $company->name }}</td>
-                        <td>{{ ($company->active) ? 'Sim' : 'Não' }}</td>
+                        <td>{{ $company->nome }}</td>
+                        <td>{{ ($company->ativo) ? 'Sim' : 'Não' }}</td>
 
                         <td>
                             <a href="{{ route('coordenador.empresa.editar', ['id' => $company->id]) }}">Editar</a>

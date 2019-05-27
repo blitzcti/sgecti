@@ -27,7 +27,7 @@
 
             <div class="box-body">
                 <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Nome do usuário</label>
+                    <label for="inputName" class="col-sm-2 control-label">Nome do usuário*</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputName" name="name" placeholder="André Castro"/>
@@ -35,7 +35,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                    <label for="inputEmail" class="col-sm-2 control-label">Email*</label>
 
                     <div class="col-sm-10">
                         <input type="email" class="form-control" id="inputEmail" name="email"
@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputPassword" class="col-sm-2 control-label">Senha</label>
+                    <label for="inputPassword" class="col-sm-2 control-label">Senha*</label>
 
                     <div class="col-sm-10">
                         <input type="password" class="form-control" id="inputPassword" name="password"
@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputRole" class="col-sm-2 control-label">Grupo do usuário</label>
+                    <label for="inputRole" class="col-sm-2 control-label">Grupo do usuário*</label>
 
                     <div class="col-sm-10">
                         <select class="form-control selection" id="inputRole" name="role">

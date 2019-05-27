@@ -31,7 +31,7 @@
 
 
                 <div class="form-group">
-                    <label for="inputUser" class="col-sm-2 control-label">Coordenador</label>
+                    <label for="inputUser" class="col-sm-2 control-label">Coordenador*</label>
 
                     <div class="col-sm-10">
                         <select class="form-control selection" id="inputUser" name="user">
@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputCourse" class="col-sm-2 control-label">Curso</label>
+                    <label for="inputCourse" class="col-sm-2 control-label">Curso*</label>
 
                     <div class="col-sm-10">
                         <select class="form-control selection" id="inputCourse" name="course">
@@ -70,7 +70,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="inputValidity_ini" class="col-sm-4 control-label">Vigência Início</label>
+                            <label for="inputValidity_ini" class="col-sm-4 control-label">Vigência Início*</label>
 
                             <div class="col-sm-8">
                                 <input type="date" class="form-control" id="inputStart" name="start"/>

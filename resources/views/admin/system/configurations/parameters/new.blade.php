@@ -30,7 +30,7 @@
 
             <div class="box-body">
                 <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Nome do colégio</label>
+                    <label for="inputName" class="col-sm-2 control-label">Nome do colégio*</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputName" name="name"
@@ -41,7 +41,7 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label for="inputCep" class="col-sm-6 control-label">CEP</label>
+                            <label for="inputCep" class="col-sm-6 control-label">CEP*</label>
 
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" id="inputCep" name="cep"
@@ -52,7 +52,7 @@
 
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label for="inputUf" class="col-sm-4 control-label">UF</label>
+                            <label for="inputUf" class="col-sm-4 control-label">UF*</label>
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputUf" name="uf" placeholder="SP"/>
@@ -62,7 +62,7 @@
 
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label for="inputCidade" class="col-sm-4 control-label">Cidade</label>
+                            <label for="inputCidade" class="col-sm-4 control-label">Cidade*</label>
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputCidade" name="cidade"
@@ -75,7 +75,7 @@
                 <div class="row">
                     <div class="col-sm-8">
                         <div class="form-group">
-                            <label for="inputRua" class="col-sm-3 control-label">Rua</label>
+                            <label for="inputRua" class="col-sm-3 control-label">Rua*</label>
 
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="inputRua" name="rua"
@@ -86,7 +86,7 @@
 
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label for="inputNumero" class="col-sm-4 control-label">Número</label>
+                            <label for="inputNumero" class="col-sm-4 control-label">Número*</label>
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputNumero" name="numero"
@@ -97,7 +97,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputBairro" class="col-sm-2 control-label">Bairro</label>
+                    <label for="inputBairro" class="col-sm-2 control-label">Bairro*</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputBairro" name="bairro"
@@ -106,7 +106,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                    <label for="inputEmail" class="col-sm-2 control-label">Email*</label>
 
                     <div class="col-sm-10">
                         <input type="email" class="form-control" id="inputEmail" name="email"
@@ -117,7 +117,7 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label for="inputFone" class="col-sm-6 control-label">Telefone</label>
+                            <label for="inputFone" class="col-sm-6 control-label">Telefone*</label>
 
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" id="inputFone" name="fone"
@@ -140,7 +140,7 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="inputValidadeConvenio" class="col-sm-4 control-label">Validade do
-                                convênio</label>
+                                convênio*</label>
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputValidadeConvenio"

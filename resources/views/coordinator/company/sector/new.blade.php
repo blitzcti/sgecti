@@ -28,7 +28,7 @@
 
             <div class="box-body">
                 <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Nome do setor</label>
+                    <label for="inputName" class="col-sm-2 control-label">Nome do setor*</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputName" name="name"
@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputActive" class="col-sm-2 control-label">Ativo</label>
+                    <label for="inputActive" class="col-sm-2 control-label">Ativo*</label>
 
                     <div class="col-sm-10">
                         <select class="form-control selection" data-minimum-results-for-search="Infinity"

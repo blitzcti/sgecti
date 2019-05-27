@@ -129,11 +129,11 @@ class BackupController extends Controller
         if (DB::connection()->getDriverName() == 'pgsql') {
             DB::statement("SELECT setval('{$tableName}_id_seq', (SELECT MAX({$primaryKey}) FROM {$tableName}));");
         } else if (DB::connection()->getDriverName() == 'mysql') {
-            DB::statement("SET @m = (SELECT MAX({$primaryKey}) + 1 FROM {$tableName}); ");
-            DB::statement("SET @s = CONCAT('ALTER TABLE {$tableName} AUTO_INCREMENT=', @m);");
-            DB::statement('PREPARE stmt1 FROM @s;');
-            DB::statement('EXECUTE stmt1;');
-            DB::statement('DEALLOCATE PREPARE stmt1;');
+            DB::raw("SET @m = (SELECT MAX({$primaryKey}) + 1 FROM {$tableName});
+                            SET @s = CONCAT('ALTER TABLE {$tableName} AUTO_INCREMENT=', @m);
+							PREPARE stmt1 FROM @s;
+							EXECUTE stmt1;
+							DEALLOCATE PREPARE stmt1;");
         }
     }
 

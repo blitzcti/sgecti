@@ -48,11 +48,12 @@
                 <h3>Dados da empresa</h3>
 
                 <input type="hidden" id="inputPj" name="pj" value="0">
+                <input type="hidden" id="inputHasConvenio" name="hasConvenio" value="0">
 
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="inputCpfCnpj" class="col-sm-4 control-label">CPF / CNPJ</label>
+                            <label for="inputCpfCnpj" class="col-sm-4 control-label">CPF / CNPJ*</label>
 
                             <div class="col-sm-8">
                                 <div class="input-group">
@@ -76,7 +77,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="inputActive" class="col-sm-4 control-label">Ativo</label>
+                            <label for="inputActive" class="col-sm-4 control-label">Ativo*</label>
 
                             <div class="col-sm-8">
                                 <select class="form-control selection" data-minimum-results-for-search="Infinity"
@@ -90,7 +91,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Nome da empresa</label>
+                    <label for="inputName" class="col-sm-2 control-label">Nome da empresa*</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputName" name="name" placeholder="MSTech"/>
@@ -101,12 +102,12 @@
                     <label for="inputFantasyName" class="col-sm-2 control-label">Nome fantasia</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputFantasyName" name="name" placeholder=""/>
+                        <input type="text" class="form-control" id="inputFantasyName" name="fantasyName" placeholder=""/>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                    <label for="inputEmail" class="col-sm-2 control-label">Email*</label>
 
                     <div class="col-sm-10">
                         <input type="email" class="form-control" id="inputEmail" name="email"
@@ -115,7 +116,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputFone" class="col-sm-2 control-label">Telefone</label>
+                    <label for="inputFone" class="col-sm-2 control-label">Telefone*</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputFone" name="fone"
@@ -127,7 +128,7 @@
                 <h3>Representante</h3>
 
                 <div class="form-group">
-                    <label for="inputRepresentative" class="col-sm-2 control-label">Nome do representante</label>
+                    <label for="inputRepresentative" class="col-sm-2 control-label">Nome do representante*</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputRepresentative" name="representative"
@@ -136,10 +137,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputRepresentativeRole" class="col-sm-2 control-label">Cargo</label>
+                    <label for="inputRepresentativeRole" class="col-sm-2 control-label">Cargo*</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputRepresentativeRole" name="RepresentativeRole"
+                        <input type="text" class="form-control" id="inputRepresentativeRole" name="representativeRole"
                                placeholder="Administração, desenvolvedor..."/>
                     </div>
                 </div>
@@ -150,7 +151,7 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label for="inputCep" class="col-sm-6 control-label">CEP</label>
+                            <label for="inputCep" class="col-sm-6 control-label">CEP*</label>
 
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" id="inputCep" name="cep"
@@ -161,7 +162,7 @@
 
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label for="inputUf" class="col-sm-4 control-label">UF</label>
+                            <label for="inputUf" class="col-sm-4 control-label">UF*</label>
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputUf" name="uf" placeholder="SP"/>
@@ -171,7 +172,7 @@
 
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label for="inputCidade" class="col-sm-4 control-label">Cidade</label>
+                            <label for="inputCidade" class="col-sm-4 control-label">Cidade*</label>
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputCidade" name="cidade"
@@ -184,7 +185,7 @@
                 <div class="row">
                     <div class="col-sm-8">
                         <div class="form-group">
-                            <label for="inputRua" class="col-sm-3 control-label">Rua</label>
+                            <label for="inputRua" class="col-sm-3 control-label">Rua*</label>
 
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="inputRua" name="rua"
@@ -195,7 +196,7 @@
 
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label for="inputNumero" class="col-sm-4 control-label">Número</label>
+                            <label for="inputNumero" class="col-sm-4 control-label">Número*</label>
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputNumero" name="numero"
@@ -215,7 +216,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputBairro" class="col-sm-2 control-label">Bairro</label>
+                    <label for="inputBairro" class="col-sm-2 control-label">Bairro*</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputBairro" name="bairro"
@@ -236,7 +237,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputSectors" class="col-sm-2 control-label">Setores</label>
+                    <label for="inputSectors" class="col-sm-2 control-label">Setores*</label>
 
                     <div class="col-sm-10">
                         <select class="selection" name="sectors[]" multiple="multiple" id="inputSectors"
@@ -252,7 +253,7 @@
                 <h3>Cursos para estágio</h3>
 
                 <div class="form-group">
-                    <label for="inputCourses" class="col-sm-2 control-label">Cursos</label>
+                    <label for="inputCourses" class="col-sm-2 control-label">Cursos*</label>
 
                     <div class="col-sm-10">
                         <select class="selection" name="courses[]" multiple="multiple" id="inputCourses"
@@ -267,16 +268,32 @@
                 <hr/>
 
                 <div class="form-group">
-                    <label for="inputHasConvenio" class="col-sm-2 control-label" style="padding-top: 0">Registrar
+                    <label for="inputHasConvenioDeMentira" class="col-sm-2 control-label" style="padding-top: 0">Registrar
                         convênio?</label>
 
                     <div class="col-sm-10">
-                        <input type="checkbox" id="inputHasConvenio" name="hasConvenio">
+                        <input type="checkbox" id="inputHasConvenioDeMentira" name="hasConvenioDeMentira">
                     </div>
                 </div>
 
                 <div id="div-convenio" style="display: none">
                     <h3>Convênio</h3>
+
+                    <div class="form-group">
+                        <label for="inputExpirationDate" class="col-sm-2 control-label">Validade*</label>
+
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" id="inputExpirationDate" name="expirationDate"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputObservation" class="col-sm-2 control-label">Observação</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputObservation" name="observation"/>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- /.box-body -->
@@ -328,11 +345,13 @@
 
             jQuery(':input').inputmask({removeMaskOnSubmit: true});
 
-            jQuery('#inputHasConvenio').on('ifChanged', function () {
+            jQuery('#inputHasConvenioDeMentira').on('ifChanged', function () {
                 if (this.checked) {
                     jQuery('#div-convenio').css('display', 'initial');
+                    jQuery('#inputHasConvenio').val(1);
                 } else {
                     jQuery('#div-convenio').css('display', 'none');
+                    jQuery('#inputHasConvenio').val(0);
                 }
             });
 
@@ -487,7 +506,7 @@
 
             pj(true);
 
-            jQuery('#inputHasConvenio').iCheck({
+            jQuery('#inputHasConvenioDeMentira').iCheck({
                 checkboxClass: 'icheckbox_square-blue',
                 radioClass: 'iradio_square-blue',
                 increaseArea: '20%' // optional

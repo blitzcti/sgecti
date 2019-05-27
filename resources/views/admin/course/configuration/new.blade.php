@@ -31,7 +31,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="inputMinYear" class="col-sm-4 control-label">Ano mínimo</label>
+                            <label for="inputMinYear" class="col-sm-4 control-label">Ano mínimo*</label>
 
                             <div class="col-sm-8">
                                 <select class="form-control selection" data-minimum-results-for-search="Infinity"
@@ -46,7 +46,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="inputMinSemester" class="col-sm-4 control-label">Semestre mínimo</label>
+                            <label for="inputMinSemester" class="col-sm-4 control-label">Semestre mínimo*</label>
 
                             <div class="col-sm-8">
                                 <select class="form-control selection" data-minimum-results-for-search="Infinity"
@@ -62,7 +62,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="inputMinHour" class="col-sm-4 control-label">Horas mínimas</label>
+                            <label for="inputMinHour" class="col-sm-4 control-label">Horas mínimas*</label>
 
                             <div class="col-sm-8">
                                 <input type="number" class="form-control" id="inputMinHour" name="minHour"
@@ -73,7 +73,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="inputMinMonth" class="col-sm-4 control-label">Meses mínimos</label>
+                            <label for="inputMinMonth" class="col-sm-4 control-label">Meses mínimos*</label>
 
                             <div class="col-sm-8">
                                 <input type="number" class="form-control" id="inputMinMonth" name="minMonth"
@@ -86,7 +86,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="inputMinMonthCTPS" class="col-sm-4 control-label">Meses mínimos (CTPS)</label>
+                            <label for="inputMinMonthCTPS" class="col-sm-4 control-label">Meses mínimos (CTPS)*</label>
 
                             <div class="col-sm-8">
                                 <input type="number" class="form-control" id="inputMinMonth" name="minMonthCTPS"
@@ -97,7 +97,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="inputMinMark" class="col-sm-4 control-label">Nota mínima</label>
+                            <label for="inputMinMark" class="col-sm-4 control-label">Nota mínima*</label>
 
                             <div class="col-sm-8">
                                 <input type="number" class="form-control" id="inputMinMark" name="minMark"

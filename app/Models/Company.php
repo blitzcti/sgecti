@@ -34,4 +34,34 @@ class Company extends Model
     {
         return $this->hasMany(Agreement::class);
     }
+
+    public function syncCourses($courses)
+    {
+        $companyCourses = $this->courses;
+        foreach ($companyCourses as $companyCourse) {
+            $companyCourse->delete();
+        }
+
+        foreach ($courses as $course) {
+            $companyCourse = new CompanyCourses();
+            $companyCourse->company_id = $this->id;
+            $companyCourse->course_id = intval($course);
+            $companyCourse->save();
+        }
+    }
+
+    public function syncSectors($sectors)
+    {
+        $companySectors = $this->sectors;
+        foreach ($companySectors as $companySector) {
+            $companySector->delete();
+        }
+
+        foreach ($sectors as $sector) {
+            $companySector = new CompanySector();
+            $companySector->company_id = $this->id;
+            $companySector->course_id = intval($sector);
+            $companySector->save();
+        }
+    }
 }

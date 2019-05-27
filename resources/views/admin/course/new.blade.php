@@ -29,7 +29,7 @@
                 <h3>Dados do curso</h3>
 
                 <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Nome do curso</label>
+                    <label for="inputName" class="col-sm-2 control-label">Nome do curso*</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputName" name="name" placeholder="Informática"/>
@@ -39,7 +39,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="inputColor" class="col-sm-4 control-label">Cor do curso</label>
+                            <label for="inputColor" class="col-sm-4 control-label">Cor do curso*</label>
 
                             <div class="col-sm-8">
                                 <select class="form-control selection" id="inputColor" name="color">
@@ -59,7 +59,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="inputActive" class="col-sm-4 control-label">Ativo</label>
+                            <label for="inputActive" class="col-sm-4 control-label">Ativo*</label>
 
                             <div class="col-sm-8">
                                 <select class="form-control selection" data-minimum-results-for-search="Infinity"
@@ -78,7 +78,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="inputMinYear" class="col-sm-4 control-label">Ano mínimo</label>
+                            <label for="inputMinYear" class="col-sm-4 control-label">Ano mínimo*</label>
 
                             <div class="col-sm-8">
                                 <select class="form-control selection" data-minimum-results-for-search="Infinity"
@@ -93,7 +93,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="inputMinSemester" class="col-sm-4 control-label">Semestre mínimo</label>
+                            <label for="inputMinSemester" class="col-sm-4 control-label">Semestre mínimo*</label>
 
                             <div class="col-sm-8">
                                 <select class="form-control selection" data-minimum-results-for-search="Infinity"
@@ -109,7 +109,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="inputMinHour" class="col-sm-4 control-label">Horas mínimas</label>
+                            <label for="inputMinHour" class="col-sm-4 control-label">Horas mínimas*</label>
 
                             <div class="col-sm-8">
                                 <input type="number" class="form-control" id="inputMinHour" name="minHour"
@@ -120,7 +120,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="inputMinMonth" class="col-sm-4 control-label">Meses mínimos</label>
+                            <label for="inputMinMonth" class="col-sm-4 control-label">Meses mínimos*</label>
 
                             <div class="col-sm-8">
                                 <input type="number" class="form-control" id="inputMinMonth" name="minMonth"
@@ -133,7 +133,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="inputMinMonthCTPS" class="col-sm-4 control-label">Meses mínimos (CTPS)</label>
+                            <label for="inputMinMonthCTPS" class="col-sm-4 control-label">Meses mínimos (CTPS)*</label>
 
                             <div class="col-sm-8">
                                 <input type="number" class="form-control" id="inputMinMonth" name="minMonthCTPS"
@@ -144,7 +144,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="inputMinMark" class="col-sm-4 control-label">Nota mínima</label>
+                            <label for="inputMinMark" class="col-sm-4 control-label">Nota mínima*</label>
 
                             <div class="col-sm-8">
                                 <input type="number" class="form-control" id="inputMinMark" name="minMark"

@@ -121,6 +121,15 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
                 Route::get('editar', 'SectorController@edit')->name('editar');
             });
         });
+
+        Route::prefix('convenio')->name('convenio.')->group(function () {
+            Route::get('', 'AgreementController@index')->name('index');
+            Route::get('novo', 'AgreementController@new')->name('novo');
+            Route::post('salvar', 'AgreementController@save')->name('salvar');
+            Route::prefix('{id}')->group(function () {
+                Route::get('editar', 'AgreementController@edit')->name('editar');
+            });
+        });
     });
 
     Route::prefix('estagio')->name('estagio.')->group(function () {

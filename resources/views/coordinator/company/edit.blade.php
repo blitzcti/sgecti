@@ -39,6 +39,7 @@
             <div class="box-body">
                 <h3>Dados da empresa</h3>
 
+                <input type="hidden" name="id" value="{{ $company->id }}">
                 <input type="hidden" id="inputPj" name="pj" value="{{ $company->pj }}">
                 <input type="hidden" id="inputHasConvenio" name="hasConvenio" value="{{ ($agreement != null) ? '1' : '0' }}">
 
@@ -50,18 +51,12 @@
                             <div class="col-sm-8">
                                 <div class="input-group">
                                     <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default dropdown-toggle"
-                                                data-toggle="dropdown">
-                                            <span id="CpfCnpjOption"></span>
-                                            <span class="fa fa-caret-down"></span></button>
-
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#">{{ ($company->pj) ? "CNPJ" : "CPF" }}</a></li>
-                                        </ul>
+                                        <button type="button" class="btn btn-default">
+                                            <span id="CpfCnpjOption"></span></button>
                                     </div>
 
                                     <input type="text" class="form-control" id="inputCpfCnpj" name="cpf_cnpj"
-                                           value="{{ $company->cpf_cnpj }} readonly">
+                                           value="{{ $company->cpf_cnpj }}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -241,7 +236,7 @@
                                 style="width: 100%">
                             @foreach($sectors as $sector)
 
-                                <option value="{{ $sector->id }}" {{ (in_array($sector->id, array_column($company->sectors->toArray(), 'sector_id'))) ? "selected" : "" }}>
+                                <option value="{{ $sector->id }}" {{ (in_array($sector->id, array_column($company->sectors->toArray(), 'id'))) ? "selected" : "" }}>
                                     {{ $sector->nome }}
                                 </option>
 
@@ -261,7 +256,7 @@
                                 style="width: 100%">
                             @foreach($courses as $course)
 
-                                <option value="{{ $course->id }}" {{ (in_array($course->id, array_column($company->courses->toArray(), 'course_id'))) ? "selected" : "" }}>
+                                <option value="{{ $course->id }}" {{ (in_array($course->id, array_column($company->courses->toArray(), 'id'))) ? "selected" : "" }}>
                                     {{ $course->name }}
                                 </option>
 
@@ -290,7 +285,7 @@
 
                         <div class="col-sm-10">
                             <input type="date" class="form-control" id="inputExpirationDate" name="expirationDate"
-                                   value="{{ $agreement->expirationDate ?? '' }}"/>
+                                   value="{{ $agreement->validade ?? '' }}"/>
                         </div>
                     </div>
 
@@ -299,14 +294,14 @@
 
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="inputObservation" name="observation"
-                                   value="{{ $agreement->observation ?? '' }}"/>
+                                   value="{{ $agreement->observacao ?? '' }}"/>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
+                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
                 <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
             </div>
             <!-- /.box-footer -->
@@ -362,6 +357,8 @@
                     jQuery('#inputHasConvenio').val(0);
                 }
             });
+
+            jQuery('#inputHasConvenioDeMentira').trigger('ifChanged');
 
             jQuery('#inputSectors').select2({
                 language: "pt-BR",
@@ -512,7 +509,9 @@
                 }
             });
 
-            pj(true);
+            pj(jQuery('#inputPj').val() === '1');
+
+            //jQuery('#inputCpfCnpj').blur();
 
             jQuery('#inputHasConvenioDeMentira').iCheck({
                 checkboxClass: 'icheckbox_square-blue',

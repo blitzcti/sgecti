@@ -102,7 +102,8 @@
                     <label for="inputFantasyName" class="col-sm-2 control-label">Nome fantasia</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputFantasyName" name="fantasyName" placeholder=""/>
+                        <input type="text" class="form-control" id="inputFantasyName" name="fantasyName"
+                               placeholder=""/>
                     </div>
                 </div>
 
@@ -242,9 +243,13 @@
                     <div class="col-sm-10">
                         <select class="selection" name="sectors[]" multiple="multiple" id="inputSectors"
                                 style="width: 100%">
+
                             @foreach($sectors as $sector)
+
                                 <option value="{{ $sector->id }}">{{ $sector->nome }}</option>
+
                             @endforeach
+
                         </select>
                     </div>
                 </div>
@@ -258,9 +263,13 @@
                     <div class="col-sm-10">
                         <select class="selection" name="courses[]" multiple="multiple" id="inputCourses"
                                 style="width: 100%">
+
                             @foreach($courses as $course)
+
                                 <option value="{{ $course->id }}">{{ $course->name }}</option>
+
                             @endforeach
+
                         </select>
                     </div>
                 </div>

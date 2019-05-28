@@ -213,7 +213,25 @@ class AppServiceProvider extends ServiceProvider
                                     'active' => ['coordenador/empresa/setor/novo']
                                 ]
                             ]
+                        ],
+                        [
+                        'text' => 'menu.agreements',
+                        'icon' => 'exchange',
+                        'submenu' => [
+                            [
+                                'text' => 'menu.view',
+                                'route' => 'coordenador.empresa.convenio.index',
+                                'icon' => 'th-list',
+                                'active' => ['coordenador/empresa/convenio/']
+                            ],
+                            [
+                                'text' => 'menu.new',
+                                'route' => 'coordenador.empresa.convenio.novo',
+                                'icon' => 'edit',
+                                'active' => ['coordenador/empresa/convenio/novo']
+                            ],
                         ]
+                    ]
                     ]
                 ]);
             }

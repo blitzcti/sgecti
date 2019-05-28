@@ -17,12 +17,12 @@ class Company extends Model
 
     public function courses()
     {
-        return $this->hasMany(CompanyCourses::class);
+        return $this->belongsToMany(Course::class, 'company_courses');
     }
 
     public function sectors()
     {
-        return $this->hasMany(CompanySector::class);
+        return $this->belongsToMany(Sector::class, 'company_sectors');
     }
 
     public function supervisors()
@@ -37,31 +37,11 @@ class Company extends Model
 
     public function syncCourses($courses)
     {
-        $companyCourses = $this->courses;
-        foreach ($companyCourses as $companyCourse) {
-            $companyCourse->delete();
-        }
-
-        foreach ($courses as $course) {
-            $companyCourse = new CompanyCourses();
-            $companyCourse->company_id = $this->id;
-            $companyCourse->course_id = intval($course);
-            $companyCourse->save();
-        }
+        $this->courses()->sync($courses);
     }
 
     public function syncSectors($sectors)
     {
-        $companySectors = $this->sectors;
-        foreach ($companySectors as $companySector) {
-            $companySector->delete();
-        }
-
-        foreach ($sectors as $sector) {
-            $companySector = new CompanySector();
-            $companySector->company_id = $this->id;
-            $companySector->sector_id = intval($sector);
-            $companySector->save();
-        }
+        $this->sectors()->sync($sectors);
     }
 }

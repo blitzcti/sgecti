@@ -66,7 +66,7 @@ class CompanyController extends Controller
             ]);
 
             $validatedData = (object)$request->validate([
-                'cpf_cnpj' => ['required', 'numeric', ($boolData->pj) ? new CNPJ : new CPF, 'unique:companies,cpf_cnpj'],
+                'cpf_cnpj' => ['required', 'numeric', ($boolData->pj) ? new CNPJ : new CPF, (!$request->exists('id')) ? 'unique:companies,cpf_cnpj' : ''],
                 'active' => 'required|boolean',
                 'name' => 'required|max:100',
                 'fantasyName' => 'max:100',
@@ -92,45 +92,54 @@ class CompanyController extends Controller
             ]);
 
             if ($request->exists('id')) { // Edit
-                //$id = $request->input('id');
-                //$course = Course::all()->find($id);
+                $id = $request->input('id');
 
-                //$course->updated_at = Carbon::now();
-                //Log::info("Alteração");
-                //Log::info("Dados antigos: " . json_encode($course, JSON_UNESCAPED_UNICODE));
+                $company = Company::all()->find($id);
+                $company->updated_at = Carbon::now();
+
+                $address = $company->address;
+                $address->updated_at = Carbon::now();
+
+                $agreement = $company->agreements->last();
+
+                Log::info("Alteração");
+                Log::info("Dados antigos: " . json_encode($company, JSON_UNESCAPED_UNICODE)
+                    . " / " . json_encode($address, JSON_UNESCAPED_UNICODE));
             } else { // New
                 $address = new Address();
-                $address->cep = $validatedData->cep;
-                $address->uf = $validatedData->uf;
-                $address->cidade = $validatedData->cidade;
-                $address->rua = $validatedData->rua;
-                $address->complemento = $validatedData->complemento;
-                $address->numero = $validatedData->numero;
-                $address->bairro = $validatedData->bairro;
+                $agreement = new Agreement();
 
                 $company->created_at = Carbon::now();
                 $company->cpf_cnpj = $validatedData->cpf_cnpj;
                 $company->pj = $boolData->pj;
-                $company->nome = $validatedData->name;
-                $company->nome_fantasia = $validatedData->fantasyName;
-                $company->email = $validatedData->email;
-                $company->telefone = $validatedData->fone;
-                $company->representante = $validatedData->representative;
-                $company->cargo = $validatedData->representativeRole;
-                $company->ativo = $validatedData->active;
             }
+
+            $company->nome = $validatedData->name;
+            $company->nome_fantasia = $validatedData->fantasyName;
+            $company->email = $validatedData->email;
+            $company->telefone = $validatedData->fone;
+            $company->representante = $validatedData->representative;
+            $company->cargo = $validatedData->representativeRole;
+            $company->ativo = $validatedData->active;
+
+            $address->cep = $validatedData->cep;
+            $address->uf = $validatedData->uf;
+            $address->cidade = $validatedData->cidade;
+            $address->rua = $validatedData->rua;
+            $address->complemento = $validatedData->complemento;
+            $address->numero = $validatedData->numero;
+            $address->bairro = $validatedData->bairro;
 
             $saved = $address->save();
 
             $company->address_id = $address->id;
             $saved = $company->save();
 
-            $company->syncCourses($validatedData->courses);
-            $company->syncSectors($validatedData->sectors);
+            $company->syncCourses(array_map('intval', $validatedData->courses));
+            $company->syncSectors(array_map('intval', $validatedData->sectors));
 
             if($boolData->hasConvenio)
             {
-                $agreement = new Agreement();
                 $agreement->validade = $validatedData->expirationDate;
                 $agreement->observacao = $validatedData->observation;
 

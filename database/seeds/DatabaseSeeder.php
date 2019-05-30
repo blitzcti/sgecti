@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ColorTableSeeder::class);
         $this->call(CourseTableSeeder::class);
         $this->call(SystemConfigurationTableSeeder::class);
+        $this->call(BackupConfigurationTableSeeder::class);
         $this->call(StateTableSeeder::class);
         $this->call(PermissionTableSeeder::class);
         $this->call(RoleTableSeeder::class);

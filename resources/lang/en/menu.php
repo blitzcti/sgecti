@@ -26,6 +26,7 @@ return [
     'courses' => 'Courses',
 
     'company' => 'Companies',
+    'agreements' => 'Agreements',
     'sector' => 'Sectors',
 
     'internship' => 'Internships',

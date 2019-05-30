@@ -67,7 +67,7 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
+                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
                 <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
             </div>
             <!-- /.box-footer -->

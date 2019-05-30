@@ -1,6 +1,16 @@
 <?php
 
 return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Tables to backup
+    |--------------------------------------------------------------------------
+    |
+    | This option controls the tables to make backup and which model they use.
+    |
+    */
+
     'tables' => [
         'users' => "App\Models\User",
         'password_resets' => "App\Models\PasswordReset",
@@ -11,6 +21,7 @@ return [
         'role_has_permissions' => "App\Models\RoleHasPermission",
         'colors' => "App\Models\Color",
         'system_configurations' => "App\Models\SystemConfiguration",
+        'backup_configurations' => "App\Models\BackupConfiguration",
 
         'general_configurations' => "App\Models\GeneralConfiguration",
         'courses' => "App\Models\Course",
@@ -35,4 +46,6 @@ return [
 
         'proposals' => "App\Models\Proposal",
     ],
+
+
 ];

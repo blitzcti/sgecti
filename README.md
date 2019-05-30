@@ -83,6 +83,46 @@ Para isso, siga as intruções abaixo:
     ```
 
 
+### Tarefas agendadas
+#### Windows
+No Windows, utilize o Agendador de Tarefas para executar o agendador de tarefas do Laravel.
+Para isso, crie uma nova tarefa que execute o Laravel Scheduler:
+
+1. Geral
+
+    Selecione a opção `Executar estando o usuário conectado ou não`.
+
+2. Disparadores
+
+    Crie um novo disparador com as seguintes opções:
+    1. Em configurações selecione `Diário`, Repetir a cada `365 dias`;
+    2. Repetir a tarefa a cada `1 minutos` por um período de `Indefinidamente`
+    
+3. Ações
+
+    Crie uma nova ação com as seguintes opções:
+    1. Em `Programa/script` selecione o executável do PHP;
+    2. Em `Adicione argumentos`, digite `artisan schedule:run`;
+    3. Em `Iniciar em`, insira o diretório onde o SGE está instalado.
+
+4. Configurações
+    
+    Selecione `Executar a tarefa o mais cedo possível após uma inicialização agendada ter sido permitida`. 
+
+#### Linux
+O SGE no Linux utiliza do Cron para executar tarefas agendadas, como o backup automático.
+Para que o agendador de tarefas do Laravel seja executado, primeiro é necessário adicionar uma entrada no CRON do servidor.
+Para editar o CronTab, rode o seguinte comando:
+    
+```console
+sudo crontab -e
+```
+    
+Em seguida, adicione a seguinte entrada no CronTab para que o SGE possa executar as tarefas agendadas:
+
+    * * * * * cd /{Diretório de instalação do SGE} && php artisan schedule:run >> /dev/null 2>&1
+
+
 #### Node.js
 O Node.js gerencia as dependências do front-end do SGE.
 Siga as instruções em https://nodejs.org/en/download/ para baixar o Node.js no seu sistema operacional.
@@ -92,6 +132,14 @@ Com o Node instalado, execute o seguinte comando para instalar as dependências 
 ```console
 npm ci
 ```
+
+## Usando o SGE
+### Usuário administrador
+O login padrão do usuário administrador é
+```dir-cti@feb.unesp.br```
+e a senha é
+```123456789```.
+Assim que entrar no sistema, altere a senha de administrador imediatamente para manter o sistema seguro.
 
 
 © 2019 Equipe Blitz.

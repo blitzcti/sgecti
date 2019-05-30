@@ -11,12 +11,6 @@
     <h1>Adicionar nova empresa</h1>
 @stop
 
-@section('css')
-
-    <link rel="stylesheet" href="{{ asset('vendor/adminlte/plugins/iCheck/square/blue.css') }}">
-
-@endsection
-
 @section('content')
     @include('modals.cnpjLoadingModal')
     @include('modals.cnpjErrorModal')

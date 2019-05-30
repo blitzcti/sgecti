@@ -60,6 +60,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('', 'BackupController@index')->name('index');
             Route::get('download', 'BackupController@backup')->name('download');
             Route::post('restaurar', 'BackupController@restore')->name('restaurar');
+            Route::post('salvarConfig', 'BackupController@saveConfig')->name('salvarConfig');
         });
     });
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BackupConfiguration;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class BackupController extends Controller
 {
@@ -22,7 +24,10 @@ class BackupController extends Controller
 
     public function index()
     {
-        return view('admin.system.configurations.backup.index');
+        $backupConfig = BackupConfiguration::findOrFail(1);
+        $days = $backupConfig->days();
+        $hour = $backupConfig->getHour();
+        return view('admin.system.configurations.backup.index')->with(['days' => $days, 'hour' => $hour]);
     }
 
     public function backup()
@@ -44,6 +49,7 @@ class BackupController extends Controller
             if ($this->verifyData($data)) {
                 try {
                     $data = (object)$data;
+                    set_time_limit(300);
                     Artisan::call('migrate:fresh');
 
                     $this->restoreData($data);
@@ -53,13 +59,13 @@ class BackupController extends Controller
                     Log::info("Backup restaurado!");
                 } catch (Exception $e) {
                     Log::error("Erro ao restaurar do arquivo de backup: {$e}");
-                    Artisan::call('cache:forget', ['spatie.permission.cache' => true]);
-                    Artisan::call('cache:clear');
+                    Artisan::call('cache:forget', ['key' => 'spatie.permission.cache']);
+                    Artisan::call('config:cache');
                     Artisan::call('migrate:fresh', ['--seed' => true]);
                     Log::info("Banco de dados reiniciado.");
 
                     $params["saved"] = false;
-                    $params["message"] = "Ocorreu um erro ao restaurar o backup! Reiniciando banco de dados...";
+                    $params["message"] = "Ocorreu um erro ao restaurar o backup! Banco de dados reiniciado.";
                 }
             } else {
                 $params["saved"] = false;
@@ -71,7 +77,48 @@ class BackupController extends Controller
         return redirect()->route('admin.configuracoes.backup.index')->with($params);
     }
 
-    public function verifyInnerData($data, $class)
+    public function scheduledBackup()
+    {
+        Log::info("Backup agendado iniciado.");
+        $data = json_encode($this->getData(), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        $fileName = Carbon::now()->toDateTimeString() . '.json';
+        try {
+            Storage::disk('sftp')->put($fileName, $data);
+            Log::info("Arquivo de backup enviado para o servidor.\nNome: {$fileName}");
+        } catch (Exception $e) {
+            Log::error("Erro ao enviar o arquivo de backup para o servidor: {$e->getMessage()}");
+        }
+    }
+
+    public function saveConfig(Request $request)
+    {
+        $params = [];
+        $saved = false;
+
+        $validatedData = (object)$request->validate([
+            'days' => 'required|array',
+            'hour' => 'required|date_format:H:i'
+        ]);
+
+        $backupConfig = BackupConfiguration::findOrFail(1);
+
+        $allDays = [
+            'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday',
+        ];
+
+        foreach ($allDays as $day) {
+            $backupConfig->{$day} = in_array($day, $validatedData->days);
+        }
+        $backupConfig->hour = $validatedData->hour;
+
+        $saved = $backupConfig->save();
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar configurações!';
+        return redirect()->route('admin.configuracoes.backup.index')->with($params);
+    }
+
+    private function verifyInnerData($data, $class)
     {
         try {
             foreach ($data as $innerData) {
@@ -88,7 +135,7 @@ class BackupController extends Controller
         return true;
     }
 
-    public function verifyData($data)
+    private function verifyData($data)
     {
         if (is_array($data)) {
             try {
@@ -106,7 +153,7 @@ class BackupController extends Controller
         return false;
     }
 
-    public function getData()
+    private function getData()
     {
         $data = [];
         foreach ($this->tables as $table => $class) {
@@ -122,22 +169,19 @@ class BackupController extends Controller
         return $data;
     }
 
-    public function setAutoIncrement($tableName)
+    private function setAutoIncrement($tableName)
     {
         $primaryKey = (new $this->tables[$tableName])->getKeyName();
 
         if (DB::connection()->getDriverName() == 'pgsql') {
             DB::statement("SELECT setval('{$tableName}_id_seq', (SELECT MAX({$primaryKey}) FROM {$tableName}));");
         } else if (DB::connection()->getDriverName() == 'mysql') {
-            DB::raw("SET @m = (SELECT MAX({$primaryKey}) + 1 FROM {$tableName});
-                            SET @s = CONCAT('ALTER TABLE {$tableName} AUTO_INCREMENT=', @m);
-							PREPARE stmt1 FROM @s;
-							EXECUTE stmt1;
-							DEALLOCATE PREPARE stmt1;");
+            $max = DB::table($tableName)->max('id') + 1;
+            DB::statement("ALTER TABLE {$tableName} AUTO_INCREMENT={$max}");
         }
     }
 
-    public function restoreData($data)
+    private function restoreData($data)
     {
         foreach ($this->tables as $table => $class) {
             foreach ($data->{$table} as $innerData) {

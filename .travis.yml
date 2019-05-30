@@ -7,8 +7,9 @@ services:
   - postgresql
 
 before_script:
+  - mv .env.testing .env
   - psql -c 'create database sgecti;' -U postgres
   - composer install --no-interaction
-  - php artisan key:generate --env=testing
-  - php artisan config:cache --env=testing
-  - php artisan migrate --seed --env=testing
+  - php artisan key:generate
+  - php artisan config:cache
+  - php artisan migrate --seed

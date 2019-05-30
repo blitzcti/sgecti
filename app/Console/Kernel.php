@@ -2,11 +2,9 @@
 
 namespace App\Console;
 
-use App\Http\Controllers\BackupController;
 use App\Models\BackupConfiguration;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 
 class Kernel extends ConsoleKernel

@@ -27,6 +27,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('users', 'UserController');
 });
 
+Route::prefix('api')->name('api.')->group(function () {
+    Route::prefix('empresa')->name('empresa.')->group(function () {
+        Route::prefix('setor')->name('setor.')->group(function () {
+            Route::get('', 'SectorController@getAjax')->name('get');
+            Route::get('getFromCompany/{id}', 'SectorController@getAjaxFromCompany')->name('getFromCompany');
+            Route::post('salvar', 'SectorController@saveAjax')->name('salvar');
+        });
+    });
+});
+
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('logs', [
         'middleware' => 'role:admin',
@@ -113,10 +123,8 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
 
         Route::prefix('setor')->name('setor.')->group(function () {
             Route::get('', 'SectorController@index')->name('index');
-            Route::get('getAjax', 'SectorController@getAjax')->name('getAjax');
             Route::get('novo', 'SectorController@new')->name('novo');
             Route::post('salvar', 'SectorController@save')->name('salvar');
-            Route::post('salvarAjax', 'SectorController@saveAjax')->name('salvarAjax');
 
             Route::prefix('{id}')->group(function () {
                 Route::get('editar', 'SectorController@edit')->name('editar');

@@ -361,7 +361,7 @@
             jQuery('#inputSectors').select2({
                 language: "pt-BR",
                 ajax: {
-                    url: '{{ route('coordenador.empresa.setor.getAjax') }}',
+                    url: '{{ route('api.empresa.setor.get') }}',
                     dataType: 'json',
                     method: 'GET',
                     cache: true,

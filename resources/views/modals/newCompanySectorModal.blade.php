@@ -2,7 +2,7 @@
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form id="formSetor" class="form-horizontal" action="{{ route('coordenador.empresa.setor.salvar') }}"
+            <form id="formSetor" class="form-horizontal" action="{{ route('api.empresa.setor.salvar') }}"
                   method="post">
                 @csrf
 
@@ -63,7 +63,7 @@
                 e.preventDefault();
 
                 jQuery.ajax({
-                    url: '{{ route('coordenador.empresa.setor.salvarAjax') }}',
+                    url: '{{ route('api.empresa.setor.salvar') }}',
                     data: {
                         '_token': '{{ csrf_token() }}',
                         'name': jQuery('#inputSectorName').val(),

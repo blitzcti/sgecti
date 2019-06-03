@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\Sector;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -25,6 +26,19 @@ class SectorController extends Controller
     public function getAjax()
     {
         $sectors = Sector::all();
+        return response()->json(
+            ['sectors' => $sectors],
+            200,
+            [
+                'Content-Type' => 'application/json; charset=UTF-8',
+                'charset' => 'utf-8'
+            ],
+            JSON_UNESCAPED_UNICODE);
+    }
+
+    public function getAjaxFromCompany($id)
+    {
+        $sectors = Company::findOrFail($id)->sectors;
         return response()->json(
             ['sectors' => $sectors],
             200,

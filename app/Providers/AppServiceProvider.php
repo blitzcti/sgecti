@@ -252,12 +252,12 @@ class AppServiceProvider extends ServiceProvider
                         'icon' => 'edit',
                         'active' => ['coordenador/estagio/novo']
                     ],
-                    [
+                    /*[
                         'text' => 'menu.ctps',
                         'route' => 'coordenador.estagio.ctps',
                         'icon' => 'edit',
                         'active' => ['coordenador/estagio/novo']
-                    ],
+                    ],*/
                     [
                         'text' => 'menu.aditive',
                         'icon' => 'plus',

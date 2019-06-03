@@ -144,7 +144,7 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
     Route::prefix('estagio')->name('estagio.')->group(function () {
         Route::get('', 'InternshipController@index')->name('index');
         Route::get('novo', 'InternshipController@new')->name('novo');
-        Route::get('ctps', 'InternshipController@ctps')->name('ctps');
+        //Route::get('ctps', 'InternshipController@ctps')->name('ctps');
         Route::post('salvar', 'InternshipController@save')->name('salvar');
 
         Route::prefix('aditivo')->name('aditivo.')->group(function () {

@@ -28,13 +28,16 @@
 
             <div class="box-body">
 
+                <h5>Adicionar botao CTPS</h5>
+
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="inputRA" class="col-sm-4 control-label">RA*</label>
 
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="inputRA" name="ra" placeholder="mascaraaa">
+                                <input type="text" class="form-control" id="inputRA" name="ra"
+                                    placeholder="1757047">
                             </div>
                         </div>
                     </div>
@@ -83,7 +86,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputRA" class="col-sm-2 control-label">HORARIO*</label>
+                    <label for="inputRA" class="col-sm-2 control-label">Horário*</label>
 
                     <div class="col-sm-10">
                         <table id="inputWeekDays" class="table table-bordered table-striped">
@@ -181,64 +184,88 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="inputHorario" class="col-sm-2 control-label">Data ini e fim*</label>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputStart" class="col-sm-4 control-label">Data Início*</label>
 
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputHorario" name="horario">
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" id="inputStart" name="start"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputEnd" class="col-sm-4 control-label">Data Fim*</label>
+
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" id="inputEnd" name="end"/>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <hr>
 
-                <div class="form-group">
-                    <label for="inputState" class="col-sm-2 control-label">Estado*</label>
+                <div class="box-body">
 
-                    <div class="col-sm-10">
-                        <select class="selection" name="state" id="inputState"
-                                style="width: 100%">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="inputState" class="col-sm-4 control-label">Estado*</label>
 
-                            @foreach($states as $state)
+                                <div class="col-sm-8">
+                                    <select class="selection" name="state" id="inputState"
+                                            style="width: 100%">
 
-                                <option value="{{ $state->id }}">{{ $state->descricao }}</option>
+                                        @foreach($states as $state)
 
-                            @endforeach
+                                            <option value="{{ $state->id }}">{{ $state->descricao }}</option>
 
-                        </select>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="inputProtocol" class="col-sm-4 control-label">Protocolo*</label>
+
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="inputProtocol" name="protocol"
+                                        placeholder="001/19"/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="inputRA" class="col-sm-2 control-label">Protocolo*</label>
+                    <div class="form-group">
+                        <label for="inputActivities" class="col-sm-2 control-label">Atividades*</label>
 
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputRA" name="ra"/>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="3" id="inputActivities" name="activities"
+                                      placeholder="O que o aluno fará no estágio"></textarea>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="inputRA" class="col-sm-2 control-label">Atividades*</label>
+                    <div class="form-group">
+                        <label for="inputObservation" class="col-sm-2 control-label">Obervação</label>
 
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputRA" name="ra"/>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputObservation" name="observation"/>
+                        </div>
                     </div>
+
                 </div>
-
-                <div class="form-group">
-                    <label for="inputRA" class="col-sm-2 control-label">Obervação</label>
-
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputRA" name="ra"/>
-                    </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
+                    <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
                 </div>
-
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
-            </div>
-            <!-- /.box-footer -->
+                <!-- /.box-footer -->
         </form>
     </div>
 @endsection
@@ -253,6 +280,14 @@
             jQuery(':input').inputmask({removeMaskOnSubmit: true});
 
             jQuery('.input-time').inputmask('hh:mm', {
+                removeMaskOnSubmit: false
+            });
+
+            jQuery('#inputRA').inputmask('9999999', {
+                removeMaskOnSubmit: false
+            });
+
+            jQuery('#inputProtocol').inputmask('999/99', {
                 removeMaskOnSubmit: false
             });
 

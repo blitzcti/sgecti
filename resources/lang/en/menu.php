@@ -17,9 +17,10 @@ return [
 
     'logs' => 'Logs',
 
-    'message' => 'MESSAGE',
+    'message' => 'Message',
 
-    'help' => 'HELP',
+    'help' => 'Help',
+    'about' => 'About',
 
 
     'administration' => 'ADMINISTRATION',

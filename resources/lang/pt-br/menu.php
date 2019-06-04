@@ -20,6 +20,7 @@ return [
     'message' => 'Mensagem',
 
     'help' => 'Ajuda',
+    'about' => 'Sobre',
 
 
     'administration' => 'ADMINISTRAÇÃO',

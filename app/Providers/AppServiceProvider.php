@@ -108,6 +108,13 @@ class AppServiceProvider extends ServiceProvider
             'active' => ['ajuda/']
         ]);
 
+        $menu->add([
+            'text' => 'menu.about',
+            'route' => 'sobre.index',
+            'icon' => 'info-circle',
+            'active' => ['sobre/']
+        ]);
+
         if ($user->hasRole('admin')) {
             $menu->add('menu.administration');
             if ($user->can('user-list')) {
@@ -215,23 +222,41 @@ class AppServiceProvider extends ServiceProvider
                             ]
                         ],
                         [
-                        'text' => 'menu.agreements',
-                        'icon' => 'exchange',
-                        'submenu' => [
-                            [
-                                'text' => 'menu.view',
-                                'route' => 'coordenador.empresa.convenio.index',
-                                'icon' => 'th-list',
-                                'active' => ['coordenador/empresa/convenio/']
-                            ],
-                            [
-                                'text' => 'menu.new',
-                                'route' => 'coordenador.empresa.convenio.novo',
-                                'icon' => 'edit',
-                                'active' => ['coordenador/empresa/convenio/novo']
-                            ],
+                            'text' => 'menu.supervisors',
+                            'icon' => 'user',
+                            'submenu' => [
+                                [
+                                    'text' => 'menu.view',
+                                    'route' => 'coordenador.empresa.supervisor.index',
+                                    'icon' => 'th-list',
+                                    'active' => ['coordenador/empresa/supervisor/']
+                                ],
+                                [
+                                    'text' => 'menu.new',
+                                    'route' => 'coordenador.empresa.supervisor.novo',
+                                    'icon' => 'edit',
+                                    'active' => ['coordenador/empresa/supervisor/novo']
+                                ],
+                            ]
+                        ],
+                        [
+                            'text' => 'menu.agreements',
+                            'icon' => 'exchange',
+                            'submenu' => [
+                                [
+                                    'text' => 'menu.view',
+                                    'route' => 'coordenador.empresa.convenio.index',
+                                    'icon' => 'th-list',
+                                    'active' => ['coordenador/empresa/convenio/']
+                                ],
+                                [
+                                    'text' => 'menu.new',
+                                    'route' => 'coordenador.empresa.convenio.novo',
+                                    'icon' => 'edit',
+                                    'active' => ['coordenador/empresa/convenio/novo']
+                                ],
+                            ]
                         ]
-                    ]
                     ]
                 ]);
             }
@@ -252,12 +277,6 @@ class AppServiceProvider extends ServiceProvider
                         'icon' => 'edit',
                         'active' => ['coordenador/estagio/novo']
                     ],
-                    /*[
-                        'text' => 'menu.ctps',
-                        'route' => 'coordenador.estagio.ctps',
-                        'icon' => 'edit',
-                        'active' => ['coordenador/estagio/novo']
-                    ],*/
                     [
                         'text' => 'menu.aditive',
                         'icon' => 'plus',

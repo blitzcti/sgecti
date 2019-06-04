@@ -28,7 +28,9 @@
 
             <div class="box-body">
 
-                <h5>Adicionar botao CTPS</h5>
+                <h3>Dados do estágio</h3>
+
+                <input type="hidden" id="inputHasCTPS" name="hasCTPS" value="0">
 
                 <div class="row">
                     <div class="col-sm-6">
@@ -37,7 +39,7 @@
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputRA" name="ra"
-                                    placeholder="1757047">
+                                       placeholder="1757047">
                             </div>
                         </div>
                     </div>
@@ -206,66 +208,111 @@
                     </div>
                 </div>
 
-                <hr>
+                <div class="form-group">
+                    <label for="inputActivities" class="col-sm-2 control-label">Atividades*</label>
 
-                <div class="box-body">
-
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="inputState" class="col-sm-4 control-label">Estado*</label>
-
-                                <div class="col-sm-8">
-                                    <select class="selection" name="state" id="inputState"
-                                            style="width: 100%">
-
-                                        @foreach($states as $state)
-
-                                            <option value="{{ $state->id }}">{{ $state->descricao }}</option>
-
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="inputProtocol" class="col-sm-4 control-label">Protocolo*</label>
-
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="inputProtocol" name="protocol"
-                                        placeholder="001/19"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="inputActivities" class="col-sm-2 control-label">Atividades*</label>
-
-                        <div class="col-sm-10">
+                    <div class="col-sm-10">
                             <textarea class="form-control" rows="3" id="inputActivities" name="activities"
                                       placeholder="O que o aluno fará no estágio"></textarea>
+                    </div>
+                </div>
+
+                <hr/>
+
+                <div>
+                    <div class="btn-group pull-right" style="display: inline-flex; margin: -5px 0 0 0">
+                        <a href="#" class="btn btn-success" id="aAddSupervisor" data-toggle="modal"
+                           data-target="#newInternshipSupervisorModal">Adicionar
+                            supervisor</a>
+                    </div>
+
+                    <h3>Supervisor</h3>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputSupervisor" class="col-sm-2 control-label">Supervisor*</label>
+
+                    <div class="col-sm-10">
+                        <select class="selection" name="supervisor" id="inputSupervisor"
+                                style="width: 100%">
+                        </select>
+                    </div>
+                </div>
+
+                <hr>
+
+                <h3>Dados da secretaria</h3>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputState" class="col-sm-4 control-label">Estado*</label>
+
+                            <div class="col-sm-8">
+                                <select class="selection" name="state" id="inputState"
+                                        style="width: 100%">
+
+                                    @foreach($states as $state)
+
+                                        <option value="{{ $state->id }}">{{ $state->descricao }}</option>
+
+                                    @endforeach
+
+                                </select>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputProtocol" class="col-sm-4 control-label">Protocolo*</label>
+
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputProtocol" name="protocol"
+                                       placeholder="001/19"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputObservation" class="col-sm-2 control-label">Obervação</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputObservation" name="observation"/>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="form-group">
+                    <label for="inputHasCTPSDeMentira" class="col-sm-2 control-label" style="padding-top: 0">O
+                        estágio é CTPS?</label>
+
+                    <div class="col-sm-10">
+                        <input type="checkbox" id="inputHasCTPSDeMentira" name="hasCTPSDeMentira">
+                    </div>
+                </div>
+
+                <div id="div-convenio" style="display: none">
+                    <h3>CTPS</h3>
 
                     <div class="form-group">
-                        <label for="inputObservation" class="col-sm-2 control-label">Obervação</label>
+                        <label for="inputCTPS" class="col-sm-2 control-label">Número da CTPS</label>
 
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputObservation" name="observation"/>
+                            <input type="text" class="form-control" id="inputCTPS" name="ctps"/>
                         </div>
                     </div>
 
                 </div>
-                <!-- /.box-body -->
-                <div class="box-footer">
-                    <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                    <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
-                </div>
-                <!-- /.box-footer -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
+                <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
+            </div>
+            <!-- /.box-footer -->
         </form>
     </div>
 @endsection
@@ -289,6 +336,20 @@
 
             jQuery('#inputProtocol').inputmask('999/99', {
                 removeMaskOnSubmit: false
+            });
+
+            jQuery('#inputCTPS').inputmask('999999/99999', {
+                removeMaskOnSubmit: false
+            });
+
+            jQuery('#inputHasCTPSDeMentira').on('ifChanged', function () {
+                if (this.checked) {
+                    jQuery('#div-convenio').css('display', 'initial');
+                    jQuery('#inputHasCTPS').val(1);
+                } else {
+                    jQuery('#div-convenio').css('display', 'none');
+                    jQuery('#inputHasCTPS').val(0);
+                }
             });
 
             jQuery('#inputSectors').select2({
@@ -317,6 +378,40 @@
                         };
                     },
                 }
+            });
+
+            jQuery('#inputSupervisor').select2({
+                language: "pt-BR",
+                ajax: {
+                    url: `/api/empresa/supervisor/getFromCompany/${jQuery('#inputCompany').val()}`,
+                    dataType: 'json',
+                    method: 'GET',
+                    cache: true,
+                    data: function (params) {
+                        return {
+                            searchTerm: params.term // search term
+                        };
+                    },
+
+                    processResults: function (response) {
+                        supervisors = [];
+                        response.supervisors.forEach(supervisor => {
+                            if (supervisor.ativo) {
+                                supervisors.push({id: supervisor.id, text: supervisor.nome});
+                            }
+                        });
+
+                        return {
+                            results: supervisors
+                        };
+                    },
+                }
+            });
+
+            jQuery('#inputHasCTPSDeMentira').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
             });
         });
     </script>

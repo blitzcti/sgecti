@@ -34,6 +34,12 @@ Route::prefix('api')->name('api.')->group(function () {
             Route::get('getFromCompany/{id}', 'SectorController@getAjaxFromCompany')->name('getFromCompany');
             Route::post('salvar', 'SectorController@saveAjax')->name('salvar');
         });
+
+        Route::prefix('supervisor')->name('supervisor.')->group(function () {
+            Route::get('', 'SupervisorController@getAjax')->name('get');
+            Route::get('getFromCompany/{id}', 'SupervisorController@getAjaxFromCompany')->name('getFromCompany');
+            Route::post('salvar', 'SupervisorController@saveAjax')->name('salvar');
+        });
     });
 });
 
@@ -139,13 +145,24 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
                 Route::get('editar', 'AgreementController@edit')->name('editar');
             });
         });
+
+        Route::prefix('supervisor')->name('supervisor.')->group(function () {
+            Route::get('', 'SupervisorController@index')->name('index');
+            Route::get('novo', 'SupervisorController@new')->name('novo');
+            Route::post('salvar', 'SupervisorController@save')->name('salvar');
+            Route::prefix('{id}')->group(function () {
+                Route::get('editar', 'SupervisorController@edit')->name('editar');
+            });
+        });
     });
 
     Route::prefix('estagio')->name('estagio.')->group(function () {
         Route::get('', 'InternshipController@index')->name('index');
         Route::get('novo', 'InternshipController@new')->name('novo');
-        //Route::get('ctps', 'InternshipController@ctps')->name('ctps');
         Route::post('salvar', 'InternshipController@save')->name('salvar');
+        Route::prefix('{id}')->group(function () {
+            Route::get('editar', 'SupervisorController@edit')->name('editar');
+        });
 
         Route::prefix('aditivo')->name('aditivo.')->group(function () {
             Route::get('', 'AditiveController@index')->name('index');
@@ -172,4 +189,8 @@ Route::prefix('aluno')->name('aluno.')->group(function () {
 
 Route::prefix('ajuda')->name('ajuda.')->group(function () {
     Route::get('', 'HelpController@index')->name('index');
+});
+
+Route::prefix('sobre')->name('sobre.')->group(function () {
+    Route::get('', 'AboutController@index')->name('index');
 });

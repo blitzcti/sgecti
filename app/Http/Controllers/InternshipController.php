@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use App\Models\Internship;
 use App\Models\State;
+use App\Models\Supervisor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,11 @@ class InternshipController extends Controller
     {
         $companies = Company::all()->where('ativo', '=', true);
         $states = State::all();
-        return view('coordinator.internship.new')->with(['companies' => $companies, 'states' => $states]);
+        $supervisors = Supervisor::all();
+
+        return view('coordinator.internship.new')->with(
+            ['companies' => $companies, 'states' => $states, 'supervisors' => $supervisors]
+        );
     }
 
     public function edit()
@@ -34,11 +39,18 @@ class InternshipController extends Controller
         $params = [];
 
         if (!$request->exists('cancel')) {
+            $boolData = (object)$request->validate([
+                'hasCNPJ' => 'required|boolean'
+            ]);
+
             $validatedData = (object)$request->validate([
                 'ra' => 'required|numeric|min:1',
                 'active' => 'required|numeric|min:1',
                 'company' => 'required|min:1',
                 'sector' => 'required|min:1',
+                'start' => 'date|required',
+                'end' => 'date|required',
+                'activities' => 'required|max:6000',
 
                 'seg_e' => 'date_format:H:i',
                 'seg_s' => 'date_format:H:i',
@@ -53,12 +65,13 @@ class InternshipController extends Controller
                 'sab_e' => 'date_format:H:i',
                 'sab_s' => 'date_format:H:i',
 
-                'start' => 'date|required',
-                'end' => 'date|required',
-                'state' => 'required|min:1',
-                'protocol' => 'required|min:5',
-                'activities' => 'required|max:4000',
+                'supervisor' => 'required|numeric|min:1',
+
+                'state' => 'required|max:1',
+                'protocol' => 'required|max:5',
                 'observation' => 'max:200',
+
+                'ctps' => (($boolData->hasCNPJ) ? 'required|numeric|min:11' : ''),
             ]);
 
             if ($request->exists('id')) { // Edit
@@ -70,16 +83,20 @@ class InternshipController extends Controller
                 $internship->created_at = Carbon::now();
             }
 
-            $internship->user_id = $validatedData->user;
-            $internship->course_id = $validatedData->course;
-            $internship->vigencia_ini = $validatedData->start;
-            $internship->vigencia_fim = $validatedData->end;
-            $internship->user_id = $validatedData->user;
-            $internship->course_id = $validatedData->course;
-            $internship->vigencia_ini = $validatedData->start;
-            $internship->vigencia_fim = $validatedData->end;
-            $internship->vigencia_fim = $validatedData->end;
-            $internship->vigencia_fim = $validatedData->end;
+            $internship->ra = $validatedData->campo;
+            //ctps
+            $internship->company_id = $validatedData->campo;
+            $internship->sector_id = $validatedData->campo;
+            $internship->coordinator_id = $validatedData->campo;
+            $internship->schedule_id = $validatedData->campo;
+            $internship->state_id = $validatedData->campo;
+            $internship->start = $validatedData->campo;
+            $internship->end = $validatedData->campo;
+            $internship->protocolo = $validatedData->campo;
+            $internship->atividades = $validatedData->campo;
+            $internship->observacao = $validatedData->campo;
+            $internship->motivo_cancelamento = $validatedData->campo;
+            $internship->ativo = $validatedData->campo;
 
             $saved = $internship->save();
 

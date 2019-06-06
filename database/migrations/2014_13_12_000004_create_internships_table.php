@@ -36,6 +36,9 @@ class CreateInternshipsTable extends Migration
             $table->bigInteger('state_id')->nullable(false)->unsigned();
             $table->foreign('state_id')->references('id')->on('states');
 
+            $table->bigInteger('supervisor_id')->nullable(false)->unsigned();
+            $table->foreign('supervisor_id')->references('id')->on('supervisors');
+
             $table->date('data_ini');
             $table->date('data_fim');
 

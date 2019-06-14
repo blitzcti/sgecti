@@ -25,13 +25,13 @@
                    class="btn btn-success">Adicionar estágio</a>
             </div>
 
-            <table id="companies" class="table table-bordered table-hover">
+            <table id="internships" class="table table-bordered table-hover">
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th>CPF / CNPJ</th>
-                    <th>Nome</th>
-                    <th>Ativo</th>
+                    <th>Aluno</th>
+                    <th>Empresa</th>
+                    <th>Coordenador</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
@@ -41,7 +41,9 @@
 
                     <tr>
                         <th scope="row">{{ $internship->id }}</th>
-
+                        <td>{{ $internship->ra}}</td>
+                        <td>{{ $internship->company->nome }}</td>
+                        <td>{{ $internship->coordinator->user->name }}</td>
                         <td>
                             <a href="{{ route('coordenador.estagio.editar', ['id' => $internship->id]) }}">Editar</a>
                         </td>
@@ -57,7 +59,7 @@
 @section('js')
     <script>
         jQuery(() => {
-            let table = jQuery("#companies").DataTable({
+            let table = jQuery("#internships").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
@@ -84,7 +86,7 @@
                     }
                 ],
                 initComplete: function () {
-                    table.buttons().container().appendTo($('#companies_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().appendTo($('#internships_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                 },
             });

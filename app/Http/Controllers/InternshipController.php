@@ -11,6 +11,7 @@ use App\Models\Supervisor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class InternshipController extends Controller
 {
@@ -31,9 +32,15 @@ class InternshipController extends Controller
         );
     }
 
-    public function edit()
+    public function edit($id)
     {
+        $internship = Internship::findOrFail($id);
+        $companies = Company::all()->where('ativo', '=', true);
+        $states = State::all();
 
+        return view('coordinator.internship.edit')->with([
+            'internship' => $internship, 'companies' => $companies, 'states' => $states
+        ]);
     }
 
     public function save(Request $request)
@@ -57,18 +64,18 @@ class InternshipController extends Controller
                 'end' => 'date|required',
                 'activities' => 'required|max:6000',
 
-                'seg_e' => 'date_format:H:i',
-                'seg_s' => 'date_format:H:i',
-                'ter_e' => 'date_format:H:i',
-                'ter_s' => 'date_format:H:i',
-                'qua_e' => 'date_format:H:i',
-                'qua_s' => 'date_format:H:i',
-                'qui_e' => 'date_format:H:i',
-                'qui_s' => 'date_format:H:i',
-                'sex_e' => 'date_format:H:i',
-                'sex_s' => 'date_format:H:i',
-                'sab_e' => 'date_format:H:i',
-                'sab_s' => 'date_format:H:i',
+                'seg_e' => 'nullable|date_format:H:i',
+                'seg_s' => 'nullable|date_format:H:i',
+                'ter_e' => 'nullable|date_format:H:i',
+                'ter_s' => 'nullable|date_format:H:i',
+                'qua_e' => 'nullable|date_format:H:i',
+                'qua_s' => 'nullable|date_format:H:i',
+                'qui_e' => 'nullable|date_format:H:i',
+                'qui_s' => 'nullable|date_format:H:i',
+                'sex_e' => 'nullable|date_format:H:i',
+                'sex_s' => 'nullable|date_format:H:i',
+                'sab_e' => 'nullable|date_format:H:i',
+                'sab_s' => 'nullable|date_format:H:i',
 
                 'supervisor' => 'required|numeric|min:1',
 
@@ -103,6 +110,7 @@ class InternshipController extends Controller
                     $ctps->created_at = Carbon::now();
             }
 
+            //Tem CTPS
             if ($boolData->hasCTPS)
             {
                 $ctps->ctps = $validatedData->ctps;
@@ -121,23 +129,24 @@ class InternshipController extends Controller
             $schedule->qui_s = $validatedData->qui_s;
             $schedule->sex_e = $validatedData->sex_e;
             $schedule->sex_s = $validatedData->sex_s;
-            $schedule->seg4_e = $validatedData->seg_e;
-            $schedule->seg_s = $validatedData->seg_s;
+            $schedule->sab_e = $validatedData->sab_e;
+            $schedule->sab_s = $validatedData->sab_s;
+            $saved = $schedule->save();
 
             $internship->ra = $validatedData->ra;
             $internship->company_id = $validatedData->company;
             $internship->sector_id = $validatedData->sector;
-            $internship->coordinator_id = Auth::user()->coordinator();;
-            $internship->schedule_id = $validatedData->campo;
-            $internship->state_id = $validatedData->campo;
-            $internship->supervisor_id = $validatedData->campo;
-            $internship->start = $validatedData->campo;
-            $internship->end = $validatedData->campo;
-            $internship->protocolo = $validatedData->campo;
-            $internship->atividades = $validatedData->campo;
-            $internship->observacao = $validatedData->campo;
-            $internship->motivo_cancelamento = $validatedData->campo;
-            $internship->ativo = $validatedData->campo;
+            $internship->coordinator_id = Auth::user()->coordinator()->id;
+            $internship->schedule_id = $schedule->id;
+            $internship->state_id = $validatedData->state;
+            $internship->supervisor_id = $validatedData->supervisor;
+            $internship->data_ini = $validatedData->start;
+            $internship->data_fim = $validatedData->end;
+            $internship->protocolo = $validatedData->protocol;
+            $internship->atividades = $validatedData->activities;
+            $internship->observacao = $validatedData->observation;
+            $internship->motivo_cancelamento = $validatedData->reason_to_cancel;
+            $internship->ativo = $validatedData->active;
 
             $saved = $internship->save();
 
@@ -145,6 +154,6 @@ class InternshipController extends Controller
             $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
         }
 
-        return redirect()->route('admin.coordenador.index')->with($params);
+        return redirect()->route('coordenador.estagio.index')->with($params);
     }
 }

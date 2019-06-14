@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Novo estágio - SGE CTI')
+@section('title', 'Editar estágio - SGE CTI')
 
 @section('content_header')
-    <h1>Adicionar novo estágio</h1>
+    <h1>Editar estágio</h1>
 @stop
 
 @section('content')
@@ -30,8 +30,8 @@
 
                 <h3>Dados do estágio</h3>
 
-                <input type="hidden" id="inputHasCTPS" name="hasCTPS" value="0">
-                <input type="hidden" id="inputReasonToCancel" name="reason_to_cancel" value="">
+                <input type="hidden" id="inputId" name="id" value="{{ $internship->id }}">
+                <input type="hidden" id="inputHasCTPS" name="hasCTPS" value="{{ ($internship->ctps_id == null) ? '0' : '1' }}">
 
                 <div class="row">
                     <div class="col-sm-6">
@@ -40,7 +40,7 @@
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputRA" name="ra"
-                                       placeholder="1757047" data-inputmask="'mask': '9999999'">
+                                       value="{{ $internship->ra }}" data-inputmask="'mask': '9999999'">
                             </div>
                         </div>
                     </div>
@@ -52,8 +52,8 @@
                             <div class="col-sm-8">
                                 <select class="form-control selection" data-minimum-results-for-search="Infinity"
                                         id="inputActive" name="active">
-                                    <option value="1">Sim</option>
-                                    <option value="0">Não</option>
+                                    <option value="1" {{ ($internship->ativo) ? 'selected' : '' }}>Sim</option>
+                                    <option value="0" {{ ($internship->ativo) ? '' : 'selected' }}>Não</option>
                                 </select>
                             </div>
                         </div>
@@ -69,8 +69,9 @@
 
                             @foreach($companies as $company)
 
-                                <option value="{{ $company->id }}">{{ $company->cpf_cnpj }}
-                                    - {{ $company->nome }}</option>
+                                <option value="{{ $company->id }}" {{ ($internship->company == $company) ? 'selected' : '' }}>
+                                    {{ $company->cpf_cnpj }} - {{ $company->nome }}
+                                </option>
 
                             @endforeach
 
@@ -84,6 +85,15 @@
                     <div class="col-sm-10">
                         <select class="selection" name="sector" id="inputSector"
                                 style="width: 100%">
+
+                            @foreach($internship->company->sectors as $sector)
+
+                                <option value="{{ $sector->id }}" {{ ($internship->company->sector == $sector) ? "selected" : "" }}>
+                                    {{ $sector->nome }}
+                                </option>
+
+                            @endforeach
+
                         </select>
                     </div>
                 </div>
@@ -130,27 +140,33 @@
                                 </td>
 
                                 <td>
-                                    <input name="seg_e" id="inputSegE" type="text" class="form-control input-time">
+                                    <input name="seg_e" id="inputSegE" type="text" class="form-control input-time"
+                                           value="{{ $internship->schedule->seg_e }}">
                                 </td>
 
                                 <td>
-                                    <input name="ter_e" id="inputTerE" type="text" class="form-control input-time">
+                                    <input name="ter_e" id="inputTerE" type="text" class="form-control input-time"
+                                           value="{{ $internship->schedule->ter_e }}">
                                 </td>
 
                                 <td>
-                                    <input name="qua_e" id="inputQuaE" type="text" class="form-control input-time">
+                                    <input name="qua_e" id="inputQuaE" type="text" class="form-control input-time"
+                                           value="{{ $internship->schedule->qua_e }}">
                                 </td>
 
                                 <td>
-                                    <input name="qui_e" id="inputQuiE" type="text" class="form-control input-time">
+                                    <input name="qui_e" id="inputQuiE" type="text" class="form-control input-time"
+                                           value="{{ $internship->schedule->qui_e }}">
                                 </td>
 
                                 <td>
-                                    <input name="sex_e" id="inputSexE" type="text" class="form-control input-time">
+                                    <input name="sex_e" id="inputSexE" type="text" class="form-control input-time"
+                                           value="{{ $internship->schedule->sex_e }}">
                                 </td>
 
                                 <td>
-                                    <input name="sab_e" id="inputSabE" type="text" class="form-control input-time">
+                                    <input name="sab_e" id="inputSabE" type="text" class="form-control input-time"
+                                           value="{{ $internship->schedule->sab_e }}">
                                 </td>
                             </tr>
                             <tr>
@@ -159,27 +175,33 @@
                                 </td>
 
                                 <td>
-                                    <input name="seg_s" id="inputSegS" type="text" class="form-control input-time">
+                                    <input name="seg_s" id="inputSegS" type="text" class="form-control input-time"
+                                           value="{{ $internship->schedule->seg_s }}">
                                 </td>
 
                                 <td>
-                                    <input name="ter_s" id="inputTerS" type="text" class="form-control input-time">
+                                    <input name="ter_s" id="inputTerS" type="text" class="form-control input-time"
+                                           value="{{ $internship->schedule->ter_s }}">
                                 </td>
 
                                 <td>
-                                    <input name="qua_s" id="inputQuaS" type="text" class="form-control input-time">
+                                    <input name="qua_s" id="inputQuaS" type="text" class="form-control input-time"
+                                           value="{{ $internship->schedule->qua_s }}">
                                 </td>
 
                                 <td>
-                                    <input name="qui_s" id="inputQuiS" type="text" class="form-control input-time">
+                                    <input name="qui_s" id="inputQuiS" type="text" class="form-control input-time"
+                                           value="{{ $internship->schedule->qui_s }}">
                                 </td>
 
                                 <td>
-                                    <input name="sex_s" id="inputSexS" type="text" class="form-control input-time">
+                                    <input name="sex_s" id="inputSexS" type="text" class="form-control input-time"
+                                           value="{{ $internship->schedule->sex_s }}">
                                 </td>
 
                                 <td>
-                                    <input name="sab_s" id="inputSabS" type="text" class="form-control input-time">
+                                    <input name="sab_s" id="inputSabS" type="text" class="form-control input-time"
+                                           value="{{ $internship->schedule->sab_s }}">
                                 </td>
                             </tr>
                             </tbody>
@@ -193,7 +215,8 @@
                             <label for="inputStart" class="col-sm-4 control-label">Data Início*</label>
 
                             <div class="col-sm-8">
-                                <input type="date" class="form-control" id="inputStart" name="start"/>
+                                <input type="date" class="form-control" id="inputStart" name="start"
+                                       value="{{ $internship->data_ini }}"/>
                             </div>
                         </div>
                     </div>
@@ -203,7 +226,8 @@
                             <label for="inputEnd" class="col-sm-4 control-label">Data Fim*</label>
 
                             <div class="col-sm-8">
-                                <input type="date" class="form-control" id="inputEnd" name="end"/>
+                                <input type="date" class="form-control" id="inputEnd" name="end"
+                                       value="{{ $internship->data_fim }}">
                             </div>
                         </div>
                     </div>
@@ -214,7 +238,7 @@
 
                     <div class="col-sm-10">
                             <textarea class="form-control" rows="3" id="inputActivities" name="activities"
-                                      placeholder="O que o aluno fará no estágio"></textarea>
+                                      placeholder="O que o aluno fará no estágio">{{ $internship->atividades }}</textarea>
                     </div>
                 </div>
 
@@ -236,6 +260,15 @@
                     <div class="col-sm-10">
                         <select class="selection" name="supervisor" id="inputSupervisor"
                                 style="width: 100%">
+
+                            @foreach($internship->company->supervisors as $supervisor)
+
+                                <option value="{{ $supervisor->id }}" {{ ($internship->company->supervisors == $supervisor) ? "selected" : "" }}>
+                                    {{ $supervisor->nome }}
+                                </option>
+
+                            @endforeach
+
                         </select>
                     </div>
                 </div>
@@ -255,7 +288,9 @@
 
                                     @foreach($states as $state)
 
-                                        <option value="{{ $state->id }}">{{ $state->descricao }}</option>
+                                        <option value="{{ $state->id }}" {{ ($state->id == $internship->state_id) ? 'selected' : '' }}>
+                                            {{ $state->descricao }}
+                                        </option>
 
                                     @endforeach
 
@@ -270,7 +305,8 @@
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputProtocol" name="protocol"
-                                       placeholder="001/19" data-inputmask="'mask': '999/99'"/>
+                                       placeholder="001/19" data-inputmask="'mask': '999/99'"
+                                       value="{{ $internship->protocolo }}"/>
                             </div>
                         </div>
                     </div>
@@ -280,7 +316,8 @@
                     <label for="inputObservation" class="col-sm-2 control-label">Obervação</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputObservation" name="observation"/>
+                        <input type="text" class="form-control" id="inputObservation" name="observation"
+                               value={{ $internship->observacao }}/>
                     </div>
                 </div>
 
@@ -306,12 +343,14 @@
                                    data-inputmask="'mask': '999999/99999'"/>
                         </div>
                     </div>
-
                 </div>
+
+                <!-- NAO ESQUECER -->
+                <input type="hidden" id="inputReasonToCancel" name="reason_to_cancel" value="">
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
+                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
                 <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
             </div>
             <!-- /.box-footer -->

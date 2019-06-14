@@ -41,9 +41,7 @@
 
                     <tr>
                         <th scope="row">{{ $agreement->id }}</th>
-                        <td>
-                            <a href="{{ route('coordenador.empresa.editar', ['id' => $agreement->company->id]) }}">{{ $agreement->company->nome }}</a>
-                        </td>
+                        <td>{{ $agreement->company->nome }}</td>
                         <td>{{ $agreement->validade }}</td>
                         <td>{{ $agreement->observacao }}</td>
                         <td>

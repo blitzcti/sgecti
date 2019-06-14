@@ -41,6 +41,7 @@ return [
 
     'student' => 'Alunos',
 
+    'supervisors' => 'Supervisores',
 
     'view' => 'Visualizar',
     'new' => 'Novo',

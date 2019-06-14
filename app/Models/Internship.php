@@ -18,7 +18,7 @@ class Internship extends Model
 
     public function company()
     {
-        return $this->hasOne(Company::class);
+        return $this->belongsTo(Company::class);
     }
 
     public function sector()
@@ -28,12 +28,12 @@ class Internship extends Model
 
     public function coordinator()
     {
-        return $this->hasOne(Coordinator::class);
+        return $this->belongsTo(Coordinator::class);
     }
 
     public function schedule()
     {
-        return $this->hasOne(Schedule::class);
+        return $this->belongsTo(Schedule::class);
     }
 
     public function state()

@@ -42,12 +42,8 @@
 
                     <tr>
                         <th scope="row">{{ $coordinator->id }}</th>
-                        <td>
-                            <a href="{{ route('admin.usuario.editar', ['id' => $coordinator->user->id]) }}">{{ $coordinator->user->name }}</a>
-                        </td>
-                        <td>
-                            <a href="{{ route('admin.curso.editar', ['id' => $coordinator->course->id]) }}">{{ $coordinator->course->name }}</a>
-                        </td>
+                        <td>{{ $coordinator->user->name }}</td>
+                        <td>{{ $coordinator->course->name }}</td>
                         <td>{{ $coordinator->vigencia_ini }}</td>
                         <td>{{ $coordinator->vigencia_fim }}</td>
 

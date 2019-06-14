@@ -161,7 +161,7 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
         Route::get('novo', 'InternshipController@new')->name('novo');
         Route::post('salvar', 'InternshipController@save')->name('salvar');
         Route::prefix('{id}')->group(function () {
-            Route::get('editar', 'SupervisorController@edit')->name('editar');
+            Route::get('editar', 'InternshipController@edit')->name('editar');
         });
 
         Route::prefix('aditivo')->name('aditivo.')->group(function () {

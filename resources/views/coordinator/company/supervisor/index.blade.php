@@ -41,9 +41,7 @@
 
                     <tr>
                         <th scope="row">{{ $supervisor->id }}</th>
-                        <td>
-                            <a href="{{ route('coordenador.empresa.editar', ['id' => $supervisor->company->id]) }}">{{ $supervisor->company->nome }}</a>
-                        </td>
+                        <td>{{ $supervisor->company->nome }}</td>
                         <td>{{ $supervisor->nome }}</td>
                         <td>{{ $supervisor->email }}</td>
 

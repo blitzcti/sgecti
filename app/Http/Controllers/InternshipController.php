@@ -46,7 +46,6 @@ class InternshipController extends Controller
     public function save(Request $request)
     {
         $internship = new Internship();
-        $ctps = new CTPS();
         $schedule = new Schedule();
         $params = [];
 
@@ -97,8 +96,7 @@ class InternshipController extends Controller
                 $schedule->updated_at = Carbon::now();
 
                 if ($boolData->hasCTPS) {
-                    $ctps = $internship->ctps;
-                    $ctps->updated_at = Carbon::now();
+                    $internship = $validatedData->ctps;
                 }
 
                 $log = "Alteração de estágio";
@@ -108,10 +106,6 @@ class InternshipController extends Controller
 
                 $schedule->created_at = Carbon::now();
 
-                if ($boolData->hasCTPS) {
-                    $ctps->created_at = Carbon::now();
-                }
-
                 $log = "Novo estágio";
             }
 
@@ -119,10 +113,7 @@ class InternshipController extends Controller
 
             //Tem CTPS
             if ($boolData->hasCTPS) {
-                $ctps->ctps = $validatedData->ctps;
-                $ctps->save();
-
-                $internship->ctps_id = $ctps->id;
+                $internship->ctps = $validatedData->ctps;
             }
 
             $schedule->seg_e = $validatedData->seg_e;

@@ -33,7 +33,9 @@ class CoordinatorController extends Controller
             $q->where("name", "teacher");
         })->get();
 
-        return view('admin.coordinator.new')->with(["courses" => $courses, "users" => $users]);
+        $c = request()->c;
+
+        return view('admin.coordinator.new')->with(["courses" => $courses, "users" => $users, 'c' => $c]);
     }
 
     public function edit($id)

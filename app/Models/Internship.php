@@ -7,14 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Internship extends Model
 {
     protected $fillable = [
-        'ra', 'ctps_id', 'company_id', 'sector_id', 'coordinator_id', 'schedule_id', 'state_id', 'data_ini',
+        'ra', 'ctps', 'company_id', 'sector_id', 'coordinator_id', 'schedule_id', 'state_id', 'data_ini',
         'data_fim', 'protocolo', 'atividades', 'observacao', 'motivo_cancelamento', 'ativo',
     ];
-
-    public function ctps()
-    {
-        return $this->hasOne(CTPS::class);
-    }
 
     public function company()
     {

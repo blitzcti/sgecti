@@ -29,7 +29,6 @@
                 <h3>Dados do coordenador</h3>
                 <hr/>
 
-
                 <div class="form-group">
                     <label for="inputUser" class="col-sm-2 control-label">Coordenador*</label>
 
@@ -57,7 +56,7 @@
 
                             @foreach($courses as $course)
 
-                                <option value="{{ $course->id }}">
+                                <option value="{{ $course->id }}" {{ ($c == $course->id) ? 'selected' : '' }}>
                                     {{ __($course->name) }}
                                 </option>
 

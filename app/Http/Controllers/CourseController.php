@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Color;
 use App\Models\Course;
 use App\Models\CourseConfiguration;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,7 +45,9 @@ class CourseController extends Controller
     public function new()
     {
         $colors = Color::all();
-        return view('admin.course.new')->with(['colors' => $colors]);
+        $users = User::all();
+
+        return view('admin.course.new')->with(['colors' => $colors, 'users' => $users]);
     }
 
     public function edit($id)

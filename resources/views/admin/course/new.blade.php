@@ -153,6 +153,53 @@
                         </div>
                     </div>
                 </div>
+
+                <hr/>
+
+                <h3>Dados do coordenador</h3>
+
+                <div class="form-group">
+                    <label for="inputUser" class="col-sm-2 control-label">Coordenador*</label>
+
+                    <div class="col-sm-10">
+                        <select class="form-control selection" id="inputUser" name="user">
+
+                            @foreach($users as $user)
+
+                                <option value="{{ $user->id }}">
+                                    {{ __($user->name) }}
+                                </option>
+
+                            @endforeach
+
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputValidity_ini" class="col-sm-4 control-label">Vigência Início*</label>
+
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" id="inputStart" name="start"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="inputValidity_fim" class="col-sm-4 control-label">Vigência Fim</label>
+
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" id="inputEnd" name="end"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Botoes de hoje, ano que vem, ...</h4>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">

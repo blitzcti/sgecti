@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\CourseConfiguration;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class CourseController extends Controller
@@ -75,10 +76,13 @@ class CourseController extends Controller
                 $course = Course::all()->find($id);
 
                 $course->updated_at = Carbon::now();
-                Log::info("Alteração");
-                Log::info("Dados antigos: " . json_encode($course, JSON_UNESCAPED_UNICODE));
+
+                $log = "Alteração de curso";
+                $log .= "\nDados antigos: " . json_encode($course, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             } else { // New
                 $course->created_at = Carbon::now();
+
+                $log = "Novo curso";
 
                 $config = new CourseConfiguration();
                 $configValidatedData = (object)$request->validate([
@@ -98,11 +102,21 @@ class CourseController extends Controller
                 $config->min_grade = $configValidatedData->minMark;
             }
 
+            $log .= "\nUsuário: " . Auth::user()->name;
+
             $course->name = $validatedData->name;
             $course->color_id = $validatedData->color;
             $course->active = $validatedData->active;
 
+            $log .= "\nNovos dados: " . json_encode($course, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
             $saved = $course->save();
+
+            if ($saved) {
+                Log::info($log);
+            } else {
+                Log::error("Erro ao salvar curso");
+            }
 
             if (isset($config)) {
                 $config->course_id = $course->id;

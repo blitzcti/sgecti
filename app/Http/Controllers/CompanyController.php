@@ -11,6 +11,7 @@ use App\Rules\CNPJ;
 use App\Rules\CPF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class CompanyController extends Controller
@@ -87,8 +88,8 @@ class CompanyController extends Controller
 
                 'courses' => 'required|array|min:1',
 
-                'expirationDate' => (($boolData->hasConvenio) ? 'required|date' : ''),
-                'observation' => (($boolData->hasConvenio) ? 'max:200' : ''),
+                'expirationDate' => (($boolData->hasConvenio) ? 'required|date' : 'date'),
+                'observation' => 'max:200',
             ]);
 
             if ($request->exists('id')) { // Edit
@@ -102,9 +103,10 @@ class CompanyController extends Controller
 
                 $agreement = $company->agreements->last();
 
-                Log::info("Alteração");
-                Log::info("Dados antigos: " . json_encode($company, JSON_UNESCAPED_UNICODE)
-                    . " / " . json_encode($address, JSON_UNESCAPED_UNICODE));
+                $log = "Alteração de empresa";
+                $log .= "\nDados antigos: " . json_encode($company, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+                //$log .= "\nDados antigos (endereço): " . json_encode($address, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+                //$log .= "\nDados antigos (convênio): " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             } else { // New
                 $address = new Address();
                 $agreement = new Agreement();
@@ -112,7 +114,11 @@ class CompanyController extends Controller
                 $company->created_at = Carbon::now();
                 $company->cpf_cnpj = $validatedData->cpf_cnpj;
                 $company->pj = $boolData->pj;
+
+                $log = "Nova empresa";
             }
+
+            $log .= "\nUsuário: " . Auth::user()->name;
 
             $company->nome = $validatedData->name;
             $company->nome_fantasia = $validatedData->fantasyName;
@@ -122,6 +128,8 @@ class CompanyController extends Controller
             $company->cargo = $validatedData->representativeRole;
             $company->ativo = $validatedData->active;
 
+            $log .= "\nNovos dados: " . json_encode($company, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
             $address->cep = $validatedData->cep;
             $address->uf = $validatedData->uf;
             $address->cidade = $validatedData->cidade;
@@ -129,6 +137,8 @@ class CompanyController extends Controller
             $address->complemento = $validatedData->complemento;
             $address->numero = $validatedData->numero;
             $address->bairro = $validatedData->bairro;
+
+            $log .= "\nNovos dados (endereço): " . json_encode($address, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
             $saved = $address->save();
 
@@ -143,8 +153,16 @@ class CompanyController extends Controller
                 $agreement->validade = $validatedData->expirationDate;
                 $agreement->observacao = $validatedData->observation;
 
+                $log .= "\nNovos dados (convênio): " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
                 $agreement->company_id = $company->id;
                 $saved = $agreement->save();
+            }
+
+            if ($saved) {
+                Log::info($log);
+            } else {
+                Log::error("Erro ao salvar empresa");
             }
 
             $params['saved'] = $saved;

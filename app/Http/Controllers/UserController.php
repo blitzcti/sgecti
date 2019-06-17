@@ -6,7 +6,9 @@ use App\Models\User;
 use App\Rules\CurrentPassword;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -72,6 +74,9 @@ class UserController extends Controller
                 ]);
 
                 $user->updated_at = Carbon::now();
+
+                $log = "Alteração de usuário";
+                $log .= "\nDados antigos: " . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             } else { // New
                 $validatedData = (object)$request->validate([
                     'name' => 'required|max:255',
@@ -82,13 +87,25 @@ class UserController extends Controller
 
                 $user->created_at = Carbon::now();
                 $user->password = Hash::make($validatedData->password);
+
+                $log = "Novo usuário";
             }
+
+            $log .= "\nUsuário: " . Auth::user()->name;
 
             $user->name = $validatedData->name;
             $user->email = $validatedData->email;
             $user->syncRoles([Role::findOrFail($validatedData->role)->name]);
 
+            $log .= "\nNovos dados: " . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
             $saved = $user->save();
+
+            if ($saved) {
+                Log::info($log);
+            } else {
+                Log::error("Erro ao salvar configuração do sistema");
+            }
 
             $params['saved'] = $saved;
             $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';

@@ -6,6 +6,8 @@ use App\Models\Company;
 use App\Models\Sector;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class SectorController extends Controller
 {
@@ -82,15 +84,30 @@ class SectorController extends Controller
                 $sector = Sector::all()->find($id);
 
                 $sector->updated_at = Carbon::now();
+
+                $log = "Alteração de setor";
+                $log .= "\nDados antigos: " . json_encode($sector, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             } else { // New
                 $sector->created_at = Carbon::now();
+
+                $log = "Novo setor";
             }
+
+            $log .= "\nUsuário: " . Auth::user()->name;
 
             $sector->nome = $validatedData->name;
             $sector->descricao = $validatedData->description;
             $sector->ativo = $validatedData->active;
 
+            $log .= "\nNovos dados: " . json_encode($sector, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
             $saved = $sector->save();
+
+            if ($saved) {
+                Log::info($log);
+            } else {
+                Log::error("Erro ao salvar setor");
+            }
 
             $params['saved'] = $saved;
             $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';

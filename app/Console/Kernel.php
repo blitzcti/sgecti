@@ -5,7 +5,9 @@ namespace App\Console;
 use App\Models\BackupConfiguration;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use PDOException;
 
 class Kernel extends ConsoleKernel
 {
@@ -18,6 +20,15 @@ class Kernel extends ConsoleKernel
         //
     ];
 
+    private function isConnected() {
+        try {
+            DB::connection()->getPdo();
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
     /**
      * Define the application's command schedule.
      *
@@ -26,13 +37,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $backupConfig = new BackupConfiguration();
-        if (Schema::hasTable($backupConfig->getTable())) {
-            $backupConfig = BackupConfiguration::findOrFail(1);
-            $days = $backupConfig->cronDays();
-            $hour = $backupConfig->getHour();
+        if ($this->isConnected()) {
+            $backupConfig = new BackupConfiguration();
+            if (Schema::hasTable($backupConfig->getTable())) {
+                $backupConfig = BackupConfiguration::findOrFail(1);
+                $days = $backupConfig->cronDays();
+                $hour = $backupConfig->getHour();
 
-            $schedule->call('App\Http\Controllers\BackupController@scheduledBackup')->days($days)->at($hour);
+                $schedule->call('App\Http\Controllers\BackupController@scheduledBackup')->days($days)->at($hour);
+            }
         }
     }
 

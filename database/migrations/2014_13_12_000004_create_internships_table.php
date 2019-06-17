@@ -33,6 +33,9 @@ class CreateInternshipsTable extends Migration
             $table->bigInteger('schedule_id')->nullable(false)->unsigned();
             $table->foreign('schedule_id')->references('id')->on('schedules');
 
+            $table->bigInteger('schedule_2_id')->nullable(true)->default(null)->unsigned();
+            $table->foreign('schedule_2_id')->references('id')->on('schedules');
+
             $table->bigInteger('state_id')->nullable(false)->unsigned();
             $table->foreign('state_id')->references('id')->on('states');
 

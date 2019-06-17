@@ -28,6 +28,10 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 Route::prefix('api')->name('api.')->group(function () {
+    Route::prefix('aluno')->name('aluno.')->group(function () {
+        Route::get('', 'NSac\StudentController@getAjax')->name('get');
+    });
+
     Route::prefix('empresa')->name('empresa.')->group(function () {
         Route::prefix('setor')->name('setor.')->group(function () {
             Route::get('', 'SectorController@getAjax')->name('get');

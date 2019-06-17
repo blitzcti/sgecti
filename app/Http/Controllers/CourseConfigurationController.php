@@ -6,6 +6,8 @@ use App\Models\Course;
 use App\Models\CourseConfiguration;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CourseConfigurationController extends Controller
 {
@@ -70,9 +72,16 @@ class CourseConfigurationController extends Controller
                 $config = CourseConfiguration::all()->find($id_config);
 
                 $config->updated_at = Carbon::now();
+
+                $log = "Alteração de configuração de curso";
+                $log .= "\nDados antigos: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             } else { // New
                 $config->created_at = Carbon::now();
+
+                $log = "Nova configuração de curso";
             }
+
+            $log .= "\nUsuário: " . Auth::user()->name;
 
             $config->min_year = $validatedData->minYear;
             $config->min_semester = $validatedData->minSemester;
@@ -81,7 +90,14 @@ class CourseConfigurationController extends Controller
             $config->min_months_ctps = $validatedData->minMonthCTPS;
             $config->min_grade = $validatedData->minMark;
 
+            $log .= "\nNovos dados: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
             $saved = $config->save();
+            if ($saved) {
+                Log::info($log);
+            } else {
+                Log::error("Erro ao salvar configuração de curso");
+            }
 
             $params['saved'] = $saved;
             $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';

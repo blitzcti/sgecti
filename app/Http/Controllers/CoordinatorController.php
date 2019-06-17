@@ -7,6 +7,8 @@ use App\Models\Course;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CoordinatorController extends Controller
 {
@@ -65,16 +67,30 @@ class CoordinatorController extends Controller
                 $coordinator = Coordinator::all()->find($id);
 
                 $coordinator->updated_at = Carbon::now();
+
+                $log = "Alteração de coordenador";
+                $log .= "\nDados antigos: " . json_encode($coordinator, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             } else { // New
                 $coordinator->created_at = Carbon::now();
+
+                $log = "Novo coordenador";
             }
+
+            $log .= "\nUsuário: " . Auth::user()->name;
 
             $coordinator->user_id = $validatedData->user;
             $coordinator->course_id = $validatedData->course;
             $coordinator->vigencia_ini = $validatedData->start;
             $coordinator->vigencia_fim = $validatedData->end;
 
+            $log .= "\nNovos dados: " . json_encode($coordinator, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
             $saved = $coordinator->save();
+            if ($saved) {
+                Log::info($log);
+            } else {
+                Log::error("Erro ao salvar coordenador");
+            }
 
             $params['saved'] = $saved;
             $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';

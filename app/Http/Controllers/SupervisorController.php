@@ -7,6 +7,7 @@ use App\Models\Sector;
 use App\Models\Supervisor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class SupervisorController extends Controller
@@ -81,16 +82,31 @@ class SupervisorController extends Controller
                 $supervisor = Supervisor::all()->find($id);
 
                 $supervisor->updated_at = Carbon::now();
+
+                $log = "Alteração de supervisor";
+                $log .= "\nDados antigos: " . json_encode($supervisor, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             } else { // New
                 $supervisor->created_at = Carbon::now();
+
+                $log = "Novo supervisor";
             }
+
+            $log .= "\nUsuário: " . Auth::user()->name;
 
             $supervisor->nome = $validatedData->supervisorName;
             $supervisor->email = $validatedData->supervisorEmail;
             $supervisor->telefone = $validatedData->supervisorFone;
             $supervisor->company_id = $validatedData->company;
 
+            $log .= "\nNovos dados: " . json_encode($supervisor, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
             $saved = $supervisor->save();
+
+            if ($saved) {
+                Log::info($log);
+            } else {
+                Log::error("Erro ao salvar supervisor");
+            }
 
             $params['saved'] = $saved;
             $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';

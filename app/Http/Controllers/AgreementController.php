@@ -6,6 +6,7 @@ use App\Models\Agreement;
 use App\Models\Company;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class AgreementController extends Controller
@@ -47,18 +48,29 @@ class AgreementController extends Controller
                 $agreement = Agreement::all()->find($id);
                 $agreement->updated_at = Carbon::now();
 
-                Log::info("Alteração");
-                Log::info("Dados antigos: " . json_encode($agreement, JSON_UNESCAPED_UNICODE));
+                $log = "Alteração de convênio";
+                $log .= "\nDados antigos: " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             } else { // New
                 $agreement = new Agreement();
                 $agreement->created_at = Carbon::now();
+
+                $log = "Novo convênio";
             }
+
+            $log .= "\nUsuário: " . Auth::user()->name;
 
             $agreement->company_id = $validatedData->company;
             $agreement->validade = $validatedData->expirationDate;
             $agreement->observacao = $validatedData->observation;
 
+            $log .= "\nNovos dados: " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
             $saved = $agreement->save();
+            if ($saved) {
+                Log::info($log);
+            } else {
+                Log::error("Erro ao salvar convênio");
+            }
 
             $params['saved'] = $saved;
             $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\NSac\Student;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\Auth;
 

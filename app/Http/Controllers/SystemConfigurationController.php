@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\SystemConfiguration;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class SystemConfigurationController extends Controller
 {
@@ -61,9 +63,16 @@ class SystemConfigurationController extends Controller
                 $systemConfig = SystemConfiguration::all()->find($id);
 
                 $systemConfig->updated_at = Carbon::now();
+
+                $log = "Alteração de configuração do sistema";
+                $log .= "\nDados antigos: " . json_encode($systemConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             } else {
                 $systemConfig->created_at = Carbon::now();
+
+                $log = "Nova configuração do sistema";
             }
+
+            $log .= "\nUsuário: " . Auth::user()->name;
 
             $systemConfig->nome = $validatedData->name;
             $systemConfig->cep = $validatedData->cep;
@@ -77,7 +86,15 @@ class SystemConfigurationController extends Controller
             $systemConfig->ramal = $validatedData->ramal;
             $systemConfig->validade_convenio = $validatedData->validade_convenio;
 
+            $log .= "\nNovos dados: " . json_encode($systemConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
             $saved = $systemConfig->save();
+
+            if ($saved) {
+                Log::info($log);
+            } else {
+                Log::error("Erro ao salvar configuração do sistema");
+            }
 
             $params['saved'] = $saved;
             $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';

@@ -101,18 +101,24 @@ class InternshipController extends Controller
                     $ctps->updated_at = Carbon::now();
                 }
 
+                $log = "Alteração de estágio";
+                $log .= "\nDados antigos: " . json_encode($internship, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             } else { // New
                 $internship->created_at = Carbon::now();
 
                 $schedule->created_at = Carbon::now();
 
-                if ($boolData->hasCTPS)
+                if ($boolData->hasCTPS) {
                     $ctps->created_at = Carbon::now();
+                }
+
+                $log = "Novo estágio";
             }
 
+            $log .= "\nUsuário: " . Auth::user()->name;
+
             //Tem CTPS
-            if ($boolData->hasCTPS)
-            {
+            if ($boolData->hasCTPS) {
                 $ctps->ctps = $validatedData->ctps;
                 $ctps->save();
 
@@ -148,7 +154,15 @@ class InternshipController extends Controller
             $internship->motivo_cancelamento = $validatedData->reason_to_cancel;
             $internship->ativo = $validatedData->active;
 
+            $log .= "\nNovos dados: " . json_encode($internship, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
             $saved = $internship->save();
+
+            if ($saved) {
+                Log::info($log);
+            } else {
+                Log::error("Erro ao salvar estágio");
+            }
 
             $params['saved'] = $saved;
             $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';

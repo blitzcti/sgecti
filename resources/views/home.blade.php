@@ -13,5 +13,5 @@
 
         <p>Atualmente, você é coordenador de {{ $courseName }}.</p>
 
-    @endisset
+    @endif
 @stop

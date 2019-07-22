@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCoordinator;
+use App\Http\Requests\UpdateCoordinator;
 use App\Models\Coordinator;
 use App\Models\Course;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -15,8 +16,8 @@ class CoordinatorController extends Controller
     function __construct()
     {
         $this->middleware('permission:coordinator-list');
-        $this->middleware('permission:coordinator-create', ['only' => ['new', 'save']]);
-        $this->middleware('permission:coordinator-edit', ['only' => ['edit', 'save']]);
+        $this->middleware('permission:coordinator-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:coordinator-edit', ['only' => ['edit', 'update']]);
     }
 
     public function index()
@@ -26,7 +27,7 @@ class CoordinatorController extends Controller
         return view('admin.coordinator.index')->with(['coordinators' => $coordinators]);
     }
 
-    public function new()
+    public function create()
     {
         $courses = Course::all();
         $users = User::whereHas("roles", function ($q) {
@@ -40,7 +41,7 @@ class CoordinatorController extends Controller
 
     public function edit($id)
     {
-        if (!is_numeric($id)) {
+        if (!ctype_digit($id)) {
             return redirect()->route('admin.coordinator.index');
         }
 
@@ -51,52 +52,66 @@ class CoordinatorController extends Controller
         return view('admin.coordinator.edit')->with(['coordinator' => $coordinator, 'users' => $users, 'courses' => $courses]);
     }
 
-    public function save(Request $request)
+    public function store(StoreCoordinator $request)
     {
         $coordinator = new Coordinator();
         $params = [];
 
-        if (!$request->exists('cancel')) {
-            $validatedData = (object)$request->validate([
-                'user' => 'required|numeric|min:1',
-                'course' => 'required|numeric|min:1',
-                'start' => 'required|date',
-                'end' => 'date'
-            ]);
+        $validatedData = (object)$request->validated();
 
-            if ($request->exists('id')) { // Edit
-                $id = $request->input('id');
-                $coordinator = Coordinator::all()->find($id);
+        $log = "Novo coordenador";
+        $log .= "\nUsuário: " . Auth::user()->name;
 
-                $coordinator->updated_at = Carbon::now();
+        $coordinator->created_at = Carbon::now();
+        $coordinator->user_id = $validatedData->user;
+        $coordinator->course_id = $validatedData->course;
+        $coordinator->start_date = $validatedData->startDate;
+        $coordinator->end_date = $validatedData->endDate;
 
-                $log = "Alteração de coordenador";
-                $log .= "\nDados antigos: " . json_encode($coordinator, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-            } else { // New
-                $coordinator->created_at = Carbon::now();
+        $saved = $coordinator->save();
+        $log .= "\nNovos dados: " . json_encode($coordinator, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-                $log = "Novo coordenador";
-            }
-
-            $log .= "\nUsuário: " . Auth::user()->name;
-
-            $coordinator->user_id = $validatedData->user;
-            $coordinator->course_id = $validatedData->course;
-            $coordinator->vigencia_ini = $validatedData->start;
-            $coordinator->vigencia_fim = $validatedData->end;
-
-            $log .= "\nNovos dados: " . json_encode($coordinator, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-            $saved = $coordinator->save();
-            if ($saved) {
-                Log::info($log);
-            } else {
-                Log::error("Erro ao salvar coordenador");
-            }
-
-            $params['saved'] = $saved;
-            $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao salvar coordenador");
         }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+
+        return redirect()->route('admin.coordenador.index')->with($params);
+    }
+
+    public function update($id, UpdateCoordinator $request)
+    {
+        $coordinator = Coordinator::all()->find($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $coordinator->updated_at = Carbon::now();
+
+        $log = "Alteração de coordenador";
+        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nDados antigos: " . json_encode($coordinator, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $coordinator->user_id = $validatedData->user;
+        $coordinator->course_id = $validatedData->course;
+        $coordinator->start_date = $validatedData->startDate;
+        $coordinator->end_date = $validatedData->endDate;
+
+        $saved = $coordinator->save();
+        $log .= "\nNovos dados: " . json_encode($coordinator, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao salvar coordenador");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
         return redirect()->route('admin.coordenador.index')->with($params);
     }

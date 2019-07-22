@@ -33,9 +33,9 @@ return [
         'sectors' => "App\Models\Sector",
         'supervisors' => "App\Models\Supervisor",
         'agreements' => "App\Models\Agreement",
-        'company_courses' => "App\Models\CompanyCourses",
+        'company_courses' => "App\Models\CompanyCourse",
+        'company_sectors' => "App\Models\CompanySector",
 
-        'ctps' => "App\Models\CTPS",
         'schedules' => "App\Models\Schedule",
         'states' => "App\Models\State",
         'internships' => "App\Models\Internship",

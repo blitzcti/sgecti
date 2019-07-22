@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class GeneralConfiguration extends Model
 {
     protected $fillable = [
-        'anos_max', 'data_inicio', 'data_fim',
+        'max_years', 'start_date', 'end_date',
     ];
 }

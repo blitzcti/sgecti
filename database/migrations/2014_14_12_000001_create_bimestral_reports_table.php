@@ -19,9 +19,9 @@ class CreateBimestralReportsTable extends Migration
             $table->bigInteger('internship_id')->nullable(false)->unsigned();
             $table->foreign('internship_id')->references('id')->on('internships');
 
-            $table->date('dia');
+            $table->date('date');
 
-            $table->string('protocolo', 15);
+            $table->string('protocol', 15);
 
             $table->timestamps();
         });

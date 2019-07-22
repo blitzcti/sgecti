@@ -151,6 +151,8 @@ return [
         'name' => 'Name',
         'color' => 'Color',
         'active' => 'Active',
+        'startDate' => 'Start date',
+        'endDate' => 'End date',
 
         'old_password' => 'Current password',
         'password' => 'Password',
@@ -163,18 +165,43 @@ return [
         'minMonthCTPS' => 'Minimum months (CTPS)',
         'minMark' => 'Minimum mark',
 
+        'supervisorName' => 'Supervisor Name',
+        'supervisorEmail' => 'Supervisor Email',
+        'supervisorPhone' => 'Supervisor Phone',
+
+        'company' => 'Company',
+
         'cep' => 'CEP',
         'uf' => 'State',
-        'cidade' => 'City',
-        'rua' => 'Street',
-        'numero' => 'Number',
-        'bairro' => 'District',
-        'fone' => 'Phone',
+        'city' => 'City',
+        'street' => 'Street',
+        'number' => 'Number',
+        'district' => 'District',
+        'phone' => 'Phone',
         'email' => 'Email',
-        'ramal' => 'Branch line',
-        'validade_convenio' => 'Agreement validity',
+        'extension' => 'Extension line',
+        'agreementExpiration' => 'Agreement validity',
 
-        'cpf_cnpj' => 'CPF / CNPJ'
+        'cpfCnpj' => 'CPF / CNPJ',
+        'representativeName' => 'Representative Name',
+        'representativeRole' => 'Representative Role',
+        'sector' => 'Sector',
+        'sectors' => 'Sectors',
+        'course' => 'Course',
+        'courses' => 'Courses',
+        'hasConvenio' => 'Add Agreement',
+        'expirationDate' => 'Expiration Date',
+
+        'description' => 'Description',
+
+        'ra' => 'RA',
+        'activities' => 'Activities',
+        'observation' => 'Observation',
+        'supervisor' => 'Supervisor',
+        'protocol' => 'Protocol',
+        'ctps' => 'CTPS',
+        'hasCTPS' => 'Is Internship CTPS',
+
     ],
 
 ];

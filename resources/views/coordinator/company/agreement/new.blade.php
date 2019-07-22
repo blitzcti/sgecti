@@ -7,28 +7,16 @@
 @stop
 
 @section('content')
-
-    @if ($errors->any())
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <div class="box box-default">
+        <div class="box-header with-border">
+            <h3 class="box-title">Dados do convênio</h3>
+        </div>
+
         <form class="form-horizontal" action="{{ route('coordenador.empresa.convenio.salvar') }}" method="post">
             @csrf
 
             <div class="box-body">
-
-                <div class="form-group">
+                <div class="form-group @if($errors->has('company')) has-error @endif">
                     <label for="inputCompany" class="col-sm-2 control-label">Empresa conveniada*</label>
 
                     <div class="col-sm-10">
@@ -37,34 +25,43 @@
 
                             @foreach($companies as $company)
 
-                                <option value="{{ $company->id }}">{{ $company->nome }}</option>
+                                <option value="{{ $company->id }}" {{ (old('company') ?? 1) == $company->id ? 'selected=selected' : '' }}>
+                                    {{ $company->name }}</option>
 
                             @endforeach
 
                         </select>
+
+                        <span class="help-block">{{ $errors->first('company') }}</span>
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group @if($errors->has('expirationDate')) has-error @endif">
                     <label for="inputExpirationDate" class="col-sm-2 control-label">Validade*</label>
 
                     <div class="col-sm-10">
-                        <input type="date" class="form-control" id="inputExpirationDate" name="expirationDate"/>
+                        <input type="date" class="form-control" id="inputExpirationDate" name="expirationDate"
+                               value="{{ old('expirationDate') ?? '' }}">
+
+                        <span class="help-block">{{ $errors->first('expirationDate') }}</span>
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group @if($errors->has('observation')) has-error @endif">
                     <label for="inputObservation" class="col-sm-2 control-label">Observação</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputObservation" name="observation"/>
+                        <textarea class="form-control" rows="3" id="inputObservation" name="observation" style="resize: none"
+                                  placeholder="Observações adicionais">{{ old('observation') ?? '' }}</textarea>
+
+                        <span class="help-block">{{ $errors->first('observation') }}</span>
                     </div>
                 </div>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
+                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
         </form>

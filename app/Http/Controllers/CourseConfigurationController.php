@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCourseConfiguration;
+use App\Http\Requests\UpdateCourseConfiguration;
 use App\Models\Course;
 use App\Models\CourseConfiguration;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -14,13 +15,13 @@ class CourseConfigurationController extends Controller
     function __construct()
     {
         $this->middleware('permission:courseConfiguration-list');
-        $this->middleware('permission:courseConfiguration-create', ['only' => ['new', 'save']]);
-        $this->middleware('permission:courseConfiguration-edit', ['only' => ['edit', 'save']]);
+        $this->middleware('permission:courseConfiguration-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:courseConfiguration-edit', ['only' => ['edit', 'update']]);
     }
 
     public function index($id)
     {
-        if (!is_numeric($id)) {
+        if (!ctype_digit($id)) {
             return redirect()->route('admin.curso.index');
         }
 
@@ -30,7 +31,7 @@ class CourseConfigurationController extends Controller
         return view('admin.course.configuration.index')->with(['course' => $course, 'configurations' => $configurations]);
     }
 
-    public function new($id)
+    public function create($id)
     {
         $course = Course::findOrFail($id);
         return view('admin.course.configuration.new')->with(['course' => $course]);
@@ -38,7 +39,7 @@ class CourseConfigurationController extends Controller
 
     public function edit($id, $id_config)
     {
-        if (!is_numeric($id_config)) {
+        if (!ctype_digit($id_config)) {
             return redirect()->route('admin.curso.configuracao.index');
         }
 
@@ -48,61 +49,72 @@ class CourseConfigurationController extends Controller
         return view('admin.course.configuration.edit')->with(['config' => $config, 'course' => $course]);
     }
 
-    public function save(Request $request, $id)
+    public function store($courseId, StoreCourseConfiguration $request)
     {
         $config = new CourseConfiguration();
         $params = [];
 
-        if (!$request->exists('cancel')) {
-            $validatedData = (object)$request->validate(
-                [
-                    'minYear' => 'required|numeric|min:1|max:3',
-                    'minSemester' => 'required|numeric|min:1|max:2',
-                    'minHour' => 'required|numeric|min:1',
-                    'minMonth' => 'required|numeric|min:1',
-                    'minMonthCTPS' => 'required|numeric|min:1',
-                    'minMark' => 'required|numeric|min:0|max:10'
-                ]
-            );
+        $validatedData = (object)$request->validated();
 
-            $config->course_id = $id;
+        $log = "Nova configuração de curso";
+        $log .= "\nUsuário: " . Auth::user()->name;
 
-            if ($request->exists('id_config')) { // Edit
-                $id_config = $request->input('id_config');
-                $config = CourseConfiguration::all()->find($id_config);
+        $config->course_id = $courseId;
+        $config->created_at = Carbon::now();
+        $config->min_year = $validatedData->minYear;
+        $config->min_semester = $validatedData->minSemester;
+        $config->min_hours = $validatedData->minHour;
+        $config->min_months = $validatedData->minMonth;
+        $config->min_months_ctps = $validatedData->minMonthCTPS;
+        $config->min_grade = $validatedData->minMark;
 
-                $config->updated_at = Carbon::now();
+        $saved = $config->save();
+        $log .= "\nNovos dados: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-                $log = "Alteração de configuração de curso";
-                $log .= "\nDados antigos: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-            } else { // New
-                $config->created_at = Carbon::now();
-
-                $log = "Nova configuração de curso";
-            }
-
-            $log .= "\nUsuário: " . Auth::user()->name;
-
-            $config->min_year = $validatedData->minYear;
-            $config->min_semester = $validatedData->minSemester;
-            $config->min_hours = $validatedData->minHour;
-            $config->min_months = $validatedData->minMonth;
-            $config->min_months_ctps = $validatedData->minMonthCTPS;
-            $config->min_grade = $validatedData->minMark;
-
-            $log .= "\nNovos dados: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-            $saved = $config->save();
-            if ($saved) {
-                Log::info($log);
-            } else {
-                Log::error("Erro ao salvar configuração de curso");
-            }
-
-            $params['saved'] = $saved;
-            $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao salvar configuração de curso");
         }
 
-        return redirect()->route('admin.curso.configuracao.index', $id)->with($params);
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+
+        return redirect()->route('admin.curso.configuracao.index', $courseId)->with($params);
+    }
+
+    public function update($courseId, $id, UpdateCourseConfiguration $request)
+    {
+        $config = CourseConfiguration::all()->find($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $log = "Alteração de configuração de curso";
+        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nDados antigos: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $config->course_id = $courseId;
+        $config->updated_at = Carbon::now();
+        $config->min_year = $validatedData->minYear;
+        $config->min_semester = $validatedData->minSemester;
+        $config->min_hours = $validatedData->minHour;
+        $config->min_months = $validatedData->minMonth;
+        $config->min_months_ctps = $validatedData->minMonthCTPS;
+        $config->min_grade = $validatedData->minMark;
+
+        $saved = $config->save();
+        $log .= "\nNovos dados: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao salvar configuração de curso");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+
+        return redirect()->route('admin.curso.configuracao.index', $courseId)->with($params);
     }
 }

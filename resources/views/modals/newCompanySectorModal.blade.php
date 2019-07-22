@@ -15,7 +15,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <div class="form-group">
+                    <div class="form-group @if($errors->has('sectorName')) has-error @endif">
                         <label for="inputSectorName" class="col-sm-3 control-label">Nome do setor</label>
 
                         <div class="col-sm-9">
@@ -24,7 +24,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group @if($errors->has('sectorDescription')) has-error @endif">
                         <label for="inputSectorDescription" class="col-sm-3 control-label">Descrição</label>
 
                         <div class="col-sm-9">
@@ -33,7 +33,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group @if($errors->has('active')) has-error @endif">
                         <label for="inputSectorActive" class="col-sm-3 control-label">Ativo</label>
 
                         <div class="col-sm-9">
@@ -79,7 +79,7 @@
 
                             jQuery('#newCompanySectorModal').modal('hide');
                         } else {
-                            alert(data.errors);
+                            alert(data.errors.join('\n'));
                         }
                     },
 

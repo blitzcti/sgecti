@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Coordinator extends Model
 {
     protected $fillable = [
-        'user_id', 'course_id', 'vigencia_ini', 'vigencia_fim',
+        'user_id', 'course_id', 'start_date', 'end_date',
     ];
 
     public function user()

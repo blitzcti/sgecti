@@ -16,23 +16,23 @@ class CreateSchedulesTable extends Migration
         Schema::create('schedules', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->time('seg_e')->nullable(true)->default(null);
-            $table->time('seg_s')->nullable(true)->default(null);
+            $table->time('mon_s')->nullable(true)->default(null);
+            $table->time('mon_e')->nullable(true)->default(null);
 
-            $table->time('ter_e')->nullable(true)->default(null);
-            $table->time('ter_s')->nullable(true)->default(null);
+            $table->time('tue_s')->nullable(true)->default(null);
+            $table->time('tue_e')->nullable(true)->default(null);
 
-            $table->time('qua_e')->nullable(true)->default(null);
-            $table->time('qua_s')->nullable(true)->default(null);
+            $table->time('wed_s')->nullable(true)->default(null);
+            $table->time('wed_e')->nullable(true)->default(null);
 
-            $table->time('qui_e')->nullable(true)->default(null);
-            $table->time('qui_s')->nullable(true)->default(null);
+            $table->time('thu_s')->nullable(true)->default(null);
+            $table->time('thu_e')->nullable(true)->default(null);
 
-            $table->time('sex_e')->nullable(true)->default(null);
-            $table->time('sex_s')->nullable(true)->default(null);
+            $table->time('fri_s')->nullable(true)->default(null);
+            $table->time('fri_e')->nullable(true)->default(null);
 
-            $table->time('sab_e')->nullable(true)->default(null);
-            $table->time('sab_s')->nullable(true)->default(null);
+            $table->time('sat_s')->nullable(true)->default(null);
+            $table->time('sat_e')->nullable(true)->default(null);
 
             $table->timestamps();
         });

@@ -7,49 +7,37 @@
 @stop
 
 @section('content')
-    @if ($errors->any())
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <div class="box box-default">
-        <form class="form-horizontal" action="{{ route('admin.coordenador.salvar') }}" method="post">
+        <div class="box-header with-border">
+            <h3 class="box-title">Dados do coordenador</h3>
+        </div>
+
+        <form class="form-horizontal" action="{{ route('admin.coordenador.alterar', $coordinator->id) }}" method="post">
+            @method('PUT')
             @csrf
 
             <div class="box-body">
-                <h3>Dados do coordenador</h3>
-                <hr/>
-                <input type="hidden" name="id" value="{{ $coordinator->id }}">
-
-                <div class="form-group">
-                    <label for="inputUser" class="col-sm-2 control-label">Coordenador</label>
+                <div class="form-group @if($errors->has('user')) has-error @endif">
+                    <label for="inputUser" class="col-sm-2 control-label">Usuário</label>
 
                     <div class="col-sm-10">
                         <select class="form-control selection" id="inputUser" name="user">
 
                             @foreach($users as $user)
 
-                                <option value="{{ $user->id }}" {{ $user->id == $coordinator->user->id ? 'selected=selected' : '' }}>
+                                <option value="{{ $user->id }}" {{ (old('user') ?? $user->id) == $coordinator->user->id ? 'selected=selected' : '' }}>
                                     {{ __($user->name) }}
                                 </option>
 
                             @endforeach
 
                         </select>
-                    </div>
 
+                        <span class="help-block">{{ $errors->first('user') }}</span>
+                    </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group @if($errors->has('course')) has-error @endif">
                     <label for="inputCourse" class="col-sm-2 control-label">Curso</label>
 
                     <div class="col-sm-10">
@@ -57,35 +45,41 @@
 
                             @foreach($courses as $course)
 
-                                <option value="{{ $course->id }}" {{ $course->id == $coordinator->course->id ? 'selected=selected' : '' }}>
+                                <option value="{{ $course->id }}" {{ (old('course') ?? $coordinator->course->id) == $course->id ? 'selected=selected' : '' }}>
                                     {{ __($course->name) }}
                                 </option>
 
                             @endforeach
 
                         </select>
+
+                        <span class="help-block">{{ $errors->first('course') }}</span>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="inputValidity_ini" class="col-sm-4 control-label">Vigência Início</label>
+                        <div class="form-group @if($errors->has('startDate')) has-error @endif">
+                            <label for="inputStartDate" class="col-sm-4 control-label">Vigência Início</label>
 
                             <div class="col-sm-8">
-                                <input type="date" class="form-control" id="inputStart" name="start"
-                                       value="{{ $coordinator->vigencia_ini }}"/>
+                                <input type="date" class="form-control" id="inputStartDate" name="startDate"
+                                       value="{{ old('startDate') ?? $coordinator->start_date }}"/>
+
+                                <span class="help-block">{{ $errors->first('startDate') }}</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="inputValidity_fim" class="col-sm-4 control-label">Vigência Fim</label>
+                        <div class="form-group @if($errors->has('endDate')) has-error @endif">
+                            <label for="inputEndDate" class="col-sm-4 control-label">Vigência Fim</label>
 
                             <div class="col-sm-8">
-                                <input type="date" class="form-control" id="inputEnd" name="end"
-                                       value="{{ $coordinator->vigencia_fim }}"/>
+                                <input type="date" class="form-control" id="inputEndDate" name="endDate"
+                                       value="{{ old('endDate') ?? $coordinator->end_date }}"/>
+
+                                <span class="help-block">{{ $errors->first('endDate') }}</span>
                             </div>
                         </div>
                     </div>
@@ -96,7 +90,7 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
+                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
                 <button type="submit" class="btn btn-primary pull-right">Salvar</button>
             </div>
             <!-- /.box-footer -->

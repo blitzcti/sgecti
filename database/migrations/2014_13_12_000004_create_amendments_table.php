@@ -19,14 +19,14 @@ class CreateAmendmentsTable extends Migration
             $table->bigInteger('internship_id')->nullable(false)->unsigned();
             $table->foreign('internship_id')->references('id')->on('internships');
 
-            $table->date('data_ini');
-            $table->date('data_fim');
+            $table->date('start_date');
+            $table->date('end_date');
 
             $table->bigInteger('schedule_id')->nullable(false)->unsigned();
             $table->foreign('schedule_id')->references('id')->on('schedules');
 
-            $table->string('protocolo', 15);
-            $table->text('observacao')->nullable(true)->default(null);
+            $table->string('protocol', 15);
+            $table->text('observation')->nullable(true)->default(null);
 
             $table->timestamps();
         });

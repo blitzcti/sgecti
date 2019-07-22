@@ -2,6 +2,11 @@
 O SGE é um Trabalho de Conclusão de Curso apresentado ao CTI - Colégio Técnico Industrial "Prof. Isaac Portal Roldán" - Unesp - Universidade Estadual Paulista "Júlio de Mesquita Filho" - Campus de Bauru.
 Desenvolvido pela equipe Blitz, esse projeto tem como finalidade gerenciar os estágios do CTI.
 
+<p align="center">
+<a href="https://travis-ci.org/blitzcti/sgecti"><img src="https://travis-ci.org/blitzcti/sgecti.svg?branch=master" alt="Build Status"></a>
+<a href="https://github.com/laravel/laravel"><img src="https://img.shields.io/badge/Laravel-5.8.14-blue.svg" alt="Laravel Version"></a>
+</p>
+
 ## Instalação e configuração inicial
 O SGE é feito em cima do framework Laravel, o qual utiliza do PHP 7 para ser executado.
 Assim, é recomendado que se instale um servidor HTTP com o PHP e um gerenciador de banco de dados.
@@ -16,7 +21,7 @@ Caso esteja em um ambiente Linux, siga as instruções abaixo para instalar o Ap
 Para o Ubuntu, rode o seguinte comando:
 
     ```console
-    sudo apt install apache2 php php-json php-mbstring php-pgsql php-xml postgresql postgresql-contrib
+    sudo apt install apache2 php php-json php-mbstring php-pgsql php-xml php-gd postgresql postgresql-contrib
     ```
 
 2. Habilite e inicie os serviços do Apache e do PostgreSQL. Para o Ubuntu, execute os comandos a seguir:
@@ -115,7 +120,7 @@ Para que o agendador de tarefas do Laravel seja executado, primeiro é necessár
 Para editar o CronTab, rode o seguinte comando:
     
 ```console
-sudo crontab -e
+sudo crontab -u www-data -e
 ```
     
 Em seguida, adicione a seguinte entrada no CronTab para que o SGE possa executar as tarefas agendadas:

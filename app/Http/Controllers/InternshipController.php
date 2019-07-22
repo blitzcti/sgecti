@@ -2,40 +2,47 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreInternship;
+use App\Http\Requests\UpdateInternship;
 use App\Models\Company;
-use App\Models\CTPS;
 use App\Models\Internship;
 use App\Models\Schedule;
 use App\Models\State;
 use App\Models\Supervisor;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class InternshipController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('coordinator');
+        $this->middleware('permission:internship-list');
+        $this->middleware('permission:internship-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:internship-edit', ['only' => ['edit', 'update']]);
+    }
+
     public function index()
     {
         $internships = Internship::all();
         return view('coordinator.internship.index')->with(['internships' => $internships]);
     }
 
-    public function new()
+    public function create()
     {
-        $companies = Company::all()->where('ativo', '=', true);
+        $companies = Company::all()->where('active', '=', true);
         $states = State::all();
-        $supervisors = Supervisor::all();
 
         return view('coordinator.internship.new')->with(
-            ['companies' => $companies, 'states' => $states, 'supervisors' => $supervisors]
+            ['companies' => $companies, 'states' => $states]
         );
     }
 
     public function edit($id)
     {
         $internship = Internship::findOrFail($id);
-        $companies = Company::all()->where('ativo', '=', true);
+        $companies = Company::all()->where('active', '=', true);
         $states = State::all();
 
         return view('coordinator.internship.edit')->with([
@@ -43,121 +50,171 @@ class InternshipController extends Controller
         ]);
     }
 
-    public function save(Request $request)
+    public function store(StoreInternship $request)
     {
         $internship = new Internship();
-        $schedule = new Schedule();
         $params = [];
 
-        if (!$request->exists('cancel')) {
-            $boolData = (object)$request->validate([
-                'hasCTPS' => 'required|boolean'
-            ]);
+        $validatedData = (object)$request->validated();
 
-            $validatedData = (object)$request->validate([
-                'ra' => 'required|numeric|min:1',
-                'active' => 'required|numeric|min:1',
-                'company' => 'required|min:1',
-                'sector' => 'required|min:1',
-                'start' => 'date|required',
-                'end' => 'date|required',
-                'activities' => 'required|max:6000',
+        $log = "Novo estágio";
+        $log .= "\nUsuário: " . Auth::user()->name;
 
-                'seg_e' => 'nullable|date_format:H:i',
-                'seg_s' => 'nullable|date_format:H:i',
-                'ter_e' => 'nullable|date_format:H:i',
-                'ter_s' => 'nullable|date_format:H:i',
-                'qua_e' => 'nullable|date_format:H:i',
-                'qua_s' => 'nullable|date_format:H:i',
-                'qui_e' => 'nullable|date_format:H:i',
-                'qui_s' => 'nullable|date_format:H:i',
-                'sex_e' => 'nullable|date_format:H:i',
-                'sex_s' => 'nullable|date_format:H:i',
-                'sab_e' => 'nullable|date_format:H:i',
-                'sab_s' => 'nullable|date_format:H:i',
+        $schedule = new Schedule();
 
-                'supervisor' => 'required|numeric|min:1',
+        $schedule->created_at = Carbon::now();
+        $schedule->mon_s = $validatedData->monS;
+        $schedule->mon_e = $validatedData->monE;
+        $schedule->tue_s = $validatedData->tueS;
+        $schedule->tue_e = $validatedData->tueE;
+        $schedule->wed_s = $validatedData->wedS;
+        $schedule->wed_e = $validatedData->wedE;
+        $schedule->thu_s = $validatedData->thuS;
+        $schedule->thu_e = $validatedData->thuE;
+        $schedule->fri_s = $validatedData->friS;
+        $schedule->fri_e = $validatedData->friE;
+        $schedule->sat_s = $validatedData->satS;
+        $schedule->sat_e = $validatedData->satE;
+        $saved = $schedule->save();
 
-                'state' => 'required|max:1',
-                'protocol' => 'required|max:5',
-                'observation' => 'max:200',
-                'reason_to_cancel' => 'max:2000',
+        if ($validatedData->has2Turnos) {
+            $schedule2 = new Schedule();
 
-                'ctps' => (($boolData->hasCTPS) ? 'required|numeric|min:11' : ''),
-            ]);
+            $schedule2->created_at = Carbon::now();
+            $schedule2->mon_s = $validatedData->monS2;
+            $schedule2->mon_e = $validatedData->monE2;
+            $schedule2->tue_s = $validatedData->tueS2;
+            $schedule2->tue_e = $validatedData->tueE2;
+            $schedule2->wed_s = $validatedData->wedS2;
+            $schedule2->wed_e = $validatedData->wedE2;
+            $schedule2->thu_s = $validatedData->thuS2;
+            $schedule2->thu_e = $validatedData->thuE2;
+            $schedule2->fri_s = $validatedData->friS2;
+            $schedule2->fri_e = $validatedData->friE2;
+            $schedule2->sat_s = $validatedData->satS2;
+            $schedule2->sat_e = $validatedData->satE2;
+            $saved = $schedule2->save();
 
-            if ($request->exists('id')) { // Edit
-                $id = $request->input('id');
-
-                $internship = Internship::all()->find($id);
-                $internship->updated_at = Carbon::now();
-
-                $schedule = $internship->schedule;
-                $schedule->updated_at = Carbon::now();
-
-                if ($boolData->hasCTPS) {
-                    $internship = $validatedData->ctps;
-                }
-
-                $log = "Alteração de estágio";
-                $log .= "\nDados antigos: " . json_encode($internship, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-            } else { // New
-                $internship->created_at = Carbon::now();
-
-                $schedule->created_at = Carbon::now();
-
-                $log = "Novo estágio";
-            }
-
-            $log .= "\nUsuário: " . Auth::user()->name;
-
-            //Tem CTPS
-            if ($boolData->hasCTPS) {
-                $internship->ctps = $validatedData->ctps;
-            }
-
-            $schedule->seg_e = $validatedData->seg_e;
-            $schedule->seg_s = $validatedData->seg_s;
-            $schedule->ter_e = $validatedData->ter_e;
-            $schedule->ter_s = $validatedData->ter_s;
-            $schedule->qua_e = $validatedData->qua_e;
-            $schedule->qua_s = $validatedData->qua_s;
-            $schedule->qui_e = $validatedData->qui_e;
-            $schedule->qui_s = $validatedData->qui_s;
-            $schedule->sex_e = $validatedData->sex_e;
-            $schedule->sex_s = $validatedData->sex_s;
-            $schedule->sab_e = $validatedData->sab_e;
-            $schedule->sab_s = $validatedData->sab_s;
-            $saved = $schedule->save();
-
-            $internship->ra = $validatedData->ra;
-            $internship->company_id = $validatedData->company;
-            $internship->sector_id = $validatedData->sector;
-            $internship->coordinator_id = Auth::user()->coordinator()->id;
-            $internship->schedule_id = $schedule->id;
-            $internship->state_id = $validatedData->state;
-            $internship->supervisor_id = $validatedData->supervisor;
-            $internship->data_ini = $validatedData->start;
-            $internship->data_fim = $validatedData->end;
-            $internship->protocolo = $validatedData->protocol;
-            $internship->atividades = $validatedData->activities;
-            $internship->observacao = $validatedData->observation;
-            $internship->motivo_cancelamento = $validatedData->reason_to_cancel;
-            $internship->ativo = $validatedData->active;
-
-            $log .= "\nNovos dados: " . json_encode($internship, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-            $saved = $internship->save();
-
-            if ($saved) {
-                Log::info($log);
-            } else {
-                Log::error("Erro ao salvar estágio");
-            }
-
-            $params['saved'] = $saved;
-            $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+            $internship->schedule_2_id = $schedule2->id;
         }
+
+        $internship->created_at = Carbon::now();
+        $internship->ra = $validatedData->ra;
+        $internship->company_id = $validatedData->company;
+        $internship->sector_id = $validatedData->sector;
+        $internship->coordinator_id = Auth::user()->coordinator()->id;
+        $internship->schedule_id = $schedule->id;
+        $internship->state_id = 1;
+        $internship->supervisor_id = $validatedData->supervisor;
+        $internship->start_date = $validatedData->startDate;
+        $internship->end_date = $validatedData->endDate;
+        $internship->protocol = $validatedData->protocol;
+        $internship->activities = $validatedData->activities;
+        $internship->observation = $validatedData->observation;
+        $internship->reason_to_cancel = $validatedData->reasonToCancel;
+        $internship->active = $validatedData->active;
+
+        //Tem CTPS
+        if ($validatedData->hasCTPS) {
+            $internship->ctps = $validatedData->ctps;
+        }
+
+        $saved = $internship->save();
+        $log .= "\nNovos dados: " . json_encode($internship, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao salvar estágio");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+
+        return redirect()->route('coordenador.estagio.index')->with($params);
+    }
+
+    public function update($id, UpdateInternship $request)
+    {
+        $internship = Internship::all()->find($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $log = "Alteração de estágio";
+        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nDados antigos: " . json_encode($internship, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $schedule = $internship->schedule;
+
+        $schedule->updated_at = Carbon::now();
+        $schedule->mon_s = $validatedData->monS;
+        $schedule->mon_e = $validatedData->monE;
+        $schedule->tue_s = $validatedData->tueS;
+        $schedule->tue_e = $validatedData->tueE;
+        $schedule->wed_s = $validatedData->wedS;
+        $schedule->wed_e = $validatedData->wedE;
+        $schedule->thu_s = $validatedData->thuS;
+        $schedule->thu_e = $validatedData->thuE;
+        $schedule->fri_s = $validatedData->friS;
+        $schedule->fri_e = $validatedData->friE;
+        $schedule->sat_s = $validatedData->satS;
+        $schedule->sat_e = $validatedData->satE;
+        $saved = $schedule->save();
+
+        if ($validatedData->has2Turnos) {
+            $schedule2 = $internship->schedule2 ?? new Schedule();
+
+            $schedule2->updated_at = Carbon::now();
+            $schedule2->mon_s = $validatedData->monS2;
+            $schedule2->mon_e = $validatedData->monE2;
+            $schedule2->tue_s = $validatedData->tueS2;
+            $schedule2->tue_e = $validatedData->tueE2;
+            $schedule2->wed_s = $validatedData->wedS2;
+            $schedule2->wed_e = $validatedData->wedE2;
+            $schedule2->thu_s = $validatedData->thuS2;
+            $schedule2->thu_e = $validatedData->thuE2;
+            $schedule2->fri_s = $validatedData->friS2;
+            $schedule2->fri_e = $validatedData->friE2;
+            $schedule2->sat_s = $validatedData->satS2;
+            $schedule2->sat_e = $validatedData->satE2;
+            $saved = $schedule2->save();
+
+            $internship->schedule_2_id = $schedule2->id;
+        }
+
+        $internship->updated_at = Carbon::now();
+        $internship->ra = $validatedData->ra;
+        $internship->company_id = $validatedData->company;
+        $internship->sector_id = $validatedData->sector;
+        $internship->coordinator_id = Auth::user()->coordinator()->id;
+        $internship->schedule_id = $schedule->id;
+        $internship->state_id = 1;
+        $internship->supervisor_id = $validatedData->supervisor;
+        $internship->start_date = $validatedData->startDate;
+        $internship->end_date = $validatedData->endDate;
+        $internship->protocol = $validatedData->protocol;
+        $internship->activities = $validatedData->activities;
+        $internship->observation = $validatedData->observation;
+        $internship->reason_to_cancel = $validatedData->reasonToCancel;
+        $internship->active = $validatedData->active;
+
+        //Tem CTPS
+        if ($validatedData->hasCTPS) {
+            $internship->ctps = $validatedData->ctps;
+        }
+
+        $saved = $internship->save();
+        $log .= "\nNovos dados: " . json_encode($internship, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao salvar estágio");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
         return redirect()->route('coordenador.estagio.index')->with($params);
     }

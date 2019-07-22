@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\NSac\Student;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,12 +25,7 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $courseName = null;
 
-        if ($user->isCoordinator()) {
-            $courseName = $user->coordinator()->course->name;
-        }
-
-        return view('home')->with(['user' => $user, 'courseName' => $courseName]);
+        return view('home')->with(['user' => $user]);
     }
 }

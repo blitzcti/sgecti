@@ -20,10 +20,7 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <div class="btn-group" style="display: inline-flex; margin: 0 0 10px 0">
-                <a href="{{ route('admin.usuario.novo') }}" class="btn btn-success">Adicionar usuário</a>
-            </div>
-
+            <a id="addLink" href="{{ route('admin.usuario.novo') }}" class="btn btn-success">Adicionar usuário</a>
 
             <table id="users" class="table table-bordered table-hover">
                 <thead>
@@ -91,6 +88,7 @@
                 initComplete: function () {
                     table.buttons().container().appendTo($('#users_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
+                    jQuery('#addLink').prependTo(table.buttons().container());
                 },
             });
         });

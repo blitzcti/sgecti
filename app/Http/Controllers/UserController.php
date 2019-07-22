@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUser;
+use App\Http\Requests\UpdateUser;
 use App\Models\User;
 use App\Rules\CurrentPassword;
 use Carbon\Carbon;
@@ -16,8 +18,8 @@ class UserController extends Controller
     function __construct()
     {
         $this->middleware('permission:user-list');
-        $this->middleware('permission:user-create', ['only' => ['new', 'save']]);
-        $this->middleware('permission:user-edit', ['only' => ['edit', 'save']]);
+        $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
     }
 
     public function index()
@@ -27,7 +29,7 @@ class UserController extends Controller
         return view('admin.user.index')->with(['users' => $users]);
     }
 
-    public function new()
+    public function create()
     {
         $roles = Role::all();
 
@@ -36,7 +38,7 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        if (!is_numeric($id)) {
+        if (!ctype_digit($id)) {
             return redirect()->route('admin.user.index');
         }
 
@@ -48,7 +50,7 @@ class UserController extends Controller
 
     public function changePassword($id)
     {
-        if (!is_numeric($id)) {
+        if (!ctype_digit($id)) {
             return redirect()->route('admin.user.index');
         }
 
@@ -57,85 +59,92 @@ class UserController extends Controller
         return view('admin.user.changePassword')->with(['user' => $user]);
     }
 
-    public function save(Request $request)
+    public function store(StoreUser $request)
     {
         $user = new User();
         $params = [];
 
-        if (!$request->exists('cancel')) {
-            if ($request->exists('id')) { // Edit
-                $id = $request->input('id');
-                $user = User::all()->find($id);
+        $validatedData = (object)$request->validated();
 
-                $validatedData = (object)$request->validate([
-                    'name' => 'required|max:255',
-                    'email' => 'required|max:255',
-                    'role' => 'required|numeric|min:1'
-                ]);
+        $user->created_at = Carbon::now();
+        $user->password = Hash::make($validatedData->password);
 
-                $user->updated_at = Carbon::now();
+        $log = "Novo usuário";
+        $log .= "\nUsuário: " . Auth::user()->name;
 
-                $log = "Alteração de usuário";
-                $log .= "\nDados antigos: " . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-            } else { // New
-                $validatedData = (object)$request->validate([
-                    'name' => 'required|max:255',
-                    'email' => 'required|max:255|unique:users,email',
-                    'password' => 'required|min:8',
-                    'role' => 'required|numeric|min:1'
-                ]);
+        $user->name = $validatedData->name;
+        $user->email = $validatedData->email;
+        $user->syncRoles([Role::findOrFail($validatedData->role)->name]);
 
-                $user->created_at = Carbon::now();
-                $user->password = Hash::make($validatedData->password);
+        $log .= "\nNovos dados: " . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-                $log = "Novo usuário";
-            }
+        $saved = $user->save();
 
-            $log .= "\nUsuário: " . Auth::user()->name;
-
-            $user->name = $validatedData->name;
-            $user->email = $validatedData->email;
-            $user->syncRoles([Role::findOrFail($validatedData->role)->name]);
-
-            $log .= "\nNovos dados: " . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-            $saved = $user->save();
-
-            if ($saved) {
-                Log::info($log);
-            } else {
-                Log::error("Erro ao salvar configuração do sistema");
-            }
-
-            $params['saved'] = $saved;
-            $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao salvar configuração do sistema");
         }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
         return redirect()->route('admin.usuario.index')->with($params);
     }
 
-    public function savePassword(Request $request)
+    public function update($id, UpdateUser $request)
     {
+        $user = new User();
         $params = [];
 
-        if (!$request->exists('cancel')) {
-            $id = $request->input('id');
-            $user = User::all()->find($id);
+        $user = User::all()->find($id);
 
-            $validatedData = (object)$request->validate([
-                'old_password' => new CurrentPassword,
-                'password' => 'required|confirmed|min:8',
-            ]);
+        $validatedData = (object)$request->validated();
 
-            $user->updated_at = Carbon::now();
+        $user->updated_at = Carbon::now();
 
-            $user->password = Hash::make($validatedData->password);
+        $log = "Alteração de usuário";
+        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nDados antigos: " . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-            $saved = $user->save();
+        $user->name = $validatedData->name;
+        $user->email = $validatedData->email;
+        $user->syncRoles([Role::findOrFail($validatedData->role)->name]);
 
-            $params['saved'] = $saved;
-            $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+        $log .= "\nNovos dados: " . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $saved = $user->save();
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao salvar configuração do sistema");
         }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+
+        return redirect()->route('admin.usuario.index')->with($params);
+    }
+
+    public function savePassword($id, Request $request)
+    {
+        $user = User::all()->find($id);
+        $params = [];
+
+        $validatedData = (object)$request->validate([
+            'old_password' => new CurrentPassword,
+            'password' => 'required|confirmed|min:8',
+        ]);
+
+        $user->updated_at = Carbon::now();
+
+        $user->password = Hash::make($validatedData->password);
+
+        $saved = $user->save();
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
         return redirect()->route('admin.usuario.index')->with($params);
     }

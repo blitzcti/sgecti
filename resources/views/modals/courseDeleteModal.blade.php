@@ -10,11 +10,9 @@
                 <h4 class="modal-title" id="deleteModalTitle">Excluir curso</h4>
             </div>
 
-            <form action="{{ route('admin.curso.excluir') }}" method="post">
+            <form action="{{ route('admin.curso.excluir', $course->id) }}" method="post">
                 <div class="modal-body">
                     @csrf
-
-                    <input type="hidden" name="id" id="deleteModalCourseId">
 
                     <p>Deseja realmente excluir o curso <span id="deleteModalCourseName" class="text-bold"></span>?</p>
                     <p>Tenha em mente que, fazendo isso, serão excluídos também todos os registros que referenciam este

@@ -22,8 +22,8 @@ class CreateCoordinatorsTable extends Migration
             $table->bigInteger('course_id')->nullable(false)->unsigned();
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
 
-            $table->date('vigencia_ini')->nullable(false);
-            $table->date('vigencia_fim')->nullable(true)->default(null);
+            $table->date('start_date')->nullable(false);
+            $table->date('end_date')->nullable(true)->default(null);
 
             $table->timestamps();
         });

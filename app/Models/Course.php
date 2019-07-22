@@ -15,8 +15,8 @@ class Course extends Model
     {
         $coordinator = Coordinator::where('course_id', '=', $this->id)
             ->where(function ($query) use ($date) {
-                $query->where('vigencia_fim', '=', null)
-                    ->orWhere('vigencia_fim', '>=', $date);
+                $query->where('end_date', '=', null)
+                    ->orWhere('end_date', '>=', $date);
             })
             ->get()->sortBy('id');
 

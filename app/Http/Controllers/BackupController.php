@@ -90,7 +90,7 @@ class BackupController extends Controller
         }
     }
 
-    public function saveConfig(Request $request)
+    public function storeConfig(Request $request)
     {
         $params = [];
         $saved = false;
@@ -158,9 +158,9 @@ class BackupController extends Controller
         $data = [];
         foreach ($this->tables as $table => $class) {
             if ((new $class)->getKeyName() != null) {
-                $data[$table] = DB::table($table)->get();
+                $data[$table] = DB::table($table)->get()->sortBy((new $class)->getKeyName());
             } else {
-                $data[$table] = DB::table($table)->get()->sortBy('id');
+                $data[$table] = DB::table($table)->get();
             }
 
             $data[$table] = array_values($data[$table]->toArray());
@@ -174,9 +174,9 @@ class BackupController extends Controller
         $primaryKey = (new $this->tables[$tableName])->getKeyName();
 
         if (DB::connection()->getDriverName() == 'pgsql') {
-            DB::statement("SELECT setval('{$tableName}_id_seq', (SELECT MAX({$primaryKey}) FROM {$tableName}));");
+            DB::statement("SELECT setval('{$tableName}_{$primaryKey}_seq', (SELECT MAX({$primaryKey}) FROM {$tableName}));");
         } else if (DB::connection()->getDriverName() == 'mysql') {
-            $max = DB::table($tableName)->max('id') + 1;
+            $max = DB::table($tableName)->max($primaryKey) + 1;
             DB::statement("ALTER TABLE {$tableName} AUTO_INCREMENT={$max}");
         }
     }

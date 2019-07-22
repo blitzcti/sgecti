@@ -45,8 +45,8 @@ class User extends Authenticatable
         if ($this->hasRole('teacher')) {
             $coordinator = Coordinator::where('user_id', '=', $this->id)
                 ->where(function ($query) {
-                    $query->where('vigencia_fim', '=', null)
-                        ->orWhere('vigencia_fim', '>=', Carbon::today()->toDateString());
+                    $query->where('end_date', '=', null)
+                        ->orWhere('end_date', '>=', Carbon::today()->toDateString());
                 })
                 ->get()->sortBy('id');
 
@@ -61,5 +61,10 @@ class User extends Authenticatable
     public function isCoordinator()
     {
         return $this->coordinator() != null;
+    }
+
+    public function isAdmin()
+    {
+        return $this->hasRole('admin');
     }
 }

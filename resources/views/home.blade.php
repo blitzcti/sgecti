@@ -9,9 +9,13 @@
 @section('content')
     <p>Você está conectado como {{ $user->roles->pluck('friendlyName')[0] }}.</p>
 
-    @if($courseName != null)
+    @if($user->isCoordinator())
 
-        <p>Atualmente, você é coordenador de {{ $courseName }}.</p>
+        @include('coordinator.home')
+
+    @elseif($user->isAdmin())
+
+        @include('admin.home')
 
     @endif
 @stop

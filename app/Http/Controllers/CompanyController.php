@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCompany;
+use App\Http\Requests\UpdateCompany;
 use App\Models\Address;
 use App\Models\Agreement;
 use App\Models\Company;
 use App\Models\Course;
 use App\Models\Sector;
-use App\Rules\CNPJ;
-use App\Rules\CPF;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -20,8 +19,8 @@ class CompanyController extends Controller
     {
         $this->middleware('coordinator');
         $this->middleware('permission:company-list');
-        $this->middleware('permission:company-create', ['only' => ['new', 'save']]);
-        $this->middleware('permission:company-edit', ['only' => ['edit', 'save']]);
+        $this->middleware('permission:company-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:company-edit', ['only' => ['edit', 'update']]);
     }
 
     public function index()
@@ -30,9 +29,9 @@ class CompanyController extends Controller
         return view('coordinator.company.index')->with(['companies' => $companies]);
     }
 
-    public function new()
+    public function create()
     {
-        $sectors = Sector::all()->where('ativo', '=', true);
+        $sectors = Sector::all()->where('active', '=', true);
         $courses = Course::all()->where('active', '=', true);
 
         return view('coordinator.company.new')->with(['sectors' => $sectors, 'courses' => $courses]);
@@ -40,13 +39,13 @@ class CompanyController extends Controller
 
     public function edit($id)
     {
-        if (!is_numeric($id)) {
+        if (!ctype_digit($id)) {
             return redirect()->route('coordenador.empresa.index');
         }
 
         $company = Company::findOrFail($id);
         $address = $company->address;
-        $sectors = Sector::all()->where('ativo', '=', true);
+        $sectors = Sector::all()->where('active', '=', true);
         $courses = Course::all()->where('active', '=', true);
         $agreement = $company->agreements->last();
 
@@ -55,119 +54,141 @@ class CompanyController extends Controller
         ]);
     }
 
-    public function save(Request $request)
+    public function store(StoreCompany $request)
     {
         $company = new Company();
         $params = [];
 
-        if (!$request->exists('cancel')) {
-            $boolData = (object)$request->validate([
-                'pj' => 'required|boolean',
-                'hasConvenio' => 'required|boolean'
-            ]);
+        $validatedData = (object)$request->validated();
 
-            $validatedData = (object)$request->validate([
-                'cpf_cnpj' => ['required', 'numeric', ($boolData->pj) ? new CNPJ : new CPF, (!$request->exists('id')) ? 'unique:companies,cpf_cnpj' : ''],
-                'active' => 'required|boolean',
-                'name' => 'required|max:100',
-                'fantasyName' => 'max:100',
-                'email' => 'required|max:100',
-                'fone' => 'required|max:11',
-                'representative' => 'required|max:50',
-                'representativeRole' => 'required|max:50',
+        $log = "Nova empresa";
+        $log .= "\nUsuário: " . Auth::user()->name;
 
-                'cep' => 'required|max:9',
-                'uf' => 'required|max:2',
-                'cidade' => 'required|max:30',
-                'rua' => 'required|max:50',
-                'complemento' => 'max:50',
-                'numero' => 'required|max:6',
-                'bairro' => 'required|max:50',
+        $company->created_at = Carbon::now();
+        $company->cpf_cnpj = $validatedData->cpfCnpj;
+        $company->pj = $validatedData->pj;
+        $company->name = $validatedData->name;
+        $company->fantasy_name = $validatedData->fantasyName;
+        $company->email = $validatedData->email;
+        $company->phone = $validatedData->phone;
+        $company->representative_name = $validatedData->representativeName;
+        $company->representative_role = $validatedData->representativeRole;
+        $company->active = $validatedData->active;
 
-                'sectors' => 'required|array|min:1',
+        $address = new Address();
 
-                'courses' => 'required|array|min:1',
+        $address->created_at = Carbon::now();
+        $address->cep = $validatedData->cep;
+        $address->uf = $validatedData->uf;
+        $address->city = $validatedData->city;
+        $address->street = $validatedData->street;
+        $address->complement = $validatedData->complement;
+        $address->number = $validatedData->number;
+        $address->district = $validatedData->district;
 
-                'expirationDate' => (($boolData->hasConvenio) ? 'required|date' : 'date'),
-                'observation' => 'max:200',
-            ]);
+        //$log .= "\nNovos dados (endereço): " . json_encode($address, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-            if ($request->exists('id')) { // Edit
-                $id = $request->input('id');
+        $saved = $address->save();
 
-                $company = Company::all()->find($id);
-                $company->updated_at = Carbon::now();
+        $company->address_id = $address->id;
+        $saved = $company->save();
 
-                $address = $company->address;
-                $address->updated_at = Carbon::now();
+        $company->syncCourses(array_map('intval', $validatedData->courses));
+        $company->syncSectors(array_map('intval', $validatedData->sectors));
 
-                $agreement = $company->agreements->last();
+        if ($validatedData->hasConvenio) {
+            $agreement = new Agreement();
 
-                $log = "Alteração de empresa";
-                $log .= "\nDados antigos: " . json_encode($company, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-                //$log .= "\nDados antigos (endereço): " . json_encode($address, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-                //$log .= "\nDados antigos (convênio): " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-            } else { // New
-                $address = new Address();
-                $agreement = new Agreement();
+            $agreement->created_at = Carbon::now();
+            $agreement->expiration_date = $validatedData->expirationDate;
+            $agreement->observation = $validatedData->observation;
 
-                $company->created_at = Carbon::now();
-                $company->cpf_cnpj = $validatedData->cpf_cnpj;
-                $company->pj = $boolData->pj;
+            //$log .= "\nNovos dados (convênio): " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-                $log = "Nova empresa";
-            }
-
-            $log .= "\nUsuário: " . Auth::user()->name;
-
-            $company->nome = $validatedData->name;
-            $company->nome_fantasia = $validatedData->fantasyName;
-            $company->email = $validatedData->email;
-            $company->telefone = $validatedData->fone;
-            $company->representante = $validatedData->representative;
-            $company->cargo = $validatedData->representativeRole;
-            $company->ativo = $validatedData->active;
-
-            $log .= "\nNovos dados: " . json_encode($company, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-            $address->cep = $validatedData->cep;
-            $address->uf = $validatedData->uf;
-            $address->cidade = $validatedData->cidade;
-            $address->rua = $validatedData->rua;
-            $address->complemento = $validatedData->complemento;
-            $address->numero = $validatedData->numero;
-            $address->bairro = $validatedData->bairro;
-
-            $log .= "\nNovos dados (endereço): " . json_encode($address, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-            $saved = $address->save();
-
-            $company->address_id = $address->id;
-            $saved = $company->save();
-
-            $company->syncCourses(array_map('intval', $validatedData->courses));
-            $company->syncSectors(array_map('intval', $validatedData->sectors));
-
-            if($boolData->hasConvenio)
-            {
-                $agreement->validade = $validatedData->expirationDate;
-                $agreement->observacao = $validatedData->observation;
-
-                $log .= "\nNovos dados (convênio): " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-                $agreement->company_id = $company->id;
-                $saved = $agreement->save();
-            }
-
-            if ($saved) {
-                Log::info($log);
-            } else {
-                Log::error("Erro ao salvar empresa");
-            }
-
-            $params['saved'] = $saved;
-            $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+            $agreement->company_id = $company->id;
+            $saved = $agreement->save();
         }
+
+        $log .= "\nNovos dados: " . json_encode($company, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao salvar empresa");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+
+        return redirect()->route('coordenador.empresa.index')->with($params);
+    }
+
+    public function update($id, UpdateCompany $request)
+    {
+        $company = Company::all()->find($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $log = "Alteração de empresa";
+        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nDados antigos: " . json_encode($company, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        //$log .= "\nDados antigos (endereço): " . json_encode($address, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        //$log .= "\nDados antigos (convênio): " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $company->updated_at = Carbon::now();
+        $company->name = $validatedData->name;
+        $company->fantasy_name = $validatedData->fantasyName;
+        $company->email = $validatedData->email;
+        $company->phone = $validatedData->phone;
+        $company->representative_name = $validatedData->representativeName;
+        $company->representative_role = $validatedData->representativeRole;
+        $company->active = $validatedData->active;
+
+        $address = $company->address;
+
+        $address->updated_at = Carbon::now();
+        $address->cep = $validatedData->cep;
+        $address->uf = $validatedData->uf;
+        $address->city = $validatedData->city;
+        $address->street = $validatedData->street;
+        $address->complement = $validatedData->complement;
+        $address->number = $validatedData->number;
+        $address->district = $validatedData->district;
+
+        //$log .= "\nNovos dados (endereço): " . json_encode($address, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $saved = $address->save();
+
+        $company->address_id = $address->id;
+        $saved = $company->save();
+
+        $company->syncCourses(array_map('intval', $validatedData->courses));
+        $company->syncSectors(array_map('intval', $validatedData->sectors));
+
+        if ($validatedData->hasConvenio) {
+            $agreement = $company->agreements->last() ?? new Agreement();
+
+            $agreement->updated_at = Carbon::now();
+            $agreement->company_id = $company->id;
+            $agreement->expiration_date = $validatedData->expirationDate;
+            $agreement->observation = $validatedData->observation;
+
+            //$log .= "\nNovos dados (convênio): " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+            $saved = $agreement->save();
+        }
+
+        $log .= "\nNovos dados: " . json_encode($company, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao salvar empresa");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
         return redirect()->route('coordenador.empresa.index')->with($params);
     }

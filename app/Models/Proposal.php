@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Proposal extends Model
 {
     protected $fillable = [
-        'name', 'company_id', 'course_id', 'data_limite', 'schedule_id', 'remuneracao', 'descricao', 'observacao',
+        'name', 'company_id', 'course_id', 'deadline', 'schedule_id', 'remuneration', 'description', 'observation',
     ];
 
     public function company()
     {
-        return $this->hasOne(Company::class);
+        return $this->belongsTo(Company::class);
     }
 }

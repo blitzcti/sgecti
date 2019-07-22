@@ -26,7 +26,7 @@
                     </div>
 
                     <div class="modal-body">
-                        <div class="form-group">
+                        <div class="form-group @if($errors->has('file')) has-error @endif">
                             <label for="inputSectorName" class="col-sm-3 control-label">Arquivo</label>
 
                             <div class="col-sm-9">
@@ -52,20 +52,6 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-        </div>
-    @endif
-
-    @if ($errors->any())
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
         </div>
     @endif
 
@@ -104,7 +90,7 @@
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <div class="form-group">
+                        <div class="form-group  @if($errors->has('days')) has-error @endif">
                             <label for="weekDays" class="control-label">Dias da semana</label>
 
                             <table id="weekDays" class="table table-bordered table-striped">
@@ -183,12 +169,14 @@
                     </div>
 
                     <div class="col-sm-6">
-                        <div class="form-group">
+                        <div class="form-group @if($errors->has('hour')) has-error @endif">
                             <label for="inputHour" class="control-label">Horário</label>
 
                             <div>
                                 <input type="text" class="form-control" id="inputHour" name="hour"
-                                       placeholder="00:00" value="{{ $hour }}"/>
+                                       placeholder="00:00" value="{{ old('hour') ?? $hour }}"/>
+
+                                <span class="help-block">{{ $errors->first('hour') }}</span>
                             </div>
                         </div>
                     </div>

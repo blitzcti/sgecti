@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Amendment extends Model
 {
     protected $fillable = [
-        'internship_id', 'data_ini', 'data_fim', 'schedule_id', 'protocolo', 'observacao',
+        'internship_id', 'start_date', 'end_date', 'schedule_id', 'protocol', 'observation',
     ];
 
     public function internship()

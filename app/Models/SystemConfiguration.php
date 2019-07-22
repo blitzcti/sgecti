@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class SystemConfiguration extends Model
 {
     protected $fillable = [
-        'nome', 'cep', 'uf', 'cidade', 'rua', 'numero', 'bairro', 'fone', 'email', 'ramal', 'validade_convenio',
+        'name', 'cep', 'uf', 'city', 'street', 'number', 'district', 'phone', 'email', 'extension', 'agreement_expiration',
     ];
 }

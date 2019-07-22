@@ -20,10 +20,8 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <div class="btn-group" style="display: inline-flex; margin: 0 0 10px 0">
-                <a href="{{ route('admin.coordenador.novo') }}"
+                <a id="addLink" href="{{ route('admin.coordenador.novo') }}"
                    class="btn btn-success">Adicionar coordenador</a>
-            </div>
 
             <table id="coordinators" class="table table-bordered table-hover">
                 <thead>
@@ -44,8 +42,8 @@
                         <th scope="row">{{ $coordinator->id }}</th>
                         <td>{{ $coordinator->user->name }}</td>
                         <td>{{ $coordinator->course->name }}</td>
-                        <td>{{ $coordinator->vigencia_ini }}</td>
-                        <td>{{ $coordinator->vigencia_fim }}</td>
+                        <td>{{ $coordinator->start_date }}</td>
+                        <td>{{ $coordinator->end_date }}</td>
 
                         <td>
                             <a href="{{ route('admin.coordenador.editar', ['id' => $coordinator->id]) }}">Editar</a>
@@ -61,11 +59,38 @@
 
 @section('js')
     <script>
-        jQuery(() => {
-            jQuery("#coordinators").DataTable({
+        jQuery(function () {
+            let table = jQuery("#coordinators").DataTable({
                 "language": {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
-                }
+                },
+                lengthChange: false,
+                buttons: [
+                    {
+                        extend: 'csv',
+                        text: '<span class="glyphicon glyphicon-download-alt"></span> CSV',
+                        charset: 'UTF-8',
+                        fieldSeparator: ';',
+                        bom: true,
+                        className: 'btn btn-default',
+                        exportOptions: {
+                            columns: 'th:not(:last-child)'
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: '<span class="glyphicon glyphicon-print"></span> Imprimir',
+                        className: 'btn btn-default',
+                        exportOptions: {
+                            columns: 'th:not(:last-child)'
+                        }
+                    }
+                ],
+                initComplete: function () {
+                    table.buttons().container().appendTo($('#coordinators_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().addClass('btn-group');
+                    jQuery('#addLink').prependTo(table.buttons().container());
+                },
             });
         });
     </script>

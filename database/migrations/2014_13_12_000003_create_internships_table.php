@@ -41,16 +41,16 @@ class CreateInternshipsTable extends Migration
             $table->bigInteger('supervisor_id')->nullable(false)->unsigned();
             $table->foreign('supervisor_id')->references('id')->on('supervisors');
 
-            $table->date('data_ini');
-            $table->date('data_fim');
+            $table->date('start_date');
+            $table->date('end_date');
 
-            $table->string('protocolo', 15);
+            $table->string('protocol', 15);
 
-            $table->text('atividades');
-            $table->text('observacao')->nullable(true)->default(null);
-            $table->text('motivo_cancelamento')->nullable(true)->default(null);
+            $table->text('activities');
+            $table->text('observation')->nullable(true)->default(null);
+            $table->text('reason_to_cancel')->nullable(true)->default(null);
 
-            $table->boolean('ativo')->default(true);
+            $table->boolean('active')->default(true);
 
             $table->timestamps();
         });

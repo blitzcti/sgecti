@@ -13,19 +13,19 @@ class StateTableSeeder extends Seeder
     public function run()
     {
         $state = new State();
-        $state->descricao = 'Em aberto';
+        $state->description = 'Em aberto';
         $state->save();
 
         $state = new State();
-        $state->descricao = 'Finalizado';
+        $state->description = 'Finalizado';
         $state->save();
 
         $state = new State();
-        $state->descricao = 'Cancelado';
+        $state->description = 'Cancelado';
         $state->save();
 
         $state = new State();
-        $state->descricao = 'Inválido';
+        $state->description = 'Inválido';
         $state->save();
     }
 }

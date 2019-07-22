@@ -20,16 +20,13 @@
 
     @if(auth()->user()->can('course-delete'))
 
-        @include('admin.course.deleteModal')
+        @include('modals.courseDeleteModal')
 
     @endif
 
     <div class="box box-default">
         <div class="box-body">
-            <div class="btn-group" style="display: inline-flex; margin: 0 0 10px 0">
-                <a href="{{ route('admin.curso.novo') }}"
-                   class="btn btn-success">Adicionar curso</a>
-            </div>
+            <a id="addLink" href="{{ route('admin.curso.novo') }}" class="btn btn-success">Adicionar curso</a>
 
             <table id="courses" class="table table-bordered table-hover">
                 <thead>
@@ -117,6 +114,7 @@
                 initComplete: function () {
                     table.buttons().container().appendTo($('#courses_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
+                    jQuery('#addLink').prependTo(table.buttons().container());
                 },
             });
         });

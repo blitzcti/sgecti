@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Schedule extends Model
 {
     protected $fillable = [
-        'seg_e', 'seg_s', 'ter_e', 'ter_s', 'qua_e', 'qua_s', 'qui_e', 'qui_s', 'sex_e', 'sex_s', 'sab_e', 'sab_s',
+        'mon_s', 'mon_e', 'tue_s', 'tue_e', 'wed_s', 'wed_e', 'thu_s', 'thu_e', 'fri_s', 'fri_e', 'sat_s', 'sat_e',
     ];
 }

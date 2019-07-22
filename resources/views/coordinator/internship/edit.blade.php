@@ -8,59 +8,60 @@
 
 @section('content')
 
-    @if ($errors->any())
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+    @include('modals.newInternshipSupervisorModal')
 
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    <form class="form-horizontal" action="{{ route('coordenador.estagio.alterar', $internship->id) }}" method="post">
+        @method('PUT')
+        @csrf
 
-    <div class="box box-default">
-        <form class="form-horizontal" action="{{ route('coordenador.estagio.salvar') }}" method="post">
-            @csrf
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Dados do estágio</h3>
+            </div>
 
             <div class="box-body">
-
-                <h3>Dados do estágio</h3>
-
-                <input type="hidden" id="inputId" name="id" value="{{ $internship->id }}">
-                <input type="hidden" id="inputHasCTPS" name="hasCTPS" value="{{ ($internship->ctps_id == null) ? '0' : '1' }}">
+                <input type="hidden" id="inputHas2Turnos" name="has2Turnos"
+                       value="{{ (old('has2Turnos') ?? $internship->schedule2 != null) ? '1' : '0' }}">
+                <input type="hidden" id="inputHasCTPS" name="hasCTPS"
+                       value="{{ (old('hasCTPS') ?? $internship->ctps_id != null) ? '1' : '0' }}">
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <div class="form-group">
+                        <div class="form-group @if($errors->has('ra')) has-error @endif">
                             <label for="inputRA" class="col-sm-4 control-label">RA*</label>
 
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="inputRA" name="ra"
-                                       value="{{ $internship->ra }}" data-inputmask="'mask': '9999999'">
+                                <input type="text" class="form-control" id="inputRA" name="ra" placeholder="1757047"
+                                       data-inputmask="'mask': '9999999'" value="{{ old('ra') ?? $internship->ra }}">
+
+                                <span class="help-block">{{ $errors->first('ra') }}</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-sm-6">
-                        <div class="form-group">
+                        <div class="form-group @if($errors->has('active')) has-error @endif">
                             <label for="inputActive" class="col-sm-4 control-label">Ativo*</label>
 
                             <div class="col-sm-8">
-                                <select class="form-control selection" data-minimum-results-for-search="Infinity"
+                                <select class="form-control selection"
+                                        data-minimum-results-for-search="Infinity"
                                         id="inputActive" name="active">
-                                    <option value="1" {{ ($internship->ativo) ? 'selected' : '' }}>Sim</option>
-                                    <option value="0" {{ ($internship->ativo) ? '' : 'selected' }}>Não</option>
+                                    <option value="1" {{ (old('active') ?? $internship->active) ? 'selected' : '' }}>
+                                        Sim
+                                    </option>
+                                    <option value="0" {{ !(old('active') ?? $internship->active) ? 'selected' : '' }}>
+                                        Não
+                                    </option>
                                 </select>
+
+                                <span class="help-block">{{ $errors->first('active') }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group @if($errors->has('company')) has-error @endif">
                     <label for="inputCompany" class="col-sm-2 control-label">Empresa*</label>
 
                     <div class="col-sm-10">
@@ -69,17 +70,19 @@
 
                             @foreach($companies as $company)
 
-                                <option value="{{ $company->id }}" {{ ($internship->company == $company) ? 'selected' : '' }}>
-                                    {{ $company->cpf_cnpj }} - {{ $company->nome }}
+                                <option value="{{ $company->id }}" {{ (old('company') ?? $internship->company->id) == $company->id ? 'selected' : '' }}>
+                                    {{ $company->cpf_cnpj }} - {{ $company->name }}
                                 </option>
 
                             @endforeach
 
                         </select>
+
+                        <span class="help-block">{{ $errors->first('company') }}</span>
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group @if($errors->has('sector')) has-error @endif">
                     <label for="inputSector" class="col-sm-2 control-label">Setor*</label>
 
                     <div class="col-sm-10">
@@ -88,18 +91,86 @@
 
                             @foreach($internship->company->sectors as $sector)
 
-                                <option value="{{ $sector->id }}" {{ ($internship->company->sector == $sector) ? "selected" : "" }}>
-                                    {{ $sector->nome }}
+                                <option value="{{ $sector->id }}" {{ (old('sector') ?? $internship->sector->id) == $sector->id ? "selected" : "" }}>
+                                    {{ $sector->name }}
                                 </option>
 
                             @endforeach
 
                         </select>
+
+                        <span class="help-block">{{ $errors->first('sector') }}</span>
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group @if($errors->has('startDate')) has-error @endif">
+                            <label for="inputStartDate" class="col-sm-4 control-label">Data Início*</label>
+
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" id="inputStartDate" name="startDate"
+                                       value="{{ old('startDate') ?? $internship->start_date }}"/>
+
+                                <span class="help-block">{{ $errors->first('startDate') }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group @if($errors->has('endDate')) has-error @endif">
+                            <label for="inputEndDate" class="col-sm-4 control-label">Data Fim*</label>
+
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" id="inputEndDate" name="endDate"
+                                       value="{{ old('endDate') ?? $internship->end_date }}">
+
+                                <span class="help-block">{{ $errors->first('endDate') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group @if($errors->has('activities')) has-error @endif">
+                    <label for="inputActivities" class="col-sm-2 control-label">Atividades*</label>
+
+                    <div class="col-sm-10">
+                        <textarea class="form-control" rows="3" id="inputActivities" name="activities"
+                                  style="resize: none"
+                                  placeholder="O que o aluno fará no estágio">{{ old('activities') ?? $internship->activities }}</textarea>
+
+                        <span class="help-block">{{ $errors->first('activities') }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group @if($errors->has('observation')) has-error @endif">
+                    <label for="inputObservation" class="col-sm-2 control-label">Obervação</label>
+
+                    <div class="col-sm-10">
+                        <textarea class="form-control" rows="3" id="inputObservation" name="observation"
+                                  style="resize: none"
+                                  placeholder="Observações adicionais">{{ old('observation') ?? $internship->observation ?? '' }}</textarea>
+
+                        <span class="help-block">{{ $errors->first('observation') }}</span>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
+                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+            </div>
+            <!-- /.box-footer -->
+        </div>
+
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Horários</h3>
+            </div>
+
+            <div class="box-body">
                 <div class="form-group">
-                    <label for="inputRA" class="col-sm-2 control-label">Horário*</label>
+                    <label for="inputWeekDays" class="col-sm-2 control-label">Horário*</label>
 
                     <div class="col-sm-10">
                         <table id="inputWeekDays" class="table table-bordered table-striped">
@@ -135,38 +206,50 @@
 
                             <tbody>
                             <tr>
-                                <td>
+                                <td style="min-width: 100px;">
                                     <label class="control-label">Entrada</label>
                                 </td>
 
                                 <td>
-                                    <input name="seg_e" id="inputSegE" type="text" class="form-control input-time"
-                                           value="{{ $internship->schedule->seg_e }}">
+                                    <div class="form-group @if($errors->has('monS')) has-error @endif">
+                                        <input name="monS" id="inputMonS" type="text" class="form-control input-time"
+                                               value="{{ old('monS') ?? $internship->schedule->mon_s }}">
+                                    </div>
                                 </td>
 
                                 <td>
-                                    <input name="ter_e" id="inputTerE" type="text" class="form-control input-time"
-                                           value="{{ $internship->schedule->ter_e }}">
+                                    <div class="form-group @if($errors->has('tueS')) has-error @endif">
+                                        <input name="tueS" id="inputTueS" type="text" class="form-control input-time"
+                                               value="{{ old('tueS') ?? $internship->schedule->tue_s }}">
+                                    </div>
                                 </td>
 
                                 <td>
-                                    <input name="qua_e" id="inputQuaE" type="text" class="form-control input-time"
-                                           value="{{ $internship->schedule->qua_e }}">
+                                    <div class="form-group @if($errors->has('wedS')) has-error @endif">
+                                        <input name="wedS" id="inputWedS" type="text" class="form-control input-time"
+                                               value="{{ old('wedS') ?? $internship->schedule->wed_s }}">
+                                    </div>
                                 </td>
 
                                 <td>
-                                    <input name="qui_e" id="inputQuiE" type="text" class="form-control input-time"
-                                           value="{{ $internship->schedule->qui_e }}">
+                                    <div class="form-group @if($errors->has('thuS')) has-error @endif">
+                                        <input name="thuS" id="inputThuS" type="text" class="form-control input-time"
+                                               value="{{ old('thuS') ?? $internship->schedule->thu_s }}">
+                                    </div>
                                 </td>
 
                                 <td>
-                                    <input name="sex_e" id="inputSexE" type="text" class="form-control input-time"
-                                           value="{{ $internship->schedule->sex_e }}">
+                                    <div class="form-group @if($errors->has('friS')) has-error @endif">
+                                        <input name="friS" id="inputFriS" type="text" class="form-control input-time"
+                                               value="{{ old('friS') ?? $internship->schedule->fri_s }}">
+                                    </div>
                                 </td>
 
                                 <td>
-                                    <input name="sab_e" id="inputSabE" type="text" class="form-control input-time"
-                                           value="{{ $internship->schedule->sab_e }}">
+                                    <div class="form-group @if($errors->has('satS')) has-error @endif">
+                                        <input name="satS" id="inputSatS" type="text" class="form-control input-time"
+                                               value="{{ old('satS') ?? $internship->schedule->sat_s }}">
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
@@ -175,33 +258,45 @@
                                 </td>
 
                                 <td>
-                                    <input name="seg_s" id="inputSegS" type="text" class="form-control input-time"
-                                           value="{{ $internship->schedule->seg_s }}">
+                                    <div class="form-group @if($errors->has('monE')) has-error @endif">
+                                        <input name="monE" id="inputMonE" type="text" class="form-control input-time"
+                                               value="{{ old('monE') ?? $internship->schedule->mon_e }}">
+                                    </div>
                                 </td>
 
                                 <td>
-                                    <input name="ter_s" id="inputTerS" type="text" class="form-control input-time"
-                                           value="{{ $internship->schedule->ter_s }}">
+                                    <div class="form-group @if($errors->has('tueE')) has-error @endif">
+                                        <input name="tueE" id="inputTueE" type="text" class="form-control input-time"
+                                               value="{{ old('tueE') ?? $internship->schedule->tue_e }}">
+                                    </div>
                                 </td>
 
                                 <td>
-                                    <input name="qua_s" id="inputQuaS" type="text" class="form-control input-time"
-                                           value="{{ $internship->schedule->qua_s }}">
+                                    <div class="form-group @if($errors->has('wedE')) has-error @endif">
+                                        <input name="wedE" id="inputWedE" type="text" class="form-control input-time"
+                                               value="{{ old('wedE') ?? $internship->schedule->wed_e }}">
+                                    </div>
                                 </td>
 
                                 <td>
-                                    <input name="qui_s" id="inputQuiS" type="text" class="form-control input-time"
-                                           value="{{ $internship->schedule->qui_s }}">
+                                    <div class="form-group @if($errors->has('thuE')) has-error @endif">
+                                        <input name="thuE" id="inputThuE" type="text" class="form-control input-time"
+                                               value="{{ old('thuE') ?? $internship->schedule->thu_e }}">
+                                    </div>
                                 </td>
 
                                 <td>
-                                    <input name="sex_s" id="inputSexS" type="text" class="form-control input-time"
-                                           value="{{ $internship->schedule->sex_s }}">
+                                    <div class="form-group @if($errors->has('friE')) has-error @endif">
+                                        <input name="friE" id="inputFriE" type="text" class="form-control input-time"
+                                               value="{{ old('friE') ?? $internship->schedule->fri_e }}">
+                                    </div>
                                 </td>
 
                                 <td>
-                                    <input name="sab_s" id="inputSabS" type="text" class="form-control input-time"
-                                           value="{{ $internship->schedule->sab_s }}">
+                                    <div class="form-group @if($errors->has('satE')) has-error @endif">
+                                        <input name="satE" id="inputSatE" type="text" class="form-control input-time"
+                                               value="{{ old('satE') ?? $internship->schedule->sat_e }}">
+                                    </div>
                                 </td>
                             </tr>
                             </tbody>
@@ -209,196 +304,327 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="inputStart" class="col-sm-4 control-label">Data Início*</label>
-
-                            <div class="col-sm-8">
-                                <input type="date" class="form-control" id="inputStart" name="start"
-                                       value="{{ $internship->data_ini }}"/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="inputEnd" class="col-sm-4 control-label">Data Fim*</label>
-
-                            <div class="col-sm-8">
-                                <input type="date" class="form-control" id="inputEnd" name="end"
-                                       value="{{ $internship->data_fim }}">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="form-group">
-                    <label for="inputActivities" class="col-sm-2 control-label">Atividades*</label>
+                    <label for="fakeInputHas2Turnos" class="col-sm-2 control-label" style="padding-top: 0">2
+                        turnos?</label>
 
                     <div class="col-sm-10">
-                            <textarea class="form-control" rows="3" id="inputActivities" name="activities"
-                                      placeholder="O que o aluno fará no estágio">{{ $internship->atividades }}</textarea>
+                        <input type="checkbox" id="fakeInputHas2Turnos" name="fakeHas2Turnos"
+                                {{ old('has2Turnos') ?? ($internship->schedule2 != null) ? 'checked="checked"' : '' }}>
                     </div>
                 </div>
 
-                <hr/>
+                <div class="form-group" id="weekDays2" style="display: none">
+                    <label for="inputWeekDays2" class="col-sm-2 control-label">2º horário</label>
 
-                <div>
-                    <div class="btn-group pull-right" style="display: inline-flex; margin: -5px 0 0 0">
-                        <a href="#" class="btn btn-success" id="aAddSupervisor" data-toggle="modal"
-                           data-target="#newInternshipSupervisorModal">Adicionar
-                            supervisor</a>
+                    <div class="col-sm-10">
+                        <table id="inputWeekDays" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th></th>
+
+                                <th>
+                                    <label class="control-label">Seg</label>
+                                </th>
+
+                                <th>
+                                    <label class="control-label">Ter</label>
+                                </th>
+
+                                <th>
+                                    <label class="control-label">Qua</label>
+                                </th>
+
+                                <th>
+                                    <label class="control-label">Qui</label>
+                                </th>
+
+                                <th>
+                                    <label class="control-label">Sex</label>
+                                </th>
+
+                                <th>
+                                    <label class="control-label">Sab</label>
+                                </th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr>
+                                <td style="min-width: 100px;">
+                                    <label class="control-label">Entrada</label>
+                                </td>
+
+                                <td>
+                                    <div class="form-group @if($errors->has('monS2')) has-error @endif">
+                                        <input name="monS2" id="inputMonS2" type="text" class="form-control input-time"
+                                               value="{{ old('monS2') ?? $internship->schedule2->mon_s ?? '' }}">
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="form-group @if($errors->has('tueS2')) has-error @endif">
+                                        <input name="tueS2" id="inputTueS2" type="text" class="form-control input-time"
+                                               value="{{ old('tueS2') ?? $internship->schedule2->tue_s ?? '' }}">
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="form-group @if($errors->has('wedS2')) has-error @endif">
+                                        <input name="wedS2" id="inputWedS2" type="text" class="form-control input-time"
+                                               value="{{ old('wedS2') ?? $internship->schedule2->wed_s ?? '' }}">
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="form-group @if($errors->has('thuS2')) has-error @endif">
+                                        <input name="thuS2" id="inputThuS2" type="text" class="form-control input-time"
+                                               value="{{ old('thuS2') ?? $internship->schedule2->thu_s ?? '' }}">
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="form-group @if($errors->has('friS2')) has-error @endif">
+                                        <input name="friS2" id="inputFriS2" type="text" class="form-control input-time"
+                                               value="{{ old('friS2') ?? $internship->schedule2->fri_s ?? '' }}">
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="form-group @if($errors->has('satS2')) has-error @endif">
+                                        <input name="satS2" id="inputSatS2" type="text" class="form-control input-time"
+                                               value="{{ old('satS2') ?? $internship->schedule2->sat_s ?? '' }}">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label class="control-label">Saída</label>
+                                </td>
+
+                                <td>
+                                    <div class="form-group @if($errors->has('monE2')) has-error @endif">
+                                        <input name="monE2" id="inputMonE2" type="text" class="form-control input-time"
+                                               value="{{ old('monE2') ?? $internship->schedule2->mon_e ?? '' }}">
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="form-group @if($errors->has('tueE2')) has-error @endif">
+                                        <input name="tueE2" id="inputTueE2" type="text" class="form-control input-time"
+                                               value="{{ old('tueE2') ?? $internship->schedule2->tue_e ?? '' }}">
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="form-group @if($errors->has('wedE2')) has-error @endif">
+                                        <input name="wedE2" id="inputWedE2" type="text" class="form-control input-time"
+                                               value="{{ old('wedE2') ?? $internship->schedule2->wed_e ?? '' }}">
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="form-group @if($errors->has('thuE2')) has-error @endif">
+                                        <input name="thuE2" id="inputThuE2" type="text" class="form-control input-time"
+                                               value="{{ old('thuE2') ?? $internship->schedule2->thu_e ?? '' }}">
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="form-group @if($errors->has('friE2')) has-error @endif">
+                                        <input name="friE2" id="inputFriE2" type="text" class="form-control input-time"
+                                               value="{{ old('friE2') ?? $internship->schedule2->fri_e ?? '' }}">
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="form-group @if($errors->has('satE2')) has-error @endif">
+                                        <input name="satE2" id="inputSatE2" type="text" class="form-control input-time"
+                                               value="{{ old('satE2') ?? $internship->schedule2->sat_e ?? '' }}">
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
-
-                    <h3>Supervisor</h3>
                 </div>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
+                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+            </div>
+            <!-- /.box-footer -->
+        </div>
 
-                <div class="form-group">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Supervisor</h3>
+            </div>
+
+            <div class="box-body">
+                <div class="form-group @if($errors->has('supervisor')) has-error @endif">
                     <label for="inputSupervisor" class="col-sm-2 control-label">Supervisor*</label>
 
                     <div class="col-sm-10">
-                        <select class="selection" name="supervisor" id="inputSupervisor"
+                        <select class="selection" name="supervisor"
+                                id="inputSupervisor"
                                 style="width: 100%">
 
                             @foreach($internship->company->supervisors as $supervisor)
 
-                                <option value="{{ $supervisor->id }}" {{ ($internship->company->supervisors == $supervisor) ? "selected" : "" }}>
-                                    {{ $supervisor->nome }}
+                                <option value="{{ $supervisor->id }}" {{ (old('supervisor') ?? $internship->supervisor->id) == $supervisor->id ? "selected" : "" }}>
+                                    {{ $supervisor->name }}
                                 </option>
 
                             @endforeach
 
                         </select>
+
+                        <span class="help-block">{{ $errors->first('supervisor') }}</span>
                     </div>
                 </div>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <div class="btn-group pull-right">
+                    <a href="#" class="btn btn-success" id="aAddSupervisor" data-toggle="modal"
+                       data-target="#newInternshipSupervisorModal">Novo supervisor</a>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
 
-                <hr>
+                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+            </div>
+            <!-- /.box-footer -->
+        </div>
 
-                <h3>Dados da secretaria</h3>
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Dados da secretaria</h3>
+            </div>
 
+            <div class="box-body">
                 <div class="row">
                     <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="inputState" class="col-sm-4 control-label">Estado*</label>
-
-                            <div class="col-sm-8">
-                                <select class="selection" name="state" id="inputState"
-                                        style="width: 100%">
-
-                                    @foreach($states as $state)
-
-                                        <option value="{{ $state->id }}" {{ ($state->id == $internship->state_id) ? 'selected' : '' }}>
-                                            {{ $state->descricao }}
-                                        </option>
-
-                                    @endforeach
-
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <div class="form-group">
+                        <div class="form-group @if($errors->has('protocol')) has-error @endif">
                             <label for="inputProtocol" class="col-sm-4 control-label">Protocolo*</label>
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputProtocol" name="protocol"
                                        placeholder="001/19" data-inputmask="'mask': '999/99'"
-                                       value="{{ $internship->protocolo }}"/>
+                                       value="{{ old('protocol') ?? $internship->protocol }}"/>
+
+                                <span class="help-block">{{ $errors->first('protocol') }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
+                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+            </div>
+            <!-- /.box-footer -->
+        </div>
 
-                <div class="form-group">
-                    <label for="inputObservation" class="col-sm-2 control-label">Obervação</label>
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    <input type="checkbox" id="fakeInputHasCTPS" name="fakeHasCTPS"
+                            {{ (old('hasCTPS') ?? $internship->ctps != null) ? 'checked=checked' : '' }}/>
 
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputObservation" name="observation"
-                               value={{ $internship->observacao }}/>
-                    </div>
-                </div>
+                    O estágio é CTPS?
+                </h3>
+            </div>
 
-                <hr>
-
-                <div class="form-group">
-                    <label for="inputHasCTPSDeMentira" class="col-sm-2 control-label" style="padding-top: 0">O
-                        estágio é CTPS?</label>
-
-                    <div class="col-sm-10">
-                        <input type="checkbox" id="inputHasCTPSDeMentira" name="hasCTPSDeMentira">
-                    </div>
-                </div>
-
-                <div id="div-convenio" style="display: none">
-                    <h3>CTPS</h3>
-
-                    <div class="form-group">
+            <div id="div-ctps" style="display: none">
+                <div class="box-body">
+                    <div class="form-group @if($errors->has('ctps')) has-error @endif">
                         <label for="inputCTPS" class="col-sm-2 control-label">Número da CTPS</label>
 
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="inputCTPS" name="ctps"
-                                   data-inputmask="'mask': '999999/99999'"/>
+                                   data-inputmask="'mask': '999999/99999'"
+                                   value="{{ old('ctps') ?? $internship->ctps ?? '' }}"/>
+
+                            <span class="help-block">{{ $errors->first('ctps') }}</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- NAO ESQUECER -->
-                <input type="hidden" id="inputReasonToCancel" name="reason_to_cancel" value="">
+                <input type="hidden" id="inputReasonToCancel" name="reasonToCancel" value="">
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary pull-right">Salvar</button>
+                    <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+                </div>
+                <!-- /.box-footer -->
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-                <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
-            </div>
-            <!-- /.box-footer -->
-        </form>
-    </div>
+        </div>
+    </form>
 @endsection
 
 @section('js')
     <script type="text/javascript">
         jQuery(document).ready(function () {
-            jQuery('.selection').select2({
-                language: "pt-BR"
-            });
-
             jQuery(':input').inputmask({removeMaskOnSubmit: true});
 
             jQuery('.input-time').inputmask('hh:mm', {
                 removeMaskOnSubmit: false
+            }).parent().css('margin', '0');
+
+            jQuery('.selection').select2({
+                language: "pt-BR"
             });
 
-            jQuery('#inputHasCTPSDeMentira').on('ifChanged', function () {
+            jQuery('#fakeInputHasCTPS').on('ifChanged', function () {
                 if (this.checked) {
-                    jQuery('#div-convenio').css('display', 'initial');
+                    jQuery('#div-ctps').css('display', 'initial');
                     jQuery('#inputHasCTPS').val(1);
                 } else {
-                    jQuery('#div-convenio').css('display', 'none');
+                    jQuery('#div-ctps').css('display', 'none');
                     jQuery('#inputHasCTPS').val(0);
                 }
+            }).trigger('ifChanged').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
+
+            jQuery('#fakeInputHas2Turnos').on('ifChanged', function () {
+                if (this.checked) {
+                    jQuery('#weekDays2').css('display', 'initial');
+                    jQuery('#inputHas2Turnos').val(1);
+                } else {
+                    jQuery('#weekDays2').css('display', 'none');
+                    jQuery('#inputHas2Turnos').val(1);
+                }
+            }).trigger('ifChanged').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
             });
 
             jQuery('#inputSector').select2({
                 language: "pt-BR",
                 ajax: {
-                    url: `/api/empresa/setor/getFromCompany/${jQuery('#inputCompany').val()}`,
+                    url: `/api/empresa/${jQuery('#inputCompany').val()}/setor/`,
                     dataType: 'json',
                     method: 'GET',
                     cache: true,
                     data: function (params) {
                         return {
-                            searchTerm: params.term // search term
+                            q: params.term // search term
                         };
                     },
 
                     processResults: function (response) {
                         sectors = [];
-                        response.sectors.forEach(sector => {
-                            if (sector.ativo) {
-                                sectors.push({id: sector.id, text: sector.nome});
+                        response.forEach(sector => {
+                            if (sector.active) {
+                                sectors.push({id: sector.id, text: sector.name});
                             }
                         });
 
@@ -412,21 +638,21 @@
             jQuery('#inputSupervisor').select2({
                 language: "pt-BR",
                 ajax: {
-                    url: `/api/empresa/supervisor/getFromCompany/${jQuery('#inputCompany').val()}`,
+                    url: `/api/empresa/${jQuery('#inputCompany').val()}/supervisor/`,
                     dataType: 'json',
                     method: 'GET',
                     cache: true,
                     data: function (params) {
                         return {
-                            searchTerm: params.term // search term
+                            q: params.term // search term
                         };
                     },
 
                     processResults: function (response) {
                         supervisors = [];
-                        response.supervisors.forEach(supervisor => {
-                            if (supervisor.ativo) {
-                                supervisors.push({id: supervisor.id, text: supervisor.nome});
+                        response.forEach(supervisor => {
+                            if (supervisor.active) {
+                                supervisors.push({id: supervisor.id, text: supervisor.name});
                             }
                         });
 
@@ -435,12 +661,6 @@
                         };
                     },
                 }
-            });
-
-            jQuery('#inputHasCTPSDeMentira').iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue',
-                increaseArea: '20%' // optional
             });
         });
     </script>

@@ -46,6 +46,18 @@ class PermissionTableSeeder extends Seeder
             'companySector-list',
             'companySector-create',
             'companySector-edit',
+
+            'companyAgreement-list',
+            'companyAgreement-create',
+            'companyAgreement-edit',
+
+            'companySupervisor-list',
+            'companySupervisor-create',
+            'companySupervisor-edit',
+
+            'internship-list',
+            'internship-create',
+            'internship-edit',
         ];
 
 

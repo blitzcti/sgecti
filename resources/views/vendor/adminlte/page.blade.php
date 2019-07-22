@@ -1,3 +1,5 @@
+{{-- @TODO: Every time a company sends a new internship proposal, or when the secretary sends a new internship plan, dispatches a notification for the coordinators --}}
+
 @extends('adminlte::master')
 
 @section('adminlte_css')
@@ -166,10 +168,31 @@
         </footer>
     </div>
     <!-- ./wrapper -->
+
+    <script type="text/javascript">
+        // Remove all empty help blocks
+        Array.from(document.querySelectorAll('.form-group .help-block:empty')).forEach(element => {
+            element.remove();
+        });
+    </script>
 @stop
 
 @section('adminlte_js')
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery('.has-error').on('focusin', function () {
+                // Remove the has-error class when the user focuses the input
+                this.classList.remove('has-error');
+
+                // Remove the span class=".help-block"
+                let help_block = this.querySelector('.help-block');
+                if (help_block !== null) {
+                    help_block.remove();
+                }
+            });
+        });
+    </script>
     @stack('js')
     @yield('js')
 @stop

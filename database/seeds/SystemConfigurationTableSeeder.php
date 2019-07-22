@@ -14,16 +14,16 @@ class SystemConfigurationTableSeeder extends Seeder
     public function run()
     {
         $systemConfig = new SystemConfiguration();
-        $systemConfig->nome = 'Colégio Técnico Industrial "Prof. Isaac Portal Roldán"';
+        $systemConfig->name = 'Colégio Técnico Industrial "Prof. Isaac Portal Roldán"';
         $systemConfig->cep = '17033260';
         $systemConfig->uf = 'SP';
-        $systemConfig->cidade = 'Bauru';
-        $systemConfig->rua = 'Avenida Nações Unidas';
-        $systemConfig->numero = '58-50';
-        $systemConfig->bairro = 'Núcleo Residencial Presidente Geisel';
-        $systemConfig->fone = '1431036150';
+        $systemConfig->city = 'Bauru';
+        $systemConfig->street = 'Avenida Nações Unidas';
+        $systemConfig->number = '58-50';
+        $systemConfig->district = 'Núcleo Residencial Presidente Geisel';
+        $systemConfig->phone = '1431036150';
         $systemConfig->email = 'dir-cti@feb.unesp.br';
-        $systemConfig->validade_convenio = '5';
+        $systemConfig->agreement_expiration = '5';
         $systemConfig->created_at = Carbon::now();
         $systemConfig->save();
     }

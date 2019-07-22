@@ -141,6 +141,8 @@ return [
         'name' => 'Nome',
         'color' => 'Cor',
         'active' => 'Ativo',
+        'startDate' => 'Data de início',
+        'endDate' => 'Data de término',
 
         'old_password' => 'Senha atual',
         'password' => 'Senha',
@@ -153,17 +155,42 @@ return [
         'minMonthCTPS' => 'Meses mínimos (CTPS)',
         'minMark' => 'Nota mínima',
 
+        'supervisorName' => 'Nome do supervisor',
+        'supervisorEmail' => 'Email do supervisor',
+        'supervisorPhone' => 'Telefone do supervisor',
+
+        'company' => 'Empresa',
+
         'cep' => 'CEP',
         'uf' => 'UF',
-        'cidade' => 'Cidade',
-        'rua' => 'Rua',
-        'numero' => 'Número',
-        'bairro' => 'Bairro',
-        'fone' => 'Telefone',
+        'city' => 'Cidade',
+        'street' => 'Rua',
+        'number' => 'Número',
+        'district' => 'Bairro',
+        'phone' => 'Telefone',
         'email' => 'Email',
-        'ramal' => 'Ramal',
-        'validade_convenio' => 'Validade do convênio',
+        'extension' => 'Ramal',
+        'agreementExpiration' => 'Validade do convênio',
 
-        'cpf_cnpj' => 'CPF / CNPJ'
+        'cpfCnpj' => 'CPF / CNPJ',
+        'representativeName' => 'Nome do representante',
+        'representativeRole' => 'Cargo do representante',
+        'sector' => 'Setor',
+        'sectors' => 'Setores',
+        'course' => 'Curso',
+        'courses' => 'Cursos',
+        'hasConvenio' => 'Registrar convênio',
+        'expirationDate' => 'Validade do convênio',
+
+        'description' => 'Descrição',
+
+        'ra' => 'RA',
+        'activities' => 'Atividades',
+        'observation' => 'Observação',
+        'supervisor' => 'Supervisor',
+        'protocol' => 'Protocolo',
+        'ctps' => 'CTPS',
+        'hasCTPS' => 'O estágio é CTPS',
+
     ],
 ];

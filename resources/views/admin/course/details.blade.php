@@ -11,7 +11,7 @@
 
     @if(auth()->user()->can('course-delete'))
 
-        @include('admin.course.deleteModal')
+        @include('modals.courseDeleteModal')
 
     @endif
 
@@ -92,12 +92,12 @@
                     <dd class="col-sm-10">{{ $coordinator->user->name }}</dd>
 
                     <dt class="col-sm-2">Início da vigência</dt>
-                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($coordinator->vigencia_ini)) }}</dd>
+                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($coordinator->start_date)) }}</dd>
 
-                    @if ($coordinator->vigencia_fim != null)
+                    @if ($coordinator->end_date != null)
 
                     <dt class="col-sm-2">Fim da vigência</dt>
-                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($coordinator->vigencia_fim)) }}</dd>
+                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($coordinator->end_date)) }}</dd>
 
                     @endif
                 </dl>

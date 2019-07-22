@@ -22,14 +22,14 @@ class CreateProposalsTable extends Migration
             $table->bigInteger('course_id')->nullable(false)->unsigned();
             $table->foreign('course_id')->references('id')->on('courses');
 
-            $table->date('data_limite');
+            $table->date('deadline');
 
             $table->bigInteger('schedule_id')->nullable(false)->unsigned();
             $table->foreign('schedule_id')->references('id')->on('schedules');
 
-            $table->float('remuneracao')->default(0);
-            $table->text('descricao');
-            $table->text('observacao')->nullable(true)->default(null);
+            $table->float('remuneration')->default(0);
+            $table->text('description');
+            $table->text('observation')->nullable(true)->default(null);
 
             $table->timestamps();
         });

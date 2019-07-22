@@ -1,6 +1,5 @@
 {{--
-    TODO: mensagem
-    TODO: => alunos de qual periodo (manha, noite, 4º ano)
+    TODO: mensagem => alunos de qual periodo (manha, noite, 4º ano)
 --}}
 
 @extends('adminlte::page')
@@ -26,16 +25,16 @@
     <div class="box box-default">
         <div class="box-body">
             <form action="#" method="post">
-                <div class="form-group">
+                <div class="form-group @if($errors->has('email')) has-error @endif">
                     <input type="email" class="form-control" name="emailto" placeholder="Email to:"
                            value="{{ auth()->user()->email }}" readonly>
                 </div>
-                <div class="form-group">
+                <div class="form-group @if($errors->has('message')) has-error @endif">
                     <input type="text" class="form-control" name="subject" placeholder="Assunto">
                 </div>
                 <div>
-                  <textarea id="message" class="textarea" placeholder="Mensagem"
-                            style="width: 100%; height: 250px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                  <textarea id="message" class="textarea" placeholder="Mensagem" style="resize: none"
+                            style="width: 100%; height: 250px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ old('message') ?? '' }}</textarea>
                 </div>
             </form>
         </div>

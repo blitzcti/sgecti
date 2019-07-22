@@ -11,17 +11,21 @@
         }
 
         @page {
-            margin: 100px 25px;
+            margin: 4cm 2cm 1.5cm 2cm;
         }
 
         header {
             position: fixed;
-            top: -60px;
+            top: -85px;
         }
 
         footer {
             position: fixed;
-            bottom: -60px;
+            bottom: 25px;
+        }
+
+        footer .page-number:after {
+            content: counter(page);
         }
 
         .page-break {
@@ -67,7 +71,7 @@
 
 <footer>
     <div>
-
+        <div class="pull-right page-number"></div>
     </div>
 </footer>
 

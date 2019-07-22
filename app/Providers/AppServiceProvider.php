@@ -335,10 +335,10 @@ class AppServiceProvider extends ServiceProvider
                 'icon' => 'users',
                 'submenu' => [
                     [
-                        'text' => 'menu.history',
-                        'route' => 'aluno.index',
-                        'icon' => 'hourglass-1',
-                        'active' => ['aluno/']
+                        'text' => 'menu.data',
+                        'route' => 'coordenador.aluno.index',
+                        'icon' => 'file-text-o',
+                        'active' => ['coordenador/aluno/']
                     ],
                 ]
             ]);

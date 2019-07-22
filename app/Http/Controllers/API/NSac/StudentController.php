@@ -30,9 +30,10 @@ class StudentController extends Controller
     {
         if ((new Student())->isConnected()) {
             $students = Student::all()->sortBy('matricula');
+            $students = array_values($students->toArray());
 
             if (!empty($request->q)) {
-                $students = $this->search($students->toArray(), $request->q, 'nome');
+                $students = $this->search($students, $request->q, 'nome');
             }
         } else {
             $students = null;
@@ -63,12 +64,44 @@ class StudentController extends Controller
 
         if ((new Student())->isConnected()) {
             $student = Student::all()->where('matricula', '=', $ra);
+            $student = array_values($student->toArray());
         } else {
             $student = null;
         }
 
         return response()->json(
             $student,
+            200,
+            [
+                'Content-Type' => 'application/json; charset=UTF-8',
+                'charset' => 'utf-8'
+            ],
+            JSON_UNESCAPED_UNICODE);
+    }
+
+    public function getByYear($year)
+    {
+        if (!ctype_digit($year)) {
+            return response()->json(
+                ['message' => 'Not integer'],
+                401,
+                [
+                    'Content-Type' => 'application/json; charset=UTF-8',
+                    'charset' => 'utf-8'
+                ],
+                JSON_UNESCAPED_UNICODE);
+        }
+
+        if ((new Student())->isConnected()) {
+            $year = substr($year, 2, 2);
+            $students = Student::where('matricula', 'LIKE', $year . '%')->get();
+            $students = array_values($students->toArray());
+        } else {
+            $students = null;
+        }
+
+        return response()->json(
+            $students,
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',

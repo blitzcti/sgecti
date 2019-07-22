@@ -39,7 +39,7 @@
 
                     <tr>
                         <th scope="row">{{ $internship->id }}</th>
-                        <td>{{ $internship->ra}}</td>
+                        <td>{{ ((new \App\Models\NSac\Student)->isConnected()) ? $internship->student->nome : $internship->ra }}</td>
                         <td>{{ $internship->company->name }}</td>
                         <td>{{ $internship->coordinator->user->name }}</td>
                         <td>

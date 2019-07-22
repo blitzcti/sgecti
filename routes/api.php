@@ -29,6 +29,7 @@ Route::prefix('')->name('api.')->group(function () {
 
     Route::prefix('aluno')->name('aluno.')->group(function () {
         Route::get('', 'API\NSac\StudentController@get')->name('get');
+        Route::get('ano/{year}', 'API\NSac\StudentController@getByYear')->name('getByYear');
 
         Route::prefix('{id}')->group(function () {
             Route::get('', 'API\NSac\StudentController@getByRA')->name('getByRA');

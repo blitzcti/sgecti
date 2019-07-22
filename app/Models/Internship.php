@@ -11,6 +11,11 @@ class Internship extends Model
         'state_id', 'start_date', 'end_date', 'protocol', 'activities', 'observation', 'reason_to_cancel', 'active',
     ];
 
+    public function student()
+    {
+        return $this->belongsTo(NSac\Student::class, 'ra', 'matricula');
+    }
+
     public function company()
     {
         return $this->belongsTo(Company::class);

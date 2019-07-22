@@ -45,6 +45,7 @@ return [
 
     'view' => 'Visualizar',
     'new' => 'Novo',
-    'history' => 'Histórico'
+    'history' => 'Histórico',
+    'data' => 'Dados',
 
 ];

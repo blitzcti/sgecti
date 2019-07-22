@@ -179,10 +179,14 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
         Route::get('', 'MessageController@coordinatorIndex')->name('index');
         Route::get('teste', 'MessageController@sendInternshipProposalMail');
     });
+
+    Route::prefix('aluno')->name('aluno.')->group(function () {
+        Route::get('', 'StudentController@index')->name('index');
+    });
 });
 
 Route::prefix('aluno')->name('aluno.')->group(function () {
-    Route::get('', 'StudentController@index')->name('index');
+
 });
 
 Route::prefix('ajuda')->name('ajuda.')->group(function () {

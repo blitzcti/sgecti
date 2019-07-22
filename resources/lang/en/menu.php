@@ -44,7 +44,8 @@ return [
 
     'view' => 'View',
     'new' => 'New',
-    'history' => 'History'
+    'history' => 'History',
+    'data' => 'Data',
 
 ];
 

@@ -24,7 +24,7 @@
         </div>
 
         <div class="box-body">
-            <form action="" class="form-horizontal">
+            <form id="form" action="#" method="get" class="form-horizontal">
                 <div class="form-group">
                     <label for="inputSearch" class="col-sm-2 control-label">Pesquisa por: </label>
 
@@ -46,7 +46,7 @@
                             <input type="text" class="form-control" id="inputSearch" name="search"/>
 
                             <div class="input-group-btn">
-                                <button type="button" id="pesquisarRA" class="btn btn-primary">Pesquisar</button>
+                                <button type="submit" id="pesquisarRA" class="btn btn-primary">Pesquisar</button>
                             </div>
                         </div>
                     </div>
@@ -60,6 +60,7 @@
                     <th>Nome</th>
                     <th>Email</th>
                     <th>Email 2</th>
+                    <th>Ações</th>
                 </tr>
                 </thead>
 
@@ -109,9 +110,15 @@
         }
 
         jQuery(() => {
-            jQuery('#pesquisarRA').on('click', () => {
-                let url = (s === 0) ? `/api/aluno/${jQuery('#inputSearch').inputmask('unmaskedvalue')}` :
-                    (s === 1) ? `/api/aluno?q=${jQuery('#inputSearch').val()}` : `/api/aluno/ano/${jQuery('#inputSearch').inputmask('unmaskedvalue')}`;
+            jQuery('#form').submit(e => {
+                e.preventDefault();
+
+                let val = (s === 0 || s === 2) ? jQuery('#inputSearch').inputmask('unmaskedvalue') : jQuery('#inputSearch').val().trim();
+                let url = (s === 0) ? `/api/aluno/${val}` : (s === 1) ? `/api/aluno?q=${val}` : `/api/aluno/ano/${val}`;
+
+                if (s === 0 && val.length === 0) {
+                    return;
+                }
 
                 jQuery.ajax({
                     url: url,
@@ -139,12 +146,19 @@
                             col.innerText = student.email2;
                             row.appendChild(col);
 
+                            col = document.createElement('td');
+                            let a = document.createElement('a');
+                            a.href = `/coordenador/aluno/${student.matricula}/`;
+                            a.innerText = 'Detalhes';
+                            col.appendChild(a);
+                            row.appendChild(col);
+
                             tbody.append(row);
                         });
                     },
 
                     error: function () {
-                        console.log('deu merda');
+
                     }
                 });
             });

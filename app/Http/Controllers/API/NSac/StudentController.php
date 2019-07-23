@@ -63,14 +63,13 @@ class StudentController extends Controller
         }
 
         if ((new Student())->isConnected()) {
-            $student = Student::all()->where('matricula', '=', $ra);
-            $student = array_values($student->toArray());
+            $student = Student::findOrFail($ra);
         } else {
             $student = null;
         }
 
         return response()->json(
-            $student,
+            [$student],
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',

@@ -50,4 +50,9 @@ class Internship extends Model
     {
         return $this->hasOne(State::class);
     }
+
+    public function estimatedHours()
+    {
+        return 666;
+    }
 }

@@ -170,9 +170,10 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
 
     Route::prefix('relatorio')->name('relatorio.')->group(function () {
         Route::get('', 'ReportController@index')->name('index');
-        Route::get('proposta', 'ReportController@proposal')->name('proposta');
         Route::get('bimestral', 'ReportController@bimestral')->name('bimestral');
         Route::get('final', 'ReportController@final')->name('final');
+        Route::post('salvarBimestral', 'ReportController@storeBimestral')->name('salvarBimestral');
+        Route::post('salvarFinal', 'ReportController@storeFinal')->name('salvarFinal');
     });
 
     Route::prefix('mensagem')->name('mensagem.')->group(function () {
@@ -182,6 +183,10 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
 
     Route::prefix('aluno')->name('aluno.')->group(function () {
         Route::get('', 'StudentController@index')->name('index');
+
+        Route::prefix('{ra}')->group(function () {
+            Route::get('', 'StudentController@details')->name('detalhes');
+        });
     });
 });
 

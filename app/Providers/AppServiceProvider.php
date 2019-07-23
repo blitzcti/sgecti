@@ -156,19 +156,6 @@ class AppServiceProvider extends ServiceProvider
                 ]);
             }
 
-            $menu->add([
-                'text' => 'menu.student',
-                'icon' => 'users',
-                'submenu' => [
-                    [
-                        'text' => 'menu.history',
-                        'route' => 'aluno.index',
-                        'icon' => 'hourglass-1',
-                        'active' => ['admin/aluno/']
-                    ],
-                ]
-            ]);
-
             //Cursos tab
             $menu->add('CURSOS');
             foreach ($courses as $course) {
@@ -307,12 +294,6 @@ class AppServiceProvider extends ServiceProvider
                         'route' => 'coordenador.relatorio.index',
                         'icon' => 'th-list',
                         'active' => ['coordenador/relatorio/']
-                    ],
-                    [
-                        'text' => 'menu.proposal',
-                        'route' => 'coordenador.relatorio.proposta',
-                        'icon' => 'edit',
-                        'active' => ['coordenador/relatorio/proposta']
                     ],
                     [
                         'text' => 'menu.bimestral',

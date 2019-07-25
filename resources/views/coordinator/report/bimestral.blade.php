@@ -81,6 +81,8 @@
 @section('js')
     <script type="text/javascript">
         jQuery(document).ready(function () {
+            jQuery(':input').inputmask({removeMaskOnSubmit: true});
+
             jQuery('.selection').select2({
                 language: "pt-BR"
             });

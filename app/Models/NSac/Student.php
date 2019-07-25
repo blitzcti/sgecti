@@ -2,6 +2,7 @@
 
 namespace App\Models\NSac;
 
+use App\Models\Course;
 use App\Models\Internship;
 
 class Student extends Model
@@ -28,9 +29,12 @@ class Student extends Model
 
     public function internship()
     {
-        return Internship::where('ra', '=', $this->matricula)->get()->first();
-
-        // Laravel bugadasso
         return $this->hasOne(Internship::class, 'ra', 'matricula');
+    }
+
+    public function course()
+    {
+        $this->attributes['course_id'] = substr($this->matricula, 3, 1);
+        return $this->belongsTo(Course::class);
     }
 }

@@ -42,6 +42,8 @@
                                         <button type="button" class="btn btn-default dropdown-toggle"
                                                 data-toggle="dropdown">
                                             <span id="CpfCnpjOption"></span>
+
+
                                             <span class="fa fa-caret-down"></span></button>
 
                                         <ul class="dropdown-menu">

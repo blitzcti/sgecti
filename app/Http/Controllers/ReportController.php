@@ -6,6 +6,7 @@ use App\Models\BimestralReport;
 use App\Models\Course;
 use App\Models\Internship;
 use App\Models\NSac\Student;
+use App\Models\State;
 use Illuminate\Support\Facades\Request;
 use \PDF;
 
@@ -18,8 +19,7 @@ class ReportController extends Controller
 
     public function bimestral()
     {
-        $internships = Internship::where('state_id', '=', '1')->get();
-
+        $internships = State::findOrFail(1)->internships()->get();
         return view('coordinator.report.bimestral')->with(['internships' => $internships]);
     }
 

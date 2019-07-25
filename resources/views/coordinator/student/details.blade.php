@@ -27,8 +27,14 @@
             <h3>Dados do aluno</h3>
 
             <dl class="row">
-                <dt class="col-sm-2">Nome do aluno</dt>
+                <dt class="col-sm-2">RA</dt>
+                <dd class="col-sm-10">{{ $student->matricula }}</dd>
+
+                <dt class="col-sm-2">Nome</dt>
                 <dd class="col-sm-10">{{ $student->nome }}</dd>
+
+                <dt class="col-sm-2">Curso</dt>
+                <dd class="col-sm-10">{{ $student->course->name }}</dd>
 
                 <dt class="col-sm-2">Email</dt>
                 <dd class="col-sm-10">{{ $student->email }}</dd>

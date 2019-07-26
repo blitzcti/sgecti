@@ -11,7 +11,7 @@
 
     @if(auth()->user()->can('course-delete'))
 
-        @include('modals.courseDeleteModal')
+        @include('modals.admin.course.delete')
 
     @endif
 
@@ -46,6 +46,9 @@
 
                 <dt class="col-sm-2">Ativo</dt>
                 <dd class="col-sm-10">{{ $course->active ? 'Sim' : 'Não' }}</dd>
+
+                <dt class="col-sm-2">Alunos</dt>
+                <dd class="col-sm-10">{{ sizeof($course->students) }}</dd>
             </dl>
 
             <hr/>

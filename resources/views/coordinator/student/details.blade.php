@@ -10,16 +10,20 @@
     <div class="box box-default">
         <div class="box-body">
             <div class="btn-group" style="display: inline-flex; margin: 0">
-                <a href="{{ route('coordenador.estagio.editar', $internship->id) }}"
-                   class="btn btn-primary">Editar estágio</a>
-
                 @if($internship != null)
+                    <a href="{{ route('coordenador.estagio.editar', $internship->id) }}"
+                       class="btn btn-primary">Editar estágio</a>
 
-                    <a href="{{ route('coordenador.relatorio.bimestral', $internship->id) }}"
+                    <a href="{{ route('coordenador.relatorio.bimestral.novo', ['i' => $internship->id]) }}"
                        class="btn btn-success">Adicionar relatório bimestral</a>
 
-                    <a href="{{ route('coordenador.relatorio.final', $internship->id) }}"
+                    <a href="{{ route('coordenador.relatorio.final.novo', ['i' => $internship->id]) }}"
                        class="btn btn-success">Adicionar relatório final</a>
+
+                @else
+
+                    <a href="{{ route('coordenador.estagio.novo', ['s' => $student->matricula]) }}"
+                       class="btn btn-success">Novo estágio</a>
 
                 @endif
             </div>
@@ -35,6 +39,9 @@
 
                 <dt class="col-sm-2">Curso</dt>
                 <dd class="col-sm-10">{{ $student->course->name }}</dd>
+
+                <dt class="col-sm-2">Ano</dt>
+                <dd class="col-sm-10">{{ $student->year }}</dd>
 
                 <dt class="col-sm-2">Email</dt>
                 <dd class="col-sm-10">{{ $student->email }}</dd>

@@ -11,13 +11,13 @@
 @stop
 
 @section('content')
-    @include('modals.cnpjLoadingModal')
-    @include('modals.cnpjErrorModal')
+    @include('modals.cep.loading')
+    @include('modals.cep.error')
 
-    @include('modals.cepLoadingModal')
-    @include('modals.cepErrorModal')
+    @include('modals.cnpj.loading')
+    @include('modals.cnpj.error')
 
-    @include('modals.newCompanySectorModal')
+    @include('modals.coordinator.company.sector.new')
 
     <form class="form-horizontal" action="{{ route('coordenador.empresa.salvar') }}" method="post">
         @csrf

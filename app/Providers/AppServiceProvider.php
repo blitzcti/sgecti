@@ -170,7 +170,7 @@ class AppServiceProvider extends ServiceProvider
             }
         }
 
-        if ($user->coordinator() != null) {
+        if ($user->isCoordinator()) {
             $menu->add('COORDENAÇÃO DE ESTÁGIO');
 
             if ($user->can('company-list')) {
@@ -297,15 +297,15 @@ class AppServiceProvider extends ServiceProvider
                     ],
                     [
                         'text' => 'menu.bimestral',
-                        'route' => 'coordenador.relatorio.bimestral',
+                        'route' => 'coordenador.relatorio.bimestral.novo',
                         'icon' => 'edit',
-                        'active' => ['coordenador/relatorio/bimestral']
+                        'active' => ['coordenador/relatorio/bimestral/novo']
                     ],
                     [
                         'text' => 'menu.final',
-                        'route' => 'coordenador.relatorio.final',
+                        'route' => 'coordenador.relatorio.final.novo',
                         'icon' => 'edit',
-                        'active' => ['coordenador/relatorio/final']
+                        'active' => ['coordenador/relatorio/final/novo']
                     ],
                 ]
             ]);

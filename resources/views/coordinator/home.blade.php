@@ -1,1 +1,1 @@
-<p>Atualmente, você é coordenador de {{ $user->coordinator()->course->name }}.</p>
+<p>Atualmente, você é coordenador de {{ $user->coordinators->last()->course->name }}.</p>

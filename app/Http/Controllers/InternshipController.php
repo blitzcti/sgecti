@@ -32,10 +32,10 @@ class InternshipController extends Controller
     public function create()
     {
         $companies = Company::all()->where('active', '=', true);
-        $states = State::all();
+        $s = request()->s;
 
         return view('coordinator.internship.new')->with(
-            ['companies' => $companies, 'states' => $states]
+            ['companies' => $companies, 's' => $s]
         );
     }
 
@@ -43,10 +43,9 @@ class InternshipController extends Controller
     {
         $internship = Internship::findOrFail($id);
         $companies = Company::all()->where('active', '=', true);
-        $states = State::all();
 
         return view('coordinator.internship.edit')->with([
-            'internship' => $internship, 'companies' => $companies, 'states' => $states
+            'internship' => $internship, 'companies' => $companies,
         ]);
     }
 
@@ -181,6 +180,8 @@ class InternshipController extends Controller
             $saved = $schedule2->save();
 
             $internship->schedule_2_id = $schedule2->id;
+        } else {
+            $internship->schedule_2_id = null;
         }
 
         $internship->updated_at = Carbon::now();

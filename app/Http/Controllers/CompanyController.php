@@ -166,19 +166,6 @@ class CompanyController extends Controller
         $company->syncCourses(array_map('intval', $validatedData->courses));
         $company->syncSectors(array_map('intval', $validatedData->sectors));
 
-        if ($validatedData->hasConvenio) {
-            $agreement = $company->agreements->last() ?? new Agreement();
-
-            $agreement->updated_at = Carbon::now();
-            $agreement->company_id = $company->id;
-            $agreement->expiration_date = $validatedData->expirationDate;
-            $agreement->observation = $validatedData->observation;
-
-            //$log .= "\nNovos dados (convênio): " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-            $saved = $agreement->save();
-        }
-
         $log .= "\nNovos dados: " . json_encode($company, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         if ($saved) {

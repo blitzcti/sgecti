@@ -2,41 +2,52 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreReport;
+use App\Http\Requests\StoreBimestral;
 use App\Models\BimestralReport;
 use App\Models\Course;
-use App\Models\Internship;
+use App\Models\FinalReport;
 use App\Models\NSac\Student;
+use App\Models\State;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
-use \PDF;
+use PDF;
 
 class ReportController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('coordinator');
+        $this->middleware('permission:report-list');
+        $this->middleware('permission:report-create', ['only' => ['createBimestral', 'createFinal', 'storeBimestral', 'storeFinal']]);
+        $this->middleware('permission:report-edit', ['only' => ['editBimestral', 'editFinal', 'updateBimestral', 'updateFinal']]);
+    }
+
     public function index()
     {
-        return view('coordinator.report.index');
+        $bReports = BimestralReport::all();
+        $fReports = FinalReport::all();
+        return view('coordinator.report.index')->with(['bReports' => $bReports, 'fReports' => $fReports]);
     }
 
-    public function bimestral()
+    public function createBimestral()
     {
-        $internships = Internship::where('state_id', '=', '1')->get();
-
-        return view('coordinator.report.bimestral')->with(['internships' => $internships]);
+        $internships = State::findOrFail(1)->internships()->get();
+        $i = request()->i;
+        return view('coordinator.report.bimestral.new')->with(['internships' => $internships, 'i' => $i]);
     }
 
-    public function final()
+    public function createFinal()
     {
-        $internships = Internship::where('state_id', '=', '1')->get();
-
-        return view('coordinator.report.final')->with(['internships' => $internships]);
+        $internships = State::findOrFail(1)->internships()->get();
+        $i = request()->i;
+        return view('coordinator.report.final.new')->with(['internships' => $internships, 'i' => $i]);
     }
 
-    public function storeBimestral(StoreReport $request)
+    public function storeBimestral(StoreBimestral $request)
     {
-        $bimstreal = new BimestralReport();
+        $bimestral = new BimestralReport();
         $params = [];
 
         $validatedData = (object)$request->validated();
@@ -44,11 +55,11 @@ class ReportController extends Controller
         $log = "Novo relatório bimestral";
         $log .= "\nUsuário: " . Auth::user()->name;
 
-        $bimstreal->created_at = Carbon::now();
-        $bimstreal->internship_id = $validatedData->internship_id;
-        $bimstreal->date = $validatedData->date;
-        $bimstreal->protocol = $validatedData->protocol;
-        $saved = $bimstreal->save();
+        $bimestral->created_at = Carbon::now();
+        $bimestral->internship_id = $validatedData->internship;
+        $bimestral->date = $validatedData->date;
+        $bimestral->protocol = $validatedData->protocol;
+        $saved = $bimestral->save();
 
         if ($saved) {
             Log::info($log);

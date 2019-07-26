@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\RA;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreInternship extends FormRequest
@@ -27,12 +28,12 @@ class StoreInternship extends FormRequest
             'has2Turnos' => 'required|boolean',
             'hasCTPS' => 'required|boolean',
 
-            'ra' => 'required|numeric|min:1',
+            'ra' => ['required', 'numeric', 'min:1', new RA],
             'active' => 'required|numeric|min:1',
             'company' => 'required|min:1',
             'sector' => 'required|min:1',
-            'startDate' => 'date|required',
-            'endDate' => 'date|required',
+            'startDate' => 'required|date|before:endDate',
+            'endDate' => 'required|date|after:startDate',
             'activities' => 'required|max:6000',
 
             'monS' => 'nullable|date_format:H:i',

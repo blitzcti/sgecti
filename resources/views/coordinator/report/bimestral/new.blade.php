@@ -1,13 +1,13 @@
 @extends('adminlte::page')
 
-@section('title', 'Novo relatório final - SGE CTI')
+@section('title', 'Novo relatório bimestral - SGE CTI')
 
 @section('content_header')
-    <h1>Adicionar relatório final</h1>
+    <h1>Adicionar relatório bimestral</h1>
 @stop
 
 @section('content')
-    <form class="form-horizontal" action="{{ route('coordenador.relatorio.salvarFinal') }}" method="post">
+    <form class="form-horizontal" action="{{ route('coordenador.relatorio.bimestral.salvar') }}" method="post">
         @csrf
 
         <div class="box box-default">
@@ -19,13 +19,13 @@
                 <div class="form-group @if($errors->has('internship')) has-error @endif">
                     <label for="inputInternship" class="col-sm-2 control-label">Nome do aluno*</label>
 
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                         <select class="form-control selection" id="inputInternship" name="internship">
 
                             @foreach($internships as $internship)
 
                                 <option value="{{ $internship->id }}"
-                                    {{ (old('internship') ?? -1) == $internship->id ? 'selected=selected' : '' }}>
+                                        {{ (old('internship') ?? $i) == $internship->id ? 'selected=selected' : '' }}>
                                     {{ $internship->student->nome }}
                                 </option>
 
@@ -63,21 +63,6 @@
                                        value="{{ old('protocol') ?? '' }}"/>
 
                                 <span class="help-block">{{ $errors->first('protocol') }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group @if($errors->has('observation')) has-error @endif">
-                            <label for="inputObservation" class="col-sm-4 control-label">Observação</label>
-
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="inputObservation" name="observation"
-                                       value="{{ old('observation') ?? '' }}"/>
-
-                                <span class="help-block">{{ $errors->first('observation') }}</span>
                             </div>
                         </div>
                     </div>

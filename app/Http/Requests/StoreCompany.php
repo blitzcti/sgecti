@@ -29,7 +29,7 @@ class StoreCompany extends FormRequest
             'pj' => 'required|boolean',
             'hasConvenio' => 'required|boolean',
 
-            'cpfCnpj' => ['required', 'numeric', ($this->get('pj')) ? new CNPJ : new CPF],
+            'cpfCnpj' => ['required', 'numeric', 'unique:companies,cpf_cnpj', ($this->get('pj')) ? new CNPJ : new CPF],
             'active' => 'required|boolean',
             'name' => 'required|max:100',
             'fantasyName' => 'max:100',

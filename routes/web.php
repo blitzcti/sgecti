@@ -162,18 +162,34 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
         });
 
         Route::prefix('aditivo')->name('aditivo.')->group(function () {
-            Route::get('', 'AditiveController@index')->name('index');
-            Route::get('novo', 'AditiveController@create')->name('novo');
-            Route::post('salvar', 'AditiveController@store')->name('salvar');
+            Route::get('', 'AmendmentController@index')->name('index');
+            Route::get('novo', 'AmendmentController@create')->name('novo');
+            Route::post('salvar', 'AmendmentController@store')->name('salvar');
         });
     });
 
     Route::prefix('relatorio')->name('relatorio.')->group(function () {
         Route::get('', 'ReportController@index')->name('index');
-        Route::get('bimestral', 'ReportController@bimestral')->name('bimestral');
-        Route::get('final', 'ReportController@final')->name('final');
-        Route::post('salvarBimestral', 'ReportController@storeBimestral')->name('salvarBimestral');
-        Route::post('salvarFinal', 'ReportController@storeFinal')->name('salvarFinal');
+
+        Route::prefix('bimestral')->name('bimestral.')->group(function () {
+            Route::get('novo', 'ReportController@createBimestral')->name('novo');
+            Route::post('salvar', 'ReportController@storeBimestral')->name('salvar');
+
+            Route::prefix('{id}')->group(function () {
+                Route::get('editar', 'ReportController@editBimestral')->name('editar');
+                Route::put('alterar', 'ReportController@updateBimestral')->name('alterar');
+            });
+        });
+
+        Route::prefix('final')->name('final.')->group(function () {
+            Route::get('novo', 'ReportController@createFinal')->name('novo');
+            Route::post('salvar', 'ReportController@storeFinal')->name('salvar');
+
+            Route::prefix('{id}')->group(function () {
+                Route::get('editar', 'ReportController@editFinal')->name('editar');
+                Route::put('alterar', 'ReportController@updateFinal')->name('alterar');
+            });
+        });
     });
 
     Route::prefix('mensagem')->name('mensagem.')->group(function () {

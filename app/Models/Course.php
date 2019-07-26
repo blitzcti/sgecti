@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\NSac\Student;
 use Carbon\Carbon;
 
 class Course extends Model
@@ -9,6 +10,11 @@ class Course extends Model
     protected $fillable = [
         'name', 'color_id', 'active',
     ];
+
+    public function getStudentsAttribute()
+    {
+        return Student::all()->where('course_id', '=', $this->id);
+    }
 
     public function coordinatorAt($date)
     {

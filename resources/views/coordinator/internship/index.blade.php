@@ -30,6 +30,7 @@
                     <th>Aluno</th>
                     <th>Empresa</th>
                     <th>Coordenador</th>
+                    <th>Estado</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
@@ -39,9 +40,17 @@
 
                     <tr>
                         <th scope="row">{{ $internship->id }}</th>
-                        <td>{{ ((new \App\Models\NSac\Student)->isConnected()) ? $internship->student->nome : $internship->ra }}</td>
+
+                        <td>{{ $internship->ra}}
+
+                            @if((new \App\Models\NSac\Student)->isConnected())
+                                {{ (' - ' . $internship->student->nome) ?? '' }}
+                            @endif
+                        </td>
+
                         <td>{{ $internship->company->name }}</td>
                         <td>{{ $internship->coordinator->user->name }}</td>
+                        <td>{{ $internship->state->description }}</td>
                         <td>
                             <a href="{{ route('coordenador.estagio.editar', ['id' => $internship->id]) }}">Editar</a>
                         </td>

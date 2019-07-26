@@ -18,7 +18,7 @@ class RoleHasPermission extends Model
     /**
      * primaryKey
      *
-     * @var integer
+     * @var string
      * @access protected
      */
     protected $primaryKey = null;

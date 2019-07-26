@@ -12,4 +12,9 @@ class Supervisor extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function internships()
+    {
+        return $this->hasMany(Internship::class);
+    }
 }

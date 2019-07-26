@@ -10,6 +10,11 @@ class Amendment extends Model
 
     public function internship()
     {
-        return $this->hasOne(Internship::class);
+        return $this->belongsTo(Internship::class);
+    }
+
+    public function schedule()
+    {
+        return $this->belongsTo(Schedule::class);
     }
 }

@@ -20,7 +20,7 @@
 
     @if(auth()->user()->can('course-delete'))
 
-        @include('modals.courseDeleteModal')
+        @include('modals.admin.course.delete')
 
     @endif
 

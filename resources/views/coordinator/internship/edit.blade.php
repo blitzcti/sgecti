@@ -8,7 +8,8 @@
 
 @section('content')
 
-    @include('modals.newInternshipSupervisorModal')
+    @include('modals.coordinator.company.supervisor.new')
+    @include('modals.coordinator.student.search')
 
     <form class="form-horizontal" action="{{ route('coordenador.estagio.alterar', $internship->id) }}" method="post">
         @method('PUT')
@@ -31,8 +32,15 @@
                             <label for="inputRA" class="col-sm-4 control-label">RA*</label>
 
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="inputRA" name="ra" placeholder="1757047"
-                                       data-inputmask="'mask': '9999999'" value="{{ old('ra') ?? $internship->ra }}">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="inputRA" name="ra" placeholder="1757047"
+                                           data-inputmask="'mask': '9999999'" value="{{ old('ra') ?? $internship->ra }}">
+
+                                    <div class="input-group-btn">
+                                        <a href="#" data-toggle="modal" data-target="#searchStudentModal"
+                                           class="btn btn-default"><i class="fa fa-search"></i></a>
+                                    </div>
+                                </div>
 
                                 <span class="help-block">{{ $errors->first('ra') }}</span>
                             </div>
@@ -599,7 +607,7 @@
                     jQuery('#inputHas2Turnos').val(1);
                 } else {
                     jQuery('#weekDays2').css('display', 'none');
-                    jQuery('#inputHas2Turnos').val(1);
+                    jQuery('#inputHas2Turnos').val(0);
                 }
             }).trigger('ifChanged').iCheck({
                 checkboxClass: 'icheckbox_square-blue',

@@ -9,7 +9,8 @@ class StudentController extends Controller
 {
     public function index()
     {
-        return view('coordinator.student.index');
+        $students = Student::all();
+        return view('coordinator.student.index')->with(['students' => $students]);
     }
 
     public function details($ra)

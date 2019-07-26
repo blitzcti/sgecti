@@ -11,7 +11,7 @@ class Internship extends Model
 
     public function student()
     {
-        return $this->belongsTo(NSac\Student::class, 'ra', 'matricula');
+        return $this->belongsTo(NSac\Student::class, 'ra');
     }
 
     public function company()
@@ -46,11 +46,27 @@ class Internship extends Model
 
     public function state()
     {
-        return $this->hasOne(State::class);
+        return $this->belongsTo(State::class);
+    }
+
+    public function amendments()
+    {
+        return $this->hasMany(Amendment::class);
     }
 
     public function estimatedHours()
     {
-        return 666;
+        $h = $this->schedule->countHours($this->start_date, $this->end_date);
+        if ($this->schedule2 != null) {
+            $h += $this->schedule2->countHours($this->start_date, $this->end_date);
+        }
+
+        if ($this->amendments != null) {
+            foreach ($this->amendments as $amendment) {
+                $h += $amendment->schedule->countHours($amendment->start_date, $amendment->end_date);
+            }
+        }
+
+        return $h;
     }
 }

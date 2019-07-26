@@ -1,4 +1,4 @@
-@extends('modals.errorModal', ['id' => 'cepErrorModal'])
+@extends('modals.error', ['id' => 'cepErrorModal'])
 
 @section('modalTitle')
     CEP não encontrado

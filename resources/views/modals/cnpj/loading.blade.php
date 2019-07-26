@@ -1,4 +1,4 @@
-@extends('modals.loadingModal', ['id' => 'cnpjLoadingModal'])
+@extends('modals.loading', ['id' => 'cnpjLoadingModal'])
 
 @section('loadingModalText')
     <p>Buscando CNPJ, por favor aguarde...</p>

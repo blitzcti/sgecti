@@ -33,6 +33,11 @@ class Company extends Model
         return $this->hasMany(Agreement::class);
     }
 
+    public function internships()
+    {
+        return $this->hasMany(Internship::class);
+    }
+
     public function syncCourses($courses)
     {
         $this->courses()->sync($courses);

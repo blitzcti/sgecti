@@ -27,7 +27,6 @@ class UpdateCompany extends FormRequest
     {
         return [
             'pj' => 'required|boolean',
-            'hasConvenio' => 'required|boolean',
 
             'cpfCnpj' => ['required', 'numeric', ($this->get('pj')) ? new CNPJ : new CPF],
             'active' => 'required|boolean',
@@ -49,9 +48,6 @@ class UpdateCompany extends FormRequest
             'sectors' => 'required|array|min:1',
 
             'courses' => 'required|array|min:1',
-
-            'expirationDate' => 'required_if:hasConvenio,==,1|nullable|date',
-            'observation' => 'max:200',
         ];
     }
 }

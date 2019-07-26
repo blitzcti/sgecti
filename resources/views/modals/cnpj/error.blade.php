@@ -1,4 +1,4 @@
-@extends('modals.errorModal', ['id' => 'cnpjErrorModal'])
+@extends('modals.error', ['id' => 'cnpjErrorModal'])
 
 @section('modalTitle')
     CNPJ não encontrado

@@ -17,24 +17,45 @@ class Student extends Model
     /**
      * primaryKey
      *
-     * @var integer
+     * @var string
      * @access protected
      */
     protected $primaryKey = "matricula";
 
-    public function __construct(array $attributes = [])
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['course_id', 'year'];
+
+    public function getCourseIdAttribute()
     {
-        parent::__construct($attributes);
+        $id = substr($this->matricula, 3, 1);
+        return intval($id);
+    }
+
+    public function getYearAttribute()
+    {
+        $y = substr($this->matricula, 0, 2);
+        $y = (intval($y) < 87) ? "20$y" : "19$y";
+        return intval($y);
     }
 
     public function internship()
     {
-        return $this->hasOne(Internship::class, 'ra', 'matricula');
+        return $this->hasOne(Internship::class, 'ra')->where('state_id', '=', 1);
     }
 
     public function course()
     {
-        $this->attributes['course_id'] = substr($this->matricula, 3, 1);
         return $this->belongsTo(Course::class);
     }
 }

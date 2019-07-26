@@ -7,8 +7,8 @@
 @stop
 
 @section('content')
-    @include('modals.cepLoadingModal')
-    @include('modals.cepErrorModal')
+    @include('modals.cep.loading')
+    @include('modals.cep.error')
 
     <div class="box box-default">
         <div class="box-header with-border">

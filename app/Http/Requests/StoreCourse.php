@@ -36,8 +36,8 @@ class StoreCourse extends FormRequest
             'minMark' => 'required|numeric|min:0|max:10',
 
             'user' => 'required|numeric|min:1',
-            'startDate' => 'required|date',
-            'endDate' => 'date',
+            'startDate' => 'required|date|before:endDate',
+            'endDate' => 'date|after:startDate',
         ];
     }
 }

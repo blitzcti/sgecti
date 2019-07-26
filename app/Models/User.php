@@ -40,9 +40,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function coordinator()
+    public function coordinators()
     {
-        if ($this->hasRole('teacher')) {
+        return $this->hasMany(Coordinator::class)
+        ->where('end_date', '=', null)
+            ->orWhere('end_date', '>=', Carbon::today()->toDateString());
+            //->groupBy('course_id')
+        //->get()->sortBy('id');
+        /*if ($this->hasRole('teacher')) {
             $coordinator = Coordinator::where('user_id', '=', $this->id)
                 ->where(function ($query) {
                     $query->where('end_date', '=', null)
@@ -55,12 +60,12 @@ class User extends Authenticatable
             }
         }
 
-        return null;
+        return null;*/
     }
 
     public function isCoordinator()
     {
-        return $this->coordinator() != null;
+        return $this->coordinators != null;
     }
 
     public function isAdmin()

@@ -20,6 +20,10 @@
                     <a href="{{ route('coordenador.relatorio.final.novo', ['i' => $internship->id]) }}"
                        class="btn btn-success">Adicionar relatório final</a>
 
+                @elseif($finishedInternship != null)
+
+                    <p>Estágio finalizado.</p>
+
                 @else
 
                     <a href="{{ route('coordenador.estagio.novo', ['s' => $student->matricula]) }}"
@@ -74,6 +78,10 @@
                     <dt class="col-sm-2">Horas estimadas</dt>
                     <dd class="col-sm-10">{{ $internship->estimatedHours() }}</dd>
                 </dl>
+
+            @elseif($finishedInternship != null)
+
+                <p>Este aluno já finalizou um estágio.</p>
 
             @else
 

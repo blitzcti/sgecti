@@ -54,6 +54,11 @@ class Student extends Model
         return $this->hasOne(Internship::class, 'ra')->where('state_id', '=', 1);
     }
 
+    public function finishedInternship()
+    {
+        return $this->hasOne(Internship::class, 'ra')->where('state_id', '=', 2);
+    }
+
     public function course()
     {
         return $this->belongsTo(Course::class);

@@ -33,7 +33,7 @@ class CreateFinalReportsTable extends Migration
             $table->integer('grade_4_a');
             $table->integer('grade_4_b');
             $table->integer('grade_4_c');
-            $table->integer('final_grade');
+            $table->float('final_grade');
 
             $table->integer('hours_completed');
             $table->date('end_date');

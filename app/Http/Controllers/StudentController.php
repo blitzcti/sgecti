@@ -17,6 +17,7 @@ class StudentController extends Controller
     {
         $student = Student::findOrFail($ra);
         $internship = $student->internship;
-        return view('coordinator.student.details')->with(['student' => $student, 'internship' => $internship]);
+        $finishedInternship = $student->finishedInternship;
+        return view('coordinator.student.details')->with(['student' => $student, 'internship' => $internship, 'finishedInternship' => $finishedInternship]);
     }
 }

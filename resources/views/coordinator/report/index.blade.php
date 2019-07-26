@@ -43,7 +43,14 @@
 
                     <tr>
                         <th scope="row">{{ $report->id }}</th>
-                        <td>{{ ((new \App\Models\NSac\Student)->isConnected()) ? $report->internship->student->nome : $report->internship->ra }}</td>
+
+                        <td>{{ $report->internship->ra}}
+
+                            @if((new \App\Models\NSac\Student)->isConnected())
+                                {{ (' - ' . $report->internship->student->nome) ?? '' }}
+                            @endif
+                        </td>
+
                         <td>{{ date("d/m/Y", strtotime($report->date)) }}</td>
                         <td>{{ $report->protocol }}</td>
                         <td>
@@ -72,7 +79,7 @@
                     <th scope="col">ID</th>
                     <th>Aluno</th>
                     <th>Data</th>
-                    <th>Nota final</th>
+                    <th>Nº de aprovação</th>
                     <th>Horas</th>
                     <th>Ações</th>
                 </tr>
@@ -83,9 +90,16 @@
 
                     <tr>
                         <th scope="row">{{ $report->id }}</th>
-                        <td>{{ ((new \App\Models\NSac\Student)->isConnected()) ? $$report->internship->student->nome : $report->internship->ra }}</td>
-                        <td>{{ $report->date }}</td>
-                        <td>{{ $report->final_grade }}</td>
+
+                        <td>{{ $report->internship->ra}}
+
+                            @if((new \App\Models\NSac\Student)->isConnected())
+                                {{ (' - ' . $report->internship->student->nome) ?? '' }}
+                            @endif
+                        </td>
+
+                        <td>{{ date("d/m/Y", strtotime($report->date)) }}</td>
+                        <td>{{ $report->approval_number }}</td>
                         <td>{{ $report->hours_completed }}</td>
                         <td>
                             <a href="{{ route('coordenador.relatorio.final.editar', ['id' => $report->id]) }}">Editar</a>

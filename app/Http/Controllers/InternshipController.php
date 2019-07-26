@@ -101,7 +101,7 @@ class InternshipController extends Controller
         $internship->ra = $validatedData->ra;
         $internship->company_id = $validatedData->company;
         $internship->sector_id = $validatedData->sector;
-        $internship->coordinator_id = Auth::user()->coordinator()->id;
+        $internship->coordinator_id = Auth::user()->coordinators->last()->id;
         $internship->schedule_id = $schedule->id;
         $internship->state_id = 1;
         $internship->supervisor_id = $validatedData->supervisor;

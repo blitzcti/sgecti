@@ -168,6 +168,9 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
             Route::get('', 'InternshipController@details')->name('detalhes');
             Route::get('editar', 'InternshipController@edit')->name('editar');
             Route::put('alterar', 'InternshipController@update')->name('alterar');
+            Route::put('cancelar', 'InternshipController@cancel')->name('cancelar');
+
+            Route::get('aditivo', 'AmendmentController@indexByInternship')->name('aditivo');
         });
 
         Route::prefix('aditivo')->name('aditivo.')->group(function () {

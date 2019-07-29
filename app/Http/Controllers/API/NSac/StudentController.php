@@ -51,20 +51,6 @@ class StudentController extends Controller
 
     public function getByRA($ra)
     {
-        if (!ctype_digit($ra)) {
-            return response()->json(
-                [
-                    'error' => true,
-                    'message' => 'Not integer'
-                ],
-                401,
-                [
-                    'Content-Type' => 'application/json; charset=UTF-8',
-                    'charset' => 'utf-8'
-                ],
-                JSON_UNESCAPED_UNICODE);
-        }
-
         if ((new Student())->isConnected()) {
             $student = Student::findOrFail($ra);
         } else {
@@ -83,20 +69,6 @@ class StudentController extends Controller
 
     public function getByYear($year)
     {
-        if (!ctype_digit($year)) {
-            return response()->json(
-                [
-                    'error' => true,
-                    'message' => 'Not integer'
-                ],
-                401,
-                [
-                    'Content-Type' => 'application/json; charset=UTF-8',
-                    'charset' => 'utf-8'
-                ],
-                JSON_UNESCAPED_UNICODE);
-        }
-
         if ((new Student())->isConnected()) {
             $year = substr($year, 2, 2);
             $students = Student::where('matricula', 'LIKE', "$year%")->get();

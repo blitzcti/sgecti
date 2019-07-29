@@ -12,9 +12,4 @@ class BimestralReport extends Model
     {
         return $this->belongsTo(Internship::class);
     }
-
-    public function getCourseIdAttribute()
-    {
-        return $this->internship->student->course_id;
-    }
 }

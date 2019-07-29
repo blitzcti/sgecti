@@ -32,10 +32,6 @@ class CourseController extends Controller
 
     public function details($id)
     {
-        if (!ctype_digit($id)) {
-            return redirect()->route('admin.curso.index');
-        }
-
         $course = Course::findOrFail($id);
 
         $color = $course->color;

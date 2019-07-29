@@ -17,9 +17,9 @@ class UserController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:user-list');
+        $this->middleware('permission:user-list', ['except' => ['changeCUserPassword', 'savePassword']]);
         $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:user-edit', ['only' => ['edit', 'changePassword', 'update']]);
     }
 
     public function index()
@@ -38,10 +38,6 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        if (!ctype_digit($id)) {
-            return redirect()->route('admin.user.index');
-        }
-
         $user = User::findOrFail($id);
         $roles = Role::all();
 
@@ -55,6 +51,13 @@ class UserController extends Controller
         }
 
         $user = User::findOrFail($id);
+
+        return view('admin.user.changePassword')->with(['user' => $user]);
+    }
+
+    public function changeCUserPassword()
+    {
+        $user = Auth::user();
 
         return view('admin.user.changePassword')->with(['user' => $user]);
     }
@@ -94,26 +97,22 @@ class UserController extends Controller
 
     public function update($id, UpdateUser $request)
     {
-        $user = new User();
+        $user = User::all()->find($id);
         $params = [];
 
-        $user = User::all()->find($id);
-
         $validatedData = (object)$request->validated();
-
-        $user->updated_at = Carbon::now();
 
         $log = "Alteração de usuário";
         $log .= "\nUsuário: " . Auth::user()->name;
         $log .= "\nDados antigos: " . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
+        $user->updated_at = Carbon::now();
         $user->name = $validatedData->name;
         $user->email = $validatedData->email;
         $user->syncRoles([Role::findOrFail($validatedData->role)->name]);
 
-        $log .= "\nNovos dados: " . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
         $saved = $user->save();
+        $log .= "\nNovos dados: " . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         if ($saved) {
             Log::info($log);
@@ -129,7 +128,12 @@ class UserController extends Controller
 
     public function savePassword($id, Request $request)
     {
-        $user = User::all()->find($id);
+        if (Auth::user()->isAdmin()) {
+            $user = User::all()->find($id);
+        } else {
+            $user = Auth::user();
+        }
+
         $params = [];
 
         $validatedData = (object)$request->validate([
@@ -146,6 +150,10 @@ class UserController extends Controller
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
-        return redirect()->route('admin.usuario.index')->with($params);
+        if (Auth::user()->isAdmin()) {
+            return redirect()->route('admin.usuario.index')->with($params);
+        } else {
+            return redirect()->route('home')->with($params);
+        }
     }
 }

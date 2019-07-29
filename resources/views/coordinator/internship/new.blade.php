@@ -84,6 +84,15 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label for="inputCompanyRepresentative" class="col-sm-2 control-label">Representante*</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputCompanyRepresentative" name="representative" readonly
+                               value="{{ (App\Models\Company::find(old('company')) ?? $companies->first())->representative_name }}"/>
+                    </div>
+                </div>
+
                 <div class="form-group @if($errors->has('sector')) has-error @endif">
                     <label for="inputSector" class="col-sm-2 control-label">Setor*</label>
 
@@ -601,6 +610,20 @@
                 checkboxClass: 'icheckbox_square-blue',
                 radioClass: 'iradio_square-blue',
                 increaseArea: '20%' // optional
+            });
+
+            jQuery('#inputCompany').on('change', e => {
+                jQuery.ajax({
+                    url: `/api/empresa/${jQuery('#inputCompany').val()}`,
+                    dataType: 'json',
+                    method: 'GET',
+                    success: function (data) {
+                        jQuery('#inputCompanyRepresentative').val(data.representative_name);
+                    },
+                    error: function () {
+
+                    },
+                });
             });
 
             jQuery('#inputSector').select2({

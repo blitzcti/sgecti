@@ -45,7 +45,7 @@ class Student extends Model
     public function getYearAttribute()
     {
         $y = substr($this->matricula, 0, 2);
-        $y = (intval($y) < 87) ? "20$y" : "19$y";
+        $y = (intval($y) < 82) ? "20$y" : "19$y";
         return intval($y);
     }
 
@@ -54,9 +54,9 @@ class Student extends Model
         return $this->hasOne(Internship::class, 'ra')->where('state_id', '=', 1);
     }
 
-    public function finishedInternship()
+    public function finishedInternships()
     {
-        return $this->hasOne(Internship::class, 'ra')->where('state_id', '=', 2);
+        return $this->hasMany(Internship::class, 'ra')->where('state_id', '=', 2);
     }
 
     public function course()

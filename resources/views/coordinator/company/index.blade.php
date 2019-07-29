@@ -44,6 +44,8 @@
                         <td>{{ ($company->active) ? 'Sim' : 'Não' }}</td>
 
                         <td>
+                            <a href="{{ route('coordenador.empresa.detalhes', ['id' => $company->id]) }}">Detalhes</a>
+                            |
                             <a href="{{ route('coordenador.empresa.editar', ['id' => $company->id]) }}">Editar</a>
                         </td>
                     </tr>

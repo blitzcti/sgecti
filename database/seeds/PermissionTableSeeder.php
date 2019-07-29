@@ -59,6 +59,10 @@ class PermissionTableSeeder extends Seeder
             'internship-create',
             'internship-edit',
 
+            'internshipAmendment-list',
+            'internshipAmendment-create',
+            'internshipAmendment-edit',
+
             'report-list',
             'report-create',
             'report-edit',

@@ -2,7 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CompanyHasCourse;
+use App\Rules\HasCourse;
+use App\Rules\HasInternship;
 use App\Rules\RA;
+use App\Rules\SameCourse;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreInternship extends FormRequest
@@ -28,9 +32,9 @@ class StoreInternship extends FormRequest
             'has2Turnos' => 'required|boolean',
             'hasCTPS' => 'required|boolean',
 
-            'ra' => ['required', 'numeric', 'min:1', new RA],
+            'ra' => ['required', 'numeric', 'min:1', new RA, new HasInternship, new SameCourse, new CompanyHasCourse($this->get('company'))],
             'active' => 'required|numeric|min:1',
-            'company' => 'required|min:1',
+            'company' => ['required', 'min:1', new HasCourse],
             'sector' => 'required|min:1',
             'startDate' => 'required|date|before:endDate',
             'endDate' => 'required|date|after:startDate',

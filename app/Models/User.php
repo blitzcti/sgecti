@@ -43,33 +43,24 @@ class User extends Authenticatable
     public function coordinators()
     {
         return $this->hasMany(Coordinator::class)
-        ->where('end_date', '=', null)
-            ->orWhere('end_date', '>=', Carbon::today()->toDateString());
-            //->groupBy('course_id')
-        //->get()->sortBy('id');
-        /*if ($this->hasRole('teacher')) {
-            $coordinator = Coordinator::where('user_id', '=', $this->id)
-                ->where(function ($query) {
-                    $query->where('end_date', '=', null)
-                        ->orWhere('end_date', '>=', Carbon::today()->toDateString());
-                })
-                ->get()->sortBy('id');
-
-            if (sizeof($coordinator) > 0) {
-                return $coordinator->last();
-            }
-        }
-
-        return null;*/
+            ->WhereDate('end_date', '>=', Carbon::today()->toDateString())
+            ->orWhereNull('end_date')->where('user_id', '=', $this->id);
     }
 
     public function isCoordinator()
     {
-        return $this->coordinators != null;
+        return sizeof($this->coordinators) > 0;
     }
 
     public function isAdmin()
     {
         return $this->hasRole('admin');
+    }
+
+    public function getCoordinatorOfAttribute()
+    {
+        return $this->coordinators()->groupBy('course_id')->get('course_id')->map(function ($c) {
+            return $c->course;
+        });
     }
 }

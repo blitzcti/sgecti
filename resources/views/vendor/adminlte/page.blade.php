@@ -10,6 +10,10 @@
         body {
             padding-right: 0 !important;
         }
+
+        hr {
+            border-top: 1px solid #eee;
+        }
     </style>
 
     @stack('css')

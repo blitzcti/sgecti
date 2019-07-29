@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Company;
+use App\Models\Internship;
 use Illuminate\Http\Request;
 
-class CompanyController extends Controller
+class InternshipController extends Controller
 {
     /**
      * Search for a string in a specific array column
@@ -28,13 +28,13 @@ class CompanyController extends Controller
 
     public function get(Request $request)
     {
-        $companies = Company::all();
+        $internships = Internship::all();
         if (!empty($request->q)) {
-            $companies = $this->search($companies->toArray(), $request->q, 'name');
+            $internships = $this->search($internships->toArray(), $request->q, 'state_id');
         }
 
         return response()->json(
-            $companies,
+            $internships,
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',
@@ -45,10 +45,24 @@ class CompanyController extends Controller
 
     public function getById($id)
     {
-        $company = Company::findOrFail($id);
+        $internship = Internship::findOrFail($id);
 
         return response()->json(
-            $company,
+            $internship,
+            200,
+            [
+                'Content-Type' => 'application/json; charset=UTF-8',
+                'charset' => 'utf-8'
+            ],
+            JSON_UNESCAPED_UNICODE);
+    }
+
+    public function getByRA($ra)
+    {
+        $internships = Internship::all()->where('ra', '=', $ra);
+
+        return response()->json(
+            $internships,
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',

@@ -2,10 +2,11 @@
 
 namespace App\Rules;
 
-use App\Models\NSac\Student;
+use App\Models\Company;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
-class RA implements Rule
+class HasCourse implements Rule
 {
     /**
      * Create a new rule instance.
@@ -26,12 +27,10 @@ class RA implements Rule
      */
     public function passes($attribute, $value)
     {
-        if ((new Student())->isConnected()) {
-            $s = Student::find($value)->get();
-            return sizeof($s) > 0;
-        }
-
-        return strlen($value) == 7;
+        $company = Company::find($value);
+        return array_map(function ($c) {
+            return in_array($c["id"], Auth::user()->coordinator_of->toArray());
+        }, $company->courses->toArray());
     }
 
     /**
@@ -41,6 +40,6 @@ class RA implements Rule
      */
     public function message()
     {
-        return __('validation.ra');
+        return __('validation.has_course');
     }
 }

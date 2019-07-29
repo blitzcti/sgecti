@@ -2,19 +2,22 @@
 
 namespace App\Rules;
 
+use App\Models\Company;
 use App\Models\NSac\Student;
 use Illuminate\Contracts\Validation\Rule;
 
-class RA implements Rule
+class CompanyHasCourse implements Rule
 {
+    private $company_id;
+
     /**
      * Create a new rule instance.
      *
-     * @return void
+     * @param $company_id
      */
-    public function __construct()
+    public function __construct($company_id)
     {
-        //
+        $this->company_id = $company_id;
     }
 
     /**
@@ -26,12 +29,10 @@ class RA implements Rule
      */
     public function passes($attribute, $value)
     {
-        if ((new Student())->isConnected()) {
-            $s = Student::find($value)->get();
-            return sizeof($s) > 0;
-        }
+        $company = Company::find($this->company_id);
+        $student = Student::find($value);
 
-        return strlen($value) == 7;
+        return in_array($student->course->id, $company->courses->map(function ($c) { return $c->id; })->toArray());
     }
 
     /**
@@ -41,6 +42,6 @@ class RA implements Rule
      */
     public function message()
     {
-        return __('validation.ra');
+        return __('validation.company_has_course');
     }
 }

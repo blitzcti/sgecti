@@ -4,8 +4,9 @@ namespace App\Rules;
 
 use App\Models\NSac\Student;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
-class RA implements Rule
+class SameCourse implements Rule
 {
     /**
      * Create a new rule instance.
@@ -26,12 +27,11 @@ class RA implements Rule
      */
     public function passes($attribute, $value)
     {
-        if ((new Student())->isConnected()) {
-            $s = Student::find($value)->get();
-            return sizeof($s) > 0;
-        }
-
-        return strlen($value) == 7;
+        $student = Student::find($value);
+        $cIds = Auth::user()->coordinator_of->map(function ($course) {
+            return $course->id;
+        })->toArray();
+        return in_array($student->course_id, $cIds);
     }
 
     /**
@@ -41,6 +41,6 @@ class RA implements Rule
      */
     public function message()
     {
-        return __('validation.ra');
+        return __('validation.same_course');
     }
 }

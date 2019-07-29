@@ -35,10 +35,6 @@ class SupervisorController extends Controller
 
     public function edit($id)
     {
-        if (!ctype_digit($id)) {
-            return redirect()->route('coordenador.empresa.supervisor.index');
-        }
-
         $supervisor = Supervisor::findOrFail($id);
         $companies = Company::all()->where('active', '=', true);
 

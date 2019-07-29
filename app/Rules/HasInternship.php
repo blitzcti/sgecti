@@ -5,7 +5,7 @@ namespace App\Rules;
 use App\Models\NSac\Student;
 use Illuminate\Contracts\Validation\Rule;
 
-class RA implements Rule
+class HasInternship implements Rule
 {
     /**
      * Create a new rule instance.
@@ -26,12 +26,7 @@ class RA implements Rule
      */
     public function passes($attribute, $value)
     {
-        if ((new Student())->isConnected()) {
-            $s = Student::find($value)->get();
-            return sizeof($s) > 0;
-        }
-
-        return strlen($value) == 7;
+        return Student::findOrFail($value)->internship == null;
     }
 
     /**
@@ -41,6 +36,6 @@ class RA implements Rule
      */
     public function message()
     {
-        return __('validation.ra');
+        return __('validation.already_has_internship');
     }
 }

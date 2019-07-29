@@ -32,10 +32,6 @@ class SectorController extends Controller
 
     public function edit($id)
     {
-        if (!ctype_digit($id)) {
-            return redirect()->route('coordenador.empresa.setor.index');
-        }
-
         $sector = Sector::findOrFail($id);
 
         return view('coordinator.company.sector.edit')->with(['sector' => $sector]);

@@ -25,28 +25,30 @@
             </div>
 
             <div class="box-body">
-                <div class="form-group @if($errors->has('internship')) has-error @endif">
-                    <label for="inputInternship" class="col-sm-2 control-label">Aluno*</label>
-
-                    <div class="col-sm-10">
-                        <select class="form-control selection" id="inputInternship" name="internship">
-
-                            @foreach($internships as $internship)
-
-                                <option value="{{ $internship->id }}"
-                                    {{ (old('internship') ?? $i) == $internship->id ? 'selected=selected' : '' }}>
-                                    {{ $internship->student->matricula }} - {{ $internship->student->nome }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
-                        <span class="help-block">{{ $errors->first('internship') }}</span>
-                    </div>
-                </div>
-
                 <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group @if($errors->has('internship')) has-error @endif">
+                            <label for="inputInternship" class="col-sm-4 control-label">Aluno*</label>
+
+                            <div class="col-sm-8">
+                                <select class="form-control selection" id="inputInternship" name="internship">
+
+                                    @foreach($internships as $internship)
+
+                                        <option value="{{ $internship->id }}"
+                                                {{ (old('internship') ?? $i) == $internship->id ? 'selected=selected' : '' }}>
+                                            {{ $internship->student->matricula }} - {{ $internship->student->nome }}
+                                        </option>
+
+                                    @endforeach
+
+                                </select>
+
+                                <span class="help-block">{{ $errors->first('internship') }}</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('date')) has-error @endif">
                             <label for="inputDate" class="col-sm-4 control-label">Data do Relatório*</label>
@@ -59,7 +61,9 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
+                <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('endDate')) has-error @endif">
                             <label for="inputEndDate" class="col-sm-4 control-label">Data de término*</label>
@@ -72,9 +76,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('hoursCompleted')) has-error @endif">
                             <label for="inputHoursCompleted" class="col-sm-4 control-label">Horas Cumpridas*</label>
@@ -89,6 +91,64 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
+                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+            </div>
+            <!-- /.box-footer -->
+        </div>
+
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Dados do estágio</h3>
+            </div>
+
+            <div class="box-body">
+                <dl class="row">
+                    <dt class="col-sm-2">Empresa</dt>
+                    <dd class="col-sm-10">
+                        <span id="internshipCompanyName">
+                            {{ (App\Models\Internship::find($i) ?? $internships->first())->company->name }}
+                        </span>
+                    </dd>
+
+                    <dt class="col-sm-2">Setor</dt>
+                    <dd class="col-sm-10">
+                        <span id="internshipSector">
+                            {{ (App\Models\Internship::find($i) ?? $internships->first())->sector->name }}
+                        </span>
+                    </dd>
+
+                    <dt class="col-sm-2">Supervisor</dt>
+                    <dd class="col-sm-10">
+                        <span id="internshipSupervisorName">
+                            {{ (App\Models\Internship::find($i) ?? $internships->first())->supervisor->name }}
+                        </span>
+                    </dd>
+
+                    <dt class="col-sm-2">Data de início</dt>
+                    <dd class="col-sm-10">
+                        <span id="internshipStartDate">
+                            {{ date("d/m/Y", strtotime((App\Models\Internship::find($i) ?? $internships->first())->start_date)) }}
+                        </span>
+                    </dd>
+
+                    <dt class="col-sm-2">Data de término</dt>
+                    <dd class="col-sm-10">
+                        <span id="internshipEndDate">
+                            {{ date("d/m/Y", strtotime((App\Models\Internship::find($i) ?? $internships->first())->end_date)) }}
+                        </span>
+                    </dd>
+
+                    <dt class="col-sm-2">Horas estimadas</dt>
+                    <dd class="col-sm-10">
+                        <span id="internshipEstimatedHours">
+                            {{ (App\Models\Internship::find($i) ?? $internships->first())->estimated_hours }}
+                        </span>
+                    </dd>
+                </dl>
             </div>
         </div>
 
@@ -850,6 +910,58 @@
 
             jQuery('.selection').select2({
                 language: "pt-BR"
+            });
+
+            jQuery('#inputInternship').on('change', e => {
+                jQuery.ajax({
+                    url: `/api/estagio/${jQuery('#inputInternship').val()}`,
+                    dataType: 'json',
+                    method: 'GET',
+                    success: function (data) {
+                        jQuery.ajax({
+                            url: `/api/empresa/${data.company_id}`,
+                            dataType: 'json',
+                            method: 'GET',
+                            success: function (data) {
+                                jQuery('#internshipCompanyName').text(data.name);
+                            },
+                            error: function () {
+
+                            },
+                        });
+
+                        jQuery.ajax({
+                            url: `/api/empresa/setor/${data.sector_id}`,
+                            dataType: 'json',
+                            method: 'GET',
+                            success: function (data) {
+                                jQuery('#internshipSector').text(data.name);
+                            },
+                            error: function () {
+
+                            },
+                        });
+
+                        jQuery.ajax({
+                            url: `/api/empresa/supervisor/${data.supervisor_id}`,
+                            dataType: 'json',
+                            method: 'GET',
+                            success: function (data) {
+                                jQuery('#internshipSupervisorName').text(data.name);
+                            },
+                            error: function () {
+
+                            },
+                        });
+
+                        jQuery('#internshipStartDate').text(data.start_date);
+                        jQuery('#internshipEndDate').text(data.end_date);
+                        jQuery('#internshipEstimatedHours').text(data.estimated_hours);
+                    },
+                    error: function () {
+
+                    },
+                });
             });
 
             jQuery('.radio').iCheck({

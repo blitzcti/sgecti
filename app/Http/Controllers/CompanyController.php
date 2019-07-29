@@ -39,10 +39,6 @@ class CompanyController extends Controller
 
     public function edit($id)
     {
-        if (!ctype_digit($id)) {
-            return redirect()->route('coordenador.empresa.index');
-        }
-
         $company = Company::findOrFail($id);
         $address = $company->address;
         $sectors = Sector::all()->where('active', '=', true);
@@ -52,6 +48,14 @@ class CompanyController extends Controller
         return view('coordinator.company.edit')->with([
             'company' => $company, 'address' => $address, 'sectors' => $sectors, 'courses' => $courses, 'agreement' => $agreement
         ]);
+    }
+
+    public function details($id)
+    {
+        $company = Company::findOrFail($id);
+        $address = $company->address;
+
+        return view('coordinator.company.details')->with(['company' => $company, 'address' => $address]);
     }
 
     public function store(StoreCompany $request)

@@ -17,6 +17,7 @@ return [
     'alpha' => 'O campo :attribute só pode conter letras.',
     'alpha_dash' => 'O campo :attribute só pode conter letras, números e traços.',
     'alpha_num' => 'O campo :attribute só pode conter letras e números.',
+    'already_has_internship' => 'O campo :attribute contém um RA de um aluno que já está fazendo estágio.',
     'array' => 'O campo :attribute deve ser uma matriz.',
     'before' => 'O campo :attribute deve ser uma data anterior :date.',
     'before_or_equal' => 'O campo :attribute deve ser uma data anterior ou igual a :date.',
@@ -29,6 +30,7 @@ return [
     'boolean' => 'O campo :attribute deve ser verdadeiro ou falso.',
     'cnpj' => 'O campo :attribute deve ser um CNPJ válido.',
     'cpf' => 'O campo :attribute deve ser um CPF válido.',
+    'company_has_course' => 'O aluno do campo :attribute não é de um curso que a empresa aborda.',
     'confirmed' => 'O campo :attribute de confirmação não confere.',
     'current_password' => 'O campo :attribute deve ser a senha atual do usuário.',
     'date' => 'O campo :attribute não é uma data válida.',
@@ -102,6 +104,7 @@ return [
     'required_without' => 'O campo :attribute é obrigatório quando :values não está presente.',
     'required_without_all' => 'O campo :attribute é obrigatório quando nenhum dos :values estão presentes.',
     'same' => 'Os campos :attribute e :other devem corresponder.',
+    'same_course' => 'O campo :attribute contém um RA de um aluno de outro curso.',
     'size' => [
         'numeric' => 'O campo :attribute deve ser :size.',
         'file' => 'O campo :attribute deve ser :size kilobytes.',

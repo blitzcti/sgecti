@@ -7,11 +7,10 @@ use App\Http\Requests\UpdateInternship;
 use App\Models\Company;
 use App\Models\Internship;
 use App\Models\Schedule;
-use App\Models\State;
-use App\Models\Supervisor;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class InternshipController extends Controller
 {
@@ -25,7 +24,14 @@ class InternshipController extends Controller
 
     public function index()
     {
-        $internships = Internship::all();
+        $cIds = Auth::user()->coordinator_of->map(function ($course) {
+            return $course->id;
+        })->toArray();
+
+        $internships = Internship::all()->filter(function ($internship) use ($cIds) {
+            return in_array($internship->student->course_id, $cIds);
+        });
+
         return view('coordinator.internship.index')->with(['internships' => $internships]);
     }
 
@@ -41,12 +47,34 @@ class InternshipController extends Controller
 
     public function edit($id)
     {
+        $cIds = Auth::user()->coordinator_of->map(function ($course) {
+            return $course->id;
+        })->toArray();
+
         $internship = Internship::findOrFail($id);
+        if (!in_array($internship->student->course_id, $cIds)) {
+            abort(404);
+        }
+
         $companies = Company::all()->where('active', '=', true);
 
         return view('coordinator.internship.edit')->with([
             'internship' => $internship, 'companies' => $companies,
         ]);
+    }
+
+    public function details($id)
+    {
+        $cIds = Auth::user()->coordinator_of->map(function ($course) {
+            return $course->id;
+        })->toArray();
+
+        $internship = Internship::findOrFail($id);
+        if (!in_array($internship->student->course_id, $cIds)) {
+            abort(404);
+        }
+
+        return view('coordinator.internship.details')->with(['internship' => $internship]);
     }
 
     public function store(StoreInternship $request)
@@ -101,7 +129,8 @@ class InternshipController extends Controller
         $internship->ra = $validatedData->ra;
         $internship->company_id = $validatedData->company;
         $internship->sector_id = $validatedData->sector;
-        $internship->coordinator_id = Auth::user()->coordinators->last()->id;
+        $coordinator_id = Auth::user()->coordinators->where('course_id', '=', $internship->student->course_id)->last()->id;
+        $internship->coordinator_id = $coordinator_id;
         $internship->schedule_id = $schedule->id;
         $internship->state_id = 1;
         $internship->supervisor_id = $validatedData->supervisor;
@@ -188,16 +217,14 @@ class InternshipController extends Controller
         $internship->ra = $validatedData->ra;
         $internship->company_id = $validatedData->company;
         $internship->sector_id = $validatedData->sector;
-        $internship->coordinator_id = Auth::user()->coordinator()->id;
-        $internship->schedule_id = $schedule->id;
-        $internship->state_id = 1;
+        $coordinator_id = Auth::user()->coordinators->where('course_id', '=', $internship->student->course_id)->last()->id;
+        $internship->coordinator_id = $coordinator_id;
         $internship->supervisor_id = $validatedData->supervisor;
         $internship->start_date = $validatedData->startDate;
         $internship->end_date = $validatedData->endDate;
         $internship->protocol = $validatedData->protocol;
         $internship->activities = $validatedData->activities;
         $internship->observation = $validatedData->observation;
-        $internship->reason_to_cancel = $validatedData->reasonToCancel;
         $internship->active = $validatedData->active;
 
         //Tem CTPS

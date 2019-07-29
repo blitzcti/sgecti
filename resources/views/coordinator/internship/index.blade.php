@@ -52,7 +52,22 @@
                         <td>{{ $internship->coordinator->user->name }}</td>
                         <td>{{ $internship->state->description }}</td>
                         <td>
+                            <a href="{{ route('coordenador.estagio.detalhes', ['id' => $internship->id]) }}">Detalhes</a>
+                            |
                             <a href="{{ route('coordenador.estagio.editar', ['id' => $internship->id]) }}">Editar</a>
+
+                            @if($internship->state->id == 1)
+
+                                @if(auth()->user()->can('internshipAmendment-list'))
+                                    |
+                                    <a href="{{ route('coordenador.estagio.editar', ['id' => $internship->id]) }}">Termos aditivos</a>
+                                @endif
+
+                                |
+                                <a href="{{ route('coordenador.estagio.editar', ['id' => $internship->id]) }}"
+                                   class="text-danger">Cancelar</a>
+
+                            @endif
                         </td>
                     </tr>
 

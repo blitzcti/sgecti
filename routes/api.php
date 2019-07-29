@@ -31,7 +31,7 @@ Route::prefix('')->name('api.')->group(function () {
         Route::get('', 'API\NSac\StudentController@get')->name('get');
         Route::get('ano/{year}', 'API\NSac\StudentController@getByYear')->name('getByYear');
 
-        Route::prefix('{id}')->group(function () {
+        Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
             Route::get('', 'API\NSac\StudentController@getByRA')->name('getByRA');
         });
     });
@@ -39,7 +39,9 @@ Route::prefix('')->name('api.')->group(function () {
     Route::prefix('empresa')->name('empresa.')->group(function () {
         Route::get('', 'API\CompanyController@get')->name('get');
 
-        Route::prefix('{id}')->group(function () {
+        Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+            Route::get('', 'API\CompanyController@getById')->name('getById');
+
             Route::prefix('setor')->name('setor.')->group(function () {
                 Route::get('', 'API\SectorController@getFromCompany')->name('getFromCompany');
             });
@@ -53,7 +55,8 @@ Route::prefix('')->name('api.')->group(function () {
             Route::get('', 'API\SectorController@get')->name('get');
             Route::post('salvar', 'API\SectorController@store')->name('salvar');
 
-            Route::prefix('{id}')->group(function () {
+            Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+                Route::get('', 'API\SectorController@getById')->name('getById');
                 Route::put('alterar', 'SectorController@update')->name('alterar');
             });
         });
@@ -62,9 +65,22 @@ Route::prefix('')->name('api.')->group(function () {
             Route::get('', 'API\SupervisorController@get')->name('get');
             Route::post('salvar', 'API\SupervisorController@store')->name('salvar');
 
-            Route::prefix('{id}')->group(function () {
-                Route::put('alterar', 'SectorController@update')->name('alterar');
+            Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+                Route::get('', 'API\SupervisorController@getById')->name('getById');
+                Route::put('alterar', 'SupervisorController@update')->name('alterar');
             });
+        });
+    });
+
+    Route::prefix('estagio')->name('estagio.')->group(function () {
+        Route::get('', 'API\InternshipController@get')->name('get');
+
+        Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+            Route::get('', 'API\InternshipController@getById')->name('getById');
+        });
+
+        Route::prefix('ra')->group(function () {
+            Route::get('{ra}', 'API\InternshipController@getByRA')->name('getByRA');
         });
     });
 });

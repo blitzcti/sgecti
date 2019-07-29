@@ -31,12 +31,8 @@ class SystemConfigurationController extends Controller
 
     public function edit($id)
     {
-
-        if (!ctype_digit($id)) {
-            return redirect()->route('admin.curso.index');
-        }
-
         $systemConfig = SystemConfiguration::findOrFail($id);
+
         return view('admin.system.configurations.parameters.edit')->with(['systemConfig' => $systemConfig]);
     }
 

@@ -24,7 +24,7 @@
 
 @if(config('adminlte.plugins.select2'))
     <!-- Select2 -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.css">
 @endif
 
 @if(config('adminlte.plugins.icheck'))
@@ -66,8 +66,8 @@
 
 @if(config('adminlte.plugins.select2'))
     <!-- Select2 -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/i18n/pt-BR.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/i18n/pt-BR.js"></script>
 @endif
 
 @if(config('adminlte.plugins.datatables'))

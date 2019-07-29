@@ -46,6 +46,20 @@ class SectorController extends Controller
             JSON_UNESCAPED_UNICODE);
     }
 
+    public function getById($id)
+    {
+        $sector = Sector::findOrFail($id);
+
+        return response()->json(
+            $sector,
+            200,
+            [
+                'Content-Type' => 'application/json; charset=UTF-8',
+                'charset' => 'utf-8'
+            ],
+            JSON_UNESCAPED_UNICODE);
+    }
+
     public function getFromCompany($id, Request $request)
     {
         $sectors = Company::findOrFail($id)->sectors;

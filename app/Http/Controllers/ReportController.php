@@ -12,7 +12,6 @@ use App\Models\State;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Request;
 use PDF;
 
 class ReportController extends Controller
@@ -27,9 +26,17 @@ class ReportController extends Controller
 
     public function index()
     {
-        $cId = auth()->user()->coordinators->last()->course_id;
-        $bReports = BimestralReport::all()->where('course_id', '=', $cId);
-        $fReports = FinalReport::all()->where('course_id', '=', $cId);
+        $cIds = Auth::user()->coordinator_of->map(function ($course) {
+            return $course->id;
+        })->toArray();
+
+        $bReports = BimestralReport::all()->filter(function ($report) use ($cIds) {
+            return in_array($report->internship->student->course_id, $cIds);
+        });
+
+        $fReports = FinalReport::all()->filter(function ($report) use ($cIds) {
+            return in_array($report->internship->student->course_id, $cIds);
+        });
 
         return view('coordinator.report.index')->with(['bReports' => $bReports, 'fReports' => $fReports]);
     }
@@ -90,6 +97,8 @@ class ReportController extends Controller
         $final->internship_id = $validatedData->internship;
         $final->date = $validatedData->date;
 
+        $course_id = $final->internship->student->course_id;
+
         $final->grade_1_a = $validatedData->grade_1_a;
         $final->grade_1_b = $validatedData->grade_1_b;
         $final->grade_1_c = $validatedData->grade_1_c;
@@ -106,9 +115,11 @@ class ReportController extends Controller
         $final->final_grade = 4.9; //formula
         $final->hours_completed = $validatedData->hoursCompleted;
         $final->end_date = $validatedData->endDate;
-        $final->approval_number = $this->generateApprovalNumber($final->course_id);
-        $final->coordinator_id = Auth::user()->coordinators->last()->id;
+        $final->approval_number = $this->generateApprovalNumber($course_id);
         $final->observation = $validatedData->observation;
+
+        $coordinator_id = Auth::user()->coordinators->where('course_id', '=', $course_id)->last()->id;
+        $final->coordinator_id = $coordinator_id;
 
         $saved = $final->save();
 
@@ -126,25 +137,19 @@ class ReportController extends Controller
         return redirect()->route('coordenador.relatorio.index')->with($params);
     }
 
-    public function makePDF()
+    public function pdfFinal($id)
     {
         ini_set('max_execution_time', 300);
 
-        $courses = Course::all()->sortBy('id');
-        if ((new Student())->isConnected()) {
-            $student = Student::where('matricula', 'LIKE', '17%')->get()->sortBy('matricula');
-        } else {
-            $student = [];
-        }
+        $report = FinalReport::findOrFail($id);
 
         $data = [
-            'courses' => $courses,
-            'students' => $student,
+            'report' => $report,
         ];
 
-        $pdf = PDF::loadView('pdf.index', $data);
+        $pdf = PDF::loadView('pdf.report.final', $data);
         $pdf->setPaper('a4', 'portrait');
-        return $pdf->stream('index.pdf');
+        return $pdf->stream('relatorioFinal.pdf');
     }
 
     private function generateApprovalNumber($course_id)

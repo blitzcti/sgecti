@@ -47,6 +47,20 @@ class SupervisorController extends Controller
             JSON_UNESCAPED_UNICODE);
     }
 
+    public function getById($id)
+    {
+        $supervisor = Supervisor::findOrFail($id);
+
+        return response()->json(
+            $supervisor,
+            200,
+            [
+                'Content-Type' => 'application/json; charset=UTF-8',
+                'charset' => 'utf-8'
+            ],
+            JSON_UNESCAPED_UNICODE);
+    }
+
     public function getFromCompany($id, Request $request)
     {
         $supervisors = Company::findOrFail($id)->supervisors;

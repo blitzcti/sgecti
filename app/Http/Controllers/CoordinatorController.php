@@ -41,10 +41,6 @@ class CoordinatorController extends Controller
 
     public function edit($id)
     {
-        if (!ctype_digit($id)) {
-            return redirect()->route('admin.coordinator.index');
-        }
-
         $coordinator = Coordinator::findOrFail($id);
         $users = User::all();
         $courses = Course::all();

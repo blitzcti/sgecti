@@ -20,6 +20,7 @@ return [
     'alpha' => 'The :attribute may only contain letters.',
     'alpha_dash' => 'The :attribute may only contain letters, numbers, dashes and underscores.',
     'alpha_num' => 'The :attribute may only contain letters and numbers.',
+    'already_has_internship' => 'The :attribute contains a RA from a student that already has an internship.',
     'array' => 'The :attribute must be an array.',
     'before' => 'The :attribute must be a date before :date.',
     'before_or_equal' => 'The :attribute must be a date before or equal to :date.',
@@ -32,6 +33,7 @@ return [
     'boolean' => 'The :attribute field must be true or false.',
     'cnpj' => 'The :attribute should be a valid CNPJ.',
     'cpf' => 'The :attribute should be a valid CPF.',
+    'company_has_course' => 'The student from :attribute is not from a course the company covers.',
     'confirmed' => 'The :attribute confirmation does not match.',
     'current_password' => 'The :attribute should be the current password for the user.',
     'date' => 'The :attribute is not a valid date.',
@@ -106,6 +108,7 @@ return [
     'required_without' => 'The :attribute field is required when :values is not present.',
     'required_without_all' => 'The :attribute field is required when none of :values are present.',
     'same' => 'The :attribute and :other must match.',
+    'same_course' => 'The :attribute contains a RA of a student from a different course.',
     'size' => [
         'numeric' => 'The :attribute must be :size.',
         'file' => 'The :attribute must be :size kilobytes.',

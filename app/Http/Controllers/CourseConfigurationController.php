@@ -21,10 +21,6 @@ class CourseConfigurationController extends Controller
 
     public function index($id)
     {
-        if (!ctype_digit($id)) {
-            return redirect()->route('admin.curso.index');
-        }
-
         $course = Course::findOrFail($id);
         $configurations = $course->configurations->sortByDesc('id');
 

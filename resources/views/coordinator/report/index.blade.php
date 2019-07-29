@@ -103,6 +103,8 @@
                         <td>{{ $report->hours_completed }}</td>
                         <td>
                             <a href="{{ route('coordenador.relatorio.final.editar', ['id' => $report->id]) }}">Editar</a>
+                            |
+                            <a href="{{ route('coordenador.relatorio.final.pdf', ['id' => $report->id]) }}" target="_blank">PDF</a>
                         </td>
                     </tr>
 

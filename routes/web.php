@@ -18,7 +18,11 @@ Route::get('', function () {
     return view('index');
 });
 
-Auth::routes();
+Auth::routes([
+    'register' => false, // Registration Routes
+    'reset' => true, // Password Reset Routes
+    'verify' => false, // Email Verification Routes
+]);
 
 Route::get('home', 'HomeController@index')->name('home');
 
@@ -26,6 +30,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('roles', 'RoleController');
     Route::resource('users', 'UserController');
 });
+
+Route::get('alterarSenha', 'UserController@changeCUserPassword')->name('alterarSenha');
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('logs', [
@@ -37,12 +43,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('', 'UserController@index')->name('index');
         Route::get('novo', 'UserController@create')->name('novo');
         Route::post('salvar', 'UserController@store')->name('salvar');
-        Route::post('salvarSenha', 'UserController@storePassword')->name('salvarSenha');
 
-        Route::prefix('{id}')->group(function () {
+        Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
             Route::get('editar', 'UserController@edit')->name('editar');
-            Route::get('alterarSenha', 'UserController@changePassword')->name('alterarSenha');
             Route::put('alterar', 'UserController@update')->name('alterar');
+
+            Route::get('alterarSenha', 'UserController@changePassword')->name('alterarSenha');
+            Route::put('salvarSenha', 'UserController@savePassword')->name('salvarSenha');
         });
     });
 
@@ -52,7 +59,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('novo', 'SystemConfigurationController@create')->name('novo');
             Route::post('salvar', 'SystemConfigurationController@store')->name('salvar');
 
-            Route::prefix('{id}')->group(function () {
+            Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                 Route::get('editar', 'SystemConfigurationController@edit')->name('editar');
                 Route::put('alterar', 'SystemConfigurationController@update')->name('alterar');
             });
@@ -71,7 +78,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('novo', 'CoordinatorController@create')->name('novo');
         Route::post('salvar', 'CoordinatorController@store')->name('salvar');
 
-        Route::prefix('{id}')->group(function () {
+        Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
             Route::get('editar', 'CoordinatorController@edit')->name('editar');
             Route::put('alterar', 'CoordinatorController@update')->name('alterar');
         });
@@ -83,7 +90,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('salvar', 'CourseController@store')->name('salvar');
         Route::delete('excluir', 'CourseController@delete')->name('excluir');
 
-        Route::prefix('{id}')->group(function () {
+        Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
             Route::get('', 'CourseController@details')->name('detalhes');
             Route::get('editar', 'CourseController@edit')->name('editar');
             Route::put('alterar', 'CourseController@update')->name('alterar');
@@ -93,7 +100,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::get('novo', 'CourseConfigurationController@create')->name('novo');
                 Route::post('salvar', 'CourseConfigurationController@store')->name('salvar');
 
-                Route::prefix('{id_config}')->group(function () {
+                Route::prefix('{id_config}')->where(['id_config' => '[0-9]+'])->group(function () {
                     Route::get('editar', 'CourseConfigurationController@edit')->name('editar');
                     Route::put('alterar', 'CourseConfigurationController@update')->name('alterar');
                 });
@@ -112,7 +119,8 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
         Route::get('novo', 'CompanyController@create')->name('novo');
         Route::post('salvar', 'CompanyController@store')->name('salvar');
 
-        Route::prefix('{id}')->group(function () {
+        Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+            Route::get('', 'CompanyController@details')->name('detalhes');
             Route::get('editar', 'CompanyController@edit')->name('editar');
             Route::put('alterar', 'CompanyController@update')->name('alterar');
         });
@@ -122,7 +130,7 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
             Route::get('novo', 'SectorController@create')->name('novo');
             Route::post('salvar', 'SectorController@store')->name('salvar');
 
-            Route::prefix('{id}')->group(function () {
+            Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                 Route::get('editar', 'SectorController@edit')->name('editar');
                 Route::put('alterar', 'SectorController@update')->name('alterar');
             });
@@ -133,7 +141,7 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
             Route::get('novo', 'AgreementController@create')->name('novo');
             Route::post('salvar', 'AgreementController@store')->name('salvar');
 
-            Route::prefix('{id}')->group(function () {
+            Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                 Route::get('editar', 'AgreementController@edit')->name('editar');
                 Route::put('alterar', 'AgreementController@update')->name('alterar');
             });
@@ -144,7 +152,7 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
             Route::get('novo', 'SupervisorController@create')->name('novo');
             Route::post('salvar', 'SupervisorController@store')->name('salvar');
 
-            Route::prefix('{id}')->group(function () {
+            Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                 Route::get('editar', 'SupervisorController@edit')->name('editar');
                 Route::put('alterar', 'SupervisorController@update')->name('alterar');
             });
@@ -156,7 +164,8 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
         Route::get('novo', 'InternshipController@create')->name('novo');
         Route::post('salvar', 'InternshipController@store')->name('salvar');
 
-        Route::prefix('{id}')->group(function () {
+        Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+            Route::get('', 'InternshipController@details')->name('detalhes');
             Route::get('editar', 'InternshipController@edit')->name('editar');
             Route::put('alterar', 'InternshipController@update')->name('alterar');
         });
@@ -165,6 +174,11 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
             Route::get('', 'AmendmentController@index')->name('index');
             Route::get('novo', 'AmendmentController@create')->name('novo');
             Route::post('salvar', 'AmendmentController@store')->name('salvar');
+
+            Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+                Route::get('editar', 'AmendmentController@edit')->name('editar');
+                Route::put('alterar', 'AmendmentController@update')->name('alterar');
+            });
         });
     });
 
@@ -175,7 +189,7 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
             Route::get('novo', 'ReportController@createBimestral')->name('novo');
             Route::post('salvar', 'ReportController@storeBimestral')->name('salvar');
 
-            Route::prefix('{id}')->group(function () {
+            Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                 Route::get('editar', 'ReportController@editBimestral')->name('editar');
                 Route::put('alterar', 'ReportController@updateBimestral')->name('alterar');
             });
@@ -185,9 +199,10 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
             Route::get('novo', 'ReportController@createFinal')->name('novo');
             Route::post('salvar', 'ReportController@storeFinal')->name('salvar');
 
-            Route::prefix('{id}')->group(function () {
+            Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                 Route::get('editar', 'ReportController@editFinal')->name('editar');
                 Route::put('alterar', 'ReportController@updateFinal')->name('alterar');
+                Route::get('pdf', 'ReportController@pdfFinal')->name('pdf');
             });
         });
     });
@@ -200,7 +215,7 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
     Route::prefix('aluno')->name('aluno.')->group(function () {
         Route::get('', 'StudentController@index')->name('index');
 
-        Route::prefix('{ra}')->group(function () {
+        Route::prefix('{ra}')->where(['ra' => '[0-9]+'])->group(function () {
             Route::get('', 'StudentController@details')->name('detalhes');
         });
     });

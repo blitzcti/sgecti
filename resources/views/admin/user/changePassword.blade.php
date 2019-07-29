@@ -13,6 +13,7 @@
         </div>
 
         <form class="form-horizontal" action="{{ route('admin.usuario.salvarSenha', $user->id) }}" method="post">
+            @method('PUT')
             @csrf
 
             <div class="box-body">
@@ -56,7 +57,6 @@
             </div>
             <!-- /.box-footer -->
         </form>
-    </div>
     </div>
 @endsection
 

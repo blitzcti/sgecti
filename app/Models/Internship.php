@@ -9,6 +9,13 @@ class Internship extends Model
         'state_id', 'start_date', 'end_date', 'protocol', 'activities', 'observation', 'reason_to_cancel', 'active',
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['estimated_hours'];
+
     public function student()
     {
         return $this->belongsTo(NSac\Student::class, 'ra');
@@ -54,7 +61,17 @@ class Internship extends Model
         return $this->hasMany(Amendment::class);
     }
 
-    public function estimatedHours()
+    public function bimestral_reports()
+    {
+        return $this->hasMany(BimestralReport::class);
+    }
+
+    public function final_report()
+    {
+        return $this->hasOne(FinalReport::class);
+    }
+
+    public function getEstimatedHoursAttribute()
     {
         $h = $this->schedule->countHours($this->start_date, $this->end_date);
         if ($this->schedule2 != null) {

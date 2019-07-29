@@ -51,19 +51,11 @@
 
 <header>
     <div>
-        <div class="header-content" style="float: left">
-            <img src="{{ asset('img/cti.png') }}" style="width: 3.39cm" alt="">
-        </div>
-
-        <div class="header-content" style="float: right">
-            <img src="{{ asset('img/unesp.png') }}" style="width: 5.02cm" alt="">
-        </div>
-
         <div>
             <div class="header-content" style="text-align: center">
-                <p><b>UNIVERSIDADE ESTADUAL PAULISTA</b></p>
-                <p>COLÉGIO TÉCNICO INDUSTRIAL</p>
-                <p>“PROF. ISAAC PORTAL ROLDÁN”</p>
+                <p><b>UNIVERSIDADE ESTADUAL PAULISTA "JÚLIO DE MESQUITA FILHO"</b></p>
+                <p><b>CÂMPUS DE BAURU</b></p>
+                <p>COLÉGIO TÉCNICO INDUSTRIAL “PROF. ISAAC PORTAL ROLDÁN”</p>
             </div>
         </div>
     </div>

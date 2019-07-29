@@ -48,4 +48,6 @@ return [
     'history' => 'Histórico',
     'data' => 'Dados',
 
+    'pdf' => 'PDF',
+
 ];

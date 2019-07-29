@@ -8,6 +8,7 @@ use App\Models\Company;
 use App\Models\Internship;
 use App\Models\Schedule;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
@@ -139,7 +140,6 @@ class InternshipController extends Controller
         $internship->protocol = $validatedData->protocol;
         $internship->activities = $validatedData->activities;
         $internship->observation = $validatedData->observation;
-        $internship->reason_to_cancel = $validatedData->reasonToCancel;
         $internship->active = $validatedData->active;
 
         //Tem CTPS
@@ -239,6 +239,33 @@ class InternshipController extends Controller
             Log::info($log);
         } else {
             Log::error("Erro ao salvar estágio");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+
+        return redirect()->route('coordenador.estagio.index')->with($params);
+    }
+
+    public function cancel($id, Request $request)
+    {
+        $validatedData = (object)$request->validate([
+            'reasonToCancel' => 'required|max:8000',
+        ]);
+
+        $internship = Internship::findOrFail($id);
+        $internship->state_id = 3;
+        $internship->reason_to_cancel = $validatedData->reasonToCancel;
+        $saved = $internship->save();
+
+        $log = "Cancelamento de estágio";
+        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nAluno com estágio cancelado: " . $internship->student->nome;
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao cancelar estágio");
         }
 
         $params['saved'] = $saved;

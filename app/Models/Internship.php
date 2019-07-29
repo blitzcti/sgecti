@@ -81,6 +81,10 @@ class Internship extends Model
         if ($this->amendments != null) {
             foreach ($this->amendments as $amendment) {
                 $h += $amendment->schedule->countHours($amendment->start_date, $amendment->end_date);
+
+                if ($amendment->schedule2 != null) {
+                    $h += $amendment->schedule2->countHours($amendment->start_date, $amendment->end_date);
+                }
             }
         }
 

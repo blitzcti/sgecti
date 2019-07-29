@@ -34,7 +34,7 @@
                             <div class="col-sm-8">
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="inputRA" name="ra" placeholder="1757047"
-                                           data-inputmask="'mask': '9999999'" value="{{ old('ra') ?? $internship->ra }}">
+                                           readonly data-inputmask="'mask': '9999999'" value="{{ old('ra') ?? $internship->ra }}">
 
                                     <div class="input-group-btn">
                                         <a href="#" data-toggle="modal" data-target="#searchStudentModal"
@@ -569,9 +569,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- NAO ESQUECER -->
-                <input type="hidden" id="inputReasonToCancel" name="reasonToCancel" value="">
                 <!-- /.box-body -->
                 <div class="box-footer">
                     <button type="submit" class="btn btn-primary pull-right">Salvar</button>

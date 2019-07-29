@@ -208,6 +208,8 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
                 Route::get('pdf', 'ReportController@pdfFinal')->name('pdf');
             });
         });
+
+        Route::get('pdf', 'ReportController@pdf')->name('pdf');
     });
 
     Route::prefix('mensagem')->name('mensagem.')->group(function () {

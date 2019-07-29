@@ -47,5 +47,7 @@ return [
     'history' => 'History',
     'data' => 'Data',
 
+    'pdf' => 'PDF',
+
 ];
 

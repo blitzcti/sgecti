@@ -7,6 +7,8 @@
 @stop
 
 @section('content')
+    @include('modals.coordinator.internship.cancel')
+
     <div class="box box-default">
         <div class="box-body">
             <div class="btn-group" style="display: inline-flex; margin: 0">
@@ -21,8 +23,9 @@
                     <a href="{{ route('coordenador.relatorio.final.novo', ['i' => $internship->id]) }}"
                        class="btn btn-success">Adicionar relatório final</a>
 
-                    <a href="{{ route('coordenador.estagio.editar', $internship->id) }}"
-                       class="btn btn-danger">Cancelar estágio</a>
+                    <a href="#"
+                       onclick="internshipId('{{ $internship->id }}'); studentName('{{ $internship->student->nome }}'); return false;"
+                       data-toggle="modal" class="btn btn-danger" data-target="#internshipCancelModal">Cancelar</a>
 
                 @endif
             </div>
@@ -86,6 +89,16 @@
 
                     <dt class="col-sm-2">Número de aprovação</dt>
                     <dd class="col-sm-10">{{ $internship->final_report->approval_number }}</dd>
+
+                @endif
+
+                <dt class="col-sm-2">Estado</dt>
+                <dd class="col-sm-10">{{ $internship->state->description }}</dd>
+
+                @if($internship->state_id == 3)
+
+                    <dt class="col-sm-2">Motivo do cancelamento</dt>
+                    <dd class="col-sm-10">{{ $internship->reason_to_cancel }}</dd>
 
                 @endif
             </dl>

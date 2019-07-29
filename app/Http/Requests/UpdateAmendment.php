@@ -2,13 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\CompanyHasCourse;
-use App\Rules\HasCourse;
-use App\Rules\RA;
-use App\Rules\SameCourse;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateInternship extends FormRequest
+class UpdateAmendment extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,15 +25,9 @@ class UpdateInternship extends FormRequest
     {
         return [
             'has2Turnos' => 'required|boolean',
-            'hasCTPS' => 'required|boolean',
 
-            'ra' => ['required', 'numeric', 'min:1', new RA, new SameCourse, new CompanyHasCourse($this->get('company'))],
-            'active' => 'required|numeric|min:1',
-            'company' => ['required', 'min:1', new HasCourse],
-            'sector' => 'required|min:1',
             'startDate' => 'required|date|before:endDate',
             'endDate' => 'required|date|after:startDate',
-            'activities' => 'required|max:6000',
 
             'monS' => 'nullable|date_format:H:i',
             'monE' => 'nullable|date_format:H:i',
@@ -65,12 +55,8 @@ class UpdateInternship extends FormRequest
             'satS2' => 'nullable|date_format:H:i',
             'satE2' => 'nullable|date_format:H:i',
 
-            'supervisor' => 'required|numeric|min:1',
-
             'protocol' => 'required|max:5',
             'observation' => 'max:200',
-
-            'ctps' => 'required_if:hasCTPS,==,1|nullable|numeric|min:11',
         ];
     }
 }

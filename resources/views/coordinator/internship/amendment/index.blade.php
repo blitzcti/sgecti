@@ -29,7 +29,8 @@
                     <th scope="col">ID</th>
                     <th>Aluno</th>
                     <th>Empresa</th>
-                    <th>Coordenador</th>
+                    <th>Data de início</th>
+                    <th>Data de término</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
@@ -48,10 +49,9 @@
                         </td>
 
                         <td>{{ $amendment->internship->company->name }}</td>
-                        <td>{{ $amendment->internship->coordinator->user->name }}</td>
+                        <td>{{ date("d/m/Y", strtotime($amendment->start_date)) }}</td>
+                        <td>{{ date("d/m/Y", strtotime($amendment->end_date)) }}</td>
                         <td>
-{{--                            <a href="{{ route('coordenador.estagio.aditivo.detalhes', ['id' => $amendment->id]) }}">Detalhes</a>--}}
-
                             <a href="{{ route('coordenador.estagio.aditivo.editar', ['id' => $amendment->id]) }}">Editar</a>
                         </td>
                     </tr>

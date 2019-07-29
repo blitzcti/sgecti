@@ -70,7 +70,6 @@ class StoreInternship extends FormRequest
 
             'protocol' => 'required|max:5',
             'observation' => 'max:200',
-            'reasonToCancel' => 'max:2000',
 
             'ctps' => 'required_if:hasCTPS,==,1|nullable|numeric|min:11',
         ];

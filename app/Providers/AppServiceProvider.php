@@ -347,6 +347,12 @@ class AppServiceProvider extends ServiceProvider
                             'icon' => 'edit',
                             'active' => ['coordenador/relatorio/final/novo']
                         ],
+                        [
+                            'text' => 'menu.pdf',
+                            'route' => 'coordenador.relatorio.pdf',
+                            'icon' => 'file-pdf-o',
+                            'active' => ['coordenador/relatorio/pdf']
+                        ],
                     ]
                 ]);
             }

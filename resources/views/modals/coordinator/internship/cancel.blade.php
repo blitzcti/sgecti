@@ -19,11 +19,12 @@
                                                                     class="text-bold"></span>?</p>
 
                     <div class="form-group">
-                        <label for="inputReasonToCancel" class="col-sm-4 control-label">Motivo do cancelamento*</label>
+                        <label for="inputReasonToCancel" class="col-sm-2 control-label">Motivo*</label>
 
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputReasonToCancel" name="reasonToCancel"
-                                   required>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="3" id="inputReasonToCancel" name="reasonToCancel"
+                                      style="resize: none"
+                                      placeholder="O motivo do cancelamento do estágio"></textarea>
                         </div>
                     </div>
                 </div>

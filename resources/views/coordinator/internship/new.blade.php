@@ -22,8 +22,7 @@
             <div class="box-body">
                 <input type="hidden" id="inputHas2Turnos" name="has2Turnos"
                        value="{{ (old('has2Turnos') ?? 0) ? '1' : '0' }}">
-                <input type="hidden" id="inputHasCTPS" name="hasCTPS" value="0">
-                <input type="hidden" id="inputReasonToCancel" name="reasonToCancel"
+                <input type="hidden" id="inputHasCTPS" name="hasCTPS"
                        value="{{ (old('hasCTPS') ?? 0) ? '1' : '0' }}">
 
                 <div class="row">
@@ -34,7 +33,7 @@
                             <div class="col-sm-8">
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="inputRA" name="ra" placeholder="1757047"
-                                           data-inputmask="'mask': '9999999'" value="{{ old('ra') ?? $s }}">
+                                           data-inputmask="'mask': '9999999'" value="{{ old('ra') ?? $s }}" readonly>
 
                                     <div class="input-group-btn">
                                         <a href="#" data-toggle="modal" data-target="#searchStudentModal"

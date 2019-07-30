@@ -46,6 +46,8 @@ class Kernel extends ConsoleKernel
 
                 $schedule->call('App\Http\Controllers\BackupController@scheduledBackup')->days($days)->at($hour);
             }
+
+            $schedule->call('App\Http\Controllers\CoordinatorController@checkCoordinators')->daily()->at('00:00');
         }
     }
 

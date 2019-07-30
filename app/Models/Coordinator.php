@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+
 class Coordinator extends Model
 {
     protected $fillable = [
@@ -16,5 +18,10 @@ class Coordinator extends Model
     public function course()
     {
         return $this->belongsTo(Course::class);
+    }
+
+    public static function actives()
+    {
+        return Coordinator::where('end_date', '>=', Carbon::today()->toDateString())->sortBy('id');
     }
 }

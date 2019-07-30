@@ -77,6 +77,7 @@ class UserController extends Controller
 
         $user->name = $validatedData->name;
         $user->email = $validatedData->email;
+        $user->phone = $validatedData->phone;
         $user->syncRoles([Role::findOrFail($validatedData->role)->name]);
 
         $log .= "\nNovos dados: " . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
@@ -109,6 +110,7 @@ class UserController extends Controller
         $user->updated_at = Carbon::now();
         $user->name = $validatedData->name;
         $user->email = $validatedData->email;
+        $user->phone = $validatedData->phone;
         $user->syncRoles([Role::findOrFail($validatedData->role)->name]);
 
         $saved = $user->save();

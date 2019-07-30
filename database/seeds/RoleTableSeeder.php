@@ -42,5 +42,20 @@ class RoleTableSeeder extends Seeder
             ->orWhere('name', 'like', 'report-%')
             ->get();
         $role->syncPermissions($permissions);
+
+        $role = Role::create([
+            'name' => 'teacher',
+            'friendlyName' => 'Professor',
+            'description' => 'Professor de uma disciplina técnica'
+        ]);
+
+        $permissions = Permission::where('name', 'like', 'company-%')
+            ->orWhere('name', 'like', 'companySector-%')
+            ->orWhere('name', 'like', 'companyAgreement-%')
+            ->orWhere('name', 'like', 'companySupervisor-%')
+            ->orWhere('name', 'like', 'internship-%')
+            ->orWhere('name', 'like', 'report-%')
+            ->get();
+        $role->syncPermissions($permissions);
     }
 }

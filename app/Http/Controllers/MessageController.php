@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\InternshipProposalMail;
+use App\Models\NSac\Student;
 use App\Models\Proposal;
 use Illuminate\Support\Facades\Mail;
 
@@ -24,14 +25,11 @@ class MessageController extends Controller
         return view('coordinator.message.index');
     }
 
-    public function sendInternshipProposalMail()
+    public function sendInternshipProposalMail($proposal_id = 1, $student_id = 1757037)
     {
-        $proposal = Proposal::find(1);
-        $student = (object)[
-            'matricula' => 1757037,
-            'nome' => 'Dhiego Cassiano Fogaça Barbosa',
-            'email' => 'modscleo4@outlook.com'
-        ];
+        $proposal = Proposal::find($proposal_id);
+        $student = Student::find($student_id);
+
         Mail::to($student->email)->send(new InternshipProposalMail($student, $proposal));
 
         return view('coordinator.message.index');

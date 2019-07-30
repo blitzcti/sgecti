@@ -17,6 +17,7 @@ class UserTableSeeder extends Seeder
         $user = new User();
         $user->password = Hash::make('123456789');
         $user->email = 'dir-cti@feb.unesp.br';
+        $user->phone = '1431036150';
         $user->name = 'Administrador';
         $user->created_at = Carbon::now();
         $user->assignRole('admin');

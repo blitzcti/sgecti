@@ -1,16 +1,26 @@
-<html lang="pt-br">
-<head>
-    <title>Vaga de estágio</title>
-</head>
+@extends('emails.master')
 
-<body>
-<p> Olá, {{ $student->nome }}! </p>
-<p>Vaga de estágio</p>
+@section('title', $title)
 
-<p>Empresa: {{ $proposal->company->name }} </p>
-<p>Descrição: {{ $proposal->description }} </p>
-<p>Remuneração: {{ $proposal->remuneration }} </p>
-<p>Observações: {{ $proposal->observation }} </p>
+@section('content')
+    <p> Olá, {{ $student->nome }}, </p>
+    <p>Temos uma nova vaga de estágio para você!</p>
 
-</body>
-</html>
+    <p><b>Empresa: </b>{{ $proposal->company->name }} </p>
+    <p><b>Descrição da vaga/atividades: </b>{{ $proposal->description }} </p>
+    <p><b>Requisitos: </b>{{ $proposal->requirements }} </p>
+    <p><b>Benefícios: </b>{{ $proposal->benefits }}</p>
+
+    @if($proposal->remuneration > 0)
+        <p><b>Remuneração: </b>R$ {{ number_format($proposal->remuneration, 2, ',', '.') }} </p>
+    @endif
+
+    <p><b>Tipo de vaga: </b>{{ $proposal->type == 1 ? 'Estágio' : '' }} </p>
+
+    @if($proposal->observation != null)
+        <p><b>Observações: </b>{{ $proposal->observation }} </p>
+    @endif
+
+    <p><b>Contato: </b>{{ $proposal->contact }} </p>
+@endsection
+

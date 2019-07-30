@@ -111,4 +111,17 @@ class CoordinatorController extends Controller
 
         return redirect()->route('admin.coordenador.index')->with($params);
     }
+
+    public function checkCoordinators()
+    {
+        $coordinators = Coordinator::actives();
+        foreach ($coordinators as $coordinator)
+        {
+            $endDate = new \DateTime($coordinator->end_date);
+            if ($endDate == Carbon::now()->modify('-1 month')) {
+                $cName = $coordinator->course->name;
+                $coordinator->user->notify("Cargo de $cName", 'Seu cargo de coordenador expira em 1 mês.');
+            }
+        }
+    }
 }

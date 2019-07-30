@@ -19,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'phone', 'password',
     ];
 
     /**
@@ -47,6 +47,11 @@ class User extends Authenticatable
             ->orWhereNull('end_date')->where('user_id', '=', $this->id);
     }
 
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
     public function isCoordinator()
     {
         return sizeof($this->coordinators) > 0;
@@ -62,5 +67,35 @@ class User extends Authenticatable
         return $this->coordinators()->groupBy('course_id')->get('course_id')->map(function ($c) {
             return $c->course;
         });
+    }
+
+    public function getCoordinatorCoursesNameAttribute()
+    {
+        $str = '';
+        $array = $this->coordinator_of->map(function ($c) {return $c->name; })->toArray();
+        $last = array_slice($array, -1);
+        $first = join(', ', array_slice($array, 0, -1));
+        $both = array_filter(array_merge([$first], $last), 'strlen');
+        $str = join(' e ', $both);
+        return $str;
+    }
+
+    public function getPhoneFormatedAttribute()
+    {
+        $phone = $this->phone;
+        $ddd = substr($phone, 0, 2);
+        $p1 = (strlen($phone) == 10) ? substr($phone, 2, 4) : substr($phone, 2, 5);
+        $p2 = (strlen($phone) == 10) ? substr($phone, 6, 4) : substr($phone, 7, 4);
+        $str = "($ddd) $p1-$p2";
+        return $str;
+    }
+
+    public function notify($shortStr, $str)
+    {
+        $notification = new Notification();
+        $notification->user_id = $this->id;
+        $notification->short_text = $shortStr;
+        $notification->text = $str;
+        $notification->save();
     }
 }

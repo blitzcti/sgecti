@@ -66,6 +66,10 @@ class PermissionTableSeeder extends Seeder
             'report-list',
             'report-create',
             'report-edit',
+
+            'proposal-list',
+            'proposal-create',
+            'proposal-edit',
         ];
 
 

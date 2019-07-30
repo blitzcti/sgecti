@@ -28,6 +28,7 @@
                     <th scope="col">ID</th>
                     <th>Nome</th>
                     <th>Email</th>
+                    <th>Telefone</th>
                     <th>Grupo</th>
                     <th>Ações</th>
                 </tr>
@@ -40,6 +41,7 @@
                         <th scope="row">{{ $user->id }}</th>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
+                        <td>{{ $user->phone }}</td>
                         <td>{{ $user->roles->pluck('friendlyName')[0] . (($user->hasRole('teacher') && $user->isCoordinator()) ? ' (Coordenador)' : '') }}</td>
 
                         <td>

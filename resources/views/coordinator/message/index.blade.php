@@ -23,12 +23,18 @@
     @endif
 
     <div class="box box-default">
+        <div class="box-header with-border">
+            <h3 class="box-title">Destinotários</h3>
+        </div>
+
+        <div class="box-body">
+            marcoslira05
+        </div>
+    </div>
+
+    <div class="box box-default">
         <div class="box-body">
             <form action="#" method="post">
-                <div class="form-group">
-                    <input type="email" class="form-control" name="emailto" placeholder="Email to:"
-                           value="{{ auth()->user()->email }}" readonly>
-                </div>
                 <div class="form-group">
                     <input type="text" class="form-control" name="subject" placeholder="Assunto">
                 </div>

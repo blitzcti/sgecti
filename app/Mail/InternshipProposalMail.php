@@ -6,6 +6,7 @@ use App\Models\Proposal;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
 
 class InternshipProposalMail extends Mailable
 {
@@ -33,10 +34,16 @@ class InternshipProposalMail extends Mailable
      */
     public function build()
     {
-        return $this->from('informatica@cti.feb.unesp.br')
+        $user = Auth::user();
+        $title = 'Vaga de estágio';
+        $from = 'informatica@cti.feb.unesp.br';
+
+        return $this->from($from)
             ->view('emails.internshipProposal')
-            ->subject('Vaga de estágio')
+            ->subject($title)
             ->with([
+                'user' => $user,
+                'title' => $title,
                 'student' => $this->student,
                 'proposal' => $this->proposal,
             ]);

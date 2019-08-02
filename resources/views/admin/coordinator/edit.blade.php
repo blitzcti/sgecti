@@ -73,19 +73,35 @@
 
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('endDate')) has-error @endif">
-                            <label for="inputEndDate" class="col-sm-4 control-label">Vigência Fim</label>
+                            <label for="inputEndDate" class="col-sm-4 control-label">Vigência Fim*</label>
 
                             <div class="col-sm-8">
-                                <input type="date" class="form-control" id="inputEndDate" name="endDate"
-                                       value="{{ old('endDate') ?? $coordinator->end_date }}"/>
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle"
+                                                data-toggle="dropdown">
+                                            <span id="EndDateToggle">Personalizado</span>
+
+
+                                            <span class="fa fa-caret-down"></span></button>
+
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#" onclick="endDate(0); return false;">6 meses</a></li>
+                                            <li><a href="#" onclick="endDate(1); return false;">1 ano</a></li>
+                                            <li><a href="#" onclick="endDate(2); return false;">2 anos</a></li>
+                                            <li><a href="#" onclick="endDate(3); return false;">Indefinido</a></li>
+                                        </ul>
+                                    </div>
+
+                                    <input type="date" class="form-control" id="inputEndDate" name="endDate"
+                                           value="{{ old('endDate') ?? $coordinator->end_date }}">
+                                </div>
 
                                 <span class="help-block">{{ $errors->first('endDate') }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <h4>Botoes de hoje, ano que vem, ...</h4>
 
             </div>
             <!-- /.box-body -->
@@ -105,5 +121,45 @@
                 language: "pt-BR"
             });
         });
+
+        function addDays(date, days) {
+            let result = new Date(date);
+            result.setDate(result.getDate() + days);
+            return result;
+        }
+
+        function endDate(id) {
+            switch (id) {
+                case 0: {
+                    jQuery('#EndDateToggle').text('6 meses');
+                    let newDate = addDays(jQuery('#inputStartDate').val(), 30 * 6);
+                    newDate = newDate.toISOString().slice(0, 10);
+                    jQuery('#inputEndDate').val(newDate);
+                    break;
+                }
+
+                case 1: {
+                    jQuery('#EndDateToggle').text('1 ano');
+                    let newDate = addDays(jQuery('#inputStartDate').val(), 365);
+                    newDate = newDate.toISOString().slice(0, 10);
+                    jQuery('#inputEndDate').val(newDate);
+                    break;
+                }
+
+                case 2: {
+                    jQuery('#EndDateToggle').text('2 anos');
+                    let newDate = addDays(jQuery('#inputStartDate').val(), 365 * 2);
+                    newDate = newDate.toISOString().slice(0, 10);
+                    jQuery('#inputEndDate').val(newDate);
+                    break;
+                }
+
+                case 3: {
+                    jQuery('#EndDateToggle').text('Indefinido');
+                    jQuery('#inputEndDate').val('');
+                    break;
+                }
+            }
+        }
     </script>
 @endsection

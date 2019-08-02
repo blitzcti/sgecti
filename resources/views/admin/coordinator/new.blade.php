@@ -78,7 +78,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="inputCpfCnpj" class="col-sm-4 control-label">Vigência Fim*</label>
+                            <label for="inputEndDate" class="col-sm-4 control-label">Vigência Fim*</label>
 
                             <div class="col-sm-8">
                                 <div class="input-group">

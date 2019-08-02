@@ -26,8 +26,8 @@ class UpdateCoordinator extends FormRequest
         return [
             'user' => 'required|numeric|min:1',
             'course' => 'required|numeric|min:1',
-            'startDate' => 'required|date|before:endDate',
-            'endDate' => 'date|after:startDate',
+            'startDate' => 'required|date',
+            'endDate' => 'nullable|date|after:startDate',
         ];
     }
 }

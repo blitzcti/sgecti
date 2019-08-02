@@ -43,13 +43,8 @@ class User extends Authenticatable
     public function coordinators()
     {
         return $this->hasMany(Coordinator::class)
-            ->WhereDate('end_date', '>=', Carbon::today()->toDateString())
+            ->WhereDate('end_date', '>', Carbon::today()->toDateString())
             ->orWhereNull('end_date')->where('user_id', '=', $this->id);
-    }
-
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class);
     }
 
     public function isCoordinator()
@@ -88,14 +83,5 @@ class User extends Authenticatable
         $p2 = (strlen($phone) == 10) ? substr($phone, 6, 4) : substr($phone, 7, 4);
         $str = "($ddd) $p1-$p2";
         return $str;
-    }
-
-    public function notify($shortStr, $str)
-    {
-        $notification = new Notification();
-        $notification->user_id = $this->id;
-        $notification->short_text = $shortStr;
-        $notification->text = $str;
-        $notification->save();
     }
 }

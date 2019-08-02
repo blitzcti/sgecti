@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\ManyToMany;
 
 class ModelHasPermission extends Model
 {
@@ -14,19 +14,4 @@ class ModelHasPermission extends Model
      * @var string
      */
     protected $table = 'model_has_permissions';
-
-    /**
-     * primaryKey
-     *
-     * @var string
-     * @access protected
-     */
-    protected $primaryKey = null;
-
-    /**
-     * Indicates if the IDs are auto-incrementing.
-     *
-     * @var bool
-     */
-    public $incrementing = false;
 }

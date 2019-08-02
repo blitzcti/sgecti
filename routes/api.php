@@ -20,6 +20,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::prefix('')->name('api.')->group(function () {
+    Route::prefix('usuario')->name('usuario.')->group(function () {
+        Route::prefix('notificacao')->name('notificacao.')->group(function () {
+            Route::prefix('{id}')->group(function () {
+                Route::put('lida', 'API\NotificationController@markAsSeen')->name('lida');
+            });
+        });
+    });
+
     Route::prefix('external')->name('external.')->group(function () {
         Route::get('ufs', 'API\ExternalAPISController@getUFS')->name('ufs');
         Route::get('cities/{uf}', 'API\ExternalAPISController@getCities')->name('cities');

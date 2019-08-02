@@ -77,7 +77,7 @@
 
             @else
 
-                <p>Não há um estágio para esse aluno!</p>
+                <p>Este aluno não possui um estágio ativo no momento.</p>
 
             @endif
 

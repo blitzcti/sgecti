@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Proposal;
+use App\Notifications\CoordinatorNotification;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,12 +27,25 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $data = ['user' => $user];
 
         $strCourses = '';
         if ($user->isCoordinator()) {
             $strCourses = $user->coordinator_courses_name;
+            $data['strCourses'] =  $strCourses;
+
+            /*$proposals = Proposal::all();
+            $data['proposals'] =  $proposals;*/
         }
 
-        return view('home')->with(['user' => $user, 'strCourses' => $strCourses]);
+        return view('home')->with($data);
+    }
+
+    public function notifications()
+    {
+        $user = Auth::user();
+        $notifications = $user->notifications;
+
+        return view('user.notifications')->with(['notifications' => $notifications]);
     }
 }

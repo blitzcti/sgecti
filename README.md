@@ -147,6 +147,9 @@ e a senha é
 ```123456789```.
 Assim que entrar no sistema, altere a senha de administrador imediatamente para manter o sistema seguro.
 
+## FAQ
+### 1. O sistema apenas retorna "The stream or file "{laravel.log}" could not be opened: failed to open stream: Permission denied" ao tentar salvar um arquivo.
+#### R: O arquivo de log não está acessível para o Apache/Nginx, assim é necessário dar permissões de acesso para o usuário www-data. Pode ser também que as tarefas agendadas estejam sendo executadas como usuário root, ao invés de serem executadas como www-data.
 
 © 2019 Equipe Blitz.
 

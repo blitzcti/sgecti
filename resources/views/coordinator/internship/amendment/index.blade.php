@@ -20,8 +20,13 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <a id="addLink" href="{{ route('coordenador.estagio.aditivo.novo') }}"
+
+            @if(!isset($internship) || (isset($internship) && $internship->state->id == 1))
+
+            <a id="addLink" href="{{ (isset($internship)) ? route('coordenador.estagio.aditivo.novo', ['i' => $internship->id]) : route('coordenador.estagio.aditivo.novo') }}"
                class="btn btn-success">Adicionar termo</a>
+
+            @endif
 
             <table id="amendments" class="table table-bordered table-hover">
                 <thead>

@@ -24,8 +24,32 @@
                 <a href="{{ route('admin.curso.configuracao.index', $course->id) }}" class="btn btn-default">Exibir
                     configurações</a>
 
-                <a href="{{ route('admin.curso.configuracao.novo', $course->id) }}"
-                   class="btn btn-success">Adicionar configuração</a>
+                @if ($config != null)
+
+                    <a href="{{ route('admin.curso.configuracao.editar', ['id' => $course->id, 'id_config' => $config->id]) }}"
+                       class="btn btn-primary">Editar configuração</a>
+
+                @else
+
+                    <a href="{{ route('admin.curso.configuracao.novo', ['id' => $course->id]) }}"
+                       class="btn btn-success">Adicionar configuração</a>
+
+                @endif
+
+                <a href="{{ route('admin.curso.coordenador.index', $course->id) }}" class="btn btn-default">Exibir
+                    coordenadores</a>
+
+                @if ($coordinator != null)
+
+                    <a href="{{ route('admin.coordenador.editar', ['id' => $coordinator->id]) }}"
+                       class="btn btn-primary">Editar coordenador</a>
+
+                @else
+
+                    <a href="{{ route('admin.coordenador.novo', ['c' => $course->id]) }}"
+                       class="btn btn-success">Adicionar coordenador</a>
+
+                @endif
 
                 @if(auth()->user()->can('course-delete'))
 

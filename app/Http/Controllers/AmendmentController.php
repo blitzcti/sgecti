@@ -9,7 +9,6 @@ use App\Models\Internship;
 use App\Models\Schedule;
 use App\Models\State;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -110,6 +109,7 @@ class AmendmentController extends Controller
         $amendment->schedule_id = $schedule->id;
         $amendment->start_date = $validatedData->startDate;
         $amendment->end_date = $validatedData->endDate;
+        $amendment->new_end_date = $validatedData->newEndDate;
         $amendment->protocol = $validatedData->protocol;
         $amendment->observation = $validatedData->observation;
 
@@ -182,6 +182,7 @@ class AmendmentController extends Controller
         $amendment->updated_at = Carbon::now();
         $amendment->start_date = $validatedData->startDate;
         $amendment->end_date = $validatedData->endDate;
+        $amendment->new_end_date = $validatedData->newEndDate;
         $amendment->protocol = $validatedData->protocol;
         $amendment->observation = $validatedData->observation;
 

@@ -22,6 +22,11 @@ class Coordinator extends Model
 
     public static function actives()
     {
-        return Coordinator::all()->where('end_date', '>', Carbon::today()->toDateString())->sortBy('id');
+        return Coordinator::where('end_date', '>', Carbon::today()->toDateString())->orderBy('id')->get();
+    }
+
+    public static function expiredToday()
+    {
+        return Coordinator::where('end_date', '=', Carbon::today()->toDateString())->orderBy('id')->get();
     }
 }

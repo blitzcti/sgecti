@@ -2,6 +2,10 @@
 
 namespace App\Models\ManyToMany;
 
+/*
+ * These models are required for backup system. Do not use them in other parts.
+ * */
+
 class Model extends \App\Models\Model
 {
     /**

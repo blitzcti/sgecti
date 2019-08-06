@@ -142,9 +142,11 @@ class ReportController extends Controller
         ini_set('max_execution_time', 300);
 
         $report = FinalReport::findOrFail($id);
+        $student = $report->internship->student ?? null;
 
         $data = [
             'report' => $report,
+            'student' => $student,
         ];
 
         $pdf = PDF::loadView('pdf.report.final', $data);

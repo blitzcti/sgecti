@@ -3,8 +3,11 @@
 namespace App\Console;
 
 use App\Models\BackupConfiguration;
+use App\Models\Coordinator;
+use App\Models\User;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use PDOException;
@@ -47,7 +50,11 @@ class Kernel extends ConsoleKernel
                 $schedule->call('App\Http\Controllers\BackupController@scheduledBackup')->days($days)->at($hour);
             }
 
-            $schedule->call('App\Http\Controllers\CoordinatorController@checkCoordinators')->daily()->at('00:00');
+            if (Schema::hasTable((new User())->getTable())
+                && Schema::hasTable((new Coordinator())->getTable())
+                && Schema::hasTable((new DatabaseNotification())->getTable())) {
+                $schedule->call('App\Http\Controllers\CoordinatorController@checkCoordinators')->daily()->at('00:00');
+            }
         }
     }
 

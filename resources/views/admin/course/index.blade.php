@@ -51,7 +51,7 @@
                             |
                             <a href="{{ route('admin.curso.editar', ['id' => $course->id]) }}">Editar</a>
                             |
-                            <a href="{{ route('admin.coordenador.novo', ['c' => $course->id]) }}">Coordenador</a>
+                            <a href="{{ route('admin.curso.coordenador.index', ['id' => $course->id]) }}">Coordenadores</a>
                             |
                             <a href="{{ route('admin.curso.configuracao.index', ['id' => $course->id]) }}">Configurações</a>
                             @if(auth()->user()->can('course-delete'))

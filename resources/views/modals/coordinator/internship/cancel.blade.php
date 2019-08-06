@@ -23,15 +23,17 @@
 
                         <div class="col-sm-10">
                             <textarea class="form-control" rows="3" id="inputReasonToCancel" name="reasonToCancel"
-                                      style="resize: none"
+                                      style="resize: none" required
                                       placeholder="O motivo do cancelamento do estágio"></textarea>
                         </div>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
-                    <button type="submit" class="btn btn-danger">Sim</button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                        <button type="submit" class="btn btn-danger">Sim</button>
+                    </div>
                 </div>
             </form>
         </div>

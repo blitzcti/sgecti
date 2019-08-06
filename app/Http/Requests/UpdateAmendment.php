@@ -28,6 +28,8 @@ class UpdateAmendment extends FormRequest
 
             'startDate' => 'required|date|before:endDate',
             'endDate' => 'required|date|after:startDate',
+            'internshipStartDate' => 'required|date',
+            'newEndDate' => "nullable|date|after:internshipStartDate",
 
             'monS' => 'nullable|date_format:H:i',
             'monE' => 'nullable|date_format:H:i',

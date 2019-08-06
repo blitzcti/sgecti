@@ -34,7 +34,7 @@ class StoreCompany extends FormRequest
             'name' => 'required|max:100',
             'fantasyName' => 'max:100',
             'email' => 'required|max:100',
-            'phone' => 'required|max:11',
+            'phone' => 'required|numeric|digits_between:10,11',
 
             'representativeName' => 'required|max:50',
             'representativeRole' => 'required|max:50',

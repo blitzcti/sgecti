@@ -21,6 +21,7 @@ class CreateAmendmentsTable extends Migration
 
             $table->date('start_date');
             $table->date('end_date');
+            $table->date('new_end_date')->nullable(true)->default(null);
 
             $table->bigInteger('schedule_id')->nullable(false)->unsigned();
             $table->foreign('schedule_id')->references('id')->on('schedules');

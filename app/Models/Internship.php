@@ -71,6 +71,18 @@ class Internship extends Model
         return $this->hasOne(FinalReport::class);
     }
 
+    public function getEndDateAttribute()
+    {
+        $endDate = $this->attributes['end_date'];
+        foreach ($this->amendments->sortByDesc('id') as $amendment) {
+            if ($amendment->new_end_date !== null) {
+                $endDate = $amendment->new_end_date;
+            }
+        }
+
+        return $endDate;
+    }
+
     public function getEstimatedHoursAttribute()
     {
         $h = $this->schedule->countHours($this->start_date, $this->end_date);

@@ -31,7 +31,7 @@ class UpdateSystemConfiguration extends FormRequest
             'street' => 'required|max:50',
             'number' => 'required|max:6',
             'district' => 'required|max:50',
-            'phone' => 'required|max:11',
+            'phone' => 'required|numeric|digits_between:10,11',
             'email' => 'required|max:50',
             'extension' => 'max:5',
             'agreementExpiration' => 'required|numeric|min:1',

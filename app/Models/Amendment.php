@@ -5,7 +5,7 @@ namespace App\Models;
 class Amendment extends Model
 {
     protected $fillable = [
-        'internship_id', 'start_date', 'end_date', 'schedule_id', 'schedule_2_id', 'protocol', 'observation',
+        'internship_id', 'start_date', 'end_date', 'new_end_date', 'schedule_id', 'schedule_2_id', 'protocol', 'observation',
     ];
 
     public function internship()

@@ -36,6 +36,11 @@ class Course extends Model
         return $this->belongsToMany(Company::class, 'company_courses');
     }
 
+    public function proposals()
+    {
+        return $this->belongsToMany(Proposal::class, 'proposal_courses');
+    }
+
     public function coordinatorAt($date)
     {
         $coordinator = $this->coordinators->where('end_date', $date != null ? '>' : '=', $date)->sortBy('id');

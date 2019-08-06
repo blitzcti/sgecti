@@ -96,6 +96,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('editar', 'CourseController@edit')->name('editar');
             Route::put('alterar', 'CourseController@update')->name('alterar');
 
+            Route::prefix('coordenador')->name('coordenador.')->group(function () {
+                Route::get('', 'CoordinatorController@indexByCourse')->name('index');
+            });
+
             Route::prefix('configuracao')->name('configuracao.')->group(function () {
                 Route::get('', 'CourseConfigurationController@index')->name('index');
                 Route::get('novo', 'CourseConfigurationController@create')->name('novo');

@@ -16,7 +16,7 @@ return [
     */
 
     'default' => env('DB_CONNECTION', 'mysql'),
-    'nsac' => env('NSAC_CONNECTION', 'mysql_nsac'),
+    'nsac' => env('NSAC_CONNECTION', 'mysql') . '_nsac',
 
     /*
     |--------------------------------------------------------------------------

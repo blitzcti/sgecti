@@ -29,6 +29,14 @@ class CoordinatorController extends Controller
         return view('admin.coordinator.index')->with(['coordinators' => $coordinators]);
     }
 
+    public function indexByCourse($id)
+    {
+        $course = Course::findOrFail($id);
+        $coordinators = $course->coordinators;
+
+        return view('admin.coordinator.index')->with(['coordinators' => $coordinators, 'course' => $course]);
+    }
+
     public function create()
     {
         $courses = Course::all();
@@ -109,15 +117,10 @@ class CoordinatorController extends Controller
             Log::info($log);
 
             $cName = $coordinator->course->name;
-            if ($coordinator->end_date == date("Y-m-d")) {
-                $notification = new CoordinatorNotification(['description' => "Coordenadoria de $cName", 'text' => "Seu cargo de coordenador expirou.", 'icon' => 'calendar']);
-                $coordinator->user->notify($notification);
-            } else {
-                $user = Auth::user();
-                $endDate = date("d/m/Y", strtotime($coordinator->end_date));
-                $notification = new CoordinatorNotification(['description' => "Coordenadoria de $cName", 'text' => "O usuário $user->name alterou sua data de vigência para $endDate.", 'icon' => 'black-tie']);
-                $coordinator->user->notify($notification);
-            }
+            $user = Auth::user();
+            $endDate = ($coordinator->end_date != null) ? date("d/m/Y", strtotime($coordinator->end_date)) : 'Indeterminado';
+            $notification = new CoordinatorNotification(['description' => "Coordenadoria de $cName", 'text' => "O usuário $user->name alterou sua data de vigência para $endDate.", 'icon' => 'black-tie']);
+            $coordinator->user->notify($notification);
         } else {
             Log::error("Erro ao salvar coordenador");
         }
@@ -130,9 +133,15 @@ class CoordinatorController extends Controller
 
     public function checkCoordinators()
     {
+        $coordinators = Coordinator::expiredToday();
+        foreach ($coordinators as $coordinator) {
+            $cName = $coordinator->course->name;
+            $notification = new CoordinatorNotification(['description' => "Coordenadoria de $cName", 'text' => "Seu cargo de coordenador expirou.", 'icon' => 'calendar']);
+            $coordinator->user->notify($notification);
+        }
+
         $coordinators = Coordinator::actives();
-        foreach ($coordinators as $coordinator)
-        {
+        foreach ($coordinators as $coordinator) {
             $endDate = new DateTime($coordinator->end_date);
             $max = Carbon::now()->modify('-30 day');
             if ($endDate < $max) {

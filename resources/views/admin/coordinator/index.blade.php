@@ -3,7 +3,7 @@
 @section('title', 'Coordenadores - SGE CTI')
 
 @section('content_header')
-    <h1>Coordenadores</h1>
+    <h1>Coordenadores @if(isset($course)) de {{ $course->name }} @endif</h1>
 @stop
 
 @section('content')
@@ -20,7 +20,7 @@
 
     <div class="box box-default">
         <div class="box-body">
-                <a id="addLink" href="{{ route('admin.coordenador.novo') }}"
+                <a id="addLink" href="{{ route('admin.coordenador.novo', ['c' => $course->id]) }}"
                    class="btn btn-success">Adicionar coordenador</a>
 
             <table id="coordinators" class="table table-bordered table-hover">

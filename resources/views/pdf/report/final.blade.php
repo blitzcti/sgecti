@@ -13,6 +13,38 @@
     <h3>Relatório final de estágio</h3>
     <hr />
 
+    @if($student != null)
+
+    <h3>Dados do aluno</h3>
+    <hr />
+
+    <dl class="row">
+        <dt class="col-sm-2">RA</dt>
+        <dd class="col-sm-10">{{ $student->matricula }}</dd>
+
+        <dt class="col-sm-2">Nome</dt>
+        <dd class="col-sm-10">{{ $student->nome }}</dd>
+
+        <dt class="col-sm-2">Curso</dt>
+        <dd class="col-sm-10">{{ $student->course->name }}</dd>
+
+        <dt class="col-sm-2">Ano</dt>
+        <dd class="col-sm-10">{{ $student->year }}</dd>
+
+        <dt class="col-sm-2">Email</dt>
+        <dd class="col-sm-10">{{ $student->email }}</dd>
+
+        <dt class="col-sm-2">Email 2</dt>
+        <dd class="col-sm-10">{{ $student->email2 }}</dd>
+    </dl>
+
+    <div class="page-break"></div>
+
+    @endif
+
+    <h3>Dados do estágio</h3>
+    <hr />
+
     <dl class="row">
         <dt class="col-sm-2">Empresa</dt>
         <dd class="col-sm-10">{{ $report->internship->company->name }}</dd>
@@ -38,46 +70,5 @@
         <dt class="col-sm-2">Número de aprovação</dt>
         <dd class="col-sm-10">{{ $report->approval_number }}</dd>
     </dl>
-    {{--<table class="table table-bordered table-striped">
-        <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th>Nome</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        @foreach($courses as $course)
-
-            <tr>
-                <th scope="row">{{ $course->id }}</th>
-                <td>{{ $course->name }}</td>
-            </tr>
-
-        @endforeach
-        </tbody>
-    </table>--}}
-
-    <div class="page-break"></div>
-
-    {{--<table class="table table-bordered table-striped">
-        <thead>
-        <tr>
-            <th scope="col">RA</th>
-            <th>Nome</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        @foreach($students as $student)
-
-            <tr>
-                <th scope="row">{{ $student->matricula }}</th>
-                <td>{{ $student->name }}</td>
-            </tr>
-
-        @endforeach
-        </tbody>
-    </table>--}}
 
 @endsection

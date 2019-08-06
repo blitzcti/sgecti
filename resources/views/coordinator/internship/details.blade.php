@@ -15,6 +15,9 @@
                 <a href="{{ route('coordenador.estagio.editar', $internship->id) }}"
                    class="btn btn-primary">Editar estágio</a>
 
+                <a href="{{ route('coordenador.estagio.aditivo', ['id' => $internship->id]) }}"
+                   class="btn btn-default">Termos aditivos</a>
+
                 @if($internship->state->id == 1)
 
                     <a href="{{ route('coordenador.relatorio.bimestral.novo', ['i' => $internship->id]) }}"

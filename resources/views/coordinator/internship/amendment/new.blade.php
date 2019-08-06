@@ -13,6 +13,9 @@
         <input type="hidden" id="inputHas2Turnos" name="has2Turnos"
                value="{{ (old('has2Turnos') ?? 0) ? '1' : '0' }}">
 
+        <input type="hidden" id="inputInternshipStartDate" name="internshipStartDate"
+               value="{{ (App\Models\Internship::find($i) ?? $internships->first())->start_date }}">
+
         <div class="box box-default">
             <div class="box-header with-border">
                 <h3 class="box-title">Dados do termo</h3>
@@ -22,7 +25,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('internship')) has-error @endif">
-                            <label for="inputInternship" class="col-sm-4 control-label">Nome do aluno*</label>
+                            <label for="inputInternship" class="col-sm-4 control-label">Aluno*</label>
 
                             <div class="col-sm-8">
                                 <select class="form-control selection" id="inputInternship" name="internship">
@@ -31,7 +34,7 @@
 
                                         <option value="{{ $internship->id }}"
                                             {{ (old('internship') ?? $i) == $internship->id ? 'selected=selected' : '' }}>
-                                            {{ $internship->student->nome }}
+                                            {{ $internship->ra }} - {{ $internship->student->nome }}
                                         </option>
 
                                     @endforeach
@@ -97,6 +100,73 @@
                         <span class="help-block">{{ $errors->first('observation') }}</span>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Dados do estágio</h3>
+            </div>
+
+            <div class="box-body">
+                <dl class="row">
+                    <dt class="col-sm-2">Empresa</dt>
+                    <dd class="col-sm-10">
+                        <span id="internshipCompanyName">
+                            {{ (App\Models\Internship::find($i) ?? $internships->first())->company->name }}
+                        </span>
+                    </dd>
+
+                    <dt class="col-sm-2">Setor</dt>
+                    <dd class="col-sm-10">
+                        <span id="internshipSector">
+                            {{ (App\Models\Internship::find($i) ?? $internships->first())->sector->name }}
+                        </span>
+                    </dd>
+
+                    <dt class="col-sm-2">Supervisor</dt>
+                    <dd class="col-sm-10">
+                        <span id="internshipSupervisorName">
+                            {{ (App\Models\Internship::find($i) ?? $internships->first())->supervisor->name }}
+                        </span>
+                    </dd>
+
+                    <dt class="col-sm-2">Data de início</dt>
+                    <dd class="col-sm-10">
+                        <span id="internshipStartDate">
+                            {{ date("d/m/Y", strtotime((App\Models\Internship::find($i) ?? $internships->first())->start_date)) }}
+                        </span>
+                    </dd>
+
+                    <dt class="col-sm-2">Data de término</dt>
+                    <dd class="col-sm-10">
+                        <span id="internshipEndDate">
+                            {{ date("d/m/Y", strtotime((App\Models\Internship::find($i) ?? $internships->first())->end_date)) }}
+                        </span>
+                    </dd>
+
+                    <dt class="col-sm-2">Horas estimadas</dt>
+                    <dd class="col-sm-10">
+                        <span id="internshipEstimatedHours">
+                            {{ (App\Models\Internship::find($i) ?? $internships->first())->estimated_hours }}
+                        </span>
+                    </dd>
+
+                    <div class="form-group @if($errors->has('newEndDate')) has-error @endif" style="margin: 0;">
+                        <dt class="col-sm-2">
+                            <label for="inputNewEndDate">Nova data de término</label>
+                        </dt>
+
+                        <dd class="col-sm-10">
+                            <div>
+                                <input type="date" class="form-control" id="inputNewEndDate" name="newEndDate"
+                                       value="{{ old('newEndDate') ?? '' }}"/>
+
+                                <span class="help-block">{{ $errors->first('newEndDate') }}</span>
+                            </div>
+                        </dd>
+                    </div>
+                </dl>
             </div>
         </div>
 
@@ -422,6 +492,58 @@
                 checkboxClass: 'icheckbox_square-blue',
                 radioClass: 'iradio_square-blue',
                 increaseArea: '20%' // optional
+            });
+
+            jQuery('#inputInternship').on('change', e => {
+                jQuery.ajax({
+                    url: `/api/estagio/${jQuery('#inputInternship').val()}`,
+                    dataType: 'json',
+                    method: 'GET',
+                    success: function (data) {
+                        jQuery.ajax({
+                            url: `/api/empresa/${data.company_id}`,
+                            dataType: 'json',
+                            method: 'GET',
+                            success: function (data) {
+                                jQuery('#internshipCompanyName').text(data.name);
+                            },
+                            error: function () {
+
+                            },
+                        });
+
+                        jQuery.ajax({
+                            url: `/api/empresa/setor/${data.sector_id}`,
+                            dataType: 'json',
+                            method: 'GET',
+                            success: function (data) {
+                                jQuery('#internshipSector').text(data.name);
+                            },
+                            error: function () {
+
+                            },
+                        });
+
+                        jQuery.ajax({
+                            url: `/api/empresa/supervisor/${data.supervisor_id}`,
+                            dataType: 'json',
+                            method: 'GET',
+                            success: function (data) {
+                                jQuery('#internshipSupervisorName').text(data.name);
+                            },
+                            error: function () {
+
+                            },
+                        });
+
+                        jQuery('#internshipStartDate').text(data.start_date);
+                        jQuery('#internshipEndDate').text(data.end_date);
+                        jQuery('#internshipEstimatedHours').text(data.estimated_hours);
+                    },
+                    error: function () {
+
+                    },
+                });
             });
         });
     </script>

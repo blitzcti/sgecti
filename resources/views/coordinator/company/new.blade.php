@@ -656,7 +656,7 @@
                 }
             });
 
-            pj(true);
+            pj({{ (old('hasConvenio') ?? 1) == 1 }});
 
             jQuery('#inputUf').append(new Option('{{ old('uf') ?? '' }}', '{{ old('uf') ?? '' }}', false, true)).change();
             jQuery('#inputCity').append(new Option('{{ old('city') ?? '' }}', '{{ old('city') ?? '' }}', false, true));

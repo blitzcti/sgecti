@@ -20,7 +20,7 @@
 
     <div class="box box-default">
         <div class="box-body">
-                <a id="addLink" href="{{ route('admin.coordenador.novo', ['c' => $course->id]) }}"
+                <a id="addLink" href="{{ (isset($course)) ? route('admin.coordenador.novo', ['c' => $course->id]) : route('admin.coordenador.novo') }}"
                    class="btn btn-success">Adicionar coordenador</a>
 
             <table id="coordinators" class="table table-bordered table-hover">

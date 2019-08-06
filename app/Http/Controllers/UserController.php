@@ -31,7 +31,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $roles = Role::all();
+        $roles = Role::all()->where('name', '<>', 'company');
 
         return view('admin.user.new')->with(['roles' => $roles]);
     }
@@ -39,7 +39,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $roles = Role::all();
+        $roles = Role::all()->where('name', '<>', 'company');
 
         return view('admin.user.edit')->with(['user' => $user, 'roles' => $roles]);
     }

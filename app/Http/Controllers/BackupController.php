@@ -188,7 +188,7 @@ class BackupController extends Controller
                 DB::table($table)->insert($innerData);
             }
 
-            if ((new $class)->getKeyName() != null) {
+            if ((new $class)->getKeyName() != null && (new $class)->incrementing) {
                 $this->setAutoIncrement($table);
             }
         }

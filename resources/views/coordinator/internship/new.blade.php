@@ -88,7 +88,7 @@
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputCompanyRepresentative" name="representative" readonly
-                               value="{{ (App\Models\Company::find(old('company')) ?? $companies->first())->representative_name }}"/>
+                               value="{{ (App\Models\Company::find(old('company')) ?? $companies->first())->representative_name ?? '' }}"/>
                     </div>
                 </div>
 
@@ -99,7 +99,7 @@
                         <select class="selection" name="sector" id="inputSector"
                                 style="width: 100%">
 
-                            @foreach((\App\Models\Company::find(old('company'))->sectors ?? $companies->first()->sectors) as $sector)
+                            @foreach((\App\Models\Company::find(old('company'))->sectors ?? $companies->first()->sectors ?? []) as $sector)
 
                                 <option value="{{ $sector->id }}" {{ (old('sector') ?? 1) == $sector->id ? "selected" : "" }}>
                                     {{ $sector->name }}
@@ -480,7 +480,7 @@
                         <select class="selection" name="supervisor" id="inputSupervisor"
                                 style="width: 100%">
 
-                            @foreach((\App\Models\Company::find(old('company'))->supervisors ?? $companies->first()->supervisors) as $supervisor)
+                            @foreach((\App\Models\Company::find(old('company'))->supervisors ?? $companies->first()->supervisors ?? []) as $supervisor)
 
                                 <option value="{{ $supervisor->id }}" {{ (old('supervisor') ?? 1) == $supervisor->id ? "selected" : "" }}>
                                     {{ $supervisor->name }}

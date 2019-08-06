@@ -1,0 +1,124 @@
+
+@import "//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css";
+
+.accordion > input[type="checkbox"] {
+  position: absolute;
+  left: -100vw;
+}
+
+.accordion .hcontent {
+  overflow-y: hidden;
+  height: 0;
+  transition: height 0.3s ease;
+}
+
+.accordion > input[type="checkbox"]:checked ~ .hcontent {
+  height: auto;
+  overflow: visible;
+}
+
+.accordion label {
+  display: block;
+}
+
+.accordion {
+  margin-bottom: 1em;
+}
+
+.accordion > input[type="checkbox"]:checked ~ .hcontent {
+  padding: 15px;
+  border: 1px solid #e8e8e8;
+  border-top: 0;
+}
+
+.accordion .handle {
+  margin: 0;
+  line-height: 1.2em;
+}
+
+.accordion label {
+  color: #333;
+  cursor: pointer;
+  font-weight: normal;
+  padding: 15px;
+  background: #e8e8e8;
+}
+
+.accordion label:hover,
+.accordion label:focus {
+  background: #d8d8d8;
+}
+
+.accordion .handle label:before {
+  font-family: 'fontawesome';
+  content: "\f078";
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.accordion > input[type="checkbox"]:checked ~ .handle label:before {
+  font-family: 'fontawesome';
+  content: "\f077";
+}
+
+
+/*
+ Demo purposes only
+*/
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 40px;
+}
+
+a {
+  color: #06c;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+h1 {
+  margin: 0 0 1.5em;
+  /* font-weight: 600;
+  font-size: 1.5em; */
+}
+
+.accordion {
+  max-width: 65em;
+}
+
+.accordion p:last-child {
+  margin-bottom: 0;
+}
+
+
+.tab:not(:target) {
+  display: none;
+}
+
+.tab:last-child {
+  display: block;
+}
+
+.tab:target ~ .tab:last-child {
+  display: none;
+}
+
+.tabs {
+  max-width: 70vw;
+}
+
+.hcontent img {
+    width: 100%;
+}
+
+.fixed .wrapper {
+  overflow: visible;
+}

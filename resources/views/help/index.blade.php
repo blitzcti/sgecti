@@ -1,6 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'Ajuda - SGE CTI')
+@section('title', 'Ajuda - SGE CTI')]
+
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/help.css') }}">
+@endsection
 
 @section('content_header')
     <h1>Ajuda</h1>
@@ -21,196 +25,130 @@
     <div class="box box-default">
         <div class="box-body">
 
-            <div class="form-group">
-                <!--       <label for="inputAaaa" class="col-sm-2 control-label">Ajuda</label> -->
+            <?php
+            $t1 = ['Configurações do sistema', 'Funcionalidades extras', 'Página inicial', 'Funcionalidades do sistema'];
 
-                       <div class="col-sm-10">
-                           <select class="form-control selection" id="inputAaaa" name="aaaaa">
+            $t2 =
+                [
+                    [
+                        ['Parâmetros do sistema',
+                            '(TUTORIAL)',
+                            '(VÍDEO)',
+                        ],
+                        ['Backup do sistema',
+                            '(TUTORIAL)',
+                            '(VÍDEO)',
+                        ],
+                    ],
+                    [
+                        ['Mensagem',
+                            '(TUTORIAL)',
+                            '(VÍDEO)',
+                        ],
+                        ['Logs',
+                            '(TUTORIAL)',
+                            '(VÍDEO)',
+                        ],
+                    ],
+                    [
+                        ['Notificações',
+                            '(TUTORIAL)',
+                            '(VÍDEO)',
+                        ],
+                    ],
+                    [
+                        ['Estágio',
+                            '(TUTORIAL)',
+                            '(VÍDEO)',
+                        ],
+                        ['Usuários',
+                            '(TUTORIAL)',
+                            '(VÍDEO)',
+                        ],
+                        ['Alunos',
+                            '(TUTORIAL)',
+                            '(VÍDEO)',
+                        ],
+                        ['Empresas',
+                            '(TUTORIAL)',
+                            '(VÍDEO)',
+                        ],
+                    ]
+                ];
 
-                               <optgroup label="1. Configurações do sistema">
-                                   <option>AJUDA</option>
-                                   <option>1.1 Parâmetros do sistema</option>
-                                   <option>1.2 Estágio</option>
-                                   <optgroup label="2. Funcionalidades extras">
-                                   <option>2.1 Mensagem</option>
-                                   <option>2.2 Logs</option>
-                                   <optgroup label="3. Página inicial">
-                                       <option>3.1 Notificações</option>
-                                       <optgroup label="4. Funcionalidades do sistema">
-                                       <option>4.1 Estágio</option>
-                                       <option>4.1.1 Relatório bimestral</option>
-                                       <option>4.1.2 Relatório final</option>
-                                       <option>4.1.3 Visualizar estágio</option>
-                                       <option>4.1.4 Novo estágio</option>
-                                       <option>4.2 Usuários</option>
-                                       <option>4.2.1 Visualizar usuários</option>
-                                       <option>4.2.2 Novo usuário</option>
-                                       <option>4.3 Cursos</option>
-                                       <option>4.3.1 Visualizar cursos</option>
-                                       <option>4.3.2 Novo curso</option>
-                                       <option>4.4 Coordenadores</option>
-                                       <option>4.4.1 Visualizar coordenadores</option>
-                                       <option>4.4.2 Novo coordenador </option>
-                                       <option>4.5 Alunos</option>
-                                       <option>4.5.1 Histórico</option>
-                                       <option>4.6 Empresas</option>
-                                       <option>4.6.1 Visualizar empresas</option>
-                                       <option>4.6.2 Nova empresa</option>
-                                       <option>4.6.3 Convênio de Empresas</option>
-                               </optgroup>
+            ?>
 
-                           </select>
-                       </div>
-                   </div>
+            <?php
+            for($n1 = 0; $n1 < sizeof($t1); $n1++)
+            {
+            $i1 = $n1 + 1;
+            ?>
 
-            <!--       <h2> iNDEX</h2> -->
-                    <br>
-                    <p id="ConfSist" style="font-size: 22px">Configurações do sistema</h2></p>
+            <section class="accordion">
+                <input type="checkbox" name="collapse" id="handle<?php echo $i1; ?>">
+                <h2 class="handle">
+                    <label for="handle<?php echo $i1; ?>"><b><?php echo $i1.'.'; ?></b> <?php echo $t1[$n1]; ?></label>
+                </h2>
+                <div class="hcontent">
+                    <?php
 
-                    &nbsp1-<a href="#ConfSist">Configurações do sistema</a>
-                    <br>
+                    for($n2 = 0; $n2 < sizeof($t2[$n1]); $n2++)
+                    {
+                    $i2 = $n2 + 1;
+                    ?>
 
-                    &emsp;1.1
-                    <a href="#ConfSist">Parâmetros do sistema</a> <br>
-                    &emsp; &emsp;1.2<a href="#ConfSist">Estágio</a> <br>
-        <br>
+                    <section class="accordion">
+                        <input type="checkbox" name="collapse" id="handle<?php echo $i1.'.'.$i2; ?>">
+                        <h2 class="handle">
+                            <label for="handle<?php echo $i1.'.'.$i2; ?>"><b><?php echo $i1.'.'.$i2.'.'; ?></b> <?php echo $t2[$n1][$n2][0]; ?></label>
+                        </h2>
+                        <div class="hcontent">
+                            <div class="tabs">
+                                <div id="tab<?php echo $i1.'.'.$i2; ?>.2" class="tab">
+                                    <ul class="nav nav-tabs">
+                                        <li><a href="#tab<?php echo $i1.'.'.$i2; ?>.1">Tutorial</a></li>
+                                        <li class="active"><a href="#tab<?php echo $i1.'.'.$i2; ?>.2">Vídeo</a></li>
+                                    </ul>
 
-
-                    <p id="FuncExtras" style="font-size: 22px">Funcionalidades extras</p>
-                    &nbsp2-  <a href="#FuncExtras">Funcionalidades extras</a> <br>
-                    &emsp;2.1
-                    <a href="#FuncExtras">Mensagem
-                        </a> <br>
-                    &emsp; &emsp;2.2<a href="#FuncExtras">Logs</a> <br>
-                    <br>
-
-
-                    <p id="PagInicial" style="font-size: 22px">Página inicial
-                    </p>
-
-
-
-                    &nbsp3-<a href="#PagInicial">Página inicial</a>
-                    <br>
-                    &emsp;3.1
-                    <a href="#Notifica">Notificações</a> <br>
-                    <br>
-
-                    <p id="FuncSistema" style="font-size: 22px">Funcionalidades do sistema</p>
-
-                    &emsp;4-  <a href="#FuncSistema">Funcionalidades do sistema</a> <br>
-                    &nbsp &emsp;4.1
-                    <a href="#FuncExtras">Estágio
-                    </a> <br>
-
-
-                    &emsp;&emsp;&emsp;4.1.1
-                    <a href="#TermoAd">Relatório bimestral</a> <br>
-                    &emsp;&emsp;&emsp;4.1.2
-                    <a href="#RelatorioFinal">Relatório final</a> <br>
-                    &emsp;&emsp;&emsp;4.1.3
-                    <a href="#VisuEstagio">Visualizar estágio</a> <br>
-                    &emsp;&emsp;&emsp;4.1.4
-                    <a href="#NovoEstagio">Novo estágio</a> <br>
+                                    <p>
+                                        <?php echo $t2[$n1][$n2][2]; ?>
+                                    </p>
+                                </div>
 
 
-        <br>
+                                <div id="tab<?php echo $i1.'.'.$i2; ?>.1" class="tab">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#tab<?php echo $i1.'.'.$i2; ?>.1">Tutorial</a></li>
+                                        <li><a href="#tab<?php echo $i1.'.'.$i2; ?>.2">Vídeo</a></li>
+                                    </ul>
 
-                    &emsp;&emsp;4.2
-                    <a href="#Usuarios">Usuários</a> <br>
-                    &emsp;&emsp;&emsp;4.2.1
-                    <a href="#VisUsuarios">Visualizar usuários</a> <br>
-                    &emsp;&emsp;&emsp;4.2.2
-                    <a href="#NovoUsuario">Novo usuário </a> <br>
+                                    <p>
+                                        <?php echo $t2[$n1][$n2][1]; ?>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
+                    <?php
+                    }
+                    ?>
+                </div>
+            </section>
 
-                    <br>
-
-
-                    &emsp;&emsp;4.3
-                    <a href="#Cursos">Cursos</a> <br>
-                    &emsp;&emsp;&emsp;4.3.1
-                    <a href="#VisuCuros">Visualizar cursos</a> <br>
-                    &emsp;&emsp;&emsp;4.3.2
-                    <a href="#NovoCurso">Novo curso </a> <br>
-
-
-                    <br>
-
-
-                    &emsp;&emsp;4.4
-                    <a href="#Coodenadores">Coordenadores</a> <br>
-                    &emsp;&emsp;&emsp;4.4.1
-                    <a href="#VisuCoordenadores">Visualizar coordenadores</a> <br>
-                    &emsp;&emsp;&emsp;4.4.2
-                    <a href="#NovoCoordenador">Novo coordenador </a> <br>
-
-
-                    <br>
-
-
-
-
-                    &emsp;&emsp;4.5
-                    <a href="#Alunos">Alunos</a> <br>
-                    &emsp;&emsp;&emsp;4.5.1
-                    <a href="#Historicos">Histórico</a> <br>
-                    <br>
-
-
-                    &emsp;&emsp;4.6
-                    <a href="#Empresas">Empresas</a> <br>
-                    &emsp;&emsp;&emsp;4.6.1
-                    <a href="#VisualizarEmpresas"> Visualizar empresas</a> <br>
-                    &emsp;&emsp;&emsp;4.6.2
-                    <a href="#NovoCoordenador"> Nova empresa</a> <br>
-                    &emsp;&emsp;&emsp;4.6.3
-                    <a href="#ConvênioEmpresas"> Convênio de Empresas</a> <br>
-
-
-
-                    <br>
-                    <p id="PagInicial">Página inicial
-                    </p>
-                    <!--
-        -------------------------------------------------------------------------------------------------------------
-                        <p id="Notifica">Notificações</p>
-        -------------------------------------------------------------------------------------------------------------
-                    <p id="NovoPlano">Novo plano de Estagio</p>
-        -------------------------------------------------------------------------------------------------------------
-                    <p id="Coodenadores">Coodenadores</p>
-        -------------------------------------------------------------------------------------------------------------
-                    <p id="VisuCoordenadores">Visualizar coordenadores</p>
-        -------------------------------------------------------------------------------------------------------------
-                    <p id="NovoCurso">Novo curso</p>
-        -------------------------------------------------------------------------------------------------------------
-                    <p id="NovoEstagio">Novo estágio</p>
-        -------------------------------------------------------------------------------------------------------------
-                    <p id="ConfSist">Configurações do sistema</p>
-        -------------------------------------------------------------------------------------------------------------
-                    <p id="FuncExtras">Funcionalidades extras</p>
-        -------------------------------------------------------------------------------------------------------------
-                    <p id="FuncSistema">Funcionalidades do sistema</p>
-        -------------------------------------------------------------------------------------------------------------
-                    <p id="Estagio">Estágio</p>
-        -------------------------------------------------------------------------------------------------------------
-                    <p id="Estagio">Relatório bimestral</p>
-        -------------------------------------------------------------------------------------------------------------
-                    <p id="NovoCoordenador">Novo coordenador</p>
-        -------------------------------------------------------------------------------------------------------------
-                    <p id="Alunos">Alunos</p>
-        -------------------------------------------------------------------------------------------------------------
-                    <p id="Historicos">Historicos</p>
-
-        -------------------------------------------------------------------------------------------------------------
-                    <p id="Empresas">Empresas</p>
-        -------------------------------------------------------------------------------------------------------------
-                    <p id="VisualizarEmpresas">Visualizar empresas</p>
-        -------------------------------------------------------------------------------------------------------------
-                    <p id="ConvênioEmpresas">Convênio de Empresas</p>
-
-                    -->
+            <?php
+            }
+            ?>
 
         </div>
     </div>
+@endsection
+
+@section('js')
+    <!--
+    <script src="https://kit.fontawesome.com/085f790a05.js"></script>
+    !-->
+
+
+
 @endsection

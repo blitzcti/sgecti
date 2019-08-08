@@ -38,7 +38,7 @@ class InternshipController extends Controller
 
     public function create()
     {
-        $companies = Company::all()->where('active', '=', true);
+        $companies = Company::all()->where('active', '=', true)->sortBy('id');
         $s = request()->s;
 
         return view('coordinator.internship.new')->with(
@@ -57,7 +57,7 @@ class InternshipController extends Controller
             abort(404);
         }
 
-        $companies = Company::all()->where('active', '=', true);
+        $companies = Company::all()->where('active', '=', true)->sortBy('id');
 
         return view('coordinator.internship.edit')->with([
             'internship' => $internship, 'companies' => $companies,

@@ -489,7 +489,7 @@
                         <select class="selection" name="supervisor" id="inputSupervisor"
                                 style="width: 100%">
 
-                            @foreach((\App\Models\Company::find(old('company'))->supervisors ?? $companies->first()->supervisors ?? []) as $supervisor)
+                            @foreach(((\App\Models\Company::find(old('company')) ?? $companies->first())->supervisors ?? []) as $supervisor)
 
                                 <option value="{{ $supervisor->id }}" {{ (old('supervisor') ?? 1) == $supervisor->id ? "selected" : "" }}>
                                     {{ $supervisor->name }}

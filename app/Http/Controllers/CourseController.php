@@ -90,16 +90,6 @@ class CourseController extends Controller
         $config->min_grade = $validatedData->minMark;
 
         $saved = $config->save();
-
-        $coordinator = new Coordinator();
-
-        $coordinator->created_at = Carbon::now();
-        $coordinator->course_id = $course->id;
-        $coordinator->user_id = $validatedData->user;
-        $coordinator->start_date = $course->startDate;
-        $coordinator->end_date = $course->endDate;
-
-        $saved = $coordinator->save();
         $log .= "\nNovos dados: " . json_encode($course, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         if ($saved) {

@@ -34,10 +34,6 @@ class StoreCourse extends FormRequest
             'minMonth' => 'required|numeric|min:1',
             'minMonthCTPS' => 'required|numeric|min:1',
             'minMark' => 'required|numeric|min:0|max:10',
-
-            'user' => 'required|numeric|min:1',
-            'startDate' => 'required|date|before:endDate',
-            'endDate' => 'date|after:startDate',
         ];
     }
 }

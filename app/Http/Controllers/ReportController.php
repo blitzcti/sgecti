@@ -55,6 +55,16 @@ class ReportController extends Controller
         return view('coordinator.report.final.new')->with(['internships' => $internships, 'i' => $i]);
     }
 
+    public function editBimestral($id)
+    {
+
+    }
+
+    public function editFinal($id)
+    {
+
+    }
+
     public function storeBimestral(StoreBimestral $request)
     {
         $bimestral = new BimestralReport();

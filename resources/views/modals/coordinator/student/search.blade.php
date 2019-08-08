@@ -155,6 +155,7 @@
                             a.href = `#`;
                             a.onclick = function () {
                                 jQuery('#inputRA').val(student.matricula);
+                                jQuery('#inputStudentName').val(student.nome);
                                 jQuery('#searchStudentModal').modal("hide");
                             };
                             a.innerText = 'Selecionar';

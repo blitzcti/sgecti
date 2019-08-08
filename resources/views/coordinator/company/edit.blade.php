@@ -488,25 +488,16 @@
                             jQuery('#inputFantasyName').val(company.fantasyName);
                             jQuery('#inputEmail').val(company.email);
                             jQuery('#inputPhone').val(company.phone);
-                            jQuery('#inputCep').val(company.cep).blur();
+                            jQuery('#inputCep').val(company.cep);
 
-                            if (company.uf !== '') {
-                                jQuery('#inputUf').append(new Option(company.uf, company.uf, false, true)).change();
-                            } else {
-                                jQuery('#inputUf').val(company.uf);
-                            }
-
-
-                            if (company.city !== '') {
-                                jQuery('#inputCity').append(new Option(company.city, company.city, false, true));
-                            } else {
-                                jQuery('#inputCity').val(company.city);
-                            }
-
-                            jQuery('#inputStreet').val(company.street);
-                            jQuery('#inputNumber').val(company.number);
-                            jQuery('#inputComplement').val(company.complement);
-                            jQuery('#inputDistrict').val(company.district);
+                            loadCep({
+                                uf: company.uf,
+                                city: company.city,
+                                street: company.street,
+                                number: company.number,
+                                complement: company.complement,
+                                district: company.district
+                            });
                         },
 
                         error: function () {
@@ -522,62 +513,78 @@
                 }
             }
 
-            function loadCep() {
+            function loadCep(data = null) {
                 $("#cepLoadingModal").modal({
                     backdrop: "static",
                     keyboard: false,
                     show: true
                 });
 
-                let xhttp = new XMLHttpRequest();
-                xhttp.open("GET", `/api/external/cep/${jQuery('#inputCep').inputmask('unmaskedvalue')}`, true);
-                xhttp.onreadystatechange = function () {
-                    $("#cepLoadingModal").modal("hide");
+                jQuery.ajax({
+                    url: `/api/external/cep/${jQuery('#inputCep').inputmask('unmaskedvalue')}`,
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (address) {
+                        $("#cepLoadingModal").modal("hide");
 
-                    if (this.readyState === 4) {
-                        if (this.status === 200) {
-                            let address = JSON.parse(xhttp.responseText);
-                            if (address.error) {
-                                $("#cepErrorModal").modal({
-                                    backdrop: "static",
-                                    keyboard: false,
-                                    show: true
-                                });
+                        let fields = [
+                            'street', 'number', 'complement', 'district', 'city', 'uf'
+                        ];
 
-                                address.street = '';
-                                address.complement = '';
-                                address.district = '';
-                                address.city = '';
-                                address.uf = '';
-                            }
-
-                            jQuery('#inputStreet').val(address.street);
-                            jQuery('#inputComplement').val(address.complement);
-                            jQuery('#inputDistrict').val(address.district);
-
-                            if (address.city !== '') {
-                                jQuery('#inputCity').append(new Option(address.city, address.city, false, true));
-                            } else {
-                                jQuery('#inputCity').val(address.city);
-                            }
-
-
-                            if (address.uf !== '') {
-                                jQuery('#inputUf').append(new Option(address.uf, address.uf, false, true)).change();
-                            } else {
-                                jQuery('#inputUf').val(address.uf);
-                            }
-                        } else {
+                        if (address.error) {
                             $("#cepErrorModal").modal({
                                 backdrop: "static",
                                 keyboard: false,
                                 show: true
                             });
-                        }
-                    }
-                };
 
-                xhttp.send();
+                            fields.forEach(f => {
+                                address[f] = '';
+                            });
+                        }
+
+                        if (data !== null && typeof data === "object") {
+                            if (!address.hasOwnProperty('number')) {
+                                address.number = '';
+                            }
+
+                            fields.forEach(f => {
+                                if (address[f] === '') {
+                                    address[f] = data[f];
+                                }
+                            });
+
+                            jQuery('#inputNumber').val(address.number);
+                        }
+
+                        jQuery('#inputStreet').val(address.street);
+                        jQuery('#inputComplement').val(address.complement);
+                        jQuery('#inputDistrict').val(address.district);
+
+                        if (address.city !== '') {
+                            jQuery('#inputCity').append(new Option(address.city, address.city, false, true));
+                        } else {
+                            jQuery('#inputCity').val(address.city);
+                        }
+
+
+                        if (address.uf !== '') {
+                            jQuery('#inputUf').append(new Option(address.uf, address.uf, false, true)).change();
+                        } else {
+                            jQuery('#inputUf').val(address.uf);
+                        }
+                    },
+
+                    error: function () {
+                        $("#cepLoadingModal").modal("hide");
+
+                        $("#cepErrorModal").modal({
+                            backdrop: "static",
+                            keyboard: false,
+                            show: true
+                        });
+                    }
+                });
             }
 
             jQuery('#inputCep').blur(() => {

@@ -20,8 +20,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::prefix('')->name('api.')->group(function () {
-    Route::prefix('usuario')->name('usuario.')->group(function () {
+    Route::prefix('usuario')->name('usuario.')->middleware('auth.api')->group(function () {
         Route::prefix('notificacao')->name('notificacao.')->group(function () {
+            Route::get('', 'API\NotificationController@get')->name('get');
+
             Route::prefix('{id}')->group(function () {
                 Route::put('lida', 'API\NotificationController@markAsSeen')->name('lida');
             });
@@ -38,6 +40,7 @@ Route::prefix('')->name('api.')->group(function () {
     Route::prefix('aluno')->name('aluno.')->group(function () {
         Route::get('', 'API\NSac\StudentController@get')->name('get');
         Route::get('ano/{year}', 'API\NSac\StudentController@getByYear')->name('getByYear');
+        Route::get('turma/{class}', 'API\NSac\StudentController@getByClass')->name('getByClass');
 
         Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
             Route::get('', 'API\NSac\StudentController@getByRA')->name('getByRA');

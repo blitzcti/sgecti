@@ -16,7 +16,7 @@
 
                 <div class="modal-body">
                     <div class="form-group @if($errors->has('sectorName')) has-error @endif">
-                        <label for="inputSectorName" class="col-sm-3 control-label">Nome do setor</label>
+                        <label for="inputSectorName" class="col-sm-3 control-label">Nome</label>
 
                         <div class="col-sm-9">
                             <input type="text" class="form-control" id="inputSectorName" name="name"

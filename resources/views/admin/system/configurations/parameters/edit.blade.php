@@ -241,53 +241,53 @@
                     show: true
                 });
 
-                let xhttp = new XMLHttpRequest();
-                xhttp.open("GET", `/api/external/cep/${jQuery('#inputCep').inputmask('unmaskedvalue')}`, true);
-                xhttp.onreadystatechange = function () {
-                    $("#cepLoadingModal").modal("hide");
+                jQuery.ajax({
+                    url: `/api/external/cep/${jQuery('#inputCep').inputmask('unmaskedvalue')}`,
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (address) {
+                        $("#cepLoadingModal").modal("hide");
 
-                    if (this.readyState === 4) {
-                        if (this.status === 200) {
-                            let address = JSON.parse(xhttp.responseText);
-                            if (address.error) {
-                                $("#cepErrorModal").modal({
-                                    backdrop: "static",
-                                    keyboard: false,
-                                    show: true
-                                });
-
-                                address.street = '';
-                                address.district = '';
-                                address.city = '';
-                                address.uf = '';
-                            }
-
-                            jQuery('#inputStreet').val(address.street);
-                            jQuery('#inputDistrict').val(address.district);
-
-                            if (address.city !== '') {
-                                jQuery('#inputCity').append(new Option(address.city, address.city, false, true));
-                            } else {
-                                jQuery('#inputCity').val(address.city);
-                            }
-
-
-                            if (address.uf !== '') {
-                                jQuery('#inputUf').append(new Option(address.uf, address.uf, false, true)).change();
-                            } else {
-                                jQuery('#inputUf').val(address.uf);
-                            }
-                        } else {
+                        if (address.error) {
                             $("#cepErrorModal").modal({
                                 backdrop: "static",
                                 keyboard: false,
                                 show: true
                             });
-                        }
-                    }
-                };
 
-                xhttp.send();
+                            address.street = '';
+                            address.district = '';
+                            address.city = '';
+                            address.uf = '';
+                        }
+
+                        jQuery('#inputStreet').val(address.street);
+                        jQuery('#inputDistrict').val(address.district);
+
+                        if (address.city !== '') {
+                            jQuery('#inputCity').append(new Option(address.city, address.city, false, true));
+                        } else {
+                            jQuery('#inputCity').val(address.city);
+                        }
+
+
+                        if (address.uf !== '') {
+                            jQuery('#inputUf').append(new Option(address.uf, address.uf, false, true)).change();
+                        } else {
+                            jQuery('#inputUf').val(address.uf);
+                        }
+                    },
+
+                    error: function () {
+                        $("#cepLoadingModal").modal("hide");
+
+                        $("#cepErrorModal").modal({
+                            backdrop: "static",
+                            keyboard: false,
+                            show: true
+                        });
+                    }
+                });
             }
 
             jQuery('#inputCep').blur(() => {
@@ -298,8 +298,6 @@
 
             jQuery('#inputUf').append(new Option('{{ old('uf') ?? $systemConfig->uf }}', '{{ old('uf') ?? $systemConfig->uf }}', false, true)).change();
             jQuery('#inputCity').append(new Option('{{ old('city') ?? $systemConfig->city }}', '{{ old('city') ?? $systemConfig->city }}', false, true));
-
-            loadCep();
         });
     </script>
 @endsection

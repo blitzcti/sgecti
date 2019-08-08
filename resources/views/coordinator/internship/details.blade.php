@@ -45,8 +45,8 @@
                 <dt class="col-sm-2">Curso</dt>
                 <dd class="col-sm-10">{{ $internship->student->course->name }}</dd>
 
-                <dt class="col-sm-2">Ano</dt>
-                <dd class="col-sm-10">{{ $internship->student->year }}</dd>
+                <dt class="col-sm-2">Turma</dt>
+                <dd class="col-sm-10">{{ $internship->student->turma }} ({{ $internship->student->turma_ano }})</dd>
 
                 <dt class="col-sm-2">Email</dt>
                 <dd class="col-sm-10">{{ $internship->student->email }}</dd>

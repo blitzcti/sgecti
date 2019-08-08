@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\NSac;
 
 use App\Http\Controllers\Controller;
 use App\Models\NSac\Student;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -72,6 +73,30 @@ class StudentController extends Controller
         if ((new Student())->isConnected()) {
             $year = substr($year, 2, 2);
             $students = Student::where('matricula', 'LIKE', "$year%")->get();
+            $students = array_values($students->toArray());
+        } else {
+            $students = null;
+        }
+
+        return response()->json(
+            $students,
+            200,
+            [
+                'Content-Type' => 'application/json; charset=UTF-8',
+                'charset' => 'utf-8'
+            ],
+            JSON_UNESCAPED_UNICODE);
+    }
+
+    public function getByClass($class, Request $request)
+    {
+        if ((new Student())->isConnected()) {
+            $year = Carbon::now()->year;
+            if (!empty($request->year) && ctype_digit($request->year)) {
+                $year = $request->year;
+            }
+
+            $students = Student::where('turma', '=', $class)->where('turma_ano', '=', $year)->get();
             $students = array_values($students->toArray());
         } else {
             $students = null;

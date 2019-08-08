@@ -34,7 +34,7 @@ class Student extends Model
      *
      * @var array
      */
-    protected $appends = ['course_id', 'year'];
+    protected $appends = ['course_id', 'year', 'grade', 'class'];
 
     public function getCourseIdAttribute()
     {
@@ -47,6 +47,18 @@ class Student extends Model
         $y = substr($this->matricula, 0, 2);
         $y = (intval($y) < 82) ? "20$y" : "19$y";
         return intval($y);
+    }
+
+    public function getGradeAttribute()
+    {
+        $g = substr($this->turma, 1, 1);
+        return $g;
+    }
+
+    public function getClassAttribute()
+    {
+        $c = substr($this->turma, 2, 1);
+        return $c;
     }
 
     public function internship()

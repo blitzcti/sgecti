@@ -208,7 +208,7 @@
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
     <script type="text/javascript">
         jQuery(document).ready(function () {
-            jQuery('.has-error').on('focusin', function () {
+            function removeHasError() {
                 // Remove the has-error class when the user focuses the input
                 this.classList.remove('has-error');
 
@@ -217,16 +217,12 @@
                 if (help_block !== null) {
                     help_block.remove();
                 }
-            });
+            }
+
+            jQuery('.has-error').on('focusin', removeHasError).on('change', removeHasError);
         });
 
         function markAsSeen(id) {
-            jQuery.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            });
-
             jQuery.ajax({
                 url: `/api/usuario/notificacao/${id}/lida`,
                 method: 'POST',

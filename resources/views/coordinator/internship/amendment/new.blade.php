@@ -482,7 +482,7 @@
 
             jQuery('#fakeInputHas2Turnos').on('ifChanged', function () {
                 if (this.checked) {
-                    jQuery('#weekDays2').css('display', 'initial');
+                    jQuery('#weekDays2').css('display', 'block');
                     jQuery('#inputHas2Turnos').val(1);
                 } else {
                     jQuery('#weekDays2').css('display', 'none');

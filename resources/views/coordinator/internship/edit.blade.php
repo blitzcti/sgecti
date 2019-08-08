@@ -69,6 +69,15 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label for="inputStudentName" class="col-sm-2 control-label">Aluno</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputStudentName" name="student" readonly
+                               value="{{ App\Models\NSac\Student::find(old('ra') ?? $internship->ra)->nome ?? '' }}"/>
+                    </div>
+                </div>
+
                 <div class="form-group @if($errors->has('company')) has-error @endif">
                     <label for="inputCompany" class="col-sm-2 control-label">Empresa*</label>
 
@@ -595,7 +604,7 @@
 
             jQuery('#fakeInputHasCTPS').on('ifChanged', function () {
                 if (this.checked) {
-                    jQuery('#div-ctps').css('display', 'initial');
+                    jQuery('#div-ctps').css('display', 'block');
                     jQuery('#inputHasCTPS').val(1);
                 } else {
                     jQuery('#div-ctps').css('display', 'none');
@@ -609,7 +618,7 @@
 
             jQuery('#fakeInputHas2Turnos').on('ifChanged', function () {
                 if (this.checked) {
-                    jQuery('#weekDays2').css('display', 'initial');
+                    jQuery('#weekDays2').css('display', 'block');
                     jQuery('#inputHas2Turnos').val(1);
                 } else {
                     jQuery('#weekDays2').css('display', 'none');
@@ -633,62 +642,62 @@
 
                     },
                 });
-            });
 
-            jQuery('#inputSector').select2({
-                language: "pt-BR",
-                ajax: {
-                    url: `/api/empresa/${jQuery('#inputCompany').val()}/setor/`,
-                    dataType: 'json',
-                    method: 'GET',
-                    cache: true,
-                    data: function (params) {
-                        return {
-                            q: params.term // search term
-                        };
-                    },
+                jQuery('#inputSector').select2({
+                    language: "pt-BR",
+                    ajax: {
+                        url: `/api/empresa/${jQuery('#inputCompany').val()}/setor/`,
+                        dataType: 'json',
+                        method: 'GET',
+                        cache: true,
+                        data: function (params) {
+                            return {
+                                q: params.term // search term
+                            };
+                        },
 
-                    processResults: function (response) {
-                        sectors = [];
-                        response.forEach(sector => {
-                            if (sector.active) {
-                                sectors.push({id: sector.id, text: sector.name});
-                            }
-                        });
+                        processResults: function (response) {
+                            sectors = [];
+                            response.forEach(sector => {
+                                if (sector.active) {
+                                    sectors.push({id: sector.id, text: sector.name});
+                                }
+                            });
 
-                        return {
-                            results: sectors
-                        };
-                    },
-                }
-            });
+                            return {
+                                results: sectors
+                            };
+                        },
+                    }
+                });
 
-            jQuery('#inputSupervisor').select2({
-                language: "pt-BR",
-                ajax: {
-                    url: `/api/empresa/${jQuery('#inputCompany').val()}/supervisor/`,
-                    dataType: 'json',
-                    method: 'GET',
-                    cache: true,
-                    data: function (params) {
-                        return {
-                            q: params.term // search term
-                        };
-                    },
+                jQuery('#inputSupervisor').select2({
+                    language: "pt-BR",
+                    ajax: {
+                        url: `/api/empresa/${jQuery('#inputCompany').val()}/supervisor/`,
+                        dataType: 'json',
+                        method: 'GET',
+                        cache: true,
+                        data: function (params) {
+                            return {
+                                q: params.term // search term
+                            };
+                        },
 
-                    processResults: function (response) {
-                        supervisors = [];
-                        response.forEach(supervisor => {
-                            if (supervisor.active) {
-                                supervisors.push({id: supervisor.id, text: supervisor.name});
-                            }
-                        });
+                        processResults: function (response) {
+                            supervisors = [];
+                            response.forEach(supervisor => {
+                                if (supervisor.active) {
+                                    supervisors.push({id: supervisor.id, text: supervisor.name});
+                                }
+                            });
 
-                        return {
-                            results: supervisors
-                        };
-                    },
-                }
+                            return {
+                                results: supervisors
+                            };
+                        },
+                    }
+                });
             });
         });
     </script>

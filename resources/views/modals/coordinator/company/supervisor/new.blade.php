@@ -17,36 +17,36 @@
 
                 <div class="modal-body">
                     <div class="form-group @if($errors->has('supervisorName')) has-error @endif">
-                        <label for="inputSupervisorName" class="col-sm-4 control-label">Nome do supervisor*</label>
+                        <label for="inputSupervisorName" class="col-sm-3 control-label">Nome*</label>
 
-                        <div class="col-sm-8">
+                        <div class="col-sm-9">
                             <input type="text" class="form-control" id="inputSupervisorName" name="supervisorName"
                                    placeholder="André Castro"/>
                         </div>
                     </div>
 
                     <div class="form-group @if($errors->has('supervisorEmail')) has-error @endif">
-                        <label for="inputSupervisorEmail" class="col-sm-4 control-label">Email*</label>
+                        <label for="inputSupervisorEmail" class="col-sm-3 control-label">Email*</label>
 
-                        <div class="col-sm-8">
+                        <div class="col-sm-9">
                             <input type="email" class="form-control" id="inputSupervisorEmail" name="supervisorEmail"
                                    placeholder="andcastro28@gmail.com"/>
                         </div>
                     </div>
 
                     <div class="form-group @if($errors->has('supervisorPhone')) has-error @endif">
-                        <label for="inputSupervisorPhone" class="col-sm-4 control-label">Telefone*</label>
+                        <label for="inputSupervisorPhone" class="col-sm-3 control-label">Telefone*</label>
 
-                        <div class="col-sm-8">
+                        <div class="col-sm-9">
                             <input type="text" class="form-control" id="inputSupervisorPhone" name="supervisorPhone"
                                    placeholder="(14) 93103-6150" data-inputmask="'mask': '(99) 99999-9999'"/>
                         </div>
                     </div>
 
                     <div class="form-group @if($errors->has('company')) has-error @endif">
-                        <label for="inputSupervisorCompany" class="col-sm-4 control-label">Empresa*</label>
+                        <label for="inputSupervisorCompany" class="col-sm-3 control-label">Empresa*</label>
 
-                        <div class="col-sm-8">
+                        <div class="col-sm-9">
                             <select class="selection" name="company" id="inputSupervisorCompany"
                                     style="width: 100%">
 

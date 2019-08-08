@@ -34,7 +34,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 Route::get('alterarSenha', 'UserController@changeCUserPassword')->name('alterarSenha');
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('logs', [
         'middleware' => 'role:admin',
         'uses' => '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index'
@@ -118,7 +118,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 });
 
-Route::prefix('coordenador')->name('coordenador.')->group(function () {
+Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(function () {
     Route::prefix('empresa')->name('empresa.')->group(function () {
         Route::get('', 'CompanyController@index')->name('index');
         Route::get('novo', 'CompanyController@create')->name('novo');
@@ -231,7 +231,7 @@ Route::prefix('coordenador')->name('coordenador.')->group(function () {
     });
 });
 
-Route::prefix('aluno')->name('aluno.')->group(function () {
+Route::prefix('aluno')->name('aluno.')->middleware('auth')->group(function () {
 
 });
 

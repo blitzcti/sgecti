@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c7edf9ea600bde9b4a3e32bb1f89d067",
+    "content-hash": "cc0fa7d341413b03a78d7828c0261eea",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1214,6 +1214,51 @@
             ],
             "description": "Flysystem adapter for SFTP",
             "time": "2019-04-25T10:20:55+00:00"
+        },
+        {
+            "name": "lrgt/laravel-form-ajax-validation",
+            "version": "5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guicho0601/laravel-form-ajax-validation.git",
+                "reference": "9a54ed5ce0bf56ec23a12932320718ab1fa471f0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guicho0601/laravel-form-ajax-validation/zipball/9a54ed5ce0bf56ec23a12932320718ab1fa471f0",
+                "reference": "9a54ed5ce0bf56ec23a12932320718ab1fa471f0",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=5.2.0",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Lrgt\\LaravelFormAjaxValidation": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Luis Ramos",
+                    "role": "Developer",
+                    "email": "guicholarg@gmail.com"
+                }
+            ],
+            "description": "Make ajax validation with Laravel Requests for forms with bootstrap",
+            "homepage": "https://github.com/guicho0601/laravel-form-ajax-validation",
+            "keywords": [
+                "ajax",
+                "form",
+                "laravel",
+                "validation"
+            ],
+            "time": "2016-05-03T12:36:48+00:00"
         },
         {
             "name": "monolog/monolog",

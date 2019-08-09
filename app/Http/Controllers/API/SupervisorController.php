@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreSupervisor;
+use App\Http\Requests\API\StoreSupervisor;
+use App\Http\Requests\API\UpdateSupervisor;
 use App\Models\Company;
 use App\Models\Sector;
 use App\Models\Supervisor;
@@ -32,7 +33,7 @@ class SupervisorController extends Controller
 
     public function get(Request $request)
     {
-        $supervisors = Supervisor::all();
+        $supervisors = Supervisor::all()->sortBy('id');
         if (!empty($request->q)) {
             $supervisors = $this->search($supervisors->toArray(), $request->q, 'name');
         }
@@ -78,54 +79,38 @@ class SupervisorController extends Controller
             JSON_UNESCAPED_UNICODE);
     }
 
-    public function store(Request $request)
+    public function store(StoreSupervisor $request)
     {
         $supervisor = new Supervisor();
         $params = [];
 
-        if (!$request->exists('cancel')) {
-            $validatedData = \Validator::make($request->all(), (new StoreSupervisor())->rules());
+        $supervisor->created_at = Carbon::now();
+        $supervisor->name = $request->input('supervisorName');
+        $supervisor->email = $request->input('supervisorEmail');
+        $supervisor->phone = $request->input('supervisorPhone');
+        $supervisor->company_id = $request->input('company');
 
-            if ($validatedData->fails()) {
-                return response()->json(['errors' => $validatedData->errors()->all()]);
-            }
+        $saved = $supervisor->save();
 
-            $supervisor->created_at = Carbon::now();
-            $supervisor->name = $request->input('supervisorName');
-            $supervisor->email = $request->input('supervisorEmail');
-            $supervisor->phone = $request->input('supervisorPhone');
-            $supervisor->company_id = $request->input('company');
-
-            $saved = $supervisor->save();
-
-            $params['saved'] = $saved;
-        }
+        $params['saved'] = $saved;
 
         return response()->json($params);
     }
 
-    public function update($id, Request $request)
+    public function update($id, UpdateSupervisor $request)
     {
         $supervisor = Sector::all()->find($id);
         $params = [];
 
-        if (!$request->exists('cancel')) {
-            $validatedData = \Validator::make($request->all(), (new StoreSupervisor())->rules());
+        $supervisor->updated_at = Carbon::now();
+        $supervisor->name = $request->input('supervisorName');
+        $supervisor->email = $request->input('supervisorEmail');
+        $supervisor->phone = $request->input('supervisorPhone');
+        $supervisor->company_id = $request->input('company');
 
-            if ($validatedData->fails()) {
-                return response()->json(['errors' => $validatedData->errors()->all()]);
-            }
+        $saved = $supervisor->save();
 
-            $supervisor->updated_at = Carbon::now();
-            $supervisor->name = $request->input('supervisorName');
-            $supervisor->email = $request->input('supervisorEmail');
-            $supervisor->phone = $request->input('supervisorPhone');
-            $supervisor->company_id = $request->input('company');
-
-            $saved = $supervisor->save();
-
-            $params['saved'] = $saved;
-        }
+        $params['saved'] = $saved;
 
         return response()->json($params);
     }

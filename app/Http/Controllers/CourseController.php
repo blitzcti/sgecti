@@ -43,10 +43,9 @@ class CourseController extends Controller
 
     public function create()
     {
-        $colors = Color::all();
-        $users = User::all();
+        $colors = Color::all()->sortBy('id');
 
-        return view('admin.course.new')->with(['colors' => $colors, 'users' => $users]);
+        return view('admin.course.new')->with(['colors' => $colors]);
     }
 
     public function edit($id)
@@ -56,7 +55,7 @@ class CourseController extends Controller
         }
 
         $course = Course::findOrFail($id);
-        $colors = Color::all();
+        $colors = Color::all()->sortBy('id');
 
         return view('admin.course.edit')->with(['course' => $course, 'colors' => $colors]);
     }

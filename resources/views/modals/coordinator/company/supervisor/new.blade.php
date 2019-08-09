@@ -80,7 +80,6 @@
                 jQuery.ajax({
                     url: '{{ route('api.empresa.supervisor.salvar') }}',
                     data: {
-                        '_token': '{{ csrf_token() }}',
                         'supervisorName': jQuery('#inputSupervisorName').val(),
                         'supervisorEmail': jQuery('#inputSupervisorEmail').val(),
                         'supervisorPhone': jQuery('#inputSupervisorPhone').val(),
@@ -88,20 +87,23 @@
                     },
                     method: 'POST',
                     success: function (data) {
-                        if (data.saved) {
-                            jQuery('#inputSupervisorName').val('');
-                            jQuery('#inputSupervisorEmail').val('');
-                            jQuery('#inputSupervisorPhone').val('');
-                            jQuery('#inputSupervisorCompany').select2('val', '1');
+                        jQuery('#inputSupervisorName').val('');
+                        jQuery('#inputSupervisorEmail').val('');
+                        jQuery('#inputSupervisorPhone').val('');
+                        jQuery('#inputSupervisorCompany').select2('val', '1');
 
-                            jQuery('#newInternshipSupervisorModal').modal('hide');
-                        } else {
-                            alert(data.errors.join('\n'));
-                        }
+                        jQuery('#newInternshipSupervisorModal').modal('hide');
                     },
 
                     error: function () {
+                        let errors = [];
+                        for (let key in data.responseJSON.errors) {
+                            data.responseJSON.errors[key].forEach(e => {
+                                errors.push(e);
+                            });
+                        }
 
+                        alert(errors.join('\n'));
                     }
                 });
             });

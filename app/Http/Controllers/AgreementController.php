@@ -28,7 +28,7 @@ class AgreementController extends Controller
 
     public function create()
     {
-        $companies = Company::all()->where('active', '=', true);
+        $companies = Company::all()->where('active', '=', true)->sortBy('id');
         return view('coordinator.company.agreement.new')->with(['companies' => $companies]);
     }
 

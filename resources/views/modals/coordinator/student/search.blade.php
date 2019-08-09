@@ -75,7 +75,7 @@
         let s = 0;
 
         let courses = [
-            @foreach(App\Models\Course::all() as $course)
+            @foreach(App\Models\Course::all()->sortBy('id') as $course)
             {name: '{{ $course->name }}'},
             @endforeach
         ];

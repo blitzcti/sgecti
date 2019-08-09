@@ -39,7 +39,7 @@ class CoordinatorController extends Controller
 
     public function create()
     {
-        $courses = Course::all();
+        $courses = Course::all()->sortBy('id');
         $users = User::whereHas("roles", function ($q) {
             $q->where("name", "teacher");
         })->get();
@@ -52,8 +52,8 @@ class CoordinatorController extends Controller
     public function edit($id)
     {
         $coordinator = Coordinator::findOrFail($id);
-        $users = User::all();
-        $courses = Course::all();
+        $users = User::all()->sortBy('id');
+        $courses = Course::all()->sortBy('id');
 
         return view('admin.coordinator.edit')->with(['coordinator' => $coordinator, 'users' => $users, 'courses' => $courses]);
     }

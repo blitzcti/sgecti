@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreSector;
+use App\Http\Requests\API\StoreSector;
+use App\Http\Requests\API\UpdateSector;
 use App\Models\Company;
 use App\Models\Sector;
 use Carbon\Carbon;
@@ -31,7 +32,7 @@ class SectorController extends Controller
 
     public function get(Request $request)
     {
-        $sectors = Sector::all();
+        $sectors = Sector::all()->sortBy('id');
         if (!empty($request->q)) {
             $sectors = $this->search($sectors->toArray(), $request->q, 'name');
         }
@@ -77,52 +78,36 @@ class SectorController extends Controller
             JSON_UNESCAPED_UNICODE);
     }
 
-    public function store(Request $request)
+    public function store(StoreSector $request)
     {
         $sector = new Sector();
         $params = [];
 
-        if (!$request->exists('cancel')) {
-            $validatedData = \Validator::make($request->all(), (new StoreSector())->rules());
+        $sector->created_at = Carbon::now();
+        $sector->name = $request->input('name');
+        $sector->description = $request->input('description');
+        $sector->active = $request->input('active');
 
-            if ($validatedData->fails()) {
-                return response()->json(['errors' => $validatedData->errors()->all()]);
-            }
+        $saved = $sector->save();
 
-            $sector->created_at = Carbon::now();
-            $sector->name = $request->input('name');
-            $sector->description = $request->input('description');
-            $sector->active = $request->input('active');
-
-            $saved = $sector->save();
-
-            $params['saved'] = $saved;
-        }
+        $params['saved'] = $saved;
 
         return response()->json($params);
     }
 
-    public function update($id, Request $request)
+    public function update($id, UpdateSector $request)
     {
         $sector = Sector::all()->find($id);
         $params = [];
 
-        if (!$request->exists('cancel')) {
-            $validatedData = \Validator::make($request->all(), (new StoreSector())->rules());
+        $sector->updated_at = Carbon::now();
+        $sector->name = $request->input('name');
+        $sector->description = $request->input('description');
+        $sector->active = $request->input('active');
 
-            if ($validatedData->fails()) {
-                return response()->json(['errors' => $validatedData->errors()->all()]);
-            }
+        $saved = $sector->save();
 
-            $sector->updated_at = Carbon::now();
-            $sector->name = $request->input('name');
-            $sector->description = $request->input('description');
-            $sector->active = $request->input('active');
-
-            $saved = $sector->save();
-
-            $params['saved'] = $saved;
-        }
+        $params['saved'] = $saved;
 
         return response()->json($params);
     }

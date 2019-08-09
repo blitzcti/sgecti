@@ -31,8 +31,8 @@ class CompanyController extends Controller
 
     public function create()
     {
-        $sectors = Sector::all()->where('active', '=', true);
-        $courses = Course::all()->where('active', '=', true);
+        $sectors = Sector::all()->where('active', '=', true)->sortBy('id');
+        $courses = Course::all()->where('active', '=', true)->sortBy('id');
 
         return view('coordinator.company.new')->with(['sectors' => $sectors, 'courses' => $courses]);
     }
@@ -41,12 +41,11 @@ class CompanyController extends Controller
     {
         $company = Company::findOrFail($id);
         $address = $company->address;
-        $sectors = Sector::all()->where('active', '=', true);
-        $courses = Course::all()->where('active', '=', true);
-        $agreement = $company->agreements->last();
+        $sectors = Sector::all()->where('active', '=', true)->sortBy('id');
+        $courses = Course::all()->where('active', '=', true)->sortBy('id');
 
         return view('coordinator.company.edit')->with([
-            'company' => $company, 'address' => $address, 'sectors' => $sectors, 'courses' => $courses, 'agreement' => $agreement
+            'company' => $company, 'address' => $address, 'sectors' => $sectors, 'courses' => $courses,
         ]);
     }
 

@@ -51,7 +51,12 @@ class Student extends Model
 
     public function getGradeAttribute()
     {
-        $g = substr($this->turma, 1, 1);
+        if ($this->situacao_matricula > 3) {
+            $g = 4;
+        } else {
+            $g = intval(substr($this->turma, 1, 1));
+        }
+
         return $g;
     }
 

@@ -29,14 +29,14 @@ class SupervisorController extends Controller
 
     public function create()
     {
-        $companies = Company::all()->where('active', '=', true);
+        $companies = Company::all()->where('active', '=', true)->sortBy('id');
         return view('coordinator.company.supervisor.new')->with(['companies' => $companies]);
     }
 
     public function edit($id)
     {
         $supervisor = Supervisor::findOrFail($id);
-        $companies = Company::all()->where('active', '=', true);
+        $companies = Company::all()->where('active', '=', true)->sortBy('id');
 
         return view('coordinator.company.supervisor.edit')->with([
             'supervisor' => $supervisor, 'companies' => $companies,

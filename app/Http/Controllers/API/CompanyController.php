@@ -28,7 +28,7 @@ class CompanyController extends Controller
 
     public function get(Request $request)
     {
-        $companies = Company::all();
+        $companies = Company::all()->sortBy('id');
         if (!empty($request->q)) {
             $companies = $this->search($companies->toArray(), $request->q, 'name');
         }

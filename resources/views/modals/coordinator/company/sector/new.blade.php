@@ -65,26 +65,28 @@
                 jQuery.ajax({
                     url: '{{ route('api.empresa.setor.salvar') }}',
                     data: {
-                        '_token': '{{ csrf_token() }}',
                         'name': jQuery('#inputSectorName').val(),
                         'description': jQuery('#inputSectorDescription').val(),
                         'active': parseInt(jQuery('#inputSectorActive').select2('val'))
                     },
                     method: 'POST',
                     success: function (data) {
-                        if (data.saved) {
-                            jQuery('#inputSectorName').val('');
-                            jQuery('#inputSectorDescription').val('');
-                            jQuery('#inputSectorActive').select2('val', '1');
+                        jQuery('#inputSectorName').val('');
+                        jQuery('#inputSectorDescription').val('');
+                        jQuery('#inputSectorActive').select2('val', '1');
 
-                            jQuery('#newCompanySectorModal').modal('hide');
-                        } else {
-                            alert(data.errors.join('\n'));
-                        }
+                        jQuery('#newCompanySectorModal').modal('hide');
                     },
 
-                    error: function () {
+                    error: function (data) {
+                        let errors = [];
+                        for (let key in data.responseJSON.errors) {
+                            data.responseJSON.errors[key].forEach(e => {
+                                errors.push(e);
+                            });
+                        }
 
+                        alert(errors.join('\n'));
                     }
                 });
             });

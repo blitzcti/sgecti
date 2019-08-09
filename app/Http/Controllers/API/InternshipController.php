@@ -28,7 +28,7 @@ class InternshipController extends Controller
 
     public function get(Request $request)
     {
-        $internships = Internship::all();
+        $internships = Internship::all()->sortBy('id');
         if (!empty($request->q)) {
             $internships = $this->search($internships->toArray(), $request->q, 'state_id');
         }
@@ -59,7 +59,7 @@ class InternshipController extends Controller
 
     public function getByRA($ra)
     {
-        $internships = Internship::all()->where('ra', '=', $ra);
+        $internships = Internship::where('ra', '=', $ra)->get()->sortBy('id');
 
         return response()->json(
             $internships,

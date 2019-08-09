@@ -31,14 +31,15 @@
         <dt class="col-sm-2">Turma</dt>
         <dd class="col-sm-10">{{ $student->turma }} ({{ $student->turma_ano }})</dd>
 
+        <dt class="col-sm-2">Ano de matrícula</dt>
+        <dd class="col-sm-10">{{ $student->year }}</dd>
+
         <dt class="col-sm-2">Email</dt>
         <dd class="col-sm-10">{{ $student->email }}</dd>
 
         <dt class="col-sm-2">Email 2</dt>
         <dd class="col-sm-10">{{ $student->email2 }}</dd>
     </dl>
-
-    <div class="page-break"></div>
 
     @endif
 

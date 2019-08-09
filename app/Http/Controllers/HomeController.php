@@ -34,7 +34,7 @@ class HomeController extends Controller
             $strCourses = $user->coordinator_courses_name;
             $data['strCourses'] =  $strCourses;
 
-            /*$proposals = Proposal::all();
+            /*$proposals = Proposal::all()->sortBy('id');
             $data['proposals'] =  $proposals;*/
         }
 

@@ -220,6 +220,7 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
     Route::prefix('mensagem')->name('mensagem.')->group(function () {
         Route::get('', 'MessageController@coordinatorIndex')->name('index');
         Route::get('teste', 'MessageController@sendInternshipProposalMail');
+        Route::post('enviar', 'MessageController@sendEmail')->name('enviar');
     });
 
     Route::prefix('aluno')->name('aluno.')->group(function () {

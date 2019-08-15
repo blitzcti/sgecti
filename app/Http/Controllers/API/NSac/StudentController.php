@@ -6,9 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\NSac\Student;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('coordinator', ['only' => ['getPhoto']]);
+    }
+
     /**
      * Search for a string in a specific array column
      *
@@ -110,5 +117,23 @@ class StudentController extends Controller
                 'charset' => 'utf-8'
             ],
             JSON_UNESCAPED_UNICODE);
+    }
+
+    public function getPhoto($ra)
+    {
+        $cIds = Auth::user()->coordinator_of->map(function ($course) {
+            return $course->id;
+        })->toArray();
+
+        $student = Student::findOrFail($ra);
+        if (!in_array($student->course->id, $cIds)) {
+            abort(404);
+        }
+
+        if (!Storage::disk('local')->exists("students/$student->matricula.jpg")) {
+            abort(404);
+        }
+
+        return response()->file(storage_path("app/students/$student->matricula.jpg"));
     }
 }

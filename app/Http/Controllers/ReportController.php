@@ -108,7 +108,6 @@ class ReportController extends Controller
         $log = "Novo relatório bimestral";
         $log .= "\nUsuário: " . Auth::user()->name;
 
-        $bimestral->created_at = Carbon::now();
         $bimestral->internship_id = $validatedData->internship;
         $bimestral->date = $validatedData->date;
         $bimestral->protocol = $validatedData->protocol;
@@ -137,7 +136,6 @@ class ReportController extends Controller
         $log = "Novo relatório final";
         $log .= "\nUsuário: " . Auth::user()->name;
 
-        $final->created_at = Carbon::now();
         $final->internship_id = $validatedData->internship;
         $final->date = $validatedData->date;
 
@@ -193,7 +191,6 @@ class ReportController extends Controller
         $log .= "\nUsuário: " . Auth::user()->name;
         $log .= "\nDados antigos: " . json_encode($bimestral, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        $bimestral->updated_at = Carbon::now();
         $bimestral->internship_id = $validatedData->internship;
         $bimestral->date = $validatedData->date;
         $bimestral->protocol = $validatedData->protocol;
@@ -223,7 +220,6 @@ class ReportController extends Controller
         $log .= "\nUsuário: " . Auth::user()->name;
         $log .= "\nDados antigos: " . json_encode($final, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        $final->updated_at = Carbon::now();
         $final->internship_id = $validatedData->internship;
         $final->date = $validatedData->date;
 
@@ -245,7 +241,6 @@ class ReportController extends Controller
         $final->final_grade = 4.9; //formula
         $final->hours_completed = $validatedData->hoursCompleted;
         $final->end_date = $validatedData->endDate;
-        $final->approval_number = $this->generateApprovalNumber($course_id);
         $final->observation = $validatedData->observation;
 
         $coordinator_id = Auth::user()->coordinators->where('course_id', '=', $course_id)->last()->id;

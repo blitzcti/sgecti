@@ -15,7 +15,7 @@
             <h3 class="box-title">Dados do parâmetro</h3>
         </div>
 
-        <form class="form-horizontal" action="{{ route('admin.configuracoes.parametros.alterar', $systemConfig->id) }}" method="post">
+        <form class="form-horizontal" action="{{ route('admin.configuracao.parametros.alterar', $systemConfig->id) }}" method="post">
             @method('PUT')
             @csrf
 
@@ -152,7 +152,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('agreementExpiration')) has-error @endif">
-                            <label for="inputAgreementExpiration" class="col-sm-4 control-label">Validade do convênio*</label>
+                            <label for="inputAgreementExpiration" class="col-sm-4 control-label">Validade do convênio (anos)*</label>
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputAgreementExpiration"

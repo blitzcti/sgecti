@@ -24,7 +24,6 @@ class SystemConfigurationTableSeeder extends Seeder
         $systemConfig->phone = '1431036150';
         $systemConfig->email = 'dir-cti@feb.unesp.br';
         $systemConfig->agreement_expiration = '5';
-        $systemConfig->created_at = Carbon::now();
         $systemConfig->save();
     }
 }

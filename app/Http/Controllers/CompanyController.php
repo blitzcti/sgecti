@@ -9,7 +9,7 @@ use App\Models\Agreement;
 use App\Models\Company;
 use App\Models\Course;
 use App\Models\Sector;
-use Carbon\Carbon;
+use App\Models\SystemConfiguration;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -67,8 +67,8 @@ class CompanyController extends Controller
         $log = "Nova empresa";
         $log .= "\nUsuário: " . Auth::user()->name;
 
-        $company->created_at = Carbon::now();
         $company->cpf_cnpj = $validatedData->cpfCnpj;
+        $company->ie = $validatedData->ie;
         $company->pj = $validatedData->pj;
         $company->name = $validatedData->name;
         $company->fantasy_name = $validatedData->fantasyName;
@@ -80,7 +80,6 @@ class CompanyController extends Controller
 
         $address = new Address();
 
-        $address->created_at = Carbon::now();
         $address->cep = $validatedData->cep;
         $address->uf = $validatedData->uf;
         $address->city = $validatedData->city;
@@ -102,8 +101,7 @@ class CompanyController extends Controller
         if ($validatedData->hasConvenio) {
             $agreement = new Agreement();
 
-            $agreement->created_at = Carbon::now();
-            $agreement->expiration_date = $validatedData->expirationDate;
+            $agreement->expiration_date = SystemConfiguration::getAgreementExpiration();
             $agreement->observation = $validatedData->observation;
 
             //$log .= "\nNovos dados (convênio): " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
@@ -139,7 +137,7 @@ class CompanyController extends Controller
         //$log .= "\nDados antigos (endereço): " . json_encode($address, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         //$log .= "\nDados antigos (convênio): " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        $company->updated_at = Carbon::now();
+        $company->ie = $validatedData->ie;
         $company->name = $validatedData->name;
         $company->fantasy_name = $validatedData->fantasyName;
         $company->email = $validatedData->email;
@@ -150,7 +148,6 @@ class CompanyController extends Controller
 
         $address = $company->address;
 
-        $address->updated_at = Carbon::now();
         $address->cep = $validatedData->cep;
         $address->uf = $validatedData->uf;
         $address->city = $validatedData->city;

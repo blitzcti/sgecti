@@ -4,6 +4,7 @@ namespace App\Models\NSac;
 
 use App\Models\Course;
 use App\Models\Internship;
+use App\Models\Job;
 
 class Student extends Model
 {
@@ -66,6 +67,11 @@ class Student extends Model
         return $c;
     }
 
+    public function getAgeAttribute()
+    {
+        return 16;
+    }
+
     public function internship()
     {
         return $this->hasOne(Internship::class, 'ra')->where('state_id', '=', 1);
@@ -74,6 +80,16 @@ class Student extends Model
     public function finishedInternships()
     {
         return $this->hasMany(Internship::class, 'ra')->where('state_id', '=', 2);
+    }
+
+    public function job()
+    {
+        return $this->hasOne(Job::class, 'ra')->where('state_id', '=', 1);
+    }
+
+    public function finishedJobs()
+    {
+        return $this->hasMany(Job::class, 'ra')->where('state_id', '=', 2);
     }
 
     public function course()

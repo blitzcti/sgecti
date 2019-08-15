@@ -26,6 +26,17 @@
                        class="btn btn-success">Novo estágio</a>
 
                 @endif
+
+                @if($student->job != null)
+                    <a href="{{ route('coordenador.estagio.trabalho.editar', $student->job->id) }}"
+                       class="btn btn-primary">Editar trabalho</a>
+
+                @else
+
+                    <a href="{{ route('coordenador.estagio.trabalho.novo', ['s' => $student->matricula]) }}"
+                       class="btn btn-success">Novo trabalho</a>
+
+                @endif
             </div>
 
             <h3>Dados do aluno</h3>
@@ -90,7 +101,7 @@
             @if(sizeof($student->finishedInternships) == 0)
 
                 <p>O aluno ainda não concluiu um estágio.</p>
-                <hr />
+                <hr/>
 
             @endif
 
@@ -127,7 +138,39 @@
                        target="_blank" class="btn btn-default">Imprimir relatório</a>
                 </div>
 
-                <hr />
+                <hr/>
+
+            @endforeach
+
+            <h3>Trabalhos do aluno</h3>
+
+            @if(sizeof($student->finishedJobs) == 0)
+
+                <p>O aluno ainda não concluiu um trabalho.</p>
+                <hr/>
+
+            @endif
+
+            @foreach($student->finishedJobs as $job)
+
+                <dl class="row">
+                    <dt class="col-sm-2">Empresa</dt>
+                    <dd class="col-sm-10">{{ $job->company->name }}</dd>
+
+                    <dt class="col-sm-2">Setor</dt>
+                    <dd class="col-sm-10">{{ $job->sector->name }}</dd>
+
+                    <dt class="col-sm-2">Supervisor</dt>
+                    <dd class="col-sm-10">{{ $job->supervisor->name }}</dd>
+
+                    <dt class="col-sm-2">Data de início</dt>
+                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($job->start_date)) }}</dd>
+
+                    <dt class="col-sm-2">Data de término</dt>
+                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($job->end_date)) }}</dd>
+                </dl>
+
+                <hr/>
 
             @endforeach
         </div>

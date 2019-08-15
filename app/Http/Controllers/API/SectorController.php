@@ -83,7 +83,6 @@ class SectorController extends Controller
         $sector = new Sector();
         $params = [];
 
-        $sector->created_at = Carbon::now();
         $sector->name = $request->input('name');
         $sector->description = $request->input('description');
         $sector->active = $request->input('active');
@@ -100,7 +99,6 @@ class SectorController extends Controller
         $sector = Sector::all()->find($id);
         $params = [];
 
-        $sector->updated_at = Carbon::now();
         $sector->name = $request->input('name');
         $sector->description = $request->input('description');
         $sector->active = $request->input('active');

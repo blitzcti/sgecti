@@ -30,6 +30,7 @@ class StoreCompany extends FormRequest
             'hasConvenio' => 'required|boolean',
 
             'cpfCnpj' => ['required', 'numeric', 'unique:companies,cpf_cnpj', ($this->get('pj')) ? new CNPJ : new CPF],
+            'ie' => 'nullable|numeric|digits_between:10,10',
             'active' => 'required|boolean',
             'name' => 'required|max:100',
             'fantasyName' => 'max:100',
@@ -50,7 +51,6 @@ class StoreCompany extends FormRequest
             'sectors' => 'required|array|min:1',
             'courses' => 'required|array|min:1',
 
-            'expirationDate' => 'required_if:hasConvenio,==,1|nullable|date',
             'observation' => 'max:200',
         ];
     }

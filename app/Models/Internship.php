@@ -5,7 +5,7 @@ namespace App\Models;
 class Internship extends Model
 {
     protected $fillable = [
-        'ra', 'ctps', 'company_id', 'sector_id', 'coordinator_id', 'schedule_id', 'schedule_2_id', 'supervisor_id',
+        'ra', 'company_id', 'sector_id', 'coordinator_id', 'schedule_id', 'schedule_2_id', 'supervisor_id',
         'state_id', 'start_date', 'end_date', 'protocol', 'activities', 'observation', 'reason_to_cancel', 'active',
     ];
 
@@ -43,7 +43,7 @@ class Internship extends Model
 
     public function schedule2()
     {
-        return $this->belongsTo(Schedule::class, 'schedule_2_id');
+        return $this->belongsTo(Schedule::class, 'schedule_2_id', 'id', 'schedule_id');
     }
 
     public function supervisor()
@@ -59,6 +59,20 @@ class Internship extends Model
     public function amendments()
     {
         return $this->hasMany(Amendment::class);
+    }
+
+    public function not_empty_amendments()
+    {
+        return $this->hasMany(Amendment::class)->get()->filter(function ($a) {
+            $days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+            foreach ($days as $day) {
+                if ($a->schedule->{$day . "_s"} != null || $a->schedule->{$day . "_e"} != null) {
+                    return true;
+                }
+            }
+
+            return false;
+        });
     }
 
     public function bimestral_reports()
@@ -85,18 +99,24 @@ class Internship extends Model
 
     public function getEstimatedHoursAttribute()
     {
-        $h = $this->schedule->countHours($this->start_date, $this->end_date);
+        $amendments = $this->not_empty_amendments();
+
+        $h = $this->schedule->countHours($this->start_date, $this->end_date, $amendments);
         if ($this->schedule2 != null) {
-            $h += $this->schedule2->countHours($this->start_date, $this->end_date);
+            $h += $this->schedule2->countHours($this->start_date, $this->end_date, $amendments);
         }
 
-        if ($this->amendments != null) {
-            foreach ($this->amendments as $amendment) {
-                $h += $amendment->schedule->countHours($amendment->start_date, $amendment->end_date);
+        if ($amendments != null) {
+            foreach ($amendments as $amendment) {
+                $h += $amendment->schedule->countHours($amendment->start_date, $amendment->end_date, $amendments);
 
                 if ($amendment->schedule2 != null) {
-                    $h += $amendment->schedule2->countHours($amendment->start_date, $amendment->end_date);
+                    $h += $amendment->schedule2->countHours($amendment->start_date, $amendment->end_date, $amendments);
                 }
+
+                $amendments = $amendments->filter(function ($a) use ($amendment) {
+                    return $a->id != $amendment->id;
+                });
             }
         }
 

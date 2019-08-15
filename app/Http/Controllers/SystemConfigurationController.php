@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSystemConfiguration;
 use App\Http\Requests\UpdateSystemConfiguration;
 use App\Models\SystemConfiguration;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -46,7 +45,6 @@ class SystemConfigurationController extends Controller
         $log = "Nova configuração do sistema";
         $log .= "\nUsuário: " . Auth::user()->name;
 
-        $systemConfig->created_at = Carbon::now();
         $systemConfig->name = $validatedData->name;
         $systemConfig->cep = $validatedData->cep;
         $systemConfig->uf = $validatedData->uf;
@@ -71,7 +69,7 @@ class SystemConfigurationController extends Controller
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
-        return redirect()->route('admin.configuracoes.parametros.index')->with($params);
+        return redirect()->route('admin.configuracao.parametros.index')->with($params);
     }
 
     public function update($id, UpdateSystemConfiguration $request)
@@ -85,7 +83,6 @@ class SystemConfigurationController extends Controller
         $log .= "\nUsuário: " . Auth::user()->name;
         $log .= "\nDados antigos: " . json_encode($systemConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        $systemConfig->updated_at = Carbon::now();
         $systemConfig->name = $validatedData->name;
         $systemConfig->cep = $validatedData->cep;
         $systemConfig->uf = $validatedData->uf;
@@ -110,6 +107,6 @@ class SystemConfigurationController extends Controller
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
-        return redirect()->route('admin.configuracoes.parametros.index')->with($params);
+        return redirect()->route('admin.configuracao.parametros.index')->with($params);
     }
 }

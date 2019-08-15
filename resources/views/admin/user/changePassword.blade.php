@@ -17,14 +17,14 @@
             @csrf
 
             <div class="box-body">
-                <div class="form-group  @if($errors->has('oldPassword')) has-error @endif">
-                    <label for="inputOldPassword" class="col-sm-2 control-label">Senha atual*</label>
+                <div class="form-group  @if($errors->has('currentPassword')) has-error @endif">
+                    <label for="inputCurrentPassword" class="col-sm-2 control-label">Senha atual*</label>
 
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inputOldPassword" name="old_password"
+                        <input type="password" class="form-control" id="inputCurrentPassword" name="currentPassword"
                                placeholder="Senha atualmente em uso"/>
 
-                        <span class="help-block">{{ $errors->first('oldPassword') }}</span>
+                        <span class="help-block">{{ $errors->first('currentPassword') }}</span>
                     </div>
                 </div>
 
@@ -39,14 +39,14 @@
                     </div>
                 </div>
 
-                <div class="form-group @if($errors->has('passwordConfirmation')) has-error @endif">
+                <div class="form-group @if($errors->has('password_confirmation')) has-error @endif">
                     <label for="inputPasswordConfirmation" class="col-sm-2 control-label">Confirmar senha*</label>
 
                     <div class="col-sm-10">
                         <input type="password" class="form-control" id="inputPasswordConfirmation"
                                name="password_confirmation" placeholder="Confirme a nova senha"/>
 
-                        <span class="help-block">{{ $errors->first('passwordConfirmation') }}</span>
+                        <span class="help-block">{{ $errors->first('password_confirmation') }}</span>
                     </div>
                 </div>
             </div>

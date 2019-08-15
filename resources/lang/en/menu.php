@@ -12,6 +12,7 @@ return [
 
     'users' => 'Users',
 
+    'courseConfig' => 'General course configurations',
     'configurations' => 'Parameters',
     'backup' => 'System backup',
 
@@ -31,8 +32,8 @@ return [
     'sector' => 'Sectors',
 
     'internship' => 'Internships',
-    'ctps' => 'CTPS',
-    'aditive' => 'Aditive term',
+    'job' => 'Jobs',
+    'amendment' => 'Amendments',
 
     'report' => 'Reports',
     'proposal' => 'Proposals',

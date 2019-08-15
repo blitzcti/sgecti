@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Proposal;
-use App\Notifications\CoordinatorNotification;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,10 +27,9 @@ class HomeController extends Controller
         $user = Auth::user();
         $data = ['user' => $user];
 
-        $strCourses = '';
         if ($user->isCoordinator()) {
             $strCourses = $user->coordinator_courses_name;
-            $data['strCourses'] =  $strCourses;
+            $data['strCourses'] = $strCourses;
 
             /*$proposals = Proposal::all()->sortBy('id');
             $data['proposals'] =  $proposals;*/

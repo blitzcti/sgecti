@@ -6,7 +6,7 @@ use App\Http\Requests\StoreAgreement;
 use App\Http\Requests\UpdateAgreement;
 use App\Models\Agreement;
 use App\Models\Company;
-use Carbon\Carbon;
+use App\Models\SystemConfiguration;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -48,9 +48,8 @@ class AgreementController extends Controller
         $log = "Novo convênio";
         $log .= "\nUsuário: " . Auth::user()->name;
 
-        $agreement->created_at = Carbon::now();
         $agreement->company_id = $validatedData->company;
-        $agreement->expiration_date = $validatedData->expirationDate;
+        $agreement->expiration_date = SystemConfiguration::getAgreementExpiration();
         $agreement->observation = $validatedData->observation;
 
         $saved = $agreement->save();
@@ -79,7 +78,6 @@ class AgreementController extends Controller
         $log .= "\nUsuário: " . Auth::user()->name;
         $log .= "\nDados antigos: " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        $agreement->updated_at = Carbon::now();
         $agreement->expiration_date = $validatedData->expirationDate;
         $agreement->observation = $validatedData->observation;
 

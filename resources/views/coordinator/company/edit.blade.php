@@ -70,6 +70,17 @@
                     </div>
                 </div>
 
+                <div class="form-group @if($errors->has('ie')) has-error @endif">
+                    <label for="inputIE" class="col-sm-2 control-label">Inscrição estadual</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputIE" name="ie" placeholder="02.232.3355-6"
+                               data-inputmask="'mask': '99.999.9999-9'" value="{{ old('ie') ?? $company->ie }}"/>
+
+                        <span class="help-block">{{ $errors->first('ie') }}</span>
+                    </div>
+                </div>
+
                 <div class="form-group @if($errors->has('name')) has-error @endif">
                     <label for="inputName" class="col-sm-2 control-label">Nome da empresa*</label>
 

@@ -4,18 +4,18 @@
 
 @section('content')
     <p> Olá, {{ $student->nome }}, </p>
-    <p>A {{ $proposal->company->name }} uma nova vaga de {{ $proposal->type == 1 ? 'estágio' : 'emprego' }} para você!</p>
+    <p>A {{ $proposal->company->name }} tem uma nova vaga de {{ $proposal->type == 1 ? 'estágio' : 'emprego' }} para você!</p>
 
-    <p><b>Descrição da vaga/atividades: </b>{{ $proposal->description }} </p>
-    <p><b>Requisitos: </b>{{ $proposal->requirements }} </p>
-    <p><b>Benefícios: </b>{{ $proposal->benefits }}</p>
+    <span><b>Descrição da vaga/atividades: </b>{{ $proposal->description }} </span><br />
+    <span><b>Requisitos: </b>{{ $proposal->requirements }} </span><br />
+    <span><b>Benefícios: </b>{{ $proposal->benefits }}</span><br />
 
     @if($proposal->remuneration > 0)
-        <p><b>Remuneração: </b>R$ {{ number_format($proposal->remuneration, 2, ',', '.') }} </p>
+        <span><b>Remuneração: </b>R$ {{ number_format($proposal->remuneration, 2, ',', '.') }} </span><br />
     @endif
 
     @if($proposal->observation != null)
-        <p><b>Observações: </b>{{ $proposal->observation }} </p>
+        <span><b>Observações: </b>{{ $proposal->observation }} </span><br />
     @endif
 
     <p>Se interessou pela vaga? {{ $proposal->contact }}</p>

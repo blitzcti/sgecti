@@ -20,7 +20,7 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <a id="addLink" href="{{ route('admin.configuracoes.parametros.novo') }}"
+            <a id="addLink" href="{{ route('admin.configuracao.parametros.novo') }}"
                class="btn btn-success">Adicionar parâmetros</a>
 
             <table id="systemConfigurations" class="table table-bordered table-hover">
@@ -55,7 +55,7 @@
                         <td>{{ $systemConfig->agreement_expiration }}</td>
 
                         <td>
-                            <a href="{{ route('admin.configuracoes.parametros.editar', ['id' => $systemConfig->id]) }}">Editar</a>
+                            <a href="{{ route('admin.configuracao.parametros.editar', ['id' => $systemConfig->id]) }}">Editar</a>
                         </td>
                     </tr>
 

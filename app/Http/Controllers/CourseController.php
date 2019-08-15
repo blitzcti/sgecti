@@ -5,11 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCourse;
 use App\Http\Requests\UpdateCourse;
 use App\Models\Color;
-use App\Models\Coordinator;
 use App\Models\Course;
 use App\Models\CourseConfiguration;
-use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -70,7 +67,6 @@ class CourseController extends Controller
         $log = "Novo curso";
         $log .= "\nUsuário: " . Auth::user()->name;
 
-        $course->created_at = Carbon::now();
         $course->name = $validatedData->name;
         $course->color_id = $validatedData->color;
         $course->active = $validatedData->active;
@@ -79,7 +75,6 @@ class CourseController extends Controller
 
         $config = new CourseConfiguration();
 
-        $config->created_at = Carbon::now();
         $config->course_id = $course->id;
         $config->min_year = $validatedData->minYear;
         $config->min_semester = $validatedData->minSemester;
@@ -114,7 +109,6 @@ class CourseController extends Controller
         $log .= "\nUsuário: " . Auth::user()->name;
         $log .= "\nDados antigos: " . json_encode($course, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        $course->updated_at = Carbon::now();
         $course->name = $validatedData->name;
         $course->color_id = $validatedData->color;
         $course->active = $validatedData->active;

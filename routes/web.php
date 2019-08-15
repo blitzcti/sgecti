@@ -54,7 +54,18 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         });
     });
 
-    Route::prefix('configuracoes')->name('configuracoes.')->group(function () {
+    Route::prefix('configuracao')->name('configuracao.')->group(function () {
+        Route::prefix('curso')->name('curso.')->group(function () {
+            Route::get('', 'GeneralConfigurationController@index')->name('index');
+            Route::get('novo', 'GeneralConfigurationController@create')->name('novo');
+            Route::post('salvar', 'GeneralConfigurationController@store')->name('salvar');
+
+            Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+                Route::get('editar', 'GeneralConfigurationController@edit')->name('editar');
+                Route::put('alterar', 'GeneralConfigurationController@update')->name('alterar');
+            });
+        });
+
         Route::prefix('parametros')->name('parametros.')->group(function () {
             Route::get('', 'SystemConfigurationController@index')->name('index');
             Route::get('novo', 'SystemConfigurationController@create')->name('novo');
@@ -176,6 +187,19 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
             Route::put('cancelar', 'InternshipController@cancel')->name('cancelar');
 
             Route::get('aditivo', 'AmendmentController@indexByInternship')->name('aditivo');
+        });
+
+        Route::prefix('trabalho')->name('trabalho.')->group(function () {
+            Route::get('', 'JobController@index')->name('index');
+            Route::get('novo', 'JobController@create')->name('novo');
+            Route::post('salvar', 'JobController@store')->name('salvar');
+
+            Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+                Route::get('', 'JobController@details')->name('detalhes');
+                Route::get('editar', 'JobController@edit')->name('editar');
+                Route::put('alterar', 'JobController@update')->name('alterar');
+                Route::put('cancelar', 'JobController@cancel')->name('cancelar');
+            });
         });
 
         Route::prefix('aditivo')->name('aditivo.')->group(function () {

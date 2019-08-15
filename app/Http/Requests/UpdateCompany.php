@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\CNPJ;
-use App\Rules\CPF;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCompany extends FormRequest
@@ -28,7 +26,7 @@ class UpdateCompany extends FormRequest
         return [
             'pj' => 'required|boolean',
 
-            'cpfCnpj' => ['required', 'numeric', ($this->get('pj')) ? new CNPJ : new CPF],
+            'ie' => 'nullable|numeric|digits_between:10,10',
             'active' => 'required|boolean',
             'name' => 'required|max:100',
             'fantasyName' => 'max:100',

@@ -8,7 +8,6 @@ use App\Models\Amendment;
 use App\Models\Internship;
 use App\Models\Schedule;
 use App\Models\State;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -68,7 +67,6 @@ class AmendmentController extends Controller
 
         $schedule = new Schedule();
 
-        $schedule->created_at = Carbon::now();
         $schedule->mon_s = $validatedData->monS;
         $schedule->mon_e = $validatedData->monE;
         $schedule->tue_s = $validatedData->tueS;
@@ -86,7 +84,6 @@ class AmendmentController extends Controller
         if ($validatedData->has2Turnos) {
             $schedule2 = new Schedule();
 
-            $schedule2->created_at = Carbon::now();
             $schedule2->mon_s = $validatedData->monS2;
             $schedule2->mon_e = $validatedData->monE2;
             $schedule2->tue_s = $validatedData->tueS2;
@@ -104,7 +101,6 @@ class AmendmentController extends Controller
             $amendment->schedule_2_id = $schedule2->id;
         }
 
-        $amendment->created_at = Carbon::now();
         $amendment->internship_id = $validatedData->internship;
         $amendment->schedule_id = $schedule->id;
         $amendment->start_date = $validatedData->startDate;
@@ -141,7 +137,6 @@ class AmendmentController extends Controller
 
         $schedule = $amendment->schedule;
 
-        $schedule->updated_at = Carbon::now();
         $schedule->mon_s = $validatedData->monS;
         $schedule->mon_e = $validatedData->monE;
         $schedule->tue_s = $validatedData->tueS;
@@ -159,7 +154,6 @@ class AmendmentController extends Controller
         if ($validatedData->has2Turnos) {
             $schedule2 = $amendment->schedule2 ?? new Schedule();
 
-            $schedule2->updated_at = Carbon::now();
             $schedule2->mon_s = $validatedData->monS2;
             $schedule2->mon_e = $validatedData->monE2;
             $schedule2->tue_s = $validatedData->tueS2;
@@ -179,7 +173,6 @@ class AmendmentController extends Controller
             $amendment->schedule_2_id = null;
         }
 
-        $amendment->updated_at = Carbon::now();
         $amendment->start_date = $validatedData->startDate;
         $amendment->end_date = $validatedData->endDate;
         $amendment->new_end_date = $validatedData->newEndDate;

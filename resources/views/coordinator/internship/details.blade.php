@@ -30,6 +30,12 @@
                        onclick="internshipId('{{ $internship->id }}'); studentName('{{ $internship->student->nome }}'); return false;"
                        data-toggle="modal" class="btn btn-danger" data-target="#internshipCancelModal">Cancelar</a>
 
+                @elseif($internship->state->id == 3)
+
+                    <a href="#"
+                       onclick="internshipId('{{ $internship->id }}'); studentName('{{ $internship->student->nome }}'); return false;"
+                       data-toggle="modal" class="btn btn-default" data-target="#internshipReactivateModal">Reativar</a>
+
                 @endif
             </div>
 

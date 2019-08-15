@@ -100,6 +100,8 @@
             <!-- /.box-footer -->
         </div>
 
+        @if((App\Models\Internship::find($i) ?? $internships->first()) != null)
+
         <div class="box box-default">
             <div class="box-header with-border">
                 <h3 class="box-title">Dados do estágio</h3>
@@ -151,6 +153,8 @@
                 </dl>
             </div>
         </div>
+
+        @endif
 
         <div class="box box-default">
             <div class="box-header with-border">

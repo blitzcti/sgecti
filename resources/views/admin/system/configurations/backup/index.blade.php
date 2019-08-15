@@ -13,7 +13,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <form id="formRestaurar" class="form-horizontal"
-                      action="{{ route('admin.configuracoes.backup.restaurar') }}"
+                      action="{{ route('admin.configuracao.backup.restaurar') }}"
                       method="post" enctype="multipart/form-data">
                     @csrf
 
@@ -65,7 +65,7 @@
                 <div class="col-sm-6 text-center">
                     <p>Baixe o banco de dados em formato JSON</p>
 
-                    <a href="{{ route('admin.configuracoes.backup.download') }}" class="btn btn-success">
+                    <a href="{{ route('admin.configuracao.backup.download') }}" class="btn btn-success">
                         <span class="fa fa-download"></span> Fazer backup</a>
                 </div>
 
@@ -85,7 +85,7 @@
         </div>
 
         <div class="box-body">
-            <form action="{{ route('admin.configuracoes.backup.salvarConfig') }}" method="post">
+            <form action="{{ route('admin.configuracao.backup.salvarConfig') }}" method="post">
                 @csrf
 
                 <div class="row">

@@ -18,8 +18,6 @@ class CreateInternshipsTable extends Migration
 
             $table->string('ra', 7);
 
-            $table->string('ctps', 13)->nullable(true)->default(null);
-
             $table->bigInteger('company_id')->nullable(false)->unsigned();
             $table->foreign('company_id')->references('id')->on('companies');
 

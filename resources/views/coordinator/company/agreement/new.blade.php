@@ -36,17 +36,6 @@
                     </div>
                 </div>
 
-                <div class="form-group @if($errors->has('expirationDate')) has-error @endif">
-                    <label for="inputExpirationDate" class="col-sm-2 control-label">Validade*</label>
-
-                    <div class="col-sm-10">
-                        <input type="date" class="form-control" id="inputExpirationDate" name="expirationDate"
-                               value="{{ old('expirationDate') ?? '' }}">
-
-                        <span class="help-block">{{ $errors->first('expirationDate') }}</span>
-                    </div>
-                </div>
-
                 <div class="form-group @if($errors->has('observation')) has-error @endif">
                     <label for="inputObservation" class="col-sm-2 control-label">Observação</label>
 

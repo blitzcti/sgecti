@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangeUserPassword;
 use App\Http\Requests\StoreUser;
 use App\Http\Requests\UpdateUser;
 use App\Models\User;
 use App\Rules\CurrentPassword;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -69,15 +70,13 @@ class UserController extends Controller
 
         $validatedData = (object)$request->validated();
 
-        $user->created_at = Carbon::now();
-        $user->password = Hash::make($validatedData->password);
-
         $log = "Novo usuário";
         $log .= "\nUsuário: " . Auth::user()->name;
 
         $user->name = $validatedData->name;
         $user->email = $validatedData->email;
         $user->phone = $validatedData->phone;
+        $user->password = Hash::make($validatedData->password);
         $user->syncRoles([Role::findOrFail($validatedData->role)->name]);
 
         $log .= "\nNovos dados: " . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
@@ -87,7 +86,7 @@ class UserController extends Controller
         if ($saved) {
             Log::info($log);
         } else {
-            Log::error("Erro ao salvar configuração do sistema");
+            Log::error("Erro ao salvar usuário");
         }
 
         $params['saved'] = $saved;
@@ -107,7 +106,6 @@ class UserController extends Controller
         $log .= "\nUsuário: " . Auth::user()->name;
         $log .= "\nDados antigos: " . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        $user->updated_at = Carbon::now();
         $user->name = $validatedData->name;
         $user->email = $validatedData->email;
         $user->phone = $validatedData->phone;
@@ -119,7 +117,7 @@ class UserController extends Controller
         if ($saved) {
             Log::info($log);
         } else {
-            Log::error("Erro ao salvar configuração do sistema");
+            Log::error("Erro ao salvar usuário");
         }
 
         $params['saved'] = $saved;
@@ -128,26 +126,29 @@ class UserController extends Controller
         return redirect()->route('admin.usuario.index')->with($params);
     }
 
-    public function savePassword($id, Request $request)
+    public function savePassword($id, ChangeUserPassword $request)
     {
+        $log = "Alteração de senha de usuário";
         if (Auth::user()->isAdmin()) {
             $user = User::all()->find($id);
+            $log .= "\nUsuário: " . Auth::user()->name;
         } else {
             $user = Auth::user();
         }
 
         $params = [];
 
-        $validatedData = (object)$request->validate([
-            'old_password' => new CurrentPassword,
-            'password' => 'required|confirmed|min:8',
-        ]);
-
-        $user->updated_at = Carbon::now();
+        $validatedData = (object)$request->validated();
 
         $user->password = Hash::make($validatedData->password);
 
         $saved = $user->save();
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao salvar configuração do sistema");
+        }
 
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSector;
 use App\Http\Requests\UpdateSector;
 use App\Models\Sector;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -47,7 +46,6 @@ class SectorController extends Controller
         $log = "Novo setor";
         $log .= "\nUsuário: " . Auth::user()->name;
 
-        $sector->created_at = Carbon::now();
         $sector->name = $validatedData->name;
         $sector->description = $validatedData->description;
         $sector->active = $validatedData->active;
@@ -78,7 +76,6 @@ class SectorController extends Controller
         $log .= "\nUsuário: " . Auth::user()->name;
         $log .= "\nDados antigos: " . json_encode($sector, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        $sector->updated_at = Carbon::now();
         $sector->name = $validatedData->name;
         $sector->description = $validatedData->description;
         $sector->active = $validatedData->active;

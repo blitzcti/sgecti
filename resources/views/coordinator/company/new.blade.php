@@ -1,7 +1,3 @@
-{{--
-    TODO: empresa => insc municipal, estadual (mei, pf)
---}}
-
 @extends('adminlte::page')
 
 @section('title', 'Nova empresa - SGE CTI')
@@ -76,6 +72,17 @@
                                 <span class="help-block">{{ $errors->first('active') }}</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="form-group @if($errors->has('ie')) has-error @endif">
+                    <label for="inputIE" class="col-sm-2 control-label">Inscrição estadual</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputIE" name="ie" placeholder="02.232.3355-6"
+                               data-inputmask="'mask': '99.999.9999-9'" value="{{ old('ie') ?? '' }}"/>
+
+                        <span class="help-block">{{ $errors->first('ie') }}</span>
                     </div>
                 </div>
 

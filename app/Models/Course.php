@@ -17,9 +17,9 @@ class Course extends Model
     }
 
     public function coordinators()
-{
-    return $this->hasMany(Coordinator::class);
-}
+    {
+        return $this->hasMany(Coordinator::class);
+    }
 
     public function configurations()
     {

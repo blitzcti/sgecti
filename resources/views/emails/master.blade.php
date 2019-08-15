@@ -3,9 +3,13 @@
     <title>@yield('title')</title>
 
     <style type="text/css">
-        #contactDiv {
+        body {
+            font-family: sans-serif;
+            font-size: 12pt;
+        }
+
+        #contact {
             left: 0;
-            font-size: 10pt;
         }
 
         #contact p {
@@ -19,13 +23,13 @@
 <div id="contactDiv">
     <p>Atenciosamente,</p>
     <div id="contact">
-        <p>Prof. {{ $user->name }}</p>
+        <span>Prof. {{ $user->name }}</span><br />
 
         @if($user->isCoordinator())
-            <p>Coordenador de {{ $user->coordinator_courses_name }}</p>
+            <span>Coordenador de {{ $user->coordinator_courses_name }}</span><br />
         @endif
 
-        <p>@if($user->phone != null){{ $user->phone_formated }} | @endif{{ $user->email }}</p>
+        <span>@if($user->phone != null){{ $user->phone_formated }} | @endif{{ $user->email }}</span><br /><br />
     </div>
 </div>
 </body>

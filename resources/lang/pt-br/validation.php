@@ -14,6 +14,7 @@ return [
     'active_url' => 'O campo :attribute não é uma URL válida.',
     'after' => 'O campo :attribute deve ser uma data posterior a :date.',
     'after_or_equal' => 'O campo :attribute deve ser uma data posterior ou igual a :date.',
+    'age' => 'A idade mínima do aluno do campo :attribute é 16 anos.',
     'alpha' => 'O campo :attribute só pode conter letras.',
     'alpha_dash' => 'O campo :attribute só pode conter letras, números e traços.',
     'alpha_num' => 'O campo :attribute só pode conter letras e números.',

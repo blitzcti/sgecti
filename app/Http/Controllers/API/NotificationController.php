@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class NotificationController
 {
-    public function get(Request $request)
+    public function get()
     {
-        $notifications = Auth::user()->notifications;
+        $user = Auth::user();
+        $notifications = $user->notifications;
 
         return response()->json(
             $notifications,

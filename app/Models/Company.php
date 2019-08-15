@@ -5,7 +5,7 @@ namespace App\Models;
 class Company extends Model
 {
     protected $fillable = [
-        'cpf_cnpj', 'pj', 'name', 'fantasy_name', 'email', 'phone', 'representative_name', 'representative_role', 'active', 'address_id',
+        'cpf_cnpj', 'ie', 'pj', 'name', 'fantasy_name', 'email', 'phone', 'representative_name', 'representative_role', 'active', 'address_id',
     ];
 
     public function address()

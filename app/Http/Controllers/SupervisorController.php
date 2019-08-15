@@ -6,8 +6,6 @@ use App\Http\Requests\StoreSupervisor;
 use App\Http\Requests\UpdateSupervisor;
 use App\Models\Company;
 use App\Models\Supervisor;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -53,7 +51,6 @@ class SupervisorController extends Controller
         $log = "Novo supervisor";
         $log .= "\nUsuário: " . Auth::user()->name;
 
-        $supervisor->created_at = Carbon::now();
         $supervisor->name = $validatedData->supervisorName;
         $supervisor->email = $validatedData->supervisorEmail;
         $supervisor->phone = $validatedData->supervisorPhone;
@@ -85,7 +82,6 @@ class SupervisorController extends Controller
         $log .= "\nUsuário: " . Auth::user()->name;
         $log .= "\nDados antigos: " . json_encode($supervisor, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        $supervisor->updated_at = Carbon::now();
         $supervisor->name = $validatedData->supervisorName;
         $supervisor->email = $validatedData->supervisorEmail;
         $supervisor->phone = $validatedData->supervisorPhone;

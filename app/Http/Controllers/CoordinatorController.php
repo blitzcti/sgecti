@@ -68,7 +68,6 @@ class CoordinatorController extends Controller
         $log = "Novo coordenador";
         $log .= "\nUsuário: " . Auth::user()->name;
 
-        $coordinator->created_at = Carbon::now();
         $coordinator->user_id = $validatedData->user;
         $coordinator->course_id = $validatedData->course;
         $coordinator->start_date = $validatedData->startDate;
@@ -98,8 +97,6 @@ class CoordinatorController extends Controller
         $params = [];
 
         $validatedData = (object)$request->validated();
-
-        $coordinator->updated_at = Carbon::now();
 
         $log = "Alteração de coordenador";
         $log .= "\nUsuário: " . Auth::user()->name;

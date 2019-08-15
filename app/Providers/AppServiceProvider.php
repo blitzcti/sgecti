@@ -55,16 +55,22 @@ class AppServiceProvider extends ServiceProvider
                 'icon' => 'gear',
                 'submenu' => [
                     [
-                        'text' => 'menu.configurations', //CTI
-                        'route' => 'admin.configuracoes.parametros.index',
+                        'text' => 'menu.courseConfig',
+                        'route' => 'admin.configuracao.curso.index',
                         'icon' => 'wrench',
-                        'active' => ['admin/configuracoes/parametros/'],
+                        'active' => ['admin/configuracao/curso/'],
+                    ],
+                    [
+                        'text' => 'menu.configurations',
+                        'route' => 'admin.configuracao.parametros.index',
+                        'icon' => 'wrench',
+                        'active' => ['admin/configuracao/parametros/'],
                     ],
                     [
                         'text' => 'menu.backup',
-                        'route' => 'admin.configuracoes.backup.index',
+                        'route' => 'admin.configuracao.backup.index',
                         'icon' => 'floppy-o',
-                        'active' => ['admin/configuracoes/backup/'],
+                        'active' => ['admin/configuracao/backup/'],
                     ],
                 ],
             ]);
@@ -294,9 +300,32 @@ class AppServiceProvider extends ServiceProvider
                     ],
                 ];
 
+                if ($user->can('job-list')) {
+                    $job = [
+                        'text' => 'menu.job',
+                        'icon' => 'id-badge',
+                        'submenu' => [
+                            [
+                                'text' => 'menu.view',
+                                'route' => 'coordenador.estagio.trabalho.index',
+                                'icon' => 'th-list',
+                                'active' => ['coordenador/estagio/trabalho']
+                            ],
+                            [
+                                'text' => 'menu.new',
+                                'route' => 'coordenador.estagio.trabalho.novo',
+                                'icon' => 'edit',
+                                'active' => ['coordenador/estagio/trabalho/novo']
+                            ],
+                        ],
+                    ];
+
+                    array_push($submenu, $job);
+                }
+
                 if ($user->can('internshipAmendment-list')) {
                     $internshipAmendment = [
-                        'text' => 'menu.aditive',
+                        'text' => 'menu.amendment',
                         'icon' => 'plus',
                         'submenu' => [
                             [

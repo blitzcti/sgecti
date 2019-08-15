@@ -30,7 +30,6 @@ class StoreInternship extends FormRequest
     {
         return [
             'has2Turnos' => 'required|boolean',
-            'hasCTPS' => 'required|boolean',
 
             'ra' => ['required', 'numeric', 'min:1', new RA, new HasInternship, new SameCourse, new CompanyHasCourse($this->get('company'))],
             'active' => 'required|numeric|min:1',
@@ -70,8 +69,6 @@ class StoreInternship extends FormRequest
 
             'protocol' => 'required|max:5',
             'observation' => 'max:200',
-
-            'ctps' => 'required_if:hasCTPS,==,1|nullable|numeric|min:11',
         ];
     }
 }

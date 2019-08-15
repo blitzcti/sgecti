@@ -20,12 +20,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::prefix('')->name('api.')->group(function () {
-    Route::prefix('usuario')->name('usuario.')->middleware('auth.api')->group(function () {
-        Route::prefix('notificacao')->name('notificacao.')->group(function () {
-            Route::get('', 'API\NotificationController@get')->name('get');
+    Route::prefix('usuario')->name('usuario.')->group(function () {
+        Route::group(['middleware' => ['apiSession']], function () {
+            Route::get('', 'API\UserController@get')->name('get');
+            Route::get('apiToken', 'API\UserController@generateAPIToken')->name('apiToken');
 
-            Route::prefix('{id}')->group(function () {
-                Route::put('lida', 'API\NotificationController@markAsSeen')->name('lida');
+            Route::prefix('notificacao')->name('notificacao.')->group(function () {
+                Route::get('', 'API\NotificationController@get')->name('get');
+
+                Route::prefix('{id}')->group(function () {
+                    Route::put('lida', 'API\NotificationController@markAsSeen')->name('lida');
+                });
             });
         });
     });
@@ -44,6 +49,7 @@ Route::prefix('')->name('api.')->group(function () {
 
         Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
             Route::get('', 'API\NSac\StudentController@getByRA')->name('getByRA');
+            Route::get('foto', 'API\NSac\StudentController@getPhoto')->middleware('auth:api')->name('foto');
         });
     });
 

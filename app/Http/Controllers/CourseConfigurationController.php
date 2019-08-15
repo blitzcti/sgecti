@@ -6,7 +6,6 @@ use App\Http\Requests\StoreCourseConfiguration;
 use App\Http\Requests\UpdateCourseConfiguration;
 use App\Models\Course;
 use App\Models\CourseConfiguration;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -56,7 +55,6 @@ class CourseConfigurationController extends Controller
         $log .= "\nUsuário: " . Auth::user()->name;
 
         $config->course_id = $courseId;
-        $config->created_at = Carbon::now();
         $config->min_year = $validatedData->minYear;
         $config->min_semester = $validatedData->minSemester;
         $config->min_hours = $validatedData->minHour;
@@ -91,7 +89,6 @@ class CourseConfigurationController extends Controller
         $log .= "\nDados antigos: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $config->course_id = $courseId;
-        $config->updated_at = Carbon::now();
         $config->min_year = $validatedData->minYear;
         $config->min_semester = $validatedData->minSemester;
         $config->min_hours = $validatedData->minHour;

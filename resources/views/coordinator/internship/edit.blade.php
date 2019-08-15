@@ -553,39 +553,6 @@
             </div>
             <!-- /.box-footer -->
         </div>
-
-        <div class="box box-default">
-            <div class="box-header with-border">
-                <h3 class="box-title">
-                    <input type="checkbox" id="fakeInputHasCTPS" name="fakeHasCTPS"
-                            {{ (old('hasCTPS') ?? $internship->ctps != null) ? 'checked=checked' : '' }}/>
-
-                    O estágio é CTPS?
-                </h3>
-            </div>
-
-            <div id="div-ctps" style="display: none">
-                <div class="box-body">
-                    <div class="form-group @if($errors->has('ctps')) has-error @endif">
-                        <label for="inputCTPS" class="col-sm-2 control-label">Número da CTPS</label>
-
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputCTPS" name="ctps"
-                                   data-inputmask="'mask': '999999/99999'"
-                                   value="{{ old('ctps') ?? $internship->ctps ?? '' }}"/>
-
-                            <span class="help-block">{{ $errors->first('ctps') }}</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.box-body -->
-                <div class="box-footer">
-                    <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-                    <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-                </div>
-                <!-- /.box-footer -->
-            </div>
-        </div>
     </form>
 @endsection
 
@@ -600,20 +567,6 @@
 
             jQuery('.selection').select2({
                 language: "pt-BR"
-            });
-
-            jQuery('#fakeInputHasCTPS').on('ifChanged', function () {
-                if (this.checked) {
-                    jQuery('#div-ctps').css('display', 'block');
-                    jQuery('#inputHasCTPS').val(1);
-                } else {
-                    jQuery('#div-ctps').css('display', 'none');
-                    jQuery('#inputHasCTPS').val(0);
-                }
-            }).trigger('ifChanged').iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue',
-                increaseArea: '20%' // optional
             });
 
             jQuery('#fakeInputHas2Turnos').on('ifChanged', function () {

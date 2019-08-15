@@ -19,7 +19,6 @@ class UserTableSeeder extends Seeder
         $user->email = 'dir-cti@feb.unesp.br';
         $user->phone = '1431036150';
         $user->name = 'Administrador';
-        $user->created_at = Carbon::now();
         $user->assignRole('admin');
         $user->save();
     }

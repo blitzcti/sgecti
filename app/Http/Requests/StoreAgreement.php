@@ -25,7 +25,6 @@ class StoreAgreement extends FormRequest
     {
         return [
             'company' => 'required|numeric:1',
-            'expirationDate' => 'required|date',
             'observation' => 'max:200',
         ];
     }

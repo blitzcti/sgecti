@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CancelInternship;
 use App\Http\Requests\StoreInternship;
 use App\Http\Requests\UpdateInternship;
 use App\Models\Company;
 use App\Models\Internship;
 use App\Models\Schedule;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\ValidationException;
 
 class InternshipController extends Controller
 {
@@ -90,7 +88,6 @@ class InternshipController extends Controller
 
         $schedule = new Schedule();
 
-        $schedule->created_at = Carbon::now();
         $schedule->mon_s = $validatedData->monS;
         $schedule->mon_e = $validatedData->monE;
         $schedule->tue_s = $validatedData->tueS;
@@ -108,7 +105,6 @@ class InternshipController extends Controller
         if ($validatedData->has2Turnos) {
             $schedule2 = new Schedule();
 
-            $schedule2->created_at = Carbon::now();
             $schedule2->mon_s = $validatedData->monS2;
             $schedule2->mon_e = $validatedData->monE2;
             $schedule2->tue_s = $validatedData->tueS2;
@@ -126,7 +122,6 @@ class InternshipController extends Controller
             $internship->schedule_2_id = $schedule2->id;
         }
 
-        $internship->created_at = Carbon::now();
         $internship->ra = $validatedData->ra;
         $internship->company_id = $validatedData->company;
         $internship->sector_id = $validatedData->sector;
@@ -141,11 +136,6 @@ class InternshipController extends Controller
         $internship->activities = $validatedData->activities;
         $internship->observation = $validatedData->observation;
         $internship->active = $validatedData->active;
-
-        //Tem CTPS
-        if ($validatedData->hasCTPS) {
-            $internship->ctps = $validatedData->ctps;
-        }
 
         $saved = $internship->save();
         $log .= "\nNovos dados: " . json_encode($internship, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
@@ -175,7 +165,6 @@ class InternshipController extends Controller
 
         $schedule = $internship->schedule;
 
-        $schedule->updated_at = Carbon::now();
         $schedule->mon_s = $validatedData->monS;
         $schedule->mon_e = $validatedData->monE;
         $schedule->tue_s = $validatedData->tueS;
@@ -193,7 +182,6 @@ class InternshipController extends Controller
         if ($validatedData->has2Turnos) {
             $schedule2 = $internship->schedule2 ?? new Schedule();
 
-            $schedule2->updated_at = Carbon::now();
             $schedule2->mon_s = $validatedData->monS2;
             $schedule2->mon_e = $validatedData->monE2;
             $schedule2->tue_s = $validatedData->tueS2;
@@ -213,7 +201,6 @@ class InternshipController extends Controller
             $internship->schedule_2_id = null;
         }
 
-        $internship->updated_at = Carbon::now();
         $internship->ra = $validatedData->ra;
         $internship->company_id = $validatedData->company;
         $internship->sector_id = $validatedData->sector;
@@ -226,11 +213,6 @@ class InternshipController extends Controller
         $internship->activities = $validatedData->activities;
         $internship->observation = $validatedData->observation;
         $internship->active = $validatedData->active;
-
-        //Tem CTPS
-        if ($validatedData->hasCTPS) {
-            $internship->ctps = $validatedData->ctps;
-        }
 
         $saved = $internship->save();
         $log .= "\nNovos dados: " . json_encode($internship, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
@@ -247,13 +229,11 @@ class InternshipController extends Controller
         return redirect()->route('coordenador.estagio.index')->with($params);
     }
 
-    public function cancel($id, Request $request)
+    public function cancel($id, CancelInternship $request)
     {
-        $validatedData = (object)$request->validate([
-            'reasonToCancel' => 'required|max:8000',
-        ]);
-
         $internship = Internship::findOrFail($id);
+        $validatedData = (object)$request->validated();
+
         $internship->state_id = 3;
         $internship->reason_to_cancel = $validatedData->reasonToCancel;
         $saved = $internship->save();

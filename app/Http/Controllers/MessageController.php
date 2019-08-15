@@ -35,7 +35,7 @@ class MessageController extends Controller
 
         Mail::to($student->email)->send(new InternshipProposalMail($student, $proposal));
 
-        return view('coordinator.message.index');
+        return redirect()->route('coordenador.mensagem.index');
     }
 
     public function sendEmail()

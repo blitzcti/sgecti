@@ -84,7 +84,6 @@ class SupervisorController extends Controller
         $supervisor = new Supervisor();
         $params = [];
 
-        $supervisor->created_at = Carbon::now();
         $supervisor->name = $request->input('supervisorName');
         $supervisor->email = $request->input('supervisorEmail');
         $supervisor->phone = $request->input('supervisorPhone');
@@ -102,7 +101,6 @@ class SupervisorController extends Controller
         $supervisor = Sector::all()->find($id);
         $params = [];
 
-        $supervisor->updated_at = Carbon::now();
         $supervisor->name = $request->input('supervisorName');
         $supervisor->email = $request->input('supervisorEmail');
         $supervisor->phone = $request->input('supervisorPhone');

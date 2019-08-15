@@ -40,6 +40,7 @@ return [
         'schedules' => "App\Models\Schedule",
         'states' => "App\Models\State",
         'internships' => "App\Models\Internship",
+        'jobs' => "App\Models\Job",
         'amendments' => "App\Models\Amendment",
 
         'bimestral_reports' => "App\Models\BimestralReport",

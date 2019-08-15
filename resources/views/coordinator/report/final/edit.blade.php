@@ -19,6 +19,7 @@
     <form class="form-horizontal" action="{{ route('coordenador.relatorio.final.alterar', $report->id) }}"
           method="post">
         @csrf
+        @method('PUT')
 
         <div class="box box-default">
             <div class="box-header with-border">

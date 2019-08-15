@@ -15,7 +15,7 @@
             <h3 class="box-title">Dados do parâmetro</h3>
         </div>
 
-        <form class="form-horizontal" action="{{ route('admin.configuracoes.parametros.salvar') }}" method="post">
+        <form class="form-horizontal" action="{{ route('admin.configuracao.parametros.salvar') }}" method="post">
             @csrf
 
             <div class="box-body">
@@ -152,7 +152,7 @@
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('agreementExpiration')) has-error @endif">
                             <label for="inputAgreementExpiration" class="col-sm-4 control-label">Validade do
-                                convênio*</label>
+                                convênio (anos)*</label>
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputAgreementExpiration"

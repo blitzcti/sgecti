@@ -118,7 +118,11 @@
                 e.preventDefault();
 
                 let val = (s === 0 || s === 2) ? jQuery('#inputSearch').inputmask('unmaskedvalue') : jQuery('#inputSearch').val().trim();
-                let url = (s === 0) ? `/api/aluno/${val}` : (s === 1) ? `/api/aluno?q=${val}` : `/api/aluno/ano/${val}`;
+                let filter = (s === 1 || s === 2) ? `${[{{ implode(', ', auth()->user()->coordinator_courses_id)}}].map(a => `courses[]=${a}`).join('&')}` : undefined;
+                let url = (s === 0) ?
+                    `/api/aluno/${val}` : (s === 1) ?
+                    `/api/aluno?${filter}&q=${val}` :
+                    `/api/aluno/ano/${val}?${filter}`;
 
                 if (s === 0 && val.length === 0) {
                     return;

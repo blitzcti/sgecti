@@ -10,6 +10,7 @@ class StudentController extends Controller
     public function __construct()
     {
         $this->middleware('coordinator');
+        $this->middleware('permission:student-list');
     }
 
     public function index()

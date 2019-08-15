@@ -23,9 +23,7 @@ class InternshipController extends Controller
 
     public function index()
     {
-        $cIds = Auth::user()->coordinator_of->map(function ($course) {
-            return $course->id;
-        })->toArray();
+        $cIds = Auth::user()->coordinator_courses_id;
 
         $internships = Internship::all()->filter(function ($internship) use ($cIds) {
             return in_array($internship->student->course_id, $cIds);

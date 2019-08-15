@@ -37,7 +37,37 @@ class StudentController extends Controller
     public function get(Request $request)
     {
         if ((new Student())->isConnected()) {
-            $students = Student::all()->sortBy('matricula');
+            if (is_array($request->get('courses'))) {
+                $courses = $request->get('courses');
+                $students = Student::all()->filter(function ($student) use ($courses) {
+                    return in_array($student->course_id, $courses);
+                })->sortBy('matricula');
+            } else {
+                $students = Student::all()->sortBy('matricula');
+            }
+            $students = array_values($students->toArray());
+
+            if (!empty($request->q)) {
+                $students = $this->search($students, $request->q, 'nome');
+            }
+        } else {
+            $students = null;
+        }
+
+        return response()->json(
+            $students,
+            200,
+            [
+                'Content-Type' => 'application/json; charset=UTF-8',
+                'charset' => 'utf-8'
+            ],
+            JSON_UNESCAPED_UNICODE);
+    }
+
+    public function getByCourse($course, Request $request)
+    {
+        if ((new Student())->isConnected()) {
+            $students = Student::all()->where('course_id', '=', $course)->sortBy('matricula');
             $students = array_values($students->toArray());
 
             if (!empty($request->q)) {
@@ -75,11 +105,20 @@ class StudentController extends Controller
             JSON_UNESCAPED_UNICODE);
     }
 
-    public function getByYear($year)
+    public function getByYear($year, Request $request)
     {
         if ((new Student())->isConnected()) {
             $year = substr($year, 2, 2);
-            $students = Student::where('matricula', 'LIKE', "$year%")->get();
+
+            if (is_array($request->get('courses'))) {
+                $courses = $request->get('courses');
+                $students = Student::where('matricula', 'LIKE', "$year%")->get()->filter(function ($student) use ($courses) {
+                    return in_array($student->course_id, $courses);
+                })->sortBy('matricula');
+            } else {
+                $students = Student::where('matricula', 'LIKE', "$year%")->get()->sortBy('matricula');
+            }
+
             $students = array_values($students->toArray());
         } else {
             $students = null;
@@ -103,7 +142,15 @@ class StudentController extends Controller
                 $year = $request->year;
             }
 
-            $students = Student::where('turma', '=', $class)->where('turma_ano', '=', $year)->get();
+            if (is_array($request->get('courses'))) {
+                $courses = $request->get('courses');
+                $students = Student::where('turma', '=', $class)->where('turma_ano', '=', $year)->get()->filter(function ($student) use ($courses) {
+                    return in_array($student->course_id, $courses);
+                })->sortBy('matricula');
+            } else {
+                $students = Student::where('turma', '=', $class)->where('turma_ano', '=', $year)->get();
+            }
+
             $students = array_values($students->toArray());
         } else {
             $students = null;

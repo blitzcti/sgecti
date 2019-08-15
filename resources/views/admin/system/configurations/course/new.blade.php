@@ -14,7 +14,6 @@
 
         <form class="form-horizontal" action="{{ route('admin.configuracao.curso.salvar') }}"
               method="post">
-            @method('PUT')
             @csrf
 
             <div class="box-body">

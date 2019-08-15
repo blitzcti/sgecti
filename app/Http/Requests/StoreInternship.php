@@ -7,6 +7,7 @@ use App\Rules\HasCourse;
 use App\Rules\HasInternship;
 use App\Rules\RA;
 use App\Rules\SameCourse;
+use App\Rules\StudentAge;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreInternship extends FormRequest
@@ -31,7 +32,7 @@ class StoreInternship extends FormRequest
         return [
             'has2Turnos' => 'required|boolean',
 
-            'ra' => ['required', 'numeric', 'min:1', new RA, new HasInternship, new SameCourse, new CompanyHasCourse($this->get('company'))],
+            'ra' => ['required', 'numeric', 'min:1', new RA, new HasInternship, new SameCourse, new CompanyHasCourse($this->get('company')), new StudentAge($this->get('startDate'))],
             'active' => 'required|numeric|min:1',
             'company' => ['required', 'min:1', new HasCourse],
             'sector' => 'required|min:1',

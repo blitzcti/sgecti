@@ -44,6 +44,7 @@ Route::prefix('')->name('api.')->group(function () {
 
     Route::prefix('aluno')->name('aluno.')->group(function () {
         Route::get('', 'API\NSac\StudentController@get')->name('get');
+        Route::get('curso/{course}', 'API\NSac\StudentController@getByCourse')->name('getByCourse');
         Route::get('ano/{year}', 'API\NSac\StudentController@getByYear')->name('getByYear');
         Route::get('turma/{class}', 'API\NSac\StudentController@getByClass')->name('getByClass');
 

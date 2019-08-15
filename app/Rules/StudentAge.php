@@ -7,14 +7,16 @@ use Illuminate\Contracts\Validation\Rule;
 
 class StudentAge implements Rule
 {
+    private $startDate;
+
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($startDate)
     {
-        //
+        $this->startDate = $startDate;
     }
 
     /**
@@ -27,7 +29,7 @@ class StudentAge implements Rule
     public function passes($attribute, $value)
     {
         $student = Student::find($value);
-        return $student->age >= 16;
+        return $student->getAgeByDate($this->startDate) >= 16;
     }
 
     /**

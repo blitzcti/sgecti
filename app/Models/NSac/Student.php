@@ -5,6 +5,7 @@ namespace App\Models\NSac;
 use App\Models\Course;
 use App\Models\Internship;
 use App\Models\Job;
+use Carbon\Carbon;
 
 class Student extends Model
 {
@@ -35,7 +36,7 @@ class Student extends Model
      *
      * @var array
      */
-    protected $appends = ['course_id', 'year', 'grade', 'class'];
+    protected $appends = ['course_id', 'year', 'grade', 'class', 'age'];
 
     public function getCourseIdAttribute()
     {
@@ -69,7 +70,12 @@ class Student extends Model
 
     public function getAgeAttribute()
     {
-        return 16;
+        return $this->getAgeByDate(Carbon::today());
+    }
+
+    public function getAgeByDate($date)
+    {
+        return date_diff(date_create($this->data_de_nascimento), date_create($date))->format("%y");
     }
 
     public function internship()

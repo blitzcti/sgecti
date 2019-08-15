@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -62,6 +63,13 @@ class User extends Authenticatable
         return $this->coordinators()->groupBy('course_id')->get('course_id')->map(function ($c) {
             return $c->course;
         });
+    }
+
+    public function getCoordinatorCoursesIdAttribute()
+    {
+        return Auth::user()->coordinator_of->map(function ($course) {
+            return $course->id;
+        })->toArray();
     }
 
     public function getCoordinatorCoursesNameAttribute()

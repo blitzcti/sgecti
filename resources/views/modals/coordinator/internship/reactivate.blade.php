@@ -1,5 +1,5 @@
-<div class="modal fade" id="internshipCancelModal" tabindex="-1" role="dialog" aria-labelledby="internshipCancelModal"
-     aria-hidden="true">
+<div class="modal fade" id="internshipReactivateModal" tabindex="-1" role="dialog"
+     aria-labelledby="internshipReactivateModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -7,18 +7,18 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
 
-                <h4 class="modal-title" id="deleteModalTitle">Cancelar estágio</h4>
+                <h4 class="modal-title" id="deleteModalTitle">Reativar estágio</h4>
             </div>
 
-            <form id="cancelForm" action="#" class="form-horizontal" method="post">
+            <form id="reactivateForm" action="#" class="form-horizontal" method="post">
                 <div class="modal-body">
                     @method('PUT')
                     @csrf
 
-                    <p>Deseja realmente reativar o estágio de <span id="cancelModalStudentName"
+                    <p>Deseja realmente reativar o estágio de <span id="reactivateModalStudentName"
                                                                     class="text-bold"></span>?</p>
 
-                    <div class="form-group">
+                    {{--<div class="form-group">
                         <label for="inputReasonToCancel" class="col-sm-2 control-label">Motivo*</label>
 
                         <div class="col-sm-10">
@@ -26,7 +26,7 @@
                                       style="resize: none" required
                                       placeholder="O motivo do cancelamento do estágio"></textarea>
                         </div>
-                    </div>
+                    </div>--}}
                 </div>
 
                 <div class="modal-footer">
@@ -44,12 +44,12 @@
     @parent
 
     <script type="text/javascript">
-        function internshipId(id) {
-            jQuery('#cancelForm').attr('action', `/coordenador/estagio/${id}/cancelar`);
+        function reactivateInternshipId(id) {
+            jQuery('#reactivateForm').attr('action', `/coordenador/estagio/${id}/reativar`);
         }
 
-        function studentName(name) {
-            jQuery('#cancelModalStudentName').text(name);
+        function reactivateStudentName(name) {
+            jQuery('#reactivateModalStudentName').text(name);
         }
     </script>
 @endsection

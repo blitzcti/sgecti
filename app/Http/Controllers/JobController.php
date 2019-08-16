@@ -89,8 +89,11 @@ class JobController extends Controller
         $job->ra = $validatedData->ra;
         $job->company_id = $validatedData->company;
         $job->sector_id = $validatedData->sector;
-        $coordinator_id = Auth::user()->coordinators->where('course_id', '=', $job->student->course_id)->last()->id;
+
+        $coordinator = Auth::user()->coordinators->where('course_id', '=', $job->student->course_id)->last();
+        $coordinator_id = $coordinator->temporary_of->id ?? $coordinator->id;
         $job->coordinator_id = $coordinator_id;
+
         $job->state_id = 1;
         $job->supervisor_id = $validatedData->supervisor;
         $job->start_date = $validatedData->startDate;
@@ -129,8 +132,11 @@ class JobController extends Controller
         $job->ra = $validatedData->ra;
         $job->company_id = $validatedData->company;
         $job->sector_id = $validatedData->sector;
-        $coordinator_id = Auth::user()->coordinators->where('course_id', '=', $job->student->course_id)->last()->id;
+
+        $coordinator = Auth::user()->coordinators->where('course_id', '=', $job->student->course_id)->last();
+        $coordinator_id = $coordinator->temporary_of->id ?? $coordinator->id;
         $job->coordinator_id = $coordinator_id;
+
         $job->supervisor_id = $validatedData->supervisor;
         $job->start_date = $validatedData->startDate;
         $job->end_date = $validatedData->endDate;

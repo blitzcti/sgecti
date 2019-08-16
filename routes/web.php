@@ -185,6 +185,7 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
             Route::get('editar', 'InternshipController@edit')->name('editar');
             Route::put('alterar', 'InternshipController@update')->name('alterar');
             Route::put('cancelar', 'InternshipController@cancel')->name('cancelar');
+            Route::put('reativar', 'InternshipController@reactivate')->name('reativar');
 
             Route::get('aditivo', 'AmendmentController@indexByInternship')->name('aditivo');
         });

@@ -8,6 +8,7 @@
 
 @section('content')
     @include('modals.coordinator.internship.cancel')
+    @include('modals.coordinator.internship.reactivate')
 
     @if(session()->has('message'))
         <div class="alert {{ session('saved') ? 'alert-success' : 'alert-error' }} alert-dismissible"
@@ -62,13 +63,22 @@
 
                                 @if(auth()->user()->can('internshipAmendment-list'))
                                     |
-                                    <a href="{{ route('coordenador.estagio.aditivo', ['id' => $internship->id]) }}">Termos aditivos</a>
+                                    <a href="{{ route('coordenador.estagio.aditivo', ['id' => $internship->id]) }}">Termos
+                                        aditivos</a>
                                 @endif
 
                                 |
-                                    <a href="#"
-                                       onclick="internshipId('{{ $internship->id }}'); studentName('{{ $internship->student->nome }}'); return false;"
-                                       data-toggle="modal" class="text-red" data-target="#internshipCancelModal">Cancelar</a>
+                                <a href="#"
+                                   onclick="internshipId('{{ $internship->id }}'); studentName('{{ $internship->student->nome }}'); return false;"
+                                   data-toggle="modal" class="text-red"
+                                   data-target="#internshipCancelModal">Cancelar</a>
+
+                            @elseif($internship->state->id == 3)
+
+                                |
+                                <a href="#"
+                                   onclick="reactivateInternshipId('{{ $internship->id }}'); reactivateStudentName('{{ $internship->student->nome }}'); return false;"
+                                   data-toggle="modal" data-target="#internshipReactivateModal">Reativar</a>
 
                             @endif
                         </td>

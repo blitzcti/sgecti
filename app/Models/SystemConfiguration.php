@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+
 class SystemConfiguration extends Model
 {
     protected $fillable = [
@@ -10,6 +12,6 @@ class SystemConfiguration extends Model
 
     public static function getAgreementExpiration() {
         $configs = SystemConfiguration::all()->sortBy('id');
-        return $configs->last()->agreement_expiration;
+        return Carbon::now()->modify("+" . $configs->last()->agreement_expiration . " year")->format("Y-m-d");
     }
 }

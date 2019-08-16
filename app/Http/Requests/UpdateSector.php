@@ -25,7 +25,7 @@ class UpdateSector extends FormRequest
     {
         return [
             'name' => 'required|max:50',
-            'description' => 'required',
+            'description' => 'nullable|max:8000',
             'active' => 'required|boolean',
         ];
     }

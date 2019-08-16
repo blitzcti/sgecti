@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+
 class Internship extends Model
 {
     protected $fillable = [
@@ -121,5 +123,11 @@ class Internship extends Model
         }
 
         return $h;
+    }
+
+    public static function requiringFinish()
+    {
+        $today = Carbon::today()->modify('+20 day')->toDateString();
+        return Internship::where('state_id', '=', 1)->get()->where('end_date', '<=', $today);
     }
 }

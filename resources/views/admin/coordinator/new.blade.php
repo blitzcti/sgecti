@@ -62,6 +62,27 @@
                     </div>
                 </div>
 
+                <div class="form-group @if($errors->has('tempOf')) has-error @endif">
+                    <label for="inputTempOf" class="col-sm-2 control-label">Temporário de</label>
+
+                    <div class="col-sm-10">
+                        <select class="form-control selection" id="inputTempOf" name="tempOf">
+
+                            <option value="0">(Nenhum)</option>
+                            @foreach($coordinators as $coord)
+
+                                <option value="{{ $coord->id }}" {{ (old('tempOf') ?? 0) == $coord->id ? 'selected=selected' : '' }}>
+                                    {{ __($coord->user->name) }} - {{ $coord->course->name }}
+                                </option>
+
+                            @endforeach
+
+                        </select>
+
+                        <span class="help-block">{{ $errors->first('tempOf') }}</span>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('startDate')) has-error @endif">

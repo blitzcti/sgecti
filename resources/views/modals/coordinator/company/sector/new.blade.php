@@ -28,8 +28,8 @@
                         <label for="inputSectorDescription" class="col-sm-3 control-label">Descrição</label>
 
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="inputSectorDescription" name="description"
-                                   placeholder=""/>
+                            <textarea class="form-control" rows="3" id="inputSectorDescription" name="sectorDescription"
+                                      style="resize: none" placeholder="Descrição do setor"></textarea>
                         </div>
                     </div>
 

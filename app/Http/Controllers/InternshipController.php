@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CancelInternship;
+use App\Http\Requests\ReactivateInternship;
 use App\Http\Requests\StoreInternship;
 use App\Http\Requests\UpdateInternship;
 use App\Models\Company;
@@ -44,9 +45,7 @@ class InternshipController extends Controller
 
     public function edit($id)
     {
-        $cIds = Auth::user()->coordinator_of->map(function ($course) {
-            return $course->id;
-        })->toArray();
+        $cIds = Auth::user()->coordinator_courses_id;
 
         $internship = Internship::findOrFail($id);
         if (!in_array($internship->student->course_id, $cIds)) {
@@ -62,9 +61,7 @@ class InternshipController extends Controller
 
     public function details($id)
     {
-        $cIds = Auth::user()->coordinator_of->map(function ($course) {
-            return $course->id;
-        })->toArray();
+        $cIds = Auth::user()->coordinator_courses_id;
 
         $internship = Internship::findOrFail($id);
         if (!in_array($internship->student->course_id, $cIds)) {
@@ -123,8 +120,11 @@ class InternshipController extends Controller
         $internship->ra = $validatedData->ra;
         $internship->company_id = $validatedData->company;
         $internship->sector_id = $validatedData->sector;
-        $coordinator_id = Auth::user()->coordinators->where('course_id', '=', $internship->student->course_id)->last()->id;
+
+        $coordinator = Auth::user()->coordinators->where('course_id', '=', $internship->student->course_id)->last();
+        $coordinator_id = $coordinator->temporary_of->id ?? $coordinator->id;
         $internship->coordinator_id = $coordinator_id;
+
         $internship->schedule_id = $schedule->id;
         $internship->state_id = 1;
         $internship->supervisor_id = $validatedData->supervisor;
@@ -202,8 +202,11 @@ class InternshipController extends Controller
         $internship->ra = $validatedData->ra;
         $internship->company_id = $validatedData->company;
         $internship->sector_id = $validatedData->sector;
-        $coordinator_id = Auth::user()->coordinators->where('course_id', '=', $internship->student->course_id)->last()->id;
+
+        $coordinator = Auth::user()->coordinators->where('course_id', '=', $internship->student->course_id)->last();
+        $coordinator_id = $coordinator->temporary_of->id ?? $coordinator->id;
         $internship->coordinator_id = $coordinator_id;
+
         $internship->supervisor_id = $validatedData->supervisor;
         $internship->start_date = $validatedData->startDate;
         $internship->end_date = $validatedData->endDate;
@@ -244,6 +247,31 @@ class InternshipController extends Controller
             Log::info($log);
         } else {
             Log::error("Erro ao cancelar estágio");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+
+        return redirect()->route('coordenador.estagio.index')->with($params);
+    }
+
+    public function reactivate($id, ReactivateInternship $request)
+    {
+        $internship = Internship::findOrFail($id);
+        $validatedData = (object)$request->validated();
+
+        $internship->state_id = 1;
+        $internship->reason_to_cancel = null;
+        $saved = $internship->save();
+
+        $log = "Reativamento de estágio";
+        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nAluno com estágio reativado: " . $internship->student->nome;
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao reativar estágio");
         }
 
         $params['saved'] = $saved;

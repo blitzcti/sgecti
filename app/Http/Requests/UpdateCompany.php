@@ -28,9 +28,9 @@ class UpdateCompany extends FormRequest
 
             'ie' => 'nullable|numeric|digits_between:10,10',
             'active' => 'required|boolean',
-            'name' => 'required|max:100',
-            'fantasyName' => 'max:100',
-            'email' => 'required|max:100',
+            'name' => 'required|max:191',
+            'fantasyName' => 'max:191',
+            'email' => 'nullable|email|max:191',
             'phone' => 'required|numeric|digits_between:10,11',
             'representativeName' => 'required|max:50',
             'representativeRole' => 'required|max:50',

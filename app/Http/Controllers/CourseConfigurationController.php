@@ -60,7 +60,7 @@ class CourseConfigurationController extends Controller
         $config->min_hours = $validatedData->minHour;
         $config->min_months = $validatedData->minMonth;
         $config->min_months_ctps = $validatedData->minMonthCTPS;
-        $config->min_grade = $validatedData->minMark;
+        $config->min_grade = $validatedData->minGrade;
 
         $saved = $config->save();
         $log .= "\nNovos dados: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
@@ -94,7 +94,7 @@ class CourseConfigurationController extends Controller
         $config->min_hours = $validatedData->minHour;
         $config->min_months = $validatedData->minMonth;
         $config->min_months_ctps = $validatedData->minMonthCTPS;
-        $config->min_grade = $validatedData->minMark;
+        $config->min_grade = $validatedData->minGrade;
 
         $saved = $config->save();
         $log .= "\nNovos dados: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);

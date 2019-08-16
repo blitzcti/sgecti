@@ -18,8 +18,14 @@ class CreateGeneralConfigurationsTable extends Migration
 
             $table->integer('max_years')->nullable(false);
 
-            $table->date('start_date')->nullable(false);
-            $table->date('end_date')->nullable(false);
+            $table->integer('min_year')->nullable(false);
+            $table->integer('min_semester')->nullable(false);
+
+            $table->integer('min_hours')->nullable(false);
+            $table->integer('min_months')->nullable(false);
+            $table->integer('min_months_ctps')->nullable(false);
+
+            $table->integer('min_grade')->nullable(false);
 
             $table->timestamps();
         });

@@ -42,20 +42,24 @@ class CoordinatorController extends Controller
         $courses = Course::all()->sortBy('id');
         $users = User::whereHas("roles", function ($q) {
             $q->where("name", "teacher");
-        })->get();
+        })->get()->sortBy('id');
+        $coordinators = Coordinator::whereNull('temp_of')->get()->sortBy('id');
 
         $c = request()->c;
 
-        return view('admin.coordinator.new')->with(["courses" => $courses, "users" => $users, 'c' => $c]);
+        return view('admin.coordinator.new')->with(["courses" => $courses, "users" => $users, 'coordinators' => $coordinators, 'c' => $c]);
     }
 
     public function edit($id)
     {
         $coordinator = Coordinator::findOrFail($id);
-        $users = User::all()->sortBy('id');
         $courses = Course::all()->sortBy('id');
+        $users = User::whereHas("roles", function ($q) {
+            $q->where("name", "teacher");
+        })->get()->sortBy('id');
+        $coordinators = Coordinator::whereNull('temp_of')->where('id', '<>', $id)->get()->sortBy('id');
 
-        return view('admin.coordinator.edit')->with(['coordinator' => $coordinator, 'users' => $users, 'courses' => $courses]);
+        return view('admin.coordinator.edit')->with(['coordinator' => $coordinator, 'users' => $users, 'coordinators' => $coordinators, 'courses' => $courses]);
     }
 
     public function store(StoreCoordinator $request)
@@ -70,6 +74,11 @@ class CoordinatorController extends Controller
 
         $coordinator->user_id = $validatedData->user;
         $coordinator->course_id = $validatedData->course;
+        $coordinator->temp_of = null;
+        if ($validatedData->tempOf > 0) {
+            $coordinator->temp_of = $validatedData->tempOf;
+        }
+
         $coordinator->start_date = $validatedData->startDate;
         $coordinator->end_date = $validatedData->endDate;
 
@@ -104,6 +113,11 @@ class CoordinatorController extends Controller
 
         $coordinator->user_id = $validatedData->user;
         $coordinator->course_id = $validatedData->course;
+        $coordinator->temp_of = null;
+        if ($validatedData->tempOf > 0) {
+            $coordinator->temp_of = $validatedData->tempOf;
+        }
+
         $coordinator->start_date = $validatedData->startDate;
         $coordinator->end_date = $validatedData->endDate;
 

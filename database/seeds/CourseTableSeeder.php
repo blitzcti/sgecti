@@ -2,7 +2,6 @@
 
 use App\Models\Course;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Carbon;
 
 class CourseTableSeeder extends Seeder
 {

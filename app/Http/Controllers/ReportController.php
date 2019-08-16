@@ -27,9 +27,7 @@ class ReportController extends Controller
 
     public function index()
     {
-        $cIds = Auth::user()->coordinator_of->map(function ($course) {
-            return $course->id;
-        })->toArray();
+        $cIds = Auth::user()->coordinator_courses_id;
 
         $bReports = BimestralReport::all()->filter(function ($report) use ($cIds) {
             return in_array($report->internship->student->course_id, $cIds);
@@ -44,9 +42,7 @@ class ReportController extends Controller
 
     public function createBimestral()
     {
-        $cIds = Auth::user()->coordinator_of->map(function ($course) {
-            return $course->id;
-        })->toArray();
+        $cIds = Auth::user()->coordinator_courses_id;
 
         $internships = State::findOrFail(1)->internships->filter(function ($internship) use ($cIds) {
             return in_array($internship->student->course_id, $cIds);
@@ -58,9 +54,7 @@ class ReportController extends Controller
 
     public function createFinal()
     {
-        $cIds = Auth::user()->coordinator_of->map(function ($course) {
-            return $course->id;
-        })->toArray();
+        $cIds = Auth::user()->coordinator_courses_id;
 
         $internships = State::findOrFail(1)->internships->filter(function ($internship) use ($cIds) {
             return in_array($internship->student->course_id, $cIds);
@@ -72,9 +66,7 @@ class ReportController extends Controller
 
     public function editBimestral($id)
     {
-        $cIds = Auth::user()->coordinator_of->map(function ($course) {
-            return $course->id;
-        })->toArray();
+        $cIds = Auth::user()->coordinator_courses_id;
 
         $internships = Internship::all()->filter(function ($internship) use ($cIds) {
             return in_array($internship->student->course_id, $cIds);
@@ -86,9 +78,7 @@ class ReportController extends Controller
 
     public function editFinal($id)
     {
-        $cIds = Auth::user()->coordinator_of->map(function ($course) {
-            return $course->id;
-        })->toArray();
+        $cIds = Auth::user()->coordinator_courses_id;
 
         $internships = Internship::all()->filter(function ($internship) use ($cIds) {
             return in_array($internship->student->course_id, $cIds);
@@ -160,7 +150,8 @@ class ReportController extends Controller
         $final->approval_number = $this->generateApprovalNumber($course_id);
         $final->observation = $validatedData->observation;
 
-        $coordinator_id = Auth::user()->coordinators->where('course_id', '=', $course_id)->last()->id;
+        $coordinator = Auth::user()->coordinators->where('course_id', '=', $course_id)->last();
+        $coordinator_id = $coordinator->temporary_of->id ?? $coordinator->id;
         $final->coordinator_id = $coordinator_id;
 
         $saved = $final->save();
@@ -243,7 +234,8 @@ class ReportController extends Controller
         $final->end_date = $validatedData->endDate;
         $final->observation = $validatedData->observation;
 
-        $coordinator_id = Auth::user()->coordinators->where('course_id', '=', $course_id)->last()->id;
+        $coordinator = Auth::user()->coordinators->where('course_id', '=', $course_id)->last();
+        $coordinator_id = $coordinator->temporary_of->id ?? $coordinator->id;
         $final->coordinator_id = $coordinator_id;
 
         $saved = $final->save();

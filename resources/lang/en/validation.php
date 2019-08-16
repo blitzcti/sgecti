@@ -87,6 +87,7 @@ return [
         'string' => 'The :attribute may not be greater than :max characters.',
         'array' => 'The :attribute may not have more than :max items.',
     ],
+    'max_years' => 'The :attribute contains a student that already passed the allowed years for internships.',
     'mimes' => 'The :attribute must be a file of type: :values.',
     'mimetypes' => 'The :attribute must be a file of type: :values.',
     'min' => [
@@ -95,6 +96,7 @@ return [
         'string' => 'The :attribute must be at least :min characters.',
         'array' => 'The :attribute must have at least :min items.',
     ],
+    'min_hours' => 'the :attribute must have an 6h interval.',
     'not_in' => 'The selected :attribute is invalid.',
     'not_regex' => 'The :attribute format is invalid.',
     'numeric' => 'The :attribute must be a number.',

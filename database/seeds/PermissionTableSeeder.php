@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
 
 class PermissionTableSeeder extends Seeder
 {
@@ -12,6 +13,8 @@ class PermissionTableSeeder extends Seeder
      */
     public function run()
     {
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+
         $permissions = [
             'role-list',
             'role-create',

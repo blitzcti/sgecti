@@ -25,6 +25,9 @@ class CreateCoordinatorsTable extends Migration
             $table->date('start_date')->nullable(false);
             $table->date('end_date')->nullable(true)->default(null);
 
+            $table->bigInteger('temp_of')->nullable(true)->default(null)->unsigned();
+            $table->foreign('temp_of')->references('id')->on('coordinators')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

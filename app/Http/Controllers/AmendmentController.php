@@ -23,9 +23,7 @@ class AmendmentController extends Controller
 
     public function index()
     {
-        $cIds = Auth::user()->coordinator_of->map(function ($course) {
-            return $course->id;
-        })->toArray();
+        $cIds = Auth::user()->coordinator_courses_id;
 
         $amendments = Amendment::all()->filter(function ($amendment) use ($cIds) {
             return in_array($amendment->internship->student->course_id, $cIds);
@@ -44,7 +42,12 @@ class AmendmentController extends Controller
 
     public function create()
     {
-        $internships = State::findOrFail(1)->internships()->get();
+        $cIds = Auth::user()->coordinator_courses_id;
+
+        $internships = State::findOrFail(1)->internships->filter(function ($internship) use ($cIds) {
+            return in_array($internship->student->course_id, $cIds);
+        });
+
         $i = request()->i;
         return view('coordinator.internship.amendment.new')->with(['internships' => $internships, 'i' => $i]);
     }

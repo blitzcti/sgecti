@@ -33,7 +33,7 @@ class StoreCourse extends FormRequest
             'minHour' => 'required|numeric|min:1',
             'minMonth' => 'required|numeric|min:1',
             'minMonthCTPS' => 'required|numeric|min:1',
-            'minMark' => 'required|numeric|min:0|max:10',
+            'minGrade' => 'required|numeric|min:0|max:10',
         ];
     }
 }

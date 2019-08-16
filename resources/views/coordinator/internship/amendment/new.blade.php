@@ -14,7 +14,7 @@
                value="{{ (old('has2Turnos') ?? 0) ? '1' : '0' }}">
 
         <input type="hidden" id="inputInternshipStartDate" name="internshipStartDate"
-               value="{{ (App\Models\Internship::find($i) ?? $internships->first())->start_date }}">
+               value="{{ (App\Models\Internship::find($i) ?? $internships->first())->start_date ?? '' }}">
 
         <div class="box box-default">
             <div class="box-header with-border">
@@ -103,6 +103,8 @@
             </div>
         </div>
 
+        @if ($internships->first() != null)
+
         <div class="box box-default">
             <div class="box-header with-border">
                 <h3 class="box-title">Dados do estágio</h3>
@@ -169,6 +171,8 @@
                 </dl>
             </div>
         </div>
+
+        @endif
 
         <div class="box box-default">
             <div class="box-header with-border">

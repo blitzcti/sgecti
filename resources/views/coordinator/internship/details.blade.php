@@ -8,6 +8,7 @@
 
 @section('content')
     @include('modals.coordinator.internship.cancel')
+    @include('modals.coordinator.internship.reactivate')
 
     <div class="box box-default">
         <div class="box-body">
@@ -33,7 +34,7 @@
                 @elseif($internship->state->id == 3)
 
                     <a href="#"
-                       onclick="internshipId('{{ $internship->id }}'); studentName('{{ $internship->student->nome }}'); return false;"
+                       onclick="reactivateInternshipId('{{ $internship->id }}'); reactivateStudentName('{{ $internship->student->nome }}'); return false;"
                        data-toggle="modal" class="btn btn-default" data-target="#internshipReactivateModal">Reativar</a>
 
                 @endif

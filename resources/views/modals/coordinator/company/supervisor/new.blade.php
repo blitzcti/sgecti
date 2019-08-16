@@ -52,7 +52,7 @@
 
                                 @foreach($companies as $company)
 
-                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                    <option value="{{ $company->id }}">{{ $company->cpf_cnpj }} - {{ $company->name }}</option>
 
                                 @endforeach
 

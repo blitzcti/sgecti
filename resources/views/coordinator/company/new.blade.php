@@ -109,7 +109,7 @@
                 </div>
 
                 <div class="form-group @if($errors->has('email')) has-error @endif">
-                    <label for="inputEmail" class="col-sm-2 control-label">Email*</label>
+                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
 
                     <div class="col-sm-10">
                         <input type="email" class="form-control" id="inputEmail" name="email"
@@ -120,7 +120,7 @@
                 </div>
 
                 <div class="form-group @if($errors->has('phone')) has-error @endif">
-                    <label for="inputPhone" class="col-sm-2 control-label">Telefone*</label>
+                    <label for="inputPhone" class="col-sm-2 control-label">Telefone</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputPhone" name="phone"

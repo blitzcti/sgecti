@@ -18,14 +18,14 @@
 
             <div class="box-body">
                 <div class="form-group @if($errors->has('user')) has-error @endif">
-                    <label for="inputUser" class="col-sm-2 control-label">Usuário</label>
+                    <label for="inputUser" class="col-sm-2 control-label">Usuário*</label>
 
                     <div class="col-sm-10">
                         <select class="form-control selection" id="inputUser" name="user">
 
                             @foreach($users as $user)
 
-                                <option value="{{ $user->id }}" {{ (old('user') ?? $user->id) == $coordinator->user->id ? 'selected=selected' : '' }}>
+                                <option value="{{ $user->id }}" {{ (old('user') ?? $coordinator->user->id) == $user->id ? 'selected=selected' : '' }}>
                                     {{ __($user->name) }}
                                 </option>
 
@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="form-group @if($errors->has('course')) has-error @endif">
-                    <label for="inputCourse" class="col-sm-2 control-label">Curso</label>
+                    <label for="inputCourse" class="col-sm-2 control-label">Curso*</label>
 
                     <div class="col-sm-10">
                         <select class="form-control selection" id="inputCourse" name="course">
@@ -57,10 +57,31 @@
                     </div>
                 </div>
 
+                <div class="form-group @if($errors->has('tempOf')) has-error @endif">
+                    <label for="inputTempOf" class="col-sm-2 control-label">Temporário de</label>
+
+                    <div class="col-sm-10">
+                        <select class="form-control selection" id="inputTempOf" name="tempOf">
+
+                            <option value="0">(Nenhum)</option>
+                            @foreach($coordinators as $coord)
+
+                                <option value="{{ $coord->id }}" {{ (old('tempOf') ?? $coordinator->temp_of ?? 0) == $coord->id ? 'selected=selected' : '' }}>
+                                    {{ __($coord->user->name) }} - {{ $coord->course->name }}
+                                </option>
+
+                            @endforeach
+
+                        </select>
+
+                        <span class="help-block">{{ $errors->first('tempOf') }}</span>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('startDate')) has-error @endif">
-                            <label for="inputStartDate" class="col-sm-4 control-label">Vigência Início</label>
+                            <label for="inputStartDate" class="col-sm-4 control-label">Vigência Início*</label>
 
                             <div class="col-sm-8">
                                 <input type="date" class="form-control" id="inputStartDate" name="startDate"

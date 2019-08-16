@@ -28,11 +28,12 @@
                 </div>
 
                 <div class="form-group @if($errors->has('description')) has-error @endif">
-                    <label for="inputDescription" class="col-sm-2 control-label">Descrição*</label>
+                    <label for="inputDescription" class="col-sm-2 control-label">Descrição</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputDescription" name="description"
-                               placeholder="" value="{{ old('description') ?? '' }}"/>
+                        <textarea class="form-control" rows="3" id="inputDescription" name="description"
+                                  style="resize: none"
+                                  placeholder="Descrição do setor">{{ old('description') ?? '' }}</textarea>
 
                         <span class="help-block">{{ $errors->first('description') }}</span>
                     </div>

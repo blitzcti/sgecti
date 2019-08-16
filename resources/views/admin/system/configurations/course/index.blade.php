@@ -28,8 +28,12 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th>Anos máximos</th>
-                    <th>Data de início</th>
-                    <th>Data de término</th>
+                    <th>Ano mínimo</th>
+                    <th>Semestre mínimo</th>
+                    <th>Horas mínimas</th>
+                    <th>Meses mínimos</th>
+                    <th>Meses mínimos (CTPS)</th>
+                    <th>Nota mínima</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
@@ -41,8 +45,12 @@
                     <tr>
                         <th scope="row">{{ $config->id }}</th>
                         <td>{{ $config->max_years }}</td>
-                        <td>{{ date("d/m/Y", strtotime($config->start_date)) }}</td>
-                        <td>{{ $config->end_date != null ? date("d/m/Y", strtotime($config->end_date)) : 'Indefinido' }}</td>
+                        <td>{{ $config->min_year }}</td>
+                        <td>{{ $config->min_semester }}</td>
+                        <td>{{ $config->min_hours }}</td>
+                        <td>{{ $config->min_months }}</td>
+                        <td>{{ $config->min_months_ctps }}</td>
+                        <td>{{ $config->min_grade }}</td>
 
                         <td>
                             <a href="{{ route('admin.configuracao.curso.editar', ['id' => $config->id]) }}">Editar</a>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Internship;
+use App\Models\Proposal;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,9 +32,8 @@ class HomeController extends Controller
         if ($user->isCoordinator()) {
             $strCourses = $user->coordinator_courses_name;
             $data['strCourses'] = $strCourses;
-
-            /*$proposals = Proposal::all()->sortBy('id');
-            $data['proposals'] =  $proposals;*/
+            $data['requiringFinish'] = Internship::requiringFinish();
+            $data['proposals'] = Proposal::all()->sortBy('id');
         }
 
         return view('home')->with($data);

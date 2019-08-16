@@ -25,7 +25,7 @@ class StoreSector extends FormRequest
     {
         return [
             'name' => 'required|max:50|unique:sectors,name',
-            'description' => 'required',
+            'description' => 'nullable|max:8000',
             'active' => 'required|boolean',
         ];
     }

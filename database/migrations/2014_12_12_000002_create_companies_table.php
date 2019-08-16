@@ -20,10 +20,10 @@ class CreateCompaniesTable extends Migration
             $table->string('ie', 10)->nullable(true)->default(null)->unique();
             $table->boolean('pj')->nullable(false)->default(true);
 
-            $table->string('name', 100)->nullable(false);
-            $table->string('fantasy_name', 100)->nullable(true)->default(null);
-            $table->string('email', 100)->nullable(false);
-            $table->string('phone', 11)->nullable(false);
+            $table->string('name')->nullable(false);
+            $table->string('fantasy_name')->nullable(true)->default(null);
+            $table->string('email')->nullable(true)->default(null);
+            $table->string('phone', 11)->nullable(true)->default(null);
 
             $table->string('representative_name', 50)->nullable(false);
             $table->string('representative_role', 50)->nullable(false);

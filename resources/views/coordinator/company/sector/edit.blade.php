@@ -12,7 +12,8 @@
             <h3 class="box-title">Dados do setor</h3>
         </div>
 
-        <form class="form-horizontal" action="{{ route('coordenador.empresa.setor.alterar', $sector->id) }}" method="post">
+        <form class="form-horizontal" action="{{ route('coordenador.empresa.setor.alterar', $sector->id) }}"
+              method="post">
             @method('PUT')
             @csrf
 
@@ -29,11 +30,12 @@
                 </div>
 
                 <div class="form-group @if($errors->has('description')) has-error @endif">
-                    <label for="inputDescription" class="col-sm-2 control-label">Descrição*</label>
+                    <label for="inputDescription" class="col-sm-2 control-label">Descrição</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputDescription" name="description" placeholder=""
-                               value="{{ old('description') ?? $sector->description }}"/>
+                        <textarea class="form-control" rows="3" id="inputDescription" name="description"
+                                  style="resize: none"
+                                  placeholder="Descrição do setor">{{ old('description') ?? $sector->description }}</textarea>
 
                         <span class="help-block">{{ $errors->first('description') }}</span>
                     </div>
@@ -45,8 +47,10 @@
                     <div class="col-sm-10">
                         <select class="form-control selection" data-minimum-results-for-search="Infinity"
                                 id="inputActive" name="active">
-                            <option value="1" {{ (old('active') ?? $sector->active) ? 'selected=selected' : '' }}>Sim</option>
-                            <option value="0" {{ !(old('active') ?? $sector->active) ? 'selected=selected' : '' }}>Não</option>
+                            <option value="1" {{ (old('active') ?? $sector->active) ? 'selected=selected' : '' }}>Sim
+                            </option>
+                            <option value="0" {{ !(old('active') ?? $sector->active) ? 'selected=selected' : '' }}>Não
+                            </option>
                         </select>
 
                         <span class="help-block">{{ $errors->first('active') }}</span>

@@ -61,6 +61,6 @@ class Course extends Model
 
     public function configuration()
     {
-        return $this->configurationAt(Carbon::now());
+        return $this->configurationAt(Carbon::now()) ?? GeneralConfiguration::all()->last();
     }
 }

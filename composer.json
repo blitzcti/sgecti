@@ -15,7 +15,8 @@
         "laravel/tinker": "^1.0",
         "league/flysystem-sftp": "^1.0",
         "lrgt/laravel-form-ajax-validation": "^5.1",
-        "rap2hpoutre/laravel-log-viewer": "^1.1"
+        "rap2hpoutre/laravel-log-viewer": "^1.1",
+        "spatie/laravel-permission": "^2.37"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

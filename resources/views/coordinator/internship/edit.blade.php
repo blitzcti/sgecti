@@ -34,7 +34,8 @@
                             <div class="col-sm-8">
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="inputRA" name="ra" placeholder="1757047"
-                                           readonly data-inputmask="'mask': '9999999'" value="{{ old('ra') ?? $internship->ra }}">
+                                           readonly data-inputmask="'mask': '9999999'"
+                                           value="{{ old('ra') ?? $internship->ra }}">
 
                                     <div class="input-group-btn">
                                         <a href="#" data-toggle="modal" data-target="#searchStudentModal"
@@ -87,7 +88,8 @@
 
                             @foreach($companies as $company)
 
-                                <option value="{{ $company->id }}" {{ (old('company') ?? $internship->company->id) == $company->id ? 'selected' : '' }}>
+                                <option
+                                    value="{{ $company->id }}" {{ (old('company') ?? $internship->company->id) == $company->id ? 'selected' : '' }}>
                                     {{ $company->cpf_cnpj }} - {{ $company->name }}
                                 </option>
 
@@ -103,7 +105,8 @@
                     <label for="inputCompanyRepresentative" class="col-sm-2 control-label">Representante*</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputCompanyRepresentative" name="representative" readonly
+                        <input type="text" class="form-control" id="inputCompanyRepresentative" name="representative"
+                               readonly
                                value="{{ (App\Models\Company::find(old('company')) ?? $internship->company)->representative_name }}"/>
                     </div>
                 </div>
@@ -117,7 +120,8 @@
 
                             @foreach($internship->company->sectors as $sector)
 
-                                <option value="{{ $sector->id }}" {{ (old('sector') ?? $internship->sector->id) == $sector->id ? "selected" : "" }}>
+                                <option
+                                    value="{{ $sector->id }}" {{ (old('sector') ?? $internship->sector->id) == $sector->id ? "selected" : "" }}>
                                     {{ $sector->name }}
                                 </option>
 
@@ -336,7 +340,7 @@
 
                     <div class="col-sm-10">
                         <input type="checkbox" id="fakeInputHas2Turnos" name="fakeHas2Turnos"
-                                {{ old('has2Turnos') ?? ($internship->schedule2 != null) ? 'checked="checked"' : '' }}>
+                            {{ old('has2Turnos') ?? ($internship->schedule2 != null) ? 'checked="checked"' : '' }}>
                     </div>
                 </div>
 
@@ -483,55 +487,58 @@
             <!-- /.box-footer -->
         </div>
 
-        <div class="box box-default">
-            <div class="box-header with-border">
-                <h3 class="box-title">Supervisor</h3>
-            </div>
-
-            <div class="box-body">
-                <div class="form-group @if($errors->has('supervisor')) has-error @endif">
-                    <label for="inputSupervisor" class="col-sm-2 control-label">Supervisor*</label>
-
-                    <div class="col-sm-10">
-                        <select class="selection" name="supervisor"
-                                id="inputSupervisor"
-                                style="width: 100%">
-
-                            @foreach($internship->company->supervisors as $supervisor)
-
-                                <option value="{{ $supervisor->id }}" {{ (old('supervisor') ?? $internship->supervisor->id) == $supervisor->id ? "selected" : "" }}>
-                                    {{ $supervisor->name }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
-                        <span class="help-block">{{ $errors->first('supervisor') }}</span>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Supervisor</h3>
                     </div>
+
+                    <div class="box-body">
+                        <div class="form-group @if($errors->has('supervisor')) has-error @endif">
+                            <label for="inputSupervisor" class="col-sm-4 control-label">Supervisor*</label>
+
+                            <div class="col-sm-8">
+                                <select class="selection" name="supervisor"
+                                        id="inputSupervisor"
+                                        style="width: 100%">
+
+                                    @foreach($internship->company->supervisors as $supervisor)
+
+                                        <option
+                                            value="{{ $supervisor->id }}" {{ (old('supervisor') ?? $internship->supervisor->id) == $supervisor->id ? "selected" : "" }}>
+                                            {{ $supervisor->name }}
+                                        </option>
+
+                                    @endforeach
+
+                                </select>
+
+                                <span class="help-block">{{ $errors->first('supervisor') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="btn-group pull-right">
+                            <a href="#" class="btn btn-success" id="aAddSupervisor" data-toggle="modal"
+                               data-target="#newInternshipSupervisorModal">Novo supervisor</a>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
+
+                        <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+                    </div>
+                    <!-- /.box-footer -->
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <div class="btn-group pull-right">
-                    <a href="#" class="btn btn-success" id="aAddSupervisor" data-toggle="modal"
-                       data-target="#newInternshipSupervisorModal">Novo supervisor</a>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
-                </div>
 
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
-        </div>
+            <div class="col-sm-6">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Dados da secretaria</h3>
+                    </div>
 
-        <div class="box box-default">
-            <div class="box-header with-border">
-                <h3 class="box-title">Dados da secretaria</h3>
-            </div>
-
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-sm-6">
+                    <div class="box-body">
                         <div class="form-group @if($errors->has('protocol')) has-error @endif">
                             <label for="inputProtocol" class="col-sm-4 control-label">Protocolo*</label>
 
@@ -544,14 +551,14 @@
                             </div>
                         </div>
                     </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary pull-right">Salvar</button>
+                        <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+                    </div>
+                    <!-- /.box-footer -->
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
     </form>
 @endsection

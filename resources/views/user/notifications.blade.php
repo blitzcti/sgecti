@@ -29,7 +29,6 @@
                 <tr>
                     <th>Descrição</th>
                     <th>Texto</th>
-                    <th>Visto em</th>
                     <th>Data</th>
                     <th>Ações</th>
                 </tr>
@@ -41,11 +40,14 @@
                     <tr>
                         <td>{{ $notification->toArray()['data']['description'] }}</td>
                         <td>{{ $notification->toArray()['data']['text'] }}</td>
-                        <td>{{ $notification->read_at }}</td>
                         <td>{{ $notification->created_at }}</td>
 
                         <td>
-                            <a href="{{ route('api.usuario.notificacao.lida', ['id' => $notification->id]) }}">Marcar como lida</a>
+                            @if($notification->read_at == null)
+
+                            <a href="#" onclick="markAsSeen('{{ $notification->id }}'); return false;">Marcar como lida</a>
+
+                            @endif
                         </td>
                     </tr>
 

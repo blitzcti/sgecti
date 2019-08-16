@@ -45,8 +45,12 @@ class GeneralConfigurationController extends Controller
         $log .= "\nUsuário: " . Auth::user()->name;
 
         $config->max_years = $validatedData->maxYears;
-        $config->start_date = $validatedData->startDate;
-        $config->end_date = $validatedData->endDate;
+        $config->min_year = $validatedData->minYear;
+        $config->min_semester = $validatedData->minSemester;
+        $config->min_hours = $validatedData->minHour;
+        $config->min_months = $validatedData->minMonth;
+        $config->min_months_ctps = $validatedData->minMonthCTPS;
+        $config->min_grade = $validatedData->minGrade;
 
         $saved = $config->save();
         $log .= "\nNovos dados: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
@@ -75,8 +79,12 @@ class GeneralConfigurationController extends Controller
         $log .= "\nDados antigos: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $config->max_years = $validatedData->maxYears;
-        $config->start_date = $validatedData->startDate;
-        $config->end_date = $validatedData->endDate;
+        $config->min_year = $validatedData->minYear;
+        $config->min_semester = $validatedData->minSemester;
+        $config->min_hours = $validatedData->minHour;
+        $config->min_months = $validatedData->minMonth;
+        $config->min_months_ctps = $validatedData->minMonthCTPS;
+        $config->min_grade = $validatedData->minGrade;
 
         $saved = $config->save();
         $log .= "\nNovos dados: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);

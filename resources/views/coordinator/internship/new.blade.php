@@ -24,6 +24,8 @@
                        value="{{ (old('has2Turnos') ?? 0) ? '1' : '0' }}">
                 <input type="hidden" id="inputHasCTPS" name="hasCTPS"
                        value="{{ (old('hasCTPS') ?? 0) ? '1' : '0' }}">
+                <input type="hidden" id="inputDelation" name="delation"
+                       value="{{ (old('delation') ?? 0) ? '1' : '0' }}">
 
                 <div class="row">
                     <div class="col-sm-6">
@@ -37,7 +39,7 @@
 
                                     <div class="input-group-btn">
                                         <a href="#" data-toggle="modal" data-target="#searchStudentModal"
-                                                class="btn btn-default"><i class="fa fa-search"></i></a>
+                                           class="btn btn-default"><i class="fa fa-search"></i></a>
                                     </div>
                                 </div>
 
@@ -81,7 +83,8 @@
 
                             @foreach($companies as $company)
 
-                                <option value="{{ $company->id }}" {{ (old('company') ?? 1) == $company->id ? 'selected' : '' }}>
+                                <option
+                                    value="{{ $company->id }}" {{ (old('company') ?? 1) == $company->id ? 'selected' : '' }}>
                                     {{ $company->cpf_cnpj }} - {{ $company->name }}</option>
 
                             @endforeach
@@ -96,7 +99,8 @@
                     <label for="inputCompanyRepresentative" class="col-sm-2 control-label">Representante</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputCompanyRepresentative" name="representative" readonly
+                        <input type="text" class="form-control" id="inputCompanyRepresentative" name="representative"
+                               readonly
                                value="{{ (App\Models\Company::find(old('company')) ?? $companies->first())->representative_name ?? '' }}"/>
                     </div>
                 </div>
@@ -110,7 +114,8 @@
 
                             @foreach((\App\Models\Company::find(old('company'))->sectors ?? $companies->first()->sectors ?? []) as $sector)
 
-                                <option value="{{ $sector->id }}" {{ (old('sector') ?? 1) == $sector->id ? "selected" : "" }}>
+                                <option
+                                    value="{{ $sector->id }}" {{ (old('sector') ?? 1) == $sector->id ? "selected" : "" }}>
                                     {{ $sector->name }}
                                 </option>
 
@@ -329,7 +334,7 @@
 
                     <div class="col-sm-10">
                         <input type="checkbox" id="fakeInputHas2Turnos" name="fakeHas2Turnos"
-                                {{ old('has2Turnos') ?? 0 ? 'checked="checked"' : '' }}>
+                            {{ old('has2Turnos') ?? 0 ? 'checked="checked"' : '' }}>
                     </div>
                 </div>
 
@@ -476,53 +481,56 @@
             <!-- /.box-footer -->
         </div>
 
-        <div class="box box-default">
-            <div class="box-header with-border">
-                <h3 class="box-title">Supervisor</h3>
-            </div>
-
-            <div class="box-body">
-                <div class="form-group @if($errors->has('supervisor')) has-error @endif">
-                    <label for="inputSupervisor" class="col-sm-2 control-label">Supervisor*</label>
-
-                    <div class="col-sm-10">
-                        <select class="selection" name="supervisor" id="inputSupervisor"
-                                style="width: 100%">
-
-                            @foreach(((\App\Models\Company::find(old('company')) ?? $companies->first())->supervisors ?? []) as $supervisor)
-
-                                <option value="{{ $supervisor->id }}" {{ (old('supervisor') ?? 1) == $supervisor->id ? "selected" : "" }}>
-                                    {{ $supervisor->name }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
-                        <span class="help-block">{{ $errors->first('supervisor') }}</span>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Supervisor</h3>
                     </div>
+
+                    <div class="box-body">
+                        <div class="form-group @if($errors->has('supervisor')) has-error @endif">
+                            <label for="inputSupervisor" class="col-sm-4 control-label">Supervisor*</label>
+
+                            <div class="col-sm-8">
+                                <select class="selection" name="supervisor" id="inputSupervisor"
+                                        style="width: 100%">
+
+                                    @foreach(((\App\Models\Company::find(old('company')) ?? $companies->first())->supervisors ?? []) as $supervisor)
+
+                                        <option
+                                            value="{{ $supervisor->id }}" {{ (old('supervisor') ?? 1) == $supervisor->id ? "selected" : "" }}>
+                                            {{ $supervisor->name }}
+                                        </option>
+
+                                    @endforeach
+
+                                </select>
+
+                                <span class="help-block">{{ $errors->first('supervisor') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="btn-group pull-right">
+                            <a href="#" class="btn btn-success" id="aAddSupervisor" data-toggle="modal"
+                               data-target="#newInternshipSupervisorModal">Novo supervisor</a>
+                            <button type="submit" class="btn btn-primary">Adicionar</button>
+                        </div>
+                        <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+                    </div>
+                    <!-- /.box-footer -->
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <div class="btn-group pull-right">
-                    <a href="#" class="btn btn-success" id="aAddSupervisor" data-toggle="modal"
-                       data-target="#newInternshipSupervisorModal">Novo supervisor</a>
-                    <button type="submit" class="btn btn-primary">Adicionar</button>
-                </div>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
-        </div>
 
-        <div class="box box-default">
-            <div class="box-header with-border">
-                <h3 class="box-title">Dados da secretaria</h3>
-            </div>
+            <div class="col-sm-6">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Dados da secretaria</h3>
+                    </div>
 
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-sm-6">
+                    <div class="box-body">
                         <div class="form-group @if($errors->has('protocol')) has-error @endif">
                             <label for="inputProtocol" class="col-sm-4 control-label">Protocolo*</label>
 
@@ -534,15 +542,25 @@
                                 <span class="help-block">{{ $errors->first('protocol') }}</span>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="fakeInputDelation" class="col-sm-4 control-label" style="padding-top: 0">Delação
+                                de prazo</label>
+
+                            <div class="col-sm-8">
+                                <input type="checkbox" id="fakeInputDelation" name="fakeDelation"
+                                    {{ old('delation') ?? 0 ? 'checked="checked"' : '' }}>
+                            </div>
+                        </div>
                     </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
+                        <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+                    </div>
+                    <!-- /.box-footer -->
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
     </form>
 @endsection
@@ -567,6 +585,18 @@
                 } else {
                     jQuery('#weekDays2').css('display', 'none');
                     jQuery('#inputHas2Turnos').val(0);
+                }
+            }).trigger('ifChanged').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
+
+            jQuery('#fakeInputDelation').on('ifChanged', function () {
+                if (this.checked) {
+                    jQuery('#inputDelation').val(1);
+                } else {
+                    jQuery('#inputDelation').val(0);
                 }
             }).trigger('ifChanged').iCheck({
                 checkboxClass: 'icheckbox_square-blue',

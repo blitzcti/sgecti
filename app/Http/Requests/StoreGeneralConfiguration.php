@@ -25,8 +25,12 @@ class StoreGeneralConfiguration extends FormRequest
     {
         return [
             'maxYears' => 'required|numeric|min:1',
-            'startDate' => 'required|date|before:endDate',
-            'endDate' => 'nullable|date|after:startDate',
+            'minYear' => 'required|numeric|min:1|max:3',
+            'minSemester' => 'required|numeric|min:1|max:2',
+            'minHour' => 'required|numeric|min:1',
+            'minMonth' => 'required|numeric|min:1',
+            'minMonthCTPS' => 'required|numeric|min:1',
+            'minGrade' => 'required|numeric|min:0|max:10',
         ];
     }
 }

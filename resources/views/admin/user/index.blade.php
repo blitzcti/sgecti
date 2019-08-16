@@ -46,8 +46,13 @@
 
                         <td>
                             <a href="{{ route('admin.usuario.editar', ['id' => $user->id]) }}">Editar</a>
+
+                            @if($user->can('user-changePassword'))
+
                             |
                             <a href="{{ route('admin.usuario.alterarSenha', ['id' => $user->id]) }}">Alterar senha</a>
+
+                            @endif
                         </td>
                     </tr>
 

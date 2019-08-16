@@ -20,7 +20,8 @@ class UserController extends Controller
     {
         $this->middleware('permission:user-list', ['except' => ['changeCUserPassword', 'savePassword']]);
         $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:user-edit', ['only' => ['edit', 'changePassword', 'update']]);
+        $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:user-changePassword', ['only' => ['changePassword']]);
     }
 
     public function index()

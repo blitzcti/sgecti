@@ -50,7 +50,7 @@
                             @endif
                         </td>
 
-                        <td>{{ $job->company->name }}</td>
+                        <td>{{ $job->company_name }}</td>
                         <td>{{ $job->coordinator->user->name }}</td>
                         <td>{{ $job->state->description }}</td>
                         <td>
@@ -58,7 +58,7 @@
                             |
                             <a href="{{ route('coordenador.estagio.trabalho.editar', ['id' => $job->id]) }}">Editar</a>
 
-                            @if($internship->state->id == 1)
+                            @if($job->state->id == 1)
 
                                 |
                                 <a href="#"

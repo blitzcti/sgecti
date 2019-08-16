@@ -5,8 +5,8 @@ namespace App\Models;
 class Job extends Model
 {
     protected $fillable = [
-        'ra', 'ctps', 'company_id', 'sector_id', 'coordinator_id', 'supervisor_id',
-        'state_id', 'start_date', 'end_date', 'protocol', 'observation', 'reason_to_cancel', 'active',
+        'ra', 'ctps', 'company_cpf_cnpj', 'company_ie', 'company_pj', 'company_name', 'company_fantasy_name',
+        'coordinator_id', 'state_id', 'start_date', 'end_date', 'protocol', 'observation', 'reason_to_cancel', 'active',
     ];
 
     public function student()
@@ -14,24 +14,9 @@ class Job extends Model
         return $this->belongsTo(NSac\Student::class, 'ra');
     }
 
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
-
-    public function sector()
-    {
-        return $this->belongsTo(Sector::class);
-    }
-
     public function coordinator()
     {
         return $this->belongsTo(Coordinator::class);
-    }
-
-    public function supervisor()
-    {
-        return $this->belongsTo(Supervisor::class);
     }
 
     public function state()

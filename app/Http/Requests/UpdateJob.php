@@ -2,8 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CNPJ;
 use App\Rules\CompanyHasCourse;
+use App\Rules\CPF;
 use App\Rules\HasCourse;
+use App\Rules\HasInternship;
 use App\Rules\RA;
 use App\Rules\SameCourse;
 use Illuminate\Foundation\Http\FormRequest;
@@ -28,17 +31,22 @@ class UpdateJob extends FormRequest
     public function rules()
     {
         return [
-            'ra' => ['required', 'numeric', 'min:1', new RA, new SameCourse, new CompanyHasCourse($this->get('company'))],
+            'companyPJ' => 'required|boolean',
+
+            'ra' => ['required', 'numeric', 'min:1', new RA, new SameCourse],
             'active' => 'required|numeric|min:1',
-            'company' => ['required', 'min:1', new HasCourse],
-            'sector' => 'required|min:1',
+
+            'companyCpfCnpj' => ['required', 'numeric', ($this->get('companyPJ')) ? new CNPJ : new CPF],
+            'companyIE' => 'nullable|numeric|digits_between:10,10',
+            'companyName' => 'required|max:191',
+            'companyFantasyName' => 'max:191',
+
             'startDate' => 'required|date|before:endDate',
             'endDate' => 'required|date|after:startDate',
 
-            'supervisor' => 'required|numeric|min:1',
-
             'protocol' => 'required|max:5',
-            'observation' => 'max:200',
+            'observation' => 'nullable|max:200',
+            'activities' => 'nullable|max:6000',
 
             'ctps' => 'required|numeric|min:11',
         ];

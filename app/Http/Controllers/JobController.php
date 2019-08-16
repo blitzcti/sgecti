@@ -87,18 +87,21 @@ class JobController extends Controller
         $log .= "\nUsuário: " . Auth::user()->name;
 
         $job->ra = $validatedData->ra;
-        $job->company_id = $validatedData->company;
-        $job->sector_id = $validatedData->sector;
+        $job->company_cpf_cnpj = $validatedData->companyCpfCnpj;
+        $job->company_ie = $validatedData->companyIE;
+        $job->company_pj = $validatedData->companyPJ;
+        $job->company_name = $validatedData->companyName;
+        $job->company_fantasy_name = $validatedData->companyFantasyName;
 
         $coordinator = Auth::user()->coordinators->where('course_id', '=', $job->student->course_id)->last();
         $coordinator_id = $coordinator->temporary_of->id ?? $coordinator->id;
         $job->coordinator_id = $coordinator_id;
 
         $job->state_id = 1;
-        $job->supervisor_id = $validatedData->supervisor;
         $job->start_date = $validatedData->startDate;
         $job->end_date = $validatedData->endDate;
         $job->protocol = $validatedData->protocol;
+        $job->activities = $validatedData->activities;
         $job->observation = $validatedData->observation;
         $job->active = $validatedData->active;
         $job->ctps = $validatedData->ctps;
@@ -130,17 +133,20 @@ class JobController extends Controller
         $log .= "\nDados antigos: " . json_encode($job, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $job->ra = $validatedData->ra;
-        $job->company_id = $validatedData->company;
-        $job->sector_id = $validatedData->sector;
+        $job->company_cpf_cnpj = $validatedData->companyCpfCnpj;
+        $job->company_ie = $validatedData->companyIE;
+        $job->company_pj = $validatedData->companyPJ;
+        $job->company_name = $validatedData->companyName;
+        $job->company_fantasy_name = $validatedData->companyFantasyName;
 
         $coordinator = Auth::user()->coordinators->where('course_id', '=', $job->student->course_id)->last();
         $coordinator_id = $coordinator->temporary_of->id ?? $coordinator->id;
         $job->coordinator_id = $coordinator_id;
 
-        $job->supervisor_id = $validatedData->supervisor;
         $job->start_date = $validatedData->startDate;
         $job->end_date = $validatedData->endDate;
         $job->protocol = $validatedData->protocol;
+        $job->activities = $validatedData->activities;
         $job->observation = $validatedData->observation;
         $job->active = $validatedData->active;
         $job->ctps = $validatedData->ctps;

@@ -8,11 +8,96 @@
 
 @section('content')
 
+    @include('modals.cnpj.loading')
+    @include('modals.cnpj.error')
+
     @include('modals.coordinator.company.supervisor.new')
     @include('modals.coordinator.student.search')
 
     <form class="form-horizontal" action="{{ route('coordenador.estagio.trabalho.salvar') }}" method="post">
         @csrf
+
+        <input type="hidden" id="inputCompanyPJ" name="companyPJ" value="{{ old('companyPJ') ?? '0' }}">
+
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Dados da empresa</h3>
+            </div>
+
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group @if($errors->has('companyCpfCnpj')) has-error @endif">
+                            <label for="inputCompanyCpfCnpj" class="col-sm-4 control-label">CPF / CNPJ*</label>
+
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle"
+                                                data-toggle="dropdown">
+                                            <span id="CpfCnpjOption"></span>
+
+
+                                            <span class="fa fa-caret-down"></span></button>
+
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#" onclick="pj(true); return false;">CNPJ</a></li>
+                                            <li><a href="#" onclick="pj(false); return false;">CPF</a></li>
+                                        </ul>
+                                    </div>
+
+                                    <input type="text" class="form-control" id="inputCompanyCpfCnpj" name="companyCpfCnpj"
+                                           value="{{ old('companyCpfCnpj') ?? '' }}">
+                                </div>
+
+                                <span class="help-block">{{ $errors->first('companyCpfCnpj') }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group @if($errors->has('companyIE')) has-error @endif">
+                            <label for="inputCompanyIE" class="col-sm-4 control-label">Inscrição estadual</label>
+
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputCompanyIE" name="companyIE" placeholder="02.232.3355-6"
+                                       data-inputmask="'mask': '99.999.9999-9'" value="{{ old('companyIE') ?? '' }}"/>
+
+                                <span class="help-block">{{ $errors->first('companyIE') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group @if($errors->has('companyName')) has-error @endif">
+                    <label for="inputCompanyName" class="col-sm-2 control-label">Nome da empresa*</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputCompanyName" name="companyName" placeholder="MSTech"
+                               value="{{ old('companyName') ?? '' }}"/>
+
+                        <span class="help-block">{{ $errors->first('companyName') }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group @if($errors->has('companyFantasyName')) has-error @endif">
+                    <label for="inputCompanyFantasyName" class="col-sm-2 control-label">Nome fantasia</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputCompanyFantasyName" name="companyFantasyName"
+                               placeholder="" value="{{ old('companyFantasyName') ?? '' }}"/>
+
+                        <span class="help-block">{{ $errors->first('companyFantasyName') }}</span>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
+                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+            </div>
+            <!-- /.box-footer -->
+        </div>
 
         <div class="box box-default">
             <div class="box-header with-border">
@@ -64,59 +149,6 @@
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputStudentName" name="student" readonly
                                value="{{ App\Models\NSac\Student::find(old('ra') ?? $s)->nome ?? '' }}"/>
-                    </div>
-                </div>
-
-                <div class="form-group @if($errors->has('company')) has-error @endif">
-                    <label for="inputCompany" class="col-sm-2 control-label">Empresa*</label>
-
-                    <div class="col-sm-10">
-                        <select class="selection" name="company" id="inputCompany"
-                                style="width: 100%">
-
-                            @foreach($companies as $company)
-
-                                <option
-                                    value="{{ $company->id }}" {{ (old('company') ?? 1) == $company->id ? 'selected' : '' }}>
-                                    {{ $company->cpf_cnpj }} - {{ $company->name }}</option>
-
-                            @endforeach
-
-                        </select>
-
-                        <span class="help-block">{{ $errors->first('company') }}</span>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputCompanyRepresentative" class="col-sm-2 control-label">Representante</label>
-
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputCompanyRepresentative" name="representative"
-                               readonly
-                               value="{{ (App\Models\Company::find(old('company')) ?? $companies->first())->representative_name ?? '' }}"/>
-                    </div>
-                </div>
-
-                <div class="form-group @if($errors->has('sector')) has-error @endif">
-                    <label for="inputSector" class="col-sm-2 control-label">Setor*</label>
-
-                    <div class="col-sm-10">
-                        <select class="selection" name="sector" id="inputSector"
-                                style="width: 100%">
-
-                            @foreach((\App\Models\Company::find(old('company'))->sectors ?? $companies->first()->sectors ?? []) as $sector)
-
-                                <option
-                                    value="{{ $sector->id }}" {{ (old('sector') ?? 1) == $sector->id ? "selected" : "" }}>
-                                    {{ $sector->name }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
-                        <span class="help-block">{{ $errors->first('sector') }}</span>
                     </div>
                 </div>
 
@@ -177,6 +209,18 @@
                     </div>
                 </div>
 
+                <div class="form-group @if($errors->has('activities')) has-error @endif">
+                    <label for="inputActivities" class="col-sm-2 control-label">Atividades*</label>
+
+                    <div class="col-sm-10">
+                            <textarea class="form-control" rows="3" id="inputActivities" name="activities"
+                                      style="resize: none"
+                                      placeholder="O que o aluno fez no trabalho">{{ old('activities') ?? '' }}</textarea>
+
+                        <span class="help-block">{{ $errors->first('activities') }}</span>
+                    </div>
+                </div>
+
                 <div class="form-group @if($errors->has('observation')) has-error @endif">
                     <label for="inputObservation" class="col-sm-2 control-label">Obervação</label>
 
@@ -196,51 +240,33 @@
             </div>
             <!-- /.box-footer -->
         </div>
-
-        <div class="box box-default">
-            <div class="box-header with-border">
-                <h3 class="box-title">Supervisor</h3>
-            </div>
-
-            <div class="box-body">
-                <div class="form-group @if($errors->has('supervisor')) has-error @endif">
-                    <label for="inputSupervisor" class="col-sm-2 control-label">Supervisor*</label>
-
-                    <div class="col-sm-10">
-                        <select class="selection" name="supervisor" id="inputSupervisor"
-                                style="width: 100%">
-
-                            @foreach(((\App\Models\Company::find(old('company')) ?? $companies->first())->supervisors ?? []) as $supervisor)
-
-                                <option
-                                    value="{{ $supervisor->id }}" {{ (old('supervisor') ?? 1) == $supervisor->id ? "selected" : "" }}>
-                                    {{ $supervisor->name }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
-                        <span class="help-block">{{ $errors->first('supervisor') }}</span>
-                    </div>
-                </div>
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <div class="btn-group pull-right">
-                    <a href="#" class="btn btn-success" id="aAddSupervisor" data-toggle="modal"
-                       data-target="#newInternshipSupervisorModal">Novo supervisor</a>
-                    <button type="submit" class="btn btn-primary">Adicionar</button>
-                </div>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
-        </div>
     </form>
 @endsection
 
 @section('js')
     <script type="text/javascript">
+        function pj(isPj) {
+            if (isPj) {
+                jQuery('#CpfCnpjOption').text('CNPJ');
+
+                $("input[id*='inputCompanyCpfCnpj']").inputmask({
+                    mask: '99.999.999/9999-99',
+                    removeMaskOnSubmit: true
+                });
+
+                jQuery('#inputCompanyPJ').val(1);
+            } else {
+                jQuery('#CpfCnpjOption').text('CPF');
+
+                $("input[id*='inputCompanyCpfCnpj']").inputmask({
+                    mask: '999.999.999-99',
+                    removeMaskOnSubmit: true
+                });
+
+                jQuery('#inputCompanyPJ').val(0);
+            }
+        }
+
         jQuery(document).ready(function () {
             jQuery(':input').inputmask({removeMaskOnSubmit: true});
 
@@ -248,75 +274,56 @@
                 language: "pt-BR"
             });
 
-            jQuery('#inputCompany').on('change', e => {
-                jQuery.ajax({
-                    url: `/api/empresa/${jQuery('#inputCompany').val()}`,
-                    dataType: 'json',
-                    method: 'GET',
-                    success: function (data) {
-                        jQuery('#inputCompanyRepresentative').val(data.representative_name);
-                    },
-                    error: function () {
+            function loadCnpj() {
+                if (jQuery('#inputCompanyPJ').val() === '1') {
+                    $("#cnpjLoadingModal").modal({
+                        backdrop: "static",
+                        keyboard: false,
+                        show: true
+                    });
 
-                    },
-                });
-
-                jQuery('#inputSector').select2({
-                    language: "pt-BR",
-                    ajax: {
-                        url: `/api/empresa/${jQuery('#inputCompany').val()}/setor/`,
+                    jQuery.ajax({
+                        url: `/api/external/cnpj/${jQuery('#inputCompanyCpfCnpj').inputmask('unmaskedvalue')}`,
                         dataType: 'json',
-                        method: 'GET',
-                        cache: true,
-                        data: function (params) {
-                            return {
-                                q: params.term // search term
-                            };
+                        type: 'GET',
+                        success: function (company) {
+                            $("#cnpjLoadingModal").modal("hide");
+
+                            if (company.error) {
+                                $("#cnpjErrorModal").modal({
+                                    backdrop: "static",
+                                    keyboard: false,
+                                    show: true
+                                });
+
+                                company.name = '';
+                                company.fantasyName = '';
+                            }
+
+                            jQuery('#inputCompanyName').val(company.name);
+                            jQuery('#inputCompanyFantasyName').val(company.fantasyName);
                         },
 
-                        processResults: function (response) {
-                            sectors = [];
-                            response.forEach(sector => {
-                                if (sector.active) {
-                                    sectors.push({id: sector.id, text: sector.name});
-                                }
+                        error: function () {
+                            $("#cnpjLoadingModal").modal("hide");
+
+                            $("#cnpjErrorModal").modal({
+                                backdrop: "static",
+                                keyboard: false,
+                                show: true
                             });
+                        }
+                    });
+                }
+            }
 
-                            return {
-                                results: sectors
-                            };
-                        },
-                    }
-                });
-
-                jQuery('#inputSupervisor').select2({
-                    language: "pt-BR",
-                    ajax: {
-                        url: `/api/empresa/${jQuery('#inputCompany').val()}/supervisor/`,
-                        dataType: 'json',
-                        method: 'GET',
-                        cache: true,
-                        data: function (params) {
-                            return {
-                                q: params.term // search term
-                            };
-                        },
-
-                        processResults: function (response) {
-                            supervisors = [];
-                            response.forEach(supervisor => {
-                                if (supervisor.active) {
-                                    supervisors.push({id: supervisor.id, text: supervisor.name});
-                                }
-                            });
-
-                            return {
-                                results: supervisors
-                            };
-                        },
-                    }
-                });
+            jQuery('#inputCompanyCpfCnpj').blur(() => {
+                if (jQuery('#inputCompanyCpfCnpj').val() !== "") {
+                    loadCnpj();
+                }
             });
+
+            pj({{ (old('pj') ?? 1) == 1 }});
         });
     </script>
 @endsection

@@ -69,8 +69,14 @@
             <h3>Dados do estágio</h3>
 
             <dl class="row">
+                <dt class="col-sm-2">CPF / CNPJ da empresa</dt>
+                <dd class="col-sm-10">{{ $internship->company->cpf_cnpj }}</dd>
+
                 <dt class="col-sm-2">Empresa</dt>
                 <dd class="col-sm-10">{{ $internship->company->name }}</dd>
+
+                <dt class="col-sm-2">Nome fantasia</dt>
+                <dd class="col-sm-10">{{ $internship->company->fantasy_name ?? '(Não informado)' }}</dd>
 
                 <dt class="col-sm-2">Setor</dt>
                 <dd class="col-sm-10">{{ $internship->sector->name }}</dd>

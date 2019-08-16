@@ -10,6 +10,7 @@
 
     @include('modals.coordinator.company.supervisor.new')
     @include('modals.coordinator.student.search')
+    @include('modals.coordinator.cloneSchedule')
 
     <form class="form-horizontal" action="{{ route('coordenador.estagio.alterar', $internship->id) }}" method="post">
         @method('PUT')
@@ -206,7 +207,11 @@
                         <table id="inputWeekDays" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th></th>
+                                <th>
+                                    <a href="#" data-toggle="modal" data-target="#cloneScheduleModal">
+                                        <i class="fa fa-copy"></i>
+                                    </a>
+                                </th>
 
                                 <th>
                                     <label class="control-label">Seg</label>
@@ -351,7 +356,11 @@
                         <table id="inputWeekDays" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th></th>
+                                <th>
+                                    <a href="#" data-toggle="modal" data-target="#cloneScheduleModal">
+                                        <i class="fa fa-copy"></i>
+                                    </a>
+                                </th>
 
                                 <th>
                                     <label class="control-label">Seg</label>
@@ -565,6 +574,29 @@
 
 @section('js')
     <script type="text/javascript">
+        function cloneSchedule(from = 'mon', days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'], schedule2 = false) {
+            if (typeof from === "string" && Array.isArray(days) && typeof schedule2 === "boolean") {
+                if (!schedule2) {
+                    let s = jQuery(`input[name=${from}S]`).val();
+                    let e = jQuery(`input[name=${from}E]`).val();
+
+                    days.forEach(day => {
+                        jQuery(`input[name=${day}S]`).val(s);
+                        jQuery(`input[name=${day}E]`).val(e);
+                    });
+                } else {
+                    let s = jQuery('input[name=monS2]');
+                    let e = jQuery('input[name=monE2]');
+
+                    let days = ['tue', 'wed', 'thu', 'fri', 'sat'];
+                    for (let day in days) {
+                        jQuery(`input[name=${day}S2]`).val(s);
+                        jQuery(`input[name=${day}E2]`).val(e);
+                    }
+                }
+            }
+        }
+
         jQuery(document).ready(function () {
             jQuery(':input').inputmask({removeMaskOnSubmit: true});
 

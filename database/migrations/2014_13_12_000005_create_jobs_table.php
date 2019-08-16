@@ -20,11 +20,11 @@ class CreateJobsTable extends Migration
 
             $table->string('ctps', 13)->nullable(true)->default(null);
 
-            $table->bigInteger('company_id')->nullable(false)->unsigned();
-            $table->foreign('company_id')->references('id')->on('companies');
-
-            $table->bigInteger('sector_id')->nullable(false)->unsigned();
-            $table->foreign('sector_id')->references('id')->on('sectors');
+            $table->string('company_cpf_cnpj', 15)->nullable(false)->unique();
+            $table->string('company_ie', 10)->nullable(true)->default(null)->unique();
+            $table->boolean('company_pj')->nullable(false)->default(true);
+            $table->string('company_name')->nullable(false);
+            $table->string('company_fantasy_name')->nullable(true)->default(null);
 
             $table->bigInteger('coordinator_id')->nullable(false)->unsigned();
             $table->foreign('coordinator_id')->references('id')->on('coordinators');
@@ -32,14 +32,12 @@ class CreateJobsTable extends Migration
             $table->bigInteger('state_id')->nullable(false)->unsigned();
             $table->foreign('state_id')->references('id')->on('states');
 
-            $table->bigInteger('supervisor_id')->nullable(false)->unsigned();
-            $table->foreign('supervisor_id')->references('id')->on('supervisors');
-
             $table->date('start_date');
             $table->date('end_date');
 
             $table->string('protocol', 15);
 
+            $table->text('activities')->nullable(true)->default(null);
             $table->text('observation')->nullable(true)->default(null);
             $table->text('reason_to_cancel')->nullable(true)->default(null);
 

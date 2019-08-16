@@ -70,8 +70,14 @@
             @if ($student->internship != null)
 
                 <dl class="row">
+                    <dt class="col-sm-2">CPF / CNPJ da empresa</dt>
+                    <dd class="col-sm-10">{{ $student->internship->company->cpf_cnpj }}</dd>
+
                     <dt class="col-sm-2">Empresa</dt>
                     <dd class="col-sm-10">{{ $student->internship->company->name }}</dd>
+
+                    <dt class="col-sm-2">Nome fantasia</dt>
+                    <dd class="col-sm-10">{{ $student->internship->company->fantasy_name ?? '(Não informado)' }}</dd>
 
                     <dt class="col-sm-2">Setor</dt>
                     <dd class="col-sm-10">{{ $student->internship->sector->name }}</dd>
@@ -108,8 +114,14 @@
             @foreach($student->finishedInternships as $internship)
 
                 <dl class="row">
+                    <dt class="col-sm-2">CPF / CNPJ da empresa</dt>
+                    <dd class="col-sm-10">{{ $internship->company->cpf_cnpj }}</dd>
+
                     <dt class="col-sm-2">Empresa</dt>
                     <dd class="col-sm-10">{{ $internship->company->name }}</dd>
+
+                    <dt class="col-sm-2">Nome fantasia</dt>
+                    <dd class="col-sm-10">{{ $internship->company->fantasy_name ?? '(Não informado)' }}</dd>
 
                     <dt class="col-sm-2">Setor</dt>
                     <dd class="col-sm-10">{{ $internship->sector->name }}</dd>
@@ -154,8 +166,14 @@
             @foreach($student->finishedJobs as $job)
 
                 <dl class="row">
+                    <dt class="col-sm-2">CPF / CNPJ da empresa</dt>
+                    <dd class="col-sm-10">{{ $job->company_cpf_cnpj }}</dd>
+
                     <dt class="col-sm-2">Empresa</dt>
-                    <dd class="col-sm-10">{{ $job->company->name }}</dd>
+                    <dd class="col-sm-10">{{ $job->company_name }}</dd>
+
+                    <dt class="col-sm-2">Nome fantasia</dt>
+                    <dd class="col-sm-10">{{ $job->company_fantasy_name }}</dd>
 
                     <dt class="col-sm-2">Setor</dt>
                     <dd class="col-sm-10">{{ $job->sector->name }}</dd>

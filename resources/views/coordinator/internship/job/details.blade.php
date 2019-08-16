@@ -13,7 +13,7 @@
         <div class="box-body">
             <div class="btn-group" style="display: inline-flex; margin: 0">
                 <a href="{{ route('coordenador.estagio.trabalho.editar', $job->id) }}"
-                   class="btn btn-primary">Editar estágio</a>
+                   class="btn btn-primary">Editar trabalho</a>
 
                 @if($job->state->id == 1)
 
@@ -53,14 +53,14 @@
             <h3>Dados do trabalho</h3>
 
             <dl class="row">
+                <dt class="col-sm-2">CPF / CNPJ da empresa</dt>
+                <dd class="col-sm-10">{{ $job->company_cpf_cnpj }}</dd>
+
                 <dt class="col-sm-2">Empresa</dt>
-                <dd class="col-sm-10">{{ $job->company->name }}</dd>
+                <dd class="col-sm-10">{{ $job->company_name }}</dd>
 
-                <dt class="col-sm-2">Setor</dt>
-                <dd class="col-sm-10">{{ $job->sector->name }}</dd>
-
-                <dt class="col-sm-2">Supervisor</dt>
-                <dd class="col-sm-10">{{ $job->supervisor->name }}</dd>
+                <dt class="col-sm-2">Nome fantasia</dt>
+                <dd class="col-sm-10">{{ $job->company_fantasy_name }}</dd>
 
                 <dt class="col-sm-2">Data de início</dt>
                 <dd class="col-sm-10">{{ date("d/m/Y", strtotime($job->start_date)) }}</dd>

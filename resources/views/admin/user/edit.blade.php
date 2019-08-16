@@ -89,6 +89,8 @@
             jQuery('.selection').select2({
                 language: "pt-BR"
             });
+
+            jQuery(':input').inputmask({removeMaskOnSubmit: true});
         });
     </script>
 @endsection

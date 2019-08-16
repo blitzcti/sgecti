@@ -86,9 +86,9 @@
 
             <section class="accordion">
                 <input type="checkbox" name="collapse" id="handle<?php echo $i1; ?>">
-                <h2 class="handle">
+                <h4 class="handle">
                     <label for="handle<?php echo $i1; ?>"><b><?php echo $i1.'.'; ?></b> <?php echo $t1[$n1]; ?></label>
-                </h2>
+                </h4>
                 <div class="hcontent">
                     <?php
 
@@ -99,9 +99,9 @@
 
                     <section class="accordion">
                         <input type="checkbox" name="collapse" id="handle<?php echo $i1.'.'.$i2; ?>">
-                        <h2 class="handle">
+                        <h4 class="handle">
                             <label for="handle<?php echo $i1.'.'.$i2; ?>"><b><?php echo $i1.'.'.$i2.'.'; ?></b> <?php echo $t2[$n1][$n2][0]; ?></label>
-                        </h2>
+                        </h4>
                         <div class="hcontent">
                             <div class="tabs">
                                 <div id="tab<?php echo $i1.'.'.$i2; ?>.2" class="tab">

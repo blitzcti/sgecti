@@ -128,6 +128,15 @@
                             ',
                             '(VÍDEO)',
                         ],
+//////////////////////////////////////////NÃO ESQUECE AQUI////////////////////////////////////////////
+                        ['Configurações gerais do curso',
+                            '<img src="../img/help/Cursos/Configgerais do curso.png">
+                            <br>
+                            O botão “Restaurar” completa a operação.
+                            <br>
+                            <br>',
+                            '(VÍDEO)',
+                        ],
                     ],
                     [
                         ['Mensagem',
@@ -186,8 +195,125 @@
                             '(TUTORIAL)',
                             '(VÍDEO)',
                         ],
+                        ['Cursos',
+                            '
+                            <h3>Visualizar cursos</h3><br>
+                            <img src="../img/help/Cursos/cursos.png">
+                            <br>
+                             Nessa página o usuário terá a possibilidade de observar os detalhes, fazer edições, adicionar coordenadores e encaminha para a página de configurações do curso selecionado.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Cursos/cursos anteprox.png">
+                            <br>
+                            Os botões “Anterior” e “Próxima” permitem trocar as páginas quando determinado número de registros for atingido.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Cursos/down curso.png">
+                            <br>
+                            Neste campo destacado, o usuário poderá fazer o download de uma planilha que contém os nome de todos os coordenadores,informando os cursos correspondentes, assim como a data do seu ingresso na coordenadoria e do seu egresso.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Cursos/imprimi curso.png">
+                            <br>
+                            Através deste campo destacado, o usuário poderá imprimir e até mesmo criar um arquivo PDF em formato de planilha, assim como salvar no Google Drive tais informações.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Cursos/pesquisar curso.png">
+                            <br>
+                            Na barra pesquisa, o usuário poderá pesquisar o curso que deseja encontrar, podendo colocar o nome inteiro ou parcialmente.
+                            <br>
+                            <br>
+
+                             <h3>Novo curso</h3><br>
+
+                            <img src="../img/help/Cursos/add curso.png">
+                            <br>
+                            Neste campo, há a possibilidade de adicionar um novo curso à tabela.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Cursos/add new curso.png">
+                            <br>
+                            Nesse campo o usuário poderá adicionar as informações básicas do curso.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Cursos/cancel new curso (1).png">
+                            <br>
+                            Este campo trará a possibilidade do usuário cancelar a ação ”adicionar novo curso”, caso tenha ocorrido algum contratempo.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Cursos/adicionar botão new curso (1).png">
+                            <br>
+                            Este campo é a confirmação do ato “Adicionar novo Curso”, na qual salvará os dados no Banco.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Cursos/config new curso (1).png">
+                            <br>
+                            Nesse campo o usuário poderá adicionar as configurações do curso.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Cursos/cancel config new curso (1).png">
+                            <br>
+                            Este campo trará a possibilidade do usuário cancelar as configurações do curso, caso tenha ocorrido algum contratempo.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Cursos/adicionar botão config new curso (1).png">
+                            <br>
+                            Este campo é a confirmação para adicionar as configurações do curso, na qual salvará os dados no Banco.
+                            <br>
+                            <br>
+                            ',
+                            '(VÍDEO)',
+                        ],
                         ['Usuários',
-                            '(TUTORIAL)',
+                            '
+                            <h3>Visualizar usuário</h3><br>
+                            <img src="../img/help/Usuarios/new user-dados.png">
+                            <br>
+                            Nesta tabela, é possível visualizar  o id dos usuários, nome, email, cargo e também há a possibilidade de editar as informações.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Usuarios/new user-anteprox.png">
+                            <br>
+                            Os botões “Anterior” e “Próxima” permitem trocar as páginas quando determinado número de registros for atingido.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Usuarios/new user-down.png">
+                            <br>
+                            Nesta opção, o usuário tem a opção de baixar a planilha de usuários.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Usuarios/new user-impri.png">
+                            <br>
+                            Nesta área é possível imprimir as informações apresentadas na tabela de usuários.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Usuarios/new user-pesquisar.png">
+                            <br>
+                            A área de pesquisa permite pesquisar informações sobre usuários.
+                            <br>
+                            <br>
+
+                            <h3>Novo usuário</h3><br>
+                            <img src="../img/help/Usuarios/new user-pesquisar.png">
+                            <br>
+                            Neste campo, há a possibilidade de adicionar um novo usuário à tabela.
+                            <br>
+                            <br>
+                            ',
                             '(VÍDEO)',
                         ],
                         ['Alunos',
@@ -198,6 +324,7 @@
                             '(TUTORIAL)',
                             '(VÍDEO)',
                         ],
+
                     ]
                 ];
 

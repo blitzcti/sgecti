@@ -18,6 +18,10 @@
     grid-area: txt;
 }
 
+.txt h2 {
+    margin-top: 5px;
+}
+
 .dg p {
     font-size: 1.1em;
     text-align: justify;

@@ -32,8 +32,9 @@
                     <h2>Sobre a equipe</h2>
                     <p>
                         A Blitz foi formada como equipe para o Trabalho de Conclusão de Curso de Informática com o objetivo de desenvolver alguma aplicação voltada ao ambiente escolar. Encontramos no gerenciamento de estágios a oportunidade de contribuir com o futuro do CTI e de toda a comunidade estudantil que passa por aqui.
-                        <br>
-                        <br>
+                        <br><br>
+                        <b>Líder:</b> André Creppe<br><b>Vice-líder:</b> Estevão Rolim
+                        <br><br>
                         <small>Da esquerda para a direita:
                             <br>Estevão (cima), Igor (baixo), Sofia, André, Gustavo, Marcos, Carolina, Lucas (cima), Dhiego (baixo)</small>
                     </p>

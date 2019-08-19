@@ -31,53 +31,53 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-sm-4">
-                        <div class="form-group @if($errors->has('year')) has-error @endif">
-                            <label for="inputYear" class="col-sm-4 control-label">Ano</label>
+                        <div class="form-group @if($errors->has('grades')) has-error @endif">
+                            <label for="inputGrades" class="col-sm-4 control-label">Anos</label>
 
                             <div class="col-sm-8">
-                                <select class="form-control selection" id="inputYear" name="year[]" multiple>
+                                <select class="form-control selection" id="inputGrades" name="grades[]" multiple>
                                     <option value="1"
-                                        {{ (old('year') ?? 0) == 1 ? 'selected=selected' : '' }}>1º ano
+                                        {{ (old('grades') ?? 0) == 1 ? 'selected=selected' : '' }}>1º ano
                                     </option>
                                     <option value="2"
-                                        {{ (old('year') ?? 0) == 2 ? 'selected=selected' : '' }}>2º ano
+                                        {{ (old('grades') ?? 0) == 2 ? 'selected=selected' : '' }}>2º ano
                                     </option>
                                     <option value="3"
-                                        {{ (old('year') ?? 0) == 3 ? 'selected=selected' : '' }}>3º ano
+                                        {{ (old('grades') ?? 0) == 3 ? 'selected=selected' : '' }}>3º ano
                                     </option>
                                     <option value="4"
-                                        {{ (old('year') ?? 0) == 4 ? 'selected=selected' : '' }}>4º ano
+                                        {{ (old('grades') ?? 0) == 4 ? 'selected=selected' : '' }}>Formados
                                     </option>
                                 </select>
 
-                                <span class="help-block">{{ $errors->first('year') }}</span>
+                                <span class="help-block">{{ $errors->first('grades') }}</span>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-4">
-                        <div class="form-group @if($errors->has('period')) has-error @endif">
-                            <label for="inputPeriod" class="col-sm-4 control-label">Período</label>
+                        <div class="form-group @if($errors->has('periods')) has-error @endif">
+                            <label for="inputPeriods" class="col-sm-4 control-label">Períodos</label>
 
                             <div class="col-sm-8">
-                                <select class="form-control selection" id="inputPeriod" name="period[]" multiple>
+                                <select class="form-control selection" id="inputPeriods" name="periods[]" multiple>
+                                    <option value="0"
+                                        {{ (old('periods') ?? -1) == 0 ? 'selected=selected' : '' }}>Diurno
+                                    </option>
                                     <option value="1"
-                                        {{ (old('period') ?? -1) == 0 ? 'selected=selected' : '' }}>Matutino
-                                    </option>
-                                    <option value="2"
-                                        {{ (old('period') ?? -1) == 1 ? 'selected=selected' : '' }}>Noturno
+                                        {{ (old('periods') ?? -1) == 1 ? 'selected=selected' : '' }}>Noturno
                                     </option>
                                 </select>
 
-                                <span class="help-block">{{ $errors->first('period') }}</span>
+                                <span class="help-block">{{ $errors->first('periods') }}</span>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-4">
-                        <div class="form-group @if($errors->has('course')) has-error @endif">
-                            <label for="inputCourse" class="col-sm-4 control-label">Curso</label>
+                        <div class="form-group @if($errors->has('courses')) has-error @endif">
+                            <label for="inputCourses" class="col-sm-4 control-label">Cursos</label>
 
                             <div class="col-sm-8">
-                                <select class="form-control selection" id="inputCourse" name="course[]" multiple>
+                                <select class="form-control selection" id="inputCourses" name="courses[]" multiple>
 
                                     @foreach($courses as $course)
 
@@ -89,11 +89,13 @@
 
                                 </select>
 
-                                <span class="help-block">{{ $errors->first('course') }}</span>
+                                <span class="help-block">{{ $errors->first('courses') }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <a href="#" class="btn btn-default" onclick="loadStudents()"><i class="fa fa-search"></i></a>
 
                 <div style="margin: 15px 0">
                     <table id="students" class="table table-bordered table-striped">
@@ -135,6 +137,84 @@
 
 @section('js')
     <script type="text/javascript">
+        let courses = [
+            @foreach(App\Models\Course::all()->sortBy('id') as $course)
+            {name: '{{ $course->name }}'},
+            @endforeach
+        ];
+
+        function getGrades() {
+            return jQuery('#inputGrades').val();
+        }
+
+        function getPeriods() {
+            return jQuery('#inputPeriods').val();
+        }
+
+        function getCourses() {
+            return jQuery('#inputCourses').val();
+        }
+
+        function loadStudents() {
+            let gs = getGrades().map(g => `&grades[]=${g}`);
+            let ps = getPeriods().map(p => `&periods[]=${p}`);
+            let cs = getCourses().map(c => `&courses[]=${c}`);
+
+            let url = `/api/aluno?q=`;
+            if (gs.length > 0) {
+                url += gs;
+            }
+
+            if (ps.length > 0) {
+                url += ps;
+            }
+
+            if (cs.length > 0) {
+                url += cs;
+            }
+
+            jQuery.ajax({
+                url: url,
+                dataType: 'json',
+                method: 'GET',
+                success: function (students) {
+                    let tbody = jQuery('#students tbody');
+                    tbody.empty();
+
+                    students.forEach(student => {
+                        if (student.situacao_matricula === 0 || student.situacao_matricula === 5) {
+                            let row = document.createElement('tr');
+                            let col = document.createElement('td');
+                            col.innerText = student.matricula;
+                            row.appendChild(col);
+
+                            col = document.createElement('td');
+                            col.innerText = student.nome;
+                            row.appendChild(col);
+
+                            col = document.createElement('td');
+                            col.innerText = courses[student.course_id - 1].name;
+                            row.appendChild(col);
+
+                            col = document.createElement('td');
+                            col.innerText = student.class;
+                            row.appendChild(col);
+
+                            col = document.createElement('td');
+                            col.innerText = student.year;
+                            row.appendChild(col);
+
+                            tbody.append(row);
+                        }
+                    });
+                },
+
+                error: function () {
+
+                }
+            });
+        }
+
         jQuery(document).ready(() => {
             jQuery('#message').wysihtml5({
                 locale: 'pt-BR'

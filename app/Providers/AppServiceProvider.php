@@ -123,7 +123,7 @@ class AppServiceProvider extends ServiceProvider
         $menu->add([
             'text' => 'menu.about',
             'route' => 'sobre.index',
-            'icon' => 'info-circle',
+            'icon' => 'bolt',
             'active' => ['sobre/']
         ]);
 
@@ -183,7 +183,8 @@ class AppServiceProvider extends ServiceProvider
 
                     $menu->add([
                         'text' => $course->name,
-                        'icon_color' => $color->name
+                        'icon_color' => $color->name,
+                        'url' => route('admin.curso.detalhes', $course->id),
                     ]);
                 }
             }

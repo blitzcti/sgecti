@@ -37,14 +37,29 @@ class StudentController extends Controller
     public function get(Request $request)
     {
         if ((new Student())->isConnected()) {
+            $students = Student::all()->sortBy('matricula');
+
             if (is_array($request->get('courses'))) {
                 $courses = $request->get('courses');
-                $students = Student::all()->filter(function ($student) use ($courses) {
+                $students = $students->filter(function ($student) use ($courses) {
                     return in_array($student->course_id, $courses);
-                })->sortBy('matricula');
-            } else {
-                $students = Student::all()->sortBy('matricula');
+                });
             }
+
+            if (is_array($request->get('periods'))) {
+                $periods = $request->get('periods');
+                $students = $students->filter(function ($student) use ($periods) {
+                    return in_array($student->turma_periodo, $periods);
+                });
+            }
+
+            if (is_array($request->get('grades'))) {
+                $grades = $request->get('grades');
+                $students = $students->filter(function ($student) use ($grades) {
+                    return in_array($student->grade, $grades);
+                });
+            }
+
             $students = array_values($students->toArray());
 
             if (!empty($request->q)) {

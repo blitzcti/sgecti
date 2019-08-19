@@ -35,7 +35,7 @@
                             '<h4>Funcionalidade:<h4>
                             <h5>Dados e informações sobre a Instituição, com funções de download de planilhas e impressão.</h5>
 
-                            <img src="../img/help/parametros_sist/Parametros-add.png">
+                            <img src="../img/help/parametros_sist/conf_parametros_Adicionar.png">
                             <br>
                             A opção “Adicionar parâmetros” permite que você cadastre uma nova instituição no sistema.
                             <br>
@@ -54,31 +54,31 @@
                             <br>
                             <br>
 
-                            <img src="../img/help/parametros_sist/Parametros-CSV.png">
+                            <img src="../img/help/parametros_sist/conf_parametros_CSV.png">
                             <br>
                             Clicando na opção “CSV”, você pode realizar o download da planilha, que poderá ser visualizada e manipulada utilizando softwares como o libre office calc ou excel.
                             <br>
                             <br>
 
-                            <img src="../img/help/parametros_sist/Parametros-down.png">
+                            <img src="../img/help/parametros_sist/conf_parametros_Imprimir.png">
                             <br>
                             Clicando na opção “Imprimir” você pode imprimir a planilha de parâmetros do sistema.
                             <br>
                             <br>
 
-                            <img src="../img/help/parametros_sist/Parametros-dados.png">
+                            <img src="../img/help/parametros_sist/conf_parametros_barra.png">
                             <br>
                             Nessa tabela, você visualiza os parâmetros já cadastrados no banco de dados.
                             <br>
                             <br>
 
-                            <img src="../img/help/parametros_sist/Parametros-anteprox.png">
+                            <img src="../img/help/parametros_sist/conf_parametros_AntProx.png">
                             <br>
                             Os botões “Anterior” e “Próxima” permitem trocar as páginas quando determinado número de registros for atingido.
                             <br>
                             <br>
 
-                            <img src="../img/help/parametros_sist/Parametros-pesq.png">
+                            <img src="../img/help/parametros_sist/conf_parametros_.png">
                             <br>
                             Para explorar os registros, você pode utilizar a barra de pesquisa ou a navegação por páginas.
                             <br>
@@ -90,7 +90,7 @@
                             '<h4>Funcionalidade:<h4>
                             <h5>Salvamento de arquivos que pode ser programado para que ocorra automaticamente e restaurar arquivos antigos .JSON.</h5>
 
-                            <img src="../img/help/Backup/Backup .png">
+                            <img src="../img/help/Backup/conf_backup_FazerBackup.png">
                             <br>
                             Ao clicar em “Fazer backup”, o usuário tem a possibilidade de baixar o conteúdo do banco de dados em formato JSON.
                             <br>
@@ -102,13 +102,13 @@
                             <br>
                             <br>
 
-                            <img src="../img/help/Backup/salvar backup .png">
+                            <img src="../img/help/Backup/conf_backup_Salvar.png">
                             <br>
                             Em “Salvar”, a operação é concluída.
                             <br>
                             <br>
 
-                            <img src="../img/help/Backup/restauração .png">
+                            <img src="../img/help/Backup/conf_backup_Restaurar.png">
                             <br>
                             Em “Restaurar”, o usuário poderá restaurar a estrutura de dados para um backup anterior já salvo.
                             <br>
@@ -128,13 +128,38 @@
                             ',
                             '(VÍDEO)',
                         ],
-//////////////////////////////////////////NÃO ESQUECE AQUI////////////////////////////////////////////
+
                         ['Configurações gerais do curso',
-                            '<img src="../img/help/Cursos/Configgerais do curso.png">
+                            '<br><img src="../img/help/Configurações_curso/conf_gerais_barra.png">
                             <br>
-                            O botão “Restaurar” completa a operação.
+                            Essa tabela disponibiliza dados que todos os cursos possuem em comum.
                             <br>
-                            <br>',
+                            <br>
+
+                            <img src="../img/help/Configurações_curso/conf_gerais_AntProx.png">
+                            <br>
+                            Os botões “Anterior” e “Próxima” permitem trocar as páginas quando determinado número de registros for atingido.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Configurações_curso/conf_gerais_CSV.png">
+                            <br>
+                            Neste campo destacado, o usuário poderá fazer o download de uma planilha que contém informações em comum à todos os cursos.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Configurações_curso/conf_gerais_imprimir.png">
+                            <br>
+                            Neste campo destacado, o usuário poderá imprimir a planilha que contém informações em comum à todos os cursos.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Configurações_curso/conf_gerais_pesquisar.png">
+                            <br>
+                            Na opção “Pesquisar” você pode pesquisar alguma informação específica.
+                            <br>
+                            <br>
+                            ',
                             '(VÍDEO)',
                         ],
                     ],
@@ -181,7 +206,7 @@
                     [
                         ['Notificações',
                             '
-                            <img src="../img/help/notificações.png">
+                            <img src="../img/help/Configurações_curso/notificações.png">
                             <br>
                              Nesse espaço aparecerão ao usuário notificações relativas a mensagens de coordenadores, vagas de estágio, novidades e informações.
                             <br>
@@ -308,18 +333,80 @@
                             <br>
 
                             <h3>Novo usuário</h3><br>
-                            <img src="../img/help/Usuarios/new user-pesquisar.png">
+                            <img src="../img/help/Usuarios/new u.png">
                             <br>
                             Neste campo, há a possibilidade de adicionar um novo usuário à tabela.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Usuarios/users_new.png">
+                            <br>
+                            Neste campo, Você insere os dados relativos ao novo usuário que será cadastrado.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Usuarios/users_new_cancel.png">
+                            <br>
+                            Este campo trará a possibilidade do usuário cancelar o cadastro do novo usuário, caso tenha ocorrido algum contratempo.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Usuarios/users_new_add.png">
+                            <br>
+                            Este campo permite que seja efetuado o cadastro de usuário.
                             <br>
                             <br>
                             ',
                             '(VÍDEO)',
                         ],
+
+                        ['Coordenadores',
+                            '<h3>Visualizar coordenadores</h3>
+                            <img src="../img/help/Coordenadores/coord_viu_barra.png">
+                            <br>
+                            Neste campo será possível observar os coordenadores que foram adicionados. Caso não haja nenhum coordenador cadastrado, apresentará a mensagem “Nenhum registro encontrado”.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Coordenadores/coord_viu_ant e prox.png">
+                            <br>
+                            Através destes campos destacados, o usuário poderá navegar pelas páginas anteriores dos coordenadores cadastrados e até mesmo ver as próximas.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Coordenadores/coord_viu_CSV.png">
+                            <br>
+                            Neste campo destacado, o usuário poderá fazer o download de uma planilha que contém os nome de todos os coordenadores,informando os cursos correspondentes, assim como a data do seu ingresso na coordenadoria e do seu egresso.                            <br>
+                            <br>
+
+                            <img src="../img/help/Coordenadores/coord_viu_imprimir.png">
+                            <br>
+                            Através deste campo destacado, o usuário poderá imprimir e até mesmo criar um arquivo PDF em formato de planilha, assim como salvar no Google Drive tais informações.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Coordenadores/coord_viu_pesquisar.png">
+                            <br>
+                            Neste campo o usuário poderá realizar uma pesquisa por nome, a fim de encontrar o coordenador desejado com maior facilidade e agilidade.
+                            <br>
+                            <br>
+
+                            <h3>Novo coordenador</h3>
+
+                            <img src="../img/help/Coordenadores/coord_viu_pesquisar.png">
+                            <br>
+                            Neste campo o usuário poderá realizar uma pesquisa por nome, a fim de encontrar o coordenador desejado com maior facilidade e agilidade.
+                            <br>
+                            <br>
+                            ',
+                            '(VÍDEO)',
+                        ],
+
                         ['Alunos',
                             '(TUTORIAL)',
                             '(VÍDEO)',
                         ],
+
                         ['Empresas',
                             '(TUTORIAL)',
                             '(VÍDEO)',

@@ -163,3 +163,7 @@ Route::prefix('aluno')->name('aluno.')->group(function () {
 Route::prefix('ajuda')->name('ajuda.')->group(function () {
     Route::get('', 'HelpController@index')->name('index');
 });
+
+Route::prefix('sobre')->name('sobre.')->group(function () {
+    Route::get('', 'AboutController@index')->name('index');
+});

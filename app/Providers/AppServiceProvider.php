@@ -108,6 +108,13 @@ class AppServiceProvider extends ServiceProvider
             'active' => ['ajuda/']
         ]);
 
+        $menu->add([
+            'text' => 'Sobre',
+            'route' => 'sobre.index',
+            'icon' => 'info-circle',
+            'active' => ['sobre/']
+        ]);
+
         if ($user->hasRole('admin')) {
             $menu->add('menu.administration');
             if ($user->can('user-list')) {

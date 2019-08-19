@@ -98,7 +98,7 @@ class CompanyController extends Controller
         $company->syncCourses(array_map('intval', $validatedData->courses));
         $company->syncSectors(array_map('intval', $validatedData->sectors));
 
-        if ($validatedData->hasConvenio) {
+        if ($validatedData->hasAgreement) {
             $agreement = new Agreement();
 
             $agreement->expiration_date = SystemConfiguration::getAgreementExpiration();

@@ -86,7 +86,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('startDate')) has-error @endif">
-                            <label for="inputStartDate" class="col-sm-4 control-label">Vigência Início*</label>
+                            <label for="inputStartDate" class="col-sm-4 control-label">Data de início*</label>
 
                             <div class="col-sm-8">
                                 <input type="date" class="form-control" id="inputStartDate" name="startDate"
@@ -99,7 +99,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="inputEndDate" class="col-sm-4 control-label">Vigência Fim*</label>
+                            <label for="inputEndDate" class="col-sm-4 control-label">Data de término*</label>
 
                             <div class="col-sm-8">
                                 <div class="input-group">

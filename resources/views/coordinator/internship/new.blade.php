@@ -70,7 +70,7 @@
                     <label for="inputStudentName" class="col-sm-2 control-label">Aluno</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputStudentName" name="student" readonly
+                        <input type="text" class="form-control input-info" id="inputStudentName" name="student" readonly
                                value="{{ App\Models\NSac\Student::find(old('ra') ?? $s)->nome ?? '' }}"/>
                     </div>
                 </div>
@@ -100,8 +100,7 @@
                     <label for="inputCompanyRepresentative" class="col-sm-2 control-label">Representante</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputCompanyRepresentative" name="representative"
-                               readonly
+                        <input type="text" class="form-control input-info" id="inputCompanyRepresentative" name="representative" readonly
                                value="{{ (App\Models\Company::find(old('company')) ?? $companies->first())->representative_name ?? '' }}"/>
                     </div>
                 </div>
@@ -131,7 +130,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('startDate')) has-error @endif">
-                            <label for="inputStartDate" class="col-sm-4 control-label">Data Início*</label>
+                            <label for="inputStartDate" class="col-sm-4 control-label">Data de início*</label>
 
                             <div class="col-sm-8">
                                 <input type="date" class="form-control" id="inputStartDate" name="startDate"
@@ -144,7 +143,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('endDate')) has-error @endif">
-                            <label for="inputEndDate" class="col-sm-4 control-label">Data Fim*</label>
+                            <label for="inputEndDate" class="col-sm-4 control-label">Data de término*</label>
 
                             <div class="col-sm-8">
                                 <input type="date" class="form-control" id="inputEndDate" name="endDate"
@@ -169,7 +168,7 @@
                 </div>
 
                 <div class="form-group @if($errors->has('observation')) has-error @endif">
-                    <label for="inputObservation" class="col-sm-2 control-label">Obervação</label>
+                    <label for="inputObservation" class="col-sm-2 control-label">Observação</label>
 
                     <div class="col-sm-10">
                         <textarea class="form-control" rows="3" id="inputObservation" name="observation"
@@ -350,9 +349,11 @@
                         <table id="inputWeekDays" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <a href="#" data-toggle="modal" data-target="#cloneScheduleModal">
-                                    <i class="fa fa-copy"></i>
-                                </a>
+                                <th>
+                                    <a href="#" data-toggle="modal" data-target="#cloneScheduleModal">
+                                        <i class="fa fa-copy"></i>
+                                    </a>
+                                </th>
 
                                 <th>
                                     <label class="control-label">Seg</label>

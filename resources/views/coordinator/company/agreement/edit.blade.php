@@ -21,7 +21,7 @@
                     <label for="inputCompanyName" class="col-sm-2 control-label">Empresa conveniada*</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputCompanyName" name="companyName"
+                        <input type="text" class="form-control input-info" id="inputCompanyName" name="companyName"
                                value="{{ $agreement->company->name }}" readonly/>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
 
                     <div class="col-sm-10">
                         <div class="input-group">
-                            <input type="date" class="form-control" id="inputExpirationDate" name="expirationDate"
+                            <input type="date" class="form-control input-info" id="inputExpirationDate" name="expirationDate"
                                    value="{{ old('expirationDate') ?? $agreement->expiration_date }}" readonly/>
 
                             <span class="input-group-btn">

@@ -43,7 +43,7 @@
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputSupervisorPhone" name="supervisorPhone"
-                               placeholder="(14) 93103-6150" data-inputmask="'mask': '(99) 99999-9999'"
+                               placeholder="(14) 93103-6150" data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
                                value="{{ old('supervisorPhone') ?? '' }}"/>
 
                         <span class="help-block">{{ $errors->first('supervisorPhone') }}</span>

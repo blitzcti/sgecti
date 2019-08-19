@@ -33,6 +33,7 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th>Nome</th>
+                    <th>Cor</th>
                     <th>Ativo</th>
                     <th>Ações</th>
                 </tr>
@@ -44,6 +45,7 @@
                     <tr>
                         <th scope="row">{{ $course->id }}</th>
                         <td>{{ $course->name }}</td>
+                        <td>{{ __('colors.' . $course->color->name) }}</td>
                         <td>{{ ($course->active) ? 'Sim' : 'Não' }}</td>
 
                         <td>

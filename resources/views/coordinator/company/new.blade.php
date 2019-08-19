@@ -25,7 +25,7 @@
 
             <div class="box-body">
                 <input type="hidden" id="inputPj" name="pj" value="{{ old('pj') ?? '0' }}">
-                <input type="hidden" id="inputHasConvenio" name="hasConvenio" value="{{ old('hasConvenio') ?? '0' }}">
+                <input type="hidden" id="inputHasAgreement" name="hasAgreement" value="{{ old('hasAgreement') ?? '0' }}">
 
                 <div class="row">
                     <div class="col-sm-6">
@@ -124,7 +124,7 @@
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputPhone" name="phone"
-                               placeholder="(14) 3103-6150" data-inputmask="'mask': '(99) 9999-9999'"
+                               placeholder="(14) 3103-6150" data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
                                value="{{ old('phone') ?? '' }}"/>
 
                         <span class="help-block">{{ $errors->first('phone') }}</span>
@@ -342,8 +342,8 @@
         <div class="box box-default">
             <div class="box-header with-border">
                 <h3 class="box-title">
-                    <input type="checkbox" id="fakeInputHasConvenio" name="fakeHasConvenio"
-                            {{ (old('hasConvenio') ?? 0) ? 'checked="checked"' : '' }}/>
+                    <input type="checkbox" id="fakeInputHasAgreement" name="fakeHasAgreement"
+                            {{ (old('hasAgreement') ?? 0) ? 'checked="checked"' : '' }}/>
 
                     Registrar convênio?
                 </h3>
@@ -351,17 +351,6 @@
 
             <div id="div-convenio" style="display: none">
                 <div class="box-body">
-                    <div class="form-group @if($errors->has('expirationDate')) has-error @endif">
-                        <label for="inputExpirationDate" class="col-sm-2 control-label">Validade*</label>
-
-                        <div class="col-sm-10">
-                            <input type="date" class="form-control" id="inputExpirationDate" name="expirationDate"
-                                   value="{{ old('expirationDate') ?? '' }}"/>
-
-                            <span class="help-block">{{ $errors->first('expirationDate') }}</span>
-                        </div>
-                    </div>
-
                     <div class="form-group @if($errors->has('observation')) has-error @endif">
                         <label for="inputObservation" class="col-sm-2 control-label">Observação</label>
 
@@ -424,13 +413,13 @@
 
             jQuery(':input').inputmask({removeMaskOnSubmit: true});
 
-            jQuery('#fakeInputHasConvenio').on('ifChanged', function () {
+            jQuery('#fakeInputHasAgreement').on('ifChanged', function () {
                 if (this.checked) {
                     jQuery('#div-convenio').css('display', 'block');
-                    jQuery('#inputHasConvenio').val(1);
+                    jQuery('#inputHasAgreement').val(1);
                 } else {
                     jQuery('#div-convenio').css('display', 'none');
-                    jQuery('#inputHasConvenio').val(0);
+                    jQuery('#inputHasAgreement').val(0);
                 }
             }).trigger('ifChanged').iCheck({
                 checkboxClass: 'icheckbox_square-blue',

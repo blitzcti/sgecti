@@ -30,7 +30,7 @@
                             <label for="inputSectorName" class="col-sm-3 control-label">Arquivo</label>
 
                             <div class="col-sm-9">
-                                <input type="file" class="form-control" id="inputFile" name="json" accept=".json"/>
+                                <input type="file" class="form-control" id="inputFile" name="file" accept=".json,.zip"/>
                             </div>
                         </div>
                     </div>

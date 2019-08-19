@@ -186,7 +186,7 @@ return [
         'sectors' => 'Setores',
         'course' => 'Curso',
         'courses' => 'Cursos',
-        'hasConvenio' => 'Registrar convênio',
+        'hasAgreement' => 'Registrar convênio',
         'expirationDate' => 'Validade do convênio',
 
         'description' => 'Descrição',

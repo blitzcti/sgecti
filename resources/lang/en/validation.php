@@ -196,7 +196,7 @@ return [
         'sectors' => 'Sectors',
         'course' => 'Course',
         'courses' => 'Courses',
-        'hasConvenio' => 'Add Agreement',
+        'hasAgreement' => 'Add Agreement',
         'expirationDate' => 'Expiration Date',
 
         'description' => 'Description',

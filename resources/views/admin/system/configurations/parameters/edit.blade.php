@@ -128,7 +128,7 @@
 
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" id="inputPhone" name="phone"
-                                       placeholder="(14) 3103-6150" data-inputmask="'mask': '(99) 9999-9999'"
+                                       placeholder="(14) 3103-6150" data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
                                        value="{{ old('phone') ?? $systemConfig->phone }}"/>
 
                                 <span class="help-block">{{ $errors->first('phone') }}</span>

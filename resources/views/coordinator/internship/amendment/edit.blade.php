@@ -28,7 +28,7 @@
                             <label for="inputInternship" class="col-sm-4 control-label">Nome do aluno*</label>
 
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="inputInternship" name="internship" readonly
+                                <input type="text" class="form-control input-info" id="inputInternship" name="internship" readonly
                                        value="{{ $amendment->internship->student->nome }}"/>
 
                                 <span class="help-block">{{ $errors->first('internship') }}</span>
@@ -80,7 +80,7 @@
                 </div>
 
                 <div class="form-group @if($errors->has('observation')) has-error @endif">
-                    <label for="inputObservation" class="col-sm-2 control-label">Obervação</label>
+                    <label for="inputObservation" class="col-sm-2 control-label">Observação</label>
 
                     <div class="col-sm-10">
                         <textarea class="form-control" rows="3" id="inputObservation" name="observation"

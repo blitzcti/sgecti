@@ -27,7 +27,7 @@ class StoreCompany extends FormRequest
     {
         return [
             'pj' => 'required|boolean',
-            'hasConvenio' => 'required|boolean',
+            'hasAgreement' => 'required|boolean',
 
             'cpfCnpj' => ['required', 'numeric', 'unique:companies,cpf_cnpj', ($this->get('pj')) ? new CNPJ : new CPF],
             'ie' => 'nullable|numeric|digits_between:10,10',

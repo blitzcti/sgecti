@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b2154eda3d3f25fa63d1567db8724bae",
+    "content-hash": "1af5eb84092d3da56e7febbee8fec6a1",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -828,16 +828,16 @@
         },
         {
             "name": "jeroennoten/laravel-adminlte",
-            "version": "v1.25.1",
+            "version": "v1.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jeroennoten/Laravel-AdminLTE.git",
-                "reference": "4a6de826c488cfff01d673ed87aa35f7af402374"
+                "reference": "1b288c79af86a2738ff8f5eb9addbcd14bf26f4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jeroennoten/Laravel-AdminLTE/zipball/4a6de826c488cfff01d673ed87aa35f7af402374",
-                "reference": "4a6de826c488cfff01d673ed87aa35f7af402374",
+                "url": "https://api.github.com/repos/jeroennoten/Laravel-AdminLTE/zipball/1b288c79af86a2738ff8f5eb9addbcd14bf26f4b",
+                "reference": "1b288c79af86a2738ff8f5eb9addbcd14bf26f4b",
                 "shasum": ""
             },
             "require": {
@@ -877,7 +877,7 @@
                 "administrator",
                 "laravel"
             ],
-            "time": "2019-03-10T09:17:09+00:00"
+            "time": "2019-08-02T11:08:07+00:00"
         },
         {
             "name": "laravel/framework",
@@ -2304,9 +2304,9 @@
             "authors": [
                 {
                     "name": "Freek Van der Herten",
+                    "role": "Developer",
                     "email": "freek@spatie.be",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
+                    "homepage": "https://spatie.be"
                 }
             ],
             "description": "Permission handling for Laravel 5.4 and up",

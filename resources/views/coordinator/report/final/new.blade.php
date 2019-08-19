@@ -51,7 +51,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('date')) has-error @endif">
-                            <label for="inputDate" class="col-sm-4 control-label">Data do Relatório*</label>
+                            <label for="inputDate" class="col-sm-4 control-label">Data do relatório*</label>
 
                             <div class="col-sm-8">
                                 <input type="date" class="form-control" id="inputDate" name="date"
@@ -942,7 +942,7 @@
 
             <div class="box-body">
                 <div class="form-group @if($errors->has('observation')) has-error @endif">
-                    <label for="inputObservation" class="col-sm-2 control-label">Obervação</label>
+                    <label for="inputObservation" class="col-sm-2 control-label">Observação</label>
 
                     <div class="col-sm-10">
                         <textarea class="form-control" rows="3" id="inputObservation" name="observation"

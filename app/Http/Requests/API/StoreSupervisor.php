@@ -24,7 +24,7 @@ class StoreSupervisor extends FormRequest
         return [
             'supervisorName' => 'required|max:50',
             'supervisorEmail' => 'required|max:50',
-            'supervisorPhone' => 'required|max:12',
+            'supervisorPhone' => 'required|numeric|digits_between:10,11',
             'company' => 'required|min:1',
         ];
     }

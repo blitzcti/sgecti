@@ -43,7 +43,7 @@
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputPhone" name="phone"
-                               placeholder="(14) 3103-6150" data-inputmask="'mask': '(99) 9999-9999'"
+                               placeholder="(14) 3103-6150" data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
                                value="{{ old('phone') ?? '' }}"/>
 
                         <span class="help-block">{{ $errors->first('phone') }}</span>
@@ -58,6 +58,17 @@
                                placeholder="Deve ser de no mínimo 8 caracteres"/>
 
                         <span class="help-block">{{ $errors->first('password') }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group @if($errors->has('password_confirmation')) has-error @endif">
+                    <label for="inputPasswordConfirmation" class="col-sm-2 control-label">Confirmar senha*</label>
+
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="inputPasswordConfirmation" name="password_confirmation"
+                               placeholder="Confirme a nova senha"/>
+
+                        <span class="help-block">{{ $errors->first('password_confirmation') }}</span>
                     </div>
                 </div>
 

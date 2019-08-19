@@ -24,7 +24,7 @@
                 <a href="{{ route('admin.curso.configuracao.index', $course->id) }}" class="btn btn-default">Exibir
                     configurações</a>
 
-                @if ($config != null)
+                @if ($config != null && !isset($config->max_years))
 
                     <a href="{{ route('admin.curso.configuracao.editar', ['id' => $course->id, 'id_config' => $config->id]) }}"
                        class="btn btn-primary">Editar configuração</a>
@@ -100,7 +100,7 @@
                     <dd class="col-sm-10">{{ $config->min_grade }}</dd>
 
                     <dt class="col-sm-2">Ativo desde</dt>
-                    <dd class="col-sm-10">{{ date_format($config->created_at, "d/m/Y") }}</dd>
+                    <dd class="col-sm-10">{{ date_format($config->created_at, "d/m/Y") }} {{ isset($config->max_years) ? ' (Configuração geral)' : '' }}</dd>
                 </dl>
 
             @else

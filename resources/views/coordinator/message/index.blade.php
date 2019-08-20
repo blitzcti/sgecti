@@ -11,6 +11,8 @@
 @stop
 
 @section('content')
+    @include('modals.coordinator.message.students')
+
     @if(session()->has('message'))
         <div class="alert {{ session('saved') ? 'alert-success' : 'alert-error' }} alert-dismissible"
              role="alert">
@@ -95,27 +97,16 @@
                     </div>
                 </div>
 
-                <a href="#" class="btn btn-default" onclick="loadStudents()"><i class="fa fa-search"></i></a>
-
-                <div style="margin: 15px 0">
-                    <table id="students" class="table table-bordered table-striped">
-                        <thead>
-                        <tr>
-                            <th>RA</th>
-                            <th>Nome</th>
-                            <th>Curso</th>
-                            <th>Turma</th>
-                            <th>Ano</th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-
-                        </tbody>
-                    </table>
-                </div>
+                <a href="#" class="btn btn-default" data-toggle="modal" data-target="#messageStudentsModal"
+                   onclick="loadStudents()"><i class="fa fa-search"></i></a>
             </div>
         </div>
+
+        <div>
+            <h3>Colocar um check de 'só alunos estagiando' ou 'não estagiando'</h3>
+        </div>
+
+        <br>
 
         <div class="box box-default">
             <div class="box-body">
@@ -137,84 +128,6 @@
 
 @section('js')
     <script type="text/javascript">
-        let courses = [
-            @foreach(App\Models\Course::all()->sortBy('id') as $course)
-            {name: '{{ $course->name }}'},
-            @endforeach
-        ];
-
-        function getGrades() {
-            return jQuery('#inputGrades').val();
-        }
-
-        function getPeriods() {
-            return jQuery('#inputPeriods').val();
-        }
-
-        function getCourses() {
-            return jQuery('#inputCourses').val();
-        }
-
-        function loadStudents() {
-            let gs = getGrades().map(g => `&grades[]=${g}`);
-            let ps = getPeriods().map(p => `&periods[]=${p}`);
-            let cs = getCourses().map(c => `&courses[]=${c}`);
-
-            let url = `/api/aluno?q=`;
-            if (gs.length > 0) {
-                url += gs;
-            }
-
-            if (ps.length > 0) {
-                url += ps;
-            }
-
-            if (cs.length > 0) {
-                url += cs;
-            }
-
-            jQuery.ajax({
-                url: url,
-                dataType: 'json',
-                method: 'GET',
-                success: function (students) {
-                    let tbody = jQuery('#students tbody');
-                    tbody.empty();
-
-                    students.forEach(student => {
-                        if (student.situacao_matricula === 0 || student.situacao_matricula === 5) {
-                            let row = document.createElement('tr');
-                            let col = document.createElement('td');
-                            col.innerText = student.matricula;
-                            row.appendChild(col);
-
-                            col = document.createElement('td');
-                            col.innerText = student.nome;
-                            row.appendChild(col);
-
-                            col = document.createElement('td');
-                            col.innerText = courses[student.course_id - 1].name;
-                            row.appendChild(col);
-
-                            col = document.createElement('td');
-                            col.innerText = student.class;
-                            row.appendChild(col);
-
-                            col = document.createElement('td');
-                            col.innerText = student.year;
-                            row.appendChild(col);
-
-                            tbody.append(row);
-                        }
-                    });
-                },
-
-                error: function () {
-
-                }
-            });
-        }
-
         jQuery(document).ready(() => {
             jQuery('#message').wysihtml5({
                 locale: 'pt-BR'

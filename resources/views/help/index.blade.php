@@ -78,7 +78,7 @@
                             <br>
                             <br>
 
-                            <img src="../img/help/parametros_sist/conf_parametros_.png">
+                            <img src="../img/help/parametros_sist/conf_parametros_pesquisar.png">
                             <br>
                             Para explorar os registros, você pode utilizar a barra de pesquisa ou a navegação por páginas.
                             <br>
@@ -170,31 +170,31 @@
                         ],
                         ['Logs',
                             '
-                            <img src="../img/help/Logs/logs.png">
+                            <img src="../img/help/Logs/logs_barra.png">
                             <br>
                             Essa tabela disponibiliza o monitoramento de todas as funções desempenhadas no sistema, que serão registradas no banco de dados por segurança e chance de recuperação de dados excluídos por engano.
                             <br>
                             <br>
 
-                            <img src="../img/help/Logs/baixar log.png">
+                            <img src="../img/help/Logs/logs_baixar.png">
                             <br>
                              Na opção “Baixar Log” você consegue baixar toda a planilha de logs.
                             <br>
                             <br>
 
-                            <img src="../img/help/Logs/limpar log.png">
+                            <img src="../img/help/Logs/logs_limpar.png">
                             <br>
                              Na opção “Limpar Log” você limpa toda a tabela de logs, porém os dados continuam no servidor.
                             <br>
                             <br>
 
-                            <img src="../img/help/Logs/excluir log.png">
+                            <img src="../img/help/Logs/logs_excluir.png">
                             <br>
                              Na opção “Excluir Log” você limpa toda a tabela de logs, e também exclui os dados do servidor.
                             <br>
                             <br>
 
-                            <img src="../img/help/Logs/pesquisar log.png">
+                            <img src="../img/help/Logs/logs_pesquisar.png">
                             <br>
                              Na opção “Pesquisar” você pode pesquisar algum log em específico.
                             <br>
@@ -261,25 +261,25 @@
                             <br>
                             <br>
 
-                            <img src="../img/help/Cursos/add new curso.png">
+                            <img src="../img/help/Cursos/curso_niu_barra.png">
                             <br>
                             Nesse campo o usuário poderá adicionar as informações básicas do curso.
                             <br>
                             <br>
 
-                            <img src="../img/help/Cursos/cancel new curso (1).png">
+                            <img src="../img/help/Cursos/curso_niu_cancelar.png">
                             <br>
                             Este campo trará a possibilidade do usuário cancelar a ação ”adicionar novo curso”, caso tenha ocorrido algum contratempo.
                             <br>
                             <br>
 
-                            <img src="../img/help/Cursos/adicionar botão new curso (1).png">
+                            <img src="../img/help/Cursos/curso_niu_add.png">
                             <br>
                             Este campo é a confirmação do ato “Adicionar novo Curso”, na qual salvará os dados no Banco.
                             <br>
                             <br>
 
-                            <img src="../img/help/Cursos/config new curso (1).png">
+                         <!--   <img src="../img/help/Cursos/config new curso (1).png">
                             <br>
                             Nesse campo o usuário poderá adicionar as configurações do curso.
                             <br>
@@ -295,7 +295,7 @@
                             <br>
                             Este campo é a confirmação para adicionar as configurações do curso, na qual salvará os dados no Banco.
                             <br>
-                            <br>
+                            <br>-->
                             ',
                             '(VÍDEO)',
                         ],
@@ -393,9 +393,21 @@
 
                             <h3>Novo coordenador</h3>
 
-                            <img src="../img/help/Coordenadores/coord_viu_pesquisar.png">
+                            <img src="../img/help/Coordenadores/coord_niu_barra.png">
                             <br>
-                            Neste campo o usuário poderá realizar uma pesquisa por nome, a fim de encontrar o coordenador desejado com maior facilidade e agilidade.
+                            Neste campo será possível adicionar um novo coordenador, visto que pode haver troca de profissionais e até mesmo criação de novos curso no colégio.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Coordenadores/coord_niu_cancelar.png">
+                            <br>
+                            Este campo trará a possibilidade do usuário cancelar a ação “adicionar novo Coordenador”, caso tenha ocorrido algum contratempo.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Coordenadores/coord_niu_adicionar.png">
+                            <br>
+                            Este campo é a confirmação do ato “Adicionar novo Coordenador”, na qual salvará os dados no Banco.
                             <br>
                             <br>
                             ',

@@ -59,10 +59,25 @@
             return jQuery('#inputCourses').val();
         }
 
+        function getInternshipState() {
+            return jQuery('#inputInternship').val();
+        }
+
         function loadStudents() {
             let gs = getGrades().map(g => `&grades[]=${g}`);
             let ps = getPeriods().map(p => `&periods[]=${p}`);
             let cs = getCourses().map(c => `&courses[]=${c}`);
+            let es = getInternshipState().map(e => `&istates[]=${e}`);
+
+            if (gs.length === ps.length && ps.length === cs.length && cs.length === es.length && es.length === 0) {
+                return;
+            } else {
+                jQuery('#messageStudentsModal').modal('show');
+            }
+
+            if (cs.length === 0) {
+                cs = [@foreach(auth()->user()->coordinator_of as $c) {{ $c->id }} @endforeach].map(c => `&courses[]=${c}`);
+            }
 
             let url = `/api/aluno?q=`;
             if (gs.length > 0) {
@@ -75,6 +90,10 @@
 
             if (cs.length > 0) {
                 url += cs;
+            }
+
+            if (es.length > 0) {
+                url += es;
             }
 
             jQuery.ajax({

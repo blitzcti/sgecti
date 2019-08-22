@@ -244,7 +244,7 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
 
     Route::prefix('mensagem')->name('mensagem.')->group(function () {
         Route::get('', 'MessageController@coordinatorIndex')->name('index');
-        Route::get('teste', 'MessageController@sendInternshipProposalMail');
+        Route::get('teste', 'MessageController@sendEmail');
         Route::post('enviar', 'MessageController@sendEmail')->name('enviar');
     });
 

@@ -78,6 +78,20 @@ class Student extends Model
         return date_diff(date_create($this->data_de_nascimento), date_create($date))->format("%y");
     }
 
+    public function getInternshipStateAttribute()
+    {
+        $i = $this->internship()->get()->toArray();
+        $fi = $this->finishedInternships()->get()->toArray();
+
+        if ($i != null) {
+            return 0;
+        } else if (sizeof($fi) > 0) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+
     public function internship()
     {
         return $this->hasOne(Internship::class, 'ra')->where('state_id', '=', 1);

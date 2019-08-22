@@ -60,6 +60,13 @@ class StudentController extends Controller
                 });
             }
 
+            if (is_array($request->get('istates'))) {
+                $istates = $request->get('istates');
+                $students = $students->filter(function ($student) use ($istates) {
+                    return in_array($student->internship_state, $istates);
+                });
+            }
+
             $students = array_values($students->toArray());
 
             if (!empty($request->q)) {

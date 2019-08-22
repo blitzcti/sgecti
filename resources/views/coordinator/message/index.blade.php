@@ -6,6 +6,15 @@
 
 @section('title', 'Mensagem - SGE CTI')
 
+@section('css')
+    <style type="text/css">
+        .gambi .form-group {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+    </style>
+@endsection
+
 @section('content_header')
     <h1>Enviar mensagem</h1>
 @stop
@@ -24,7 +33,7 @@
         </div>
     @endif
 
-    <form action="{{ route('coordenador.mensagem.enviar') }}" method="post">
+    <form action="{{ route('coordenador.mensagem.enviar') }}" class="form-horizontal" method="post">
         <div class="box box-default">
             <div class="box-header with-border">
                 <h3 class="box-title">Destinatários</h3>
@@ -97,18 +106,65 @@
                     </div>
                 </div>
 
-                <a href="#" class="btn btn-default" data-toggle="modal" data-target="#messageStudentsModal"
-                   onclick="loadStudents()"><i class="fa fa-search"></i></a>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group @if($errors->has('internship')) has-error @endif">
+                            <label for="inputInternship" class="col-sm-4 control-label">Estágio</label>
+
+                            <div class="col-sm-8">
+                                <select class="form-control selection" id="inputInternship" name="internships[]"
+                                        multiple>
+                                    <option value="0">Estagiando</option>
+                                    <option value="1">Não estagiando</option>
+                                    <option value="2">Nunca estagiaram</option>
+                                </select>
+
+                                <span class="help-block">{{ $errors->first('internship') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-footer">
+                <div class="btn-group pull-right">
+                    <a href="#" class="btn btn-default" onclick="loadStudents()"><i class="fa fa-search"></i> Visualizar</a>
+                </div>
             </div>
         </div>
 
-        <div>
-            <h3>Colocar um check de 'só alunos estagiando' ou 'não estagiando'</h3>
+        <div class="box box-default gambi">
+            <div class="box-header with-border">
+                <h3 class="box-title">Tipo de mensagem</h3>
+            </div>
+
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <input type="radio" class="radio" id="bimestral" name="message" value="0">
+                            <label for="bimestral">Relatório bimestral</label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <input type="radio" class="radio" id="proposal" name="message" value="1">
+                            <label for="proposal">Proposta de estágio</label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <input type="radio" class="radio" id="free" name="message" value="2" checked>
+                            <label for="free">Livre</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <br>
-
-        <div class="box box-default">
+        <div class="box box-default gambi" id="freeMessage">
             <div class="box-body">
                 <div class="form-group">
                     <input type="text" class="form-control" name="subject" placeholder="Assunto">
@@ -135,6 +191,21 @@
 
             jQuery('.selection').select2({
                 language: "pt-BR"
+            });
+
+            jQuery('input[name="message"]').on('ifChanged', function () {
+                let v = $('input[name="message"]:checked').val();
+                if (v === '2') {
+                    jQuery('#freeMessage').css('display', 'block');
+                } else {
+                    jQuery('#freeMessage').css('display', 'none');
+                }
+            });
+
+            jQuery('.radio').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
             });
         });
     </script>

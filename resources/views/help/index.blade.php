@@ -31,6 +31,26 @@
             $t2 =
                 [
                     [
+                        ['Alterar senha',
+                            '<img src="../img/help/Alterar_senha/altera_senha_barra.png">
+                            <br>
+                            Nesses campos, você altera a senha.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Alterar_senha/altera_senha_cancelar.png">
+                            <br>
+                            Clicando aqui, você tem a possibilidade de cancelar a alteração de senha.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Alterar_senha/altera_senha_salvar.png">
+                            <br>
+                            Clicando aqui, você tem a possibilidade de salvar a nova senha.
+                            <br>
+                            <br>',
+
+                        ],
                         ['Parâmetros do sistema',
                             '<h4>Funcionalidade:<h4>
                             <h5>Dados e informações sobre a Instituição, com funções de download de planilhas e impressão.</h5>
@@ -84,7 +104,7 @@
                             <br>
                             <br>
                             ',
-                            '(VÍDEO)',
+
                         ],
                         ['Backup do sistema',
                             '<h4>Funcionalidade:<h4>
@@ -126,7 +146,7 @@
                             <br>
                             <br>
                             ',
-                            '(VÍDEO)',
+
                         ],
 
                         ['Configurações gerais do curso',
@@ -160,13 +180,13 @@
                             <br>
                             <br>
                             ',
-                            '(VÍDEO)',
+
                         ],
                     ],
                     [
                         ['Mensagem',
                             '(TUTORIAL)',
-                            '(VÍDEO)',
+
                         ],
                         ['Logs',
                             '
@@ -200,7 +220,7 @@
                             <br>
                             <br>
                             ',
-                            '(VÍDEO)',
+
                         ],
                     ],
                     [
@@ -212,13 +232,13 @@
                             <br>
                             <br>
                             ',
-                            '(VÍDEO)',
+
                         ],
                     ],
                     [
                         ['Estágio',
                             '(TUTORIAL)',
-                            '(VÍDEO)',
+
                         ],
                         ['Cursos',
                             '
@@ -297,67 +317,67 @@
                             <br>
                             <br>-->
                             ',
-                            '(VÍDEO)',
+
                         ],
                         ['Usuários',
                             '
                             <h3>Visualizar usuário</h3><br>
-                            <img src="../img/help/Usuarios/new user-dados.png">
+                            <img src="../img/help/Usuarios/user_viu_barra.png">
                             <br>
                             Nesta tabela, é possível visualizar  o id dos usuários, nome, email, cargo e também há a possibilidade de editar as informações.
                             <br>
                             <br>
 
-                            <img src="../img/help/Usuarios/new user-anteprox.png">
+                            <img src="../img/help/Usuarios/user_viu_AntProx.png">
                             <br>
                             Os botões “Anterior” e “Próxima” permitem trocar as páginas quando determinado número de registros for atingido.
                             <br>
                             <br>
 
-                            <img src="../img/help/Usuarios/new user-down.png">
+                            <img src="../img/help/Usuarios/user_viu_CSV.png">
                             <br>
                             Nesta opção, o usuário tem a opção de baixar a planilha de usuários.
                             <br>
                             <br>
 
-                            <img src="../img/help/Usuarios/new user-impri.png">
+                            <img src="../img/help/Usuarios/user_viu_imprimir.png">
                             <br>
                             Nesta área é possível imprimir as informações apresentadas na tabela de usuários.
                             <br>
                             <br>
 
-                            <img src="../img/help/Usuarios/new user-pesquisar.png">
+                            <img src="../img/help/Usuarios/user_viu_pesquisar.png">
                             <br>
                             A área de pesquisa permite pesquisar informações sobre usuários.
                             <br>
                             <br>
 
                             <h3>Novo usuário</h3><br>
-                            <img src="../img/help/Usuarios/new u.png">
+                            <img src="../img/help/Usuarios/user_viu_Add.png">
                             <br>
                             Neste campo, há a possibilidade de adicionar um novo usuário à tabela.
                             <br>
                             <br>
 
-                            <img src="../img/help/Usuarios/users_new.png">
+                            <img src="../img/help/Usuarios/user_niu_barra.png">
                             <br>
                             Neste campo, Você insere os dados relativos ao novo usuário que será cadastrado.
                             <br>
                             <br>
 
-                            <img src="../img/help/Usuarios/users_new_cancel.png">
+                            <img src="../img/help/Usuarios/user_niu_cancelar.png">
                             <br>
                             Este campo trará a possibilidade do usuário cancelar o cadastro do novo usuário, caso tenha ocorrido algum contratempo.
                             <br>
                             <br>
 
-                            <img src="../img/help/Usuarios/users_new_add.png">
+                            <img src="../img/help/Usuarios/user_niu_Add.png">
                             <br>
                             Este campo permite que seja efetuado o cadastro de usuário.
                             <br>
                             <br>
                             ',
-                            '(VÍDEO)',
+
                         ],
 
                         ['Coordenadores',
@@ -411,17 +431,17 @@
                             <br>
                             <br>
                             ',
-                            '(VÍDEO)',
+
                         ],
 
                         ['Alunos',
                             '(TUTORIAL)',
-                            '(VÍDEO)',
+
                         ],
 
                         ['Empresas',
                             '(TUTORIAL)',
-                            '(VÍDEO)',
+
                         ],
 
                     ]
@@ -454,30 +474,35 @@
                             <label for="handle<?php echo $i1.'.'.$i2; ?>"><b><?php echo $i1.'.'.$i2.'.'; ?></b> <?php echo $t2[$n1][$n2][0]; ?></label>
                         </h4>
                         <div class="hcontent">
+                            <!--
                             <div class="tabs">
-                                <div id="tab<?php echo $i1.'.'.$i2; ?>.2" class="tab">
+                                <div id="tab<?php //echo $i1.'.'.$i2; ?>.2" class="tab">
                                     <ul class="nav nav-tabs">
-                                        <li><a href="#tab<?php echo $i1.'.'.$i2; ?>.1">Tutorial</a></li>
-                                        <li class="active"><a href="#tab<?php echo $i1.'.'.$i2; ?>.2">Vídeo</a></li>
+                                        <li><a href="#tab<?php //echo $i1.'.'.$i2; ?>.1">Tutorial</a></li>
+                                        <li class="active"><a href="#tab<?php //echo $i1.'.'.$i2; ?>.2">Vídeo</a></li>
                                     </ul>
 
                                     <p>
-                                        <?php echo $t2[$n1][$n2][2]; ?>
+                                        <?php //echo $t2[$n1][$n2][2]; ?>
                                     </p>
                                 </div>
 
 
-                                <div id="tab<?php echo $i1.'.'.$i2; ?>.1" class="tab">
+                                <div id="tab<?php //echo $i1.'.'.$i2; ?>.1" class="tab">
                                     <ul class="nav nav-tabs">
-                                        <li class="active"><a href="#tab<?php echo $i1.'.'.$i2; ?>.1">Tutorial</a></li>
-                                        <li><a href="#tab<?php echo $i1.'.'.$i2; ?>.2">Vídeo</a></li>
+                                        <li class="active"><a href="#tab<?php //echo $i1.'.'.$i2; ?>.1">Tutorial</a></li>
+                                        <li><a href="#tab<?php //echo $i1.'.'.$i2; ?>.2">Vídeo</a></li>
                                     </ul>
 
                                     <p>
-                                        <?php echo $t2[$n1][$n2][1]; ?>
+                                        <?php //echo $t2[$n1][$n2][1]; ?>
                                     </p>
                                 </div>
                             </div>
+                            -->
+                            <p>
+                                <?php echo $t2[$n1][$n2][1]; ?>
+                            </p>
                         </div>
                     </section>
 

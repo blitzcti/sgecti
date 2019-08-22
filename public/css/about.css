@@ -4,12 +4,22 @@
     margin-left: 10vw;
     max-width: 100%;
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    grid-column-gap: 15px;
 }
 
 .dg img {
     width: 100%;
+}
+
+.img {
+    grid-area: img;
+}
+
+.txt {
+    grid-area: txt;
+}
+
+.txt h2 {
+    margin-top: 5px;
 }
 
 .dg p {
@@ -27,6 +37,25 @@
     margin-left: 10vw;
     max-width: 100%;
     display: grid;
-    grid-template-columns: 1fr 2fr;
-    grid-column-gap: 15px;
+}
+
+@media only screen and (max-width: 1350px) {
+    .dg1, .dg2 {
+         grid-template-areas: "img" "txt";
+         grid-row-gap: 5px;
+    }
+}
+
+@media only screen and (min-width: 1351px) {
+    .dg1 {
+        grid-template-columns: 2fr 1fr;
+        grid-template-areas: "img txt";
+        grid-column-gap: 15px;
+    }
+
+    .dg2 {
+        grid-template-columns: 1fr 2fr;
+        grid-template-areas: "txt img";
+        grid-column-gap: 15px;
+    }
 }

@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class StudentController extends Controller
 {
@@ -188,7 +189,7 @@ class StudentController extends Controller
             JSON_UNESCAPED_UNICODE);
     }
 
-    public function getPhoto($ra)
+    public function getPhoto($ra, Request $request)
     {
         $cIds = Auth::user()->coordinator_of->map(function ($course) {
             return $course->id;
@@ -203,6 +204,13 @@ class StudentController extends Controller
             abort(404);
         }
 
-        return response()->file(storage_path("app/students/$student->matricula.jpg"));
+        if ($request->has('w') && $request->has('h') && ctype_digit($request->get('w')) && ctype_digit($request->get('h'))) {
+            $w = $request->get('w');
+            $h = $request->get('h');
+            Image::make(storage_path("app/students/$student->matricula.jpg"))->resize($w, $h)->save(storage_path("app/students/img.jpg"));
+            return response()->file(storage_path("app/students/img.jpg"));
+        } else {
+            return response()->file(storage_path("app/students/$student->matricula.jpg"));
+        }
     }
 }

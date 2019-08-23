@@ -440,7 +440,145 @@
                         ],
 
                         ['Empresas',
-                            '(TUTORIAL)',
+                            '
+                            <h3>Visualizar empresa</h3><br>
+                            <img src="../img/help/Empresas/viu/dados_new_empre.png">
+                            <br>
+                            Nesta área é possível visualizar os dados das empresas associadas em formato de tabela.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Empresas/viu/anteprox_new_empre.png">
+                            <br>
+                            Através destes campos destacados, o usuário poderá navegar pelas páginas anteriores das empresas cadastradas e até mesmo ver as próximas.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Empresas/viu/down_new_empre.png">
+                            <br>
+                            Neste campo destacado, o usuário poderá fazer o download de uma planilha que contém os nome de todas as empresas,informando dados específicos das empresas, assim como a CNPJ, responsável e telefones.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Empresas/viu/imprimi_new_empre.png">
+                            <br>
+                            Através deste campo destacado, o usuário poderá imprimir e até mesmo criar um arquivo PDF em formato de planilha, assim como salvar no Google Drive tais informações.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Empresas/viu/pesq_new_empre.png">
+                            <br>
+                            Na barra pesquisa, o usuário poderá pesquisar as empresas que deseja encontrar, podendo colocar o nome inteiro ou parcialmente.
+                            <br>
+                            <br>
+
+                            <h3>Nova empresa</h3><br>
+
+                            <img src="../img/help/Empresas/viu/add_new_empre.png">
+                            <br>
+                            Em “Adicionar empresa” você pode fazer um novo registro de empresas.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Empresas/viu/dados da nova empresa.png">
+                            <br>
+                            Nos campos da tabela, é possível registrar os dados da empresa.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Empresas/viu/cancel da nova empresa.png">
+                            <br>
+                            Nesse campo é possível cancelar as ações de cadastramento de uma nova empresa.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Empresas/viu/add da nova empresa.png">
+                            <br>
+                            Nesse campo você irá adicionar uma nova empresa, após o preenchimento de todos os campos de cadastramento.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Empresas/viu/dados do repre nova empresa.png">
+                            <br>
+                            Nesse campo você irá informar o nome e o cargo que exerce o representante da empresa.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Empresas/viu/cancel do repre nova empresa.png">
+                            <br>
+                            Nesse campo é possível cancelar as ações de cadastramento dos dados do representante da empresa.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Empresas/viu/add do repre nova empresa.png">
+                            <br>
+                            Nesse campo você irá adicionar uma nova empresa, após o preenchimento de todos os campos de cadastramento do representante da empresa.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Empresas/viu/dados do endereço nova empresa.png">
+                            <br>
+                            Nos campos da tabela, você irá adicionar os dados da empresa como: cep, bairro e estado.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Empresas/viu/cancel do endereço nova empresa.png">
+                            <br>
+                            Nesse campo é possível cancelar as ações de cadastramento dos dados de localização da empresa.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Empresas/viu/add do endereço nova empresa.png">
+                            <br>
+                            Nesse campo você irá adicionar uma nova empresa, após o preenchimento de todos os campos de cadastramento do endereço da empresa.
+                            <br>
+                            <br>
+
+                            <h3>Setores nova empresa</h3><br>
+
+                            <img src="../img/help/Empresas/viu/Setores/dados setores nova empresa.png">
+                            <br>
+                            Nesse campo, você irá adicionar os setores e quais cursos a empresa se interessa na busca de um estagiário.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Empresas/viu/Setores/add setores nova empresa.png">
+                            <br>
+                            Ao clicar, você poderá adicionar um novo setor no qual a empresa trabalha.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Empresas/viu/Setores/add2 setores nova empresa.png">
+                            <br>
+                            Ao clicar em adicionar, conclui-se a operação.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Empresas/viu/Setores/cancel setores nova empresa.png">
+                            <br>
+                            Ao clicar em cancelar, a operação será desfeita.
+                            <br>
+                            <br>
+
+                            <h3>Convênios nova empresa</h3><br>
+                            <img src="../img/help/Empresas/viu/Convenio/registro convenio empre.png">
+                            <br>
+                            Nesta área, é possível registrar um novo convênio.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Empresas/viu/Convenio/cancel registro convenio empre.png">
+                            <br>
+                            Ao clicar em cancelar, a operação será desfeita.
+                            <br>
+                            <br>
+
+                            <img src="../img/help/Empresas/viu/Convenio/add registro convenio empre.png">
+                            <br>
+                            Ao clicar em adicionar, conclui-se a operação
+                            <br>
+                            <br>
+                            ',
 
                         ],
 

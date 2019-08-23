@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSector;
+use App\Http\Requests\UpdateSector;
 use App\Models\Sector;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class SectorController extends Controller
 {
@@ -12,8 +14,8 @@ class SectorController extends Controller
     {
         $this->middleware('coordinator');
         $this->middleware('permission:companySector-list');
-        $this->middleware('permission:companySector-create', ['only' => ['new', 'save']]);
-        $this->middleware('permission:companySector-edit', ['only' => ['edit', 'save']]);
+        $this->middleware('permission:companySector-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:companySector-edit', ['only' => ['edit', 'update']]);
     }
 
     public function index()
@@ -22,103 +24,74 @@ class SectorController extends Controller
         return view('coordinator.company.sector.index')->with(['sectors' => $sectors]);
     }
 
-    public function getAjax()
-    {
-        $sectors = Sector::all();
-        return response()->json(
-            ['sectors' => $sectors],
-            200,
-            [
-                'Content-Type' => 'application/json; charset=UTF-8',
-                'charset' => 'utf-8'
-            ],
-            JSON_UNESCAPED_UNICODE);
-    }
-
-    public function new()
+    public function create()
     {
         return view('coordinator.company.sector.new');
     }
 
     public function edit($id)
     {
-        if (!is_numeric($id)) {
-            return redirect()->route('coordenador.empresa.setor.index');
-        }
-
         $sector = Sector::findOrFail($id);
 
         return view('coordinator.company.sector.edit')->with(['sector' => $sector]);
     }
 
-    public function save(Request $request)
+    public function store(StoreSector $request)
     {
         $sector = new Sector();
         $params = [];
 
-        if (!$request->exists('cancel')) {
-            $validatedData = (object)$request->validate([
-                'name' => 'required|max:50',
-                'description' => 'required',
-                'active' => 'required|boolean'
-            ]);
+        $validatedData = (object)$request->validated();
 
-            if ($request->exists('id')) { // Edit
-                $id = $request->input('id');
-                $sector = Sector::all()->find($id);
+        $log = "Novo setor";
+        $log .= "\nUsuário: " . Auth::user()->name;
 
-                $sector->updated_at = Carbon::now();
-            } else { // New
-                $sector->created_at = Carbon::now();
-            }
+        $sector->name = $validatedData->name;
+        $sector->description = $validatedData->description;
+        $sector->active = $validatedData->active;
 
-            $sector->nome = $validatedData->name;
-            $sector->descricao = $validatedData->description;
-            $sector->ativo = $validatedData->active;
+        $saved = $sector->save();
+        $log .= "\nNovos dados: " . json_encode($sector, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-            $saved = $sector->save();
-
-            $params['saved'] = $saved;
-            $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao salvar setor");
         }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
         return redirect()->route('coordenador.empresa.setor.index')->with($params);
     }
 
-    public function saveAjax(Request $request)
+    public function update($id, UpdateSector $request)
     {
-        $sector = new Sector();
+        $sector = Sector::all()->find($id);
         $params = [];
 
-        if (!$request->exists('cancel')) {
-            $validatedData = \Validator::make($request->all(), [
-                'name' => 'required|max:50',
-                'description' => 'required',
-                'active' => 'required|boolean'
-            ]);
+        $validatedData = (object)$request->validated();
 
-            if ($validatedData->fails()) {
-                return response()->json(['errors' => $validatedData->errors()->all()]);
-            }
+        $log = "Alteração de setor";
+        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nDados antigos: " . json_encode($sector, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-            if ($request->exists('id')) { // Edit
-                $id = $request->input('id');
-                $sector = Sector::all()->find($id);
+        $sector->name = $validatedData->name;
+        $sector->description = $validatedData->description;
+        $sector->active = $validatedData->active;
 
-                $sector->updated_at = Carbon::now();
-            } else { // New
-                $sector->created_at = Carbon::now();
-            }
+        $saved = $sector->save();
+        $log .= "\nNovos dados: " . json_encode($sector, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-            $sector->nome = $request->input('name');
-            $sector->descricao = $request->input('description');
-            $sector->ativo = $request->input('active');
-
-            $saved = $sector->save();
-
-            $params['saved'] = $saved;
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao salvar setor");
         }
 
-        return response()->json($params);
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+
+        return redirect()->route('coordenador.empresa.setor.index')->with($params);
     }
 }

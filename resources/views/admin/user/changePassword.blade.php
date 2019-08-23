@@ -7,62 +7,56 @@
 @stop
 
 @section('content')
-    @if ($errors->any())
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <div class="box box-default">
-        <form class="form-horizontal" action="{{ route('admin.usuario.salvarSenha') }}" method="post">
+        <div class="box-header with-border">
+            <h3 class="box-title">Senha</h3>
+        </div>
+
+        <form class="form-horizontal" action="{{ route('admin.usuario.salvarSenha', $user->id) }}" method="post">
+            @method('PUT')
             @csrf
 
             <div class="box-body">
-                <input type="hidden" name="id" value="{{ $user->id }}">
-
-                <div class="form-group">
-                    <label for="inputOldPassword" class="col-sm-2 control-label">Senha atual</label>
+                <div class="form-group  @if($errors->has('currentPassword')) has-error @endif">
+                    <label for="inputCurrentPassword" class="col-sm-2 control-label">Senha atual*</label>
 
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inputOldPassword" name="old_password"
+                        <input type="password" class="form-control" id="inputCurrentPassword" name="currentPassword"
                                placeholder="Senha atualmente em uso"/>
+
+                        <span class="help-block">{{ $errors->first('currentPassword') }}</span>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="inputPassword" class="col-sm-2 control-label">Nova senha</label>
+                <div class="form-group  @if($errors->has('password')) has-error @endif">
+                    <label for="inputPassword" class="col-sm-2 control-label">Nova senha*</label>
 
                     <div class="col-sm-10">
                         <input type="password" class="form-control" id="inputPassword" name="password"
                                placeholder="Nova senha (Deve ser de no mínimo 8 caracteres)"/>
+
+                        <span class="help-block">{{ $errors->first('password') }}</span>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="inputPasswordConfirmation" class="col-sm-2 control-label">Confirmar senha</label>
+                <div class="form-group @if($errors->has('password_confirmation')) has-error @endif">
+                    <label for="inputPasswordConfirmation" class="col-sm-2 control-label">Confirmar senha*</label>
 
                     <div class="col-sm-10">
                         <input type="password" class="form-control" id="inputPasswordConfirmation"
                                name="password_confirmation" placeholder="Confirme a nova senha"/>
+
+                        <span class="help-block">{{ $errors->first('password_confirmation') }}</span>
                     </div>
                 </div>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
+                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
                 <button type="submit" class="btn btn-primary pull-right">Salvar</button>
             </div>
             <!-- /.box-footer -->
         </form>
-    </div>
     </div>
 @endsection
 

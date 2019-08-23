@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCourse;
+use App\Http\Requests\UpdateCourse;
 use App\Models\Color;
 use App\Models\Course;
 use App\Models\CourseConfiguration;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class CourseController extends Controller
@@ -14,8 +16,8 @@ class CourseController extends Controller
     function __construct()
     {
         $this->middleware('permission:course-list');
-        $this->middleware('permission:course-create', ['only' => ['new', 'save']]);
-        $this->middleware('permission:course-edit', ['only' => ['edit', 'save']]);
+        $this->middleware('permission:course-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:course-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:course-delete', ['only' => ['delete']]);
     }
 
@@ -27,10 +29,6 @@ class CourseController extends Controller
 
     public function details($id)
     {
-        if (!is_numeric($id)) {
-            return redirect()->route('admin.curso.index');
-        }
-
         $course = Course::findOrFail($id);
 
         $color = $course->color;
@@ -40,79 +38,94 @@ class CourseController extends Controller
         return view('admin.course.details')->with(['course' => $course, 'config' => $config, 'coordinator' => $coordinator, 'color' => $color]);
     }
 
-    public function new()
+    public function create()
     {
-        $colors = Color::all();
+        $colors = Color::all()->sortBy('id');
+
         return view('admin.course.new')->with(['colors' => $colors]);
     }
 
     public function edit($id)
     {
-        if (!is_numeric($id)) {
+        if (!ctype_digit($id)) {
             return redirect()->route('admin.curso.index');
         }
 
         $course = Course::findOrFail($id);
-        $colors = Color::all();
+        $colors = Color::all()->sortBy('id');
 
         return view('admin.course.edit')->with(['course' => $course, 'colors' => $colors]);
     }
 
-    public function save(Request $request)
+    public function store(StoreCourse $request)
     {
         $course = new Course();
         $params = [];
 
-        if (!$request->exists('cancel')) {
-            $validatedData = (object)$request->validate([
-                'name' => 'required|max:30',
-                'color' => 'required|numeric|min:1',
-                'active' => 'required|boolean'
-            ]);
+        $validatedData = (object)$request->validated();
 
-            if ($request->exists('id')) { // Edit
-                $id = $request->input('id');
-                $course = Course::all()->find($id);
+        $log = "Novo curso";
+        $log .= "\nUsuário: " . Auth::user()->name;
 
-                $course->updated_at = Carbon::now();
-                Log::info("Alteração");
-                Log::info("Dados antigos: " . json_encode($course, JSON_UNESCAPED_UNICODE));
-            } else { // New
-                $course->created_at = Carbon::now();
+        $course->name = $validatedData->name;
+        $course->color_id = $validatedData->color;
+        $course->active = $validatedData->active;
 
-                $config = new CourseConfiguration();
-                $configValidatedData = (object)$request->validate([
-                    'minYear' => 'required|numeric|min:1|max:3',
-                    'minSemester' => 'required|numeric|min:1|max:2',
-                    'minHour' => 'required|numeric|min:1',
-                    'minMonth' => 'required|numeric|min:1',
-                    'minMonthCTPS' => 'required|numeric|min:1',
-                    'minMark' => 'required|numeric|min:0|max:10'
-                ]);
+        $saved = $course->save();
+        $log .= "\nNovos dados: " . json_encode($course, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-                $config->min_year = $configValidatedData->minYear;
-                $config->min_semester = $configValidatedData->minSemester;
-                $config->min_hours = $configValidatedData->minHour;
-                $config->min_months = $configValidatedData->minMonth;
-                $config->min_months_ctps = $configValidatedData->minMonthCTPS;
-                $config->min_grade = $configValidatedData->minMark;
-            }
+        if ($validatedData->hasConfig) {
+            $config = new CourseConfiguration();
 
-            $course->name = $validatedData->name;
-            $course->color_id = $validatedData->color;
-            $course->active = $validatedData->active;
+            $config->course_id = $course->id;
+            $config->min_year = $validatedData->minYear;
+            $config->min_semester = $validatedData->minSemester;
+            $config->min_hours = $validatedData->minHour;
+            $config->min_months = $validatedData->minMonth;
+            $config->min_months_ctps = $validatedData->minMonthCTPS;
+            $config->min_grade = $validatedData->minGrade;
 
-            $saved = $course->save();
-
-            if (isset($config)) {
-                $config->course_id = $course->id;
-
-                $saved = $config->save();
-            }
-
-            $params['saved'] = $saved;
-            $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+            $saved = $config->save();
         }
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao salvar curso");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+
+        return redirect()->route('admin.curso.index')->with($params);
+    }
+
+    public function update($id, UpdateCourse $request)
+    {
+        $course = Course::all()->find($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $log = "Alteração de curso";
+        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nDados antigos: " . json_encode($course, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $course->name = $validatedData->name;
+        $course->color_id = $validatedData->color;
+        $course->active = $validatedData->active;
+
+        $saved = $course->save();
+        $log .= "\nNovos dados: " . json_encode($course, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao salvar curso");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
         return redirect()->route('admin.curso.index')->with($params);
     }

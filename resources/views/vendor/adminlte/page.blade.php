@@ -1,3 +1,5 @@
+{{-- @TODO: Every time a company sends a new internship proposal, or when the secretary sends a new internship plan, dispatches a notification for the coordinators --}}
+
 @extends('adminlte::master')
 
 @section('adminlte_css')
@@ -7,6 +9,10 @@
     <style type="text/css">
         body {
             padding-right: 0 !important;
+        }
+
+        hr {
+            border-top: 1px solid #eee;
         }
     </style>
 
@@ -67,24 +73,47 @@
                         <li class="dropdown notifications-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                 <i class="fa fa-bell-o"></i>
-                                <span class="label label-success">0</span>
+                                <span id="notificationCounter" class="label label-success">{{ sizeof(auth()->user()->unreadNotifications) }}</span>
                             </a>
 
                             <ul class="dropdown-menu">
                                 <li class="header">Notificações</li>
 
                                 <li>
-                                    <ul class="menu">
-                                        <li>
-                                            <a href="#">
-                                                Nenhuma notificação
-                                            </a>
-                                        </li>
+                                    <ul id="ulNotifications" class="menu">
+                                        @if(sizeof(auth()->user()->unreadNotifications) == 0)
+
+                                            <li>
+                                                <a href="#">
+                                                    Nenhuma notificação
+                                                </a>
+                                            </li>
+
+                                        @else
+
+                                        @foreach(auth()->user()->unreadNotifications as $notification)
+
+                                                <li id="notification-{{ $notification->id }}">
+                                                    <form action="{{ route('api.usuario.notificacao.lida', ['id' => $notification->id]) }}" method="post">
+                                                        @method('PUT')
+                                                        @csrf
+                                                    </form>
+
+                                                    <a href="#" onclick="markAsSeen('{{ $notification->id }}')">
+                                                        <i class="fa fa-{{ $notification->toArray()['data']['icon'] }}"></i>
+                                                        <b>{{ $notification->toArray()['data']['description'] }}</b>
+                                                        <p style="margin: 0; white-space: normal;">{{ $notification->toArray()['data']['text'] }}</p>
+                                                    </a>
+                                                </li>
+
+                                        @endforeach
+
+                                        @endif
                                     </ul>
                                 </li>
 
                                 <li class="footer">
-                                    <a href="#">Ver todas</a>
+                                    <a href="{{ route('notificacoes') }}">Ver todas</a>
                                 </li>
                             </ul>
                         </li>
@@ -159,17 +188,63 @@
         <!-- /.content-wrapper -->
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Versão</b> 0.1
+                <b>Versão</b> 0.8.7
             </div>
 
             <b>Copyright © 2019 Blitz.</b> Todos os direitos reservados.
         </footer>
     </div>
     <!-- ./wrapper -->
+
+    <script type="text/javascript">
+        // Remove all empty help blocks
+        Array.from(document.querySelectorAll('.form-group .help-block:empty')).forEach(element => {
+            element.remove();
+        });
+    </script>
 @stop
 
 @section('adminlte_js')
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            function removeHasError() {
+                // Remove the has-error class when the user focuses the input
+                this.classList.remove('has-error');
+
+                // Remove the span class=".help-block"
+                let help_block = this.querySelector('.help-block');
+                if (help_block !== null) {
+                    help_block.remove();
+                }
+            }
+
+            jQuery('.has-error').on('focusin', removeHasError).on('change', removeHasError);
+        });
+
+        function markAsSeen(id) {
+            jQuery.ajax({
+                url: `/api/usuario/notificacao/${id}/lida`,
+                method: 'POST',
+                data: {
+                    _method: 'PUT'
+                },
+                success: function (data) {
+                    let notificationCounter = jQuery('#notificationCounter');
+                    notificationCounter.text(parseInt(notificationCounter.text()) - 1);
+                    jQuery(`#notification-${id}`).remove();
+
+                    if (notificationCounter.text() === "0") {
+                        let noNotifications = '<li><a href="#">Nenhuma notificação</a></li>';
+                        jQuery('#ulNotifications').append(noNotifications);
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        }
+    </script>
     @stack('js')
     @yield('js')
 @stop

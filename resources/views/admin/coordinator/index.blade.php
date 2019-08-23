@@ -3,7 +3,7 @@
 @section('title', 'Coordenadores - SGE CTI')
 
 @section('content_header')
-    <h1>Coordenadores</h1>
+    <h1>Coordenadores @if(isset($course)) de {{ $course->name }} @endif</h1>
 @stop
 
 @section('content')
@@ -20,10 +20,8 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <div class="btn-group" style="display: inline-flex; margin: 0 0 10px 0">
-                <a href="{{ route('admin.coordenador.novo') }}"
+                <a id="addLink" href="{{ (isset($course)) ? route('admin.coordenador.novo', ['c' => $course->id]) : route('admin.coordenador.novo') }}"
                    class="btn btn-success">Adicionar coordenador</a>
-            </div>
 
             <table id="coordinators" class="table table-bordered table-hover">
                 <thead>
@@ -42,14 +40,10 @@
 
                     <tr>
                         <th scope="row">{{ $coordinator->id }}</th>
-                        <td>
-                            <a href="{{ route('admin.usuario.editar', ['id' => $coordinator->user->id]) }}">{{ $coordinator->user->name }}</a>
-                        </td>
-                        <td>
-                            <a href="{{ route('admin.curso.editar', ['id' => $coordinator->course->id]) }}">{{ $coordinator->course->name }}</a>
-                        </td>
-                        <td>{{ $coordinator->vigencia_ini }}</td>
-                        <td>{{ $coordinator->vigencia_fim }}</td>
+                        <td>{{ $coordinator->user->name }}</td>
+                        <td>{{ $coordinator->course->name }}</td>
+                        <td>{{ date("d/m/Y", strtotime($coordinator->start_date)) }}</td>
+                        <td>{{ $coordinator->end_date != null ? date("d/m/Y", strtotime($coordinator->end_date)) : 'Indefinido' }}</td>
 
                         <td>
                             <a href="{{ route('admin.coordenador.editar', ['id' => $coordinator->id]) }}">Editar</a>
@@ -65,11 +59,38 @@
 
 @section('js')
     <script>
-        jQuery(() => {
-            jQuery("#coordinators").DataTable({
+        jQuery(function () {
+            let table = jQuery("#coordinators").DataTable({
                 "language": {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
-                }
+                },
+                lengthChange: false,
+                buttons: [
+                    {
+                        extend: 'csv',
+                        text: '<span class="glyphicon glyphicon-download-alt"></span> CSV',
+                        charset: 'UTF-8',
+                        fieldSeparator: ';',
+                        bom: true,
+                        className: 'btn btn-default',
+                        exportOptions: {
+                            columns: 'th:not(:last-child)'
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: '<span class="glyphicon glyphicon-print"></span> Imprimir',
+                        className: 'btn btn-default',
+                        exportOptions: {
+                            columns: 'th:not(:last-child)'
+                        }
+                    }
+                ],
+                initComplete: function () {
+                    table.buttons().container().appendTo($('#coordinators_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().addClass('btn-group');
+                    jQuery('#addLink').prependTo(table.buttons().container());
+                },
             });
         });
     </script>

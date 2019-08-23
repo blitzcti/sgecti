@@ -17,17 +17,17 @@ class CreateSystemConfigurationsTable extends Migration
         Schema::create('system_configurations', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('nome', 60)->nullable(false);
+            $table->string('name', 60)->nullable(false);
             $table->string('cep', 9)->nullable(false);
             $table->string('uf', 2)->nullable(false);
-            $table->string('cidade', 30)->nullable(false);
-            $table->string('rua', 50)->nullable(false);
-            $table->string('numero', 6)->nullable(false);
-            $table->string('bairro', 50)->nullable(false);
-            $table->string('fone', 11)->nullable(false);
+            $table->string('city', 30)->nullable(false);
+            $table->string('street', 50)->nullable(false);
+            $table->string('number', 6)->nullable(false);
+            $table->string('district', 50)->nullable(false);
+            $table->string('phone', 11)->nullable(false);
             $table->string('email', 50)->nullable(false);
-            $table->string('ramal', 5)->nullable(true)->default(null);
-            $table->integer('validade_convenio')->nullable(false);
+            $table->string('extension', 5)->nullable(true)->default(null);
+            $table->integer('agreement_expiration')->nullable(false);
 
             $table->timestamps();
         });

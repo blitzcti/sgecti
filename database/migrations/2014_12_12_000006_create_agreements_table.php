@@ -19,8 +19,8 @@ class CreateAgreementsTable extends Migration
             $table->bigInteger('company_id')->nullable(false)->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
 
-            $table->date('validade')->nullable(false);
-            $table->text('observacao')->nullable(true);
+            $table->date('expiration_date')->nullable(false);
+            $table->text('observation')->nullable(true);
 
             $table->timestamps();
         });

@@ -12,14 +12,16 @@ return [
 
     'users' => 'Users',
 
+    'courseConfig' => 'General course configurations',
     'configurations' => 'Parameters',
     'backup' => 'System backup',
 
     'logs' => 'Logs',
 
-    'message' => 'MESSAGE',
+    'message' => 'Message',
 
-    'help' => 'HELP',
+    'help' => 'Help',
+    'about' => 'About',
 
 
     'administration' => 'ADMINISTRATION',
@@ -30,8 +32,8 @@ return [
     'sector' => 'Sectors',
 
     'internship' => 'Internships',
-    'ctps' => 'CTPS',
-    'aditive' => 'Aditive term',
+    'job' => 'Jobs',
+    'amendment' => 'Amendments',
 
     'report' => 'Reports',
     'proposal' => 'Proposals',
@@ -43,7 +45,10 @@ return [
 
     'view' => 'View',
     'new' => 'New',
-    'history' => 'History'
+    'history' => 'History',
+    'data' => 'Data',
+
+    'pdf' => 'PDF',
 
 ];
 

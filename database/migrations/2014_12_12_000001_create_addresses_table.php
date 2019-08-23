@@ -18,11 +18,11 @@ class CreateAddressesTable extends Migration
 
             $table->string('cep', 9)->nullable(false);
             $table->string('uf', 2)->nullable(false);
-            $table->string('cidade', 30)->nullable(false);
-            $table->string('rua', 50)->nullable(false);
-            $table->string('complemento', 50)->nullable(true)->default(null);
-            $table->string('numero', 6)->nullable(false);
-            $table->string('bairro', 50)->nullable(false);
+            $table->string('city', 30)->nullable(false);
+            $table->string('street', 50)->nullable(false);
+            $table->string('complement', 50)->nullable(true)->default(null);
+            $table->string('number', 6)->nullable(false);
+            $table->string('district', 50)->nullable(false);
 
             $table->timestamps();
         });

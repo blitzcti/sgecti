@@ -19,30 +19,30 @@ class CreateFinalReportsTable extends Migration
             $table->bigInteger('internship_id')->nullable(false)->unsigned();
             $table->foreign('internship_id')->references('id')->on('internships');
 
-            $table->date('dia');
+            $table->date('date');
 
-            $table->integer('nota_1_a');
-            $table->integer('nota_1_b');
-            $table->integer('nota_1_c');
-            $table->integer('nota_2_a');
-            $table->integer('nota_2_b');
-            $table->integer('nota_2_c');
-            $table->integer('nota_2_d');
-            $table->integer('nota_3_a');
-            $table->integer('nota_3_b');
-            $table->integer('nota_4_a');
-            $table->integer('nota_4_b');
-            $table->integer('nota_4_c');
-            $table->integer('nota_final');
+            $table->integer('grade_1_a');
+            $table->integer('grade_1_b');
+            $table->integer('grade_1_c');
+            $table->integer('grade_2_a');
+            $table->integer('grade_2_b');
+            $table->integer('grade_2_c');
+            $table->integer('grade_2_d');
+            $table->integer('grade_3_a');
+            $table->integer('grade_3_b');
+            $table->integer('grade_4_a');
+            $table->integer('grade_4_b');
+            $table->integer('grade_4_c');
+            $table->float('final_grade');
 
-            $table->integer('horas_cumpridas');
-            $table->date('data_termino');
-            $table->string('numero_aprovacao');
+            $table->integer('hours_completed');
+            $table->date('end_date');
+            $table->string('approval_number');
 
             $table->bigInteger('coordinator_id')->nullable(false)->unsigned();
             $table->foreign('coordinator_id')->references('id')->on('coordinators');
 
-            $table->text('observacao')->nullable(true)->default(null);
+            $table->text('observation')->nullable(true)->default(null);
 
             $table->timestamps();
         });

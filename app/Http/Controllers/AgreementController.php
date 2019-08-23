@@ -2,23 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAgreement;
+use App\Http\Requests\UpdateAgreement;
 use App\Models\Agreement;
 use App\Models\Company;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use App\Models\SystemConfiguration;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class AgreementController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('coordinator');
+        $this->middleware('permission:companyAgreement-list');
+        $this->middleware('permission:companyAgreement-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:companyAgreement-edit', ['only' => ['edit', 'update']]);
+    }
+
     public function index()
     {
         $agreements = Agreement::all();
         return view('coordinator.company.agreement.index')->with(['agreements' => $agreements]);
     }
 
-    public function new()
+    public function create()
     {
-        $companies = Company::all()->where('ativo', '=', true);
+        $companies = Company::all()->where('active', '=', true)->sortBy('id');
         return view('coordinator.company.agreement.new')->with(['companies' => $companies]);
     }
 
@@ -28,41 +38,60 @@ class AgreementController extends Controller
         return view('coordinator.company.agreement.edit')->with(['agreement' => $agreement]);
     }
 
-    public function save(Request $request)
+    public function store(StoreAgreement $request)
     {
         $agreement = new Agreement();
         $params = [];
 
-        if (!$request->exists('cancel')) {
+        $validatedData = (object)$request->validated();
 
-            $validatedData = (object)$request->validate([
-                'company' => 'required|numeric:1',
-                'expirationDate' => 'required|date',
-                'observation' => 'max:200',
-            ]);
+        $log = "Novo convênio";
+        $log .= "\nUsuário: " . Auth::user()->name;
 
-            if ($request->exists('id')) { // Edit
-                $id = $request->input('id');
+        $agreement->company_id = $validatedData->company;
+        $agreement->expiration_date = SystemConfiguration::getAgreementExpiration();
+        $agreement->observation = $validatedData->observation;
 
-                $agreement = Agreement::all()->find($id);
-                $agreement->updated_at = Carbon::now();
+        $saved = $agreement->save();
+        $log .= "\nNovos dados: " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-                Log::info("Alteração");
-                Log::info("Dados antigos: " . json_encode($agreement, JSON_UNESCAPED_UNICODE));
-            } else { // New
-                $agreement = new Agreement();
-                $agreement->created_at = Carbon::now();
-            }
-
-            $agreement->company_id = $validatedData->company;
-            $agreement->validade = $validatedData->expirationDate;
-            $agreement->observacao = $validatedData->observation;
-
-            $saved = $agreement->save();
-
-            $params['saved'] = $saved;
-            $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao salvar convênio");
         }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+
+        return redirect()->route('coordenador.empresa.convenio.index')->with($params);
+    }
+
+    public function update($id, UpdateAgreement $request)
+    {
+        $agreement = Agreement::all()->find($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $log = "Alteração de convênio";
+        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nDados antigos: " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $agreement->expiration_date = $validatedData->expirationDate;
+        $agreement->observation = $validatedData->observation;
+
+        $saved = $agreement->save();
+        $log .= "\nNovos dados: " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao salvar convênio");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
         return redirect()->route('coordenador.empresa.convenio.index')->with($params);
     }

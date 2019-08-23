@@ -20,22 +20,20 @@
 
     @if(auth()->user()->can('course-delete'))
 
-        @include('admin.course.deleteModal')
+        @include('modals.admin.course.delete')
 
     @endif
 
     <div class="box box-default">
         <div class="box-body">
-            <div class="btn-group" style="display: inline-flex; margin: 0 0 10px 0">
-                <a href="{{ route('admin.curso.novo') }}"
-                   class="btn btn-success">Adicionar curso</a>
-            </div>
+            <a id="addLink" href="{{ route('admin.curso.novo') }}" class="btn btn-success">Adicionar curso</a>
 
             <table id="courses" class="table table-bordered table-hover">
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
                     <th>Nome</th>
+                    <th>Cor</th>
                     <th>Ativo</th>
                     <th>Ações</th>
                 </tr>
@@ -47,6 +45,7 @@
                     <tr>
                         <th scope="row">{{ $course->id }}</th>
                         <td>{{ $course->name }}</td>
+                        <td>{{ __('colors.' . $course->color->name) }}</td>
                         <td>{{ ($course->active) ? 'Sim' : 'Não' }}</td>
 
                         <td>
@@ -54,7 +53,7 @@
                             |
                             <a href="{{ route('admin.curso.editar', ['id' => $course->id]) }}">Editar</a>
                             |
-                            <a href="#">Coordenador</a>
+                            <a href="{{ route('admin.curso.coordenador.index', ['id' => $course->id]) }}">Coordenadores</a>
                             |
                             <a href="{{ route('admin.curso.configuracao.index', ['id' => $course->id]) }}">Configurações</a>
                             @if(auth()->user()->can('course-delete'))
@@ -117,6 +116,7 @@
                 initComplete: function () {
                     table.buttons().container().appendTo($('#courses_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
+                    jQuery('#addLink').prependTo(table.buttons().container());
                 },
             });
         });

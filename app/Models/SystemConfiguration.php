@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class SystemConfiguration extends Model
 {
     protected $fillable = [
-        'nome', 'cep', 'uf', 'cidade', 'rua', 'numero', 'bairro', 'fone', 'email', 'ramal', 'validade_convenio',
+        'name', 'cep', 'uf', 'city', 'street', 'number', 'district', 'phone', 'email', 'extension', 'agreement_expiration',
     ];
+
+    public static function getAgreementExpiration() {
+        $configs = SystemConfiguration::all()->sortBy('id');
+        return Carbon::now()->modify("+" . $configs->last()->agreement_expiration . " year")->format("Y-m-d");
+    }
 }

@@ -2,16 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 class Supervisor extends Model
 {
     protected $fillable = [
-        'nome', 'email', 'telefone', 'ativo', 'company_id',
+        'name', 'email', 'phone', 'active', 'company_id',
     ];
 
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function internships()
+    {
+        return $this->hasMany(Internship::class);
     }
 }

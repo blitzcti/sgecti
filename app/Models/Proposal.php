@@ -2,16 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 class Proposal extends Model
 {
     protected $fillable = [
-        'name', 'company_id', 'course_id', 'data_limite', 'schedule_id', 'remuneracao', 'descricao', 'observacao',
+        'name', 'company_id', 'deadline', 'schedule_id', 'remuneration', 'description', 'requirements', 'benefits',
+        'contact', 'type', 'observation',
     ];
 
     public function company()
     {
-        return $this->hasOne(Company::class);
+        return $this->belongsTo(Company::class);
+    }
+
+    public function schedule()
+    {
+        return $this->belongsTo(Schedule::class);
+    }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'proposal_courses');
     }
 }

@@ -20,10 +20,8 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <div class="btn-group" style="display: inline-flex; margin: 0 0 10px 0">
-                <a href="{{ route('coordenador.empresa.novo') }}"
-                   class="btn btn-success">Adicionar empresa</a>
-            </div>
+            <a id="addLink" href="{{ route('coordenador.empresa.novo') }}"
+               class="btn btn-success">Adicionar empresa</a>
 
             <table id="companies" class="table table-bordered table-hover">
                 <thead>
@@ -42,10 +40,12 @@
                     <tr>
                         <th scope="row">{{ $company->id }}</th>
                         <td>{{ $company->cpf_cnpj }}</td>
-                        <td>{{ $company->nome }}</td>
-                        <td>{{ ($company->ativo) ? 'Sim' : 'Não' }}</td>
+                        <td>{{ $company->name }}</td>
+                        <td>{{ ($company->active) ? 'Sim' : 'Não' }}</td>
 
                         <td>
+                            <a href="{{ route('coordenador.empresa.detalhes', ['id' => $company->id]) }}">Detalhes</a>
+                            |
                             <a href="{{ route('coordenador.empresa.editar', ['id' => $company->id]) }}">Editar</a>
                         </td>
                     </tr>
@@ -89,6 +89,7 @@
                 initComplete: function () {
                     table.buttons().container().appendTo($('#companies_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
+                    jQuery('#addLink').prependTo(table.buttons().container());
                 },
             });
         });

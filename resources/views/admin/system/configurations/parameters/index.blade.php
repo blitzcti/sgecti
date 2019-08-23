@@ -20,10 +20,8 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <div class="btn-group" style="display: inline-flex; margin: 0 0 10px 0">
-                <a href="{{ route('admin.configuracoes.parametros.novo') }}"
-                   class="btn btn-success">Adicionar parâmetros</a>
-            </div>
+            <a id="addLink" href="{{ route('admin.configuracao.parametros.novo') }}"
+               class="btn btn-success">Adicionar parâmetros</a>
 
             <table id="systemConfigurations" class="table table-bordered table-hover">
                 <thead>
@@ -47,17 +45,17 @@
 
                     <tr>
                         <th scope="row">{{ $systemConfig->id }}</th>
-                        <td>{{ $systemConfig->nome }}</td>
+                        <td>{{ $systemConfig->name }}</td>
                         <td>{{ $systemConfig->cep }}</td>
                         <td>{{ $systemConfig->uf }}</td>
-                        <td>{{ $systemConfig->cidade }}</td>
-                        <td>{{ $systemConfig->rua . ', nº ' .  $systemConfig->numero }}</td>
-                        <td>{{ $systemConfig->bairro }}</td>
+                        <td>{{ $systemConfig->city }}</td>
+                        <td>{{ $systemConfig->street . ', nº ' .  $systemConfig->number }}</td>
+                        <td>{{ $systemConfig->district }}</td>
                         <td>{{ $systemConfig->email }}</td>
-                        <td>{{ $systemConfig->validade_convenio }}</td>
+                        <td>{{ $systemConfig->agreement_expiration }}</td>
 
                         <td>
-                            <a href="{{ route('admin.configuracoes.parametros.editar', ['id' => $systemConfig->id]) }}">Editar</a>
+                            <a href="{{ route('admin.configuracao.parametros.editar', ['id' => $systemConfig->id]) }}">Editar</a>
                         </td>
                     </tr>
 
@@ -101,6 +99,7 @@
                 initComplete: function () {
                     table.buttons().container().appendTo($('#systemConfigurations_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
+                    jQuery('#addLink').prependTo(table.buttons().container());
                 },
             });
         });

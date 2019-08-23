@@ -16,6 +16,7 @@ return [
     */
 
     'default' => env('DB_CONNECTION', 'mysql'),
+    'nsac' => env('NSAC_CONNECTION', 'mysql') . '_nsac',
 
     /*
     |--------------------------------------------------------------------------
@@ -42,6 +43,13 @@ return [
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
+        'sqlite_nsac' => [
+            'driver' => 'sqlite',
+            'database' => env('NSAC_DATABASE', database_path('database.sqlite')),
+            'prefix' => '',
+            'foreign_key_constraints' => env('NSAC_FOREIGN_KEYS', true),
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', '127.0.0.1'),
@@ -50,6 +58,25 @@ return [
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+
+        'mysql_nsac' => [
+            'driver' => 'mysql',
+            'host' => env('NSAC_HOST', '127.0.0.1'),
+            'port' => env('NSAC_PORT', '3306'),
+            'database' => env('NSAC_DATABASE', 'forge'),
+            'username' => env('NSAC_USERNAME', 'forge'),
+            'password' => env('NSAC_PASSWORD', ''),
+            'unix_socket' => env('NSAC_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
@@ -75,6 +102,20 @@ return [
             'sslmode' => 'prefer',
         ],
 
+        'pgsql_nsac' => [
+            'driver' => 'pgsql',
+            'host' => env('NSAC_HOST', '127.0.0.1'),
+            'port' => env('NSAC_PORT', '5432'),
+            'database' => env('NSAC_DATABASE', 'forge'),
+            'username' => env('NSAC_USERNAME', 'forge'),
+            'password' => env('NSAC_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'schema' => 'public',
+            'sslmode' => 'prefer',
+        ],
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'host' => env('DB_HOST', 'localhost'),
@@ -82,6 +123,18 @@ return [
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+        ],
+
+        'sqlsrv_nsac' => [
+            'driver' => 'sqlsrv',
+            'host' => env('NSAC_HOST', 'localhost'),
+            'port' => env('NSAC_PORT', '1433'),
+            'database' => env('NSAC_DATABASE', 'forge'),
+            'username' => env('NSAC_USERNAME', 'forge'),
+            'password' => env('NSAC_PASSWORD', ''),
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,

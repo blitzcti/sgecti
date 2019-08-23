@@ -7,149 +7,66 @@
 @stop
 
 @section('content')
-    @if ($errors->any())
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+    <form class="form-horizontal" action="{{ route('admin.curso.salvar') }}" method="post">
+        @csrf
 
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+        <input type="hidden" id="inputHasConfig" name="hasConfig" value="{{ old('hasConfig') ?? 0 }}">
 
-    <div class="box box-default">
-        <form class="form-horizontal" action="{{ route('admin.curso.salvar') }}" method="post">
-            @csrf
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Dados do curso</h3>
+            </div>
 
             <div class="box-body">
-                <h3>Dados do curso</h3>
-
-                <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Nome do curso*</label>
+                <div class="form-group @if($errors->has('name')) has-error @endif">
+                    <label for="inputName" class="col-sm-2 control-label">Nome*</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputName" name="name" placeholder="Informática"/>
+                        <input type="text" class="form-control" id="inputName" name="name" placeholder="Informática"
+                               value="{{ old('name') ?? '' }}"/>
+
+                        <span class="help-block">{{ $errors->first('name') }}</span>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="inputColor" class="col-sm-4 control-label">Cor do curso*</label>
+                        <div class="form-group @if($errors->has('color')) has-error @endif">
+                            <label for="inputColor" class="col-sm-4 control-label">Cor*</label>
 
                             <div class="col-sm-8">
                                 <select class="form-control selection" id="inputColor" name="color">
 
                                     @foreach($colors as $color)
 
-                                        <option value="{{ $color->id }}">
+                                        <option value="{{ $color->id }}"
+                                            {{ (old('color') ?? -1) == $color->id ? 'selected=selected' : '' }}>
                                             {{ __('colors.' . $color->name) }}
                                         </option>
 
                                     @endforeach
 
                                 </select>
+
+                                <span class="help-block">{{ $errors->first('color') }}</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-sm-6">
-                        <div class="form-group">
+                        <div class="form-group @if($errors->has('active')) has-error @endif">
                             <label for="inputActive" class="col-sm-4 control-label">Ativo*</label>
 
                             <div class="col-sm-8">
                                 <select class="form-control selection" data-minimum-results-for-search="Infinity"
                                         id="inputActive" name="active">
-                                    <option value="1">Sim</option>
-                                    <option value="0">Não</option>
+                                    <option value="1" {{ (old('active') ?? 1) ? 'selected=selected' : '' }}>Sim</option>
+                                    <option value="0" {{ !(old('active') ?? 1) ? 'selected=selected' : '' }}>Não
+                                    </option>
                                 </select>
                             </div>
-                        </div>
-                    </div>
-                </div>
 
-                <hr/>
-                <h3>Configurações do curso</h3>
-
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="inputMinYear" class="col-sm-4 control-label">Ano mínimo*</label>
-
-                            <div class="col-sm-8">
-                                <select class="form-control selection" data-minimum-results-for-search="Infinity"
-                                        id="inputMinYear" name="minYear">
-                                    <option value="1">1º ano</option>
-                                    <option value="2">2º ano</option>
-                                    <option value="3">3º ano</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="inputMinSemester" class="col-sm-4 control-label">Semestre mínimo*</label>
-
-                            <div class="col-sm-8">
-                                <select class="form-control selection" data-minimum-results-for-search="Infinity"
-                                        id="inputMinSemester" name="minSemester">
-                                    <option value="1">1º semestre</option>
-                                    <option value="2">2º semestre</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="inputMinHour" class="col-sm-4 control-label">Horas mínimas*</label>
-
-                            <div class="col-sm-8">
-                                <input type="number" class="form-control" id="inputMinHour" name="minHour"
-                                       placeholder="420"/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="inputMinMonth" class="col-sm-4 control-label">Meses mínimos*</label>
-
-                            <div class="col-sm-8">
-                                <input type="number" class="form-control" id="inputMinMonth" name="minMonth"
-                                       placeholder="6"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="inputMinMonthCTPS" class="col-sm-4 control-label">Meses mínimos (CTPS)*</label>
-
-                            <div class="col-sm-8">
-                                <input type="number" class="form-control" id="inputMinMonth" name="minMonthCTPS"
-                                       placeholder="6"/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="inputMinMark" class="col-sm-4 control-label">Nota mínima*</label>
-
-                            <div class="col-sm-8">
-                                <input type="number" class="form-control" id="inputMinMark" name="minMark"
-                                       placeholder="10" step="0.5"/>
-                            </div>
+                            <span class="help-block">{{ $errors->first('active') }}</span>
                         </div>
                     </div>
                 </div>
@@ -157,11 +74,134 @@
             <!-- /.box-body -->
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                <button type="submit" name="cancel" class="btn btn-default">Cancelar</button>
+                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
-        </form>
-    </div>
+        </div>
+
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    <input type="checkbox" id="fakeInputHasConfig" name="fakeHasConfig"
+                        {{ (old('hasConfig') ?? 0) ? 'checked="checked"' : '' }}/>
+
+                    Adicionar configuração?
+                </h3>
+            </div>
+
+            <div id="div-config" style="display: none">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group @if($errors->has('minYear')) has-error @endif">
+                                <label for="inputMinYear" class="col-sm-4 control-label">Ano mínimo*</label>
+
+                                <div class="col-sm-8">
+                                    <select class="form-control selection" data-minimum-results-for-search="Infinity"
+                                            id="inputMinYear" name="minYear">
+                                        <option value="1"
+                                            {{ (old('minYear') ?? 1) == 1 ? 'selected=selected' : '' }}>1º ano
+                                        </option>
+                                        <option value="2"
+                                            {{ (old('minYear') ?? 1) == 2 ? 'selected=selected' : '' }}>2º ano
+                                        </option>
+                                        <option value="3"
+                                            {{ (old('minYear') ?? 1) == 3 ? 'selected=selected' : '' }}>3º ano
+                                        </option>
+                                    </select>
+
+                                    <span class="help-block">{{ $errors->first('minYear') }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group @if($errors->has('minSemester')) has-error @endif">
+                                <label for="inputMinSemester" class="col-sm-4 control-label">Semestre mínimo*</label>
+
+                                <div class="col-sm-8">
+                                    <select class="form-control selection" data-minimum-results-for-search="Infinity"
+                                            id="inputMinSemester" name="minSemester">
+                                        <option value="1"
+                                            {{ (old('minSemester') ?? 1) == 1 ? 'selected=selected' : '' }}>1º semestre
+                                        </option>
+                                        <option value="2"
+                                            {{ (old('minSemester') ?? 1) == 2 ? 'selected=selected' : '' }}>2º semestre
+                                        </option>
+                                    </select>
+
+                                    <span class="help-block">{{ $errors->first('minSemester') }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group @if($errors->has('minHour')) has-error @endif">
+                                <label for="inputMinHour" class="col-sm-4 control-label">Horas mínimas*</label>
+
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" id="inputMinHour" name="minHour"
+                                           placeholder="420" value="{{ old('minHour') ?? '' }}"/>
+
+                                    <span class="help-block">{{ $errors->first('minHour') }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group @if($errors->has('minMonth')) has-error @endif">
+                                <label for="inputMinMonth" class="col-sm-4 control-label">Meses mínimos*</label>
+
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" id="inputMinMonth" name="minMonth"
+                                           placeholder="6" value="{{ old('minMonth') ?? '' }}"/>
+
+                                    <span class="help-block">{{ $errors->first('minMonth') }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group @if($errors->has('minMonthCTPS')) has-error @endif">
+                                <label for="inputMinMonthCTPS" class="col-sm-4 control-label">Meses mínimos
+                                    (CTPS)*</label>
+
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" id="inputMinMonth" name="minMonthCTPS"
+                                           placeholder="6" value="{{ old('minMonthCTPS') ?? '' }}"/>
+
+                                    <span class="help-block">{{ $errors->first('minMonthCTPS') }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group @if($errors->has('minMark')) has-error @endif">
+                                <label for="inputMinMark" class="col-sm-4 control-label">Nota mínima*</label>
+
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" id="inputMinMark" name="minMark"
+                                           placeholder="10" step="0.5" value="{{ old('minMark') ?? '' }}"/>
+
+                                    <span class="help-block">{{ $errors->first('minMark') }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
+                    <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+                </div>
+                <!-- /.box-footer -->
+            </div>
+        </div>
+    </form>
 @endsection
 
 @section('js')
@@ -169,6 +209,20 @@
         jQuery(document).ready(function () {
             jQuery('.selection').select2({
                 language: "pt-BR"
+            });
+
+            jQuery('#fakeInputHasConfig').on('ifChanged', function () {
+                if (this.checked) {
+                    jQuery('#div-config').css('display', 'block');
+                    jQuery('#inputHasConfig').val(1);
+                } else {
+                    jQuery('#div-config').css('display', 'none');
+                    jQuery('#inputHasConfig').val(0);
+                }
+            }).trigger('ifChanged').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
             });
         });
     </script>

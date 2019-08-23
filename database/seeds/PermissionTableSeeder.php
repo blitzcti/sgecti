@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
 
 class PermissionTableSeeder extends Seeder
 {
@@ -12,6 +13,8 @@ class PermissionTableSeeder extends Seeder
      */
     public function run()
     {
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+
         $permissions = [
             'role-list',
             'role-create',
@@ -46,6 +49,36 @@ class PermissionTableSeeder extends Seeder
             'companySector-list',
             'companySector-create',
             'companySector-edit',
+
+            'companyAgreement-list',
+            'companyAgreement-create',
+            'companyAgreement-edit',
+
+            'companySupervisor-list',
+            'companySupervisor-create',
+            'companySupervisor-edit',
+
+            'internship-list',
+            'internship-create',
+            'internship-edit',
+
+            'job-list',
+            'job-create',
+            'job-edit',
+
+            'internshipAmendment-list',
+            'internshipAmendment-create',
+            'internshipAmendment-edit',
+
+            'report-list',
+            'report-create',
+            'report-edit',
+
+            'proposal-list',
+            'proposal-create',
+            'proposal-edit',
+
+            'student-list',
         ];
 
 

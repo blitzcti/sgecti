@@ -12,6 +12,7 @@ return [
 
     'users' => 'Usuários',
 
+    'courseConfig' => 'Opções gerais de curso',
     'configurations' => 'Parâmetros',
     'backup' => 'Backup do sistema',
 
@@ -20,6 +21,7 @@ return [
     'message' => 'Mensagem',
 
     'help' => 'Ajuda',
+    'about' => 'Sobre',
 
 
     'administration' => 'ADMINISTRAÇÃO',
@@ -30,8 +32,8 @@ return [
     'sector' => 'Setores',
 
     'internship' => 'Estágios',
-    'ctps' => 'CTPS',
-    'aditive' => 'Termo aditivo',
+    'job' => 'Trabalhos',
+    'amendment' => 'Termo aditivo',
 
     'report' => 'Relatórios',
     'proposal' => 'Proposta',
@@ -40,9 +42,13 @@ return [
 
     'student' => 'Alunos',
 
+    'supervisors' => 'Supervisores',
 
     'view' => 'Visualizar',
     'new' => 'Novo',
-    'history' => 'Histórico'
+    'history' => 'Histórico',
+    'data' => 'Dados',
+
+    'pdf' => 'PDF',
 
 ];

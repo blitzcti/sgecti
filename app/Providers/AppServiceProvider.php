@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Color;
 use App\Models\Course;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Auth;
@@ -43,22 +42,35 @@ class AppServiceProvider extends ServiceProvider
         $user = Auth::user();
 
         $menu->add('menu.system');
+        $menu->add([
+            'text' => 'menu.changePassword',
+            'route' => 'alterarSenha',
+            'icon' => 'lock',
+            'active' => ['alterarSenha/']
+        ]);
+
         if ($user->can('systemConfiguration-list')) {
             $menu->add([
                 'text' => 'menu.configuration',
                 'icon' => 'gear',
                 'submenu' => [
                     [
-                        'text' => 'menu.configurations', //CTI
-                        'route' => 'admin.configuracoes.parametros.index',
+                        'text' => 'menu.courseConfig',
+                        'route' => 'admin.configuracao.curso.index',
                         'icon' => 'wrench',
-                        'active' => ['admin/configuracoes/parametros/'],
+                        'active' => ['admin/configuracao/curso/'],
+                    ],
+                    [
+                        'text' => 'menu.configurations',
+                        'route' => 'admin.configuracao.parametros.index',
+                        'icon' => 'wrench',
+                        'active' => ['admin/configuracao/parametros/'],
                     ],
                     [
                         'text' => 'menu.backup',
-                        'route' => 'admin.configuracoes.backup.index',
+                        'route' => 'admin.configuracao.backup.index',
                         'icon' => 'floppy-o',
-                        'active' => ['admin/configuracoes/backup/'],
+                        'active' => ['admin/configuracao/backup/'],
                     ],
                 ],
             ]);
@@ -109,65 +121,59 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         $menu->add([
-            'text' => 'Sobre',
+            'text' => 'menu.about',
             'route' => 'sobre.index',
-            'icon' => 'info-circle',
+            'icon' => 'bolt',
             'active' => ['sobre/']
         ]);
 
         if ($user->hasRole('admin')) {
             $menu->add('menu.administration');
-            if ($user->can('user-list')) {
+            if ($user->can('course-list')) {
+                $submenu = [
+                    [
+                        'text' => 'menu.view',
+                        'route' => 'admin.curso.index',
+                        'icon' => 'th-list',
+                        'active' => ['admin/curso/']
+                    ],
+                    [
+                        'text' => 'menu.new',
+                        'route' => 'admin.curso.novo',
+                        'icon' => 'edit',
+                        'active' => ['admin/curso/novo']
+                    ],
+                ];
+
+                if ($user->can('coordinator-list')) {
+                    $coordinator = [
+                        'text' => 'Coordenadores',
+                        'icon' => 'black-tie',
+                        'submenu' => [
+                            [
+                                'text' => 'menu.view',
+                                'route' => 'admin.coordenador.index',
+                                'icon' => 'th-list',
+                                'active' => ['admin/coordenador/']
+                            ],
+                            [
+                                'text' => 'menu.new',
+                                'route' => 'admin.coordenador.novo',
+                                'icon' => 'edit',
+                                'active' => ['admin/coordenador/novo']
+                            ],
+                        ]
+                    ];
+
+                    array_push($submenu, $coordinator);
+                }
+
                 $menu->add([
                     'text' => 'menu.courses',
                     'icon' => 'graduation-cap',
-                    'submenu' => [
-                        [
-                            'text' => 'menu.view',
-                            'route' => 'admin.curso.index',
-                            'icon' => 'th-list',
-                            'active' => ['admin/curso/']
-                        ],
-                        [
-                            'text' => 'menu.new',
-                            'route' => 'admin.curso.novo',
-                            'icon' => 'edit',
-                            'active' => ['admin/curso/novo']
-                        ],
-                        [
-                            'text' => 'Coordenadores',
-                            'icon' => 'black-tie',
-                            'submenu' => [
-                                [
-                                    'text' => 'menu.view',
-                                    'route' => 'admin.coordenador.index',
-                                    'icon' => 'th-list',
-                                    'active' => ['admin/coordenador/']
-                                ],
-                                [
-                                    'text' => 'menu.new',
-                                    'route' => 'admin.coordenador.novo',
-                                    'icon' => 'edit',
-                                    'active' => ['admin/coordenador/novo']
-                                ],
-                            ]
-                        ]
-                    ]
+                    'submenu' => $submenu,
                 ]);
             }
-
-            $menu->add([
-                'text' => 'menu.student',
-                'icon' => 'users',
-                'submenu' => [
-                    [
-                        'text' => 'menu.history',
-                        'route' => 'aluno.index',
-                        'icon' => 'hourglass-1',
-                        'active' => ['admin/aluno/']
-                    ],
-                ]
-            ]);
 
             //Cursos tab
             $menu->add('CURSOS');
@@ -177,51 +183,80 @@ class AppServiceProvider extends ServiceProvider
 
                     $menu->add([
                         'text' => $course->name,
-                        'icon_color' => $color->name
+                        'icon_color' => $color->name,
+                        'url' => route('admin.curso.detalhes', $course->id),
                     ]);
                 }
             }
         }
 
-        if ($user->coordinator() != null) {
+        if ($user->isCoordinator()) {
             $menu->add('COORDENAÇÃO DE ESTÁGIO');
 
             if ($user->can('company-list')) {
-                $menu->add([
-                    'text' => 'menu.company',
-                    'icon' => 'building',
-                    'submenu' => [
-                        [
-                            'text' => 'menu.view',
-                            'route' => 'coordenador.empresa.index',
-                            'icon' => 'th-list',
-                            'active' => ['coordenador/empresa/']
-                        ],
-                        [
-                            'text' => 'menu.new',
-                            'route' => 'coordenador.empresa.novo',
-                            'icon' => 'edit',
-                            'active' => ['coordenador/empresa/novo']
-                        ],
-                        [
-                            'text' => 'menu.sector',
-                            'icon' => 'balance-scale',
-                            'submenu' => [
-                                [
-                                    'text' => 'menu.view',
-                                    'route' => 'coordenador.empresa.setor.index',
-                                    'icon' => 'th-list',
-                                    'active' => ['coordenador/empresa/setor/']
-                                ],
-                                [
-                                    'text' => 'menu.new',
-                                    'route' => 'coordenador.empresa.setor.novo',
-                                    'icon' => 'edit',
-                                    'active' => ['coordenador/empresa/setor/novo']
-                                ]
+                $submenu = [
+                    [
+                        'text' => 'menu.view',
+                        'route' => 'coordenador.empresa.index',
+                        'icon' => 'th-list',
+                        'active' => ['coordenador/empresa/']
+                    ],
+                    [
+                        'text' => 'menu.new',
+                        'route' => 'coordenador.empresa.novo',
+                        'icon' => 'edit',
+                        'active' => ['coordenador/empresa/novo']
+                    ],
+                ];
+
+                if ($user->can('companySector-list')) {
+                    $companySector = [
+                        'text' => 'menu.sector',
+                        'icon' => 'balance-scale',
+                        'submenu' => [
+                            [
+                                'text' => 'menu.view',
+                                'route' => 'coordenador.empresa.setor.index',
+                                'icon' => 'th-list',
+                                'active' => ['coordenador/empresa/setor/']
+                            ],
+                            [
+                                'text' => 'menu.new',
+                                'route' => 'coordenador.empresa.setor.novo',
+                                'icon' => 'edit',
+                                'active' => ['coordenador/empresa/setor/novo']
                             ]
-                        ],
-                        [
+                        ]
+                    ];
+
+                    array_push($submenu, $companySector);
+                }
+
+                if ($user->can('companySupervisor-list')) {
+                    $companySupervisor = [
+                        'text' => 'menu.supervisors',
+                        'icon' => 'user',
+                        'submenu' => [
+                            [
+                                'text' => 'menu.view',
+                                'route' => 'coordenador.empresa.supervisor.index',
+                                'icon' => 'th-list',
+                                'active' => ['coordenador/empresa/supervisor/']
+                            ],
+                            [
+                                'text' => 'menu.new',
+                                'route' => 'coordenador.empresa.supervisor.novo',
+                                'icon' => 'edit',
+                                'active' => ['coordenador/empresa/supervisor/novo']
+                            ],
+                        ]
+                    ];
+
+                    array_push($submenu, $companySupervisor);
+                }
+
+                if ($user->can('companyAgreement-list')) {
+                    $companyAgreement = [
                         'text' => 'menu.agreements',
                         'icon' => 'exchange',
                         'submenu' => [
@@ -238,15 +273,20 @@ class AppServiceProvider extends ServiceProvider
                                 'active' => ['coordenador/empresa/convenio/novo']
                             ],
                         ]
-                    ]
-                    ]
+                    ];
+
+                    array_push($submenu, $companyAgreement);
+                }
+
+                $menu->add([
+                    'text' => 'menu.company',
+                    'icon' => 'building',
+                    'submenu' => $submenu,
                 ]);
             }
 
-            $menu->add([
-                'text' => 'menu.internship',
-                'icon' => 'id-badge',
-                'submenu' => [
+            if ($user->can('internship-list')) {
+                $submenu = [
                     [
                         'text' => 'menu.view',
                         'route' => 'coordenador.estagio.index',
@@ -259,14 +299,34 @@ class AppServiceProvider extends ServiceProvider
                         'icon' => 'edit',
                         'active' => ['coordenador/estagio/novo']
                     ],
-                    [
-                        'text' => 'menu.ctps',
-                        'route' => 'coordenador.estagio.ctps',
-                        'icon' => 'edit',
-                        'active' => ['coordenador/estagio/novo']
-                    ],
-                    [
-                        'text' => 'menu.aditive',
+                ];
+
+                if ($user->can('job-list')) {
+                    $job = [
+                        'text' => 'menu.job',
+                        'icon' => 'id-badge',
+                        'submenu' => [
+                            [
+                                'text' => 'menu.view',
+                                'route' => 'coordenador.estagio.trabalho.index',
+                                'icon' => 'th-list',
+                                'active' => ['coordenador/estagio/trabalho']
+                            ],
+                            [
+                                'text' => 'menu.new',
+                                'route' => 'coordenador.estagio.trabalho.novo',
+                                'icon' => 'edit',
+                                'active' => ['coordenador/estagio/trabalho/novo']
+                            ],
+                        ],
+                    ];
+
+                    array_push($submenu, $job);
+                }
+
+                if ($user->can('internshipAmendment-list')) {
+                    $internshipAmendment = [
+                        'text' => 'menu.amendment',
                         'icon' => 'plus',
                         'submenu' => [
                             [
@@ -282,40 +342,50 @@ class AppServiceProvider extends ServiceProvider
                                 'active' => ['coordenador/estagio/aditivo/novo']
                             ],
                         ],
-                    ],
-                ]
-            ]);
+                    ];
 
-            $menu->add([
-                'text' => 'menu.report',
-                'icon' => 'book',
-                'submenu' => [
-                    [
-                        'text' => 'menu.view',
-                        'route' => 'coordenador.relatorio.index',
-                        'icon' => 'th-list',
-                        'active' => ['coordenador/relatorio/']
-                    ],
-                    [
-                        'text' => 'menu.proposal',
-                        'route' => 'coordenador.relatorio.proposta',
-                        'icon' => 'edit',
-                        'active' => ['coordenador/relatorio/proposta']
-                    ],
-                    [
-                        'text' => 'menu.bimestral',
-                        'route' => 'coordenador.relatorio.bimestral',
-                        'icon' => 'edit',
-                        'active' => ['coordenador/relatorio/bimestral']
-                    ],
-                    [
-                        'text' => 'menu.final',
-                        'route' => 'coordenador.relatorio.final',
-                        'icon' => 'edit',
-                        'active' => ['coordenador/relatorio/final']
-                    ],
-                ]
-            ]);
+                    array_push($submenu, $internshipAmendment);
+                }
+
+                $menu->add([
+                    'text' => 'menu.internship',
+                    'icon' => 'id-badge',
+                    'submenu' => $submenu,
+                ]);
+            }
+
+            if ($user->can('report-list')) {
+                $menu->add([
+                    'text' => 'menu.report',
+                    'icon' => 'book',
+                    'submenu' => [
+                        [
+                            'text' => 'menu.view',
+                            'route' => 'coordenador.relatorio.index',
+                            'icon' => 'th-list',
+                            'active' => ['coordenador/relatorio/']
+                        ],
+                        [
+                            'text' => 'menu.bimestral',
+                            'route' => 'coordenador.relatorio.bimestral.novo',
+                            'icon' => 'edit',
+                            'active' => ['coordenador/relatorio/bimestral/novo']
+                        ],
+                        [
+                            'text' => 'menu.final',
+                            'route' => 'coordenador.relatorio.final.novo',
+                            'icon' => 'edit',
+                            'active' => ['coordenador/relatorio/final/novo']
+                        ],
+                        [
+                            'text' => 'menu.pdf',
+                            'route' => 'coordenador.relatorio.pdf',
+                            'icon' => 'file-pdf-o',
+                            'active' => ['coordenador/relatorio/pdf']
+                        ],
+                    ]
+                ]);
+            }
 
             $menu->add('ALUNOS');
             $menu->add([
@@ -323,10 +393,10 @@ class AppServiceProvider extends ServiceProvider
                 'icon' => 'users',
                 'submenu' => [
                     [
-                        'text' => 'menu.history',
-                        'route' => 'aluno.index',
-                        'icon' => 'hourglass-1',
-                        'active' => ['aluno/']
+                        'text' => 'menu.data',
+                        'route' => 'coordenador.aluno.index',
+                        'icon' => 'file-text-o',
+                        'active' => ['coordenador/aluno/']
                     ],
                 ]
             ]);

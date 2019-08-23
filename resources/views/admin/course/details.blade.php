@@ -11,7 +11,7 @@
 
     @if(auth()->user()->can('course-delete'))
 
-        @include('admin.course.deleteModal')
+        @include('modals.admin.course.delete')
 
     @endif
 
@@ -24,8 +24,32 @@
                 <a href="{{ route('admin.curso.configuracao.index', $course->id) }}" class="btn btn-default">Exibir
                     configurações</a>
 
-                <a href="{{ route('admin.curso.configuracao.novo', $course->id) }}"
-                   class="btn btn-success">Adicionar configuração</a>
+                @if ($config != null && !isset($config->max_years))
+
+                    <a href="{{ route('admin.curso.configuracao.editar', ['id' => $course->id, 'id_config' => $config->id]) }}"
+                       class="btn btn-primary">Editar configuração</a>
+
+                @else
+
+                    <a href="{{ route('admin.curso.configuracao.novo', ['id' => $course->id]) }}"
+                       class="btn btn-success">Adicionar configuração</a>
+
+                @endif
+
+                <a href="{{ route('admin.curso.coordenador.index', $course->id) }}" class="btn btn-default">Exibir
+                    coordenadores</a>
+
+                @if ($coordinator != null)
+
+                    <a href="{{ route('admin.coordenador.editar', ['id' => $coordinator->id]) }}"
+                       class="btn btn-primary">Editar coordenador</a>
+
+                @else
+
+                    <a href="{{ route('admin.coordenador.novo', ['c' => $course->id]) }}"
+                       class="btn btn-success">Adicionar coordenador</a>
+
+                @endif
 
                 @if(auth()->user()->can('course-delete'))
 
@@ -46,6 +70,9 @@
 
                 <dt class="col-sm-2">Ativo</dt>
                 <dd class="col-sm-10">{{ $course->active ? 'Sim' : 'Não' }}</dd>
+
+                <dt class="col-sm-2">Alunos</dt>
+                <dd class="col-sm-10">{{ sizeof($course->students) }}</dd>
             </dl>
 
             <hr/>
@@ -73,7 +100,7 @@
                     <dd class="col-sm-10">{{ $config->min_grade }}</dd>
 
                     <dt class="col-sm-2">Ativo desde</dt>
-                    <dd class="col-sm-10">{{ date_format($config->created_at, "d/m/Y") }}</dd>
+                    <dd class="col-sm-10">{{ date_format($config->created_at, "d/m/Y") }} {{ isset($config->max_years) ? ' (Configuração geral)' : '' }}</dd>
                 </dl>
 
             @else
@@ -92,12 +119,12 @@
                     <dd class="col-sm-10">{{ $coordinator->user->name }}</dd>
 
                     <dt class="col-sm-2">Início da vigência</dt>
-                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($coordinator->vigencia_ini)) }}</dd>
+                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($coordinator->start_date)) }}</dd>
 
-                    @if ($coordinator->vigencia_fim != null)
+                    @if ($coordinator->end_date != null)
 
                     <dt class="col-sm-2">Fim da vigência</dt>
-                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($coordinator->vigencia_fim)) }}</dd>
+                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($coordinator->end_date)) }}</dd>
 
                     @endif
                 </dl>

@@ -20,10 +20,7 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <div class="btn-group" style="display: inline-flex; margin: 0 0 10px 0">
-                <a href="{{ route('admin.usuario.novo') }}" class="btn btn-success">Adicionar usuário</a>
-            </div>
-
+            <a id="addLink" href="{{ route('admin.usuario.novo') }}" class="btn btn-success">Adicionar usuário</a>
 
             <table id="users" class="table table-bordered table-hover">
                 <thead>
@@ -31,6 +28,7 @@
                     <th scope="col">ID</th>
                     <th>Nome</th>
                     <th>Email</th>
+                    <th>Telefone</th>
                     <th>Grupo</th>
                     <th>Ações</th>
                 </tr>
@@ -43,12 +41,18 @@
                         <th scope="row">{{ $user->id }}</th>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
+                        <td>{{ $user->phone }}</td>
                         <td>{{ $user->roles->pluck('friendlyName')[0] . (($user->hasRole('teacher') && $user->isCoordinator()) ? ' (Coordenador)' : '') }}</td>
 
                         <td>
                             <a href="{{ route('admin.usuario.editar', ['id' => $user->id]) }}">Editar</a>
+
+                            @if($user->can('user-changePassword'))
+
                             |
                             <a href="{{ route('admin.usuario.alterarSenha', ['id' => $user->id]) }}">Alterar senha</a>
+
+                            @endif
                         </td>
                     </tr>
 
@@ -91,6 +95,7 @@
                 initComplete: function () {
                     table.buttons().container().appendTo($('#users_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
+                    jQuery('#addLink').prependTo(table.buttons().container());
                 },
             });
         });

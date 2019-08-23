@@ -22,10 +22,8 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <div class="btn-group" style="display: inline-flex; margin: 0 0 10px 0">
-                <a href="{{ route('admin.curso.configuracao.novo', $course->id) }}"
-                   class="btn btn-success">Adicionar configuração</a>
-            </div>
+            <a id="addLink" href="{{ route('admin.curso.configuracao.novo', $course->id) }}"
+               class="btn btn-success">Adicionar configuração</a>
 
             <table id="courseConfigurations" class="table table-bordered table-hover">
                 <thead>
@@ -99,6 +97,7 @@
                 initComplete: function () {
                     table.buttons().container().appendTo($('#courseConfigurations_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
+                    jQuery('#addLink').prependTo(table.buttons().container());
                 },
             });
         });

@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 class State extends Model
 {
     protected $fillable = [
-        'descricao',
+        'description',
     ];
+
+    public function internships()
+    {
+        return $this->hasMany(Internship::class);
+    }
 }

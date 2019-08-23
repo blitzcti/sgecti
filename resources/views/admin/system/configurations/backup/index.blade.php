@@ -13,7 +13,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <form id="formRestaurar" class="form-horizontal"
-                      action="{{ route('admin.configuracoes.backup.restaurar') }}"
+                      action="{{ route('admin.configuracao.backup.restaurar') }}"
                       method="post" enctype="multipart/form-data">
                     @csrf
 
@@ -26,11 +26,11 @@
                     </div>
 
                     <div class="modal-body">
-                        <div class="form-group">
+                        <div class="form-group @if($errors->has('file')) has-error @endif">
                             <label for="inputSectorName" class="col-sm-3 control-label">Arquivo</label>
 
                             <div class="col-sm-9">
-                                <input type="file" class="form-control" id="inputFile" name="json" accept=".json"/>
+                                <input type="file" class="form-control" id="inputFile" name="file" accept=".json,.zip"/>
                             </div>
                         </div>
                     </div>
@@ -55,20 +55,6 @@
         </div>
     @endif
 
-    @if ($errors->any())
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <div class="box box-default">
         <div class="box-header with-border">
             <h3 class="box-title">Fazer backup / restaurar</h3>
@@ -79,7 +65,7 @@
                 <div class="col-sm-6 text-center">
                     <p>Baixe o banco de dados em formato JSON</p>
 
-                    <a href="{{ route('admin.configuracoes.backup.download') }}" class="btn btn-success">
+                    <a href="{{ route('admin.configuracao.backup.download') }}" class="btn btn-success">
                         <span class="fa fa-download"></span> Fazer backup</a>
                 </div>
 
@@ -99,12 +85,12 @@
         </div>
 
         <div class="box-body">
-            <form action="{{ route('admin.configuracoes.backup.salvarConfig') }}" method="post">
+            <form action="{{ route('admin.configuracao.backup.salvarConfig') }}" method="post">
                 @csrf
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <div class="form-group">
+                        <div class="form-group  @if($errors->has('days')) has-error @endif">
                             <label for="weekDays" class="control-label">Dias da semana</label>
 
                             <table id="weekDays" class="table table-bordered table-striped">
@@ -183,12 +169,14 @@
                     </div>
 
                     <div class="col-sm-6">
-                        <div class="form-group">
+                        <div class="form-group @if($errors->has('hour')) has-error @endif">
                             <label for="inputHour" class="control-label">Horário</label>
 
                             <div>
                                 <input type="text" class="form-control" id="inputHour" name="hour"
-                                       placeholder="00:00" value="{{ $hour }}"/>
+                                       placeholder="00:00" value="{{ old('hour') ?? $hour }}"/>
+
+                                <span class="help-block">{{ $errors->first('hour') }}</span>
                             </div>
                         </div>
                     </div>

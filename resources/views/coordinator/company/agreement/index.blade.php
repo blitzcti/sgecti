@@ -20,10 +20,8 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <div class="btn-group" style="display: inline-flex; margin: 0 0 10px 0">
-                <a href="{{ route('coordenador.empresa.convenio.novo') }}"
-                   class="btn btn-success">Adicionar convênio</a>
-            </div>
+            <a id="addLink" href="{{ route('coordenador.empresa.convenio.novo') }}"
+               class="btn btn-success">Adicionar convênio</a>
 
             <table id="companies" class="table table-bordered table-hover">
                 <thead>
@@ -37,21 +35,21 @@
                 </thead>
 
                 <tbody>
+
                 @foreach($agreements as $agreement)
 
                     <tr>
                         <th scope="row">{{ $agreement->id }}</th>
-                        <td>
-                            <a href="{{ route('coordenador.empresa.editar', ['id' => $agreement->company->id]) }}">{{ $agreement->company->nome }}</a>
-                        </td>
-                        <td>{{ $agreement->validade }}</td>
-                        <td>{{ $agreement->observacao }}</td>
+                        <td>{{ $agreement->company->name }}</td>
+                        <td>{{ date("d/m/Y", strtotime($agreement->expiration_date)) }}</td>
+                        <td>{{ $agreement->observation }}</td>
                         <td>
                             <a href="{{ route('coordenador.empresa.convenio.editar', ['id' => $agreement->id]) }}">Editar</a>
                         </td>
                     </tr>
 
                 @endforeach
+
                 </tbody>
             </table>
         </div>
@@ -90,6 +88,7 @@
                 initComplete: function () {
                     table.buttons().container().appendTo($('#companies_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
+                    jQuery('#addLink').prependTo(table.buttons().container());
                 },
             });
         });

@@ -17,17 +17,18 @@ class CreateCompaniesTable extends Migration
             $table->bigIncrements('id');
 
             $table->string('cpf_cnpj', 15)->nullable(false)->unique();
+            $table->string('ie', 10)->nullable(true)->default(null)->unique();
             $table->boolean('pj')->nullable(false)->default(true);
 
-            $table->string('nome', 100)->nullable(false);
-            $table->string('nome_fantasia', 100)->nullable(true)->default(null);
-            $table->string('email', 100)->nullable(false);
-            $table->string('telefone', 11)->nullable(false);
+            $table->string('name')->nullable(false);
+            $table->string('fantasy_name')->nullable(true)->default(null);
+            $table->string('email')->nullable(true)->default(null);
+            $table->string('phone', 11)->nullable(true)->default(null);
 
-            $table->string('representante', 50)->nullable(false);
-            $table->string('cargo', 50)->nullable(false);
+            $table->string('representative_name', 50)->nullable(false);
+            $table->string('representative_role', 50)->nullable(false);
 
-            $table->boolean('ativo')->nullable(false)->default(true);
+            $table->boolean('active')->nullable(false)->default(true);
 
             $table->bigInteger('address_id')->nullable(false)->unsigned();
             $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');

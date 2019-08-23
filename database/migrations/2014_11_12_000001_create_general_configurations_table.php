@@ -16,10 +16,16 @@ class CreateGeneralConfigurationsTable extends Migration
         Schema::create('general_configurations', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->integer('anos_max')->nullable(false);
+            $table->integer('max_years')->nullable(false);
 
-            $table->date('data_inicio')->nullable(false);
-            $table->date('data_fim')->nullable(false);
+            $table->integer('min_year')->nullable(false);
+            $table->integer('min_semester')->nullable(false);
+
+            $table->integer('min_hours')->nullable(false);
+            $table->integer('min_months')->nullable(false);
+            $table->integer('min_months_ctps')->nullable(false);
+
+            $table->integer('min_grade')->nullable(false);
 
             $table->timestamps();
         });

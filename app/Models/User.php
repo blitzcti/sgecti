@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -19,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'phone', 'password',
     ];
 
     /**
@@ -28,7 +29,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'api_token',
     ];
 
     /**
@@ -40,26 +41,55 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function coordinator()
+    public function coordinators()
     {
-        if ($this->hasRole('teacher')) {
-            $coordinator = Coordinator::where('user_id', '=', $this->id)
-                ->where(function ($query) {
-                    $query->where('vigencia_fim', '=', null)
-                        ->orWhere('vigencia_fim', '>=', Carbon::today()->toDateString());
-                })
-                ->get()->sortBy('id');
-
-            if (sizeof($coordinator) > 0) {
-                return $coordinator->last();
-            }
-        }
-
-        return null;
+        return $this->hasMany(Coordinator::class)
+            ->WhereDate('end_date', '>', Carbon::today()->toDateString())
+            ->orWhereNull('end_date')->where('user_id', '=', $this->id);
     }
 
     public function isCoordinator()
     {
-        return $this->coordinator() != null;
+        return sizeof($this->coordinators) > 0;
+    }
+
+    public function isAdmin()
+    {
+        return $this->hasRole('admin');
+    }
+
+    public function getCoordinatorOfAttribute()
+    {
+        return $this->coordinators()->groupBy('course_id')->get('course_id')->map(function ($c) {
+            return $c->course;
+        });
+    }
+
+    public function getCoordinatorCoursesIdAttribute()
+    {
+        return Auth::user()->coordinator_of->map(function ($course) {
+            return $course->id;
+        })->toArray();
+    }
+
+    public function getCoordinatorCoursesNameAttribute()
+    {
+        $str = '';
+        $array = $this->coordinator_of->map(function ($c) {return $c->name; })->toArray();
+        $last = array_slice($array, -1);
+        $first = join(', ', array_slice($array, 0, -1));
+        $both = array_filter(array_merge([$first], $last), 'strlen');
+        $str = join(' e ', $both);
+        return $str;
+    }
+
+    public function getPhoneFormatedAttribute()
+    {
+        $phone = $this->phone;
+        $ddd = substr($phone, 0, 2);
+        $p1 = (strlen($phone) == 10) ? substr($phone, 2, 4) : substr($phone, 2, 5);
+        $p2 = (strlen($phone) == 10) ? substr($phone, 6, 4) : substr($phone, 7, 4);
+        $str = "($ddd) $p1-$p2";
+        return $str;
     }
 }

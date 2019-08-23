@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSystemConfiguration;
+use App\Http\Requests\UpdateSystemConfiguration;
 use App\Models\SystemConfiguration;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class SystemConfigurationController extends Controller
 {
     function __construct()
     {
         $this->middleware('permission:systemConfiguration-list');
-        $this->middleware('permission:systemConfiguration-create', ['only' => ['new', 'save']]);
-        $this->middleware('permission:systemConfiguration-edit', ['only' => ['edit', 'save']]);
+        $this->middleware('permission:systemConfiguration-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:systemConfiguration-edit', ['only' => ['edit', 'update']]);
     }
 
     public function index()
@@ -21,68 +23,90 @@ class SystemConfigurationController extends Controller
         return view('admin.system.configurations.parameters.index')->with(['systemConfigs' => $systemConfigs]);
     }
 
-    public function new()
+    public function create()
     {
         return view('admin.system.configurations.parameters.new');
     }
 
     public function edit($id)
     {
-
-        if (!is_numeric($id)) {
-            return redirect()->route('admin.curso.index');
-        }
-
         $systemConfig = SystemConfiguration::findOrFail($id);
+
         return view('admin.system.configurations.parameters.edit')->with(['systemConfig' => $systemConfig]);
     }
 
-    public function save(Request $request)
+    public function store(StoreSystemConfiguration $request)
     {
         $systemConfig = new SystemConfiguration();
         $params = [];
-        if (!$request->exists('cancel')) {
-            $validatedData = (object)$request->validate([
-                'name' => 'required|max:60',
-                'cep' => 'required|numeric',
-                'uf' => 'required|max:2',
-                'cidade' => 'required|max:30',
-                'rua' => 'required|max:50',
-                'numero' => 'required|max:6',
-                'bairro' => 'required|max:50',
-                'fone' => 'required|max:11',
-                'email' => 'required|max:50',
-                'ramal' => 'max:5',
-                'validade_convenio' => 'required|numeric|min:1'
-            ]);
 
-            if ($request->exists('id')) { // Edit
-                $id = $request->input('id');
-                $systemConfig = SystemConfiguration::all()->find($id);
+        $validatedData = (object)$request->validated();
 
-                $systemConfig->updated_at = Carbon::now();
-            } else {
-                $systemConfig->created_at = Carbon::now();
-            }
+        $log = "Nova configuração do sistema";
+        $log .= "\nUsuário: " . Auth::user()->name;
 
-            $systemConfig->nome = $validatedData->name;
-            $systemConfig->cep = $validatedData->cep;
-            $systemConfig->uf = $validatedData->uf;
-            $systemConfig->cidade = $validatedData->cidade;
-            $systemConfig->rua = $validatedData->rua;
-            $systemConfig->numero = $validatedData->numero;
-            $systemConfig->bairro = $validatedData->bairro;
-            $systemConfig->fone = $validatedData->fone;
-            $systemConfig->email = $validatedData->email;
-            $systemConfig->ramal = $validatedData->ramal;
-            $systemConfig->validade_convenio = $validatedData->validade_convenio;
+        $systemConfig->name = $validatedData->name;
+        $systemConfig->cep = $validatedData->cep;
+        $systemConfig->uf = $validatedData->uf;
+        $systemConfig->city = $validatedData->city;
+        $systemConfig->street = $validatedData->street;
+        $systemConfig->number = $validatedData->number;
+        $systemConfig->district = $validatedData->district;
+        $systemConfig->phone = $validatedData->phone;
+        $systemConfig->email = $validatedData->email;
+        $systemConfig->extension = $validatedData->extension;
+        $systemConfig->agreement_expiration = $validatedData->agreementExpiration;
 
-            $saved = $systemConfig->save();
+        $saved = $systemConfig->save();
+        $log .= "\nNovos dados: " . json_encode($systemConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-            $params['saved'] = $saved;
-            $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao salvar configuração do sistema");
         }
 
-        return redirect()->route('admin.configuracoes.parametros.index')->with($params);
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+
+        return redirect()->route('admin.configuracao.parametros.index')->with($params);
+    }
+
+    public function update($id, UpdateSystemConfiguration $request)
+    {
+        $systemConfig = SystemConfiguration::all()->find($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $log = "Alteração de configuração do sistema";
+        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nDados antigos: " . json_encode($systemConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $systemConfig->name = $validatedData->name;
+        $systemConfig->cep = $validatedData->cep;
+        $systemConfig->uf = $validatedData->uf;
+        $systemConfig->city = $validatedData->city;
+        $systemConfig->street = $validatedData->street;
+        $systemConfig->number = $validatedData->number;
+        $systemConfig->district = $validatedData->district;
+        $systemConfig->phone = $validatedData->phone;
+        $systemConfig->email = $validatedData->email;
+        $systemConfig->extension = $validatedData->extension;
+        $systemConfig->agreement_expiration = $validatedData->agreementExpiration;
+
+        $saved = $systemConfig->save();
+        $log .= "\nNovos dados: " . json_encode($systemConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao salvar configuração do sistema");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+
+        return redirect()->route('admin.configuracao.parametros.index')->with($params);
     }
 }

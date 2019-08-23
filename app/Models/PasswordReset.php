@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 class PasswordReset extends Model
 {
     protected $fillable = [
@@ -15,7 +13,7 @@ class PasswordReset extends Model
      *
      * @var string
      */
-    protected $table = 'model_has_roles';
+    protected $table = 'password_resets';
 
     /**
      * primaryKey

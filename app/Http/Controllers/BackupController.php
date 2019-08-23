@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use ZipArchive;
 
 class BackupController extends Controller
 {
@@ -32,19 +33,52 @@ class BackupController extends Controller
 
     public function backup()
     {
-        $data = json_encode($this->getData(), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-        $fileName = Carbon::now()->toDateTimeString() . '.json';
-        Log::info("Solicitação de backup.");
-        return response()->streamDownload(function () use ($data) {
-            echo $data;
-        }, $fileName);
+        if (config('backup.zip')) {
+            $this->generateZip();
+            $fileName = Carbon::now()->toDateTimeString() . '.zip';
+            Log::info("Solicitação de backup.");
+            return response()->download(storage_path("app/backups/backup.zip"), $fileName);
+        } else {
+            $this->generateJson();
+            $fileName = Carbon::now()->toDateTimeString() . '.json';
+            Log::info("Solicitação de backup.");
+            return response()->download(storage_path("app/backups/backup.json"), $fileName);
+        }
     }
 
     public function restore(Request $request)
     {
+        ini_set("memory_limit", "1G");
+
         $params = [];
-        if ($request->hasFile('json') && $request->file('json')->isValid()) {
-            $data = file_get_contents($request->json);
+        if ($request->hasFile('file') && $request->file('file')->isValid()) {
+            if ($request->file->extension() === "zip") {
+                $zip = new ZipArchive();
+                Storage::disk('local')->put('backups/uploaded/backup.zip', file_get_contents($request->file));
+                if ($zip->open(storage_path("app/backups/uploaded/backup.zip"))) {
+                    $zip->extractTo(storage_path("app/backups/uploaded/"));
+                    $zip->close();
+                    $file = storage_path("app/backups/uploaded/backup.json");
+
+                    if (!file_exists($file)) {
+                        $params["saved"] = false;
+                        $params["message"] = "Arquivo de backup inválido.";
+                        Log::warning("Arquivo de backup inválido.");
+
+                        return redirect()->route('admin.configuracao.backup.index')->with($params);
+                    }
+                }
+            } else if ($request->file->extension() === "txt") {
+                $file = $request->file;
+            } else {
+                $params["saved"] = false;
+                $params["message"] = "Arquivo de backup inválido.";
+                Log::warning("Arquivo de backup inválido.");
+
+                return redirect()->route('admin.configuracao.backup.index')->with($params);
+            }
+
+            $data = file_get_contents($file);
             $data = json_decode($data, true);
             if ($this->verifyData($data)) {
                 try {
@@ -74,14 +108,22 @@ class BackupController extends Controller
             }
         }
 
-        return redirect()->route('admin.configuracoes.backup.index')->with($params);
+        return redirect()->route('admin.configuracao.backup.index')->with($params);
     }
 
     public function scheduledBackup()
     {
         Log::info("Backup agendado iniciado.");
-        $data = json_encode($this->getData(), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-        $fileName = Carbon::now()->toDateTimeString() . '.json';
+        if (config('backup.zip')) {
+            $this->generateZip();
+            $fileName = Carbon::now()->toDateTimeString() . '.zip';
+            $data = file_get_contents(storage_path("app/backups/backup.zip"));
+        } else {
+            $this->generateJson();
+            $fileName = Carbon::now()->toDateTimeString() . '.json';
+            $data = file_get_contents(storage_path("app/backups/backup.json"));
+        }
+
         try {
             Storage::disk('sftp')->put($fileName, $data);
             Log::info("Arquivo de backup enviado para o servidor.\nNome: {$fileName}");
@@ -90,7 +132,7 @@ class BackupController extends Controller
         }
     }
 
-    public function saveConfig(Request $request)
+    public function storeConfig(Request $request)
     {
         $params = [];
         $saved = false;
@@ -115,7 +157,7 @@ class BackupController extends Controller
 
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar configurações!';
-        return redirect()->route('admin.configuracoes.backup.index')->with($params);
+        return redirect()->route('admin.configuracao.backup.index')->with($params);
     }
 
     private function verifyInnerData($data, $class)
@@ -153,20 +195,64 @@ class BackupController extends Controller
         return false;
     }
 
-    private function getData()
+    private function generateZip()
     {
-        $data = [];
-        foreach ($this->tables as $table => $class) {
-            if ((new $class)->getKeyName() != null) {
-                $data[$table] = DB::table($table)->get();
-            } else {
-                $data[$table] = DB::table($table)->get()->sortBy('id');
+        $this->getData(true);
+
+        $zip = new ZipArchive();
+        $file = storage_path("app/backups/backup.zip");
+
+        if ($zip->open($file, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
+            $zip->addFile(storage_path("app/backups/backup.json"), "backup.json");
+            $zip->close();
+        }
+    }
+
+    private function generateJson()
+    {
+        $data = json_encode($this->getData(false), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        $file = storage_path("app/backups/backup.json");
+        file_put_contents($file, $data);
+    }
+
+    private function getData($toFile = false)
+    {
+        if ($toFile) {
+            $file = storage_path("app/backups/backup.json");
+            $f = fopen($file, "w+");
+            fwrite($f, "{");
+
+            $i = sizeof($this->tables);
+            foreach ($this->tables as $table => $class) {
+                $data = $this->getTableData($table, $class);
+                fwrite($f, "\"$table\": " . json_encode($data, JSON_UNESCAPED_UNICODE));
+
+                if (--$i > 0) {
+                    fwrite($f, ",");
+                }
             }
 
-            $data[$table] = array_values($data[$table]->toArray());
+            fwrite($f, "}");
+            fclose($f);
+        } else {
+            $data = [];
+            foreach ($this->tables as $table => $class) {
+                $data[$table] = $this->getTableData($table, $class);
+            }
+
+            return $data;
+        }
+    }
+
+    private function getTableData($table, $class)
+    {
+        if ((new $class)->getKeyName() != null) {
+            $data = DB::table($table)->get()->sortBy((new $class)->getKeyName());
+        } else {
+            $data = DB::table($table)->get();
         }
 
-        return $data;
+        return array_values($data->toArray());
     }
 
     private function setAutoIncrement($tableName)
@@ -174,9 +260,9 @@ class BackupController extends Controller
         $primaryKey = (new $this->tables[$tableName])->getKeyName();
 
         if (DB::connection()->getDriverName() == 'pgsql') {
-            DB::statement("SELECT setval('{$tableName}_id_seq', (SELECT MAX({$primaryKey}) FROM {$tableName}));");
+            DB::statement("SELECT setval('{$tableName}_{$primaryKey}_seq', (SELECT MAX({$primaryKey}) FROM {$tableName}));");
         } else if (DB::connection()->getDriverName() == 'mysql') {
-            $max = DB::table($tableName)->max('id') + 1;
+            $max = DB::table($tableName)->max($primaryKey) + 1;
             DB::statement("ALTER TABLE {$tableName} AUTO_INCREMENT={$max}");
         }
     }
@@ -188,7 +274,7 @@ class BackupController extends Controller
                 DB::table($table)->insert($innerData);
             }
 
-            if ((new $class)->getKeyName() != null) {
+            if ((new $class)->getKeyName() != null && (new $class)->incrementing) {
                 $this->setAutoIncrement($table);
             }
         }

@@ -20,10 +20,8 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <div class="btn-group" style="display: inline-flex; margin: 0 0 10px 0">
-                <a href="{{ route('coordenador.empresa.setor.novo') }}"
-                   class="btn btn-success">Adicionar setor</a>
-            </div>
+            <a id="addLink" href="{{ route('coordenador.empresa.setor.novo') }}"
+               class="btn btn-success">Adicionar setor</a>
 
             <table id="sectors" class="table table-bordered table-hover">
                 <thead>
@@ -41,9 +39,9 @@
 
                     <tr>
                         <th scope="row">{{ $sector->id }}</th>
-                        <td>{{ $sector->nome }}</td>
-                        <td>{{ $sector->descricao }}</td>
-                        <td>{{ ($sector->ativo) ? 'Sim' : 'Não' }}</td>
+                        <td>{{ $sector->name }}</td>
+                        <td>{{ $sector->description }}</td>
+                        <td>{{ ($sector->active) ? 'Sim' : 'Não' }}</td>
 
                         <td>
                             <a href="{{ route('coordenador.empresa.setor.editar', ['id' => $sector->id]) }}">Editar</a>
@@ -89,6 +87,7 @@
                 initComplete: function () {
                     table.buttons().container().appendTo($('#sectors_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
+                    jQuery('#addLink').prependTo(table.buttons().container());
                 },
             });
         });

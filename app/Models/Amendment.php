@@ -2,16 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 class Amendment extends Model
 {
     protected $fillable = [
-        'internship_id', 'data_ini', 'data_fim', 'schedule_id', 'protocolo', 'observacao',
+        'internship_id', 'start_date', 'end_date', 'new_end_date', 'schedule_id', 'schedule_2_id', 'protocol', 'observation',
     ];
 
     public function internship()
     {
-        return $this->hasOne(Internship::class);
+        return $this->belongsTo(Internship::class);
+    }
+
+    public function schedule()
+    {
+        return $this->belongsTo(Schedule::class);
+    }
+
+    public function schedule2()
+    {
+        return $this->belongsTo(Schedule::class, 'schedule_2_id');
     }
 }

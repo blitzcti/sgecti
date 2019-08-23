@@ -1,7 +1,3 @@
-{{--
-    TODO: mensagem => alunos de qual periodo (manha, noite, 4º ano)
---}}
-
 @extends('adminlte::page')
 
 @section('title', 'Mensagem - SGE CTI')
@@ -23,7 +19,7 @@
     @include('modals.coordinator.message.students')
 
     @if(session()->has('message'))
-        <div class="alert {{ session('saved') ? 'alert-success' : 'alert-error' }} alert-dismissible"
+        <div class="alert {{ session('sent') ? 'alert-success' : 'alert-error' }} alert-dismissible"
              role="alert">
             {{ session()->get('message') }}
 
@@ -34,6 +30,8 @@
     @endif
 
     <form action="{{ route('coordenador.mensagem.enviar') }}" class="form-horizontal" method="post">
+        @csrf
+
         <div class="box box-default">
             <div class="box-header with-border">
                 <h3 class="box-title">Destinatários</h3>
@@ -140,43 +138,52 @@
 
             <div class="box-body">
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="form-group">
                             <input type="radio" class="radio" id="bimestral" name="message" value="0">
                             <label for="bimestral">Relatório bimestral</label>
                         </div>
                     </div>
 
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="form-group">
                             <input type="radio" class="radio" id="proposal" name="message" value="1">
                             <label for="proposal">Proposta de estágio</label>
                         </div>
                     </div>
 
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="form-group">
-                            <input type="radio" class="radio" id="free" name="message" value="2" checked>
+                            <input type="radio" class="radio" id="important" name="message" value="2">
+                            <label for="important">Aviso importante</label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <input type="radio" class="radio" id="free" name="message" value="3" checked>
                             <label for="free">Livre</label>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <button type="submit" class="pull-right btn btn-default" id="sendEmail">Enviar
+                    <i class="fa fa-arrow-circle-right"></i></button>
+            </div>
+            <!-- /.box-footer -->
         </div>
 
         <div class="box box-default gambi" id="freeMessage">
             <div class="box-body">
-                <div class="form-group">
+                <div class="form-group" id="inputSubject">
                     <input type="text" class="form-control" name="subject" placeholder="Assunto">
                 </div>
                 <div>
-                  <textarea id="message" class="textarea" placeholder="Mensagem"
+                  <textarea id="message" name="messageBody" class="textarea" placeholder="Mensagem"
                             style="resize:none; width: 100%; height: 250px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
                 </div>
-            </div>
-            <div class="box-footer clearfix">
-                <button type="button" class="pull-right btn btn-default" id="sendEmail">Enviar
-                    <i class="fa fa-arrow-circle-right"></i></button>
             </div>
         </div>
     </form>
@@ -185,7 +192,11 @@
 @section('js')
     <script type="text/javascript">
         jQuery(document).ready(() => {
-            jQuery('#message').wysihtml5({
+            jQuery('#importantMessage #message').wysihtml5({
+                locale: 'pt-BR'
+            });
+
+            jQuery('#freeMessage #message').wysihtml5({
                 locale: 'pt-BR'
             });
 
@@ -194,11 +205,23 @@
             });
 
             jQuery('input[name="message"]').on('ifChanged', function () {
-                let v = $('input[name="message"]:checked').val();
-                if (v === '2') {
-                    jQuery('#freeMessage').css('display', 'block');
-                } else {
-                    jQuery('#freeMessage').css('display', 'none');
+                let v = parseInt($('input[name="message"]:checked').val());
+
+                switch (v) {
+                    case 2:
+                        jQuery('#freeMessage').css('display', 'block');
+                        jQuery('#inputSubject').css('display', 'none');
+                        break;
+
+                    case 3:
+                        jQuery('#freeMessage').css('display', 'block');
+                        jQuery('#inputSubject').css('display', 'block');
+                        break;
+
+                    default:
+                        jQuery('#inputSubject').css('display', 'none');
+                        jQuery('#freeMessage').css('display', 'none');
+                        break;
                 }
             });
 

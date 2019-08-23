@@ -53,6 +53,11 @@ class Course extends Model
         return $coordinator;
     }
 
+    public function getNonTempCoordinatorsAttribute()
+    {
+        return $this->coordinators->where('temporary_of', '=', null);
+    }
+
     public function configurationAt($dateTime)
     {
         $config = $this->configurations->where('created_at', '<=', $dateTime)->sortBy('id');

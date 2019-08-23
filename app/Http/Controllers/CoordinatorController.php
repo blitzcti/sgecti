@@ -86,6 +86,12 @@ class CoordinatorController extends Controller
         $log .= "\nNovos dados: " . json_encode($coordinator, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         if ($saved) {
+            if ($coordinator->temporary_of == null && sizeof($coordinator->course->non_temp_coordinators) > 1) {
+                $c = $coordinator->course->non_temp_coordinators->where('id', '<>', $coordinator->id)->last();
+                $c->end_date = Carbon::today();
+                $c->save();
+            }
+
             Log::info($log);
             $cName = $coordinator->course->name;
             $notification = new CoordinatorNotification(['description' => "Coordenadoria de $cName", 'text' => "Você agora é coordenador de $cName.", 'icon' => 'black-tie']);

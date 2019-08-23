@@ -1,53 +1,61 @@
 <p>Atualmente, você é coordenador de {{ $strCourses }}.</p>
 
-<div class="box box-default">
-    <div class="box-header with-border">
-        <h3 class="box-title">Estágios finalizados sem relatório final</h3>
-    </div>
+@if(sizeof($requiringFinish) > 0)
 
-    <div class="box-body">
-        <table class="table table-bordered table-striped">
-            <thead>
-            <tr>
-                <th scope="col">ID</th>
-            </tr>
-            </thead>
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <h3 class="box-title">Estágios finalizados sem relatório final</h3>
+        </div>
 
-            <tbody>
-            @foreach($requiringFinish as $internship)
-
+        <div class="box-body">
+            <table class="table table-bordered table-striped">
+                <thead>
                 <tr>
-                    <th scope="row">{{ $internship->id }}</th>
+                    <th scope="col">ID</th>
                 </tr>
+                </thead>
 
-            @endforeach
-            </tbody>
-        </table>
+                <tbody>
+                @foreach($requiringFinish as $internship)
+
+                    <tr>
+                        <th scope="row">{{ $internship->id }}</th>
+                    </tr>
+
+                @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
-<div class="box box-default">
-    <div class="box-header with-border">
-        <h3 class="box-title">Propostas de estágio</h3>
-    </div>
+@endif
 
-    <div class="box-body">
-        <table class="table table-bordered table-striped">
-            <thead>
-            <tr>
-                <th scope="col">ID</th>
-            </tr>
-            </thead>
+@if(sizeof($proposals) > 0)
 
-            <tbody>
-            @foreach($proposals as $proposal)
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <h3 class="box-title">Propostas de estágio</h3>
+        </div>
 
+        <div class="box-body">
+            <table class="table table-bordered table-striped">
+                <thead>
                 <tr>
-                    <th scope="row">{{ $proposal->id }}</th>
+                    <th scope="col">ID</th>
                 </tr>
+                </thead>
 
-            @endforeach
-            </tbody>
-        </table>
+                <tbody>
+                @foreach($proposals as $proposal)
+
+                    <tr>
+                        <th scope="row">{{ $proposal->id }}</th>
+                    </tr>
+
+                @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+
+@endif

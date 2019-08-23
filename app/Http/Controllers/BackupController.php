@@ -68,7 +68,7 @@ class BackupController extends Controller
                         return redirect()->route('admin.configuracao.backup.index')->with($params);
                     }
                 }
-            } else if ($request->file->extension() === "json") {
+            } else if ($request->file->extension() === "txt") {
                 $file = $request->file;
             } else {
                 $params["saved"] = false;

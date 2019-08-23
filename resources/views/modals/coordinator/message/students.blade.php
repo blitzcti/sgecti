@@ -76,7 +76,7 @@
             }
 
             if (cs.length === 0) {
-                cs = [@foreach(auth()->user()->coordinator_of as $c) {{ $c->id }} @endforeach].map(c => `&courses[]=${c}`);
+                cs = [{{ implode(", ", auth()->user()->coordinator_courses_id) }}].map(c => `&courses[]=${c}`);
             }
 
             let url = `/api/aluno?q=`;

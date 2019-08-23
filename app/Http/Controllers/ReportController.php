@@ -46,7 +46,7 @@ class ReportController extends Controller
 
         $internships = State::findOrFail(1)->internships->filter(function ($internship) use ($cIds) {
             return in_array($internship->student->course_id, $cIds);
-        });
+        })->where('active', '=', true)->sortBy('id');
 
         $i = request()->i;
         return view('coordinator.report.bimestral.new')->with(['internships' => $internships, 'i' => $i]);
@@ -58,7 +58,7 @@ class ReportController extends Controller
 
         $internships = State::findOrFail(1)->internships->filter(function ($internship) use ($cIds) {
             return in_array($internship->student->course_id, $cIds);
-        });
+        })->where('active', '=', true)->sortBy('id');
 
         $i = request()->i;
         return view('coordinator.report.final.new')->with(['internships' => $internships, 'i' => $i]);
@@ -66,25 +66,27 @@ class ReportController extends Controller
 
     public function editBimestral($id)
     {
+        $report = BimestralReport::findOrFail($id);
+
         $cIds = Auth::user()->coordinator_courses_id;
 
         $internships = Internship::all()->filter(function ($internship) use ($cIds) {
             return in_array($internship->student->course_id, $cIds);
-        });
+        })->where('active', '=', true)->merge([$report->internship])->sortBy('id');
 
-        $report = BimestralReport::findOrFail($id);
         return view('coordinator.report.bimestral.edit')->with(['report' => $report, 'internships' => $internships]);
     }
 
     public function editFinal($id)
     {
+        $report = FinalReport::findOrFail($id);
+
         $cIds = Auth::user()->coordinator_courses_id;
 
         $internships = Internship::all()->filter(function ($internship) use ($cIds) {
             return in_array($internship->student->course_id, $cIds);
-        });
+        })->where('active', '=', true)->merge([$report->internship])->sortBy('id');
 
-        $report = FinalReport::findOrFail($id);
         return view('coordinator.report.final.edit')->with(['report' => $report, 'internships' => $internships]);
     }
 

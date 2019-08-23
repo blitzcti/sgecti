@@ -52,7 +52,7 @@ class InternshipController extends Controller
             abort(404);
         }
 
-        $companies = Company::all()->where('active', '=', true)->sortBy('id');
+        $companies = Company::all()->where('active', '=', true)->merge([$internship->company])->sortBy('id');
 
         return view('coordinator.internship.edit')->with([
             'internship' => $internship, 'companies' => $companies,
@@ -97,7 +97,7 @@ class InternshipController extends Controller
         $schedule->sat_e = $validatedData->satE;
         $saved = $schedule->save();
 
-        if ($validatedData->has2Turnos) {
+        if ($validatedData->has2Schedules) {
             $schedule2 = new Schedule();
 
             $schedule2->mon_s = $validatedData->monS2;
@@ -177,7 +177,7 @@ class InternshipController extends Controller
         $schedule->sat_e = $validatedData->satE;
         $saved = $schedule->save();
 
-        if ($validatedData->has2Turnos) {
+        if ($validatedData->has2Schedules) {
             $schedule2 = $internship->schedule2 ?? new Schedule();
 
             $schedule2->mon_s = $validatedData->monS2;

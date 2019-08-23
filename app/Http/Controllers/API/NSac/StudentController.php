@@ -40,31 +40,31 @@ class StudentController extends Controller
         if ((new Student())->isConnected()) {
             $students = Student::all()->sortBy('matricula');
 
-            if (is_array($request->get('courses'))) {
-                $courses = $request->get('courses');
+            if (is_array($request->istates)) {
+                $istates = $request->istates;
+                $students = $students->filter(function ($student) use ($istates) {
+                    return in_array($student->internship_state, $istates);
+                });
+            }
+
+            if (is_array($request->courses)) {
+                $courses = $request->courses;
                 $students = $students->filter(function ($student) use ($courses) {
                     return in_array($student->course_id, $courses);
                 });
             }
 
-            if (is_array($request->get('periods'))) {
-                $periods = $request->get('periods');
+            if (is_array($request->periods)) {
+                $periods = $request->periods;
                 $students = $students->filter(function ($student) use ($periods) {
                     return in_array($student->turma_periodo, $periods);
                 });
             }
 
-            if (is_array($request->get('grades'))) {
-                $grades = $request->get('grades');
+            if (is_array($request->grades)) {
+                $grades = $request->grades;
                 $students = $students->filter(function ($student) use ($grades) {
                     return in_array($student->grade, $grades);
-                });
-            }
-
-            if (is_array($request->get('istates'))) {
-                $istates = $request->get('istates');
-                $students = $students->filter(function ($student) use ($istates) {
-                    return in_array($student->internship_state, $istates);
                 });
             }
 
@@ -133,13 +133,13 @@ class StudentController extends Controller
         if ((new Student())->isConnected()) {
             $year = substr($year, 2, 2);
 
-            if (is_array($request->get('courses'))) {
-                $courses = $request->get('courses');
-                $students = Student::where('matricula', 'LIKE', "$year%")->get()->filter(function ($student) use ($courses) {
+            $students = Student::where('matricula', 'LIKE', "$year%")->get()->sortBy('matricula');
+
+            if (is_array($request->courses)) {
+                $courses = $request->courses;
+                $students = $students->filter(function ($student) use ($courses) {
                     return in_array($student->course_id, $courses);
-                })->sortBy('matricula');
-            } else {
-                $students = Student::where('matricula', 'LIKE', "$year%")->get()->sortBy('matricula');
+                });
             }
 
             $students = array_values($students->toArray());
@@ -165,13 +165,13 @@ class StudentController extends Controller
                 $year = $request->year;
             }
 
+            $students = Student::where('turma', '=', $class)->where('turma_ano', '=', $year)->get();
+
             if (is_array($request->get('courses'))) {
                 $courses = $request->get('courses');
-                $students = Student::where('turma', '=', $class)->where('turma_ano', '=', $year)->get()->filter(function ($student) use ($courses) {
+                $students = $students->filter(function ($student) use ($courses) {
                     return in_array($student->course_id, $courses);
-                })->sortBy('matricula');
-            } else {
-                $students = Student::where('turma', '=', $class)->where('turma_ano', '=', $year)->get();
+                });
             }
 
             $students = array_values($students->toArray());

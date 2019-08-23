@@ -46,7 +46,7 @@ class AmendmentController extends Controller
 
         $internships = State::findOrFail(1)->internships->filter(function ($internship) use ($cIds) {
             return in_array($internship->student->course_id, $cIds);
-        });
+        })->where('active', '=', true);
 
         $i = request()->i;
         return view('coordinator.internship.amendment.new')->with(['internships' => $internships, 'i' => $i]);
@@ -84,7 +84,7 @@ class AmendmentController extends Controller
         $schedule->sat_e = $validatedData->satE;
         $saved = $schedule->save();
 
-        if ($validatedData->has2Turnos) {
+        if ($validatedData->has2Schedules) {
             $schedule2 = new Schedule();
 
             $schedule2->mon_s = $validatedData->monS2;
@@ -154,7 +154,7 @@ class AmendmentController extends Controller
         $schedule->sat_e = $validatedData->satE;
         $saved = $schedule->save();
 
-        if ($validatedData->has2Turnos) {
+        if ($validatedData->has2Schedules) {
             $schedule2 = $amendment->schedule2 ?? new Schedule();
 
             $schedule2->mon_s = $validatedData->monS2;

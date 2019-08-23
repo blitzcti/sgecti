@@ -55,7 +55,7 @@ class JobController extends Controller
             abort(404);
         }
 
-        $companies = Company::all()->where('active', '=', true)->sortBy('id');
+        $companies = Company::all()->where('active', '=', true)->merge([$job->company])->sortBy('id');
 
         return view('coordinator.internship.job.edit')->with([
             'job' => $job, 'companies' => $companies,

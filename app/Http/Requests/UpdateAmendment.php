@@ -24,7 +24,7 @@ class UpdateAmendment extends FormRequest
     public function rules()
     {
         return [
-            'has2Turnos' => 'required|boolean',
+            'has2Schedules' => 'required|boolean',
 
             'startDate' => 'required|date|before:endDate',
             'endDate' => 'required|date|after:startDate',

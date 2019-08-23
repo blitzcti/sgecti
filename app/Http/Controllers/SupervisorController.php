@@ -34,7 +34,7 @@ class SupervisorController extends Controller
     public function edit($id)
     {
         $supervisor = Supervisor::findOrFail($id);
-        $companies = Company::all()->where('active', '=', true)->sortBy('id');
+        $companies = Company::all()->where('active', '=', true)->merge([$supervisor->company])->sortBy('id');
 
         return view('coordinator.company.supervisor.edit')->with([
             'supervisor' => $supervisor, 'companies' => $companies,

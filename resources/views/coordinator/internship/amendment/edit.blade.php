@@ -13,8 +13,8 @@
         @method('PUT')
         @csrf
 
-        <input type="hidden" id="inputHas2Turnos" name="has2Turnos"
-               value="{{ (old('has2Turnos') ?? ($amendment->schedule2 != null)) ? '1' : '0' }}">
+        <input type="hidden" id="inputHas2Schedules" name="has2Schedules"
+               value="{{ (old('has2Schedules') ?? ($amendment->schedule2 != null)) ? '1' : '0' }}">
 
         <div class="box box-default">
             <div class="box-header with-border">
@@ -240,12 +240,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="fakeInputHas2Turnos" class="col-sm-2 control-label" style="padding-top: 0">2
+                    <label for="fakeInputHas2Schedules" class="col-sm-2 control-label" style="padding-top: 0">2
                         turnos?</label>
 
                     <div class="col-sm-10">
-                        <input type="checkbox" id="fakeInputHas2Turnos" name="fakeHas2Turnos"
-                            {{ old('has2Turnos') ?? ($amendment->schedule2 != null) ? 'checked="checked"' : '' }}>
+                        <input type="checkbox" id="fakeInputHas2Schedules" name="fakeHas2Schedules"
+                            {{ old('has2Schedules') ?? ($amendment->schedule2 != null) ? 'checked="checked"' : '' }}>
                     </div>
                 </div>
 
@@ -412,13 +412,13 @@
                 removeMaskOnSubmit: false
             }).parent().css('margin', '0');
 
-            jQuery('#fakeInputHas2Turnos').on('ifChanged', function () {
+            jQuery('#fakeInputHas2Schedules').on('ifChanged', function () {
                 if (this.checked) {
                     jQuery('#weekDays2').css('display', 'initial');
-                    jQuery('#inputHas2Turnos').val(1);
+                    jQuery('#inputHas2Schedules').val(1);
                 } else {
                     jQuery('#weekDays2').css('display', 'none');
-                    jQuery('#inputHas2Turnos').val(0);
+                    jQuery('#inputHas2Schedules').val(0);
                 }
             }).trigger('ifChanged').iCheck({
                 checkboxClass: 'icheckbox_square-blue',

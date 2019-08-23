@@ -12,8 +12,8 @@
     <form class="form-horizontal" action="{{ route('coordenador.estagio.aditivo.salvar') }}" method="post">
         @csrf
 
-        <input type="hidden" id="inputHas2Turnos" name="has2Turnos"
-               value="{{ (old('has2Turnos') ?? 0) ? '1' : '0' }}">
+        <input type="hidden" id="inputHas2Schedules" name="has2Schedules"
+               value="{{ (old('has2Schedules') ?? 0) ? '1' : '0' }}">
 
         <input type="hidden" id="inputInternshipStartDate" name="internshipStartDate"
                value="{{ (App\Models\Internship::find($i) ?? $internships->first())->start_date ?? '' }}">
@@ -323,12 +323,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="fakeInputHas2Turnos" class="col-sm-2 control-label" style="padding-top: 0">2
+                    <label for="fakeInputHas2Schedules" class="col-sm-2 control-label" style="padding-top: 0">2
                         turnos?</label>
 
                     <div class="col-sm-10">
-                        <input type="checkbox" id="fakeInputHas2Turnos" name="fakeHas2Turnos"
-                            {{ old('has2Turnos') ?? 0 ? 'checked="checked"' : '' }}>
+                        <input type="checkbox" id="fakeInputHas2Schedules" name="fakeHas2Schedules"
+                            {{ old('has2Schedules') ?? 0 ? 'checked="checked"' : '' }}>
                     </div>
                 </div>
 
@@ -496,13 +496,13 @@
                 removeMaskOnSubmit: false
             }).parent().css('margin', '0');
 
-            jQuery('#fakeInputHas2Turnos').on('ifChanged', function () {
+            jQuery('#fakeInputHas2Schedules').on('ifChanged', function () {
                 if (this.checked) {
                     jQuery('#weekDays2').css('display', 'block');
-                    jQuery('#inputHas2Turnos').val(1);
+                    jQuery('#inputHas2Schedules').val(1);
                 } else {
                     jQuery('#weekDays2').css('display', 'none');
-                    jQuery('#inputHas2Turnos').val(0);
+                    jQuery('#inputHas2Schedules').val(0);
                 }
             }).trigger('ifChanged').iCheck({
                 checkboxClass: 'icheckbox_square-blue',
@@ -552,8 +552,8 @@
                             },
                         });
 
-                        jQuery('#internshipStartDate').text(data.start_date);
-                        jQuery('#internshipEndDate').text(data.end_date);
+                        jQuery('#internshipStartDate').text(new Date(`${data.start_date} `).toLocaleDateString());
+                        jQuery('#internshipEndDate').text(new Date(`${data.end_date} `).toLocaleDateString());
                         jQuery('#internshipEstimatedHours').text(data.estimated_hours);
                     },
                     error: function () {

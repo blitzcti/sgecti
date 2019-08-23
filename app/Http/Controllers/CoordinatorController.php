@@ -39,7 +39,7 @@ class CoordinatorController extends Controller
 
     public function create()
     {
-        $courses = Course::all()->sortBy('id');
+        $courses = Course::all()->where('active', '=', true)->sortBy('id');
         $users = User::whereHas("roles", function ($q) {
             $q->where("name", "teacher");
         })->get()->sortBy('id');
@@ -53,7 +53,7 @@ class CoordinatorController extends Controller
     public function edit($id)
     {
         $coordinator = Coordinator::findOrFail($id);
-        $courses = Course::all()->sortBy('id');
+        $courses = Course::all()->where('active', '=', true)->merge([$coordinator->course])->sortBy('id');
         $users = User::whereHas("roles", function ($q) {
             $q->where("name", "teacher");
         })->get()->sortBy('id');

@@ -41,8 +41,8 @@ class CompanyController extends Controller
     {
         $company = Company::findOrFail($id);
         $address = $company->address;
-        $sectors = Sector::all()->where('active', '=', true)->sortBy('id');
-        $courses = Course::all()->where('active', '=', true)->sortBy('id');
+        $sectors = Sector::all()->where('active', '=', true)->merge($company->sectors)->sortBy('id');
+        $courses = Course::all()->where('active', '=', true)->merge($company->courses)->sortBy('id');
 
         return view('coordinator.company.edit')->with([
             'company' => $company, 'address' => $address, 'sectors' => $sectors, 'courses' => $courses,

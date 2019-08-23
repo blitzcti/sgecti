@@ -72,19 +72,21 @@ class CourseController extends Controller
         $course->active = $validatedData->active;
 
         $saved = $course->save();
-
-        $config = new CourseConfiguration();
-
-        $config->course_id = $course->id;
-        $config->min_year = $validatedData->minYear;
-        $config->min_semester = $validatedData->minSemester;
-        $config->min_hours = $validatedData->minHour;
-        $config->min_months = $validatedData->minMonth;
-        $config->min_months_ctps = $validatedData->minMonthCTPS;
-        $config->min_grade = $validatedData->minGrade;
-
-        $saved = $config->save();
         $log .= "\nNovos dados: " . json_encode($course, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        if ($validatedData->hasConfig) {
+            $config = new CourseConfiguration();
+
+            $config->course_id = $course->id;
+            $config->min_year = $validatedData->minYear;
+            $config->min_semester = $validatedData->minSemester;
+            $config->min_hours = $validatedData->minHour;
+            $config->min_months = $validatedData->minMonth;
+            $config->min_months_ctps = $validatedData->minMonthCTPS;
+            $config->min_grade = $validatedData->minGrade;
+
+            $saved = $config->save();
+        }
 
         if ($saved) {
             Log::info($log);

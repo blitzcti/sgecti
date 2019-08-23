@@ -155,6 +155,7 @@ return [
         'password' => 'Senha',
         'group' => 'Grupo',
 
+        'maxYears' => 'Anos máximos',
         'minYear' => 'Ano mínimo',
         'minSemester' => 'Semestre mínimo',
         'minHour' => 'Horas mínimas',
@@ -186,7 +187,7 @@ return [
         'sectors' => 'Setores',
         'course' => 'Curso',
         'courses' => 'Cursos',
-        'hasAgreement' => 'Registrar convênio',
+        'hasAgreement' => 'Registrar convênio?',
         'expirationDate' => 'Validade do convênio',
 
         'description' => 'Descrição',
@@ -197,7 +198,7 @@ return [
         'supervisor' => 'Supervisor',
         'protocol' => 'Protocolo',
         'ctps' => 'CTPS',
-        'hasCTPS' => 'O estágio é CTPS',
+        'has2Schedules' => '2 turnos?',
 
     ],
 ];

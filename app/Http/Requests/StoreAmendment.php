@@ -24,7 +24,7 @@ class StoreAmendment extends FormRequest
     public function rules()
     {
         return [
-            'has2Turnos' => 'required|boolean',
+            'has2Schedules' => 'required|boolean',
 
             'internship' => 'required|numeric|min:1',
             'startDate' => 'required|date|before:endDate',

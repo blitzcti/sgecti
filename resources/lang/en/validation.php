@@ -165,6 +165,7 @@ return [
         'password' => 'Password',
         'group' => 'Group',
 
+        'maxYears' => 'Maximum Years',
         'minYear' => 'Minimum Year',
         'minSemester' => 'Minimum Semester',
         'minHour' => 'Minimum hours',
@@ -196,7 +197,7 @@ return [
         'sectors' => 'Sectors',
         'course' => 'Course',
         'courses' => 'Courses',
-        'hasAgreement' => 'Add Agreement',
+        'hasAgreement' => 'Add Agreement?',
         'expirationDate' => 'Expiration Date',
 
         'description' => 'Description',
@@ -207,7 +208,7 @@ return [
         'supervisor' => 'Supervisor',
         'protocol' => 'Protocol',
         'ctps' => 'CTPS',
-        'hasCTPS' => 'Is Internship CTPS',
+        'has2Schedules' => 'Has 2 Schedules?',
 
     ],
 

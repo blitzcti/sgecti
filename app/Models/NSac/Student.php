@@ -80,15 +80,14 @@ class Student extends Model
 
     public function getInternshipStateAttribute()
     {
-        $i = $this->internship()->get()->toArray();
-        $fi = $this->finishedInternships()->get()->toArray();
-
-        if ($i != null) {
+        if ($this->internship()->get()->toArray() != null) {
             return 0;
-        } else if (sizeof($fi) > 0) {
-            return 1;
         } else {
-            return 2;
+            if (sizeof($this->finishedInternships()->get()->toArray()) > 0) {
+                return 1;
+            } else {
+                return 2;
+            }
         }
     }
 

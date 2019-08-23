@@ -349,7 +349,7 @@
                 </h3>
             </div>
 
-            <div id="div-convenio" style="display: none">
+            <div id="div-agreement" style="display: none">
                 <div class="box-body">
                     <div class="form-group @if($errors->has('observation')) has-error @endif">
                         <label for="inputObservation" class="col-sm-2 control-label">Observação</label>
@@ -415,10 +415,10 @@
 
             jQuery('#fakeInputHasAgreement').on('ifChanged', function () {
                 if (this.checked) {
-                    jQuery('#div-convenio').css('display', 'block');
+                    jQuery('#div-agreement').css('display', 'block');
                     jQuery('#inputHasAgreement').val(1);
                 } else {
-                    jQuery('#div-convenio').css('display', 'none');
+                    jQuery('#div-agreement').css('display', 'none');
                     jQuery('#inputHasAgreement').val(0);
                 }
             }).trigger('ifChanged').iCheck({

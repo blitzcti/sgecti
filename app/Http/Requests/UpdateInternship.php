@@ -29,7 +29,7 @@ class UpdateInternship extends FormRequest
     public function rules()
     {
         return [
-            'has2Turnos' => 'required|boolean',
+            'has2Schedules' => 'required|boolean',
 
             'ra' => ['required', 'numeric', 'min:1', new RA, new SameCourse, new CompanyHasCourse($this->get('company'))],
             'active' => 'required|numeric|min:1',

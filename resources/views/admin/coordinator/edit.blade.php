@@ -143,9 +143,9 @@
             });
         });
 
-        function addDays(date, days) {
+        function addMonths(date, months) {
             let result = new Date(date);
-            result.setDate(result.getDate() + days);
+            result.setMonth(result.getMonth() + months);
             return result;
         }
 
@@ -153,7 +153,7 @@
             switch (id) {
                 case 0: {
                     jQuery('#EndDateToggle').text('6 meses');
-                    let newDate = addDays(jQuery('#inputStartDate').val(), 30 * 6);
+                    let newDate = addMonths(jQuery('#inputStartDate').val(), 6);
                     newDate = newDate.toISOString().slice(0, 10);
                     jQuery('#inputEndDate').val(newDate);
                     break;
@@ -161,7 +161,7 @@
 
                 case 1: {
                     jQuery('#EndDateToggle').text('1 ano');
-                    let newDate = addDays(jQuery('#inputStartDate').val(), 365);
+                    let newDate = addMonths(jQuery('#inputStartDate').val(), 12);
                     newDate = newDate.toISOString().slice(0, 10);
                     jQuery('#inputEndDate').val(newDate);
                     break;
@@ -169,7 +169,7 @@
 
                 case 2: {
                     jQuery('#EndDateToggle').text('2 anos');
-                    let newDate = addDays(jQuery('#inputStartDate').val(), 365 * 2);
+                    let newDate = addMonths(jQuery('#inputStartDate').val(), 24);
                     newDate = newDate.toISOString().slice(0, 10);
                     jQuery('#inputEndDate').val(newDate);
                     break;

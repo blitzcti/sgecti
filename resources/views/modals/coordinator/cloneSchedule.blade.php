@@ -19,11 +19,11 @@
                             <thead>
                             <tr>
                                 <td>
-                                    <label class="control-label">Entrada</label>
+                                    <label for="inputCMonS" class="control-label">Entrada</label>
                                 </td>
 
-                                <td >
-                                    <label class="control-label">Saída</label>
+                                <td>
+                                    <label for="inputCMonE" class="control-label">Saída</label>
                                 </td>
                             </tr>
                             </thead>
@@ -119,8 +119,9 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        onclick="cloneSchedule();">Clonar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="cloneSchedule();">
+                    Clonar
+                </button>
             </div>
         </div>
     </div>

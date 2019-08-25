@@ -69,15 +69,15 @@ class MessageController extends Controller
         if (config('app.debug')) {
             switch ($validatedData->message) {
                 case 0:
-                    $params['sent'] = $this->sendBimestralReportMail();
+                    $this->sendBimestralReportMail();
                     break;
 
                 case 1:
-                    $params['sent'] = $this->sendInternshipProposalMail();
+                    $this->sendInternshipProposalMail();
                     break;
 
                 case 2:
-                    $params['sent'] = $this->sendImportantMail($validatedData->messageBody);
+                    $this->sendImportantMail($validatedData->messageBody);
                     break;
 
                 case 3:
@@ -88,6 +88,8 @@ class MessageController extends Controller
         } else {
 
         }
+
+        $params['sent'] = count(Mail::failures()) == 0;
 
         if ($params['sent']) {
             $params['message'] = 'Email enviado';

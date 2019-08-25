@@ -40,7 +40,7 @@
                     <tr>
                         <th scope="row">{{ $company->id }}</th>
                         <td>{{ $company->cpf_cnpj }}</td>
-                        <td>{{ $company->name }}</td>
+                        <td>{{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}</td>
                         <td>{{ ($company->active) ? 'Sim' : 'Não' }}</td>
 
                         <td>

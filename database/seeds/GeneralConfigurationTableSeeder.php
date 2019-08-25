@@ -19,7 +19,7 @@ class GeneralConfigurationTableSeeder extends Seeder
         $config->min_hours = 400;
         $config->min_months = 4;
         $config->min_months_ctps = 6;
-        $config->min_grade = 7;
+        $config->min_grade = 6;
         $config->created_at = date_create('1970-01-01 00:00:00');
         $config->updated_at = date_create('1970-01-01 00:00:00');
         $config->save();

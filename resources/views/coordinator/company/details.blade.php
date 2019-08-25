@@ -30,10 +30,10 @@
                 <dd class="col-sm-10">{{ $company->active ? 'Sim' : 'Não' }}</dd>
 
                 <dt class="col-sm-2">Email</dt>
-                <dd class="col-sm-10">{{ $company->email }}</dd>
+                <dd class="col-sm-10">{{ $company->email ?? '(Não informado)' }}</dd>
 
                 <dt class="col-sm-2">Telefone</dt>
-                <dd class="col-sm-10">{{ $company->phone }}</dd>
+                <dd class="col-sm-10">{{ $company->phone ?? '(Não informado)' }}</dd>
 
                 <dt class="col-sm-2">Representante</dt>
                 <dd class="col-sm-10">{{ $company->representative_name }}</dd>

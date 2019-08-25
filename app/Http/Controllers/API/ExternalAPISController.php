@@ -126,15 +126,22 @@ class ExternalAPISController extends Controller
      * Properly sorts an array
      *
      * @param $array
-     * @param string $col
+     * @param null|string $col
      */
-    function sort(&$array, $col)
+    function sort(&$array, $col = null)
     {
         usort($array, function ($a, $b) use ($col) {
-            $a[$col] = $this->removeAccents($a[$col]);
-            $b[$col] = $this->removeAccents($b[$col]);
+            if ($col == null) {
+                $a = $this->removeAccents($a);
+                $b = $this->removeAccents($b);
 
-            return strcoll($a[$col], $b[$col]);
+                return strcoll($a, $b);
+            } else {
+                $a[$col] = $this->removeAccents($a[$col]);
+                $b[$col] = $this->removeAccents($b[$col]);
+
+                return strcoll($a[$col], $b[$col]);
+            }
         });
     }
 
@@ -143,14 +150,18 @@ class ExternalAPISController extends Controller
      *
      * @param array $array
      * @param string $q
-     * @param string $col
+     * @param null|string $col
      *
      * @return array
      */
-    function search($array, $q, $col)
+    function search($array, $q, $col = null)
     {
         $array = array_filter($array, function ($v, $k) use ($q, $col) {
-            return (strpos(strtoupper($v[$col]), strtoupper($q)) !== false);
+            if ($col == null) {
+                return (strpos(strtoupper($v), strtoupper($q)) !== false);
+            } else {
+                return (strpos(strtoupper($v[$col]), strtoupper($q)) !== false);
+            }
         }, ARRAY_FILTER_USE_BOTH);
         $array = array_values($array);
         return $array;
@@ -195,11 +206,13 @@ class ExternalAPISController extends Controller
     public function getUFS(Request $request)
     {
         $url = $this->parseURL('apis.ufs.url');
+        $column = config('apis.ufs.column');
         $json = $this->getData($url);
-        $this->sort($json, config('apis.ufs.column'));
+        $json = array_column($json, $column);
+        $this->sort($json);
 
         if (!empty($request->q)) {
-            $json = $this->search($json, $request->q, config('apis.ufs.column'));
+            $json = $this->search($json, $request->q);
         }
 
         return response()->json(
@@ -231,12 +244,14 @@ class ExternalAPISController extends Controller
         }
 
         $url = $this->parseURL('apis.ufs.url');
+        $column = config('apis.ufs.column');
         $json = $this->getData($url);
+        $json = array_column($json, 'id', $column);
 
         $ufId = 0;
-        foreach ($json as $data) {
-            if (strtoupper($data[config('apis.ufs.column')]) === strtoupper($uf)) {
-                $ufId = $data['id'];
+        foreach ($json as $data => $id) {
+            if (strtoupper($data) === strtoupper($uf)) {
+                $ufId = $id;
             }
         }
 
@@ -255,11 +270,13 @@ class ExternalAPISController extends Controller
         }
 
         $url = $this->parseURL('apis.cities.url', $ufId);
+        $column = config('apis.cities.column');
         $json = $this->getData($url);
-        $this->sort($json, config('apis.cities.column'));
+        $json = array_column($json, $column);
+        $this->sort($json);
 
         if (!empty($request->q)) {
-            $json = $this->search($json, $request->q, config('apis.cities.column'));
+            $json = $this->search($json, $request->q);
         }
 
         return response()->json(

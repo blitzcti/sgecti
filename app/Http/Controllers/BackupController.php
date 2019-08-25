@@ -56,50 +56,69 @@ class BackupController extends Controller
                 $zip = new ZipArchive();
                 Storage::disk('local')->put('backups/uploaded/backup.zip', file_get_contents($request->file));
                 if ($zip->open(storage_path("app/backups/uploaded/backup.zip"))) {
-                    $zip->extractTo(storage_path("app/backups/uploaded/"));
-                    $zip->close();
-                    $file = storage_path("app/backups/uploaded/backup.json");
+                    $dir = storage_path("app/backups/uploaded/");
 
-                    if (!file_exists($file)) {
+                    if ($this->verifyZipFile($zip)) {
+                        try {
+                            $zip->extractTo(storage_path("app/backups/uploaded/"));
+                            $zip->close();
+                            set_time_limit(300);
+                            Artisan::call('migrate:fresh');
+
+                            $this->restoreDataFromZip($dir);
+
+                            $params["saved"] = true;
+                            $params["message"] = "Backup restaurado!";
+                            Log::info("Backup restaurado!");
+                        } catch (Exception $e) {
+                            Log::error("Erro ao restaurar do arquivo de backup: {$e}");
+                            Artisan::call('cache:forget', ['key' => 'spatie.permission.cache']);
+                            Artisan::call('config:cache');
+                            Artisan::call('migrate:fresh', ['--seed' => true]);
+                            Log::info("Banco de dados reiniciado.");
+
+                            $params["saved"] = false;
+                            $params["message"] = "Ocorreu um erro ao restaurar o backup! Banco de dados reiniciado.";
+                        }
+                    } else {
+                        $zip->close();
                         $params["saved"] = false;
                         $params["message"] = "Arquivo de backup inválido.";
                         Log::warning("Arquivo de backup inválido.");
-
-                        return redirect()->route('admin.configuracao.backup.index')->with($params);
                     }
                 }
+
+                Storage::disk('local')->delete(array_diff(Storage::disk('local')->files('backups/uploaded/'), ['backups/uploaded/.gitignore']));
             } else if ($request->file->extension() === "txt") {
                 $file = $request->file;
-            } else {
-                $params["saved"] = false;
-                $params["message"] = "Arquivo de backup inválido.";
-                Log::warning("Arquivo de backup inválido.");
+                $data = file_get_contents($file);
+                $data = json_decode($data, true);
 
-                return redirect()->route('admin.configuracao.backup.index')->with($params);
-            }
+                if ($this->verifyData($data)) {
+                    try {
+                        $data = (object)$data;
+                        set_time_limit(300);
+                        Artisan::call('migrate:fresh');
 
-            $data = file_get_contents($file);
-            $data = json_decode($data, true);
-            if ($this->verifyData($data)) {
-                try {
-                    $data = (object)$data;
-                    set_time_limit(300);
-                    Artisan::call('migrate:fresh');
+                        $this->restoreData($data);
 
-                    $this->restoreData($data);
+                        $params["saved"] = true;
+                        $params["message"] = "Backup restaurado!";
+                        Log::info("Backup restaurado!");
+                    } catch (Exception $e) {
+                        Log::error("Erro ao restaurar do arquivo de backup: {$e}");
+                        Artisan::call('cache:forget', ['key' => 'spatie.permission.cache']);
+                        Artisan::call('config:cache');
+                        Artisan::call('migrate:fresh', ['--seed' => true]);
+                        Log::info("Banco de dados reiniciado.");
 
-                    $params["saved"] = true;
-                    $params["message"] = "Backup restaurado!";
-                    Log::info("Backup restaurado!");
-                } catch (Exception $e) {
-                    Log::error("Erro ao restaurar do arquivo de backup: {$e}");
-                    Artisan::call('cache:forget', ['key' => 'spatie.permission.cache']);
-                    Artisan::call('config:cache');
-                    Artisan::call('migrate:fresh', ['--seed' => true]);
-                    Log::info("Banco de dados reiniciado.");
-
+                        $params["saved"] = false;
+                        $params["message"] = "Ocorreu um erro ao restaurar o backup! Banco de dados reiniciado.";
+                    }
+                } else {
                     $params["saved"] = false;
-                    $params["message"] = "Ocorreu um erro ao restaurar o backup! Banco de dados reiniciado.";
+                    $params["message"] = "Arquivo de backup inválido.";
+                    Log::warning("Arquivo de backup inválido.");
                 }
             } else {
                 $params["saved"] = false;
@@ -195,6 +214,26 @@ class BackupController extends Controller
         return false;
     }
 
+    private function verifyZipFile(ZipArchive $zipFile)
+    {
+        try {
+            foreach ($this->tables as $table => $class) {
+                $content = $zipFile->getFromName("$table.json");
+                if (!$content) {
+                    return false;
+                }
+
+                $content = json_decode($content, true);
+
+                $this->verifyInnerData($content, $class);
+            }
+
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
     private function generateZip()
     {
         $this->getData(true);
@@ -203,9 +242,14 @@ class BackupController extends Controller
         $file = storage_path("app/backups/backup.zip");
 
         if ($zip->open($file, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
-            $zip->addFile(storage_path("app/backups/backup.json"), "backup.json");
+            foreach ($this->tables as $table => $class) {
+                $zip->addFile(storage_path("app/backups/zip/$table.json"), "$table.json");
+            }
+
             $zip->close();
         }
+
+        Storage::disk('local')->delete(array_diff(Storage::disk('local')->files('backups/zip'), ['backups/zip/.gitignore']));
     }
 
     private function generateJson()
@@ -218,22 +262,13 @@ class BackupController extends Controller
     private function getData($toFile = false)
     {
         if ($toFile) {
-            $file = storage_path("app/backups/backup.json");
-            $f = fopen($file, "w+");
-            fwrite($f, "{");
-
-            $i = sizeof($this->tables);
+            $dir = storage_path("app/backups/zip");
             foreach ($this->tables as $table => $class) {
+                $f = fopen("$dir/$table.json", "w+");
                 $data = $this->getTableData($table, $class);
-                fwrite($f, "\"$table\": " . json_encode($data, JSON_UNESCAPED_UNICODE));
-
-                if (--$i > 0) {
-                    fwrite($f, ",");
-                }
+                fwrite($f, json_encode($data, JSON_UNESCAPED_UNICODE));
+                fclose($f);
             }
-
-            fwrite($f, "}");
-            fclose($f);
         } else {
             $data = [];
             foreach ($this->tables as $table => $class) {
@@ -271,6 +306,21 @@ class BackupController extends Controller
     {
         foreach ($this->tables as $table => $class) {
             foreach ($data->{$table} as $innerData) {
+                DB::table($table)->insert($innerData);
+            }
+
+            if ((new $class)->getKeyName() != null && (new $class)->incrementing) {
+                $this->setAutoIncrement($table);
+            }
+        }
+    }
+
+    private function restoreDataFromZip($dir)
+    {
+        foreach ($this->tables as $table => $class) {
+            $data = (object)json_decode(file_get_contents("$dir/$table.json"), true);
+
+            foreach ($data as $innerData) {
                 DB::table($table)->insert($innerData);
             }
 

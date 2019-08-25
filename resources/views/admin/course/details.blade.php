@@ -73,6 +73,18 @@
 
                 <dt class="col-sm-2">Alunos</dt>
                 <dd class="col-sm-10">{{ sizeof($course->students) }}</dd>
+
+                <dt class="col-sm-2">1º ano</dt>
+                <dd class="col-sm-10">{{ sizeof($course->students->filter(function ($s) {return $s->grade == 1;})) }}</dd>
+
+                <dt class="col-sm-2">2º ano</dt>
+                <dd class="col-sm-10">{{ sizeof($course->students->filter(function ($s) {return $s->grade == 2;})) }}</dd>
+
+                <dt class="col-sm-2">3º ano</dt>
+                <dd class="col-sm-10">{{ sizeof($course->students->filter(function ($s) {return $s->grade == 3;})) }}</dd>
+
+                <dt class="col-sm-2">Formados</dt>
+                <dd class="col-sm-10">{{ sizeof($course->students->filter(function ($s) {return $s->grade == 4;})) }}</dd>
             </dl>
 
             <hr/>

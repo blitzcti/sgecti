@@ -146,7 +146,7 @@
 
             <div class="box-body">
                 <div class="form-group @if($errors->has('representativeName')) has-error @endif">
-                    <label for="inputRepresentativeName" class="col-sm-2 control-label">Nome do representante*</label>
+                    <label for="inputRepresentativeName" class="col-sm-2 control-label">Nome*</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputRepresentativeName" name="representativeName"
@@ -471,7 +471,7 @@
                     processResults: function (response) {
                         ufs = [];
                         response.forEach(uf => {
-                            ufs.push({id: uf.sigla, text: uf.sigla});
+                            ufs.push({id: uf, text: uf});
                         });
 
                         return {
@@ -482,6 +482,8 @@
             });
 
             jQuery('#inputUf').on('change', e => {
+                jQuery('#inputCity').empty();
+
                 jQuery('#inputCity').select2({
                     language: "pt-BR",
                     ajax: {
@@ -498,7 +500,7 @@
                         processResults: function (response) {
                             cities = [];
                             response.forEach(city => {
-                                cities.push({id: city.nome, text: city.nome});
+                                cities.push({id: city, text: city});
                             });
 
                             return {
@@ -617,9 +619,11 @@
                             jQuery('#inputNumber').val(address.number);
                         }
 
-                        jQuery('#inputStreet').val(address.street);
-                        jQuery('#inputComplement').val(address.complement);
-                        jQuery('#inputDistrict').val(address.district);
+                        if (address.uf !== '') {
+                            jQuery('#inputUf').append(new Option(address.uf, address.uf, false, true)).change();
+                        } else {
+                            jQuery('#inputUf').val(address.uf);
+                        }
 
                         if (address.city !== '') {
                             jQuery('#inputCity').append(new Option(address.city, address.city, false, true));
@@ -627,12 +631,9 @@
                             jQuery('#inputCity').val(address.city);
                         }
 
-
-                        if (address.uf !== '') {
-                            jQuery('#inputUf').append(new Option(address.uf, address.uf, false, true)).change();
-                        } else {
-                            jQuery('#inputUf').val(address.uf);
-                        }
+                        jQuery('#inputStreet').val(address.street);
+                        jQuery('#inputComplement').val(address.complement);
+                        jQuery('#inputDistrict').val(address.district);
                     },
 
                     error: function () {

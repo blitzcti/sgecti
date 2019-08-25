@@ -20,16 +20,20 @@ class StudentController extends Controller
     /**
      * Search for a string in a specific array column
      *
-     * @param $array array
-     * @param $q string
-     * @param $col string
+     * @param array $array
+     * @param string $q
+     * @param null|string $col
      *
      * @return array
      */
-    function search($array, $q, $col)
+    function search($array, $q, $col = null)
     {
         $array = array_filter($array, function ($v, $k) use ($q, $col) {
-            return (strpos(strtoupper($v[$col]), strtoupper($q)) !== false);
+            if ($col == null) {
+                return (strpos(strtoupper($v), strtoupper($q)) !== false);
+            } else {
+                return (strpos(strtoupper($v[$col]), strtoupper($q)) !== false);
+            }
         }, ARRAY_FILTER_USE_BOTH);
         $array = array_values($array);
         return $array;

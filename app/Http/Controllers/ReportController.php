@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreBimestral;
-use App\Http\Requests\StoreFinal;
-use App\Http\Requests\UpdateBimestral;
-use App\Http\Requests\UpdateFinal;
+use App\Http\Requests\StoreBimestralReport;
+use App\Http\Requests\StoreFinalReport;
+use App\Http\Requests\UpdateBimestralReport;
+use App\Http\Requests\UpdateFinalReport;
 use App\Models\BimestralReport;
 use App\Models\FinalReport;
 use App\Models\Internship;
@@ -90,7 +90,7 @@ class ReportController extends Controller
         return view('coordinator.report.final.edit')->with(['report' => $report, 'internships' => $internships]);
     }
 
-    public function storeBimestral(StoreBimestral $request)
+    public function storeBimestral(StoreBimestralReport $request)
     {
         $bimestral = new BimestralReport();
         $params = [];
@@ -118,7 +118,7 @@ class ReportController extends Controller
         return redirect()->route('coordenador.relatorio.index')->with($params);
     }
 
-    public function storeFinal(StoreFinal $request)
+    public function storeFinal(StoreFinalReport $request)
     {
         $final = new FinalReport();
         $params = [];
@@ -146,7 +146,7 @@ class ReportController extends Controller
         $final->grade_4_b = $validatedData->grade_4_b;
         $final->grade_4_c = $validatedData->grade_4_c;
 
-        $final->final_grade = 4.9; //formula
+        $final->final_grade = ($final->grade_1_a * 5 + $final->grade_1_b * 4 + $final->grade_1_c * 2 + $final->grade_2_a * 3 + $final->grade_2_b * 4 + $final->grade_2_c * 3 + $final->grade_2_d * 1 + $final->grade_3_a * 5 + $final->grade_3_b * 4 + $final->grade_4_a * 2 + $final->grade_4_b * 2 + $final->grade_4_c * 5) / 24;
         $final->hours_completed = $validatedData->hoursCompleted;
         $final->end_date = $validatedData->endDate;
         $final->approval_number = $this->generateApprovalNumber($course_id);
@@ -173,7 +173,7 @@ class ReportController extends Controller
         return redirect()->route('coordenador.relatorio.index')->with($params);
     }
 
-    public function updateBimestral($id, UpdateBimestral $request)
+    public function updateBimestral($id, UpdateBimestralReport $request)
     {
         $bimestral = BimestralReport::all()->find($id);
         $params = [];
@@ -202,7 +202,7 @@ class ReportController extends Controller
         return redirect()->route('coordenador.relatorio.index')->with($params);
     }
 
-    public function updateFinal($id, UpdateFinal $request)
+    public function updateFinal($id, UpdateFinalReport $request)
     {
         $final = FinalReport::all()->find($id);
         $params = [];
@@ -231,7 +231,7 @@ class ReportController extends Controller
         $final->grade_4_b = $validatedData->grade_4_b;
         $final->grade_4_c = $validatedData->grade_4_c;
 
-        $final->final_grade = 4.9; //formula
+        $final->final_grade = ($final->grade_1_a * 5 + $final->grade_1_b * 4 + $final->grade_1_c * 2 + $final->grade_2_a * 3 + $final->grade_2_b * 4 + $final->grade_2_c * 3 + $final->grade_2_d * 1 + $final->grade_3_a * 5 + $final->grade_3_b * 4 + $final->grade_4_a * 2 + $final->grade_4_b * 2 + $final->grade_4_c * 5) / 24;
         $final->hours_completed = $validatedData->hoursCompleted;
         $final->end_date = $validatedData->endDate;
         $final->observation = $validatedData->observation;

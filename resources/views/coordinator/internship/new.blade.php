@@ -86,7 +86,8 @@
 
                                 <option
                                     value="{{ $company->id }}" {{ (old('company') ?? 1) == $company->id ? 'selected' : '' }}>
-                                    {{ $company->cpf_cnpj }} - {{ $company->name }}</option>
+                                    {{ $company->cpf_cnpj }} - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
+                                </option>
 
                             @endforeach
 

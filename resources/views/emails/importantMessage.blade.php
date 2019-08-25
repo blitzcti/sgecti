@@ -4,5 +4,5 @@
 
 @section('content')
     <p>Olá, {{ $student->nome }}, </p>
-    <p>{{ $messageBody }}</p>
+    <p>{!! $messageBody !!}</p>
 @endsection

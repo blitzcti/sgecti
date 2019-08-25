@@ -26,7 +26,7 @@ class UpdateUser extends FormRequest
         return [
             'name' => 'required|max:191',
             'email' => 'required|email|max:191',
-            'phone' => 'required|numeric|digits_between:10,11',
+            'phone' => 'nullable|numeric|digits_between:10,11',
             'role' => 'required|numeric|min:1',
         ];
     }

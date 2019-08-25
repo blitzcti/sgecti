@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Logs - SGE CTI')
+@section('title', 'logs')
 
 @section('content_header')
     <h1>Logs do sistema</h1>

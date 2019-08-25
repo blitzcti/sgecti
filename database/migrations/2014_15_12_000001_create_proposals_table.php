@@ -21,7 +21,7 @@ class CreateProposalsTable extends Migration
 
             $table->date('deadline');
 
-            $table->bigInteger('schedule_id')->nullable(false)->unsigned();
+            $table->bigInteger('schedule_id')->nullable(true)->default(null)->unsigned();
             $table->foreign('schedule_id')->references('id')->on('schedules');
 
             $table->float('remuneration')->default(0);

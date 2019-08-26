@@ -600,20 +600,7 @@
                 increaseArea: '20%' // optional
             });
 
-            jQuery('#inputCompany').on('change', e => {
-                jQuery.ajax({
-                    url: `/api/empresa/${jQuery('#inputCompany').val()}`,
-                    dataType: 'json',
-                    method: 'GET',
-                    success: function (data) {
-                        jQuery('#inputCompanyRepresentative').val(data.representative_name);
-                    },
-                    error: function () {
-
-                    },
-                });
-
-                jQuery('#inputSector').empty();
+            function reloadSelect() {
                 jQuery('#inputSector').select2({
                     language: "pt-BR",
                     ajax: {
@@ -642,7 +629,6 @@
                     }
                 });
 
-                jQuery('#inputSupervisor').empty();
                 jQuery('#inputSupervisor').select2({
                     language: "pt-BR",
                     ajax: {
@@ -670,7 +656,28 @@
                         },
                     }
                 });
+            }
+
+            jQuery('#inputCompany').on('change', e => {
+                jQuery.ajax({
+                    url: `/api/empresa/${jQuery('#inputCompany').val()}`,
+                    dataType: 'json',
+                    method: 'GET',
+                    success: function (data) {
+                        jQuery('#inputCompanyRepresentative').val(data.representative_name);
+                    },
+                    error: function () {
+
+                    },
+                });
+
+                jQuery('#inputSector').empty();
+                jQuery('#inputSupervisor').empty();
+
+                reloadSelect();
             });
+
+            reloadSelect();
         });
     </script>
 @endsection

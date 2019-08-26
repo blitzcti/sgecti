@@ -38,7 +38,7 @@
                                     @foreach($internships as $internship)
 
                                         <option value="{{ $internship->id }}"
-                                                {{ (old('internship') ?? $report->internship->id) == $internship->id ? 'selected=selected' : '' }}>
+                                            {{ (old('internship') ?? $report->internship->id) == $internship->id ? 'selected=selected' : '' }}>
                                             {{ $internship->student->matricula }} - {{ $internship->student->nome }}
                                         </option>
 
@@ -172,7 +172,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_2_a_6" name="grade_2_a"
-                                       value="6" {{ (old('grade_2_a') ?? $report->grade_2_a) == 5 ? 'checked' : '' }}>
+                                       value="6" {{ (old('grade_2_a') ?? $report->grade_2_a) == 6 ? 'checked' : '' }}>
                                 <label for="grade_2_a_6">Excelente</label>
                             </div>
                         </td>
@@ -180,7 +180,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_2_a_5" name="grade_2_a"
-                                       value="5" {{ (old('grade_2_a') ?? $report->grade_2_a) == 4 ? 'checked' : '' }}>
+                                       value="5" {{ (old('grade_2_a') ?? $report->grade_2_a) == 5 ? 'checked' : '' }}>
                                 <label for="grade_2_a_5">Ótimo</label>
                             </div>
                         </td>
@@ -188,7 +188,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_2_a_4" name="grade_2_a"
-                                       value="4" {{ (old('grade_2_a') ?? $report->grade_2_a) == 3 ? 'checked' : '' }}>
+                                       value="4" {{ (old('grade_2_a') ?? $report->grade_2_a) == 4 ? 'checked' : '' }}>
                                 <label for="grade_2_a_4">Bom</label>
                             </div>
                         </td>
@@ -196,7 +196,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_2_a_3" name="grade_2_a"
-                                       value="3" {{ (old('grade_2_a') ?? $report->grade_2_a) == 2 ? 'checked' : '' }}>
+                                       value="3" {{ (old('grade_2_a') ?? $report->grade_2_a) == 3 ? 'checked' : '' }}>
                                 <label for="grade_2_a_3">Médio</label>
                             </div>
                         </td>
@@ -204,7 +204,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_2_a_2" name="grade_2_a"
-                                       value="2" {{ (old('grade_2_a') ?? $report->grade_2_a) == 1 ? 'checked' : '' }}>
+                                       value="2" {{ (old('grade_2_a') ?? $report->grade_2_a) == 2 ? 'checked' : '' }}>
                                 <label for="grade_2_a_2">Regular</label>
                             </div>
                         </td>
@@ -212,7 +212,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_2_a_1" name="grade_2_a"
-                                       value="1" {{ (old('grade_2_a') ?? $report->grade_2_a) == 0 ? 'checked' : '' }}>
+                                       value="1" {{ (old('grade_2_a') ?? $report->grade_2_a) == 1 ? 'checked' : '' }}>
                                 <label for="grade_2_a_1">Fraco</label>
                             </div>
                         </td>
@@ -232,7 +232,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_2_b_6" name="grade_2_b"
-                                       value="6" {{ (old('grade_2_b') ?? $report->grade_2_b) == 5 ? 'checked' : '' }}>
+                                       value="6" {{ (old('grade_2_b') ?? $report->grade_2_b) == 6 ? 'checked' : '' }}>
                                 <label for="grade_2_b_6">Excelente</label>
                             </div>
                         </td>
@@ -240,7 +240,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_2_b_5" name="grade_2_b"
-                                       value="5" {{ (old('grade_2_b') ?? $report->grade_2_b) == 4 ? 'checked' : '' }}>
+                                       value="5" {{ (old('grade_2_b') ?? $report->grade_2_b) == 5 ? 'checked' : '' }}>
                                 <label for="grade_2_b_5">Ótimo</label>
                             </div>
                         </td>
@@ -248,7 +248,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_2_b_4" name="grade_2_b"
-                                       value="4" {{ (old('grade_2_b') ?? $report->grade_2_b) == 3 ? 'checked' : '' }}>
+                                       value="4" {{ (old('grade_2_b') ?? $report->grade_2_b) == 4 ? 'checked' : '' }}>
                                 <label for="grade_2_b_4">Bom</label>
                             </div>
                         </td>
@@ -256,7 +256,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_2_b_3" name="grade_2_b"
-                                       value="3" {{ (old('grade_2_b') ?? $report->grade_2_b) == 2 ? 'checked' : '' }}>
+                                       value="3" {{ (old('grade_2_b') ?? $report->grade_2_b) == 3 ? 'checked' : '' }}>
                                 <label for="grade_2_b_3">Médio</label>
                             </div>
                         </td>
@@ -264,7 +264,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_2_b_2" name="grade_2_b"
-                                       value="2" {{ (old('grade_2_b') ?? $report->grade_2_b) == 1 ? 'checked' : '' }}>
+                                       value="2" {{ (old('grade_2_b') ?? $report->grade_2_b) == 2 ? 'checked' : '' }}>
                                 <label for="grade_2_b_2">Regular</label>
                             </div>
                         </td>
@@ -272,7 +272,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_2_b_1" name="grade_2_b"
-                                       value="1" {{ (old('grade_2_b') ?? $report->grade_2_b) == 0 ? 'checked' : '' }}>
+                                       value="1" {{ (old('grade_2_b') ?? $report->grade_2_b) == 1 ? 'checked' : '' }}>
                                 <label for="grade_2_b_1">Fraco</label>
                             </div>
                         </td>
@@ -294,7 +294,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_2_c_6" name="grade_2_c"
-                                       value="6" {{ (old('grade_2_c') ?? $report->grade_2_c) == 5 ? 'checked' : '' }}>
+                                       value="6" {{ (old('grade_2_c') ?? $report->grade_2_c) == 6 ? 'checked' : '' }}>
                                 <label for="grade_2_c_6">Excelente</label>
                             </div>
                         </td>
@@ -302,7 +302,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_2_c_5" name="grade_2_c"
-                                       value="5" {{ (old('grade_2_c') ?? $report->grade_2_c) == 4 ? 'checked' : '' }}>
+                                       value="5" {{ (old('grade_2_c') ?? $report->grade_2_c) == 5 ? 'checked' : '' }}>
                                 <label for="grade_2_c_5">Ótimo</label>
                             </div>
                         </td>
@@ -310,7 +310,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_2_c_4" name="grade_2_c"
-                                       value="4" {{ (old('grade_2_c') ?? $report->grade_2_c) == 3 ? 'checked' : '' }}>
+                                       value="4" {{ (old('grade_2_c') ?? $report->grade_2_c) == 4 ? 'checked' : '' }}>
                                 <label for="grade_2_c_4">Bom</label>
                             </div>
                         </td>
@@ -318,7 +318,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_2_c_3" name="grade_2_c"
-                                       value="3" {{ (old('grade_2_c') ?? $report->grade_2_c) == 2 ? 'checked' : '' }}>
+                                       value="3" {{ (old('grade_2_c') ?? $report->grade_2_c) == 3 ? 'checked' : '' }}>
                                 <label for="grade_2_c_3">Médio</label>
                             </div>
                         </td>
@@ -326,7 +326,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_2_c_2" name="grade_2_c"
-                                       value="2" {{ (old('grade_2_c') ?? $report->grade_2_c) == 1 ? 'checked' : '' }}>
+                                       value="2" {{ (old('grade_2_c') ?? $report->grade_2_c) == 2 ? 'checked' : '' }}>
                                 <label for="grade_2_c_2">Regular</label>
                             </div>
                         </td>
@@ -334,7 +334,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_2_c_1" name="grade_2_c"
-                                       value="1" {{ (old('grade_2_c') ?? $report->grade_2_c) == 0 ? 'checked' : '' }}>
+                                       value="1" {{ (old('grade_2_c') ?? $report->grade_2_c) == 1 ? 'checked' : '' }}>
                                 <label for="grade_2_c_1">Fraco</label>
                             </div>
                         </td>
@@ -364,7 +364,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_a_6" name="grade_3_a"
-                                       value="6" {{ (old('grade_3_a') ?? $report->grade_3_a) == 5 ? 'checked' : '' }}>
+                                       value="6" {{ (old('grade_3_a') ?? $report->grade_3_a) == 6 ? 'checked' : '' }}>
                                 <label for="grade_3_a_6">Excelente</label>
                             </div>
                         </td>
@@ -372,7 +372,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_a_5" name="grade_3_a"
-                                       value="5" {{ (old('grade_3_a') ?? $report->grade_3_a) == 4 ? 'checked' : '' }}>
+                                       value="5" {{ (old('grade_3_a') ?? $report->grade_3_a) == 5 ? 'checked' : '' }}>
                                 <label for="grade_3_a_5">Ótimo</label>
                             </div>
                         </td>
@@ -380,7 +380,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_a_4" name="grade_3_a"
-                                       value="4" {{ (old('grade_3_a') ?? $report->grade_3_a) == 3 ? 'checked' : '' }}>
+                                       value="4" {{ (old('grade_3_a') ?? $report->grade_3_a) == 4 ? 'checked' : '' }}>
                                 <label for="grade_3_a_4">Bom</label>
                             </div>
                         </td>
@@ -388,7 +388,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_a_3" name="grade_3_a"
-                                       value="3" {{ (old('grade_3_a') ?? $report->grade_3_a) == 2 ? 'checked' : '' }}>
+                                       value="3" {{ (old('grade_3_a') ?? $report->grade_3_a) == 3 ? 'checked' : '' }}>
                                 <label for="grade_3_a_3">Médio</label>
                             </div>
                         </td>
@@ -396,7 +396,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_a_2" name="grade_3_a"
-                                       value="2" {{ (old('grade_3_a') ?? $report->grade_3_a) == 1 ? 'checked' : '' }}>
+                                       value="2" {{ (old('grade_3_a') ?? $report->grade_3_a) == 2 ? 'checked' : '' }}>
                                 <label for="grade_3_a_2">Regular</label>
                             </div>
                         </td>
@@ -404,7 +404,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_a_1" name="grade_3_a"
-                                       value="1" {{ (old('grade_3_a') ?? $report->grade_3_a) == 0 ? 'checked' : '' }}>
+                                       value="1" {{ (old('grade_3_a') ?? $report->grade_3_a) == 1 ? 'checked' : '' }}>
                                 <label for="grade_3_a_1">Fraco</label>
                             </div>
                         </td>
@@ -427,7 +427,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_b_6" name="grade_3_b"
-                                       value="6" {{ (old('grade_3_b') ?? $report->grade_3_b) == 5 ? 'checked' : '' }}>
+                                       value="6" {{ (old('grade_3_b') ?? $report->grade_3_b) == 6 ? 'checked' : '' }}>
                                 <label for="grade_3_b_6">Excelente</label>
                             </div>
                         </td>
@@ -435,7 +435,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_b_5" name="grade_3_b"
-                                       value="5" {{ (old('grade_3_b') ?? $report->grade_3_b) == 4 ? 'checked' : '' }}>
+                                       value="5" {{ (old('grade_3_b') ?? $report->grade_3_b) == 5 ? 'checked' : '' }}>
                                 <label for="grade_3_b_5">Ótimo</label>
                             </div>
                         </td>
@@ -443,7 +443,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_b_4" name="grade_3_b"
-                                       value="4" {{ (old('grade_3_b') ?? $report->grade_3_b) == 3 ? 'checked' : '' }}>
+                                       value="4" {{ (old('grade_3_b') ?? $report->grade_3_b) == 4 ? 'checked' : '' }}>
                                 <label for="grade_3_b_4">Bom</label>
                             </div>
                         </td>
@@ -451,7 +451,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_b_3" name="grade_3_b"
-                                       value="3" {{ (old('grade_3_b') ?? $report->grade_3_b) == 2 ? 'checked' : '' }}>
+                                       value="3" {{ (old('grade_3_b') ?? $report->grade_3_b) == 3 ? 'checked' : '' }}>
                                 <label for="grade_3_b_3">Médio</label>
                             </div>
                         </td>
@@ -459,7 +459,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_b_2" name="grade_3_b"
-                                       value="2" {{ (old('grade_3_b') ?? $report->grade_3_b) == 1 ? 'checked' : '' }}>
+                                       value="2" {{ (old('grade_3_b') ?? $report->grade_3_b) == 2 ? 'checked' : '' }}>
                                 <label for="grade_3_b_2">Regular</label>
                             </div>
                         </td>
@@ -467,7 +467,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_b_1" name="grade_3_b"
-                                       value="1" {{ (old('grade_3_b') ?? $report->grade_3_b) == 0 ? 'checked' : '' }}>
+                                       value="1" {{ (old('grade_3_b') ?? $report->grade_3_b) == 1 ? 'checked' : '' }}>
                                 <label for="grade_3_b_1">Fraco</label>
                             </div>
                         </td>
@@ -490,7 +490,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_c_6" name="grade_3_c"
-                                       value="6" {{ (old('grade_3_c') ?? $report->grade_3_c) == 5 ? 'checked' : '' }}>
+                                       value="6" {{ (old('grade_3_c') ?? $report->grade_3_c) == 6 ? 'checked' : '' }}>
                                 <label for="grade_3_c_6">Excelente</label>
                             </div>
                         </td>
@@ -498,7 +498,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_c_5" name="grade_3_c"
-                                       value="5" {{ (old('grade_3_c') ?? $report->grade_3_c) == 4 ? 'checked' : '' }}>
+                                       value="5" {{ (old('grade_3_c') ?? $report->grade_3_c) == 5 ? 'checked' : '' }}>
                                 <label for="grade_3_c_5">Ótimo</label>
                             </div>
                         </td>
@@ -506,7 +506,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_c_4" name="grade_3_c"
-                                       value="4" {{ (old('grade_3_c') ?? $report->grade_3_c) == 3 ? 'checked' : '' }}>
+                                       value="4" {{ (old('grade_3_c') ?? $report->grade_3_c) == 4 ? 'checked' : '' }}>
                                 <label for="grade_3_c_4">Bom</label>
                             </div>
                         </td>
@@ -514,7 +514,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_c_3" name="grade_3_c"
-                                       value="3" {{ (old('grade_3_c') ?? $report->grade_3_c) == 2 ? 'checked' : '' }}>
+                                       value="3" {{ (old('grade_3_c') ?? $report->grade_3_c) == 3 ? 'checked' : '' }}>
                                 <label for="grade_3_c_3">Médio</label>
                             </div>
                         </td>
@@ -522,7 +522,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_c_2" name="grade_3_c"
-                                       value="2" {{ (old('grade_3_c') ?? $report->grade_3_c) == 1 ? 'checked' : '' }}>
+                                       value="2" {{ (old('grade_3_c') ?? $report->grade_3_c) == 2 ? 'checked' : '' }}>
                                 <label for="grade_3_c_2">Regular</label>
                             </div>
                         </td>
@@ -530,7 +530,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_c_1" name="grade_3_c"
-                                       value="1" {{ (old('grade_3_c') ?? $report->grade_3_c) == 0 ? 'checked' : '' }}>
+                                       value="1" {{ (old('grade_3_c') ?? $report->grade_3_c) == 1 ? 'checked' : '' }}>
                                 <label for="grade_3_c_1">Fraco</label>
                             </div>
                         </td>
@@ -553,7 +553,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_d_6" name="grade_3_d"
-                                       value="6" {{ (old('grade_3_d') ?? $report->grade_3_d) == 5 ? 'checked' : '' }}>
+                                       value="6" {{ (old('grade_3_d') ?? $report->grade_3_d) == 6 ? 'checked' : '' }}>
                                 <label for="grade_3_d_6">Excelente</label>
                             </div>
                         </td>
@@ -561,7 +561,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_d_5" name="grade_3_d"
-                                       value="5" {{ (old('grade_3_d') ?? $report->grade_3_d) == 4 ? 'checked' : '' }}>
+                                       value="5" {{ (old('grade_3_d') ?? $report->grade_3_d) == 5 ? 'checked' : '' }}>
                                 <label for="grade_3_d_5">Ótimo</label>
                             </div>
                         </td>
@@ -569,7 +569,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_d_4" name="grade_3_d"
-                                       value="4" {{ (old('grade_3_d') ?? $report->grade_3_d) == 3 ? 'checked' : '' }}>
+                                       value="4" {{ (old('grade_3_d') ?? $report->grade_3_d) == 4 ? 'checked' : '' }}>
                                 <label for="grade_3_d_4">Bom</label>
                             </div>
                         </td>
@@ -577,7 +577,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_d_3" name="grade_3_d"
-                                       value="3" {{ (old('grade_3_d') ?? $report->grade_3_d) == 2 ? 'checked' : '' }}>
+                                       value="3" {{ (old('grade_3_d') ?? $report->grade_3_d) == 3 ? 'checked' : '' }}>
                                 <label for="grade_3_d_3">Médio</label>
                             </div>
                         </td>
@@ -585,7 +585,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_d_2" name="grade_3_d"
-                                       value="2" {{ (old('grade_3_d') ?? $report->grade_3_d) == 1 ? 'checked' : '' }}>
+                                       value="2" {{ (old('grade_3_d') ?? $report->grade_3_d) == 2 ? 'checked' : '' }}>
                                 <label for="grade_3_d_2">Regular</label>
                             </div>
                         </td>
@@ -593,7 +593,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_3_d_1" name="grade_3_d"
-                                       value="1" {{ (old('grade_3_d') ?? $report->grade_3_d) == 0 ? 'checked' : '' }}>
+                                       value="1" {{ (old('grade_3_d') ?? $report->grade_3_d) == 1 ? 'checked' : '' }}>
                                 <label for="grade_3_d_1">Fraco</label>
                             </div>
                         </td>
@@ -624,7 +624,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_4_a_6" name="grade_4_a"
-                                       value="6" {{ (old('grade_4_a') ?? $report->grade_4_a) == 5 ? 'checked' : '' }}>
+                                       value="6" {{ (old('grade_4_a') ?? $report->grade_4_a) == 6 ? 'checked' : '' }}>
                                 <label for="grade_4_a_6">Excelente</label>
                             </div>
                         </td>
@@ -632,7 +632,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_4_a_5" name="grade_4_a"
-                                       value="5" {{ (old('grade_4_a') ?? $report->grade_4_a) == 4 ? 'checked' : '' }}>
+                                       value="5" {{ (old('grade_4_a') ?? $report->grade_4_a) == 5 ? 'checked' : '' }}>
                                 <label for="grade_4_a_5">Ótimo</label>
                             </div>
                         </td>
@@ -640,7 +640,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_4_a_4" name="grade_4_a"
-                                       value="4" {{ (old('grade_4_a') ?? $report->grade_4_a) == 3 ? 'checked' : '' }}>
+                                       value="4" {{ (old('grade_4_a') ?? $report->grade_4_a) == 4 ? 'checked' : '' }}>
                                 <label for="grade_4_a_4">Bom</label>
                             </div>
                         </td>
@@ -648,7 +648,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_4_a_3" name="grade_4_a"
-                                       value="3" {{ (old('grade_4_a') ?? $report->grade_4_a) == 2 ? 'checked' : '' }}>
+                                       value="3" {{ (old('grade_4_a') ?? $report->grade_4_a) == 3 ? 'checked' : '' }}>
                                 <label for="grade_4_a_3">Médio</label>
                             </div>
                         </td>
@@ -656,7 +656,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_4_a_2" name="grade_4_a"
-                                       value="2" {{ (old('grade_4_a') ?? $report->grade_4_a) == 1 ? 'checked' : '' }}>
+                                       value="2" {{ (old('grade_4_a') ?? $report->grade_4_a) == 2 ? 'checked' : '' }}>
                                 <label for="grade_4_a_2">Regular</label>
                             </div>
                         </td>
@@ -664,7 +664,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_4_a_1" name="grade_4_a"
-                                       value="1" {{ (old('grade_4_a') ?? $report->grade_4_a) == 0 ? 'checked' : '' }}>
+                                       value="1" {{ (old('grade_4_a') ?? $report->grade_4_a) == 1 ? 'checked' : '' }}>
                                 <label for="grade_4_a_1">Fraco</label>
                             </div>
                         </td>
@@ -687,7 +687,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_4_b_6" name="grade_4_b"
-                                       value="6" {{ (old('grade_4_b') ?? $report->grade_4_b) == 5 ? 'checked' : '' }}>
+                                       value="6" {{ (old('grade_4_b') ?? $report->grade_4_b) == 6 ? 'checked' : '' }}>
                                 <label for="grade_4_b_6">Excelente</label>
                             </div>
                         </td>
@@ -695,7 +695,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_4_b_5" name="grade_4_b"
-                                       value="5" {{ (old('grade_4_b') ?? $report->grade_4_b) == 4 ? 'checked' : '' }}>
+                                       value="5" {{ (old('grade_4_b') ?? $report->grade_4_b) == 5 ? 'checked' : '' }}>
                                 <label for="grade_4_b_5">Ótimo</label>
                             </div>
                         </td>
@@ -703,7 +703,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_4_b_4" name="grade_4_b"
-                                       value="4" {{ (old('grade_4_b') ?? $report->grade_4_b) == 3 ? 'checked' : '' }}>
+                                       value="4" {{ (old('grade_4_b') ?? $report->grade_4_b) == 4 ? 'checked' : '' }}>
                                 <label for="grade_4_b_4">Bom</label>
                             </div>
                         </td>
@@ -711,7 +711,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_4_b_3" name="grade_4_b"
-                                       value="3" {{ (old('grade_4_b') ?? $report->grade_4_b) == 2 ? 'checked' : '' }}>
+                                       value="3" {{ (old('grade_4_b') ?? $report->grade_4_b) == 3 ? 'checked' : '' }}>
                                 <label for="grade_4_b_3">Médio</label>
                             </div>
                         </td>
@@ -719,7 +719,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_4_b_2" name="grade_4_b"
-                                       value="2" {{ (old('grade_4_b') ?? $report->grade_4_b) == 1 ? 'checked' : '' }}>
+                                       value="2" {{ (old('grade_4_b') ?? $report->grade_4_b) == 2 ? 'checked' : '' }}>
                                 <label for="grade_4_b_2">Regular</label>
                             </div>
                         </td>
@@ -727,7 +727,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_4_b_1" name="grade_4_b"
-                                       value="1" {{ (old('grade_4_b') ?? $report->grade_4_b) == 0 ? 'checked' : '' }}>
+                                       value="1" {{ (old('grade_4_b') ?? $report->grade_4_b) == 1 ? 'checked' : '' }}>
                                 <label for="grade_4_b_1">Fraco</label>
                             </div>
                         </td>
@@ -758,7 +758,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_5_a_6" name="grade_5_a"
-                                       value="6" {{ (old('grade_5_a') ?? $report->grade_5_a) == 5 ? 'checked' : '' }}>
+                                       value="6" {{ (old('grade_5_a') ?? $report->grade_5_a) == 6 ? 'checked' : '' }}>
                                 <label for="grade_5_a_6">Excelente</label>
                             </div>
                         </td>
@@ -766,7 +766,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_5_a_5" name="grade_5_a"
-                                       value="5" {{ (old('grade_5_a') ?? $report->grade_5_a) == 4 ? 'checked' : '' }}>
+                                       value="5" {{ (old('grade_5_a') ?? $report->grade_5_a) == 5 ? 'checked' : '' }}>
                                 <label for="grade_5_a_5">Ótimo</label>
                             </div>
                         </td>
@@ -774,7 +774,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_5_a_4" name="grade_5_a"
-                                       value="4" {{ (old('grade_5_a') ?? $report->grade_5_a) == 3 ? 'checked' : '' }}>
+                                       value="4" {{ (old('grade_5_a') ?? $report->grade_5_a) == 4 ? 'checked' : '' }}>
                                 <label for="grade_5_a_4">Bom</label>
                             </div>
                         </td>
@@ -782,7 +782,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_5_a_3" name="grade_5_a"
-                                       value="3" {{ (old('grade_5_a') ?? $report->grade_5_a) == 2 ? 'checked' : '' }}>
+                                       value="3" {{ (old('grade_5_a') ?? $report->grade_5_a) == 3 ? 'checked' : '' }}>
                                 <label for="grade_5_a_3">Médio</label>
                             </div>
                         </td>
@@ -790,7 +790,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_5_a_2" name="grade_5_a"
-                                       value="2" {{ (old('grade_5_a') ?? $report->grade_5_a) == 1 ? 'checked' : '' }}>
+                                       value="2" {{ (old('grade_5_a') ?? $report->grade_5_a) == 2 ? 'checked' : '' }}>
                                 <label for="grade_5_a_2">Regular</label>
                             </div>
                         </td>
@@ -798,7 +798,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_5_a_1" name="grade_5_a"
-                                       value="1" {{ (old('grade_5_a') ?? $report->grade_5_a) == 0 ? 'checked' : '' }}>
+                                       value="1" {{ (old('grade_5_a') ?? $report->grade_5_a) == 1 ? 'checked' : '' }}>
                                 <label for="grade_5_a_1">Fraco</label>
                             </div>
                         </td>
@@ -820,7 +820,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_5_b_6" name="grade_5_b"
-                                       value="6" {{ (old('grade_5_b') ?? $report->grade_5_b) == 5 ? 'checked' : '' }}>
+                                       value="6" {{ (old('grade_5_b') ?? $report->grade_5_b) == 6 ? 'checked' : '' }}>
                                 <label for="grade_5_b_6">Excelente</label>
                             </div>
                         </td>
@@ -828,7 +828,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_5_b_5" name="grade_5_b"
-                                       value="5" {{ (old('grade_5_b') ?? $report->grade_5_b) == 4 ? 'checked' : '' }}>
+                                       value="5" {{ (old('grade_5_b') ?? $report->grade_5_b) == 5 ? 'checked' : '' }}>
                                 <label for="grade_5_b_5">Ótimo</label>
                             </div>
                         </td>
@@ -836,7 +836,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_5_b_4" name="grade_5_b"
-                                       value="4" {{ (old('grade_5_b') ?? $report->grade_5_b) == 3 ? 'checked' : '' }}>
+                                       value="4" {{ (old('grade_5_b') ?? $report->grade_5_b) == 4 ? 'checked' : '' }}>
                                 <label for="grade_5_b_4">Bom</label>
                             </div>
                         </td>
@@ -844,7 +844,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_5_b_3" name="grade_5_b"
-                                       value="3" {{ (old('grade_5_b') ?? $report->grade_5_b) == 2 ? 'checked' : '' }}>
+                                       value="3" {{ (old('grade_5_b') ?? $report->grade_5_b) == 3 ? 'checked' : '' }}>
                                 <label for="grade_5_b_3">Médio</label>
                             </div>
                         </td>
@@ -852,7 +852,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_5_b_2" name="grade_5_b"
-                                       value="2" {{ (old('grade_5_b') ?? $report->grade_5_b) == 1 ? 'checked' : '' }}>
+                                       value="2" {{ (old('grade_5_b') ?? $report->grade_5_b) == 2 ? 'checked' : '' }}>
                                 <label for="grade_5_b_2">Regular</label>
                             </div>
                         </td>
@@ -860,7 +860,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_5_b_1" name="grade_5_b"
-                                       value="1" {{ (old('grade_5_b') ?? $report->grade_5_b) == 0 ? 'checked' : '' }}>
+                                       value="1" {{ (old('grade_5_b') ?? $report->grade_5_b) == 1 ? 'checked' : '' }}>
                                 <label for="grade_5_b_1">Fraco</label>
                             </div>
                         </td>
@@ -883,7 +883,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_5_c_6" name="grade_5_c"
-                                       value="6" {{ (old('grade_5_c') ?? $report->grade_5_c) == 5 ? 'checked' : '' }}>
+                                       value="6" {{ (old('grade_5_c') ?? $report->grade_5_c) == 6 ? 'checked' : '' }}>
                                 <label for="grade_5_c_6">Excelente</label>
                             </div>
                         </td>
@@ -891,7 +891,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_5_c_5" name="grade_5_c"
-                                       value="5" {{ (old('grade_5_c') ?? $report->grade_5_c) == 4 ? 'checked' : '' }}>
+                                       value="5" {{ (old('grade_5_c') ?? $report->grade_5_c) == 5 ? 'checked' : '' }}>
                                 <label for="grade_5_c_5">Ótimo</label>
                             </div>
                         </td>
@@ -899,7 +899,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_5_c_4" name="grade_5_c"
-                                       value="4" {{ (old('grade_5_c') ?? $report->grade_5_c) == 3 ? 'checked' : '' }}>
+                                       value="4" {{ (old('grade_5_c') ?? $report->grade_5_c) == 4 ? 'checked' : '' }}>
                                 <label for="grade_5_c_4">Bom</label>
                             </div>
                         </td>
@@ -907,7 +907,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_5_c_3" name="grade_5_c"
-                                       value="3" {{ (old('grade_5_c') ?? $report->grade_5_c) == 2 ? 'checked' : '' }}>
+                                       value="3" {{ (old('grade_5_c') ?? $report->grade_5_c) == 3 ? 'checked' : '' }}>
                                 <label for="grade_5_c_3">Médio</label>
                             </div>
                         </td>
@@ -915,7 +915,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_5_c_2" name="grade_5_c"
-                                       value="2" {{ (old('grade_5_c') ?? $report->grade_5_c) == 1 ? 'checked' : '' }}>
+                                       value="2" {{ (old('grade_5_c') ?? $report->grade_5_c) == 2 ? 'checked' : '' }}>
                                 <label for="grade_5_c_2">Regular</label>
                             </div>
                         </td>
@@ -923,7 +923,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="radio" class="radio" id="grade_5_c_1" name="grade_5_c"
-                                       value="1" {{ (old('grade_5_c') ?? $report->grade_5_c) == 0 ? 'checked' : '' }}>
+                                       value="1" {{ (old('grade_5_c') ?? $report->grade_5_c) == 1 ? 'checked' : '' }}>
                                 <label for="grade_5_c_1">Fraco</label>
                             </div>
                         </td>

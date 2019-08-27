@@ -171,6 +171,198 @@
                     <tr>
                         <td>
                             <div class="form-group">
+                                <input type="radio" class="radio" id="grade_1_a_6" name="grade_1_a"
+                                       value="6" {{ (old('grade_1_a') ?? $report->grade_1_a) == 6 ? 'checked' : '' }}>
+                                <label for="grade_1_a_6">Excelente</label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_1_a_5" name="grade_1_a"
+                                       value="5" {{ (old('grade_1_a') ?? $report->grade_1_a) == 5 ? 'checked' : '' }}>
+                                <label for="grade_1_a_5">Ótimo</label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_1_a_4" name="grade_1_a"
+                                       value="4" {{ (old('grade_1_a') ?? $report->grade_1_a) == 4 ? 'checked' : '' }}>
+                                <label for="grade_1_a_4">Bom</label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_1_a_3" name="grade_1_a"
+                                       value="3" {{ (old('grade_1_a') ?? $report->grade_1_a) == 3 ? 'checked' : '' }}>
+                                <label for="grade_1_a_3">Médio</label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_1_a_2" name="grade_1_a"
+                                       value="2" {{ (old('grade_1_a') ?? $report->grade_1_a) == 2 ? 'checked' : '' }}>
+                                <label for="grade_1_a_2">Regular</label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_1_a_1" name="grade_1_a"
+                                       value="1" {{ (old('grade_1_a') ?? $report->grade_1_a) == 1 ? 'checked' : '' }}>
+                                <label for="grade_1_a_1">Fraco</label>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <table class="table table-bordered table-striped notas">
+                    <thead>
+                    <tr>
+                        <th colspan="6">B. ATIVIDADE E RAPIDEZ: rapidez, facilidade na execução das tarefas</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_1_b_6" name="grade_1_b"
+                                       value="6" {{ (old('grade_1_b') ?? $report->grade_1_b) == 6 ? 'checked' : '' }}>
+                                <label for="grade_1_b_6">Excelente</label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_1_b_5" name="grade_1_b"
+                                       value="5" {{ (old('grade_1_b') ?? $report->grade_1_b) == 5 ? 'checked' : '' }}>
+                                <label for="grade_1_b_5">Ótimo</label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_1_b_4" name="grade_1_b"
+                                       value="4" {{ (old('grade_1_b') ?? $report->grade_1_b) == 4 ? 'checked' : '' }}>
+                                <label for="grade_1_b_4">Bom</label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_1_b_3" name="grade_1_b"
+                                       value="3" {{ (old('grade_1_b') ?? $report->grade_1_b) == 3 ? 'checked' : '' }}>
+                                <label for="grade_1_b_3">Médio</label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_1_b_2" name="grade_1_b"
+                                       value="2" {{ (old('grade_1_b') ?? $report->grade_1_b) == 2 ? 'checked' : '' }}>
+                                <label for="grade_1_b_2">Regular</label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_1_b_1" name="grade_1_b"
+                                       value="1" {{ (old('grade_1_b') ?? $report->grade_1_b) == 1 ? 'checked' : '' }}>
+                                <label for="grade_1_b_1">Fraco</label>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <table class="table table-bordered table-striped notas">
+                    <thead>
+                    <tr>
+                        <th colspan="6">C. ORGANIZAÇÃO E MÉTODO: uso de meios racionais para melhor desempenho das
+                            tarefas
+                        </th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_1_c_6" name="grade_1_c"
+                                       value="6" {{ (old('grade_1_c') ?? $report->grade_1_c) == 6 ? 'checked' : '' }}>
+                                <label for="grade_1_c_6">Excelente</label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_1_c_5" name="grade_1_c"
+                                       value="5" {{ (old('grade_1_c') ?? $report->grade_1_c) == 5 ? 'checked' : '' }}>
+                                <label for="grade_1_c_5">Ótimo</label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_1_c_4" name="grade_1_c"
+                                       value="4" {{ (old('grade_1_c') ?? $report->grade_1_c) == 4 ? 'checked' : '' }}>
+                                <label for="grade_1_c_4">Bom</label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_1_c_3" name="grade_1_c"
+                                       value="3" {{ (old('grade_1_c') ?? $report->grade_1_c) == 3 ? 'checked' : '' }}>
+                                <label for="grade_1_c_3">Médio</label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_1_c_2" name="grade_1_c"
+                                       value="2" {{ (old('grade_1_c') ?? $report->grade_1_c) == 2 ? 'checked' : '' }}>
+                                <label for="grade_1_c_2">Regular</label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_1_c_1" name="grade_1_c"
+                                       value="1" {{ (old('grade_1_c') ?? $report->grade_1_c) == 1 ? 'checked' : '' }}>
+                                <label for="grade_1_c_1">Fraco</label>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">II - Formação Educacional</h3>
+            </div>
+
+            <div class="box-body">
+                <table class="table table-bordered table-striped notas">
+                    <thead>
+                    <tr>
+                        <th colspan="6">A. COMPORTAMENTO: facilidade em aceitar e seguir as instruções dos superiores e
+                            normas da Empresa
+                        </th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td>
+                            <div class="form-group">
                                 <input type="radio" class="radio" id="grade_2_a_6" name="grade_2_a"
                                        value="6" {{ (old('grade_2_a') ?? $report->grade_2_a) == 6 ? 'checked' : '' }}>
                                 <label for="grade_2_a_6">Excelente</label>
@@ -223,7 +415,10 @@
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
-                        <th colspan="6">B. ATIVIDADE E RAPIDEZ: rapidez, facilidade na execução das tarefas</th>
+                        <th colspan="6">B. ASSIDUIDADE E PONTUALIDADE: constância e pontualidade no cumprimento dos
+                            horários, dias de
+                            trabalho tarefas a serem executadas
+                        </th>
                     </tr>
                     </thead>
 
@@ -283,8 +478,9 @@
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
-                        <th colspan="6">C. ORGANIZAÇÃO E MÉTODO: uso de meios racionais para melhor desempenho das
-                            tarefas
+                        <th colspan="6">C. RELAÇÕES COM OS SUPERIORES: facilidade em aceitar as instruções superiores;
+                            facilidade com que age
+                            frente a pessoas e situações
                         </th>
                     </tr>
                     </thead>
@@ -341,20 +537,84 @@
                     </tr>
                     </tbody>
                 </table>
+
+                <table class="table table-bordered table-striped notas">
+                    <thead>
+                    <tr>
+                        <th colspan="6">D. RELAÇÕES COM OS COLEGAS: espontaneidade nas relações, cooperação com os
+                            colegas no sentido de
+                            alcançarem o mesmo objetivo, influência positiva no grupo
+                        </th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_2_d_6" name="grade_2_d"
+                                       value="6" {{ (old('grade_2_d') ?? $report->grade_2_d) == 6 ? 'checked' : '' }}>
+                                <label for="grade_2_d_6">Excelente</label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_2_d_5" name="grade_2_d"
+                                       value="5" {{ (old('grade_2_d') ?? $report->grade_2_d) == 5 ? 'checked' : '' }}>
+                                <label for="grade_2_d_5">Ótimo</label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_2_d_4" name="grade_2_d"
+                                       value="4" {{ (old('grade_2_d') ?? $report->grade_2_d) == 4 ? 'checked' : '' }}>
+                                <label for="grade_2_d_4">Bom</label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_2_d_3" name="grade_2_d"
+                                       value="3" {{ (old('grade_2_d') ?? $report->grade_2_d) == 3 ? 'checked' : '' }}>
+                                <label for="grade_2_d_3">Médio</label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_2_d_2" name="grade_2_d"
+                                       value="2" {{ (old('grade_2_d') ?? $report->grade_2_d) == 2 ? 'checked' : '' }}>
+                                <label for="grade_2_d_2">Regular</label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="radio" id="grade_2_d_1" name="grade_2_d"
+                                       value="1" {{ (old('grade_2_d') ?? $report->grade_2_d) == 1 ? 'checked' : '' }}>
+                                <label for="grade_2_d_1">Fraco</label>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
         <div class="box box-default">
             <div class="box-header with-border">
-                <h3 class="box-title">II - Formação Educacional</h3>
+                <h3 class="box-title">III - Formação Profissional</h3>
             </div>
 
             <div class="box-body">
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
-                        <th colspan="6">A. COMPORTAMENTO: facilidade em aceitar e seguir as instruções dos superiores e
-                            normas da Empresa
+                        <th colspan="6">A. DEDICAÇÃO E CONSCIÊNCIA PROFISSIONAL: capacidade para cuidar e responder
+                            pelas atribuições,
+                            materiais, equipamentos e bens da Empresa que lhe foram confiados durante o Estágio
                         </th>
                     </tr>
                     </thead>
@@ -415,9 +675,9 @@
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
-                        <th colspan="6">B. ASSIDUIDADE E PONTUALIDADE: constância e pontualidade no cumprimento dos
-                            horários, dias de
-                            trabalho tarefas a serem executadas
+                        <th colspan="6">B. INICIATIVA/INDEPENDÊNCIA: capacidade de procurar novas soluções, sem prévia
+                            orientação, adequadas
+                            aos padrões da Empresa
                         </th>
                     </tr>
                     </thead>
@@ -474,147 +734,21 @@
                     </tr>
                     </tbody>
                 </table>
-
-                <table class="table table-bordered table-striped notas">
-                    <thead>
-                    <tr>
-                        <th colspan="6">C. RELAÇÕES COM OS SUPERIORES: facilidade em aceitar as instruções superiores;
-                            facilidade com que age
-                            frente a pessoas e situações
-                        </th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <tr>
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_3_c_6" name="grade_3_c"
-                                       value="6" {{ (old('grade_3_c') ?? $report->grade_3_c) == 6 ? 'checked' : '' }}>
-                                <label for="grade_3_c_6">Excelente</label>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_3_c_5" name="grade_3_c"
-                                       value="5" {{ (old('grade_3_c') ?? $report->grade_3_c) == 5 ? 'checked' : '' }}>
-                                <label for="grade_3_c_5">Ótimo</label>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_3_c_4" name="grade_3_c"
-                                       value="4" {{ (old('grade_3_c') ?? $report->grade_3_c) == 4 ? 'checked' : '' }}>
-                                <label for="grade_3_c_4">Bom</label>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_3_c_3" name="grade_3_c"
-                                       value="3" {{ (old('grade_3_c') ?? $report->grade_3_c) == 3 ? 'checked' : '' }}>
-                                <label for="grade_3_c_3">Médio</label>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_3_c_2" name="grade_3_c"
-                                       value="2" {{ (old('grade_3_c') ?? $report->grade_3_c) == 2 ? 'checked' : '' }}>
-                                <label for="grade_3_c_2">Regular</label>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_3_c_1" name="grade_3_c"
-                                       value="1" {{ (old('grade_3_c') ?? $report->grade_3_c) == 1 ? 'checked' : '' }}>
-                                <label for="grade_3_c_1">Fraco</label>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <table class="table table-bordered table-striped notas">
-                    <thead>
-                    <tr>
-                        <th colspan="6">D. RELAÇÕES COM OS COLEGAS: espontaneidade nas relações, cooperação com os
-                            colegas no sentido de
-                            alcançarem o mesmo objetivo, influência positiva no grupo
-                        </th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <tr>
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_3_d_6" name="grade_3_d"
-                                       value="6" {{ (old('grade_3_d') ?? $report->grade_3_d) == 6 ? 'checked' : '' }}>
-                                <label for="grade_3_d_6">Excelente</label>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_3_d_5" name="grade_3_d"
-                                       value="5" {{ (old('grade_3_d') ?? $report->grade_3_d) == 5 ? 'checked' : '' }}>
-                                <label for="grade_3_d_5">Ótimo</label>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_3_d_4" name="grade_3_d"
-                                       value="4" {{ (old('grade_3_d') ?? $report->grade_3_d) == 4 ? 'checked' : '' }}>
-                                <label for="grade_3_d_4">Bom</label>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_3_d_3" name="grade_3_d"
-                                       value="3" {{ (old('grade_3_d') ?? $report->grade_3_d) == 3 ? 'checked' : '' }}>
-                                <label for="grade_3_d_3">Médio</label>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_3_d_2" name="grade_3_d"
-                                       value="2" {{ (old('grade_3_d') ?? $report->grade_3_d) == 2 ? 'checked' : '' }}>
-                                <label for="grade_3_d_2">Regular</label>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_3_d_1" name="grade_3_d"
-                                       value="1" {{ (old('grade_3_d') ?? $report->grade_3_d) == 1 ? 'checked' : '' }}>
-                                <label for="grade_3_d_1">Fraco</label>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
 
         <div class="box box-default">
             <div class="box-header with-border">
-                <h3 class="box-title">III - Formação Profissional</h3>
+                <h3 class="box-title">IV - Formação Completa</h3>
             </div>
 
             <div class="box-body">
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
-                        <th colspan="6">A. DEDICAÇÃO E CONSCIÊNCIA PROFISSIONAL: capacidade para cuidar e responder
-                            pelas atribuições,
-                            materiais, equipamentos e bens da Empresa que lhe foram confiados durante o Estágio
+                        <th colspan="6">A. INTELIGÊNCIA E COMPREENSÃO: facilidade em compreender, interpretar e colocar
+                            em prática instruções
+                            novas e informações verbais e/ou críticas
                         </th>
                     </tr>
                     </thead>
@@ -675,9 +809,8 @@
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
-                        <th colspan="6">B. INICIATIVA/INDEPENDÊNCIA: capacidade de procurar novas soluções, sem prévia
-                            orientação, adequadas
-                            aos padrões da Empresa
+                        <th colspan="6">B. CONHECIMENTOS GERAIS: demonstrado no cumprimento de instruções não
+                            específicas da área de atuação
                         </th>
                     </tr>
                     </thead>
@@ -734,139 +867,6 @@
                     </tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
-
-        <div class="box box-default">
-            <div class="box-header with-border">
-                <h3 class="box-title">IV - Formação Completa</h3>
-            </div>
-
-            <div class="box-body">
-                <table class="table table-bordered table-striped notas">
-                    <thead>
-                    <tr>
-                        <th colspan="6">A. INTELIGÊNCIA E COMPREENSÃO: facilidade em compreender, interpretar e colocar
-                            em prática instruções
-                            novas e informações verbais e/ou críticas
-                        </th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <tr>
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_5_a_6" name="grade_5_a"
-                                       value="6" {{ (old('grade_5_a') ?? $report->grade_5_a) == 6 ? 'checked' : '' }}>
-                                <label for="grade_5_a_6">Excelente</label>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_5_a_5" name="grade_5_a"
-                                       value="5" {{ (old('grade_5_a') ?? $report->grade_5_a) == 5 ? 'checked' : '' }}>
-                                <label for="grade_5_a_5">Ótimo</label>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_5_a_4" name="grade_5_a"
-                                       value="4" {{ (old('grade_5_a') ?? $report->grade_5_a) == 4 ? 'checked' : '' }}>
-                                <label for="grade_5_a_4">Bom</label>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_5_a_3" name="grade_5_a"
-                                       value="3" {{ (old('grade_5_a') ?? $report->grade_5_a) == 3 ? 'checked' : '' }}>
-                                <label for="grade_5_a_3">Médio</label>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_5_a_2" name="grade_5_a"
-                                       value="2" {{ (old('grade_5_a') ?? $report->grade_5_a) == 2 ? 'checked' : '' }}>
-                                <label for="grade_5_a_2">Regular</label>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_5_a_1" name="grade_5_a"
-                                       value="1" {{ (old('grade_5_a') ?? $report->grade_5_a) == 1 ? 'checked' : '' }}>
-                                <label for="grade_5_a_1">Fraco</label>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <table class="table table-bordered table-striped notas">
-                    <thead>
-                    <tr>
-                        <th colspan="6">B. CONHECIMENTOS GERAIS: demonstrado no cumprimento de instruções não
-                            específicas da área de atuação
-                        </th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <tr>
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_5_b_6" name="grade_5_b"
-                                       value="6" {{ (old('grade_5_b') ?? $report->grade_5_b) == 6 ? 'checked' : '' }}>
-                                <label for="grade_5_b_6">Excelente</label>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_5_b_5" name="grade_5_b"
-                                       value="5" {{ (old('grade_5_b') ?? $report->grade_5_b) == 5 ? 'checked' : '' }}>
-                                <label for="grade_5_b_5">Ótimo</label>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_5_b_4" name="grade_5_b"
-                                       value="4" {{ (old('grade_5_b') ?? $report->grade_5_b) == 4 ? 'checked' : '' }}>
-                                <label for="grade_5_b_4">Bom</label>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_5_b_3" name="grade_5_b"
-                                       value="3" {{ (old('grade_5_b') ?? $report->grade_5_b) == 3 ? 'checked' : '' }}>
-                                <label for="grade_5_b_3">Médio</label>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_5_b_2" name="grade_5_b"
-                                       value="2" {{ (old('grade_5_b') ?? $report->grade_5_b) == 2 ? 'checked' : '' }}>
-                                <label for="grade_5_b_2">Regular</label>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" class="radio" id="grade_5_b_1" name="grade_5_b"
-                                       value="1" {{ (old('grade_5_b') ?? $report->grade_5_b) == 1 ? 'checked' : '' }}>
-                                <label for="grade_5_b_1">Fraco</label>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
 
                 <table class="table table-bordered table-striped notas">
                     <thead>
@@ -882,49 +882,49 @@
                     <tr>
                         <td>
                             <div class="form-group">
-                                <input type="radio" class="radio" id="grade_5_c_6" name="grade_5_c"
-                                       value="6" {{ (old('grade_5_c') ?? $report->grade_5_c) == 6 ? 'checked' : '' }}>
-                                <label for="grade_5_c_6">Excelente</label>
+                                <input type="radio" class="radio" id="grade_4_c_6" name="grade_4_c"
+                                       value="6" {{ (old('grade_4_c') ?? $report->grade_4_c) == 6 ? 'checked' : '' }}>
+                                <label for="grade_4_c_6">Excelente</label>
                             </div>
                         </td>
 
                         <td>
                             <div class="form-group">
-                                <input type="radio" class="radio" id="grade_5_c_5" name="grade_5_c"
-                                       value="5" {{ (old('grade_5_c') ?? $report->grade_5_c) == 5 ? 'checked' : '' }}>
-                                <label for="grade_5_c_5">Ótimo</label>
+                                <input type="radio" class="radio" id="grade_4_c_5" name="grade_4_c"
+                                       value="5" {{ (old('grade_4_c') ?? $report->grade_4_c) == 5 ? 'checked' : '' }}>
+                                <label for="grade_4_c_5">Ótimo</label>
                             </div>
                         </td>
 
                         <td>
                             <div class="form-group">
-                                <input type="radio" class="radio" id="grade_5_c_4" name="grade_5_c"
-                                       value="4" {{ (old('grade_5_c') ?? $report->grade_5_c) == 4 ? 'checked' : '' }}>
-                                <label for="grade_5_c_4">Bom</label>
+                                <input type="radio" class="radio" id="grade_4_c_4" name="grade_4_c"
+                                       value="4" {{ (old('grade_4_c') ?? $report->grade_4_c) == 4 ? 'checked' : '' }}>
+                                <label for="grade_4_c_4">Bom</label>
                             </div>
                         </td>
 
                         <td>
                             <div class="form-group">
-                                <input type="radio" class="radio" id="grade_5_c_3" name="grade_5_c"
-                                       value="3" {{ (old('grade_5_c') ?? $report->grade_5_c) == 3 ? 'checked' : '' }}>
-                                <label for="grade_5_c_3">Médio</label>
+                                <input type="radio" class="radio" id="grade_4_c_3" name="grade_4_c"
+                                       value="3" {{ (old('grade_4_c') ?? $report->grade_4_c) == 3 ? 'checked' : '' }}>
+                                <label for="grade_4_c_3">Médio</label>
                             </div>
                         </td>
 
                         <td>
                             <div class="form-group">
-                                <input type="radio" class="radio" id="grade_5_c_2" name="grade_5_c"
-                                       value="2" {{ (old('grade_5_c') ?? $report->grade_5_c) == 2 ? 'checked' : '' }}>
-                                <label for="grade_5_c_2">Regular</label>
+                                <input type="radio" class="radio" id="grade_4_c_2" name="grade_4_c"
+                                       value="2" {{ (old('grade_4_c') ?? $report->grade_4_c) == 2 ? 'checked' : '' }}>
+                                <label for="grade_4_c_2">Regular</label>
                             </div>
                         </td>
 
                         <td>
                             <div class="form-group">
-                                <input type="radio" class="radio" id="grade_5_c_1" name="grade_5_c"
-                                       value="1" {{ (old('grade_5_c') ?? $report->grade_5_c) == 1 ? 'checked' : '' }}>
-                                <label for="grade_5_c_1">Fraco</label>
+                                <input type="radio" class="radio" id="grade_4_c_1" name="grade_4_c"
+                                       value="1" {{ (old('grade_4_c') ?? $report->grade_4_c) == 1 ? 'checked' : '' }}>
+                                <label for="grade_4_c_1">Fraco</label>
                             </div>
                         </td>
                     </tr>

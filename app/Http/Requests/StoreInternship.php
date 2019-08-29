@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\CompanyHasCourse;
+use App\Rules\HasAgreement;
 use App\Rules\HasCourse;
 use App\Rules\HasInternship;
 use App\Rules\HourInterval;
@@ -37,7 +38,7 @@ class StoreInternship extends FormRequest
 
             'ra' => ['required', 'numeric', 'min:1', new RA, new HasInternship, new SameCourse, new CompanyHasCourse($this->get('company')), new StudentAge($this->get('startDate')), (!$this->get('delation')) ? new StudentMaxYears($this->get('startDate')) : ''],
             'active' => 'required|numeric|min:1',
-            'company' => ['required', 'min:1', new HasCourse],
+            'company' => ['required', 'min:1', new HasCourse, new HasAgreement($this->get('startDate'))],
             'sector' => 'required|min:1',
             'startDate' => 'required|date|before:endDate',
             'endDate' => 'required|date|after:startDate',
@@ -56,7 +57,7 @@ class StoreInternship extends FormRequest
             'satS' => ['required_with:satE', 'nullable', 'date_format:H:i', 'before:satE'],
             'satE' => ['required_with:satS', 'nullable', 'date_format:H:i', 'after:satS', new HourInterval($this->get('satS'), $this->get('satS2'), $this->get('satE2'))],
 
-            'monS2' => ['required_without_all:tueS2,wedS2,thuS2,friS2,satS2', 'required_with:monE2', 'nullable', 'date_format:H:i', 'before:monE2'],
+            'monS2' => [($this->get('has2Schedules')) ? 'required_without_all:tueS2,wedS2,thuS2,friS2,satS2' : '', 'required_with:monE2', 'nullable', 'date_format:H:i', 'before:monE2'],
             'monE2' => ['required_with:monS2', 'nullable', 'date_format:H:i', 'after:monS2'],
             'tueS2' => ['required_with:tueE2', 'nullable', 'date_format:H:i', 'before:tueE2'],
             'tueE2' => ['required_with:tueS2', 'nullable', 'date_format:H:i', 'after:tueS2'],

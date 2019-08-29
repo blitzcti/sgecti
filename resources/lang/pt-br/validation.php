@@ -93,6 +93,7 @@ return [
         'array' => 'O campo :attribute deve ter pelo menos :min itens.',
     ],
     'min_hours' => 'O campo :attribute deve ter um intervalo de até 6h.',
+    'no_agreement' => 'O campo :attribute é de uma empresa que não possui um convênio ativo.',
     'not_in' => 'O campo :attribute selecionado é inválido.',
     'not_regex' => 'O campo :attribute possui um formato inválido.',
     'numeric' => 'O campo :attribute deve ser um número.',
@@ -199,6 +200,8 @@ return [
         'protocol' => 'Protocolo',
         'ctps' => 'CTPS',
         'has2Schedules' => '2 turnos?',
+
+        'internshipStartDate' => 'Data de início do estágio',
 
     ],
 ];

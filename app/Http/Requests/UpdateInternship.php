@@ -52,7 +52,7 @@ class UpdateInternship extends FormRequest
             'satS' => ['required_with:satE', 'nullable', 'date_format:H:i', 'before:satE'],
             'satE' => ['required_with:satS', 'nullable', 'date_format:H:i', 'after:satS', new HourInterval($this->get('satS'), $this->get('satS2'), $this->get('satE2'))],
 
-            'monS2' => ['required_without_all:tueS2,wedS2,thuS2,friS2,satS2', 'required_with:monE2', 'nullable', 'date_format:H:i', 'before:monE2'],
+            'monS2' => [($this->get('has2Schedules')) ? 'required_without_all:tueS2,wedS2,thuS2,friS2,satS2' : '', 'nullable', 'date_format:H:i', 'before:monE2'],
             'monE2' => ['required_with:monS2', 'nullable', 'date_format:H:i', 'after:monS2'],
             'tueS2' => ['required_with:tueE2', 'nullable', 'date_format:H:i', 'before:tueE2'],
             'tueE2' => ['required_with:tueS2', 'nullable', 'date_format:H:i', 'after:tueS2'],

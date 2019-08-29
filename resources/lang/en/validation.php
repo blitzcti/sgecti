@@ -97,6 +97,7 @@ return [
         'array' => 'The :attribute must have at least :min items.',
     ],
     'min_hours' => 'the :attribute must have an 6h interval.',
+    'no_agreement' => 'The selected :attribute does not have an active agreement.',
     'not_in' => 'The selected :attribute is invalid.',
     'not_regex' => 'The :attribute format is invalid.',
     'numeric' => 'The :attribute must be a number.',
@@ -209,6 +210,8 @@ return [
         'protocol' => 'Protocol',
         'ctps' => 'CTPS',
         'has2Schedules' => 'Has 2 Schedules?',
+
+        'internshipStartDate' => 'Internship Start Date',
 
     ],
 

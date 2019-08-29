@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+
 class Company extends Model
 {
     protected $fillable = [
@@ -36,6 +38,23 @@ class Company extends Model
     public function internships()
     {
         return $this->hasMany(Internship::class);
+    }
+
+    public function hasAgreementAt(Carbon $date = null)
+    {
+        if ($date == null) {
+            $date = Carbon::today();
+        }
+
+        foreach ($this->agreements as $agreement) {
+            $startDate = Carbon::createFromTimeString($agreement->created_at);
+            $endDate = Carbon::createFromFormat("Y-m-d", $agreement->expiration_date);
+            if ($date->between($startDate, $endDate)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function syncCourses($courses)

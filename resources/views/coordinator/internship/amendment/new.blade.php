@@ -63,34 +63,6 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group @if($errors->has('startDate')) has-error @endif">
-                            <label for="inputStartDate" class="col-sm-4 control-label">Data de Início*</label>
-
-                            <div class="col-sm-8">
-                                <input type="date" class="form-control" id="inputStartDate" name="startDate"
-                                       value="{{ old('startDate') ?? '' }}"/>
-
-                                <span class="help-block">{{ $errors->first('startDate') }}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <div class="form-group @if($errors->has('endDate')) has-error @endif">
-                            <label for="inputEndDate" class="col-sm-4 control-label">Data de Término*</label>
-
-                            <div class="col-sm-8">
-                                <input type="date" class="form-control" id="inputEndDate" name="endDate"
-                                       value="{{ old('endDate') ?? '' }}"/>
-
-                                <span class="help-block">{{ $errors->first('endDate') }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="form-group @if($errors->has('observation')) has-error @endif">
                     <label for="inputObservation" class="col-sm-2 control-label">Observação</label>
 
@@ -161,7 +133,7 @@
                             <label for="inputNewEndDate">Nova data de término</label>
                         </dt>
 
-                        <dd class="col-sm-10">
+                        <dd class="col-sm-4">
                             <div>
                                 <input type="date" class="form-control" id="inputNewEndDate" name="newEndDate"
                                        value="{{ old('newEndDate') ?? '' }}"/>
@@ -182,8 +154,36 @@
             </div>
 
             <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group @if($errors->has('startDate')) has-error @endif">
+                            <label for="inputStartDate" class="col-sm-4 control-label">Data de início</label>
+
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" id="inputStartDate" name="startDate"
+                                       value="{{ old('startDate') ?? '' }}"/>
+
+                                <span class="help-block">{{ $errors->first('startDate') }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group @if($errors->has('endDate')) has-error @endif">
+                            <label for="inputEndDate" class="col-sm-4 control-label">Data de término</label>
+
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" id="inputEndDate" name="endDate"
+                                       value="{{ old('endDate') ?? '' }}"/>
+
+                                <span class="help-block">{{ $errors->first('endDate') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group">
-                    <label for="inputWeekDays" class="col-sm-2 control-label">Horário*</label>
+                    <label for="inputWeekDays" class="col-sm-2 control-label">Horário</label>
 
                     <div class="col-sm-10">
                         <table id="inputWeekDays" class="table table-bordered table-striped">

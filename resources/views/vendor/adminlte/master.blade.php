@@ -24,7 +24,7 @@
 
 @if(config('adminlte.plugins.select2'))
     <!-- Select2 -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.css">
 @endif
 
 @if(config('adminlte.plugins.icheck'))
@@ -42,7 +42,7 @@
 
 @if(config('adminlte.plugins.datatables'))
     <!-- DataTables with bootstrap 3 style -->
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.18/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
 @endif
 
     @yield('adminlte_css')
@@ -66,13 +66,14 @@
 
 @if(config('adminlte.plugins.select2'))
     <!-- Select2 -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/i18n/pt-BR.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/i18n/pt-BR.js"></script>
 @endif
 
 @if(config('adminlte.plugins.datatables'))
     <!-- DataTables with bootstrap 3 renderer -->
-    <script src="//cdn.datatables.net/v/bs/dt-1.10.18/datatables.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
     <script src="//cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
     <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
     <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>

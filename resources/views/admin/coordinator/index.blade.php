@@ -30,7 +30,7 @@
                     <th>Nome</th>
                     <th>Curso</th>
                     <th>Início</th>
-                    <th>Fim</th>
+                    <th>Término</th>
                     <th>Ações</th>
                 </tr>
                 </thead>

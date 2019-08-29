@@ -9,7 +9,8 @@
 @section('content')
     @include('modals.coordinator.cloneSchedule')
 
-    <form class="form-horizontal" action="{{ route('coordenador.estagio.aditivo.alterar', $amendment->id) }}" method="post">
+    <form class="form-horizontal" action="{{ route('coordenador.estagio.aditivo.alterar', $amendment->id) }}"
+          method="post">
         @method('PUT')
         @csrf
 
@@ -28,7 +29,8 @@
                             <label for="inputInternship" class="col-sm-4 control-label">Nome do aluno*</label>
 
                             <div class="col-sm-8">
-                                <input type="text" class="form-control input-info" id="inputInternship" name="internship" readonly
+                                <input type="text" class="form-control input-info" id="inputInternship"
+                                       name="internship" readonly
                                        value="{{ $amendment->internship->student->nome }}"/>
 
                                 <span class="help-block">{{ $errors->first('internship') }}</span>
@@ -51,34 +53,6 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group @if($errors->has('startDate')) has-error @endif">
-                            <label for="inputStartDate" class="col-sm-4 control-label">Data de Início*</label>
-
-                            <div class="col-sm-8">
-                                <input type="date" class="form-control" id="inputStartDate" name="startDate"
-                                       value="{{ old('startDate') ?? $amendment->start_date }}"/>
-
-                                <span class="help-block">{{ $errors->first('startDate') }}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <div class="form-group @if($errors->has('endDate')) has-error @endif">
-                            <label for="inputEndDate" class="col-sm-4 control-label">Data de Término*</label>
-
-                            <div class="col-sm-8">
-                                <input type="date" class="form-control" id="inputEndDate" name="endDate"
-                                       value="{{ old('endDate') ?? $amendment->end_date }}"/>
-
-                                <span class="help-block">{{ $errors->first('endDate') }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="form-group @if($errors->has('observation')) has-error @endif">
                     <label for="inputObservation" class="col-sm-2 control-label">Observação</label>
 
@@ -95,12 +69,107 @@
 
         <div class="box box-default">
             <div class="box-header with-border">
+                <h3 class="box-title">Dados do estágio</h3>
+            </div>
+
+            <div class="box-body">
+                <dl class="row">
+                    <dt class="col-sm-2">Empresa</dt>
+                    <dd class="col-sm-10">
+                        <span id="internshipCompanyName">
+                            {{ $amendment->internship->company->name }}
+                        </span>
+                    </dd>
+
+                    <dt class="col-sm-2">Setor</dt>
+                    <dd class="col-sm-10">
+                        <span id="internshipSector">
+                            {{ $amendment->internship->sector->name }}
+                        </span>
+                    </dd>
+
+                    <dt class="col-sm-2">Supervisor</dt>
+                    <dd class="col-sm-10">
+                        <span id="internshipSupervisorName">
+                            {{ $amendment->internship->supervisor->name }}
+                        </span>
+                    </dd>
+
+                    <dt class="col-sm-2">Data de início</dt>
+                    <dd class="col-sm-10">
+                        <span id="internshipStartDate">
+                            {{ date("d/m/Y", strtotime($amendment->internship->start_date)) }}
+                        </span>
+                    </dd>
+
+                    <dt class="col-sm-2">Data de término</dt>
+                    <dd class="col-sm-10">
+                        <span id="internshipEndDate">
+                            {{ date("d/m/Y", strtotime($amendment->internship->end_date)) }}
+                        </span>
+                    </dd>
+
+                    <dt class="col-sm-2">Horas estimadas</dt>
+                    <dd class="col-sm-10">
+                        <span id="internshipEstimatedHours">
+                            {{ $amendment->internship->estimated_hours }}
+                        </span>
+                    </dd>
+
+                    <div class="form-group @if($errors->has('newEndDate')) has-error @endif" style="margin: 0;">
+                        <dt class="col-sm-2">
+                            <label for="inputNewEndDate">Nova data de término</label>
+                        </dt>
+
+                        <dd class="col-sm-4">
+                            <div>
+                                <input type="date" class="form-control" id="inputNewEndDate" name="newEndDate"
+                                       value="{{ old('newEndDate') ?? $amendment->new_end_date }}"/>
+
+                                <span class="help-block">{{ $errors->first('newEndDate') }}</span>
+                            </div>
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+
+        <div class="box box-default">
+            <div class="box-header with-border">
                 <h3 class="box-title">Novos horários</h3>
             </div>
 
             <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group @if($errors->has('startDate')) has-error @endif">
+                            <label for="inputStartDate" class="col-sm-4 control-label">Data de início</label>
+
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" id="inputStartDate" name="startDate"
+                                       value="{{ old('startDate') ?? $amendment->start_date }}"/>
+
+                                <span class="help-block">{{ $errors->first('startDate') }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group @if($errors->has('endDate')) has-error @endif">
+                            <label for="inputEndDate" class="col-sm-4 control-label">Data de término</label>
+
+                            <div class="col-sm-8">
+                                <input type="date" class="form-control" id="inputEndDate" name="endDate"
+                                       value="{{ old('endDate') ?? $amendment->end_date }}"/>
+
+                                <span class="help-block">{{ $errors->first('endDate') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group">
-                    <label for="inputWeekDays" class="col-sm-2 control-label">Horário*</label>
+                    <label for="inputWeekDays" class="col-sm-2 control-label">Horário</label>
 
                     <div class="col-sm-10">
                         <table id="inputWeekDays" class="table table-bordered table-striped">

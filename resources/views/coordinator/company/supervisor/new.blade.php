@@ -16,6 +16,25 @@
             @csrf
 
             <div class="box-body">
+                <div class="form-group @if($errors->has('company')) has-error @endif">
+                    <label for="inputCompany" class="col-sm-2 control-label">Empresa*</label>
+
+                    <div class="col-sm-10">
+                        <select class="selection" name="company" id="inputCompany"
+                                style="width: 100%">
+
+                            @foreach($companies as $company)
+
+                                <option value="{{ $company->id }}" {{ (old('company') ?? $c) == $company->id ? 'selected' : '' }}>
+                                    {{ $company->cpf_cnpj }} - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
+                                </option>
+
+                            @endforeach
+
+                        </select>
+                    </div>
+                </div>
+
                 <div class="form-group  @if($errors->has('supervisorName')) has-error @endif">
                     <label for="inputSupervisorName" class="col-sm-2 control-label">Nome*</label>
 
@@ -47,25 +66,6 @@
                                value="{{ old('supervisorPhone') ?? '' }}"/>
 
                         <span class="help-block">{{ $errors->first('supervisorPhone') }}</span>
-                    </div>
-                </div>
-
-                <div class="form-group @if($errors->has('company')) has-error @endif">
-                    <label for="inputCompany" class="col-sm-2 control-label">Empresa*</label>
-
-                    <div class="col-sm-10">
-                        <select class="selection" name="company" id="inputCompany"
-                                style="width: 100%">
-
-                            @foreach($companies as $company)
-
-                                <option value="{{ $company->id }}" {{ (old('company') ?? 1) == $company->id ? 'selected' : '' }}>
-                                    {{ $company->cpf_cnpj }} - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
                     </div>
                 </div>
             </div>

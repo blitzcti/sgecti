@@ -25,8 +25,10 @@
 
                             @foreach($companies as $company)
 
-                                <option value="{{ $company->id }}" {{ (old('company') ?? 1) == $company->id ? 'selected=selected' : '' }}>
-                                    {{ $company->cpf_cnpj }} - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
+                                <option
+                                    value="{{ $company->id }}" {{ (old('company') ?? $c) == $company->id ? 'selected=selected' : '' }}>
+                                    {{ $company->cpf_cnpj }}
+                                    - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
                                 </option>
 
                             @endforeach
@@ -41,7 +43,8 @@
                     <label for="inputObservation" class="col-sm-2 control-label">Observação</label>
 
                     <div class="col-sm-10">
-                        <textarea class="form-control" rows="3" id="inputObservation" name="observation" style="resize: none"
+                        <textarea class="form-control" rows="3" id="inputObservation" name="observation"
+                                  style="resize: none"
                                   placeholder="Observações adicionais">{{ old('observation') ?? '' }}</textarea>
 
                         <span class="help-block">{{ $errors->first('observation') }}</span>

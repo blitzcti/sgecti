@@ -139,6 +139,9 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
             Route::get('', 'CompanyController@details')->name('detalhes');
             Route::get('editar', 'CompanyController@edit')->name('editar');
             Route::put('alterar', 'CompanyController@update')->name('alterar');
+
+            Route::get('supervisor', 'SupervisorController@indexByCompany')->name('supervisor');
+            Route::get('convenio', 'AgreementController@indexByCompany')->name('convenio');
         });
 
         Route::prefix('setor')->name('setor.')->group(function () {

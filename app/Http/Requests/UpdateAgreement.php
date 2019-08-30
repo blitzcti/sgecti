@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NoAgreement;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateAgreement extends FormRequest
@@ -24,8 +25,8 @@ class UpdateAgreement extends FormRequest
     public function rules()
     {
         return [
-            'expirationDate' => 'required|date',
-            'observation' => 'max:200',
+            'company' => ['required', 'numeric', 'min:1', new NoAgreement],
+            'observation' => 'nullable|max:8000',
         ];
     }
 }

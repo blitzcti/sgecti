@@ -12,6 +12,12 @@
             <div class="btn-group" style="display: inline-flex; margin: 0">
                 <a href="{{ route('coordenador.empresa.editar', $company->id) }}"
                    class="btn btn-primary">Editar empresa</a>
+
+                <a href="{{ route('coordenador.empresa.supervisor', $company->id) }}"
+                   class="btn btn-default">Supervisores</a>
+
+                <a href="{{ route('coordenador.empresa.convenio', $company->id) }}"
+                   class="btn btn-default">Convênios</a>
             </div>
 
             <h3>Dados da empresa</h3>

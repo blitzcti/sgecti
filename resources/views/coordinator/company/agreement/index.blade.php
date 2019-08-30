@@ -3,7 +3,8 @@
 @section('title', 'Convênios - SGE CTI')
 
 @section('content_header')
-    <h1>Convênios com o CTI</h1>
+    <h1>Convênios com o CTI @if(isset($company))
+            de {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }} @endif</h1>
 @stop
 
 @section('content')
@@ -20,8 +21,10 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <a id="addLink" href="{{ route('coordenador.empresa.convenio.novo') }}"
-               class="btn btn-success">Adicionar convênio</a>
+            <a id="addLink" class="btn btn-success"
+               href="{{ (isset($company)) ? route('coordenador.empresa.convenio.novo', ['c' => $company->id]) : route('coordenador.empresa.convenio.novo') }}">
+                Adicionar convênio
+            </a>
 
             <table id="companies" class="table table-bordered table-hover">
                 <thead>

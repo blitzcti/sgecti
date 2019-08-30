@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NoAgreement;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreAgreement extends FormRequest
@@ -24,8 +25,8 @@ class StoreAgreement extends FormRequest
     public function rules()
     {
         return [
-            'company' => 'required|numeric:1',
-            'observation' => 'max:200',
+            'company' => ['required', 'numeric', 'min:1', new NoAgreement],
+            'observation' => 'nullable|max:8000',
         ];
     }
 }

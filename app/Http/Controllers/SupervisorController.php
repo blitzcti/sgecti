@@ -25,10 +25,18 @@ class SupervisorController extends Controller
         return view('coordinator.company.supervisor.index')->with(['supervisors' => $supervisors]);
     }
 
+    public function indexByCompany($id)
+    {
+        $company = Company::findOrFail($id);
+        $supervisors = $company->supervisors;
+        return view('coordinator.company.supervisor.index')->with(['company' => $company, 'supervisors' => $supervisors]);
+    }
+
     public function create()
     {
         $companies = Company::all()->where('active', '=', true)->sortBy('id');
-        return view('coordinator.company.supervisor.new')->with(['companies' => $companies]);
+        $c = request()->c;
+        return view('coordinator.company.supervisor.new')->with(['companies' => $companies, 'c' => $c]);
     }
 
     public function edit($id)

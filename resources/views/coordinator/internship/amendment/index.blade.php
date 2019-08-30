@@ -23,8 +23,10 @@
 
             @if(!isset($internship) || (isset($internship) && $internship->state->id == 1))
 
-            <a id="addLink" href="{{ (isset($internship)) ? route('coordenador.estagio.aditivo.novo', ['i' => $internship->id]) : route('coordenador.estagio.aditivo.novo') }}"
-               class="btn btn-success">Adicionar termo</a>
+                <a id="addLink" class="btn btn-success"
+                   href="{{ (isset($internship)) ? route('coordenador.estagio.aditivo.novo', ['i' => $internship->id]) : route('coordenador.estagio.aditivo.novo') }}">
+                    Adicionar termo
+                </a>
 
             @endif
 

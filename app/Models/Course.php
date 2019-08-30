@@ -13,7 +13,7 @@ class Course extends Model
 
     public function getStudentsAttribute()
     {
-        return Student::all()->where('course_id', '=', $this->id);
+        return Student::actives()->where('course_id', '=', $this->id);
     }
 
     public function coordinators()

@@ -45,8 +45,8 @@ class StoreJob extends FormRequest
             'endDate' => 'required|date|after:startDate',
 
             'protocol' => 'required|max:5',
-            'observation' => 'nullable|max:200',
-            'activities' => 'nullable|max:6000',
+            'observation' => 'nullable|max:8000',
+            'activities' => 'nullable|max:8000',
 
             'ctps' => 'required|numeric|min:11',
         ];

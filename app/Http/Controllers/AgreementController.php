@@ -26,10 +26,18 @@ class AgreementController extends Controller
         return view('coordinator.company.agreement.index')->with(['agreements' => $agreements]);
     }
 
+    public function indexByCompany($id)
+    {
+        $company = Company::findOrFail($id);
+        $agreements = $company->agreements;
+        return view('coordinator.company.agreement.index')->with(['company' => $company, 'agreements' => $agreements]);
+    }
+
     public function create()
     {
         $companies = Company::all()->where('active', '=', true)->sortBy('id');
-        return view('coordinator.company.agreement.new')->with(['companies' => $companies]);
+        $c = request()->c;
+        return view('coordinator.company.agreement.new')->with(['companies' => $companies, 'c' => $c]);
     }
 
     public function edit($id)

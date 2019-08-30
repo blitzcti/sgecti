@@ -3,25 +3,18 @@
 namespace App\Rules;
 
 use App\Models\Company;
-use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
 
-class HasAgreement implements Rule
+class NoAgreement implements Rule
 {
-    private $date;
-
     /**
      * Create a new rule instance.
      *
-     * @param $date
+     * @return void
      */
-    public function __construct($date)
+    public function __construct()
     {
-        if ($date == null) {
-            $this->date = Carbon::today();
-        } else {
-            $this->date = Carbon::createFromFormat("Y-m-d", $date);
-        }
+        //
     }
 
     /**
@@ -34,7 +27,7 @@ class HasAgreement implements Rule
     public function passes($attribute, $value)
     {
         $company = Company::find($value);
-        return $company->hasAgreementAt($this->date);
+        return !$company->hasAgreementAt(null);
     }
 
     /**
@@ -44,6 +37,6 @@ class HasAgreement implements Rule
      */
     public function message()
     {
-        return __('validation.no_agreement');
+        return __('validation.already_has_agreement');
     }
 }

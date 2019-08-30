@@ -3,7 +3,8 @@
 @section('title', 'Supervisores - SGE CTI')
 
 @section('content_header')
-    <h1>Supervisores</h1>
+    <h1>Supervisores @if(isset($company))
+            de {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }} @endif</h1>
 @stop
 
 @section('content')
@@ -20,10 +21,12 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <a id="addLink" href="{{ route('coordenador.empresa.supervisor.novo') }}"
-               class="btn btn-success">Adicionar supervisor</a>
+            <a id="addLink" class="btn btn-success"
+               href="{{ (isset($company)) ? route('coordenador.empresa.supervisor.novo', ['c' => $company->id]) : route('coordenador.empresa.supervisor.novo') }}">
+                Adicionar supervisor
+            </a>
 
-            <table id="companies" class="table table-bordered table-hover">
+            <table id="supervisors" class="table table-bordered table-hover">
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
@@ -58,7 +61,7 @@
 @section('js')
     <script>
         jQuery(() => {
-            let table = jQuery("#companies").DataTable({
+            let table = jQuery("#supervisors").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
@@ -85,7 +88,7 @@
                     }
                 ],
                 initComplete: function () {
-                    table.buttons().container().appendTo($('#companies_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().appendTo($('#supervisors_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                     jQuery('#addLink').prependTo(table.buttons().container());
                 },

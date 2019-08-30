@@ -21,6 +21,7 @@ return [
     'alpha' => 'The :attribute may only contain letters.',
     'alpha_dash' => 'The :attribute may only contain letters, numbers, dashes and underscores.',
     'alpha_num' => 'The :attribute may only contain letters and numbers.',
+    'already_has_agreement' => 'The :attribute contains a company that already has an agreement.',
     'already_has_internship' => 'The :attribute contains a RA from a student that already has an internship.',
     'array' => 'The :attribute must be an array.',
     'before' => 'The :attribute must be a date before :date.',

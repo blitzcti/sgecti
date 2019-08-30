@@ -46,6 +46,10 @@
                         <td>
                             <a href="{{ route('coordenador.empresa.detalhes', ['id' => $company->id]) }}">Detalhes</a>
                             |
+                            <a href="{{ route('coordenador.empresa.supervisor', ['id' => $company->id]) }}">Supervisores</a>
+                            |
+                            <a href="{{ route('coordenador.empresa.convenio', ['id' => $company->id]) }}">Convênios</a>
+                            |
                             <a href="{{ route('coordenador.empresa.editar', ['id' => $company->id]) }}">Editar</a>
                         </td>
                     </tr>

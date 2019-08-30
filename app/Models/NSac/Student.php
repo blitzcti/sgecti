@@ -115,4 +115,9 @@ class Student extends Model
     {
         return $this->belongsTo(Course::class);
     }
+
+    public static function actives()
+    {
+        return Student::where('situacao_matricula', '=', 0)->orWhere('situacao_matricula', '=', 5)->get();
+    }
 }

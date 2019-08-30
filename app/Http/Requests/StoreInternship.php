@@ -42,7 +42,7 @@ class StoreInternship extends FormRequest
             'sector' => 'required|min:1',
             'startDate' => 'required|date|before:endDate',
             'endDate' => 'required|date|after:startDate',
-            'activities' => 'required|max:6000',
+            'activities' => 'required|max:8000',
 
             'monS' => ['required_without_all:tueS,wedS,thuS,friS,satS', 'required_with:monE', 'nullable', 'date_format:H:i', 'before:monE'],
             'monE' => ['required_with:monS', 'nullable', 'date_format:H:i', 'after:monS', new HourInterval($this->get('monS'), $this->get('monE2'), $this->get('monS2'))],
@@ -73,7 +73,7 @@ class StoreInternship extends FormRequest
             'supervisor' => 'required|numeric|min:1',
 
             'protocol' => 'required|max:5',
-            'observation' => 'max:200',
+            'observation' => 'nullable|max:8000',
         ];
     }
 }

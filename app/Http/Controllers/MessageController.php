@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\BimestralReportMail;
+use App\Mail\FreeMail;
 use App\Mail\ImportantMail;
 use App\Mail\InternshipProposalMail;
 use App\Models\NSac\Student;
@@ -53,6 +54,13 @@ class MessageController extends Controller
         return Mail::to($student->email)->send(new ImportantMail($student, $messageBody));
     }
 
+    public function sendFreeMail($subject, $messageBody, $student_id = 1757037)
+    {
+        $student = Student::find($student_id);
+
+        return Mail::to($student->email)->send(new FreeMail($subject, $messageBody));
+    }
+
     public function sendEmail(Request $request)
     {
         $params = [];
@@ -62,7 +70,7 @@ class MessageController extends Controller
             'courses' => 'nullable|array',
             'internships' => 'nullable|array',
             'message' => 'nullable|numeric|min:0|max:3',
-            'subject' => 'nullable|max:100',
+            'subject' => 'required_if:message,3|max:100',
             'messageBody' => 'required_if:message,2|required_if:message,3|max:8000',
         ]);
 
@@ -81,7 +89,7 @@ class MessageController extends Controller
                     break;
 
                 case 3:
-
+                    $this->sendFreeMail($validatedData->subject, $validatedData->messageBody);
                     break;
             }
 

@@ -42,7 +42,7 @@ class StudentController extends Controller
     public function get(Request $request)
     {
         if ((new Student())->isConnected()) {
-            $students = Student::all()->sortBy('matricula');
+            $students = Student::actives()->sortBy('matricula');
 
             if (is_array($request->istates)) {
                 $istates = $request->istates;
@@ -94,7 +94,7 @@ class StudentController extends Controller
     public function getByCourse($course, Request $request)
     {
         if ((new Student())->isConnected()) {
-            $students = Student::all()->where('course_id', '=', $course)->sortBy('matricula');
+            $students = Student::actives()->where('course_id', '=', $course)->sortBy('matricula');
             $students = array_values($students->toArray());
 
             if (!empty($request->q)) {
@@ -135,9 +135,7 @@ class StudentController extends Controller
     public function getByYear($year, Request $request)
     {
         if ((new Student())->isConnected()) {
-            $year = substr($year, 2, 2);
-
-            $students = Student::where('matricula', 'LIKE', "$year%")->get()->sortBy('matricula');
+            $students = Student::actives()->where('year', '=', $year)->sortBy('matricula');
 
             if (is_array($request->courses)) {
                 $courses = $request->courses;
@@ -169,7 +167,7 @@ class StudentController extends Controller
                 $year = $request->year;
             }
 
-            $students = Student::where('turma', '=', $class)->where('turma_ano', '=', $year)->get();
+            $students = Student::actives()->where('turma', '=', $class)->where('turma_ano', '=', $year);
 
             if (is_array($request->get('courses'))) {
                 $courses = $request->get('courses');

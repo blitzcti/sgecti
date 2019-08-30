@@ -51,7 +51,7 @@ class StoreCompany extends FormRequest
             'sectors' => 'required|array|min:1',
             'courses' => 'required|array|min:1',
 
-            'observation' => 'max:200',
+            'observation' => 'nullable|max:8000',
         ];
     }
 }

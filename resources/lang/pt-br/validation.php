@@ -18,6 +18,7 @@ return [
     'alpha' => 'O campo :attribute só pode conter letras.',
     'alpha_dash' => 'O campo :attribute só pode conter letras, números e traços.',
     'alpha_num' => 'O campo :attribute só pode conter letras e números.',
+    'already_has_agreement' => 'O campo :attribute contém uma empresa já conveniada.',
     'already_has_internship' => 'O campo :attribute contém um RA de um aluno que já está fazendo estágio.',
     'array' => 'O campo :attribute deve ser uma matriz.',
     'before' => 'O campo :attribute deve ser uma data anterior :date.',

@@ -67,6 +67,7 @@ class AgreementController extends Controller
 
         if ($saved) {
             Log::info($log);
+            $agreement->createUser();
         } else {
             Log::error("Erro ao salvar convênio");
         }

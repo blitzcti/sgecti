@@ -110,6 +110,10 @@ class CompanyController extends Controller
 
             $agreement->company_id = $company->id;
             $saved = $agreement->save();
+
+            if ($saved) {
+                $agreement->createUser();
+            }
         }
 
         $log .= "\nNovos dados: " . json_encode($company, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);

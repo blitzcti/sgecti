@@ -28,5 +28,9 @@
 
         @include('admin.home')
 
+    @elseif($user->isCompany())
+
+        @include('company.home')
+
     @endif
 @stop

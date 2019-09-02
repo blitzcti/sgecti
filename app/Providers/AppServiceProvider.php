@@ -402,12 +402,6 @@ class AppServiceProvider extends ServiceProvider
                             'icon' => 'edit',
                             'active' => ['coordenador/relatorio/final/novo']
                         ],
-                        [
-                            'text' => 'menu.pdf',
-                            'route' => 'coordenador.relatorio.pdf',
-                            'icon' => 'file-pdf-o',
-                            'active' => ['coordenador/relatorio/pdf']
-                        ],
                     ]
                 ]);
             }
@@ -422,6 +416,12 @@ class AppServiceProvider extends ServiceProvider
                         'route' => 'coordenador.aluno.index',
                         'icon' => 'file-text-o',
                         'active' => ['coordenador/aluno/']
+                    ],
+                    [
+                        'text' => 'menu.pdf',
+                        'route' => 'coordenador.aluno.pdf',
+                        'icon' => 'file-pdf-o',
+                        'active' => ['coordenador/aluno/pdf']
                     ],
                 ]
             ]);

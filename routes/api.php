@@ -43,6 +43,18 @@ Route::prefix('')->name('api.')->group(function () {
     });
 
     Route::group(['middleware' => ['apiSession']], function () {
+        Route::prefix('alunos')->name('alunos.')->group(function () {
+            Route::get('', 'API\NSac\StudentController@get')->name('get');
+            Route::get('curso/{course}', 'API\NSac\StudentController@getByCourse')->name('getByCourse');
+            Route::get('ano/{year}', 'API\NSac\StudentController@getByYear')->name('getByYear');
+            Route::get('turma/{class}', 'API\NSac\StudentController@getByClass')->name('getByClass');
+
+            Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+                Route::get('', 'API\NSac\StudentController@getByRA')->name('getByRA');
+                Route::get('foto', 'API\NSac\StudentController@getPhoto')->middleware('auth:api')->name('foto');
+            });
+        });
+
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('sysUsage', 'API\SystemUsage@index')->name('sysUsage');
             Route::post('down', 'API\SystemUsage@down')->name('down');
@@ -59,18 +71,6 @@ Route::prefix('')->name('api.')->group(function () {
         });
 
         Route::prefix('coordenador')->name('coordenador.')->group(function () {
-            Route::prefix('aluno')->name('aluno.')->group(function () {
-                Route::get('', 'API\NSac\StudentController@get')->name('get');
-                Route::get('curso/{course}', 'API\NSac\StudentController@getByCourse')->name('getByCourse');
-                Route::get('ano/{year}', 'API\NSac\StudentController@getByYear')->name('getByYear');
-                Route::get('turma/{class}', 'API\NSac\StudentController@getByClass')->name('getByClass');
-
-                Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-                    Route::get('', 'API\NSac\StudentController@getByRA')->name('getByRA');
-                    Route::get('foto', 'API\NSac\StudentController@getPhoto')->middleware('auth:api')->name('foto');
-                });
-            });
-
             Route::prefix('empresa')->name('empresa.')->group(function () {
                 Route::get('', 'API\CompanyController@get')->name('get');
 

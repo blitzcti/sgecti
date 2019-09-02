@@ -15,7 +15,6 @@ class StudentController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('coordinator');
         $this->middleware('permission:student-list');
     }
 
@@ -47,23 +46,32 @@ class StudentController extends Controller
             $students = Student::actives()->sortBy('matricula');
 
             if (is_array($request->istates)) {
-                $students = collect();
+                $students2 = collect();
 
                 $istates = $request->istates;
-                if (in_array(0, $istates)) {
-                    $students = $students->merge(State::findOrFail(1)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
-                        return Student::findOrFail($i->ra);
+                if (in_array(0, $istates)) { // Estagiando
+                    $students2 = $students2->merge(State::findOrFail(1)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) use ($students) {
+                        return $students->find($i->ra);
                     }));
                 }
 
-                if (in_array(1, $istates)) {
-                    $students = $students->merge(State::findOrFail(2)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
-                        return Student::findOrFail($i->ra);
+                if (in_array(1, $istates)) { // Estágio finalizado
+                    $students2 = $students2->merge(State::findOrFail(2)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) use ($students) {
+                        return $students->find($i->ra);
                     }));
                 }
 
-                if (in_array(2, $istates)) {
-                    $students = Student::actives()->sortBy('matricula');
+                if (in_array(2, $istates)) { // Não estagiando
+                    $is = State::findOrFail(1)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
+                        return $i->ra;
+                    })->toArray();
+
+                    $students2 = $students2->merge($students->filter(function ($s) use ($is) {
+                        return !in_array($s->matricula, $is);
+                    }));
+                }
+
+                if (in_array(3, $istates)) { // Nunca estagiaram
                     $is = State::findOrFail(1)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
                         return $i->ra;
                     })->toArray();
@@ -72,12 +80,13 @@ class StudentController extends Controller
                         return $i->ra;
                     })->toArray();
 
-                    $students->merge($students->filter(function ($s) use ($is, $fis) {
+                    $students2 = $students2->merge($students->filter(function ($s) use ($is, $fis) {
                         return !in_array($s->matricula, $is) && !in_array($s->matricula, $fis);
                     }));
                 }
 
-                $students = $students->sortBy('matricula');
+                $students = $students2->unique()->values()->sortBy('matricula');
+                unset($students2);
             }
 
             if (is_array($request->courses)) {

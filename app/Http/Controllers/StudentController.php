@@ -39,4 +39,11 @@ class StudentController extends Controller
 
         return view('coordinator.student.details')->with(['student' => $student]);
     }
+
+    public function pdf()
+    {
+        $courses = Auth::user()->coordinator_of;
+
+        return view('coordinator.student.pdf')->with(['courses' => $courses]);
+    }
 }

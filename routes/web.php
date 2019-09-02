@@ -126,6 +126,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 
     Route::prefix('mensagem')->name('mensagem.')->group(function () {
         Route::get('', 'MessageController@adminIndex')->name('index');
+        Route::post('enviar', 'MessageController@sendEmail')->name('enviar');
     });
 });
 
@@ -254,8 +255,6 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
                 Route::get('pdf', 'ReportController@pdfFinal')->name('pdf');
             });
         });
-
-        Route::get('pdf', 'ReportController@pdf')->name('pdf');
     });
 
     Route::prefix('mensagem')->name('mensagem.')->group(function () {
@@ -265,6 +264,7 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
 
     Route::prefix('aluno')->name('aluno.')->group(function () {
         Route::get('', 'StudentController@index')->name('index');
+        Route::get('pdf', 'StudentController@pdf')->name('pdf');
 
         Route::prefix('{ra}')->where(['ra' => '[0-9]+'])->group(function () {
             Route::get('', 'StudentController@details')->name('detalhes');

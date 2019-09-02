@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Mensagem - SGE CTI')
+@section('title', 'Relatório PDF - SGE CTI')
 
 @section('css')
     <style type="text/css">
@@ -12,11 +12,11 @@
 @endsection
 
 @section('content_header')
-    <h1>Enviar mensagem</h1>
+    <h1>Relação de alunos em PDF</h1>
 @stop
 
 @section('content')
-    @include('modals.admin.message.students')
+    @include('modals.coordinator.message.students')
 
     @if(session()->has('message'))
         <div class="alert {{ session('sent') ? 'alert-success' : 'alert-error' }} alert-dismissible"
@@ -29,20 +29,13 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.mensagem.enviar') }}" class="form-horizontal" method="post">
+    <form action="{{ route('coordenador.mensagem.enviar') }}" class="form-horizontal" method="post">
         @csrf
-
-        <input type="hidden" id="inputUseFilters" name="useFilters" value="{{ old('useFilters') ?? 1 }}">
-        <input type="hidden" id="inputMessage" name="message" value="{{ old('message') ?? 3 }}">
 
         <div id="filters" class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <li class="active">
                     <a href="#tab_filters" data-toggle="tab" aria-expanded="true">Filtros</a>
-                </li>
-
-                <li>
-                    <a href="#tab_students" data-toggle="tab" aria-expanded="false">Alunos específicos</a>
                 </li>
             </ul>
 
@@ -169,56 +162,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="tab-pane" id="tab_students">
-                    <div class="form-group @if($errors->has('students')) has-error @endif">
-                        <label for="inputStudents" class="col-sm-2 control-label">Alunos</label>
-
-                        <div class="col-sm-10">
-                            <select class="form-control selection" id="inputStudents" name="students[]"
-                                    multiple>
-
-                                @foreach($students as $student)
-
-                                    <option value="{{ $student->matricula }}"
-                                        {{ in_array($student->matricula, (old('students') ?? [])) ? 'selected=selected' : '' }}>
-                                        {{ $student->matricula }} - {{ $student->nome }}
-                                    </option>
-
-                                @endforeach
-                            </select>
-
-                            <span class="help-block">{{ $errors->first('students') }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="messageType" class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#tab_message" data-toggle="tab" aria-expanded="true">Mensagem</a>
-                </li>
-
-                <li class="pull-right">
-                    <button type="submit" class="btn btn-default" id="sendEmail">Enviar
-                        <i class="fa fa-arrow-circle-right"></i></button>
-                </li>
-            </ul>
-
-            <div class="tab-content">
-                <div class="tab-pane active gambi" id="tab_message">
-                    <div class="form-group @if($errors->has('subject')) has-error @endif" id="inputSubject">
-                        <input type="text" class="form-control" name="subject" placeholder="Assunto"
-                               value="{{ old('subject') ?? '' }}">
-                    </div>
-
-                    <div class="form-group @if($errors->has('messageBody')) has-error @endif">
-                        <textarea id="message" name="messageBody" class="textarea" placeholder="Mensagem"
-                                  style="resize:none; width: 100%; height: 250px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{!! old('messageBody') ?? '' !!}</textarea>
-                    </div>
-                </div>
             </div>
         </div>
     </form>
@@ -234,25 +177,6 @@
             jQuery('.selection').select2({
                 language: "pt-BR"
             });
-
-            jQuery('#filters a[data-toggle="tab"]').on('shown.bs.tab', e => {
-                let target = jQuery(e.target).attr("href");
-                if (target === '#tab_filters') {
-                    jQuery('#inputUseFilters').val(1);
-                } else if (target === '#tab_students') {
-                    jQuery('#inputUseFilters').val(0);
-                }
-            });
-
-            @if(old('useFilters') ?? true)
-
-            jQuery('#filters a[href="#tab_filters"]').tab('show');
-
-            @else
-
-            jQuery('#filters a[href="#tab_students"]').tab('show');
-
-            @endif
         });
     </script>
 @endsection

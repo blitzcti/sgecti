@@ -75,10 +75,6 @@
                 jQuery('#messageStudentsModal').modal('show');
             }
 
-            if (cs.length === 0) {
-                cs = [{{ implode(", ", auth()->user()->coordinator_courses_id) }}].map(c => `&courses[]=${c}`);
-            }
-
             let url = `/api/alunos?q=`;
             if (gs.length > 0) {
                 url += gs;

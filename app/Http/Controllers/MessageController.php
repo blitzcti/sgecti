@@ -7,6 +7,7 @@ use App\Mail\BimestralReportMail;
 use App\Mail\FreeMail;
 use App\Mail\ImportantMail;
 use App\Mail\InternshipProposalMail;
+use App\Models\Course;
 use App\Models\NSac\Student;
 use App\Models\Proposal;
 use App\Models\State;
@@ -23,7 +24,10 @@ class MessageController extends Controller
 
     public function adminIndex()
     {
-        return view('admin.message.index');
+        $courses = Course::all()->where('active', '=', true);
+        $students = Student::actives();
+
+        return view('admin.message.index')->with(['courses' => $courses, 'students' => $students]);
     }
 
     public function coordinatorIndex()
@@ -33,7 +37,7 @@ class MessageController extends Controller
 
         $students = Student::actives()->filter(function ($student) use ($cIds) {
             return in_array($student->course_id, $cIds);
-        });;
+        });
 
         return view('coordinator.message.index')->with(['courses' => $courses, 'students' => $students]);
     }
@@ -89,23 +93,32 @@ class MessageController extends Controller
                 $students = Student::actives()->sortBy('matricula');
 
                 if (isset($validatedData->internships)) {
-                    $students = collect();
+                    $students2 = collect();
 
                     $istates = $request->istates;
-                    if (in_array(0, $istates)) {
-                        $students = $students->merge(State::findOrFail(1)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
-                            return Student::findOrFail($i->ra);
+                    if (in_array(0, $istates)) { // Estagiando
+                        $students2 = $students2->merge(State::findOrFail(1)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) use ($students) {
+                            return $students->find($i->ra);
                         }));
                     }
 
-                    if (in_array(1, $istates)) {
-                        $students = $students->merge(State::findOrFail(2)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
-                            return Student::findOrFail($i->ra);
+                    if (in_array(1, $istates)) { // Estágio finalizado
+                        $students2 = $students2->merge(State::findOrFail(2)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) use ($students) {
+                            return $students->find($i->ra);
                         }));
                     }
 
-                    if (in_array(2, $istates)) {
-                        $students = Student::actives()->sortBy('matricula');
+                    if (in_array(2, $istates)) { // Não estagiando
+                        $is = State::findOrFail(1)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
+                            return $i->ra;
+                        })->toArray();
+
+                        $students2 = $students2->merge($students->filter(function ($s) use ($is) {
+                            return !in_array($s->matricula, $is);
+                        }));
+                    }
+
+                    if (in_array(3, $istates)) { // Nunca estagiaram
                         $is = State::findOrFail(1)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
                             return $i->ra;
                         })->toArray();
@@ -114,18 +127,21 @@ class MessageController extends Controller
                             return $i->ra;
                         })->toArray();
 
-                        $students->merge($students->filter(function ($s) use ($is, $fis) {
+                        $students2 = $students2->merge($students->filter(function ($s) use ($is, $fis) {
                             return !in_array($s->matricula, $is) && !in_array($s->matricula, $fis);
                         }));
                     }
 
-                    $students = $students->sortBy('matricula');
+                    $students = $students2->unique()->values()->sortBy('matricula');
+                    unset($students2);
                 }
 
-                $cIds = Auth::user()->coordinator_courses_id;
-                $students = $students->filter(function ($s) use ($cIds) {
-                    return in_array($s->course_id, $cIds);
-                })->sortBy('matricula');
+                if (Auth::user()->isCoordinator()) {
+                    $cIds = Auth::user()->coordinator_courses_id;
+                    $students = $students->filter(function ($s) use ($cIds) {
+                        return in_array($s->course_id, $cIds);
+                    })->sortBy('matricula');
+                }
 
                 if (isset($validatedData->courses)) {
                     $courses = $validatedData->courses;

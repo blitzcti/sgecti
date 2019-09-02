@@ -26,6 +26,7 @@ class RoleTableSeeder extends Seeder
             ->orWhere('name', 'like', 'courseConfiguration-%')
             ->orWhere('name', 'like', 'systemConfiguration-%')
             ->orWhere('name', 'like', 'coordinator-%')
+            ->orWhere('name', 'like', 'student-%')
             ->get();
         $role->syncPermissions($permissions);
 

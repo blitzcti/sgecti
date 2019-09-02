@@ -26,10 +26,10 @@
         <div class="box-body">
             <div class="dg dg1">
                 <div class="img">
-                    <img src="{{ asset('img/about/sobre_blitz.jpg') }}" alt="">
+                    <img src="{{ asset('img/about/sobre_blitz.png') }}" alt="">
                 </div>
                 <div class="txt">
-                    <h2>A equipe</h2>
+                    <h2>A Equipe</h2>
                     <p>
                         A Blitz foi formada como equipe para o Trabalho de Conclusão de Curso de Informática com o objetivo de desenvolver alguma aplicação voltada ao ambiente escolar. Encontramos no gerenciamento de estágios a oportunidade de contribuir com o futuro do CTI e de toda a comunidade estudantil que passa por aqui.
                         <br><br>
@@ -43,7 +43,7 @@
             <br>
             <div class="dg dg2">
                 <div class="txt">
-                    <h2>O colégio</h2>
+                    <h2>O CTI</h2>
                     <p>O sistema desenvolvido pela equipe conta com uma estrutura de banco de dados sofisticada, através da qual serão armazenados os dados dos estagiários, das empresas e dos coordenadores dos cursos técnicos. Com foco na praticidade, o sistema desenvolvido pela Blitz tem o objetivo de se adaptar às demandas diárias das coordenadorias, se encaixando na rotina ativa do Colégio e auxiliando toda a comunidade estudantil a gerenciar todos os aspectos dos estágios profissionais, desde as propostas e convênios de empresas até o registro de relatórios finais de atividades.</p>
                 </div>
                 <div class="img">
@@ -60,8 +60,7 @@
                 <div class="txt">
                     <h2>Filme Comercial</h2>
                     <p>
-                       O vídeo comercial da blitz foi feito para ajudar nossos usuários a entender o motivo pelo qual o sistema foi criado e qual sua principal funcionabilidade. Prezando simplificar e facilitar o trabalho de todos os usuários.
-
+                       Entenda melhor o sistema e suas principais funcionalidades. Focado na simplicidade, o SGE torna mais fácil a execução de tarefas do cotidiano das coordenadorias, de integração com as empresas e de aproveitamento de oportunidades.
                     </p>
                 </div>
             </div>

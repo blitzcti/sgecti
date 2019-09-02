@@ -16,6 +16,8 @@ class PermissionTableSeeder extends Seeder
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         $permissions = [
+            'sysUsage',
+
             'role-list',
             'role-create',
             'role-edit',
@@ -62,13 +64,17 @@ class PermissionTableSeeder extends Seeder
             'internship-create',
             'internship-edit',
 
-            'job-list',
-            'job-create',
-            'job-edit',
-
             'internshipAmendment-list',
             'internshipAmendment-create',
             'internshipAmendment-edit',
+
+            'jobCompany-list',
+            'jobCompany-create',
+            'jobCompany-edit',
+
+            'job-list',
+            'job-create',
+            'job-edit',
 
             'report-list',
             'report-create',

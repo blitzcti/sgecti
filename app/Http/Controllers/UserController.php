@@ -16,7 +16,7 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
         $this->middleware('permission:user-list', ['except' => ['changeCUserPassword', 'savePassword']]);
         $this->middleware('permission:user-create', ['only' => ['create', 'store']]);

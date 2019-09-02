@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -17,7 +18,7 @@ class BackupController extends Controller
 {
     private $tables;
 
-    function __construct()
+    public function __construct()
     {
         $this->middleware('permission:systemConfiguration-backup');
         $this->tables = Config::get('backup.tables');
@@ -33,15 +34,17 @@ class BackupController extends Controller
 
     public function backup()
     {
+        $log = "Solicitação de backup.";
+        $log .= "\nUsuário: " . Auth::user()->name;
+        Log::info($log);
+
         if (config('backup.zip')) {
             $this->generateZip();
             $fileName = Carbon::now()->toDateTimeString() . '.zip';
-            Log::info("Solicitação de backup.");
             return response()->download(storage_path("app/backups/backup.zip"), $fileName);
         } else {
             $this->generateJson();
             $fileName = Carbon::now()->toDateTimeString() . '.json';
-            Log::info("Solicitação de backup.");
             return response()->download(storage_path("app/backups/backup.json"), $fileName);
         }
     }
@@ -63,6 +66,7 @@ class BackupController extends Controller
                             $zip->extractTo(storage_path("app/backups/uploaded/"));
                             $zip->close();
                             set_time_limit(300);
+                            Artisan::call('cache:forget', ['key' => 'spatie.permission.cache']);
                             Artisan::call('migrate:fresh');
 
                             $this->restoreDataFromZip($dir);
@@ -73,6 +77,7 @@ class BackupController extends Controller
                         } catch (Exception $e) {
                             Log::error("Erro ao restaurar do arquivo de backup: {$e}");
                             Artisan::call('cache:forget', ['key' => 'spatie.permission.cache']);
+                            // artisan config:cache impede que as mensagens sejam enviadas para a session ($params[])
                             Artisan::call('config:cache');
                             Artisan::call('migrate:fresh', ['--seed' => true]);
                             Log::info("Banco de dados reiniciado.");
@@ -318,8 +323,7 @@ class BackupController extends Controller
     private function restoreDataFromZip($dir)
     {
         foreach ($this->tables as $table => $class) {
-            $data = (object)json_decode(file_get_contents("$dir/$table.json"), true);
-
+            $data = json_decode(file_get_contents("$dir/$table.json"), true);
             foreach ($data as $innerData) {
                 DB::table($table)->insert($innerData);
             }

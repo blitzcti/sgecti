@@ -18,6 +18,17 @@
                     <p>Deseja realmente cancelar o trabalho de <span id="cancelModalStudentName"
                                                                      class="text-bold"></span>?</p>
 
+                    <div class="form-group @if($errors->has('canceledAt')) has-error @endif">
+                        <label class="control-label col-sm-2" for="inputCanceledAt">Data*</label>
+
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" id="inputCanceledAt" name="canceledAt"
+                                   value="{{ old('canceledAt') ?? '' }}"/>
+
+                            <span class="help-block">{{ $errors->first('canceledAt') }}</span>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label for="inputReasonToCancel" class="col-sm-2 control-label">Motivo*</label>
 
@@ -44,8 +55,8 @@
     @parent
 
     <script type="text/javascript">
-        function internshipId(id) {
-            jQuery('#cancelForm').attr('action', `/coordenador/estagio/trabalho/${id}/cancelar`);
+        function jobId(id) {
+            jQuery('#cancelForm').attr('action', `/coordenador/trabalho/${id}/cancelar`);
         }
 
         function studentName(name) {

@@ -24,9 +24,9 @@ class StoreSector extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:50|unique:sectors,name',
-            'description' => 'nullable|max:8000',
-            'active' => 'required|boolean',
+            'name' => ['required', 'max:50', 'unique:sectors,name'],
+            'description' => ['nullable', 'max:8000'],
+            'active' => ['required', 'boolean'],
         ];
     }
 }

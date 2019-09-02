@@ -10,12 +10,13 @@ use App\Models\Company;
 use App\Models\Course;
 use App\Models\Sector;
 use App\Models\SystemConfiguration;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class CompanyController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
         $this->middleware('coordinator');
         $this->middleware('permission:company-list');
@@ -101,7 +102,8 @@ class CompanyController extends Controller
         if ($validatedData->hasAgreement) {
             $agreement = new Agreement();
 
-            $agreement->expiration_date = SystemConfiguration::getAgreementExpiration();
+            $agreement->start_date = $validatedData->startDate;
+            $agreement->end_date = SystemConfiguration::getAgreementExpiration(Carbon::createFromFormat("Y-m-d", $agreement->start_date));
             $agreement->observation = $validatedData->observation;
 
             //$log .= "\nNovos dados (convênio): " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);

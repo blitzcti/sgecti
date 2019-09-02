@@ -7,11 +7,18 @@ use App\Http\Requests\API\StoreSector;
 use App\Http\Requests\API\UpdateSector;
 use App\Models\Company;
 use App\Models\Sector;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SectorController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('coordinator');
+        $this->middleware('permission:companySector-list');
+        $this->middleware('permission:companySector-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:companySector-edit', ['only' => ['edit', 'update']]);
+    }
+
     /**
      * Search for a string in a specific array column
      *

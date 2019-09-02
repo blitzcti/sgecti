@@ -30,15 +30,15 @@ class UpdateInternship extends FormRequest
     public function rules()
     {
         return [
-            'has2Schedules' => 'required|boolean',
+            'has2Schedules' => ['required', 'boolean'],
 
             'ra' => ['required', 'numeric', 'min:1', new RA, new SameCourse, new CompanyHasCourse($this->get('company'))],
-            'active' => 'required|numeric|min:1',
-            'company' => ['required', 'min:1', new HasCourse, new HasAgreement($this->get('startDate'))],
-            'sector' => 'required|min:1',
-            'startDate' => 'required|date|before:endDate',
-            'endDate' => 'required|date|after:startDate',
-            'activities' => 'required|max:8000',
+            'active' => ['required', 'boolean'],
+            'company' => ['required', 'numeric', 'min:1', 'exists:companies,id', new HasCourse, new HasAgreement($this->get('startDate'))],
+            'sector' => ['required', 'numeric', 'min:1', 'exists:sectors,id'],
+            'startDate' => ['required', 'date', 'before:endDate'],
+            'endDate' => ['required', 'date', 'after:startDate'],
+            'activities' => ['required', 'max:8000'],
 
             'monS' => ['required_without_all:tueS,wedS,thuS,friS,satS', 'required_with:monE', 'nullable', 'date_format:H:i', 'before:monE'],
             'monE' => ['required_with:monS', 'nullable', 'date_format:H:i', 'after:monS', new HourInterval($this->get('monS'), $this->get('monE2'), $this->get('monS2'))],
@@ -66,10 +66,10 @@ class UpdateInternship extends FormRequest
             'satS2' => ['required_with:satE2', 'nullable', 'date_format:H:i', 'before:satE2'],
             'satE2' => ['required_with:satS2', 'nullable', 'date_format:H:i', 'after:satS2'],
 
-            'supervisor' => 'required|numeric|min:1',
+            'supervisor' => ['required', 'numeric', 'min:1', 'exists:supervisors,id'],
 
-            'protocol' => 'required|max:5',
-            'observation' => 'nullable|max:8000',
+            'protocol' => ['required', 'numeric', 'digits_between:5,5'],
+            'observation' => ['nullable', 'max:8000'],
         ];
     }
 }

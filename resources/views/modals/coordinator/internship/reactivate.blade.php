@@ -17,16 +17,6 @@
 
                     <p>Deseja realmente reativar o estágio de <span id="reactivateModalStudentName"
                                                                     class="text-bold"></span>?</p>
-
-                    {{--<div class="form-group">
-                        <label for="inputReasonToCancel" class="col-sm-2 control-label">Motivo*</label>
-
-                        <div class="col-sm-10">
-                            <textarea class="form-control" rows="3" id="inputReasonToCancel" name="reasonToCancel"
-                                      style="resize: none" required
-                                      placeholder="O motivo do cancelamento do estágio"></textarea>
-                        </div>
-                    </div>--}}
                 </div>
 
                 <div class="modal-footer">

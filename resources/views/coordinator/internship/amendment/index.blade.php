@@ -55,7 +55,7 @@
                             @endif
                         </td>
 
-                        <td>{{ $amendment->internship->company->name }}</td>
+                        <td>{{ $amendment->internship->company->name }} {{ $amendment->internship->company->fantasy_name != null ? " (" . $amendment->internship->company->fantasy_name . ")" : '' }}</td>
                         <td>{{ date("d/m/Y", strtotime($amendment->start_date)) }}</td>
                         <td>{{ date("d/m/Y", strtotime($amendment->end_date)) }}</td>
                         <td>
@@ -77,6 +77,7 @@
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
+                responsive: true,
                 lengthChange: false,
                 buttons: [
                     {
@@ -100,7 +101,7 @@
                     }
                 ],
                 initComplete: function () {
-                    table.buttons().container().appendTo($('#amendments_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().appendTo(jQuery('#amendments_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                     jQuery('#addLink').prependTo(table.buttons().container());
                 },

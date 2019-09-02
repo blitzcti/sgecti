@@ -45,6 +45,7 @@ class Kernel extends HttpKernel
         'apiSession' => [
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Session\Middleware\AuthenticateSession::class,
+            \App\Http\Middleware\APIAuthenticate::class,
         ],
     ];
 

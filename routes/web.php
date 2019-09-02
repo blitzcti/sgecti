@@ -193,19 +193,6 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
             Route::get('aditivo', 'AmendmentController@indexByInternship')->name('aditivo');
         });
 
-        Route::prefix('trabalho')->name('trabalho.')->group(function () {
-            Route::get('', 'JobController@index')->name('index');
-            Route::get('novo', 'JobController@create')->name('novo');
-            Route::post('salvar', 'JobController@store')->name('salvar');
-
-            Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-                Route::get('', 'JobController@details')->name('detalhes');
-                Route::get('editar', 'JobController@edit')->name('editar');
-                Route::put('alterar', 'JobController@update')->name('alterar');
-                Route::put('cancelar', 'JobController@cancel')->name('cancelar');
-            });
-        });
-
         Route::prefix('aditivo')->name('aditivo.')->group(function () {
             Route::get('', 'AmendmentController@index')->name('index');
             Route::get('novo', 'AmendmentController@create')->name('novo');
@@ -214,6 +201,32 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
             Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                 Route::get('editar', 'AmendmentController@edit')->name('editar');
                 Route::put('alterar', 'AmendmentController@update')->name('alterar');
+            });
+        });
+    });
+
+    Route::prefix('trabalho')->name('trabalho.')->group(function () {
+        Route::get('', 'JobController@index')->name('index');
+        Route::get('novo', 'JobController@create')->name('novo');
+        Route::post('salvar', 'JobController@store')->name('salvar');
+
+        Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+            Route::get('', 'JobController@details')->name('detalhes');
+            Route::get('editar', 'JobController@edit')->name('editar');
+            Route::put('alterar', 'JobController@update')->name('alterar');
+            Route::put('cancelar', 'JobController@cancel')->name('cancelar');
+            Route::put('reativar', 'JobController@reactivate')->name('reativar');
+        });
+
+        Route::prefix('empresa')->name('empresa.')->group(function () {
+            Route::get('', 'JobCompanyController@index')->name('index');
+            Route::get('novo', 'JobCompanyController@create')->name('novo');
+            Route::post('salvar', 'JobCompanyController@store')->name('salvar');
+
+            Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+                Route::get('', 'JobCompanyController@details')->name('detalhes');
+                Route::get('editar', 'JobCompanyController@edit')->name('editar');
+                Route::put('alterar', 'JobCompanyController@update')->name('alterar');
             });
         });
     });

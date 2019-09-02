@@ -2,9 +2,13 @@
 
 return [
 
+    'user' => 'USUÁRIO',
+    'changePassword' => 'Alterar senha',
+
+
+
     'accountSettings' => 'CONFIGURAÇÕES DA CONTA',
     'profile' => 'Perfil',
-    'changePassword' => 'Alterar senha',
 
 
     'system' => 'SISTEMA',
@@ -26,21 +30,24 @@ return [
 
     'administration' => 'ADMINISTRAÇÃO',
     'courses' => 'Cursos',
+    'coordinators' => 'Coordenadores',
 
-    'company' => 'Empresas',
+
+
+    'companies' => 'Empresas',
     'agreements' => 'Convênios',
-    'sector' => 'Setores',
+    'sectors' => 'Setores',
 
-    'internship' => 'Estágios',
-    'job' => 'Trabalhos',
-    'amendment' => 'Termo aditivo',
+    'internships' => 'Estágios',
+    'amendments' => 'Termo aditivo',
+    'jobs' => 'Trabalhos',
 
-    'report' => 'Relatórios',
-    'proposal' => 'Proposta',
+    'reports' => 'Relatórios',
+    'proposals' => 'Propostas de estágio',
     'bimestral' => 'Bimestral',
     'final' => 'Final',
 
-    'student' => 'Alunos',
+    'students' => 'Alunos',
 
     'supervisors' => 'Supervisores',
 

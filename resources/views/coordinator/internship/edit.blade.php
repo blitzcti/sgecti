@@ -24,8 +24,6 @@
             <div class="box-body">
                 <input type="hidden" id="inputHas2Schedules" name="has2Schedules"
                        value="{{ (old('has2Schedules') ?? $internship->schedule2 != null) ? '1' : '0' }}">
-                <input type="hidden" id="inputHasCTPS" name="hasCTPS"
-                       value="{{ (old('hasCTPS') ?? $internship->ctps_id != null) ? '1' : '0' }}">
 
                 <div class="row">
                     <div class="col-sm-6">
@@ -91,7 +89,8 @@
 
                                 <option
                                     value="{{ $company->id }}" {{ (old('company') ?? $internship->company->id) == $company->id ? 'selected' : '' }}>
-                                    {{ $company->cpf_cnpj }} - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
+                                    {{ $company->cpf_cnpj }}
+                                    - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
                                 </option>
 
                             @endforeach
@@ -106,7 +105,8 @@
                     <label for="inputCompanyRepresentative" class="col-sm-2 control-label">Representante*</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control input-info" id="inputCompanyRepresentative" name="representative" readonly
+                        <input type="text" class="form-control input-info" id="inputCompanyRepresentative"
+                               name="representative" readonly
                                value="{{ (App\Models\Company::find(old('company')) ?? $internship->company)->representative_name }}"/>
                     </div>
                 </div>
@@ -174,7 +174,7 @@
                 </div>
 
                 <div class="form-group @if($errors->has('observation')) has-error @endif">
-                    <label for="inputObservation" class="col-sm-2 control-label">Observação</label>
+                    <label for="inputObservation" class="col-sm-2 control-label">Observações</label>
 
                     <div class="col-sm-10">
                         <textarea class="form-control" rows="3" id="inputObservation" name="observation"
@@ -208,7 +208,7 @@
                             <tr>
                                 <th>
                                     <a href="#" data-toggle="modal" data-target="#cloneScheduleModal"
-                                        onclick="schedule2 = false;">
+                                       onclick="schedule2 = false;">
                                         <i class="fa fa-copy"></i>
                                     </a>
                                 </th>
@@ -604,7 +604,7 @@
                 jQuery('#inputSector').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `/api/empresa/${jQuery('#inputCompany').val()}/setor/`,
+                        url: `/api/coordenador/empresa/${jQuery('#inputCompany').val()}/setor/`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -632,7 +632,7 @@
                 jQuery('#inputSupervisor').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `/api/empresa/${jQuery('#inputCompany').val()}/supervisor/`,
+                        url: `/api/coordenador/empresa/${jQuery('#inputCompany').val()}/supervisor/`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -660,7 +660,7 @@
 
             jQuery('#inputCompany').on('change', e => {
                 jQuery.ajax({
-                    url: `/api/empresa/${jQuery('#inputCompany').val()}`,
+                    url: `/api/coordenador/empresa/${jQuery('#inputCompany').val()}`,
                     dataType: 'json',
                     method: 'GET',
                     success: function (data) {

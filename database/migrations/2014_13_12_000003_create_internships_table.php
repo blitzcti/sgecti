@@ -47,6 +47,7 @@ class CreateInternshipsTable extends Migration
             $table->text('activities');
             $table->text('observation')->nullable(true)->default(null);
             $table->text('reason_to_cancel')->nullable(true)->default(null);
+            $table->date('canceled_at')->nullable(true)->default(null);
 
             $table->boolean('active')->default(true);
 

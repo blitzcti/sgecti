@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 
 class CourseController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
         $this->middleware('permission:course-list');
         $this->middleware('permission:course-create', ['only' => ['create', 'store']]);

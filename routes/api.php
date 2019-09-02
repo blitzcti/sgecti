@@ -42,63 +42,102 @@ Route::prefix('')->name('api.')->group(function () {
         Route::get('cnpj/{cnpj}', 'API\ExternalAPISController@getCompanyInfo')->name('cnpj');
     });
 
-    Route::prefix('aluno')->name('aluno.')->group(function () {
-        Route::get('', 'API\NSac\StudentController@get')->name('get');
-        Route::get('curso/{course}', 'API\NSac\StudentController@getByCourse')->name('getByCourse');
-        Route::get('ano/{year}', 'API\NSac\StudentController@getByYear')->name('getByYear');
-        Route::get('turma/{class}', 'API\NSac\StudentController@getByClass')->name('getByClass');
+    Route::group(['middleware' => ['apiSession']], function () {
+        Route::prefix('admin')->name('admin.')->group(function () {
+            Route::get('sysUsage', 'API\SystemUsage@index')->name('sysUsage');
+            Route::post('down', 'API\SystemUsage@down')->name('down');
+            Route::post('up', 'API\SystemUsage@up')->name('up');
 
-        Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-            Route::get('', 'API\NSac\StudentController@getByRA')->name('getByRA');
-            Route::get('foto', 'API\NSac\StudentController@getPhoto')->middleware('auth:api')->name('foto');
-        });
-    });
+            Route::prefix('coordenador')->name('coordenador.')->group(function () {
+                Route::get('', 'API\CoordinatorController@get')->name('get');
+                Route::get('curso/{id}', 'API\CoordinatorController@getByCourse')->name('getByCourse');
 
-    Route::prefix('empresa')->name('empresa.')->group(function () {
-        Route::get('', 'API\CompanyController@get')->name('get');
-
-        Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-            Route::get('', 'API\CompanyController@getById')->name('getById');
-
-            Route::prefix('setor')->name('setor.')->group(function () {
-                Route::get('', 'API\SectorController@getFromCompany')->name('getFromCompany');
-            });
-
-            Route::prefix('supervisor')->name('supervisor.')->group(function () {
-                Route::get('', 'API\SupervisorController@getFromCompany')->name('getFromCompany');
+                Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+                    Route::get('', 'API\CoordinatorController@getById')->name('getById');
+                });
             });
         });
 
-        Route::prefix('setor')->name('setor.')->group(function () {
-            Route::get('', 'API\SectorController@get')->name('get');
-            Route::post('salvar', 'API\SectorController@store')->name('salvar');
+        Route::prefix('coordenador')->name('coordenador.')->group(function () {
+            Route::prefix('aluno')->name('aluno.')->group(function () {
+                Route::get('', 'API\NSac\StudentController@get')->name('get');
+                Route::get('curso/{course}', 'API\NSac\StudentController@getByCourse')->name('getByCourse');
+                Route::get('ano/{year}', 'API\NSac\StudentController@getByYear')->name('getByYear');
+                Route::get('turma/{class}', 'API\NSac\StudentController@getByClass')->name('getByClass');
 
-            Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-                Route::get('', 'API\SectorController@getById')->name('getById');
-                Route::put('alterar', 'SectorController@update')->name('alterar');
+                Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+                    Route::get('', 'API\NSac\StudentController@getByRA')->name('getByRA');
+                    Route::get('foto', 'API\NSac\StudentController@getPhoto')->middleware('auth:api')->name('foto');
+                });
             });
-        });
 
-        Route::prefix('supervisor')->name('supervisor.')->group(function () {
-            Route::get('', 'API\SupervisorController@get')->name('get');
-            Route::post('salvar', 'API\SupervisorController@store')->name('salvar');
+            Route::prefix('empresa')->name('empresa.')->group(function () {
+                Route::get('', 'API\CompanyController@get')->name('get');
 
-            Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-                Route::get('', 'API\SupervisorController@getById')->name('getById');
-                Route::put('alterar', 'SupervisorController@update')->name('alterar');
+                Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+                    Route::get('', 'API\CompanyController@getById')->name('getById');
+
+                    Route::prefix('setor')->name('setor.')->group(function () {
+                        Route::get('', 'API\SectorController@getFromCompany')->name('getFromCompany');
+                    });
+
+                    Route::prefix('supervisor')->name('supervisor.')->group(function () {
+                        Route::get('', 'API\SupervisorController@getFromCompany')->name('getFromCompany');
+                    });
+                });
+
+                Route::prefix('setor')->name('setor.')->group(function () {
+                    Route::get('', 'API\SectorController@get')->name('get');
+                    Route::post('salvar', 'API\SectorController@store')->name('salvar');
+
+                    Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+                        Route::get('', 'API\SectorController@getById')->name('getById');
+                        Route::put('alterar', 'SectorController@update')->name('alterar');
+                    });
+                });
+
+                Route::prefix('supervisor')->name('supervisor.')->group(function () {
+                    Route::get('', 'API\SupervisorController@get')->name('get');
+                    Route::post('salvar', 'API\SupervisorController@store')->name('salvar');
+
+                    Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+                        Route::get('', 'API\SupervisorController@getById')->name('getById');
+                        Route::put('alterar', 'SupervisorController@update')->name('alterar');
+                    });
+                });
             });
-        });
-    });
 
-    Route::prefix('estagio')->name('estagio.')->group(function () {
-        Route::get('', 'API\InternshipController@get')->name('get');
+            Route::prefix('estagio')->name('estagio.')->group(function () {
+                Route::get('', 'API\InternshipController@get')->name('get');
 
-        Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-            Route::get('', 'API\InternshipController@getById')->name('getById');
-        });
+                Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+                    Route::get('', 'API\InternshipController@getById')->name('getById');
+                });
 
-        Route::prefix('ra')->group(function () {
-            Route::get('{ra}', 'API\InternshipController@getByRA')->name('getByRA');
+                Route::prefix('ra')->group(function () {
+                    Route::get('{ra}', 'API\InternshipController@getByRA')->name('getByRA');
+                });
+            });
+
+            Route::prefix('trabalho')->name('trabalho.')->group(function () {
+                Route::get('', 'API\JobController@get')->name('get');
+
+                Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+                    Route::get('', 'API\JobController@getById')->name('getById');
+                });
+
+                Route::prefix('ra')->group(function () {
+                    Route::get('{ra}', 'API\JobController@getByRA')->name('getByRA');
+                });
+
+                Route::prefix('empresa')->name('empresa.')->group(function () {
+                    Route::get('', 'API\JobCompanyController@get')->name('get');
+
+                    Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+                        Route::get('', 'API\JobCompanyController@getById')->name('getById');
+                    });
+                });
+            });
         });
     });
 });

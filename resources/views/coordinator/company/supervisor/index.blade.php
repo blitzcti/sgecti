@@ -30,7 +30,13 @@
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th>Empresa</th>
+
+                    @if(!isset($company))
+
+                        <th>Empresa</th>
+
+                    @endif
+
                     <th>Nome</th>
                     <th>Email</th>
                     <th>Ações</th>
@@ -42,7 +48,13 @@
 
                     <tr>
                         <th scope="row">{{ $supervisor->id }}</th>
-                        <td>{{ $supervisor->company->name }}</td>
+
+                        @if(!isset($company))
+
+                            <td>{{ $supervisor->company->name }} {{ $supervisor->company->fantasy_name != null ? (" (" . $supervisor->company->fantasy_name . ")") : '' }}</td>
+
+                        @endif
+
                         <td>{{ $supervisor->name }}</td>
                         <td>{{ $supervisor->email }}</td>
 
@@ -65,6 +77,7 @@
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
+                responsive: true,
                 lengthChange: false,
                 buttons: [
                     {
@@ -88,7 +101,7 @@
                     }
                 ],
                 initComplete: function () {
-                    table.buttons().container().appendTo($('#supervisors_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().appendTo(jQuery('#supervisors_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                     jQuery('#addLink').prependTo(table.buttons().container());
                 },

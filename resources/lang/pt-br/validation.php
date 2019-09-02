@@ -20,6 +20,7 @@ return [
     'alpha_num' => 'O campo :attribute só pode conter letras e números.',
     'already_has_agreement' => 'O campo :attribute contém uma empresa já conveniada.',
     'already_has_internship' => 'O campo :attribute contém um RA de um aluno que já está fazendo estágio.',
+    'already_has_job' => 'O campo :attribute contém um RA de um aluno que já está trabalhando.',
     'array' => 'O campo :attribute deve ser uma matriz.',
     'before' => 'O campo :attribute deve ser uma data anterior :date.',
     'before_or_equal' => 'O campo :attribute deve ser uma data anterior ou igual a :date.',
@@ -85,6 +86,8 @@ return [
         'array' => 'O campo :attribute não pode ter mais do que :max itens.',
     ],
     'max_years' => 'O campo :attribute é de um aluno que já passou do limite de anos para estágio.',
+    'min_semester' => 'O campo :attribute é de um aluno que não está no semestre mínimo.',
+    'min_year' => 'O campo :attribute é de um aluno que não está no ano mínimo.',
     'mimes' => 'O campo :attribute deve ser um arquivo do tipo: :values.',
     'mimetypes' => 'O campo :attribute deve ser um arquivo do tipo: :values.',
     'min' => [
@@ -117,6 +120,7 @@ return [
         'array' => 'O campo :attribute deve conter :size itens.',
     ],
     'string' => 'O campo :attribute deve ser uma string.',
+    'temp_of' => 'O campo :attribute deve conter um usuário diferente.',
     'timezone' => 'O campo :attribute deve ser uma zona válida.',
     'unique' => 'O campo :attribute já está sendo utilizado.',
     'uploaded' => 'Ocorreu uma falha no upload do campo :attribute.',
@@ -157,6 +161,8 @@ return [
         'password' => 'Senha',
         'group' => 'Grupo',
 
+        'tempOf' => 'Temporário de',
+
         'maxYears' => 'Anos máximos',
         'minYear' => 'Ano mínimo',
         'minSemester' => 'Semestre mínimo',
@@ -183,6 +189,7 @@ return [
         'agreementExpiration' => 'Validade do convênio',
 
         'cpfCnpj' => 'CPF / CNPJ',
+        'ie' => 'I.E.',
         'representativeName' => 'Nome do representante',
         'representativeRole' => 'Cargo do representante',
         'sector' => 'Setor',
@@ -190,19 +197,22 @@ return [
         'course' => 'Curso',
         'courses' => 'Cursos',
         'hasAgreement' => 'Registrar convênio?',
-        'expirationDate' => 'Validade do convênio',
 
         'description' => 'Descrição',
 
         'ra' => 'RA',
         'activities' => 'Atividades',
-        'observation' => 'Observação',
+        'observation' => 'Observações',
         'supervisor' => 'Supervisor',
         'protocol' => 'Protocolo',
         'ctps' => 'CTPS',
+        'hasSchedule' => 'Editar horário?',
         'has2Schedules' => '2 turnos?',
 
-        'internshipStartDate' => 'Data de início do estágio',
+        'grades' => 'Anos',
+        'periods' => 'Períodos',
+        'internships' => 'Estágios',
+        'students' => 'Alunos',
 
     ],
 ];

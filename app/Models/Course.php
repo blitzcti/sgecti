@@ -55,17 +55,17 @@ class Course extends Model
 
     public function getNonTempCoordinatorsAttribute()
     {
-        return $this->coordinators->where('temporary_of', '=', null);
+        return $this->coordinators->where('temporary_of', '=', null)->sortBy('id');
     }
 
     public function configurationAt($dateTime)
     {
         $config = $this->configurations->where('created_at', '<=', $dateTime)->sortBy('id');
-        return $config->last();
+        return $config->last() ?? GeneralConfiguration::all()->where('created_at', '<=', $dateTime)->sortBy('id')->last();
     }
 
     public function configuration()
     {
-        return $this->configurationAt(Carbon::now()) ?? GeneralConfiguration::all()->last();
+        return $this->configurationAt(Carbon::now());
     }
 }

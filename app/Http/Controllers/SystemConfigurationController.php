@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 class SystemConfigurationController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
         $this->middleware('permission:systemConfiguration-list');
         $this->middleware('permission:systemConfiguration-create', ['only' => ['create', 'store']]);

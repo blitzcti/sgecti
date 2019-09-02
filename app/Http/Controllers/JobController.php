@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CancelJob;
+use App\Http\Requests\ReactivateJob;
 use App\Http\Requests\StoreJob;
 use App\Http\Requests\UpdateJob;
-use App\Models\Company;
 use App\Models\Job;
-use App\Models\Schedule;
+use App\Models\JobCompany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class JobController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
         $this->middleware('coordinator');
         $this->middleware('permission:job-list');
@@ -31,17 +31,17 @@ class JobController extends Controller
             return in_array($job->student->course_id, $cIds);
         });
 
-        return view('coordinator.internship.job.index')->with(['jobs' => $jobs]);
+        return view('coordinator.job.index')->with(['jobs' => $jobs]);
     }
 
     public function create()
     {
-        $companies = Company::all()->where('active', '=', true)->sortBy('id');
+        $companies = JobCompany::all()->where('active', '=', true)->sortBy('id');
         $s = request()->s;
 
-        return view('coordinator.internship.job.new')->with(
-            ['companies' => $companies, 's' => $s]
-        );
+        return view('coordinator.job.new')->with([
+            'companies' => $companies, 's' => $s
+        ]);
     }
 
     public function edit($id)
@@ -55,9 +55,9 @@ class JobController extends Controller
             abort(404);
         }
 
-        $companies = Company::all()->where('active', '=', true)->merge([$job->company])->sortBy('id');
+        $companies = JobCompany::all()->where('active', '=', true)->merge([$job->company])->sortBy('id');
 
-        return view('coordinator.internship.job.edit')->with([
+        return view('coordinator.job.edit')->with([
             'job' => $job, 'companies' => $companies,
         ]);
     }
@@ -73,7 +73,7 @@ class JobController extends Controller
             abort(404);
         }
 
-        return view('coordinator.internship.job.details')->with(['job' => $job]);
+        return view('coordinator.job.details')->with(['job' => $job]);
     }
 
     public function store(StoreJob $request)
@@ -87,11 +87,7 @@ class JobController extends Controller
         $log .= "\nUsuário: " . Auth::user()->name;
 
         $job->ra = $validatedData->ra;
-        $job->company_cpf_cnpj = $validatedData->companyCpfCnpj;
-        $job->company_ie = $validatedData->companyIE;
-        $job->company_pj = $validatedData->companyPJ;
-        $job->company_name = $validatedData->companyName;
-        $job->company_fantasy_name = $validatedData->companyFantasyName;
+        $job->company_id = $validatedData->company;
 
         $coordinator = Auth::user()->coordinators->where('course_id', '=', $job->student->course_id)->last();
         $coordinator_id = $coordinator->temporary_of->id ?? $coordinator->id;
@@ -118,7 +114,7 @@ class JobController extends Controller
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
-        return redirect()->route('coordenador.estagio.trabalho.index')->with($params);
+        return redirect()->route('coordenador.trabalho.index')->with($params);
     }
 
     public function update($id, UpdateJob $request)
@@ -133,15 +129,7 @@ class JobController extends Controller
         $log .= "\nDados antigos: " . json_encode($job, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $job->ra = $validatedData->ra;
-        $job->company_cpf_cnpj = $validatedData->companyCpfCnpj;
-        $job->company_ie = $validatedData->companyIE;
-        $job->company_pj = $validatedData->companyPJ;
-        $job->company_name = $validatedData->companyName;
-        $job->company_fantasy_name = $validatedData->companyFantasyName;
-
-        $coordinator = Auth::user()->coordinators->where('course_id', '=', $job->student->course_id)->last();
-        $coordinator_id = $coordinator->temporary_of->id ?? $coordinator->id;
-        $job->coordinator_id = $coordinator_id;
+        $job->company_id = $validatedData->company;
 
         $job->start_date = $validatedData->startDate;
         $job->end_date = $validatedData->endDate;
@@ -163,7 +151,7 @@ class JobController extends Controller
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
-        return redirect()->route('coordenador.estagio.trabalho.index')->with($params);
+        return redirect()->route('coordenador.trabalho.index')->with($params);
     }
 
     public function cancel($id, CancelJob $request)
@@ -173,6 +161,7 @@ class JobController extends Controller
 
         $job->state_id = 3;
         $job->reason_to_cancel = $validatedData->reasonToCancel;
+        $job->canceled_at = $validatedData->canceledAt;
         $saved = $job->save();
 
         $log = "Cancelamento de trabalho";
@@ -188,6 +177,32 @@ class JobController extends Controller
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
-        return redirect()->route('coordenador.estagio.trabalho.index')->with($params);
+        return redirect()->route('coordenador.trabalho.index')->with($params);
+    }
+
+    public function reactivate($id, ReactivateJob $request)
+    {
+        $job = Job::findOrFail($id);
+        $validatedData = (object)$request->validated();
+
+        $job->state_id = 1;
+        $job->reason_to_cancel = null;
+        $job->canceled_at = null;
+        $saved = $job->save();
+
+        $log = "Reativamento de trabalho";
+        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nAluno com trabalho reativado: " . $job->student->nome;
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao reativar trabalho");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+
+        return redirect()->route('coordenador.trabalho.index')->with($params);
     }
 }

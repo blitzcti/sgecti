@@ -87,7 +87,7 @@
                 </div>
 
                 <div class="form-group @if($errors->has('name')) has-error @endif">
-                    <label for="inputName" class="col-sm-2 control-label">Nome da empresa*</label>
+                    <label for="inputName" class="col-sm-2 control-label">Nome*</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputName" name="name" placeholder="MSTech"
@@ -351,8 +351,19 @@
 
             <div id="div-agreement" style="display: none">
                 <div class="box-body">
+                    <div class="form-group @if($errors->has('startDate')) has-error @endif">
+                        <label for="inputStartDate" class="col-sm-2 control-label">Data de início*</label>
+
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" id="inputStartDate" name="startDate"
+                                   value="{{ old('startDate') ?? date("Y-m-d") }}"/>
+
+                            <span class="help-block">{{ $errors->first('startDate') }}</span>
+                        </div>
+                    </div>
+
                     <div class="form-group @if($errors->has('observation')) has-error @endif">
-                        <label for="inputObservation" class="col-sm-2 control-label">Observação</label>
+                        <label for="inputObservation" class="col-sm-2 control-label">Observações</label>
 
                         <div class="col-sm-10">
                             <textarea class="form-control" rows="3" id="inputObservation" name="observation"
@@ -380,7 +391,7 @@
             if (isPj) {
                 jQuery('#CpfCnpjOption').text('CNPJ');
 
-                $("input[id*='inputCpfCnpj']").inputmask({
+                jQuery("input[id*='inputCpfCnpj']").inputmask({
                     mask: '99.999.999/9999-99',
                     removeMaskOnSubmit: true
                 });
@@ -389,7 +400,7 @@
             } else {
                 jQuery('#CpfCnpjOption').text('CPF');
 
-                $("input[id*='inputCpfCnpj']").inputmask({
+                jQuery("input[id*='inputCpfCnpj']").inputmask({
                     mask: '999.999.999-99',
                     removeMaskOnSubmit: true
                 });
@@ -430,7 +441,7 @@
             jQuery('#inputSectors').select2({
                 language: "pt-BR",
                 ajax: {
-                    url: '{{ route('api.empresa.setor.get') }}',
+                    url: '{{ route('api.coordenador.empresa.setor.get') }}',
                     dataType: 'json',
                     method: 'GET',
                     cache: true,
@@ -513,7 +524,7 @@
 
             function loadCnpj() {
                 if (jQuery('#inputPj').val() === '1') {
-                    $("#cnpjLoadingModal").modal({
+                    jQuery("#cnpjLoadingModal").modal({
                         backdrop: "static",
                         keyboard: false,
                         show: true
@@ -524,10 +535,10 @@
                         dataType: 'json',
                         type: 'GET',
                         success: function (company) {
-                            $("#cnpjLoadingModal").modal("hide");
+                            jQuery("#cnpjLoadingModal").modal("hide");
 
                             if (company.error) {
-                                $("#cnpjErrorModal").modal({
+                                jQuery("#cnpjErrorModal").modal({
                                     backdrop: "static",
                                     keyboard: false,
                                     show: true
@@ -563,9 +574,9 @@
                         },
 
                         error: function () {
-                            $("#cnpjLoadingModal").modal("hide");
+                            jQuery("#cnpjLoadingModal").modal("hide");
 
-                            $("#cnpjErrorModal").modal({
+                            jQuery("#cnpjErrorModal").modal({
                                 backdrop: "static",
                                 keyboard: false,
                                 show: true
@@ -576,7 +587,7 @@
             }
 
             function loadCep(data = null) {
-                $("#cepLoadingModal").modal({
+                jQuery("#cepLoadingModal").modal({
                     backdrop: "static",
                     keyboard: false,
                     show: true
@@ -587,14 +598,14 @@
                     dataType: 'json',
                     type: 'GET',
                     success: function (address) {
-                        $("#cepLoadingModal").modal("hide");
+                        jQuery("#cepLoadingModal").modal("hide");
 
                         let fields = [
                             'street', 'number', 'complement', 'district', 'city', 'uf'
                         ];
 
                         if (address.error) {
-                            $("#cepErrorModal").modal({
+                            jQuery("#cepErrorModal").modal({
                                 backdrop: "static",
                                 keyboard: false,
                                 show: true
@@ -637,9 +648,9 @@
                     },
 
                     error: function () {
-                        $("#cepLoadingModal").modal("hide");
+                        jQuery("#cepLoadingModal").modal("hide");
 
-                        $("#cepErrorModal").modal({
+                        jQuery("#cepErrorModal").modal({
                             backdrop: "static",
                             keyboard: false,
                             show: true
@@ -662,7 +673,10 @@
 
             pj({{ (old('pj') ?? 1) == 1 }});
 
-            jQuery('#inputUf').append(new Option('{{ old('uf') ?? '' }}', '{{ old('uf') ?? '' }}', false, true)).change();
+            if ('{{ old('uf') ?? '' }}' !== '') {
+                jQuery('#inputUf').append(new Option('{{ old('uf') ?? '' }}', '{{ old('uf') ?? '' }}', false, true)).change();
+            }
+
             jQuery('#inputCity').append(new Option('{{ old('city') ?? '' }}', '{{ old('city') ?? '' }}', false, true));
         });
     </script>

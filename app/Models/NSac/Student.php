@@ -38,6 +38,15 @@ class Student extends Model
      */
     protected $appends = ['course_id', 'year', 'grade', 'class', 'age'];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'internship', 'finishedInternships',
+    ];
+
     public function getCourseIdAttribute()
     {
         $id = substr($this->matricula, 3, 1);
@@ -78,17 +87,58 @@ class Student extends Model
         return date_diff(date_create($this->data_de_nascimento), date_create($date))->format("%y");
     }
 
+    public function getCourseConfigurationAttribute()
+    {
+        return $this->course->configurationAt(Carbon::create($this->year, 1, 1));
+    }
+
     public function getInternshipStateAttribute()
     {
-        if ($this->internship()->get()->toArray() != null) {
+        if ($this->internship != null) {
             return 0;
         } else {
-            if (sizeof($this->finishedInternships()->get()->toArray()) > 0) {
+            if (sizeof($this->finishedInternships) > 0) {
                 return 1;
             } else {
                 return 2;
             }
         }
+    }
+
+    public function getCompletedHoursAttribute()
+    {
+        $internships = $this->finishedInternships;
+        $h = 0;
+        $h += $internships->reduce(function ($a, $i) {
+            $a += $i->final_report->completed_hours;
+            return $a;
+        });
+
+        return $h;
+    }
+
+    public function getCompletedMonthsAttribute()
+    {
+        $internships = $this->finishedInternships;
+        $h = 0;
+        $h += $internships->reduce(function ($a, $i) {
+            $a += date_diff(date_create($i->start_date), date_create($i->end_date))->format("%m");
+            return $a;
+        });
+
+        return $h;
+    }
+
+    public function getCtpsCompletedMonthsAttribute()
+    {
+        $jobs = $this->finishedJobs;
+        $h = 0;
+        $h += $jobs->reduce(function ($a, $j) {
+            $a += date_diff(date_create($j->start_date), date_create($j->end_date))->format("%m");
+            return $a;
+        });
+
+        return $h;
     }
 
     public function internship()

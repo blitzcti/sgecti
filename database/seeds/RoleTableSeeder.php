@@ -19,7 +19,8 @@ class RoleTableSeeder extends Seeder
             'description' => 'Administra o sistema (root)'
         ]);
 
-        $permissions = Permission::where('name', 'like', 'role-%')
+        $permissions = Permission::where('name', 'like', 'sysUsage')
+            ->orWhere('name', 'like', 'role-%')
             ->orWhere('name', 'like', 'user-%')
             ->orWhere('name', 'like', 'course-%')
             ->orWhere('name', 'like', 'courseConfiguration-%')
@@ -39,8 +40,9 @@ class RoleTableSeeder extends Seeder
             ->orWhere('name', 'like', 'companyAgreement-%')
             ->orWhere('name', 'like', 'companySupervisor-%')
             ->orWhere('name', 'like', 'internship-%')
-            ->orWhere('name', 'like', 'job-%')
             ->orWhere('name', 'like', 'internshipAmendment-%')
+            ->orWhere('name', 'like', 'jobCompany-%')
+            ->orWhere('name', 'like', 'job-%')
             ->orWhere('name', 'like', 'report-%')
             ->orWhere('name', 'like', 'proposal-%')
             ->orWhere('name', 'like', 'student-%')

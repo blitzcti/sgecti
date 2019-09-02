@@ -43,8 +43,10 @@ return [
         'schedules' => "App\Models\Schedule",
         'states' => "App\Models\State",
         'internships' => "App\Models\Internship",
-        'jobs' => "App\Models\Job",
         'amendments' => "App\Models\Amendment",
+
+        'job_companies' => "App\Models\JobCompany",
+        'jobs' => "App\Models\Job",
 
         'bimestral_reports' => "App\Models\BimestralReport",
         'final_reports' => "App\Models\FinalReport",

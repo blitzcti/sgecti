@@ -24,9 +24,9 @@ class UpdateSector extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:50',
-            'description' => 'nullable|max:8000',
-            'active' => 'required|boolean',
+            'name' => ['required', 'max:50'],
+            'description' => ['nullable', 'max:8000'],
+            'active' => ['required', 'boolean'],
         ];
     }
 }

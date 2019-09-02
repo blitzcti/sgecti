@@ -7,12 +7,12 @@
 @stop
 
 @section('content')
-    @include('modals.coordinator.internship.job.cancel')
+    @include('modals.coordinator.job.cancel')
 
     <div class="box box-default">
         <div class="box-body">
             <div class="btn-group" style="display: inline-flex; margin: 0">
-                <a href="{{ route('coordenador.estagio.trabalho.editar', $job->id) }}"
+                <a href="{{ route('coordenador.trabalho.editar', $job->id) }}"
                    class="btn btn-primary">Editar trabalho</a>
 
                 @if($job->state->id == 1)
@@ -45,7 +45,7 @@
                 <dt class="col-sm-2">Email</dt>
                 <dd class="col-sm-10">{{ $job->student->email }}</dd>
 
-                <dt class="col-sm-2">Email 2</dt>
+                <dt class="col-sm-2">Email institucional</dt>
                 <dd class="col-sm-10">{{ $job->student->email2 }}</dd>
             </dl>
 
@@ -54,13 +54,13 @@
 
             <dl class="row">
                 <dt class="col-sm-2">CPF / CNPJ da empresa</dt>
-                <dd class="col-sm-10">{{ $job->company_cpf_cnpj }}</dd>
+                <dd class="col-sm-10">{{ $job->company->cpf_cnpj }}</dd>
 
                 <dt class="col-sm-2">Empresa</dt>
-                <dd class="col-sm-10">{{ $job->company_name }}</dd>
+                <dd class="col-sm-10">{{ $job->company->name }}</dd>
 
                 <dt class="col-sm-2">Nome fantasia</dt>
-                <dd class="col-sm-10">{{ $job->company_fantasy_name }}</dd>
+                <dd class="col-sm-10">{{ $job->company->fantasy_name }}</dd>
 
                 <dt class="col-sm-2">Data de início</dt>
                 <dd class="col-sm-10">{{ date("d/m/Y", strtotime($job->start_date)) }}</dd>
@@ -78,6 +78,9 @@
 
                     <dt class="col-sm-2">Motivo do cancelamento</dt>
                     <dd class="col-sm-10">{{ $job->reason_to_cancel }}</dd>
+
+                    <dt class="col-sm-2">Data do cancelamento</dt>
+                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($job->canceled_at)) }}</dd>
 
                 @endif
             </dl>

@@ -87,7 +87,7 @@
                 <dt class="col-sm-2">Estágios cancelados</dt>
                 <dd class="col-sm-10">{{ sizeof($company->internships->filter(function ($i) {return $i->state->id == 3;})) }}</dd>
 
-                <dt class="col-sm-12">Alunos de: </dt>
+                <dt class="col-sm-12">Alunos de:</dt>
                 <dl class="col-sm-0"></dl>
 
                 @foreach($company->courses as $course)

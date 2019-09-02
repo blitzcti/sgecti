@@ -100,11 +100,12 @@
 
                         <td>{{ date("d/m/Y", strtotime($report->date)) }}</td>
                         <td>{{ $report->approval_number }}</td>
-                        <td>{{ $report->hours_completed }}</td>
+                        <td>{{ $report->completed_hours }}</td>
                         <td>
                             <a href="{{ route('coordenador.relatorio.final.editar', ['id' => $report->id]) }}">Editar</a>
                             |
-                            <a href="{{ route('coordenador.relatorio.final.pdf', ['id' => $report->id]) }}" target="_blank">PDF</a>
+                            <a href="{{ route('coordenador.relatorio.final.pdf', ['id' => $report->id]) }}"
+                               target="_blank">PDF</a>
                         </td>
                     </tr>
 
@@ -116,12 +117,19 @@
 @endsection
 
 @section('js')
-    <script>
+    @if(session()->has('id') && session()->get('id'))
+        <script type="text/javascript">
+            window.open('{{ route('coordenador.relatorio.final.pdf', ['id' => session()->get('id')]) }}', '_blank');
+        </script>
+    @endif
+
+    <script type="text/javascript">
         jQuery(() => {
             let bimestralTable = jQuery("#bimestralReports").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
+                responsive: true,
                 lengthChange: false,
                 buttons: [
                     {
@@ -145,7 +153,7 @@
                     }
                 ],
                 initComplete: function () {
-                    bimestralTable.buttons().container().appendTo($('#bimestralReports_wrapper .col-sm-6:eq(0)'));
+                    bimestralTable.buttons().container().appendTo(jQuery('#bimestralReports_wrapper .col-sm-6:eq(0)'));
                     bimestralTable.buttons().container().addClass('btn-group');
                     jQuery('#addBimestralLink').prependTo(bimestralTable.buttons().container());
                 },
@@ -155,6 +163,7 @@
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
+                responsive: true,
                 lengthChange: false,
                 buttons: [
                     {
@@ -178,7 +187,7 @@
                     }
                 ],
                 initComplete: function () {
-                    finalTable.buttons().container().appendTo($('#finalReports_wrapper .col-sm-6:eq(0)'));
+                    finalTable.buttons().container().appendTo(jQuery('#finalReports_wrapper .col-sm-6:eq(0)'));
                     finalTable.buttons().container().addClass('btn-group');
                     jQuery('#addFinalLink').prependTo(finalTable.buttons().container());
                 },

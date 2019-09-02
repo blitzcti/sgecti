@@ -35,7 +35,7 @@ class CreateFinalReportsTable extends Migration
             $table->integer('grade_4_c');
             $table->float('final_grade');
 
-            $table->integer('hours_completed');
+            $table->integer('completed_hours');
             $table->date('end_date');
             $table->string('approval_number');
 

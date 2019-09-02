@@ -37,7 +37,7 @@
         <dt class="col-sm-2">Email</dt>
         <dd class="col-sm-10">{{ $student->email }}</dd>
 
-        <dt class="col-sm-2">Email 2</dt>
+        <dt class="col-sm-2">Email institucional</dt>
         <dd class="col-sm-10">{{ $student->email2 }}</dd>
     </dl>
 
@@ -63,7 +63,7 @@
         <dd class="col-sm-10">{{ date("d/m/Y", strtotime($report->end_date)) }}</dd>
 
         <dt class="col-sm-2">Horas concluídas</dt>
-        <dd class="col-sm-10">{{ $report->hours_completed }}</dd>
+        <dd class="col-sm-10">{{ $report->completed_hours }}</dd>
 
         <dt class="col-sm-2">Nota final</dt>
         <dd class="col-sm-10">{{ $report->final_grade }}</dd>

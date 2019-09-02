@@ -75,8 +75,10 @@
         let s = 0;
 
         let courses = [
-            @foreach(App\Models\Course::all()->sortBy('id') as $course)
-            {name: '{{ $course->name }}'},
+                @foreach(App\Models\Course::all()->sortBy('id') as $course)
+            {
+                name: '{{ $course->name }}'
+            },
             @endforeach
         ];
 
@@ -87,7 +89,7 @@
                 case 0: {
                     jQuery('#searchOption').text('RA');
 
-                    $("input[id*='inputSearch']").inputmask({
+                    jQuery("input[id*='inputSearch']").inputmask({
                         mask: '9999999',
                         removeMaskOnSubmit: true
                     });
@@ -97,14 +99,14 @@
                 case 1: {
                     jQuery('#searchOption').text('Nome');
 
-                    $("input[id*='inputSearch']").inputmask('remove');
+                    jQuery("input[id*='inputSearch']").inputmask('remove');
                     break;
                 }
 
                 case 2: {
                     jQuery('#searchOption').text('Ano');
 
-                    $("input[id*='inputSearch']").inputmask({
+                    jQuery("input[id*='inputSearch']").inputmask({
                         mask: '9999',
                         removeMaskOnSubmit: true
                     });
@@ -120,9 +122,9 @@
                 let val = (s === 0 || s === 2) ? jQuery('#inputSearch').inputmask('unmaskedvalue') : jQuery('#inputSearch').val().trim();
                 let filter = (s === 1 || s === 2) ? `${[{{ implode(', ', auth()->user()->coordinator_courses_id)}}].map(a => `courses[]=${a}`).join('&')}` : undefined;
                 let url = (s === 0) ?
-                    `/api/aluno/${val}` : (s === 1) ?
-                    `/api/aluno?${filter}&q=${val}` :
-                    `/api/aluno/ano/${val}?${filter}`;
+                    `/api/coordenador/aluno/${val}` : (s === 1) ?
+                        `/api/coordenador/aluno?${filter}&q=${val}` :
+                        `/api/coordenador/aluno/ano/${val}?${filter}`;
 
                 if (s === 0 && val.length === 0) {
                     return;

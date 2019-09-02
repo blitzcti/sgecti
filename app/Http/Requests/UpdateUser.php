@@ -24,10 +24,10 @@ class UpdateUser extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:191',
-            'email' => 'required|email|max:191',
-            'phone' => 'nullable|numeric|digits_between:10,11',
-            'role' => 'required|numeric|min:1',
+            'name' => ['required', 'max:191'],
+            'email' => ['required', 'email', 'max:191'],
+            'phone' => ['nullable', 'numeric', 'digits_between:10,11'],
+            'role' => ['required', 'numeric', 'min:1', 'exists:roles,id'],
         ];
     }
 }

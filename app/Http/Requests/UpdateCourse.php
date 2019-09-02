@@ -24,9 +24,9 @@ class UpdateCourse extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:30',
-            'color' => 'required|numeric|min:1',
-            'active' => 'required|boolean',
+            'name' => ['required', 'max:30'],
+            'color' => ['required', 'numeric', 'min:1', 'exists:colors,id'],
+            'active' => ['required', 'boolean'],
         ];
     }
 }

@@ -2,9 +2,13 @@
 
 return [
 
+    'user' => 'USER',
+    'changePassword' => 'Change Password',
+
+
+
     'accountSettings' => 'ACCOUNT SETTINGS',
     'profile' => 'Profile',
-    'changePassword' => 'Change Password',
 
 
     'system' => 'SYSTEM',
@@ -26,17 +30,20 @@ return [
 
     'administration' => 'ADMINISTRATION',
     'courses' => 'Courses',
+    'coordinators' => 'Coordinators',
 
-    'company' => 'Companies',
+
+
+    'companies' => 'Companies',
     'agreements' => 'Agreements',
-    'sector' => 'Sectors',
+    'sectors' => 'Sectors',
 
-    'internship' => 'Internships',
-    'job' => 'Jobs',
-    'amendment' => 'Amendments',
+    'internships' => 'Internships',
+    'amendments' => 'Amendments',
+    'jobs' => 'Jobs',
 
-    'report' => 'Reports',
-    'proposal' => 'Proposals',
+    'reports' => 'Reports',
+    'proposals' => 'Internship Proposals',
     'bimestral' => 'Bimestral',
     'final' => 'Final',
 

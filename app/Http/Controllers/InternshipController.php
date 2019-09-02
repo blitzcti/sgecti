@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 
 class InternshipController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
         $this->middleware('coordinator');
         $this->middleware('permission:internship-list');
@@ -203,10 +203,6 @@ class InternshipController extends Controller
         $internship->company_id = $validatedData->company;
         $internship->sector_id = $validatedData->sector;
 
-        $coordinator = Auth::user()->coordinators->where('course_id', '=', $internship->student->course_id)->last();
-        $coordinator_id = $coordinator->temporary_of->id ?? $coordinator->id;
-        $internship->coordinator_id = $coordinator_id;
-
         $internship->supervisor_id = $validatedData->supervisor;
         $internship->start_date = $validatedData->startDate;
         $internship->end_date = $validatedData->endDate;
@@ -237,6 +233,7 @@ class InternshipController extends Controller
 
         $internship->state_id = 3;
         $internship->reason_to_cancel = $validatedData->reasonToCancel;
+        $internship->canceled_at = $validatedData->canceledAt;
         $saved = $internship->save();
 
         $log = "Cancelamento de estágio";
@@ -262,6 +259,7 @@ class InternshipController extends Controller
 
         $internship->state_id = 1;
         $internship->reason_to_cancel = null;
+        $internship->canceled_at = null;
         $saved = $internship->save();
 
         $log = "Reativamento de estágio";

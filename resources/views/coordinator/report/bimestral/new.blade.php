@@ -17,7 +17,7 @@
 
             <div class="box-body">
                 <div class="form-group @if($errors->has('internship')) has-error @endif">
-                    <label for="inputInternship" class="col-sm-2 control-label">Nome do aluno*</label>
+                    <label for="inputInternship" class="col-sm-2 control-label">Aluno*</label>
 
                     <div class="col-sm-10">
                         <select class="form-control selection" id="inputInternship" name="internship">
@@ -26,7 +26,7 @@
 
                                 <option value="{{ $internship->id }}"
                                         {{ (old('internship') ?? $i) == $internship->id ? 'selected=selected' : '' }}>
-                                    {{ $internship->student->nome }}
+                                    {{ $internship->ra }} - {{ $internship->student->nome }}
                                 </option>
 
                             @endforeach

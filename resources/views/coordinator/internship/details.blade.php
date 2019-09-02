@@ -61,7 +61,7 @@
                 <dt class="col-sm-2">Email</dt>
                 <dd class="col-sm-10">{{ $internship->student->email }}</dd>
 
-                <dt class="col-sm-2">Email 2</dt>
+                <dt class="col-sm-2">Email institucional</dt>
                 <dd class="col-sm-10">{{ $internship->student->email2 }}</dd>
             </dl>
 
@@ -101,7 +101,7 @@
                     <dd class="col-sm-10">{{ date("d/m/Y", strtotime($internship->final_report->end_date)) }}</dd>
 
                     <dt class="col-sm-2">Horas concluídas</dt>
-                    <dd class="col-sm-10">{{ $internship->final_report->hours_completed }}</dd>
+                    <dd class="col-sm-10">{{ $internship->final_report->completed_hours }}</dd>
 
                     <dt class="col-sm-2">Nota final</dt>
                     <dd class="col-sm-10">{{ $internship->final_report->final_grade }}</dd>
@@ -118,6 +118,9 @@
 
                     <dt class="col-sm-2">Motivo do cancelamento</dt>
                     <dd class="col-sm-10">{{ $internship->reason_to_cancel }}</dd>
+
+                    <dt class="col-sm-2">Data do cancelamento</dt>
+                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($internship->canceled_at)) }}</dd>
 
                 @endif
             </dl>

@@ -4,7 +4,7 @@
 
 @section('content')
     <p>Olá, {{ $student->nome }}, </p>
-    <p>A {{ $proposal->company->name }} tem uma nova vaga de {{ $proposal->type == 1 ? 'estágio' : 'emprego' }} para você!</p>
+    <p>A {{ $proposal->company->name }} tem uma nova vaga de {{ $proposal->type == 1 ? 'estágio' : 'iniciação científica' }} para você!</p>
 
     <span><b>Descrição da vaga/atividades: </b>{{ $proposal->description }} </span><br />
     <span><b>Requisitos: </b>{{ $proposal->requirements }} </span><br />

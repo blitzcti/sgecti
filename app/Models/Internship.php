@@ -7,8 +7,8 @@ use Carbon\Carbon;
 class Internship extends Model
 {
     protected $fillable = [
-        'ra', 'company_id', 'sector_id', 'coordinator_id', 'schedule_id', 'schedule_2_id', 'supervisor_id',
-        'state_id', 'start_date', 'end_date', 'protocol', 'activities', 'observation', 'reason_to_cancel', 'active',
+        'ra', 'company_id', 'sector_id', 'coordinator_id', 'schedule_id', 'schedule_2_id', 'supervisor_id', 'state_id',
+        'start_date', 'end_date', 'protocol', 'activities', 'observation', 'reason_to_cancel', 'canceled_at', 'active',
     ];
 
     /**

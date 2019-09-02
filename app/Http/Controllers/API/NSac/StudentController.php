@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\NSac;
 
 use App\Http\Controllers\Controller;
 use App\Models\NSac\Student;
+use App\Models\State;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,8 @@ class StudentController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('coordinator', ['only' => ['getPhoto']]);
+        $this->middleware('coordinator');
+        $this->middleware('permission:student-list');
     }
 
     /**
@@ -45,10 +47,37 @@ class StudentController extends Controller
             $students = Student::actives()->sortBy('matricula');
 
             if (is_array($request->istates)) {
+                $students = collect();
+
                 $istates = $request->istates;
-                $students = $students->filter(function ($student) use ($istates) {
-                    return in_array($student->internship_state, $istates);
-                });
+                if (in_array(0, $istates)) {
+                    $students = $students->merge(State::findOrFail(1)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
+                        return Student::findOrFail($i->ra);
+                    }));
+                }
+
+                if (in_array(1, $istates)) {
+                    $students = $students->merge(State::findOrFail(2)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
+                        return Student::findOrFail($i->ra);
+                    }));
+                }
+
+                if (in_array(2, $istates)) {
+                    $students = Student::actives()->sortBy('matricula');
+                    $is = State::findOrFail(1)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
+                        return $i->ra;
+                    })->toArray();
+
+                    $fis = State::findOrFail(2)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
+                        return $i->ra;
+                    })->toArray();
+
+                    $students = $students->filter(function ($s) use ($is, $fis) {
+                        return !in_array($s->matricula, $is) && !in_array($s->matricula, $fis);
+                    });
+                }
+
+                $students = $students->sortBy('matricula');
             }
 
             if (is_array($request->courses)) {

@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 
 class InternshipController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('coordinator');
+        $this->middleware('permission:internship-list');
+        $this->middleware('permission:internship-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:internship-edit', ['only' => ['edit', 'update']]);
+    }
+
     /**
      * Search for a string in a specific array column
      *

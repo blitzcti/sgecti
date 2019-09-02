@@ -21,8 +21,7 @@
                 <a href="{{ route('admin.curso.editar', $course->id) }}"
                    class="btn btn-primary">Editar curso</a>
 
-                <a href="{{ route('admin.curso.configuracao.index', $course->id) }}" class="btn btn-default">Exibir
-                    configurações</a>
+                <a href="{{ route('admin.curso.configuracao.index', $course->id) }}" class="btn btn-default">Configurações</a>
 
                 @if ($config != null && !isset($config->max_years))
 
@@ -36,8 +35,7 @@
 
                 @endif
 
-                <a href="{{ route('admin.curso.coordenador.index', $course->id) }}" class="btn btn-default">Exibir
-                    coordenadores</a>
+                <a href="{{ route('admin.curso.coordenador.index', $course->id) }}" class="btn btn-default">Coordenadores</a>
 
                 @if ($coordinator != null)
 

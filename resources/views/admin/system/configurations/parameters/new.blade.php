@@ -237,7 +237,7 @@
             });
 
             function loadCep() {
-                $("#cepLoadingModal").modal({
+                jQuery("#cepLoadingModal").modal({
                     backdrop: "static",
                     keyboard: false,
                     show: true
@@ -248,10 +248,10 @@
                     dataType: 'json',
                     type: 'GET',
                     success: function (address) {
-                        $("#cepLoadingModal").modal("hide");
+                        jQuery("#cepLoadingModal").modal("hide");
 
                         if (address.error) {
-                            $("#cepErrorModal").modal({
+                            jQuery("#cepErrorModal").modal({
                                 backdrop: "static",
                                 keyboard: false,
                                 show: true
@@ -280,9 +280,9 @@
                     },
 
                     error: function () {
-                        $("#cepLoadingModal").modal("hide");
+                        jQuery("#cepLoadingModal").modal("hide");
 
-                        $("#cepErrorModal").modal({
+                        jQuery("#cepErrorModal").modal({
                             backdrop: "static",
                             keyboard: false,
                             show: true
@@ -297,7 +297,10 @@
                 }
             });
 
-            jQuery('#inputUf').append(new Option('{{ old('uf') ?? '' }}', '{{ old('uf') ?? '' }}', false, true)).change();
+            if ('{{ old('uf') ?? '' }}' !== '') {
+                jQuery('#inputUf').append(new Option('{{ old('uf') ?? '' }}', '{{ old('uf') ?? '' }}', false, true)).change();
+            }
+
             jQuery('#inputCity').append(new Option('{{ old('city') ?? '' }}', '{{ old('city') ?? '' }}', false, true));
         });
     </script>

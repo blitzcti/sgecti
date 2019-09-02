@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 
 class CourseConfigurationController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
         $this->middleware('permission:courseConfiguration-list');
         $this->middleware('permission:courseConfiguration-create', ['only' => ['create', 'store']]);

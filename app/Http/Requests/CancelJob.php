@@ -24,7 +24,8 @@ class CancelJob extends FormRequest
     public function rules()
     {
         return [
-            'reasonToCancel' => 'required|max:8000',
+            'canceledAt' => ['required', 'date'],
+            'reasonToCancel' => ['required', 'max:8000'],
         ];
     }
 }

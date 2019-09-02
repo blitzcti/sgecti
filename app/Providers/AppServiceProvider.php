@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
+use JeroenNoten\LaravelAdminLte\Menu\Builder;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,12 +37,12 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 
-    public function loadMenu($menu)
+    public function loadMenu(Builder $menu)
     {
         $courses = Course::all()->sortBy('id');
         $user = Auth::user();
 
-        $menu->add('menu.system');
+        $menu->add('menu.user');
         $menu->add([
             'text' => 'menu.changePassword',
             'route' => 'alterarSenha',
@@ -49,6 +50,7 @@ class AppServiceProvider extends ServiceProvider
             'active' => ['alterarSenha/']
         ]);
 
+        $menu->add('menu.system');
         if ($user->can('systemConfiguration-list')) {
             $menu->add([
                 'text' => 'menu.configuration',
@@ -145,32 +147,32 @@ class AppServiceProvider extends ServiceProvider
                     ],
                 ];
 
-                if ($user->can('coordinator-list')) {
-                    $coordinator = [
-                        'text' => 'Coordenadores',
-                        'icon' => 'black-tie',
-                        'submenu' => [
-                            [
-                                'text' => 'menu.view',
-                                'route' => 'admin.coordenador.index',
-                                'icon' => 'th-list',
-                                'active' => ['admin/coordenador/']
-                            ],
-                            [
-                                'text' => 'menu.new',
-                                'route' => 'admin.coordenador.novo',
-                                'icon' => 'edit',
-                                'active' => ['admin/coordenador/novo']
-                            ],
-                        ]
-                    ];
-
-                    array_push($submenu, $coordinator);
-                }
-
                 $menu->add([
                     'text' => 'menu.courses',
                     'icon' => 'graduation-cap',
+                    'submenu' => $submenu,
+                ]);
+            }
+
+            if ($user->can('coordinator-list')) {
+                $submenu = [
+                    [
+                        'text' => 'menu.view',
+                        'route' => 'admin.coordenador.index',
+                        'icon' => 'th-list',
+                        'active' => ['admin/coordenador/']
+                    ],
+                    [
+                        'text' => 'menu.new',
+                        'route' => 'admin.coordenador.novo',
+                        'icon' => 'edit',
+                        'active' => ['admin/coordenador/novo']
+                    ],
+                ];
+
+                $menu->add([
+                    'text' => 'menu.coordinators',
+                    'icon' => 'black-tie',
                     'submenu' => $submenu,
                 ]);
             }
@@ -211,7 +213,7 @@ class AppServiceProvider extends ServiceProvider
 
                 if ($user->can('companySector-list')) {
                     $companySector = [
-                        'text' => 'menu.sector',
+                        'text' => 'menu.sectors',
                         'icon' => 'balance-scale',
                         'submenu' => [
                             [
@@ -279,7 +281,7 @@ class AppServiceProvider extends ServiceProvider
                 }
 
                 $menu->add([
-                    'text' => 'menu.company',
+                    'text' => 'menu.companies',
                     'icon' => 'building',
                     'submenu' => $submenu,
                 ]);
@@ -301,32 +303,9 @@ class AppServiceProvider extends ServiceProvider
                     ],
                 ];
 
-                if ($user->can('job-list')) {
-                    $job = [
-                        'text' => 'menu.job',
-                        'icon' => 'id-badge',
-                        'submenu' => [
-                            [
-                                'text' => 'menu.view',
-                                'route' => 'coordenador.estagio.trabalho.index',
-                                'icon' => 'th-list',
-                                'active' => ['coordenador/estagio/trabalho']
-                            ],
-                            [
-                                'text' => 'menu.new',
-                                'route' => 'coordenador.estagio.trabalho.novo',
-                                'icon' => 'edit',
-                                'active' => ['coordenador/estagio/trabalho/novo']
-                            ],
-                        ],
-                    ];
-
-                    array_push($submenu, $job);
-                }
-
                 if ($user->can('internshipAmendment-list')) {
                     $internshipAmendment = [
-                        'text' => 'menu.amendment',
+                        'text' => 'menu.amendments',
                         'icon' => 'plus',
                         'submenu' => [
                             [
@@ -348,15 +327,61 @@ class AppServiceProvider extends ServiceProvider
                 }
 
                 $menu->add([
-                    'text' => 'menu.internship',
+                    'text' => 'menu.internships',
                     'icon' => 'id-badge',
+                    'submenu' => $submenu,
+                ]);
+            }
+
+            if ($user->can('job-list')) {
+                $submenu = [
+                    [
+                        'text' => 'menu.view',
+                        'route' => 'coordenador.trabalho.index',
+                        'icon' => 'th-list',
+                        'active' => ['coordenador/trabalho']
+                    ],
+                    [
+                        'text' => 'menu.new',
+                        'route' => 'coordenador.trabalho.novo',
+                        'icon' => 'edit',
+                        'active' => ['coordenador/trabalho/novo']
+                    ],
+                ];
+
+                if ($user->can('jobCompany-list')) {
+                    $companyJob = [
+                        'text' => 'menu.companies',
+                        'icon' => 'building',
+                        'submenu' => [
+                            [
+                                'text' => 'menu.view',
+                                'route' => 'coordenador.trabalho.empresa.index',
+                                'icon' => 'th-list',
+                                'active' => ['coordenador/trabalho/empresa/']
+                            ],
+                            [
+                                'text' => 'menu.new',
+                                'route' => 'coordenador.trabalho.empresa.novo',
+                                'icon' => 'edit',
+                                'active' => ['coordenador/trabalho/empresa/novo']
+                            ],
+                        ],
+                    ];
+
+                    array_push($submenu, $companyJob);
+                }
+
+                $menu->add([
+                    'text' => 'menu.jobs',
+                    'icon' => 'briefcase',
                     'submenu' => $submenu,
                 ]);
             }
 
             if ($user->can('report-list')) {
                 $menu->add([
-                    'text' => 'menu.report',
+                    'text' => 'menu.reports',
                     'icon' => 'book',
                     'submenu' => [
                         [
@@ -389,7 +414,7 @@ class AppServiceProvider extends ServiceProvider
 
             $menu->add('ALUNOS');
             $menu->add([
-                'text' => 'menu.student',
+                'text' => 'menu.students',
                 'icon' => 'users',
                 'submenu' => [
                     [

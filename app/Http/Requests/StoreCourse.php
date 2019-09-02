@@ -24,18 +24,18 @@ class StoreCourse extends FormRequest
     public function rules()
     {
         return [
-            'hasConfig' => 'required|boolean',
+            'hasConfig' => ['required', 'boolean'],
 
-            'name' => 'required|max:30',
-            'color' => 'required|numeric|min:1',
-            'active' => 'required|boolean',
+            'name' => ['required', 'max:30'],
+            'color' => ['required', 'numeric', 'min:1', 'exists:colors,id'],
+            'active' => ['required', 'boolean'],
 
-            'minYear' => 'required_if:hasConfig,1|numeric|min:1|max:3',
-            'minSemester' => 'required_if:hasConfig,1|numeric|min:1|max:2',
-            'minHour' => 'required_if:hasConfig,1|numeric|min:1',
-            'minMonth' => 'required_if:hasConfig,1|numeric|min:1',
-            'minMonthCTPS' => 'required_if:hasConfig,1|numeric|min:1',
-            'minGrade' => 'required_if:hasConfig,1|numeric|min:0|max:10',
+            'minYear' => ['required_if:hasConfig,1', 'nullable', 'numeric', 'min:1', 'max:3'],
+            'minSemester' => ['required_if:hasConfig,1', 'nullable', 'numeric', 'min:1', 'max:2'],
+            'minHour' => ['required_if:hasConfig,1', 'nullable', 'numeric', 'min:1', 'max:9999'],
+            'minMonth' => ['required_if:hasConfig,1', 'nullable', 'numeric', 'min:1', 'max:24'],
+            'minMonthCTPS' => ['required_if:hasConfig,1', 'nullable', 'numeric', 'min:1', 'max:999'],
+            'minGrade' => ['required_if:hasConfig,1', 'nullable', 'numeric', 'min:0', 'max:10'],
         ];
     }
 }

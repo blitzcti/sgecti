@@ -7,12 +7,13 @@ use App\Http\Requests\UpdateAgreement;
 use App\Models\Agreement;
 use App\Models\Company;
 use App\Models\SystemConfiguration;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class AgreementController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
         $this->middleware('coordinator');
         $this->middleware('permission:companyAgreement-list');
@@ -57,7 +58,8 @@ class AgreementController extends Controller
         $log .= "\nUsuário: " . Auth::user()->name;
 
         $agreement->company_id = $validatedData->company;
-        $agreement->expiration_date = SystemConfiguration::getAgreementExpiration();
+        $agreement->start_date = $validatedData->startDate;
+        $agreement->end_date = SystemConfiguration::getAgreementExpiration(Carbon::createFromFormat("Y-m-d", $agreement->start_date));
         $agreement->observation = $validatedData->observation;
 
         $saved = $agreement->save();
@@ -86,7 +88,8 @@ class AgreementController extends Controller
         $log .= "\nUsuário: " . Auth::user()->name;
         $log .= "\nDados antigos: " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        $agreement->expiration_date = $validatedData->expirationDate;
+        $agreement->start_date = $validatedData->startDate;
+        $agreement->end_date = ($validatedData->canceled) ? date("Y-m-d") : SystemConfiguration::getAgreementExpiration(Carbon::createFromFormat("Y-m-d", $agreement->start_date));;
         $agreement->observation = $validatedData->observation;
 
         $saved = $agreement->save();

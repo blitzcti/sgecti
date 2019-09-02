@@ -114,9 +114,9 @@ class MessageController extends Controller
                             return $i->ra;
                         })->toArray();
 
-                        $students = $students->filter(function ($s) use ($is, $fis) {
+                        $students->merge($students->filter(function ($s) use ($is, $fis) {
                             return !in_array($s->matricula, $is) && !in_array($s->matricula, $fis);
-                        });
+                        }));
                     }
 
                     $students = $students->sortBy('matricula');

@@ -50,6 +50,21 @@
                     <img src="{{ asset('img/about/sobre_cti.jpg') }}" alt="">
                 </div>
             </div>
+            <br>
+            <div class="dg dg1">
+                <div class="img">
+                    <div class="video">
+                        <iframe width="auto" height="auto" src="https://www.youtube.com/embed/GeKRFQlPYYY?controls=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="txt">
+                    <h2>Filme Comercial</h2>
+                    <p>
+                       O vídeo comercial da blitz foi feito para ajudar nossos usuários a entender o motivo pelo qual o sistema foi criado e qual sua principal funcionabilidade. Prezando simplificar e facilitar o trabalho de todos os usuários.
+
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

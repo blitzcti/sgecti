@@ -58,6 +58,11 @@ class User extends Authenticatable
         return $this->hasRole('admin');
     }
 
+    public function isCompany()
+    {
+        return $this->hasRole('company');
+    }
+
     public function getCoordinatorOfAttribute()
     {
         return $this->coordinators()->groupBy('course_id')->get('course_id')->map(function ($c) {

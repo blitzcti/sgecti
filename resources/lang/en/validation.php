@@ -23,6 +23,7 @@ return [
     'alpha_num' => 'The :attribute may only contain letters and numbers.',
     'already_has_agreement' => 'The :attribute contains a company that already has an agreement.',
     'already_has_internship' => 'The :attribute contains a RA from a student that already has an internship.',
+    'already_has_job' => 'The :attribute contains a RA from a student that already has a job.',
     'array' => 'The :attribute must be an array.',
     'before' => 'The :attribute must be a date before :date.',
     'before_or_equal' => 'The :attribute must be a date before or equal to :date.',
@@ -89,6 +90,8 @@ return [
         'array' => 'The :attribute may not have more than :max items.',
     ],
     'max_years' => 'The :attribute contains a student that already passed the allowed years for internships.',
+    'min_semester' => 'The :attribute contains a student that is not in the required semester.',
+    'min_year' => 'The :attribute contains a student that is not in the required grade.',
     'mimes' => 'The :attribute must be a file of type: :values.',
     'mimetypes' => 'The :attribute must be a file of type: :values.',
     'min' => [
@@ -122,6 +125,7 @@ return [
     ],
     'starts_with' => 'The :attribute must start with one of the following: :values',
     'string' => 'The :attribute must be a string.',
+    'temp_of' => 'The :attribute must have a different user.',
     'timezone' => 'The :attribute must be a valid zone.',
     'unique' => 'The :attribute has already been taken.',
     'uploaded' => 'The :attribute failed to upload.',
@@ -167,6 +171,8 @@ return [
         'password' => 'Password',
         'group' => 'Group',
 
+        'tempOf' => 'Temporary of',
+
         'maxYears' => 'Maximum Years',
         'minYear' => 'Minimum Year',
         'minSemester' => 'Minimum Semester',
@@ -193,6 +199,7 @@ return [
         'agreementExpiration' => 'Agreement validity',
 
         'cpfCnpj' => 'CPF / CNPJ',
+        'ie' => 'I.E.',
         'representativeName' => 'Representative Name',
         'representativeRole' => 'Representative Role',
         'sector' => 'Sector',
@@ -200,7 +207,6 @@ return [
         'course' => 'Course',
         'courses' => 'Courses',
         'hasAgreement' => 'Add Agreement?',
-        'expirationDate' => 'Expiration Date',
 
         'description' => 'Description',
 
@@ -210,10 +216,13 @@ return [
         'supervisor' => 'Supervisor',
         'protocol' => 'Protocol',
         'ctps' => 'CTPS',
+        'hasSchedule' => 'Has Schedule?',
         'has2Schedules' => 'Has 2 Schedules?',
 
-        'internshipStartDate' => 'Internship Start Date',
-
+        'grades' => 'Grades',
+        'periods' => 'Periods',
+        'internships' => 'Internships',
+        'students' => 'Students',
     ],
 
 ];

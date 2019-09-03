@@ -14,6 +14,10 @@
         hr {
             border-top: 1px solid #eee;
         }
+
+        .select2 {
+            width: 100% !important;
+        }
     </style>
 
     @stack('css')
@@ -151,7 +155,6 @@
 
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
-
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
                     @each('adminlte::partials.menu-item', $adminlte->menu(), 'item')

@@ -25,8 +25,10 @@
 
                             @foreach($companies as $company)
 
-                                <option value="{{ $company->id }}" {{ (old('company') ?? $c) == $company->id ? 'selected' : '' }}>
-                                    {{ $company->cpf_cnpj }} - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
+                                <option
+                                    value="{{ $company->id }}" {{ (old('company') ?? $c) == $company->id ? 'selected' : '' }}>
+                                    {{ $company->cpf_cnpj }}
+                                    - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
                                 </option>
 
                             @endforeach
@@ -62,7 +64,8 @@
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputSupervisorPhone" name="supervisorPhone"
-                               placeholder="(14) 93103-6150" data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
+                               placeholder="(14) 93103-6150"
+                               data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
                                value="{{ old('supervisorPhone') ?? '' }}"/>
 
                         <span class="help-block">{{ $errors->first('supervisorPhone') }}</span>

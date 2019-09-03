@@ -80,26 +80,20 @@
                     </div>
 
                     <div class="col-sm-6">
-                        <div class="form-group @if($errors->has('hoursCompleted')) has-error @endif">
+                        <div class="form-group @if($errors->has('completedHours')) has-error @endif">
                             <label for="inputHoursCompleted" class="col-sm-4 control-label">Horas Cumpridas*</label>
 
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="inputHoursCompleted" name="hoursCompleted"
+                                <input type="text" class="form-control" id="inputHoursCompleted" name="completedHours"
                                        placeholder="420" data-inputmask="'mask': '9999'"
-                                       value="{{ old('hoursCompleted') ?? $report->hours_completed }}"/>
+                                       value="{{ old('completedHours') ?? $report->completed_hours }}"/>
 
-                                <span class="help-block">{{ $errors->first('hoursCompleted') }}</span>
+                                <span class="help-block">{{ $errors->first('completedHours') }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
 
         <div class="box box-default">
@@ -940,7 +934,7 @@
 
             <div class="box-body">
                 <div class="form-group @if($errors->has('observation')) has-error @endif">
-                    <label for="inputObservation" class="col-sm-2 control-label">Observação</label>
+                    <label for="inputObservation" class="col-sm-2 control-label">Observações</label>
 
                     <div class="col-sm-10">
                         <textarea class="form-control" rows="4" id="inputObservation" name="observation"
@@ -972,12 +966,12 @@
 
             jQuery('#inputInternship').on('change', e => {
                 jQuery.ajax({
-                    url: `/api/estagio/${jQuery('#inputInternship').val()}`,
+                    url: `/api/coordenador/estagio/${jQuery('#inputInternship').val()}`,
                     dataType: 'json',
                     method: 'GET',
                     success: function (data) {
                         jQuery.ajax({
-                            url: `/api/empresa/${data.company_id}`,
+                            url: `/api/coordenador/empresa/${data.company_id}`,
                             dataType: 'json',
                             method: 'GET',
                             success: function (data) {
@@ -989,7 +983,7 @@
                         });
 
                         jQuery.ajax({
-                            url: `/api/empresa/setor/${data.sector_id}`,
+                            url: `/api/coordenador/empresa/setor/${data.sector_id}`,
                             dataType: 'json',
                             method: 'GET',
                             success: function (data) {
@@ -1001,7 +995,7 @@
                         });
 
                         jQuery.ajax({
-                            url: `/api/empresa/supervisor/${data.supervisor_id}`,
+                            url: `/api/coordenador/empresa/supervisor/${data.supervisor_id}`,
                             dataType: 'json',
                             method: 'GET',
                             success: function (data) {
@@ -1012,9 +1006,9 @@
                             },
                         });
 
-                        jQuery('#internshipStartDate').text(data.start_date);
-                        jQuery('#internshipEndDate').text(data.end_date);
-                        jQuery('#internshipEstimatedHours').text(data.estimated_hours);
+                        jQuery('#internshipStartDate').text(new Date(`${data.start_date} `).toLocaleDateString());
+                        jQuery('#internshipEndDate').text(new Date(`${data.end_date} `).toLocaleDateString());
+                        jQuery('#internshipEstimatedHours').text(data.estimated_hours.toFixed(0));
                     },
                     error: function () {
 

@@ -10,8 +10,8 @@ class SystemConfiguration extends Model
         'name', 'cep', 'uf', 'city', 'street', 'number', 'district', 'phone', 'email', 'extension', 'agreement_expiration',
     ];
 
-    public static function getAgreementExpiration() {
+    public static function getAgreementExpiration(Carbon $date) {
         $configs = SystemConfiguration::all()->sortBy('id');
-        return Carbon::now()->modify("+" . $configs->last()->agreement_expiration . " year")->format("Y-m-d");
+        return $date->modify("+" . $configs->last()->agreement_expiration . " year")->format("Y-m-d");
     }
 }

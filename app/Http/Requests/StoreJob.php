@@ -2,10 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\CNPJ;
-use App\Rules\CompanyHasCourse;
-use App\Rules\CPF;
-use App\Rules\HasCourse;
 use App\Rules\HasInternship;
 use App\Rules\RA;
 use App\Rules\SameCourse;
@@ -31,24 +27,19 @@ class StoreJob extends FormRequest
     public function rules()
     {
         return [
-            'companyPJ' => 'required|boolean',
-
             'ra' => ['required', 'numeric', 'min:1', new RA, new HasInternship, new SameCourse],
-            'active' => 'required|numeric|min:1',
+            'active' => ['required', 'boolean'],
 
-            'companyCpfCnpj' => ['required', 'numeric', ($this->get('companyPJ')) ? new CNPJ : new CPF],
-            'companyIE' => 'nullable|numeric|digits_between:10,10',
-            'companyName' => 'required|max:191',
-            'companyFantasyName' => 'max:191',
+            'company' => ['required', 'numeric', 'min:1', 'exists:job_companies,id'],
 
-            'startDate' => 'required|date|before:endDate',
-            'endDate' => 'required|date|after:startDate',
+            'startDate' => ['required', 'date', 'before:endDate'],
+            'endDate' => ['required', 'date', 'after:startDate'],
 
-            'protocol' => 'required|max:5',
-            'observation' => 'nullable|max:8000',
-            'activities' => 'nullable|max:8000',
+            'protocol' => ['required', 'numeric', 'digits:5'],
+            'activities' => ['nullable', 'max:8000'],
+            'observation' => ['nullable', 'max:8000'],
 
-            'ctps' => 'required|numeric|min:11',
+            'ctps' => ['required', 'numeric', 'min:11'],
         ];
     }
 }

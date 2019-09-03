@@ -25,8 +25,10 @@ class UpdateAgreement extends FormRequest
     public function rules()
     {
         return [
-            'company' => ['required', 'numeric', 'min:1', new NoAgreement],
-            'observation' => 'nullable|max:8000',
+            'canceled' => ['required', 'boolean'],
+
+            'startDate' => ['required', 'date'],
+            'observation' => ['nullable', 'max:8000'],
         ];
     }
 }

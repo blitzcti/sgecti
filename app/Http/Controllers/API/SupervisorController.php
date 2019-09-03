@@ -8,11 +8,18 @@ use App\Http\Requests\API\UpdateSupervisor;
 use App\Models\Company;
 use App\Models\Sector;
 use App\Models\Supervisor;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SupervisorController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('coordinator');
+        $this->middleware('permission:companySupervisor-list');
+        $this->middleware('permission:companySupervisor-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:companySupervisor-edit', ['only' => ['edit', 'update']]);
+    }
+
     /**
      * Search for a string in a specific array column
      *

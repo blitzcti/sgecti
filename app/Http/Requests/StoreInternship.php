@@ -6,11 +6,15 @@ use App\Rules\CompanyHasCourse;
 use App\Rules\HasAgreement;
 use App\Rules\HasCourse;
 use App\Rules\HasInternship;
+use App\Rules\HasJob;
 use App\Rules\HourInterval;
+use App\Rules\MinimalSemester;
+use App\Rules\MinimalYear;
 use App\Rules\RA;
 use App\Rules\SameCourse;
 use App\Rules\StudentAge;
 use App\Rules\StudentMaxYears;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreInternship extends FormRequest
@@ -33,16 +37,16 @@ class StoreInternship extends FormRequest
     public function rules()
     {
         return [
-            'has2Schedules' => 'required|boolean',
-            'delation' => 'required|boolean',
+            'has2Schedules' => ['required', 'boolean'],
+            'dilation' => ['required', 'boolean'],
 
-            'ra' => ['required', 'numeric', 'min:1', new RA, new HasInternship, new SameCourse, new CompanyHasCourse($this->get('company')), new StudentAge($this->get('startDate')), (!$this->get('delation')) ? new StudentMaxYears($this->get('startDate')) : ''],
-            'active' => 'required|numeric|min:1',
-            'company' => ['required', 'min:1', new HasCourse, new HasAgreement($this->get('startDate'))],
-            'sector' => 'required|min:1',
-            'startDate' => 'required|date|before:endDate',
-            'endDate' => 'required|date|after:startDate',
-            'activities' => 'required|max:8000',
+            'ra' => ['required', 'numeric', 'min:1', new RA, new HasInternship, new HasJob, new SameCourse, new CompanyHasCourse($this->get('company')), new StudentAge($this->get('startDate')), (!$this->get('delation')) ? new StudentMaxYears($this->get('startDate')) : '', new MinimalYear, new MinimalSemester($this->get('startDate'))],
+            'active' => ['required', 'boolean'],
+            'company' => ['required', 'numeric', 'min:1', 'exists:companies,id', new HasCourse, new HasAgreement($this->get('startDate'))],
+            'sector' => ['required', 'numeric', 'min:1', 'exists:sectors,id'],
+            'startDate' => ['required', 'date', 'before:endDate'],
+            'endDate' => ['required', 'date', 'after:startDate'],
+            'activities' => ['required', 'max:8000'],
 
             'monS' => ['required_without_all:tueS,wedS,thuS,friS,satS', 'required_with:monE', 'nullable', 'date_format:H:i', 'before:monE'],
             'monE' => ['required_with:monS', 'nullable', 'date_format:H:i', 'after:monS', new HourInterval($this->get('monS'), $this->get('monE2'), $this->get('monS2'))],
@@ -70,10 +74,10 @@ class StoreInternship extends FormRequest
             'satS2' => ['required_with:satE2', 'nullable', 'date_format:H:i', 'before:satE2'],
             'satE2' => ['required_with:satS2', 'nullable', 'date_format:H:i', 'after:satS2'],
 
-            'supervisor' => 'required|numeric|min:1',
+            'supervisor' => ['required', 'numeric', 'min:1', 'exists:supervisors,id'],
 
-            'protocol' => 'required|max:5',
-            'observation' => 'nullable|max:8000',
+            'protocol' => ['required', 'numeric', 'digits:5'],
+            'observation' => ['nullable', 'max:8000'],
         ];
     }
 }

@@ -39,8 +39,19 @@
                     </div>
                 </div>
 
+                <div class="form-group @if($errors->has('startDate')) has-error @endif">
+                    <label for="inputStartDate" class="col-sm-2 control-label">Data de início*</label>
+
+                    <div class="col-sm-10">
+                        <input type="date" class="form-control" id="inputStartDate" name="startDate"
+                               value="{{ old('startDate') ?? date("Y-m-d") }}"/>
+
+                        <span class="help-block">{{ $errors->first('startDate') }}</span>
+                    </div>
+                </div>
+
                 <div class="form-group @if($errors->has('observation')) has-error @endif">
-                    <label for="inputObservation" class="col-sm-2 control-label">Observação</label>
+                    <label for="inputObservation" class="col-sm-2 control-label">Observações</label>
 
                     <div class="col-sm-10">
                         <textarea class="form-control" rows="3" id="inputObservation" name="observation"

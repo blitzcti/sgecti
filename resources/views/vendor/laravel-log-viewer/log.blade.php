@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'logs')
+@section('title', 'Logs - SGE CTI')
 
 @section('content_header')
     <h1>Logs do sistema</h1>
@@ -87,7 +87,7 @@
 
                                         <th>Data / hora</th>
                                         <th>Nível</th>
-                                        <th>Contexto</th>
+                                        <th>Usuário</th>
 
                                     @else
 
@@ -113,7 +113,17 @@
                                                   aria-hidden="true"></span>&nbsp;&nbsp;{{ $log['level'] }}
                                             </td>
 
-                                            <td class="text">{{ $log['context'] }}</td>
+                                            <td class="text">
+                                                @if ($log['stack'] && preg_match('/Usuário: (.*?)\n.*/s', $log['stack']))
+
+                                                    {{ preg_replace('/Usuário: (.*?)\n.*/s', '$1', $log['stack']) }}
+
+                                                @else
+
+                                                    Servidor
+
+                                                @endif
+                                            </td>
 
                                         @endif
 
@@ -140,8 +150,7 @@
                                             @if ($log['stack'])
 
                                                 <div class="stack" id="stack{{ $key }}"
-                                                     style="display: none; white-space: pre-wrap;">{{ trim($log['stack']) }}
-                                                </div>
+                                                     style="display: none; white-space: pre-wrap;">{{ (preg_match('/Usuário: (.*?)\n.*/s', $log['stack'])) ? trim(preg_replace('/(.*)Usuário: .*?(\n.*)/s', '$1$2', $log['stack'])) : trim($log['stack']) }}</div>
 
                                             @endif
 
@@ -182,6 +191,7 @@
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
+                responsive: true,
                 order: [jQuery('#logs').data('orderingIndex'), 'desc'],
                 stateSave: true,
                 stateSaveCallback: function (settings, data) {
@@ -245,7 +255,7 @@
 
                 ],
                 initComplete: function () {
-                    table.buttons().container().appendTo($('#logs_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().appendTo(jQuery('#logs_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                 },
             });

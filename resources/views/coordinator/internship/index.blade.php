@@ -51,7 +51,7 @@
                             @endif
                         </td>
 
-                        <td>{{ $internship->company->name }}</td>
+                        <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? " (" . $internship->company->fantasy_name . ")" : '' }}</td>
                         <td>{{ $internship->coordinator->user->name }}</td>
                         <td>{{ $internship->state->description }}</td>
                         <td>
@@ -98,6 +98,7 @@
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
+                responsive: true,
                 lengthChange: false,
                 buttons: [
                     {
@@ -121,7 +122,7 @@
                     }
                 ],
                 initComplete: function () {
-                    table.buttons().container().appendTo($('#internships_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().appendTo(jQuery('#internships_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                     jQuery('#addLink').prependTo(table.buttons().container());
                 },

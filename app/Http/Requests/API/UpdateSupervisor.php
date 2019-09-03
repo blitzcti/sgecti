@@ -22,10 +22,10 @@ class UpdateSupervisor extends FormRequest
     public function rules()
     {
         return [
-            'supervisorName' => 'required|max:50',
-            'supervisorEmail' => 'required|max:50',
-            'supervisorPhone' => 'required|numeric|digits_between:10,11',
-            'company' => 'required|min:1',
+            'company' => ['required', 'numeric', 'min:1', 'exists:companies,id'],
+            'supervisorName' => ['required', 'max:50'],
+            'supervisorEmail' => ['required', 'max:50'],
+            'supervisorPhone' => ['required', 'numeric', 'digits_between:10,11'],
         ];
     }
 }

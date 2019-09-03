@@ -3,7 +3,7 @@
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form id="formSupervisor" class="form-horizontal" action="{{ route('api.empresa.supervisor.salvar') }}"
+            <form id="formSupervisor" class="form-horizontal" action="{{ route('api.coordenador.empresa.supervisor.salvar') }}"
                   method="post">
                 @csrf
 
@@ -16,6 +16,25 @@
                 </div>
 
                 <div class="modal-body">
+                    <div class="form-group @if($errors->has('company')) has-error @endif">
+                        <label for="inputSupervisorCompany" class="col-sm-3 control-label">Empresa*</label>
+
+                        <div class="col-sm-9">
+                            <select class="selection" name="company" id="inputSupervisorCompany"
+                                    style="width: 100%">
+
+                                @foreach($companies as $company)
+
+                                    <option value="{{ $company->id }}">{{ $company->cpf_cnpj }}
+                                        - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
+                                    </option>
+
+                                @endforeach
+
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="form-group @if($errors->has('supervisorName')) has-error @endif">
                         <label for="inputSupervisorName" class="col-sm-3 control-label">Nome*</label>
 
@@ -43,25 +62,6 @@
                                    data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"/>
                         </div>
                     </div>
-
-                    <div class="form-group @if($errors->has('company')) has-error @endif">
-                        <label for="inputSupervisorCompany" class="col-sm-3 control-label">Empresa*</label>
-
-                        <div class="col-sm-9">
-                            <select class="selection" name="company" id="inputSupervisorCompany"
-                                    style="width: 100%">
-
-                                @foreach($companies as $company)
-
-                                    <option value="{{ $company->id }}">{{ $company->cpf_cnpj }}
-                                        - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
-                                    </option>
-
-                                @endforeach
-
-                            </select>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="modal-footer">
@@ -80,14 +80,14 @@
             jQuery('#inputSupervisorCompany').select2({
                 language: "pt-BR",
                 tags: true,
-                dropdownParent: $("#newInternshipSupervisorModal"),
+                dropdownParent: jQuery("#newInternshipSupervisorModal"),
             });
 
             jQuery('#formSupervisor').submit(e => {
                 e.preventDefault();
 
                 jQuery.ajax({
-                    url: '{{ route('api.empresa.supervisor.salvar') }}',
+                    url: '{{ route('api.coordenador.empresa.supervisor.salvar') }}',
                     data: {
                         'supervisorName': jQuery('#inputSupervisorName').val(),
                         'supervisorEmail': jQuery('#inputSupervisorEmail').val(),

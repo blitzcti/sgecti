@@ -22,28 +22,10 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/vendor/Ionicons/css/ionicons.min.css') }}">
 
-@if(config('adminlte.plugins.select2'))
-    <!-- Select2 -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.css">
-@endif
+    @include('adminlte::plugins', ['type' => 'css'])
 
-@if(config('adminlte.plugins.icheck'))
-    <!-- iCheck -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/skins/all.css">
-@endif
-
-@if(config('adminlte.plugins.wysihtml5'))
-    <!-- WYSIHTML5 -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap3-wysiwyg/0.3.3/bootstrap3-wysihtml5.min.css">
-@endif
-
-<!-- Theme style -->
-<link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/AdminLTE.min.css') }}">
-
-@if(config('adminlte.plugins.datatables'))
-    <!-- DataTables with bootstrap 3 style -->
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
-@endif
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/AdminLTE.min.css') }}">
 
     @yield('adminlte_css')
 
@@ -64,41 +46,7 @@
 <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.slimscroll.min.js') }}"></script>
 <script src="{{ asset('vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 
-@if(config('adminlte.plugins.select2'))
-    <!-- Select2 -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/i18n/pt-BR.js"></script>
-@endif
-
-@if(config('adminlte.plugins.datatables'))
-    <!-- DataTables with bootstrap 3 renderer -->
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
-    <script src="//cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
-    <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
-    <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
-@endif
-
-@if(config('adminlte.plugins.chartjs'))
-    <!-- ChartJS -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js"></script>
-@endif
-
-@if(config('adminlte.plugins.inputmask'))
-    <!-- JQuery Input Mask -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
-@endif
-
-@if(config('adminlte.plugins.icheck'))
-    <!-- iCheck -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js"></script>
-@endif
-
-@if(config('adminlte.plugins.wysihtml5'))
-    <!-- WYSIHTML5 -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap3-wysiwyg/0.3.3/bootstrap3-wysihtml5.all.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap3-wysiwyg/0.3.3/locales/bootstrap-wysihtml5.pt-BR.min.js"></script>
-@endif
+@include('adminlte::plugins', ['type' => 'js'])
 
 @yield('adminlte_js')
 

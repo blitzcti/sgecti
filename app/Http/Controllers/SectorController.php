@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 class SectorController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
         $this->middleware('coordinator');
         $this->middleware('permission:companySector-list');

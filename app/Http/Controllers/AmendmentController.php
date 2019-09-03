@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 
 class AmendmentController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
         $this->middleware('coordinator');
         $this->middleware('permission:internshipAmendment-list');
@@ -46,7 +46,7 @@ class AmendmentController extends Controller
 
         $internships = State::findOrFail(1)->internships->filter(function ($internship) use ($cIds) {
             return in_array($internship->student->course_id, $cIds);
-        })->where('active', '=', true);
+        })->where('active', '=', true)->sortBy('id');
 
         $i = request()->i;
         return view('coordinator.internship.amendment.new')->with(['internships' => $internships, 'i' => $i]);

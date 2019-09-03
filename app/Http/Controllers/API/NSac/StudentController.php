@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\NSac;
 
 use App\Http\Controllers\Controller;
 use App\Models\NSac\Student;
+use App\Models\State;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,7 @@ class StudentController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('coordinator', ['only' => ['getPhoto']]);
+        $this->middleware('permission:student-list');
     }
 
     /**
@@ -45,10 +46,47 @@ class StudentController extends Controller
             $students = Student::actives()->sortBy('matricula');
 
             if (is_array($request->istates)) {
+                $students2 = collect();
+
                 $istates = $request->istates;
-                $students = $students->filter(function ($student) use ($istates) {
-                    return in_array($student->internship_state, $istates);
-                });
+                if (in_array(0, $istates)) { // Estagiando
+                    $students2 = $students2->merge(State::findOrFail(1)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) use ($students) {
+                        return $students->find($i->ra);
+                    }));
+                }
+
+                if (in_array(1, $istates)) { // Estágio finalizado
+                    $students2 = $students2->merge(State::findOrFail(2)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) use ($students) {
+                        return $students->find($i->ra);
+                    }));
+                }
+
+                if (in_array(2, $istates)) { // Não estagiando
+                    $is = State::findOrFail(1)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
+                        return $i->ra;
+                    })->toArray();
+
+                    $students2 = $students2->merge($students->filter(function ($s) use ($is) {
+                        return !in_array($s->matricula, $is);
+                    }));
+                }
+
+                if (in_array(3, $istates)) { // Nunca estagiaram
+                    $is = State::findOrFail(1)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
+                        return $i->ra;
+                    })->toArray();
+
+                    $fis = State::findOrFail(2)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
+                        return $i->ra;
+                    })->toArray();
+
+                    $students2 = $students2->merge($students->filter(function ($s) use ($is, $fis) {
+                        return !in_array($s->matricula, $is) && !in_array($s->matricula, $fis);
+                    }));
+                }
+
+                $students = $students2->unique()->values()->sortBy('matricula');
+                unset($students2);
             }
 
             if (is_array($request->courses)) {

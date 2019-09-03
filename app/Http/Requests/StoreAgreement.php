@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CompanyHasEmail;
 use App\Rules\NoAgreement;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,8 +26,9 @@ class StoreAgreement extends FormRequest
     public function rules()
     {
         return [
-            'company' => ['required', 'numeric', 'min:1', new NoAgreement],
-            'observation' => 'nullable|max:8000',
+            'company' => ['required', 'numeric', 'min:1', 'exists:companies,id', new NoAgreement, new CompanyHasEmail],
+            'startDate' => ['required', 'date'],
+            'observation' => ['nullable', 'max:8000'],
         ];
     }
 }

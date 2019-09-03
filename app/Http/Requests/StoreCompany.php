@@ -26,32 +26,35 @@ class StoreCompany extends FormRequest
     public function rules()
     {
         return [
-            'pj' => 'required|boolean',
-            'hasAgreement' => 'required|boolean',
+            'pj' => ['required', 'boolean'],
+            'hasAgreement' => ['required', 'boolean'],
 
             'cpfCnpj' => ['required', 'numeric', 'unique:companies,cpf_cnpj', ($this->get('pj')) ? new CNPJ : new CPF],
-            'ie' => 'nullable|numeric|digits_between:10,10',
-            'active' => 'required|boolean',
-            'name' => 'required|max:191',
-            'fantasyName' => 'max:191',
-            'email' => 'nullable|email|max:191',
-            'phone' => 'nullable|numeric|digits_between:10,11',
+            'ie' => ['nullable', 'numeric', 'digits:10'],
+            'active' => ['required', 'boolean'],
+            'name' => ['required', 'max:191'],
+            'fantasyName' => ['nullable', 'max:191'],
+            'email' => ['required_if:hasAgreement:1', 'nullable', 'email', 'max:191'],
+            'phone' => ['nullable', 'numeric', 'digits_between:10,11'],
 
-            'representativeName' => 'required|max:50',
-            'representativeRole' => 'required|max:50',
+            'representativeName' => ['required', 'max:50'],
+            'representativeRole' => ['required', 'max:50'],
 
-            'cep' => 'required|max:9',
-            'uf' => 'required|max:2',
-            'city' => 'required|max:30',
-            'street' => 'required|max:50',
-            'complement' => 'max:50',
-            'number' => 'required|max:6',
-            'district' => 'required|max:50',
+            'cep' => ['required', 'numeric', 'digits:8'],
+            'uf' => ['required', 'max:2'],
+            'city' => ['required', 'max:30'],
+            'street' => ['required', 'max:50'],
+            'complement' => ['nullable', 'max:50'],
+            'number' => ['required', 'max:6'],
+            'district' => ['required', 'max:50'],
 
-            'sectors' => 'required|array|min:1',
-            'courses' => 'required|array|min:1',
+            'sectors' => ['required', 'array', 'min:1'],
+            'sectors.*' => ['required', 'numeric', 'distinct', 'min:1', 'exists:sectors,id'],
+            'courses' => ['required', 'array', 'min:1'],
+            'courses.*' => ['required', 'numeric', 'distinct', 'min:1', 'exists:courses,id'],
 
-            'observation' => 'nullable|max:8000',
+            'startDate' => ['required_if:hasAgreement,1', 'date'],
+            'observation' => ['nullable', 'max:8000'],
         ];
     }
 }

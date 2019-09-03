@@ -64,10 +64,10 @@
                         <select class="form-control selection" id="inputTempOf" name="tempOf">
 
                             <option value="0">(Nenhum)</option>
-                            @foreach($coordinators as $coord)
+                            @foreach((App\Models\Course::all()->find(old('course')) ?? $courses->first())->non_temp_coordinators as $coord)
 
                                 <option value="{{ $coord->id }}" {{ (old('tempOf') ?? $coordinator->temp_of ?? 0) == $coord->id ? 'selected=selected' : '' }}>
-                                    {{ __($coord->user->name) }} - {{ $coord->course->name }}
+                                    {{ __($coord->user->name) }}
                                 </option>
 
                             @endforeach
@@ -137,12 +137,6 @@
 
 @section('js')
     <script type="text/javascript">
-        jQuery(document).ready(function () {
-            jQuery('.selection').select2({
-                language: "pt-BR"
-            });
-        });
-
         function addMonths(date, months) {
             let result = new Date(date);
             result.setMonth(result.getMonth() + months);
@@ -182,5 +176,39 @@
                 }
             }
         }
+
+        jQuery(document).ready(function () {
+            jQuery('.selection').select2({
+                language: "pt-BR"
+            });
+
+            jQuery('#inputCourse').on('change', e => {
+                jQuery('#inputTempOf').select2({
+                    language: "pt-BR",
+                    ajax: {
+                        url: `/api/admin/coordenador/curso/${jQuery('#inputCourse').val()}/`,
+                        dataType: 'json',
+                        method: 'GET',
+                        cache: true,
+                        data: function (params) {
+                            return {
+                                q: params.term // search term
+                            };
+                        },
+
+                        processResults: function (response) {
+                            coordinators = [{id: 0, text: '(Nenhum)'}];
+                            response.forEach(coordinator => {
+                                coordinators.push({id: coordinator.id, text: coordinator.user.name});
+                            });
+
+                            return {
+                                results: coordinators
+                            };
+                        },
+                    }
+                });
+            });
+        });
     </script>
 @endsection

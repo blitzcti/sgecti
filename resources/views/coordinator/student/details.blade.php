@@ -20,21 +20,17 @@
                     <a href="{{ route('coordenador.relatorio.final.novo', ['i' => $student->internship->id]) }}"
                        class="btn btn-success">Adicionar relatório final</a>
 
-                @else
+                @elseif($student->job == null)
 
                     <a href="{{ route('coordenador.estagio.novo', ['s' => $student->matricula]) }}"
                        class="btn btn-success">Novo estágio</a>
 
-                @endif
-
-                @if($student->job != null)
-                    <a href="{{ route('coordenador.estagio.trabalho.editar', $student->job->id) }}"
-                       class="btn btn-primary">Editar trabalho</a>
+                    <a href="{{ route('coordenador.trabalho.novo', ['s' => $student->matricula]) }}"
+                       class="btn btn-success">Novo trabalho</a>
 
                 @else
-
-                    <a href="{{ route('coordenador.estagio.trabalho.novo', ['s' => $student->matricula]) }}"
-                       class="btn btn-success">Novo trabalho</a>
+                    <a href="{{ route('coordenador.trabalho.editar', $student->job->id) }}"
+                       class="btn btn-primary">Editar trabalho</a>
 
                 @endif
             </div>
@@ -60,8 +56,30 @@
                 <dt class="col-sm-2">Email</dt>
                 <dd class="col-sm-10">{{ $student->email }}</dd>
 
-                <dt class="col-sm-2">Email 2</dt>
+                <dt class="col-sm-2">Email institucional</dt>
                 <dd class="col-sm-10">{{ $student->email2 }}</dd>
+
+                <dt class="col-sm-2">Horas necessárias</dt>
+                <dd class="col-sm-10">{{ $student->course_configuration->min_hours }}</dd>
+
+                <dt class="col-sm-2">Horas concluídas</dt>
+                <dd class="col-sm-10">{{ $student->completed_hours }}</dd>
+
+                <dt class="col-sm-2">Meses necessários</dt>
+                <dd class="col-sm-10">{{ $student->course_configuration->min_months }}</dd>
+
+                <dt class="col-sm-2">Meses concluídos</dt>
+                <dd class="col-sm-10">{{ $student->completed_months }}</dd>
+
+                @if($student->job != null || sizeof($student->finishedJobs) > 0)
+
+                    <dt class="col-sm-2" style="width: auto; padding-right: 11.5px;">Meses necessários (CTPS)</dt>
+                    <dd class="col-sm-10">{{ $student->course_configuration->min_months_ctps }}</dd>
+
+                    <dt class="col-sm-2">Meses concluídos</dt>
+                    <dd class="col-sm-10">{{ $student->ctps_completed_months }}</dd>
+
+                @endif
             </dl>
 
             <hr/>
@@ -136,7 +154,7 @@
                     <dd class="col-sm-10">{{ date("d/m/Y", strtotime($internship->final_report->end_date)) }}</dd>
 
                     <dt class="col-sm-2">Horas concluídas</dt>
-                    <dd class="col-sm-10">{{ $internship->final_report->hours_completed }}</dd>
+                    <dd class="col-sm-10">{{ $internship->final_report->completed_hours }}</dd>
 
                     <dt class="col-sm-2">Nota final</dt>
                     <dd class="col-sm-10">{{ $internship->final_report->final_grade }}</dd>
@@ -154,7 +172,38 @@
 
             @endforeach
 
-            <h3>Trabalhos do aluno</h3>
+            <h3>Trabalho ativo do aluno</h3>
+
+            @if ($student->job != null)
+
+                <dl class="row">
+                    <dt class="col-sm-2">CPF / CNPJ da empresa</dt>
+                    <dd class="col-sm-10">{{ $student->job->company->cpf_cnpj }}</dd>
+
+                    <dt class="col-sm-2">Empresa</dt>
+                    <dd class="col-sm-10">{{ $student->job->company->name }}</dd>
+
+                    <dt class="col-sm-2">Nome fantasia</dt>
+                    <dd class="col-sm-10">{{ $student->job->company->fantasy_name }}</dd>
+
+                    <dt class="col-sm-2">Data de início</dt>
+                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($student->job->start_date)) }}</dd>
+
+                    <dt class="col-sm-2">Data de término</dt>
+                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($student->job->end_date)) }}</dd>
+
+                    <dt class="col-sm-2">CTPS</dt>
+                    <dd class="col-sm-10">{{ $student->job->ctps }}</dd>
+                </dl>
+
+            @else
+
+                <p>Este aluno não possui um trabalho ativo no momento.</p>
+                <hr/>
+
+            @endif
+
+            <h3>Trabalhos finalizados do aluno</h3>
 
             @if(sizeof($student->finishedJobs) == 0)
 
@@ -175,17 +224,14 @@
                     <dt class="col-sm-2">Nome fantasia</dt>
                     <dd class="col-sm-10">{{ $job->company_fantasy_name }}</dd>
 
-                    <dt class="col-sm-2">Setor</dt>
-                    <dd class="col-sm-10">{{ $job->sector->name }}</dd>
-
-                    <dt class="col-sm-2">Supervisor</dt>
-                    <dd class="col-sm-10">{{ $job->supervisor->name }}</dd>
-
                     <dt class="col-sm-2">Data de início</dt>
                     <dd class="col-sm-10">{{ date("d/m/Y", strtotime($job->start_date)) }}</dd>
 
                     <dt class="col-sm-2">Data de término</dt>
                     <dd class="col-sm-10">{{ date("d/m/Y", strtotime($job->end_date)) }}</dd>
+
+                    <dt class="col-sm-2">CTPS</dt>
+                    <dd class="col-sm-10">{{ $job->ctps }}</dd>
                 </dl>
 
                 <hr/>

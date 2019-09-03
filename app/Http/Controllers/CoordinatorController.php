@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 
 class CoordinatorController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
         $this->middleware('permission:coordinator-list');
         $this->middleware('permission:coordinator-create', ['only' => ['create', 'store']]);
@@ -43,11 +43,10 @@ class CoordinatorController extends Controller
         $users = User::whereHas("roles", function ($q) {
             $q->where("name", "teacher");
         })->get()->sortBy('id');
-        $coordinators = Coordinator::whereNull('temp_of')->get()->sortBy('id');
 
         $c = request()->c;
 
-        return view('admin.coordinator.new')->with(["courses" => $courses, "users" => $users, 'coordinators' => $coordinators, 'c' => $c]);
+        return view('admin.coordinator.new')->with(["courses" => $courses, "users" => $users, 'c' => $c]);
     }
 
     public function edit($id)
@@ -57,9 +56,8 @@ class CoordinatorController extends Controller
         $users = User::whereHas("roles", function ($q) {
             $q->where("name", "teacher");
         })->get()->sortBy('id');
-        $coordinators = Coordinator::whereNull('temp_of')->where('id', '<>', $id)->get()->sortBy('id');
 
-        return view('admin.coordinator.edit')->with(['coordinator' => $coordinator, 'users' => $users, 'coordinators' => $coordinators, 'courses' => $courses]);
+        return view('admin.coordinator.edit')->with(['coordinator' => $coordinator, 'users' => $users, 'courses' => $courses]);
     }
 
     public function store(StoreCoordinator $request)

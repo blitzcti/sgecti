@@ -23,7 +23,7 @@ class CreateAmendmentsTable extends Migration
             $table->date('end_date');
             $table->date('new_end_date')->nullable(true)->default(null);
 
-            $table->bigInteger('schedule_id')->nullable(false)->unsigned();
+            $table->bigInteger('schedule_id')->nullable(true)->default(null)->unsigned();
             $table->foreign('schedule_id')->references('id')->on('schedules');
 
             $table->bigInteger('schedule_2_id')->nullable(true)->default(null)->unsigned();

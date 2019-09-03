@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('coordinator');
+        $this->middleware('permission:company-list');
+        $this->middleware('permission:company-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:company-edit', ['only' => ['edit', 'update']]);
+    }
+
     /**
      * Search for a string in a specific array column
      *

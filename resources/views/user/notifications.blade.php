@@ -45,7 +45,7 @@
                         <td>
                             @if($notification->read_at == null)
 
-                            <a href="#" onclick="markAsSeen('{{ $notification->id }}'); return false;">Marcar como lida</a>
+                            <a href="#" onclick="markAsSeen('{{ $notification->id }}'); (function (e) {e.parentNode.removeChild(e)})(this); return false;">Marcar como lida</a>
 
                             @endif
                         </td>
@@ -65,6 +65,7 @@
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
+                responsive: true,
                 lengthChange: false,
                 buttons: [
                     {
@@ -88,7 +89,7 @@
                     }
                 ],
                 initComplete: function () {
-                    table.buttons().container().appendTo($('#notifications_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().appendTo(jQuery('#notifications_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                 },
             });

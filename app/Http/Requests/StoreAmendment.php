@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Internship;
 use App\Rules\HourInterval;
+use App\Rules\InternshipActive;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreAmendment extends FormRequest
@@ -24,16 +26,18 @@ class StoreAmendment extends FormRequest
      */
     public function rules()
     {
+        $internship = Internship::find($this->get('internship'));
+
         return [
-            'has2Schedules' => 'required|boolean',
+            'hasSchedule' => ['required', 'boolean'],
+            'has2Schedules' => ['required', 'boolean'],
 
-            'internship' => 'required|numeric|min:1',
-            'startDate' => 'nullable|date|after:internshipStartDate',
-            'endDate' => 'required_with:startDate|nullable|date|after:startDate',
-            'internshipStartDate' => 'required|date',
-            'newEndDate' => "nullable|date|after:internshipStartDate",
+            'internship' => ['required', 'numeric', 'min:1', 'exists:internships,id', new InternshipActive],
+            'startDate' => ['required_if:hasSchedule,1', 'nullable', 'date', 'after:' . $internship->start_date],
+            'endDate' => ['required_with:startDate', 'nullable', 'date', 'after:startDate'],
+            'newEndDate' => ['nullable', 'date', 'after:' . $internship->start_date],
 
-            'monS' => [($this->get('startDate') != null) ? 'required_without_all:tueS,wedS,thuS,friS,satS' : '', 'required_with:monE', 'nullable', 'date_format:H:i', 'before:monE'],
+            'monS' => [($this->get('hasSchedule')) ? 'required_without_all:tueS,wedS,thuS,friS,satS' : '', 'required_with:monE', 'nullable', 'date_format:H:i', 'before:monE'],
             'monE' => ['required_with:monS', 'nullable', 'date_format:H:i', 'after:monS', new HourInterval($this->get('monS'), $this->get('monE2'), $this->get('monS2'))],
             'tueS' => ['required_with:tueE', 'nullable', 'date_format:H:i', 'before:tueE'],
             'tueE' => ['required_with:tueS', 'nullable', 'date_format:H:i', 'after:tueS', new HourInterval($this->get('tueS'), $this->get('tueE2'), $this->get('tueS2'))],
@@ -59,8 +63,8 @@ class StoreAmendment extends FormRequest
             'satS2' => ['required_with:satE2', 'nullable', 'date_format:H:i', 'before:satE2'],
             'satE2' => ['required_with:satS2', 'nullable', 'date_format:H:i', 'after:satS2'],
 
-            'protocol' => 'required|max:5',
-            'observation' => 'nullable|max:8000',
+            'protocol' => ['required', 'numeric', 'digits:5'],
+            'observation' => ['nullable', 'max:8000'],
         ];
     }
 }

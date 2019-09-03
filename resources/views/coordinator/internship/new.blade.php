@@ -23,10 +23,8 @@
             <div class="box-body">
                 <input type="hidden" id="inputHas2Schedules" name="has2Schedules"
                        value="{{ (old('has2Schedules') ?? 0) ? '1' : '0' }}">
-                <input type="hidden" id="inputHasCTPS" name="hasCTPS"
-                       value="{{ (old('hasCTPS') ?? 0) ? '1' : '0' }}">
-                <input type="hidden" id="inputDelation" name="delation"
-                       value="{{ (old('delation') ?? 0) ? '1' : '0' }}">
+                <input type="hidden" id="inputDilation" name="dilation"
+                       value="{{ (old('dilation') ?? 0) ? '1' : '0' }}">
 
                 <div class="row">
                     <div class="col-sm-6">
@@ -171,7 +169,7 @@
                 </div>
 
                 <div class="form-group @if($errors->has('observation')) has-error @endif">
-                    <label for="inputObservation" class="col-sm-2 control-label">Observação</label>
+                    <label for="inputObservation" class="col-sm-2 control-label">Observações</label>
 
                     <div class="col-sm-10">
                         <textarea class="form-control" rows="3" id="inputObservation" name="observation"
@@ -182,12 +180,6 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
 
         <div class="box box-default">
@@ -486,15 +478,41 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
 
         <div class="row">
+            <div class="col-sm-6">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Dados da secretaria</h3>
+                    </div>
+
+                    <div class="box-body">
+                        <div class="form-group @if($errors->has('protocol')) has-error @endif">
+                            <label for="inputProtocol" class="col-sm-4 control-label">Protocolo*</label>
+
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputProtocol" name="protocol"
+                                       placeholder="001/19" data-inputmask="'mask': '999/99'"
+                                       value="{{ old('protocol') ?? '' }}"/>
+
+                                <span class="help-block">{{ $errors->first('protocol') }}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fakeInputDilation" class="col-sm-4 control-label" style="padding-top: 0">Dilação
+                                de prazo</label>
+
+                            <div class="col-sm-8">
+                                <input type="checkbox" id="fakeInputDilation" name="fakeDilation"
+                                    {{ old('dilation') ?? 0 ? 'checked="checked"' : '' }}>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="col-sm-6">
                 <div class="box box-default">
                     <div class="box-header with-border">
@@ -536,44 +554,6 @@
                     <!-- /.box-footer -->
                 </div>
             </div>
-
-            <div class="col-sm-6">
-                <div class="box box-default">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Dados da secretaria</h3>
-                    </div>
-
-                    <div class="box-body">
-                        <div class="form-group @if($errors->has('protocol')) has-error @endif">
-                            <label for="inputProtocol" class="col-sm-4 control-label">Protocolo*</label>
-
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="inputProtocol" name="protocol"
-                                       placeholder="001/19" data-inputmask="'mask': '999/99'"
-                                       value="{{ old('protocol') ?? '' }}"/>
-
-                                <span class="help-block">{{ $errors->first('protocol') }}</span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="fakeInputDelation" class="col-sm-4 control-label" style="padding-top: 0">Delação
-                                de prazo</label>
-
-                            <div class="col-sm-8">
-                                <input type="checkbox" id="fakeInputDelation" name="fakeDelation"
-                                    {{ old('delation') ?? 0 ? 'checked="checked"' : '' }}>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-                        <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                        <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-                    </div>
-                    <!-- /.box-footer -->
-                </div>
-            </div>
         </div>
     </form>
 @endsection
@@ -605,11 +585,11 @@
                 increaseArea: '20%' // optional
             });
 
-            jQuery('#fakeInputDelation').on('ifChanged', function () {
+            jQuery('#fakeInputDilation').on('ifChanged', function () {
                 if (this.checked) {
-                    jQuery('#inputDelation').val(1);
+                    jQuery('#inputDilation').val(1);
                 } else {
-                    jQuery('#inputDelation').val(0);
+                    jQuery('#inputDilation').val(0);
                 }
             }).trigger('ifChanged').iCheck({
                 checkboxClass: 'icheckbox_square-blue',
@@ -621,7 +601,7 @@
                 jQuery('#inputSector').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `/api/empresa/${jQuery('#inputCompany').val()}/setor/`,
+                        url: `/api/coordenador/empresa/${jQuery('#inputCompany').val()}/setor/`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -649,7 +629,7 @@
                 jQuery('#inputSupervisor').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `/api/empresa/${jQuery('#inputCompany').val()}/supervisor/`,
+                        url: `/api/coordenador/empresa/${jQuery('#inputCompany').val()}/supervisor/`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -677,7 +657,7 @@
 
             jQuery('#inputCompany').on('change', e => {
                 jQuery.ajax({
-                    url: `/api/empresa/${jQuery('#inputCompany').val()}`,
+                    url: `/api/coordenador/empresa/${jQuery('#inputCompany').val()}`,
                     dataType: 'json',
                     method: 'GET',
                     success: function (data) {

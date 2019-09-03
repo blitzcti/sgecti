@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 
 class SupervisorController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
         $this->middleware('coordinator');
         $this->middleware('permission:companySupervisor-list');

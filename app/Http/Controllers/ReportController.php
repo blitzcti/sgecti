@@ -70,7 +70,7 @@ class ReportController extends Controller
 
         $cIds = Auth::user()->coordinator_courses_id;
 
-        $internships = Internship::all()->filter(function ($internship) use ($cIds) {
+        $internships = State::findOrFail(1)->internships->filter(function ($internship) use ($cIds) {
             return in_array($internship->student->course_id, $cIds);
         })->where('active', '=', true)->merge([$report->internship])->sortBy('id');
 
@@ -83,7 +83,7 @@ class ReportController extends Controller
 
         $cIds = Auth::user()->coordinator_courses_id;
 
-        $internships = Internship::all()->filter(function ($internship) use ($cIds) {
+        $internships = State::findOrFail(1)->internships->filter(function ($internship) use ($cIds) {
             return in_array($internship->student->course_id, $cIds);
         })->where('active', '=', true)->merge([$report->internship])->sortBy('id');
 
@@ -92,7 +92,7 @@ class ReportController extends Controller
 
     public function storeBimestral(StoreBimestralReport $request)
     {
-        $bimestral = new BimestralReport();
+        $report = new BimestralReport();
         $params = [];
 
         $validatedData = (object)$request->validated();
@@ -100,11 +100,11 @@ class ReportController extends Controller
         $log = "Novo relatório bimestral";
         $log .= "\nUsuário: " . Auth::user()->name;
 
-        $bimestral->internship_id = $validatedData->internship;
-        $bimestral->date = $validatedData->date;
-        $bimestral->protocol = $validatedData->protocol;
-        $saved = $bimestral->save();
-        $log .= "\nNovos dados: " . json_encode($bimestral, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $report->internship_id = $validatedData->internship;
+        $report->date = $validatedData->date;
+        $report->protocol = $validatedData->protocol;
+        $saved = $report->save();
+        $log .= "\nNovos dados: " . json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         if ($saved) {
             Log::info($log);
@@ -120,7 +120,7 @@ class ReportController extends Controller
 
     public function storeFinal(StoreFinalReport $request)
     {
-        $final = new FinalReport();
+        $report = new FinalReport();
         $params = [];
 
         $validatedData = (object)$request->validated();
@@ -128,46 +128,47 @@ class ReportController extends Controller
         $log = "Novo relatório final";
         $log .= "\nUsuário: " . Auth::user()->name;
 
-        $final->internship_id = $validatedData->internship;
-        $final->date = $validatedData->date;
+        $report->internship_id = $validatedData->internship;
+        $report->date = $validatedData->date;
 
-        $course_id = $final->internship->student->course_id;
+        $course_id = $report->internship->student->course_id;
 
-        $final->grade_1_a = $validatedData->grade_1_a;
-        $final->grade_1_b = $validatedData->grade_1_b;
-        $final->grade_1_c = $validatedData->grade_1_c;
-        $final->grade_2_a = $validatedData->grade_2_a;
-        $final->grade_2_b = $validatedData->grade_2_b;
-        $final->grade_2_c = $validatedData->grade_2_c;
-        $final->grade_2_d = $validatedData->grade_2_d;
-        $final->grade_3_a = $validatedData->grade_3_a;
-        $final->grade_3_b = $validatedData->grade_3_b;
-        $final->grade_4_a = $validatedData->grade_4_a;
-        $final->grade_4_b = $validatedData->grade_4_b;
-        $final->grade_4_c = $validatedData->grade_4_c;
+        $report->grade_1_a = $validatedData->grade_1_a;
+        $report->grade_1_b = $validatedData->grade_1_b;
+        $report->grade_1_c = $validatedData->grade_1_c;
+        $report->grade_2_a = $validatedData->grade_2_a;
+        $report->grade_2_b = $validatedData->grade_2_b;
+        $report->grade_2_c = $validatedData->grade_2_c;
+        $report->grade_2_d = $validatedData->grade_2_d;
+        $report->grade_3_a = $validatedData->grade_3_a;
+        $report->grade_3_b = $validatedData->grade_3_b;
+        $report->grade_4_a = $validatedData->grade_4_a;
+        $report->grade_4_b = $validatedData->grade_4_b;
+        $report->grade_4_c = $validatedData->grade_4_c;
 
-        $final->final_grade = ($final->grade_1_a * 5 + $final->grade_1_b * 4 + $final->grade_1_c * 2 + $final->grade_2_a * 3 + $final->grade_2_b * 4 + $final->grade_2_c * 3 + $final->grade_2_d * 1 + $final->grade_3_a * 5 + $final->grade_3_b * 4 + $final->grade_4_a * 2 + $final->grade_4_b * 2 + $final->grade_4_c * 5) / 24;
-        $final->hours_completed = $validatedData->hoursCompleted;
-        $final->end_date = $validatedData->endDate;
-        $final->approval_number = $this->generateApprovalNumber($course_id);
-        $final->observation = $validatedData->observation;
+        $report->final_grade = ($report->grade_1_a * 5 + $report->grade_1_b * 4 + $report->grade_1_c * 2 + $report->grade_2_a * 3 + $report->grade_2_b * 4 + $report->grade_2_c * 3 + $report->grade_2_d * 1 + $report->grade_3_a * 5 + $report->grade_3_b * 4 + $report->grade_4_a * 2 + $report->grade_4_b * 2 + $report->grade_4_c * 5) / 24;
+        $report->completed_hours = $validatedData->completedHours;
+        $report->end_date = $validatedData->endDate;
+        $report->approval_number = $this->generateApprovalNumber($course_id);
+        $report->observation = $validatedData->observation;
 
         $coordinator = Auth::user()->coordinators->where('course_id', '=', $course_id)->last();
         $coordinator_id = $coordinator->temporary_of->id ?? $coordinator->id;
-        $final->coordinator_id = $coordinator_id;
+        $report->coordinator_id = $coordinator_id;
 
-        $saved = $final->save();
-        $log .= "\nNovos dados: " . json_encode($final, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $saved = $report->save();
+        $log .= "\nNovos dados: " . json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         if ($saved) {
             Log::info($log);
-            $final->internship->state_id = 2;
-            $final->internship->save();
+            $report->internship->state_id = 2;
+            $report->internship->save();
         } else {
             Log::error("Erro ao salvar relatório final");
         }
 
         $params['saved'] = $saved;
+        $params['id'] = ($saved) ? $report->id : null;
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
         return redirect()->route('coordenador.relatorio.index')->with($params);
@@ -175,20 +176,20 @@ class ReportController extends Controller
 
     public function updateBimestral($id, UpdateBimestralReport $request)
     {
-        $bimestral = BimestralReport::all()->find($id);
+        $report = BimestralReport::all()->find($id);
         $params = [];
 
         $validatedData = (object)$request->validated();
 
         $log = "Alteração de relatório bimestral";
         $log .= "\nUsuário: " . Auth::user()->name;
-        $log .= "\nDados antigos: " . json_encode($bimestral, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $log .= "\nDados antigos: " . json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        $bimestral->internship_id = $validatedData->internship;
-        $bimestral->date = $validatedData->date;
-        $bimestral->protocol = $validatedData->protocol;
-        $saved = $bimestral->save();
-        $log .= "\nNovos dados: " . json_encode($bimestral, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $report->internship_id = $validatedData->internship;
+        $report->date = $validatedData->date;
+        $report->protocol = $validatedData->protocol;
+        $saved = $report->save();
+        $log .= "\nNovos dados: " . json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         if ($saved) {
             Log::info($log);
@@ -204,49 +205,45 @@ class ReportController extends Controller
 
     public function updateFinal($id, UpdateFinalReport $request)
     {
-        $final = FinalReport::all()->find($id);
+        $report = FinalReport::all()->find($id);
         $params = [];
 
         $validatedData = (object)$request->validated();
 
         $log = "Alteração de relatório final";
         $log .= "\nUsuário: " . Auth::user()->name;
-        $log .= "\nDados antigos: " . json_encode($final, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $log .= "\nDados antigos: " . json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        $final->internship_id = $validatedData->internship;
-        $final->date = $validatedData->date;
+        $report->internship_id = $validatedData->internship;
+        $report->date = $validatedData->date;
 
-        $course_id = $final->internship->student->course_id;
+        $course_id = $report->internship->student->course_id;
 
-        $final->grade_1_a = $validatedData->grade_1_a;
-        $final->grade_1_b = $validatedData->grade_1_b;
-        $final->grade_1_c = $validatedData->grade_1_c;
-        $final->grade_2_a = $validatedData->grade_2_a;
-        $final->grade_2_b = $validatedData->grade_2_b;
-        $final->grade_2_c = $validatedData->grade_2_c;
-        $final->grade_2_d = $validatedData->grade_2_d;
-        $final->grade_3_a = $validatedData->grade_3_a;
-        $final->grade_3_b = $validatedData->grade_3_b;
-        $final->grade_4_a = $validatedData->grade_4_a;
-        $final->grade_4_b = $validatedData->grade_4_b;
-        $final->grade_4_c = $validatedData->grade_4_c;
+        $report->grade_1_a = $validatedData->grade_1_a;
+        $report->grade_1_b = $validatedData->grade_1_b;
+        $report->grade_1_c = $validatedData->grade_1_c;
+        $report->grade_2_a = $validatedData->grade_2_a;
+        $report->grade_2_b = $validatedData->grade_2_b;
+        $report->grade_2_c = $validatedData->grade_2_c;
+        $report->grade_2_d = $validatedData->grade_2_d;
+        $report->grade_3_a = $validatedData->grade_3_a;
+        $report->grade_3_b = $validatedData->grade_3_b;
+        $report->grade_4_a = $validatedData->grade_4_a;
+        $report->grade_4_b = $validatedData->grade_4_b;
+        $report->grade_4_c = $validatedData->grade_4_c;
 
-        $final->final_grade = ($final->grade_1_a * 5 + $final->grade_1_b * 4 + $final->grade_1_c * 2 + $final->grade_2_a * 3 + $final->grade_2_b * 4 + $final->grade_2_c * 3 + $final->grade_2_d * 1 + $final->grade_3_a * 5 + $final->grade_3_b * 4 + $final->grade_4_a * 2 + $final->grade_4_b * 2 + $final->grade_4_c * 5) / 24;
-        $final->hours_completed = $validatedData->hoursCompleted;
-        $final->end_date = $validatedData->endDate;
-        $final->observation = $validatedData->observation;
+        $report->final_grade = ($report->grade_1_a * 5 + $report->grade_1_b * 4 + $report->grade_1_c * 2 + $report->grade_2_a * 3 + $report->grade_2_b * 4 + $report->grade_2_c * 3 + $report->grade_2_d * 1 + $report->grade_3_a * 5 + $report->grade_3_b * 4 + $report->grade_4_a * 2 + $report->grade_4_b * 2 + $report->grade_4_c * 5) / 24;
+        $report->completed_hours = $validatedData->completedHours;
+        $report->end_date = $validatedData->endDate;
+        $report->observation = $validatedData->observation;
 
-        $coordinator = Auth::user()->coordinators->where('course_id', '=', $course_id)->last();
-        $coordinator_id = $coordinator->temporary_of->id ?? $coordinator->id;
-        $final->coordinator_id = $coordinator_id;
-
-        $saved = $final->save();
-        $log .= "\nNovos dados: " . json_encode($final, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $saved = $report->save();
+        $log .= "\nNovos dados: " . json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         if ($saved) {
             Log::info($log);
-            $final->internship->state_id = 2;
-            $final->internship->save();
+            $report->internship->state_id = 2;
+            $report->internship->save();
         } else {
             Log::error("Erro ao salvar relatório final");
         }

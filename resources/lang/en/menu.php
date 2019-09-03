@@ -43,7 +43,7 @@ return [
     'jobs' => 'Jobs',
 
     'reports' => 'Reports',
-    'proposals' => 'Internship Proposals',
+    'proposals' => 'Proposals',
     'bimestral' => 'Bimestral',
     'final' => 'Final',
 

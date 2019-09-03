@@ -21,8 +21,11 @@ class CreateProposalsTable extends Migration
 
             $table->date('deadline');
 
-            $table->bigInteger('schedule_id')->nullable(true)->default(null)->unsigned();
+            $table->bigInteger('schedule_id')->nullable(true)->unsigned();
             $table->foreign('schedule_id')->references('id')->on('schedules');
+
+            $table->bigInteger('schedule_2_id')->nullable(true)->unsigned();
+            $table->foreign('schedule_2_id')->references('id')->on('schedules');
 
             $table->float('remuneration')->default(0);
             $table->text('description');
@@ -30,7 +33,9 @@ class CreateProposalsTable extends Migration
             $table->text('benefits');
             $table->text('contact');
             $table->bigInteger('type')->nullable(false)->default(1);
-            $table->text('observation')->nullable(true)->default(null);
+            $table->text('observation')->nullable(true);
+
+            $table->timestamp('approved_at')->nullable(true);
 
             $table->timestamps();
         });

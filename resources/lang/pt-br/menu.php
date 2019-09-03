@@ -43,7 +43,7 @@ return [
     'jobs' => 'Trabalhos',
 
     'reports' => 'Relatórios',
-    'proposals' => 'Propostas de estágio',
+    'proposals' => 'Propostas',
     'bimestral' => 'Bimestral',
     'final' => 'Final',
 

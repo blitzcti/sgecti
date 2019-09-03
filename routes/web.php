@@ -277,6 +277,20 @@ Route::prefix('aluno')->name('aluno.')->middleware('auth')->group(function () {
 
 });
 
+Route::prefix('empresa')->name('empresa.')->middleware('auth')->group(function () {
+    Route::prefix('proposta')->name('proposta.')->group(function () {
+        Route::get('', 'Company\ProposalController@index')->name('index');
+        Route::get('novo', 'Company\ProposalController@create')->name('novo');
+        Route::post('salvar', 'Company\ProposalController@store')->name('salvar');
+
+        Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+            Route::get('', 'Company\ProposalController@details')->name('detalhes');
+            Route::get('editar', 'Company\ProposalController@edit')->name('editar');
+            Route::put('alterar', 'Company\ProposalController@update')->name('alterar');
+        });
+    });
+});
+
 Route::prefix('ajuda')->name('ajuda.')->group(function () {
     Route::get('', 'HelpController@index')->name('index');
 });

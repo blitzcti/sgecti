@@ -34,7 +34,7 @@ class StoreCompany extends FormRequest
             'active' => ['required', 'boolean'],
             'name' => ['required', 'max:191'],
             'fantasyName' => ['nullable', 'max:191'],
-            'email' => ['required_if:hasAgreement:1', 'nullable', 'email', 'max:191'],
+            'email' => ['required_if:hasAgreement:1', 'nullable', 'email', 'max:191', 'unique:companies,email'],
             'phone' => ['nullable', 'numeric', 'digits_between:10,11'],
 
             'representativeName' => ['required', 'max:50'],

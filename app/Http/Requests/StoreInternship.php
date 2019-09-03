@@ -76,7 +76,7 @@ class StoreInternship extends FormRequest
 
             'supervisor' => ['required', 'numeric', 'min:1', 'exists:supervisors,id'],
 
-            'protocol' => ['required', 'numeric', 'digits_between:5,5'],
+            'protocol' => ['required', 'numeric', 'digits:5'],
             'observation' => ['nullable', 'max:8000'],
         ];
     }

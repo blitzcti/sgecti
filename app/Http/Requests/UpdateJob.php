@@ -39,7 +39,7 @@ class UpdateJob extends FormRequest
             'startDate' => ['required', 'date', 'before:endDate'],
             'endDate' => ['required', 'date', 'after:startDate'],
 
-            'protocol' => ['required', 'numeric', 'digits_between:5,5'],
+            'protocol' => ['required', 'numeric', 'digits:5'],
             'activities' => ['nullable', 'max:8000'],
             'observation' => ['nullable', 'max:8000'],
 

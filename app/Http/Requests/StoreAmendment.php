@@ -63,7 +63,7 @@ class StoreAmendment extends FormRequest
             'satS2' => ['required_with:satE2', 'nullable', 'date_format:H:i', 'before:satE2'],
             'satE2' => ['required_with:satS2', 'nullable', 'date_format:H:i', 'after:satS2'],
 
-            'protocol' => ['required', 'numeric', 'digits_between:5,5'],
+            'protocol' => ['required', 'numeric', 'digits:5'],
             'observation' => ['nullable', 'max:8000'],
         ];
     }

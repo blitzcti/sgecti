@@ -95,7 +95,7 @@ class MessageController extends Controller
                 if (isset($validatedData->internships)) {
                     $students2 = collect();
 
-                    $istates = $request->istates;
+                    $istates = $validatedData->internships;
                     if (in_array(0, $istates)) { // Estagiando
                         $students2 = $students2->merge(State::findOrFail(1)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) use ($students) {
                             return $students->find($i->ra);

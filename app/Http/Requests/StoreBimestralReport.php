@@ -26,7 +26,7 @@ class StoreBimestralReport extends FormRequest
         return [
             'internship' => ['required', 'numeric', 'min:1', 'exists:internships,id'],
             'date' => ['required', 'date'],
-            'protocol' => ['required', 'numeric', 'digits_between:5,5'],
+            'protocol' => ['required', 'numeric', 'digits:5'],
         ];
     }
 }

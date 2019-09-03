@@ -265,6 +265,7 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
     Route::prefix('aluno')->name('aluno.')->group(function () {
         Route::get('', 'StudentController@index')->name('index');
         Route::get('pdf', 'StudentController@pdf')->name('pdf');
+        Route::post('gerarPDF', 'StudentController@makePDF')->name('gerarPDF');
 
         Route::prefix('{ra}')->where(['ra' => '[0-9]+'])->group(function () {
             Route::get('', 'StudentController@details')->name('detalhes');

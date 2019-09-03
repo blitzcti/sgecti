@@ -29,7 +29,7 @@ class StoreJobCompany extends FormRequest
             'pj' => ['required', 'boolean'],
 
             'cpfCnpj' => ['required', 'numeric', ($this->get('pj')) ? new CNPJ : new CPF],
-            'ie' => ['nullable', 'numeric', 'digits_between:10,10'],
+            'ie' => ['nullable', 'numeric', 'digits:10'],
             'name' => ['required', 'max:191'],
             'fantasyName' => ['nullable', 'max:191'],
 

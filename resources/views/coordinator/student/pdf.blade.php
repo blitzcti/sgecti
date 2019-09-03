@@ -29,7 +29,7 @@
         </div>
     @endif
 
-    <form action="{{ route('coordenador.mensagem.enviar') }}" class="form-horizontal" method="post">
+    <form action="{{ route('coordenador.aluno.gerarPDF') }}" class="form-horizontal" method="post">
         @csrf
 
         <div id="filters" class="nav-tabs-custom">
@@ -159,6 +159,7 @@
                         <div class="btn-group pull-right">
                             <a href="#" class="btn btn-default" onclick="loadStudents()"><i class="fa fa-search"></i>
                                 Visualizar</a>
+                            <button type="submit" class="btn btn-primary">Gerar PDF</button>
                         </div>
                     </div>
                 </div>

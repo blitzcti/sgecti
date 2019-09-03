@@ -54,7 +54,8 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
 
-        return view('admin.user.changePassword')->with(['user' => $user]);
+        // return view('admin.user.changePassword')->with(['user' => $user]);
+        return view('auth.passwords.reset')->with(['user' => $user]);
     }
 
     public function changeCUserPassword()

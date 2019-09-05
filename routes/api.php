@@ -43,98 +43,98 @@ Route::prefix('')->name('api.')->group(function () {
     });
 
     Route::group(['middleware' => ['apiSession']], function () {
+        Route::prefix('alunos')->name('alunos.')->group(function () {
+            Route::get('', 'API\NSac\StudentController@get')->name('get');
+            Route::get('curso/{course}', 'API\NSac\StudentController@getByCourse')->name('getByCourse');
+            Route::get('ano/{year}', 'API\NSac\StudentController@getByYear')->name('getByYear');
+            Route::get('turma/{class}', 'API\NSac\StudentController@getByClass')->name('getByClass');
+
+            Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+                Route::get('', 'API\NSac\StudentController@getByRA')->name('getByRA');
+                Route::get('foto', 'API\NSac\StudentController@getPhoto')->middleware('auth:api')->name('foto');
+            });
+        });
+
         Route::prefix('admin')->name('admin.')->group(function () {
-            Route::get('sysUsage', 'API\SystemUsage@index')->name('sysUsage');
-            Route::post('down', 'API\SystemUsage@down')->name('down');
-            Route::post('up', 'API\SystemUsage@up')->name('up');
+            Route::get('sysUsage', 'API\Admin\SystemUsage@index')->name('sysUsage');
+            Route::post('down', 'API\Admin\SystemUsage@down')->name('down');
+            Route::post('up', 'API\Admin\SystemUsage@up')->name('up');
 
             Route::prefix('coordenador')->name('coordenador.')->group(function () {
-                Route::get('', 'API\CoordinatorController@get')->name('get');
-                Route::get('curso/{id}', 'API\CoordinatorController@getByCourse')->name('getByCourse');
+                Route::get('', 'API\Admin\CoordinatorController@get')->name('get');
+                Route::get('curso/{id}', 'API\Admin\CoordinatorController@getByCourse')->name('getByCourse');
 
                 Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-                    Route::get('', 'API\CoordinatorController@getById')->name('getById');
+                    Route::get('', 'API\Admin\CoordinatorController@getById')->name('getById');
                 });
             });
         });
 
         Route::prefix('coordenador')->name('coordenador.')->group(function () {
-            Route::prefix('aluno')->name('aluno.')->group(function () {
-                Route::get('', 'API\NSac\StudentController@get')->name('get');
-                Route::get('curso/{course}', 'API\NSac\StudentController@getByCourse')->name('getByCourse');
-                Route::get('ano/{year}', 'API\NSac\StudentController@getByYear')->name('getByYear');
-                Route::get('turma/{class}', 'API\NSac\StudentController@getByClass')->name('getByClass');
-
-                Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-                    Route::get('', 'API\NSac\StudentController@getByRA')->name('getByRA');
-                    Route::get('foto', 'API\NSac\StudentController@getPhoto')->middleware('auth:api')->name('foto');
-                });
-            });
-
             Route::prefix('empresa')->name('empresa.')->group(function () {
-                Route::get('', 'API\CompanyController@get')->name('get');
+                Route::get('', 'API\Coordinator\CompanyController@get')->name('get');
 
                 Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-                    Route::get('', 'API\CompanyController@getById')->name('getById');
+                    Route::get('', 'API\Coordinator\CompanyController@getById')->name('getById');
 
                     Route::prefix('setor')->name('setor.')->group(function () {
-                        Route::get('', 'API\SectorController@getFromCompany')->name('getFromCompany');
+                        Route::get('', 'API\Coordinator\SectorController@getFromCompany')->name('getFromCompany');
                     });
 
                     Route::prefix('supervisor')->name('supervisor.')->group(function () {
-                        Route::get('', 'API\SupervisorController@getFromCompany')->name('getFromCompany');
+                        Route::get('', 'API\Coordinator\SupervisorController@getFromCompany')->name('getFromCompany');
                     });
                 });
 
                 Route::prefix('setor')->name('setor.')->group(function () {
-                    Route::get('', 'API\SectorController@get')->name('get');
-                    Route::post('salvar', 'API\SectorController@store')->name('salvar');
+                    Route::get('', 'API\Coordinator\SectorController@get')->name('get');
+                    Route::post('salvar', 'API\Coordinator\SectorController@store')->name('salvar');
 
                     Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-                        Route::get('', 'API\SectorController@getById')->name('getById');
+                        Route::get('', 'API\Coordinator\SectorController@getById')->name('getById');
                         Route::put('alterar', 'SectorController@update')->name('alterar');
                     });
                 });
 
                 Route::prefix('supervisor')->name('supervisor.')->group(function () {
-                    Route::get('', 'API\SupervisorController@get')->name('get');
-                    Route::post('salvar', 'API\SupervisorController@store')->name('salvar');
+                    Route::get('', 'API\Coordinator\SupervisorController@get')->name('get');
+                    Route::post('salvar', 'API\Coordinator\SupervisorController@store')->name('salvar');
 
                     Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-                        Route::get('', 'API\SupervisorController@getById')->name('getById');
+                        Route::get('', 'API\Coordinator\SupervisorController@getById')->name('getById');
                         Route::put('alterar', 'SupervisorController@update')->name('alterar');
                     });
                 });
             });
 
             Route::prefix('estagio')->name('estagio.')->group(function () {
-                Route::get('', 'API\InternshipController@get')->name('get');
+                Route::get('', 'API\Coordinator\InternshipController@get')->name('get');
 
                 Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-                    Route::get('', 'API\InternshipController@getById')->name('getById');
+                    Route::get('', 'API\Coordinator\InternshipController@getById')->name('getById');
                 });
 
                 Route::prefix('ra')->group(function () {
-                    Route::get('{ra}', 'API\InternshipController@getByRA')->name('getByRA');
+                    Route::get('{ra}', 'API\Coordinator\InternshipController@getByRA')->name('getByRA');
                 });
             });
 
             Route::prefix('trabalho')->name('trabalho.')->group(function () {
-                Route::get('', 'API\JobController@get')->name('get');
+                Route::get('', 'API\Coordinator\JobController@get')->name('get');
 
                 Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-                    Route::get('', 'API\JobController@getById')->name('getById');
+                    Route::get('', 'API\Coordinator\JobController@getById')->name('getById');
                 });
 
                 Route::prefix('ra')->group(function () {
-                    Route::get('{ra}', 'API\JobController@getByRA')->name('getByRA');
+                    Route::get('{ra}', 'API\Coordinator\JobController@getByRA')->name('getByRA');
                 });
 
                 Route::prefix('empresa')->name('empresa.')->group(function () {
-                    Route::get('', 'API\JobCompanyController@get')->name('get');
+                    Route::get('', 'API\Coordinator\JobCompanyController@get')->name('get');
 
                     Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-                        Route::get('', 'API\JobCompanyController@getById')->name('getById');
+                        Route::get('', 'API\Coordinator\JobCompanyController@getById')->name('getById');
                     });
                 });
             });

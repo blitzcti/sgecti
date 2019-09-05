@@ -50,7 +50,7 @@
                             <th>Nome</th>
                             <th>Curso</th>
                             <th>Ano</th>
-                            <th>Ações</th>
+                            <th data-priority="2">Ações</th>
                         </tr>
                         </thead>
 
@@ -122,9 +122,9 @@
                 let val = (s === 0 || s === 2) ? jQuery('#inputSearch').inputmask('unmaskedvalue') : jQuery('#inputSearch').val().trim();
                 let filter = (s === 1 || s === 2) ? `${[{{ implode(', ', auth()->user()->coordinator_courses_id)}}].map(a => `courses[]=${a}`).join('&')}` : undefined;
                 let url = (s === 0) ?
-                    `/api/coordenador/aluno/${val}` : (s === 1) ?
-                        `/api/coordenador/aluno?${filter}&q=${val}` :
-                        `/api/coordenador/aluno/ano/${val}?${filter}`;
+                    `/api/alunos/${val}` : (s === 1) ?
+                        `/api/alunos?${filter}&q=${val}` :
+                        `/api/alunos/ano/${val}?${filter}`;
 
                 if (s === 0 && val.length === 0) {
                     return;

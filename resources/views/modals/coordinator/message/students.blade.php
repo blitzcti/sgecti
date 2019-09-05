@@ -79,7 +79,7 @@
                 cs = [{{ implode(", ", auth()->user()->coordinator_courses_id) }}].map(c => `&courses[]=${c}`);
             }
 
-            let url = `/api/coordenador/aluno?q=`;
+            let url = `/api/alunos?q=`;
             if (gs.length > 0) {
                 url += gs;
             }

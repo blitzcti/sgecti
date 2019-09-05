@@ -127,7 +127,7 @@ class Internship extends Model
 
     public static function requiringFinish()
     {
-        $today = Carbon::today()->modify('+20 day')->toDateString();
-        return Internship::where('state_id', '=', 1)->get()->where('end_date', '<=', $today);
+        $today = Carbon::today()->modify('-20 day');
+        return Internship::where('state_id', '=', 1)->where('active', '=', true)->get()->where('end_date', '<=', $today);
     }
 }

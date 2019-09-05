@@ -1,4 +1,8 @@
-<p>Atualmente, você é coordenador de {{ $strCourses }}.</p>
+@if($user->isCoordinator())
+
+    <p>Atualmente, você é coordenador de {{ $strCourses }}.</p>
+
+@endif
 
 @if(sizeof($requiringFinish) > 0)
 
@@ -11,7 +15,10 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
+                    <th scope="col" data-priority="1">ID</th>
+                    <th>Aluno</th>
+                    <th>Empresa</th>
+                    <th data-priority="2">Ações</th>
                 </tr>
                 </thead>
 
@@ -20,6 +27,17 @@
 
                     <tr>
                         <th scope="row">{{ $internship->id }}</th>
+                        <td>{{ $internship->ra}}
+
+                            @if((new \App\Models\NSac\Student)->isConnected())
+                                {{ (' - ' . $internship->student->nome) ?? '' }}
+                            @endif
+                        </td>
+
+                        <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? " (" . $internship->company->fantasy_name . ")" : '' }}</td>
+                        <td>
+                            <a href="{{ route('coordenador.estagio.detalhes', ['id' => $internship->id]) }}">Detalhes</a>
+                        </td>
                     </tr>
 
                 @endforeach
@@ -41,7 +59,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
+                    <th scope="col" data-priority="1">ID</th>
                 </tr>
                 </thead>
 

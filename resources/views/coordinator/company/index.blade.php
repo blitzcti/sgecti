@@ -26,11 +26,11 @@
             <table id="companies" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
+                    <th scope="col" data-priority="1">ID</th>
                     <th>CPF / CNPJ</th>
                     <th>Nome</th>
                     <th>Ativo</th>
-                    <th>Ações</th>
+                    <th data-priority="2">Ações</th>
                 </tr>
                 </thead>
 

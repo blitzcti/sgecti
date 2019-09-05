@@ -142,11 +142,16 @@
 
                                         <option value="1"
                                             {{ in_array(1, (old('internships') ?? [])) ? 'selected=selected' : '' }}>
-                                            Não estagiando
+                                            Estágio finalizado
                                         </option>
 
                                         <option value="2"
                                             {{ in_array(2, (old('internships') ?? [])) ? 'selected=selected' : '' }}>
+                                            Não estagiando
+                                        </option>
+
+                                        <option value="3"
+                                            {{ in_array(3, (old('internships') ?? [])) ? 'selected=selected' : '' }}>
                                             Nunca estagiaram
                                         </option>
                                     </select>

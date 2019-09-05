@@ -45,9 +45,9 @@ class AppServiceProvider extends ServiceProvider
         $menu->add('menu.user');
         $menu->add([
             'text' => 'menu.changePassword',
-            'route' => 'alterarSenha',
+            'route' => 'usuario.alterarSenha',
             'icon' => 'lock',
-            'active' => ['alterarSenha/']
+            'active' => ['usuario/alterarSenha/']
         ]);
 
         $menu->add('menu.system');
@@ -99,14 +99,16 @@ class AppServiceProvider extends ServiceProvider
             ]);
         }
 
-        $menu->add([
-            'text' => 'menu.message',
-            'route' => $user->hasRole('admin') ? 'admin.mensagem.index' : ($user->isCoordinator() ? 'coordenador.mensagem.index' : null),
-            'icon' => 'envelope',
-            'active' => ['admin/mensagem/', 'coordenador/mensagem']
-        ]);
+        if ($user->isAdmin() || $user->isCoordinator()) {
+            $menu->add([
+                'text' => 'menu.message',
+                'route' => $user->isAdmin() ? 'admin.mensagem.index' : ($user->isCoordinator() ? 'coordenador.mensagem.index' : null),
+                'icon' => 'envelope',
+                'active' => ['admin/mensagem/', 'coordenador/mensagem']
+            ]);
+        }
 
-        if ($user->hasRole('admin')) {
+        if ($user->isAdmin()) {
             $menu->add([
                 'text' => 'menu.logs',
                 'icon' => 'calendar',
@@ -129,7 +131,7 @@ class AppServiceProvider extends ServiceProvider
             'active' => ['sobre/']
         ]);
 
-        if ($user->hasRole('admin')) {
+        if ($user->isAdmin()) {
             $menu->add('menu.administration');
             if ($user->can('course-list')) {
                 $submenu = [
@@ -402,12 +404,6 @@ class AppServiceProvider extends ServiceProvider
                             'icon' => 'edit',
                             'active' => ['coordenador/relatorio/final/novo']
                         ],
-                        [
-                            'text' => 'menu.pdf',
-                            'route' => 'coordenador.relatorio.pdf',
-                            'icon' => 'file-pdf-o',
-                            'active' => ['coordenador/relatorio/pdf']
-                        ],
                     ]
                 ]);
             }
@@ -423,7 +419,35 @@ class AppServiceProvider extends ServiceProvider
                         'icon' => 'file-text-o',
                         'active' => ['coordenador/aluno/']
                     ],
+                    [
+                        'text' => 'menu.pdf',
+                        'route' => 'coordenador.aluno.pdf',
+                        'icon' => 'file-pdf-o',
+                        'active' => ['coordenador/aluno/pdf']
+                    ],
                 ]
+            ]);
+        }
+
+        if($user->isCompany()) {
+            $menu->add('ESTÁGIO');
+            $menu->add([
+                'text' => 'menu.proposals',
+                'icon' => 'bullhorn',
+                'submenu' => [
+                    [
+                        'text' => 'menu.view',
+                        'route' => 'empresa.proposta.index',
+                        'icon' => 'th-list',
+                        'active' => ['empresa/proposta/']
+                    ],
+                    [
+                        'text' => 'menu.new',
+                        'route' => 'empresa.proposta.novo',
+                        'icon' => 'edit',
+                        'active' => ['empresa/proposta/novo']
+                    ],
+                ],
             ]);
         }
     }

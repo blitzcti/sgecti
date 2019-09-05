@@ -26,12 +26,12 @@
             <table id="coordinators" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
+                    <th scope="col" data-priority="1">ID</th>
                     <th>Nome</th>
                     <th>Curso</th>
                     <th>Início</th>
                     <th>Término</th>
-                    <th>Ações</th>
+                    <th data-priority="2">Ações</th>
                 </tr>
                 </thead>
 

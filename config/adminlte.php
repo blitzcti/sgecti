@@ -154,12 +154,6 @@ return [
                 ],
 
                 [
-                    'type' => 'css',
-                    'asset' => false,
-                    'location' => '//cdn.datatables.net/responsive/2.2.2/css/responsive.bootstrap.min.css',
-                ],
-
-                [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
@@ -184,6 +178,17 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js',
+                ],
+            ],
+        ],
+        [
+            'name' => 'Datatables.responsive',
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/responsive/2.2.2/css/responsive.bootstrap.min.css',
                 ],
 
                 [

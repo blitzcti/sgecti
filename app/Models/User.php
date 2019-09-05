@@ -48,9 +48,13 @@ class User extends Authenticatable
             ->orWhereNull('end_date')->where('user_id', '=', $this->id);
     }
 
-    public function isCoordinator()
+    public function isCoordinator($temp = true)
     {
-        return sizeof($this->coordinators) > 0;
+        if ($temp) {
+            return sizeof($this->coordinators) > 0;
+        } else {
+            return sizeof($this->coordinators->where('temp_of', '<>', null)) > 0;
+        }
     }
 
     public function isAdmin()
@@ -58,9 +62,28 @@ class User extends Authenticatable
         return $this->hasRole('admin');
     }
 
+    public function isCompany()
+    {
+        return $this->hasRole('company');
+    }
+
+    public function company()
+    {
+        if ($this->isCompany()) {
+            return $this->belongsTo(Company::class, 'email', 'email');
+        }
+    }
+
     public function getCoordinatorOfAttribute()
     {
         return $this->coordinators()->groupBy('course_id')->get('course_id')->map(function ($c) {
+            return $c->course;
+        });
+    }
+
+    public function getNonTempCoordinatorOfAttribute()
+    {
+        return $this->coordinators()->where('temp_of', '<>', null)->groupBy('course_id')->get('course_id')->map(function ($c) {
             return $c->course;
         });
     }
@@ -72,10 +95,19 @@ class User extends Authenticatable
         })->toArray();
     }
 
+    public function getNonTempCoordinatorCoursesIdAttribute()
+    {
+        return Auth::user()->non_temp_coordinator_of->map(function ($course) {
+            return $course->id;
+        })->toArray();
+    }
+
     public function getCoordinatorCoursesNameAttribute()
     {
-        $str = '';
-        $array = $this->coordinator_of->map(function ($c) {return $c->name; })->toArray();
+        $array = $this->non_temp_coordinator_of->map(function ($c) {
+            return $c->name;
+        })->toArray();
+
         $last = array_slice($array, -1);
         $first = join(', ', array_slice($array, 0, -1));
         $both = array_filter(array_merge([$first], $last), 'strlen');

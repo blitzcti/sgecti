@@ -29,12 +29,12 @@
             <table id="internships" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
+                    <th scope="col" data-priority="1">ID</th>
                     <th>Aluno</th>
                     <th>Empresa</th>
                     <th>Coordenador</th>
                     <th>Estado</th>
-                    <th>Ações</th>
+                    <th data-priority="2">Ações</th>
                 </tr>
                 </thead>
 

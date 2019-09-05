@@ -63,6 +63,7 @@ class Kernel extends HttpKernel
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'company' => \App\Http\Middleware\Company::class,
         'coordinator' => \App\Http\Middleware\Coordinator::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,

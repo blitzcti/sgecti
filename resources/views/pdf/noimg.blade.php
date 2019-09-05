@@ -5,6 +5,8 @@
     @yield('css')
     @stack('css')
 
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/vendor/bootstrap/dist/css/bootstrap.pdf.min.css') }}">
+
     <style type="text/css">
         body, h1, h2, h3, h4, h5, h6 {
             font-family: sans-serif;

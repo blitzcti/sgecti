@@ -180,12 +180,6 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
 
         <div class="box box-default">
@@ -484,15 +478,41 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
 
         <div class="row">
+            <div class="col-sm-6">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Dados da secretaria</h3>
+                    </div>
+
+                    <div class="box-body">
+                        <div class="form-group @if($errors->has('protocol')) has-error @endif">
+                            <label for="inputProtocol" class="col-sm-4 control-label">Protocolo*</label>
+
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputProtocol" name="protocol"
+                                       placeholder="001/19" data-inputmask="'mask': '999/99'"
+                                       value="{{ old('protocol') ?? '' }}"/>
+
+                                <span class="help-block">{{ $errors->first('protocol') }}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fakeInputDilation" class="col-sm-4 control-label" style="padding-top: 0">Dilação
+                                de prazo</label>
+
+                            <div class="col-sm-8">
+                                <input type="checkbox" id="fakeInputDilation" name="fakeDilation"
+                                    {{ old('dilation') ?? 0 ? 'checked="checked"' : '' }}>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="col-sm-6">
                 <div class="box box-default">
                     <div class="box-header with-border">
@@ -529,44 +549,6 @@
                                data-target="#newInternshipSupervisorModal">Novo supervisor</a>
                             <button type="submit" class="btn btn-primary">Adicionar</button>
                         </div>
-                        <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-                    </div>
-                    <!-- /.box-footer -->
-                </div>
-            </div>
-
-            <div class="col-sm-6">
-                <div class="box box-default">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Dados da secretaria</h3>
-                    </div>
-
-                    <div class="box-body">
-                        <div class="form-group @if($errors->has('protocol')) has-error @endif">
-                            <label for="inputProtocol" class="col-sm-4 control-label">Protocolo*</label>
-
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="inputProtocol" name="protocol"
-                                       placeholder="001/19" data-inputmask="'mask': '999/99'"
-                                       value="{{ old('protocol') ?? '' }}"/>
-
-                                <span class="help-block">{{ $errors->first('protocol') }}</span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="fakeInputDilation" class="col-sm-4 control-label" style="padding-top: 0">Dilação
-                                de prazo</label>
-
-                            <div class="col-sm-8">
-                                <input type="checkbox" id="fakeInputDilation" name="fakeDilation"
-                                    {{ old('dilation') ?? 0 ? 'checked="checked"' : '' }}>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-                        <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
                         <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
                     </div>
                     <!-- /.box-footer -->

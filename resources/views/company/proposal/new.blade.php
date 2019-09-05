@@ -147,297 +147,357 @@
 
         <div class="box box-default">
             <div class="box-header with-border">
-                <h3 class="box-title">Horários</h3>
+                <h3 class="box-title">Cursos abrangentes</h3>
             </div>
 
             <div class="box-body">
-                <div class="form-group">
-                    <label for="inputWeekDays" class="col-sm-2 control-label">Horário*</label>
+                <div class="form-group @if($errors->has('courses')) has-error @endif">
+                    <label for="inputCourses" class="col-sm-2 control-label">Cursos*</label>
 
                     <div class="col-sm-10">
-                        <table id="inputWeekDays" class="table table-bordered table-striped">
-                            <thead>
-                            <tr>
-                                <th>
-                                    <a href="#" data-toggle="modal" data-target="#cloneScheduleModal"
-                                       onclick="schedule2 = false;">
-                                        <i class="fa fa-copy"></i>
-                                    </a>
-                                </th>
+                        <select class="selection" name="courses[]" multiple="multiple" id="inputCourses"
+                                style="width: 100%">
 
-                                <th>
-                                    <label class="control-label">Seg</label>
-                                </th>
+                            @foreach($courses as $course)
 
-                                <th>
-                                    <label class="control-label">Ter</label>
-                                </th>
+                                <option
+                                    value="{{ $course->id }}" {{ in_array($course->id, (old('courses') ?? [])) ? "selected" : "" }}>
+                                    {{ $course->name }}</option>
 
-                                <th>
-                                    <label class="control-label">Qua</label>
-                                </th>
+                            @endforeach
 
-                                <th>
-                                    <label class="control-label">Qui</label>
-                                </th>
+                        </select>
 
-                                <th>
-                                    <label class="control-label">Sex</label>
-                                </th>
-
-                                <th>
-                                    <label class="control-label">Sab</label>
-                                </th>
-                            </tr>
-                            </thead>
-
-                            <tbody>
-                            <tr>
-                                <td style="min-width: 100px;">
-                                    <label class="control-label">Entrada</label>
-                                </td>
-
-                                <td>
-                                    <div class="form-group @if($errors->has('monS')) has-error @endif">
-                                        <input name="monS" id="inputMonS" type="text" class="form-control input-time"
-                                               value="{{ old('monS') ?? '' }}">
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="form-group @if($errors->has('tueS')) has-error @endif">
-                                        <input name="tueS" id="inputTueS" type="text" class="form-control input-time"
-                                               value="{{ old('tueS') ?? '' }}">
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="form-group @if($errors->has('wedS')) has-error @endif">
-                                        <input name="wedS" id="inputWedS" type="text" class="form-control input-time"
-                                               value="{{ old('wedS') ?? '' }}">
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="form-group @if($errors->has('thuS')) has-error @endif">
-                                        <input name="thuS" id="inputThuS" type="text" class="form-control input-time"
-                                               value="{{ old('thuS') ?? '' }}">
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="form-group @if($errors->has('friS')) has-error @endif">
-                                        <input name="friS" id="inputFriS" type="text" class="form-control input-time"
-                                               value="{{ old('friS') ?? '' }}">
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="form-group @if($errors->has('satS')) has-error @endif">
-                                        <input name="satS" id="inputSatS" type="text" class="form-control input-time"
-                                               value="{{ old('satS') ?? '' }}">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="control-label">Saída</label>
-                                </td>
-
-                                <td>
-                                    <div class="form-group @if($errors->has('monE')) has-error @endif">
-                                        <input name="monE" id="inputMonE" type="text" class="form-control input-time"
-                                               value="{{ old('monE') ?? '' }}">
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="form-group @if($errors->has('tueE')) has-error @endif">
-                                        <input name="tueE" id="inputTueE" type="text" class="form-control input-time"
-                                               value="{{ old('tueE') ?? '' }}">
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="form-group @if($errors->has('wedE')) has-error @endif">
-                                        <input name="wedE" id="inputWedE" type="text" class="form-control input-time"
-                                               value="{{ old('wedE') ?? '' }}">
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="form-group @if($errors->has('thuE')) has-error @endif">
-                                        <input name="thuE" id="inputThuE" type="text" class="form-control input-time"
-                                               value="{{ old('thuE') ?? '' }}">
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="form-group @if($errors->has('friE')) has-error @endif">
-                                        <input name="friE" id="inputFriE" type="text" class="form-control input-time"
-                                               value="{{ old('friE') ?? '' }}">
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="form-group @if($errors->has('satE')) has-error @endif">
-                                        <input name="satE" id="inputSatE" type="text" class="form-control input-time"
-                                               value="{{ old('satE') ?? '' }}">
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <span class="help-block">{{ $errors->first('courses') }}</span>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="form-group">
-                    <label for="fakeInputHas2Schedules" class="col-sm-2 control-label" style="padding-top: 0">2
-                        turnos?</label>
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    <input type="checkbox" id="fakeInputHasSchedule" name="fakeHasSchedule"
+                        {{ (old('hasSchedule') ?? 0) ? 'checked="checked"' : '' }}/>
 
-                    <div class="col-sm-10">
-                        <input type="checkbox" id="fakeInputHas2Schedules" name="fakeHas2Schedules"
-                            {{ old('has2Schedules') ?? 0 ? 'checked="checked"' : '' }}>
+                    Horário pré-definido?
+                </h3>
+            </div>
+
+            <div id="schedule">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="inputWeekDays" class="col-sm-2 control-label">Horário</label>
+
+                        <div class="col-sm-10">
+                            <table id="inputWeekDays" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <a href="#" data-toggle="modal" data-target="#cloneScheduleModal"
+                                           onclick="schedule2 = false;">
+                                            <i class="fa fa-copy"></i>
+                                        </a>
+                                    </th>
+
+                                    <th>
+                                        <label class="control-label">Seg</label>
+                                    </th>
+
+                                    <th>
+                                        <label class="control-label">Ter</label>
+                                    </th>
+
+                                    <th>
+                                        <label class="control-label">Qua</label>
+                                    </th>
+
+                                    <th>
+                                        <label class="control-label">Qui</label>
+                                    </th>
+
+                                    <th>
+                                        <label class="control-label">Sex</label>
+                                    </th>
+
+                                    <th>
+                                        <label class="control-label">Sab</label>
+                                    </th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr>
+                                    <td style="min-width: 100px;">
+                                        <label class="control-label">Entrada</label>
+                                    </td>
+
+                                    <td>
+                                        <div class="form-group @if($errors->has('monS')) has-error @endif">
+                                            <input name="monS" id="inputMonS" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('monS') ?? '' }}">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="form-group @if($errors->has('tueS')) has-error @endif">
+                                            <input name="tueS" id="inputTueS" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('tueS') ?? '' }}">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="form-group @if($errors->has('wedS')) has-error @endif">
+                                            <input name="wedS" id="inputWedS" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('wedS') ?? '' }}">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="form-group @if($errors->has('thuS')) has-error @endif">
+                                            <input name="thuS" id="inputThuS" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('thuS') ?? '' }}">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="form-group @if($errors->has('friS')) has-error @endif">
+                                            <input name="friS" id="inputFriS" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('friS') ?? '' }}">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="form-group @if($errors->has('satS')) has-error @endif">
+                                            <input name="satS" id="inputSatS" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('satS') ?? '' }}">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="control-label">Saída</label>
+                                    </td>
+
+                                    <td>
+                                        <div class="form-group @if($errors->has('monE')) has-error @endif">
+                                            <input name="monE" id="inputMonE" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('monE') ?? '' }}">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="form-group @if($errors->has('tueE')) has-error @endif">
+                                            <input name="tueE" id="inputTueE" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('tueE') ?? '' }}">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="form-group @if($errors->has('wedE')) has-error @endif">
+                                            <input name="wedE" id="inputWedE" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('wedE') ?? '' }}">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="form-group @if($errors->has('thuE')) has-error @endif">
+                                            <input name="thuE" id="inputThuE" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('thuE') ?? '' }}">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="form-group @if($errors->has('friE')) has-error @endif">
+                                            <input name="friE" id="inputFriE" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('friE') ?? '' }}">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="form-group @if($errors->has('satE')) has-error @endif">
+                                            <input name="satE" id="inputSatE" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('satE') ?? '' }}">
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group" id="weekDays2" style="display: none">
-                    <label for="inputWeekDays2" class="col-sm-2 control-label">2º horário</label>
+                    <div class="form-group">
+                        <label for="fakeInputHas2Schedules" class="col-sm-2 control-label" style="padding-top: 0">2
+                            turnos?</label>
 
-                    <div class="col-sm-10">
-                        <table id="inputWeekDays" class="table table-bordered table-striped">
-                            <thead>
-                            <tr>
-                                <th>
-                                    <a href="#" data-toggle="modal" data-target="#cloneScheduleModal"
-                                       onclick="schedule2 = true;">
-                                        <i class="fa fa-copy"></i>
-                                    </a>
-                                </th>
+                        <div class="col-sm-10">
+                            <input type="checkbox" id="fakeInputHas2Schedules" name="fakeHas2Schedules"
+                                {{ old('has2Schedules') ?? 0 ? 'checked="checked"' : '' }}>
+                        </div>
+                    </div>
 
-                                <th>
-                                    <label class="control-label">Seg</label>
-                                </th>
+                    <div class="form-group" id="weekDays2" style="display: none">
+                        <label for="inputWeekDays2" class="col-sm-2 control-label">2º horário</label>
 
-                                <th>
-                                    <label class="control-label">Ter</label>
-                                </th>
+                        <div class="col-sm-10">
+                            <table id="inputWeekDays" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <a href="#" data-toggle="modal" data-target="#cloneScheduleModal"
+                                           onclick="schedule2 = true;">
+                                            <i class="fa fa-copy"></i>
+                                        </a>
+                                    </th>
 
-                                <th>
-                                    <label class="control-label">Qua</label>
-                                </th>
+                                    <th>
+                                        <label class="control-label">Seg</label>
+                                    </th>
 
-                                <th>
-                                    <label class="control-label">Qui</label>
-                                </th>
+                                    <th>
+                                        <label class="control-label">Ter</label>
+                                    </th>
 
-                                <th>
-                                    <label class="control-label">Sex</label>
-                                </th>
+                                    <th>
+                                        <label class="control-label">Qua</label>
+                                    </th>
 
-                                <th>
-                                    <label class="control-label">Sab</label>
-                                </th>
-                            </tr>
-                            </thead>
+                                    <th>
+                                        <label class="control-label">Qui</label>
+                                    </th>
 
-                            <tbody>
-                            <tr>
-                                <td style="min-width: 100px;">
-                                    <label class="control-label">Entrada</label>
-                                </td>
+                                    <th>
+                                        <label class="control-label">Sex</label>
+                                    </th>
 
-                                <td>
-                                    <div class="form-group @if($errors->has('monS2')) has-error @endif">
-                                        <input name="monS2" id="inputMonS2" type="text" class="form-control input-time"
-                                               value="{{ old('monS2') ?? '' }}">
-                                    </div>
-                                </td>
+                                    <th>
+                                        <label class="control-label">Sab</label>
+                                    </th>
+                                </tr>
+                                </thead>
 
-                                <td>
-                                    <div class="form-group @if($errors->has('tueS2')) has-error @endif">
-                                        <input name="tueS2" id="inputTueS2" type="text" class="form-control input-time"
-                                               value="{{ old('tueS2') ?? '' }}">
-                                    </div>
-                                </td>
+                                <tbody>
+                                <tr>
+                                    <td style="min-width: 100px;">
+                                        <label class="control-label">Entrada</label>
+                                    </td>
 
-                                <td>
-                                    <div class="form-group @if($errors->has('wedS2')) has-error @endif">
-                                        <input name="wedS2" id="inputWedS2" type="text" class="form-control input-time"
-                                               value="{{ old('wedS2') ?? '' }}">
-                                    </div>
-                                </td>
+                                    <td>
+                                        <div class="form-group @if($errors->has('monS2')) has-error @endif">
+                                            <input name="monS2" id="inputMonS2" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('monS2') ?? '' }}">
+                                        </div>
+                                    </td>
 
-                                <td>
-                                    <div class="form-group @if($errors->has('thuS2')) has-error @endif">
-                                        <input name="thuS2" id="inputThuS2" type="text" class="form-control input-time"
-                                               value="{{ old('thuS2') ?? '' }}">
-                                    </div>
-                                </td>
+                                    <td>
+                                        <div class="form-group @if($errors->has('tueS2')) has-error @endif">
+                                            <input name="tueS2" id="inputTueS2" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('tueS2') ?? '' }}">
+                                        </div>
+                                    </td>
 
-                                <td>
-                                    <div class="form-group @if($errors->has('friS2')) has-error @endif">
-                                        <input name="friS2" id="inputFriS2" type="text" class="form-control input-time"
-                                               value="{{ old('friS2') ?? '' }}">
-                                    </div>
-                                </td>
+                                    <td>
+                                        <div class="form-group @if($errors->has('wedS2')) has-error @endif">
+                                            <input name="wedS2" id="inputWedS2" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('wedS2') ?? '' }}">
+                                        </div>
+                                    </td>
 
-                                <td>
-                                    <div class="form-group @if($errors->has('satS2')) has-error @endif">
-                                        <input name="satS2" id="inputSatS2" type="text" class="form-control input-time"
-                                               value="{{ old('satS2') ?? '' }}">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label class="control-label">Saída</label>
-                                </td>
+                                    <td>
+                                        <div class="form-group @if($errors->has('thuS2')) has-error @endif">
+                                            <input name="thuS2" id="inputThuS2" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('thuS2') ?? '' }}">
+                                        </div>
+                                    </td>
 
-                                <td>
-                                    <div class="form-group @if($errors->has('monE2')) has-error @endif">
-                                        <input name="monE2" id="inputMonE2" type="text" class="form-control input-time"
-                                               value="{{ old('monE2') ?? '' }}">
-                                    </div>
-                                </td>
+                                    <td>
+                                        <div class="form-group @if($errors->has('friS2')) has-error @endif">
+                                            <input name="friS2" id="inputFriS2" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('friS2') ?? '' }}">
+                                        </div>
+                                    </td>
 
-                                <td>
-                                    <div class="form-group @if($errors->has('tueE2')) has-error @endif">
-                                        <input name="tueE2" id="inputTueE2" type="text" class="form-control input-time"
-                                               value="{{ old('tueE2') ?? '' }}">
-                                    </div>
-                                </td>
+                                    <td>
+                                        <div class="form-group @if($errors->has('satS2')) has-error @endif">
+                                            <input name="satS2" id="inputSatS2" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('satS2') ?? '' }}">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="control-label">Saída</label>
+                                    </td>
 
-                                <td>
-                                    <div class="form-group @if($errors->has('wedE2')) has-error @endif">
-                                        <input name="wedE2" id="inputWedE2" type="text" class="form-control input-time"
-                                               value="{{ old('wedE2') ?? '' }}">
-                                    </div>
-                                </td>
+                                    <td>
+                                        <div class="form-group @if($errors->has('monE2')) has-error @endif">
+                                            <input name="monE2" id="inputMonE2" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('monE2') ?? '' }}">
+                                        </div>
+                                    </td>
 
-                                <td>
-                                    <div class="form-group @if($errors->has('thuE2')) has-error @endif">
-                                        <input name="thuE2" id="inputThuE2" type="text" class="form-control input-time"
-                                               value="{{ old('thuE2') ?? '' }}">
-                                    </div>
-                                </td>
+                                    <td>
+                                        <div class="form-group @if($errors->has('tueE2')) has-error @endif">
+                                            <input name="tueE2" id="inputTueE2" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('tueE2') ?? '' }}">
+                                        </div>
+                                    </td>
 
-                                <td>
-                                    <div class="form-group @if($errors->has('friE2')) has-error @endif">
-                                        <input name="friE2" id="inputFriE2" type="text" class="form-control input-time"
-                                               value="{{ old('friE2') ?? '' }}">
-                                    </div>
-                                </td>
+                                    <td>
+                                        <div class="form-group @if($errors->has('wedE2')) has-error @endif">
+                                            <input name="wedE2" id="inputWedE2" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('wedE2') ?? '' }}">
+                                        </div>
+                                    </td>
 
-                                <td>
-                                    <div class="form-group @if($errors->has('satE2')) has-error @endif">
-                                        <input name="satE2" id="inputSatE2" type="text" class="form-control input-time"
-                                               value="{{ old('satE2') ?? '' }}">
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                                    <td>
+                                        <div class="form-group @if($errors->has('thuE2')) has-error @endif">
+                                            <input name="thuE2" id="inputThuE2" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('thuE2') ?? '' }}">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="form-group @if($errors->has('friE2')) has-error @endif">
+                                            <input name="friE2" id="inputFriE2" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('friE2') ?? '' }}">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="form-group @if($errors->has('satE2')) has-error @endif">
+                                            <input name="satE2" id="inputSatE2" type="text"
+                                                   class="form-control input-time"
+                                                   value="{{ old('satE2') ?? '' }}">
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -456,6 +516,20 @@
 
             jQuery('.selection').select2({
                 language: "pt-BR"
+            });
+
+            jQuery('#fakeInputHasSchedule').on('ifChanged', function () {
+                if (this.checked) {
+                    jQuery('#schedule').css('display', 'block');
+                    jQuery('#inputHasSchedule').val(1);
+                } else {
+                    jQuery('#schedule').css('display', 'none');
+                    jQuery('#inputHasSchedule').val(0);
+                }
+            }).trigger('ifChanged').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
             });
 
             jQuery('#fakeInputHas2Schedules').on('ifChanged', function () {

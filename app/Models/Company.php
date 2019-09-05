@@ -40,6 +40,11 @@ class Company extends Model
         return $this->hasMany(Internship::class);
     }
 
+    public function proposals()
+    {
+        return $this->hasMany(Proposal::class);
+    }
+
     public function hasAgreementAt(Carbon $date = null)
     {
         if ($date == null) {

@@ -19,8 +19,18 @@ class Proposal extends Model
         return $this->belongsTo(Schedule::class);
     }
 
+    public function schedule2()
+    {
+        return $this->belongsTo(Schedule::class, 'schedule_2_id');
+    }
+
     public function courses()
     {
         return $this->belongsToMany(Course::class, 'proposal_courses');
+    }
+
+    public function syncCourses($courses)
+    {
+        $this->courses()->sync($courses);
     }
 }

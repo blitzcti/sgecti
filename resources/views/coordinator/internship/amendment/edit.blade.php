@@ -235,7 +235,7 @@
                                         <div class="form-group @if($errors->has('monS')) has-error @endif">
                                             <input name="monS" id="inputMonS" type="text"
                                                    class="form-control input-time"
-                                                   value="{{ old('monS') ?? $amendment->schedule->mon_s }}">
+                                                   value="{{ old('monS') ?? $amendment->schedule->mon_s ?? '' }}">
                                         </div>
                                     </td>
 
@@ -243,7 +243,7 @@
                                         <div class="form-group @if($errors->has('tueS')) has-error @endif">
                                             <input name="tueS" id="inputTueS" type="text"
                                                    class="form-control input-time"
-                                                   value="{{ old('tueS') ?? $amendment->schedule->tue_s }}">
+                                                   value="{{ old('tueS') ?? $amendment->schedule->tue_s ?? '' }}">
                                         </div>
                                     </td>
 
@@ -251,7 +251,7 @@
                                         <div class="form-group @if($errors->has('wedS')) has-error @endif">
                                             <input name="wedS" id="inputWedS" type="text"
                                                    class="form-control input-time"
-                                                   value="{{ old('wedS') ?? $amendment->schedule->wed_s }}">
+                                                   value="{{ old('wedS') ?? $amendment->schedule->wed_s ?? '' }}">
                                         </div>
                                     </td>
 
@@ -259,7 +259,7 @@
                                         <div class="form-group @if($errors->has('thuS')) has-error @endif">
                                             <input name="thuS" id="inputThuS" type="text"
                                                    class="form-control input-time"
-                                                   value="{{ old('thuS') ?? $amendment->schedule->thu_s }}">
+                                                   value="{{ old('thuS') ?? $amendment->schedule->thu_s ?? '' }}">
                                         </div>
                                     </td>
 
@@ -267,7 +267,7 @@
                                         <div class="form-group @if($errors->has('friS')) has-error @endif">
                                             <input name="friS" id="inputFriS" type="text"
                                                    class="form-control input-time"
-                                                   value="{{ old('friS') ?? $amendment->schedule->fri_s }}">
+                                                   value="{{ old('friS') ?? $amendment->schedule->fri_s ?? '' }}">
                                         </div>
                                     </td>
 
@@ -275,7 +275,7 @@
                                         <div class="form-group @if($errors->has('satS')) has-error @endif">
                                             <input name="satS" id="inputSatS" type="text"
                                                    class="form-control input-time"
-                                                   value="{{ old('satS') ?? $amendment->schedule->sat_s }}">
+                                                   value="{{ old('satS') ?? $amendment->schedule->sat_s ?? '' }}">
                                         </div>
                                     </td>
                                 </tr>
@@ -288,7 +288,7 @@
                                         <div class="form-group @if($errors->has('monE')) has-error @endif">
                                             <input name="monE" id="inputMonE" type="text"
                                                    class="form-control input-time"
-                                                   value="{{ old('monE') ?? $amendment->schedule->mon_e }}">
+                                                   value="{{ old('monE') ?? $amendment->schedule->mon_e ?? '' }}">
                                         </div>
                                     </td>
 
@@ -296,7 +296,7 @@
                                         <div class="form-group @if($errors->has('tueE')) has-error @endif">
                                             <input name="tueE" id="inputTueE" type="text"
                                                    class="form-control input-time"
-                                                   value="{{ old('tueE') ?? $amendment->schedule->tue_e }}">
+                                                   value="{{ old('tueE') ?? $amendment->schedule->tue_e ?? '' }}">
                                         </div>
                                     </td>
 
@@ -304,7 +304,7 @@
                                         <div class="form-group @if($errors->has('wedE')) has-error @endif">
                                             <input name="wedE" id="inputWedE" type="text"
                                                    class="form-control input-time"
-                                                   value="{{ old('wedE') ?? $amendment->schedule->wed_e }}">
+                                                   value="{{ old('wedE') ?? $amendment->schedule->wed_e ?? '' }}">
                                         </div>
                                     </td>
 
@@ -312,7 +312,7 @@
                                         <div class="form-group @if($errors->has('thuE')) has-error @endif">
                                             <input name="thuE" id="inputThuE" type="text"
                                                    class="form-control input-time"
-                                                   value="{{ old('thuE') ?? $amendment->schedule->thu_e }}">
+                                                   value="{{ old('thuE') ?? $amendment->schedule->thu_e ?? '' }}">
                                         </div>
                                     </td>
 
@@ -320,7 +320,7 @@
                                         <div class="form-group @if($errors->has('friE')) has-error @endif">
                                             <input name="friE" id="inputFriE" type="text"
                                                    class="form-control input-time"
-                                                   value="{{ old('friE') ?? $amendment->schedule->fri_e }}">
+                                                   value="{{ old('friE') ?? $amendment->schedule->fri_e ?? '' }}">
                                         </div>
                                     </td>
 
@@ -328,7 +328,7 @@
                                         <div class="form-group @if($errors->has('satE')) has-error @endif">
                                             <input name="satE" id="inputSatE" type="text"
                                                    class="form-control input-time"
-                                                   value="{{ old('satE') ?? $amendment->schedule->sat_e }}">
+                                                   value="{{ old('satE') ?? $amendment->schedule->sat_e ?? '' }}">
                                         </div>
                                     </td>
                                 </tr>

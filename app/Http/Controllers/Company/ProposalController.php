@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Company;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\StoreProposal;
 use App\Http\Requests\Company\UpdateProposal;
+use App\Models\Course;
+use App\Models\ManyToMany\ProposalCourse;
 use App\Models\Proposal;
 use App\Models\Schedule;
 use Illuminate\Support\Facades\Auth;
@@ -23,23 +25,29 @@ class ProposalController extends Controller
     public function index()
     {
         $proposals = Auth::user()->company->proposals;
+
         return view('company.proposal.index')->with(['proposals' => $proposals]);
     }
 
     public function create()
     {
-        return view('company.proposal.new');
+        $courses = Course::all()->where('active', '=', true)->sortBy('id');
+
+        return view('company.proposal.new')->with(['courses' => $courses]);
     }
 
     public function edit($id)
     {
         $proposal = Proposal::findOrFail($id);
-        return view('company.proposal.edit')->with(['proposal' => $proposal]);
+        $courses = Course::all()->where('active', '=', true)->sortBy('id');
+
+        return view('company.proposal.edit')->with(['proposal' => $proposal, 'courses' => $courses]);
     }
 
     public function store(StoreProposal $request)
     {
         $proposal = new Proposal();
+        $proposalCourse = new ProposalCourse();
         $params = [];
 
         $validatedData = (object)$request->validated();
@@ -98,11 +106,13 @@ class ProposalController extends Controller
         $proposal->observation = $validatedData->observation;
 
         $saved = $proposal->save();
+
+        $proposal->syncCourses(array_map('intval', $validatedData->courses));
+
         $log .= "\nNovos dados: " . json_encode($proposal, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         if ($saved) {
             Log::info($log);
-            $proposal->createUser();
         } else {
             Log::error("Erro ao salvar proposta de estágio");
         }
@@ -179,6 +189,9 @@ class ProposalController extends Controller
         $proposal->observation = $validatedData->observation;
 
         $saved = $proposal->save();
+
+        $proposal->syncCourses(array_map('intval', $validatedData->courses));
+
         $log .= "\nNovos dados: " . json_encode($proposal, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         if ($saved) {

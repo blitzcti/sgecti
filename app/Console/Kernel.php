@@ -40,7 +40,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        if (!$this->isConnected()) {
+        if ($this->isConnected()) {
             $backupConfig = new BackupConfiguration();
             if (Schema::hasTable($backupConfig->getTable())) {
                 $backupConfig = BackupConfiguration::findOrFail(1);

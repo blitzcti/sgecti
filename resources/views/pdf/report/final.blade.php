@@ -2,12 +2,6 @@
 
 @section('title', 'Relatório final de estágio')
 
-@section('css')
-
-    <link rel="stylesheet" href="{{ asset('vendor/adminlte/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
-
-@endsection
-
 @section('content')
 
     <h3>Relatório final de estágio</h3>

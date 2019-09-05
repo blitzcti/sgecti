@@ -29,7 +29,7 @@
             <table id="supervisors" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
+                    <th scope="col" data-priority="1">ID</th>
 
                     @if(!isset($company))
 
@@ -39,7 +39,7 @@
 
                     <th>Nome</th>
                     <th>Email</th>
-                    <th>Ações</th>
+                    <th data-priority="2">Ações</th>
                 </tr>
                 </thead>
 

@@ -45,9 +45,9 @@ class AppServiceProvider extends ServiceProvider
         $menu->add('menu.user');
         $menu->add([
             'text' => 'menu.changePassword',
-            'route' => 'alterarSenha',
+            'route' => 'usuario.alterarSenha',
             'icon' => 'lock',
-            'active' => ['alterarSenha/']
+            'active' => ['usuario/alterarSenha/']
         ]);
 
         $menu->add('menu.system');

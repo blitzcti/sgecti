@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Company;
 use App\Http\Requests\Company\StoreProposal;
 use App\Models\Proposal;
 use App\Models\Schedule;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class ProposalController extends Controller
@@ -44,7 +42,7 @@ class ProposalController extends Controller
         $validatedData = (object)$request->validated();
 
         $log = "Nova proposta";
-        $log .= "\nUsuário (empresa): " . Auth::user()->name . "(" .  Auth::user()->company->name . ")";
+        $log .= "\nUsuário (empresa): " . Auth::user()->name . "(" . Auth::user()->company->name . ")";
 
         $schedule = new Schedule();
 

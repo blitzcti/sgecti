@@ -167,7 +167,7 @@ return [
         'startDate' => 'Start date',
         'endDate' => 'End date',
 
-        'old_password' => 'Current password',
+        'currentPassword' => 'Current password',
         'password' => 'Password',
         'group' => 'Group',
 

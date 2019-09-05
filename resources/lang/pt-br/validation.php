@@ -157,7 +157,7 @@ return [
         'startDate' => 'Data de início',
         'endDate' => 'Data de término',
 
-        'old_password' => 'Senha atual',
+        'currentPassword' => 'Senha atual',
         'password' => 'Senha',
         'group' => 'Grupo',
 

@@ -26,7 +26,7 @@
             <table id="systemConfigurations" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
+                    <th scope="col" data-priority="1">ID</th>
                     <th>Nome</th>
                     <th>CEP</th>
                     <th>UF</th>
@@ -35,7 +35,7 @@
                     <th>Bairro</th>
                     <th>Email</th>
                     <th>Validade do convênio</th>
-                    <th>Ações</th>
+                    <th data-priority="2">Ações</th>
                 </tr>
                 </thead>
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "587fd8a0a5febf4a71ab18c9c890c915",
+    "content-hash": "b9bd6e013c9275c7d98061b04cbe8e9f",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -2374,9 +2374,9 @@
             "authors": [
                 {
                     "name": "Freek Van der Herten",
+                    "role": "Developer",
                     "email": "freek@spatie.be",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
+                    "homepage": "https://spatie.be"
                 }
             ],
             "description": "Permission handling for Laravel 5.4 and up",
@@ -5399,6 +5399,7 @@
     "platform": {
         "php": "^7.1.3",
         "ext-json": "*",
+        "ext-pdo": "*",
         "ext-zip": "*"
     },
     "platform-dev": []

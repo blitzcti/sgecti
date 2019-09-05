@@ -28,14 +28,14 @@
             <table id="courseConfigurations" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
+                    <th scope="col" data-priority="1">ID</th>
                     <th>Ano mínimo</th>
                     <th>Semestre mínimo</th>
                     <th>Horas mínimas</th>
                     <th>Meses mínimos</th>
                     <th>Meses mínimos (CTPS)</th>
                     <th>Nota mínima</th>
-                    <th>Ações</th>
+                    <th data-priority="2">Ações</th>
                 </tr>
                 </thead>
 

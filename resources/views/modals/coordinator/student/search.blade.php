@@ -50,7 +50,7 @@
                             <th>Nome</th>
                             <th>Curso</th>
                             <th>Ano</th>
-                            <th>Ações</th>
+                            <th data-priority="2">Ações</th>
                         </tr>
                         </thead>
 

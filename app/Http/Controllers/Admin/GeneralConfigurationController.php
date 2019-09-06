@@ -70,7 +70,7 @@ class GeneralConfigurationController extends Controller
 
     public function update($id, UpdateGeneralConfiguration $request)
     {
-        $config = GeneralConfiguration::all()->find($id);
+        $config = GeneralConfiguration::findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();

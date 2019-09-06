@@ -68,7 +68,7 @@ class SectorController extends Controller
 
     public function update($id, UpdateSector $request)
     {
-        $sector = Sector::all()->find($id);
+        $sector = Sector::findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();

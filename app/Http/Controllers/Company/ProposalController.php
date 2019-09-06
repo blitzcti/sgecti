@@ -125,7 +125,7 @@ class ProposalController extends Controller
 
     public function update($id, UpdateProposal $request)
     {
-        $proposal = Proposal::all()->find($id);
+        $proposal = Proposal::findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();

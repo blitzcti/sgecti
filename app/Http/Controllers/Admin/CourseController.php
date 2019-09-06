@@ -103,7 +103,7 @@ class CourseController extends Controller
 
     public function update($id, UpdateCourse $request)
     {
-        $course = Course::all()->find($id);
+        $course = Course::findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();

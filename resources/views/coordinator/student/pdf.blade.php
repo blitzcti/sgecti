@@ -42,7 +42,7 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_filters">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group @if($errors->has('grades')) has-error @endif">
                                 <label for="inputGrades" class="col-sm-3 control-label">Anos</label>
 
@@ -71,7 +71,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group @if($errors->has('periods')) has-error @endif">
                                 <label for="inputPeriods" class="col-sm-3 control-label">Períodos</label>
 
@@ -92,14 +92,46 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group @if($errors->has('classes')) has-error @endif">
+                                <label for="inputClasses" class="col-sm-3 control-label">Turmas</label>
+
+                                <div class="col-sm-9">
+                                    <select class="form-control selection" id="inputClasses" name="classes[]"
+                                            multiple>
+                                        <option value="A"
+                                            {{ in_array('A', (old('classes') ?? [])) ? 'selected=selected' : '' }}>A
+                                        </option>
+
+                                        <option value="B"
+                                            {{ in_array('B', (old('classes') ?? [])) ? 'selected=selected' : '' }}>
+                                            B
+                                        </option>
+
+                                        <option value="C"
+                                            {{ in_array('C', (old('classes') ?? [])) ? 'selected=selected' : '' }}>
+                                            C
+                                        </option>
+
+                                        <option value="D"
+                                            {{ in_array('D', (old('classes') ?? [])) ? 'selected=selected' : '' }}>
+                                            D
+                                        </option>
+                                    </select>
+
+                                    <span class="help-block">{{ $errors->first('classes') }}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group @if($errors->has('courses')) has-error @endif">
-                                <label for="inputCourses" class="col-sm-3 control-label">Cursos</label>
+                                <label for="inputCourses" class="col-sm-2 control-label">Cursos</label>
 
-                                <div class="col-sm-9">
+                                <div class="col-sm-10">
                                     <select class="form-control selection" id="inputCourses" name="courses[]"
                                             multiple>
 
@@ -122,9 +154,9 @@
 
                         <div class="col-sm-6">
                             <div class="form-group @if($errors->has('internships')) has-error @endif">
-                                <label for="inputInternships" class="col-sm-3 control-label">Estágio</label>
+                                <label for="inputInternships" class="col-sm-2 control-label">Estágio</label>
 
-                                <div class="col-sm-9">
+                                <div class="col-sm-10">
                                     <select class="form-control selection" id="inputInternships"
                                             name="internships[]"
                                             multiple>

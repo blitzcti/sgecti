@@ -17,8 +17,6 @@
             @method('PUT')
             @csrf
 
-            <input type="hidden" id="inputCanceled" name="canceled" value="{{ old('canceled') ?? 0 }}"/>
-
             <div class="box-body">
                 <div class="form-group @if($errors->has('companyName')) has-error @endif">
                     <label for="inputCompanyName" class="col-sm-2 control-label">Empresa conveniada*</label>
@@ -55,11 +53,7 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                <div class="btn-group pull-right">
-                    <button id="btnCancelAgreement" type="button" class="btn btn-danger">Cancelar convênio</button>
-                    <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-                </div>
-
+                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
                 <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
@@ -72,10 +66,6 @@
         jQuery(document).ready(function () {
             jQuery('.selection').select2({
                 language: "pt-BR"
-            });
-
-            jQuery('#btnCancelAgreement').on('click', () => {
-                jQuery('#inputCanceled').val(1);
             });
         });
     </script>

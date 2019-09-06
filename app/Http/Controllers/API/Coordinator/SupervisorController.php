@@ -109,7 +109,7 @@ class SupervisorController extends Controller
 
     public function update($id, UpdateSupervisor $request)
     {
-        $supervisor = Sector::all()->find($id);
+        $supervisor = Sector::findOrFail($id);
         $params = [];
 
         $supervisor->name = $request->input('supervisorName');

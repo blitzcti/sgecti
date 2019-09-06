@@ -153,7 +153,7 @@ class InternshipController extends Controller
 
     public function update($id, UpdateInternship $request)
     {
-        $internship = Internship::all()->find($id);
+        $internship = Internship::findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();

@@ -90,7 +90,7 @@ class UserController extends Controller
 
     public function update($id, UpdateUser $request)
     {
-        $user = User::all()->find($id);
+        $user = User::findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();
@@ -128,7 +128,7 @@ class UserController extends Controller
 
         $validatedData = (object)$request->validated();
 
-        $user = User::all()->find($id);
+        $user = User::findOrFail($id);
         $user->password = Hash::make($validatedData->password);
 
         $saved = $user->save();

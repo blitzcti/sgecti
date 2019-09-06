@@ -167,6 +167,8 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
             Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                 Route::get('editar', 'Coordinator\AgreementController@edit')->name('editar');
                 Route::put('alterar', 'Coordinator\AgreementController@update')->name('alterar');
+                Route::put('cancelar', 'Coordinator\AgreementController@cancel')->name('cancelar');
+                Route::put('reativar', 'Coordinator\AgreementController@reactivate')->name('reativar');
             });
         });
 

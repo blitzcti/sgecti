@@ -24,13 +24,15 @@ class StudentPDF extends FormRequest
     public function rules()
     {
         return [
-            'grades' => ['required_without_all:periods,courses,internships', 'nullable', 'array'],
+            'grades' => ['required_without_all:periods,classes,courses,internships', 'nullable', 'array'],
             'grades.*' => ['nullable', 'numeric', 'distinct', 'min:1', 'max:4'],
-            'periods' => ['required_without_all:grades,courses,internships', 'nullable', 'array'],
+            'periods' => ['required_without_all:grades,classes,courses,internships', 'nullable', 'array'],
             'periods.*' => ['nullable', 'numeric', 'distinct', 'min:0', 'max:1'],
-            'courses' => ['required_without_all:grades,periods,internships', 'nullable', 'array'],
+            'classes' => ['required_without_all:grades,periods,courses,internships', 'nullable', 'array'],
+            'classes.*' => ['nullable', 'alpha', 'distinct', 'regex:/^[A-Z]$/u'],
+            'courses' => ['required_without_all:grades,periods,classes,internships', 'nullable', 'array'],
             'courses.*' => ['nullable', 'numeric', 'distinct', 'min:1', 'exists:courses,id'],
-            'internships' => ['required_without_all:grades,periods,courses', 'nullable', 'array'],
+            'internships' => ['required_without_all:grades,periods,classes,courses', 'nullable', 'array'],
             'internships.*' => ['nullable', 'numeric', 'distinct', 'min:0', 'max:2'],
         ];
     }

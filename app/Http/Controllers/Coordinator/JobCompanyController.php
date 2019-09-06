@@ -81,7 +81,7 @@ class JobCompanyController extends Controller
 
     public function update($id, UpdateJobCompany $request)
     {
-        $company = JobCompany::all()->find($id);
+        $company = JobCompany::findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();

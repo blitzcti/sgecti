@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Coordinator;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Coordinator\StudentPDF;
+use App\Models\Course;
 use App\Models\NSac\Student;
 use App\Models\State;
 use Illuminate\Support\Facades\Auth;
@@ -105,12 +106,10 @@ class StudentController extends Controller
             unset($students2);
         }
 
-        if (Auth::user()->isCoordinator()) {
-            $cIds = Auth::user()->coordinator_courses_id;
-            $students = $students->filter(function ($s) use ($cIds) {
-                return in_array($s->course_id, $cIds);
-            })->sortBy('matricula');
-        }
+        $cIds = Auth::user()->coordinator_courses_id;
+        $students = $students->filter(function ($s) use ($cIds) {
+            return in_array($s->course_id, $cIds);
+        })->sortBy('matricula');
 
         if (isset($validatedData->courses)) {
             $courses = $validatedData->courses;
@@ -133,13 +132,23 @@ class StudentController extends Controller
             });
         }
 
+        if (isset($validatedData->classes)) {
+            $classes = $validatedData->classes;
+            $students = $students->filter(function ($student) use ($classes) {
+                return in_array($student->class, $classes);
+            });
+        }
+
         $students_ra = array_column($students->toArray(), 'matricula');
         $internships = [];
         $finished_internships = [];
         $not_in_internships = [];
         $never_had_internship = [];
 
-        $istates = $validatedData->internships ?? [];
+        $grades = $grades ?? [1, 2, 3, 4];
+        $courses = Course::findOrFail($courses ?? $cIds);
+        $classes = $classes ?? ['A', 'B', 'C', 'D'];
+        $istates = $istates ?? [];
         if (sizeof($istates) == 0 || in_array(0, $istates)) {
             $internships = State::findOrFail(1)->internships->where('active', '=', true)->whereIn('ra', $students_ra)->sortBy('id');
             $internships_ra = $internships->map(function ($i) {
@@ -188,6 +197,9 @@ class StudentController extends Controller
         }
 
         $data = [
+            'grades' => $grades,
+            'courses' => $courses,
+            'classes' => $classes,
             'internships' => $internships,
             'finished_internships' => $finished_internships,
             'not_in_internships' => $not_in_internships,

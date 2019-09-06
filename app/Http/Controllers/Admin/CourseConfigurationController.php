@@ -80,7 +80,7 @@ class CourseConfigurationController extends Controller
 
     public function update($courseId, $id, UpdateCourseConfiguration $request)
     {
-        $config = CourseConfiguration::all()->find($id);
+        $config = CourseConfiguration::findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();

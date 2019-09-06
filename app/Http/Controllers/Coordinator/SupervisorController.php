@@ -82,7 +82,7 @@ class SupervisorController extends Controller
 
     public function update($id, UpdateSupervisor $request)
     {
-        $supervisor = Supervisor::all()->find($id);
+        $supervisor = Supervisor::findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();

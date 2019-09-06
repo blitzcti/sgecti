@@ -120,7 +120,7 @@ class JobController extends Controller
 
     public function update($id, UpdateJob $request)
     {
-        $job = Job::all()->find($id);
+        $job = Job::findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();

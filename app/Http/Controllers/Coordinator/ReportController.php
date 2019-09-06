@@ -176,7 +176,7 @@ class ReportController extends Controller
 
     public function updateBimestral($id, UpdateBimestralReport $request)
     {
-        $report = BimestralReport::all()->find($id);
+        $report = BimestralReport::findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();
@@ -205,7 +205,7 @@ class ReportController extends Controller
 
     public function updateFinal($id, UpdateFinalReport $request)
     {
-        $report = FinalReport::all()->find($id);
+        $report = FinalReport::findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();

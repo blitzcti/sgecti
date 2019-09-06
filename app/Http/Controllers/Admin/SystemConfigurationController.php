@@ -75,7 +75,7 @@ class SystemConfigurationController extends Controller
 
     public function update($id, UpdateSystemConfiguration $request)
     {
-        $systemConfig = SystemConfiguration::all()->find($id);
+        $systemConfig = SystemConfiguration::findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();

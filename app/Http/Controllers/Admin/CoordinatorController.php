@@ -107,7 +107,7 @@ class CoordinatorController extends Controller
 
     public function update($id, UpdateCoordinator $request)
     {
-        $coordinator = Coordinator::all()->find($id);
+        $coordinator = Coordinator::findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();

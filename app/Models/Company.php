@@ -48,7 +48,7 @@ class Company extends Model
     public function hasAgreementAt(Carbon $date = null)
     {
         if ($date == null) {
-            $date = Carbon::today();
+            $date = Carbon::now();
         }
 
         foreach ($this->agreements as $agreement) {

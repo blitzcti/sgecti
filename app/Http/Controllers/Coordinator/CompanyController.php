@@ -133,7 +133,7 @@ class CompanyController extends Controller
 
     public function update($id, UpdateCompany $request)
     {
-        $company = Company::all()->find($id);
+        $company = Company::findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();

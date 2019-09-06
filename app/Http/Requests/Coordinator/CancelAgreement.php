@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests\Coordinator;
 
-use App\Rules\NoAgreement;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\API\FormRequest;
 
-class UpdateAgreement extends FormRequest
+class CancelAgreement extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +24,7 @@ class UpdateAgreement extends FormRequest
     public function rules()
     {
         return [
-            'startDate' => ['required', 'date'],
-            'observation' => ['nullable', 'max:8000'],
+            //
         ];
     }
 }

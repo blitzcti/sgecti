@@ -8,6 +8,9 @@
 @stop
 
 @section('content')
+    @include('modals.coordinator.company.agreement.cancel')
+    @include('modals.coordinator.company.agreement.reactivate')
+
     @if(session()->has('message'))
         <div class="alert {{ session('saved') ? 'alert-success' : 'alert-error' }} alert-dismissible"
              role="alert">
@@ -62,6 +65,19 @@
                         <td>{{ $agreement->observation }}</td>
                         <td>
                             <a href="{{ route('coordenador.empresa.convenio.editar', ['id' => $agreement->id]) }}">Editar</a>
+
+                            @if(\Carbon\Carbon::createFromFormat("Y-m-d", $agreement->end_date) > \Carbon\Carbon::now())
+                                |
+                                <a href="#"
+                                   onclick="agreementId('{{ $agreement->id }}'); companyName('{{ $agreement->company->name }}'); return false;"
+                                   data-toggle="modal" class="text-red"
+                                   data-target="#agreementCancelModal">Cancelar</a>
+                            @elseif(!$agreement->company->hasAgreementAt())
+                                |
+                                <a href="#"
+                                   onclick="reactivateAgreementId('{{ $agreement->id }}'); reactivateCompanyName('{{ $agreement->company->name }}'); return false;"
+                                   data-toggle="modal" data-target="#agreementReactivateModal">Reativar</a>
+                            @endif
                         </td>
                     </tr>
 

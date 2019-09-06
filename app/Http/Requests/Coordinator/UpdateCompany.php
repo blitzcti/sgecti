@@ -3,6 +3,9 @@
 namespace App\Http\Requests\Coordinator;
 
 use App\Models\Company;
+use App\Models\Course;
+use App\Models\Sector;
+use App\Rules\Active;
 use App\Rules\CNPJ;
 use App\Rules\CPF;
 use Illuminate\Foundation\Http\FormRequest;
@@ -26,7 +29,7 @@ class UpdateCompany extends FormRequest
      */
     public function rules()
     {
-        $company = Company::find($this->route('id'));
+        $company = Company::findOrFail($this->route('id'));
 
         return [
             'pj' => ['required', 'boolean'],
@@ -51,9 +54,9 @@ class UpdateCompany extends FormRequest
             'district' => ['required', 'max:50'],
 
             'sectors' => ['required', 'array', 'min:1'],
-            'sectors.*' => ['required', 'numeric', 'distinct', 'min:1', 'exists:sectors,id'],
+            'sectors.*' => ['required', 'numeric', 'distinct', 'min:1', 'exists:sectors,id', new Active(Sector::class, $company->sectors)],
             'courses' => ['required', 'array', 'min:1'],
-            'courses.*' => ['required', 'numeric', 'distinct', 'min:1', 'exists:courses,id'],
+            'courses.*' => ['required', 'numeric', 'distinct', 'min:1', 'exists:courses,id', new Active(Course::class, $company->courses)],
         ];
     }
 }

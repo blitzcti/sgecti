@@ -46,7 +46,7 @@ class JobController extends Controller
         }
 
         return response()->json(
-            $jobs,
+            array_values($jobs->toArray()),
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',
@@ -74,7 +74,7 @@ class JobController extends Controller
         $jobs = Job::where('ra', '=', $ra)->get()->sortBy('id');
 
         return response()->json(
-            $jobs,
+            array_values($jobs->toArray()),
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',

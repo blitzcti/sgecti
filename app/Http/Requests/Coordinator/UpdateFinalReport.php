@@ -24,7 +24,6 @@ class UpdateFinalReport extends FormRequest
     public function rules()
     {
         return [
-            'internship' => ['required', 'numeric', 'min:1', 'exists:internships,id'],
             'date' => ['required', 'date'],
 
             'grade_1_a' => ['required', 'numeric', 'min:1', 'max:6'],

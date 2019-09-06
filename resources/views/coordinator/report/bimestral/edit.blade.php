@@ -7,7 +7,8 @@
 @stop
 
 @section('content')
-    <form class="form-horizontal" action="{{ route('coordenador.relatorio.bimestral.alterar', $report->id) }}" method="post">
+    <form class="form-horizontal" action="{{ route('coordenador.relatorio.bimestral.alterar', $report->id) }}"
+          method="post">
         @csrf
         @method('PUT')
 
@@ -17,24 +18,13 @@
             </div>
 
             <div class="box-body">
-                <div class="form-group @if($errors->has('internship')) has-error @endif">
+                <div class="form-group">
                     <label for="inputInternship" class="col-sm-2 control-label">Aluno*</label>
 
                     <div class="col-sm-10">
-                        <select class="form-control selection" id="inputInternship" name="internship">
-
-                            @foreach($internships as $internship)
-
-                                <option value="{{ $internship->id }}"
-                                        {{ (old('internship') ?? $report->internship->id) == $internship->id ? 'selected=selected' : '' }}>
-                                    {{ $internship->ra }} - {{ $internship->student->nome }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
-                        <span class="help-block">{{ $errors->first('internship') }}</span>
+                        <input type="text" class="form-control input-info" id="inputInternship" name="internship"
+                               readonly
+                               value="{{ $report->internship->ra }} - {{ $report->internship->student->nome ?? '' }}"/>
                     </div>
                 </div>
 
@@ -70,7 +60,10 @@
             <!-- /.box-body -->
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
         </div>

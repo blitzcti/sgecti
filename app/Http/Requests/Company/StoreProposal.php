@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Company;
 
+use App\Models\Course;
+use App\Rules\Active;
 use App\Rules\HourInterval;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -64,7 +66,7 @@ class StoreProposal extends FormRequest
             'observation' => ['nullable', 'max:8000'],
 
             'courses' => ['required', 'array', 'min:1'],
-            'courses.*' => ['required', 'numeric', 'distinct', 'min:1', 'exists:courses,id'],
+            'courses.*' => ['required', 'numeric', 'distinct', 'min:1', 'exists:courses,id', new Active(Course::class)],
         ];
     }
 }

@@ -24,7 +24,6 @@ class UpdateBimestralReport extends FormRequest
     public function rules()
     {
         return [
-            'internship' => ['required', 'numeric', 'min:1', 'exists:internships,id'],
             'date' => ['required', 'date'],
             'protocol' => ['required', 'numeric', 'digits:5'],
         ];

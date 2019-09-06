@@ -33,20 +33,10 @@
                             <label for="inputInternship" class="col-sm-4 control-label">Aluno*</label>
 
                             <div class="col-sm-8">
-                                <select class="form-control selection" id="inputInternship" name="internship">
-
-                                    @foreach($internships as $internship)
-
-                                        <option value="{{ $internship->id }}"
-                                            {{ (old('internship') ?? $report->internship->id) == $internship->id ? 'selected=selected' : '' }}>
-                                            {{ $internship->student->matricula }} - {{ $internship->student->nome }}
-                                        </option>
-
-                                    @endforeach
-
-                                </select>
-
-                                <span class="help-block">{{ $errors->first('internship') }}</span>
+                                <input type="text" class="form-control input-info" id="inputInternship"
+                                       name="internship"
+                                       readonly
+                                       value="{{ $report->internship->ra }} - {{ $report->internship->student->nome ?? '' }}"/>
                             </div>
                         </div>
                     </div>
@@ -948,7 +938,10 @@
             <!-- /.box-body -->
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
         </div>
@@ -962,58 +955,6 @@
 
             jQuery('.selection').select2({
                 language: "pt-BR"
-            });
-
-            jQuery('#inputInternship').on('change', e => {
-                jQuery.ajax({
-                    url: `/api/coordenador/estagio/${jQuery('#inputInternship').val()}`,
-                    dataType: 'json',
-                    method: 'GET',
-                    success: function (data) {
-                        jQuery.ajax({
-                            url: `/api/coordenador/empresa/${data.company_id}`,
-                            dataType: 'json',
-                            method: 'GET',
-                            success: function (data) {
-                                jQuery('#internshipCompanyName').text(data.name);
-                            },
-                            error: function () {
-
-                            },
-                        });
-
-                        jQuery.ajax({
-                            url: `/api/coordenador/empresa/setor/${data.sector_id}`,
-                            dataType: 'json',
-                            method: 'GET',
-                            success: function (data) {
-                                jQuery('#internshipSector').text(data.name);
-                            },
-                            error: function () {
-
-                            },
-                        });
-
-                        jQuery.ajax({
-                            url: `/api/coordenador/empresa/supervisor/${data.supervisor_id}`,
-                            dataType: 'json',
-                            method: 'GET',
-                            success: function (data) {
-                                jQuery('#internshipSupervisorName').text(data.name);
-                            },
-                            error: function () {
-
-                            },
-                        });
-
-                        jQuery('#internshipStartDate').text(new Date(`${data.start_date} `).toLocaleDateString());
-                        jQuery('#internshipEndDate').text(new Date(`${data.end_date} `).toLocaleDateString());
-                        jQuery('#internshipEstimatedHours').text(data.estimated_hours.toFixed(0));
-                    },
-                    error: function () {
-
-                    },
-                });
             });
 
             jQuery('.radio').iCheck({

@@ -56,7 +56,7 @@
 
                         @if(!isset($company))
 
-                            <td>{{ $agreement->company->name }} {{ $agreement->company->fantasy_name != null ? (" (" . $agreement->company->fantasy_name . ")") : '' }}</td>
+                            <td>{{ $agreement->company->name }} {{ $agreement->company->fantasy_name != null ? "(" . $agreement->company->fantasy_name . ")" : '' }}</td>
 
                         @endif
 

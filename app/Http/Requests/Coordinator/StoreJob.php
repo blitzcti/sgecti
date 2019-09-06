@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Coordinator;
 
+use App\Models\JobCompany;
+use App\Rules\Active;
 use App\Rules\HasInternship;
 use App\Rules\RA;
 use App\Rules\SameCourse;
@@ -30,7 +32,7 @@ class StoreJob extends FormRequest
             'ra' => ['required', 'numeric', 'min:1', new RA, new HasInternship, new SameCourse],
             'active' => ['required', 'boolean'],
 
-            'company' => ['required', 'numeric', 'min:1', 'exists:job_companies,id'],
+            'company' => ['required', 'numeric', 'min:1', 'exists:job_companies,id', new Active(JobCompany::class)],
 
             'startDate' => ['required', 'date', 'before:endDate'],
             'endDate' => ['required', 'date', 'after:startDate'],

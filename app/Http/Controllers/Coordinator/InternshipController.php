@@ -200,10 +200,7 @@ class InternshipController extends Controller
             $internship->schedule_2_id = null;
         }
 
-        $internship->ra = $validatedData->ra;
-        $internship->company_id = $validatedData->company;
         $internship->sector_id = $validatedData->sector;
-
         $internship->supervisor_id = $validatedData->supervisor;
         $internship->start_date = $validatedData->startDate;
         $internship->end_date = $validatedData->endDate;

@@ -4,7 +4,6 @@ namespace App\Rules;
 
 use App\Models\GeneralConfiguration;
 use App\Models\NSac\Student;
-use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
 
 class StudentMaxYears implements Rule
@@ -24,8 +23,8 @@ class StudentMaxYears implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)

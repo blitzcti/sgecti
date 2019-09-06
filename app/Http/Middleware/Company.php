@@ -21,6 +21,6 @@ class Company
             return $next($request);
         }
 
-        throw new UnauthorizedException(403, 'User is not a coordinator.');
+        throw new UnauthorizedException(403, 'User is not a company.');
     }
 }

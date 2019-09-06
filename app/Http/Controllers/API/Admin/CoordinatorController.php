@@ -45,7 +45,7 @@ class CoordinatorController extends Controller
         }
 
         return response()->json(
-            $coordinators,
+            array_values($coordinators->toArray()),
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',
@@ -76,7 +76,7 @@ class CoordinatorController extends Controller
         }
 
         return response()->json(
-            $coordinators,
+            array_values($coordinators->toArray()),
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',

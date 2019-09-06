@@ -11,6 +11,7 @@ return [
     |
     */
     'accepted' => 'O campo :attribute deve ser aceito.',
+    'active' => 'O campo :attribute não está definido como ativo.',
     'active_url' => 'O campo :attribute não é uma URL válida.',
     'after' => 'O campo :attribute deve ser uma data posterior a :date.',
     'after_or_equal' => 'O campo :attribute deve ser uma data posterior ou igual a :date.',
@@ -34,6 +35,8 @@ return [
     'cnpj' => 'O campo :attribute deve ser um CNPJ válido.',
     'cpf' => 'O campo :attribute deve ser um CPF válido.',
     'company_has_course' => 'O aluno do campo :attribute não é de um curso que a empresa aborda.',
+    'company_has_sector' => 'O setor do campo :attribute não é de um setor que a empresa aborda.',
+    'company_has_supervisor' => 'O supervisor do campo :attribute não é de um supervisor que a empresa possui.',
     'confirmed' => 'O campo :attribute de confirmação não confere.',
     'current_password' => 'O campo :attribute deve ser a senha atual do usuário.',
     'date' => 'O campo :attribute não é uma data válida.',
@@ -61,6 +64,7 @@ return [
     ],
     'image' => 'O campo :attribute deve ser uma imagem.',
     'in' => 'O campo :attribute selecionado é inválido.',
+    'internship_not_active' => 'O campo :attribute não está no estado Em aberto.',
     'in_array' => 'O campo :attribute não existe em :other.',
     'integer' => 'O campo :attribute deve ser um número inteiro.',
     'ip' => 'O campo :attribute deve ser um endereço de IP válido.',
@@ -98,6 +102,7 @@ return [
     ],
     'min_hours' => 'O campo :attribute deve ter um intervalo de até 6h.',
     'no_agreement' => 'O campo :attribute é de uma empresa que não possui um convênio ativo.',
+    'not_active' => 'O campo :attribute selecionado não está ativo.',
     'not_in' => 'O campo :attribute selecionado é inválido.',
     'not_regex' => 'O campo :attribute possui um formato inválido.',
     'numeric' => 'O campo :attribute deve ser um número.',

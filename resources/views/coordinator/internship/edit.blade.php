@@ -9,7 +9,6 @@
 @section('content')
 
     @include('modals.coordinator.company.supervisor.new')
-    @include('modals.coordinator.student.search')
     @include('modals.coordinator.cloneSchedule')
 
     <form class="form-horizontal" action="{{ route('coordenador.estagio.alterar', $internship->id) }}" method="post">
@@ -27,22 +26,13 @@
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <div class="form-group @if($errors->has('ra')) has-error @endif">
-                            <label for="inputRA" class="col-sm-4 control-label">RA*</label>
+                        <div class="form-group">
+                            <label for="inputStudentName" class="col-sm-4 control-label">Aluno*</label>
 
                             <div class="col-sm-8">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="inputRA" name="ra" placeholder="1757047"
-                                           readonly data-inputmask="'mask': '9999999'"
-                                           value="{{ old('ra') ?? $internship->ra }}">
-
-                                    <div class="input-group-btn">
-                                        <a href="#" data-toggle="modal" data-target="#searchStudentModal"
-                                           class="btn btn-default"><i class="fa fa-search"></i></a>
-                                    </div>
-                                </div>
-
-                                <span class="help-block">{{ $errors->first('ra') }}</span>
+                                <input type="text" class="form-control input-info" id="inputStudentName" name="student"
+                                       readonly
+                                       value="{{ $internship->ra }} - {{ $internship->student->nome ?? '' }}"/>
                             </div>
                         </div>
                     </div>
@@ -70,34 +60,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputStudentName" class="col-sm-2 control-label">Aluno</label>
-
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control input-info" id="inputStudentName" name="student" readonly
-                               value="{{ App\Models\NSac\Student::find(old('ra') ?? $internship->ra)->nome ?? '' }}"/>
-                    </div>
-                </div>
-
-                <div class="form-group @if($errors->has('company')) has-error @endif">
                     <label for="inputCompany" class="col-sm-2 control-label">Empresa*</label>
 
                     <div class="col-sm-10">
-                        <select class="selection" name="company" id="inputCompany"
-                                style="width: 100%">
-
-                            @foreach($companies as $company)
-
-                                <option
-                                    value="{{ $company->id }}" {{ (old('company') ?? $internship->company->id) == $company->id ? 'selected' : '' }}>
-                                    {{ $company->cpf_cnpj }}
-                                    - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
-                        <span class="help-block">{{ $errors->first('company') }}</span>
+                        <input type="text" class="form-control input-info" id="inputCompany"
+                               name="company" readonly
+                               value="{{ $internship->company->cpf_cnpj }} - {{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "(". $internship->company->fantasy_name . ")" : '' }}"/>
                     </div>
                 </div>
 
@@ -107,7 +75,7 @@
                     <div class="col-sm-10">
                         <input type="text" class="form-control input-info" id="inputCompanyRepresentative"
                                name="representative" readonly
-                               value="{{ (App\Models\Company::find(old('company')) ?? $internship->company)->representative_name }}"/>
+                               value="{{$internship->company->representative_name }}"/>
                     </div>
                 </div>
 
@@ -546,7 +514,9 @@
                             <button type="submit" class="btn btn-primary">Salvar</button>
                         </div>
 
-                        <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+                        <input type="hidden" id="inputPrevious" name="previous"
+                               value="{{ old('previous') ?? url()->previous() }}">
+                        <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
                     </div>
                     <!-- /.box-footer -->
                 </div>
@@ -586,7 +556,7 @@
                 jQuery('#inputSector').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `/api/coordenador/empresa/${jQuery('#inputCompany').val()}/setor/`,
+                        url: `/api/coordenador/empresa/{{ $internship->company->id }}/setor/`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -614,7 +584,7 @@
                 jQuery('#inputSupervisor').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `/api/coordenador/empresa/${jQuery('#inputCompany').val()}/supervisor/`,
+                        url: `/api/coordenador/empresa/{{ $internship->company->id }}/supervisor/`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -639,25 +609,6 @@
                     }
                 });
             }
-
-            jQuery('#inputCompany').on('change', e => {
-                jQuery.ajax({
-                    url: `/api/coordenador/empresa/${jQuery('#inputCompany').val()}`,
-                    dataType: 'json',
-                    method: 'GET',
-                    success: function (data) {
-                        jQuery('#inputCompanyRepresentative').val(data.representative_name);
-                    },
-                    error: function () {
-
-                    },
-                });
-
-                jQuery('#inputSector').empty();
-                jQuery('#inputSupervisor').empty();
-
-                reloadSelect();
-            });
 
             reloadSelect();
         });

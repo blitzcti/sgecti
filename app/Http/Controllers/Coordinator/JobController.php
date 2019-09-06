@@ -129,9 +129,6 @@ class JobController extends Controller
         $log .= "\nUsuário: " . Auth::user()->name;
         $log .= "\nDados antigos: " . json_encode($job, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        $job->ra = $validatedData->ra;
-        $job->company_id = $validatedData->company;
-
         $job->start_date = $validatedData->startDate;
         $job->end_date = $validatedData->endDate;
         $job->protocol = $validatedData->protocol;

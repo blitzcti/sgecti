@@ -57,7 +57,7 @@
                                             <th scope="row">{{ $internship->protocol }}</th>
                                             <td>{{ $internship->student->matricula }}</td>
                                             <td>{{ $internship->student->nome }}</td>
-                                            <td>{{ $internship->company->name }}  {{ $internship->company->fantasy_name != null ? " (" . $internship->company->fantasy_name . ")" : '' }}</td>
+                                            <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "(" . $internship->company->fantasy_name . ")" : '' }}</td>
                                             <td>{{ date("d/m/Y", strtotime($internship->start_date)) }}</td>
                                             <td>{{ date("d/m/Y", strtotime($internship->end_date)) }}</td>
                                         </tr>
@@ -121,7 +121,7 @@
                                             <th scope="row">{{ $internship->protocol }}</th>
                                             <td>{{ $internship->student->matricula }}</td>
                                             <td>{{ $internship->student->nome }}</td>
-                                            <td>{{ $internship->company->name }}  {{ $internship->company->fantasy_name != null ? " (" . $internship->company->fantasy_name . ")" : '' }}</td>
+                                            <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "(" . $internship->company->fantasy_name . ")" : '' }}</td>
                                             <td>{{ date("d/m/Y", strtotime($internship->start_date)) }}</td>
                                             <td>{{ date("d/m/Y", strtotime($internship->end_date)) }}</td>
                                         </tr>

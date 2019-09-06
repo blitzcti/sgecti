@@ -55,7 +55,7 @@
                             @endif
                         </td>
 
-                        <td>{{ $amendment->internship->company->name }} {{ $amendment->internship->company->fantasy_name != null ? " (" . $amendment->internship->company->fantasy_name . ")" : '' }}</td>
+                        <td>{{ $amendment->internship->company->name }} {{ $amendment->internship->company->fantasy_name != null ? "(" . $amendment->internship->company->fantasy_name . ")" : '' }}</td>
                         <td>{{ date("d/m/Y", strtotime($amendment->start_date)) }}</td>
                         <td>{{ date("d/m/Y", strtotime($amendment->end_date)) }}</td>
                         <td>

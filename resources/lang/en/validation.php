@@ -14,6 +14,7 @@ return [
     */
 
     'accepted' => 'The :attribute must be accepted.',
+    'active' => 'The :attribute is not active.',
     'active_url' => 'The :attribute is not a valid URL.',
     'after' => 'The :attribute must be a date after :date.',
     'after_or_equal' => 'The :attribute must be a date after or equal to :date.',
@@ -37,6 +38,8 @@ return [
     'cnpj' => 'The :attribute should be a valid CNPJ.',
     'cpf' => 'The :attribute should be a valid CPF.',
     'company_has_course' => 'The student from :attribute is not from a course the company covers.',
+    'company_has_sector' => 'The sector from :attribute is not from a sector the company covers.',
+    'company_has_supervisor' => 'The supervisor from :attribute is not from a supervisor that the company has.',
     'confirmed' => 'The :attribute confirmation does not match.',
     'current_password' => 'The :attribute should be the current password for the user.',
     'date' => 'The :attribute is not a valid date.',
@@ -65,6 +68,7 @@ return [
     ],
     'image' => 'The :attribute must be an image.',
     'in' => 'The selected :attribute is invalid.',
+    'internship_not_active' => 'The :attribute is not in active state.',
     'in_array' => 'The :attribute field does not exist in :other.',
     'integer' => 'The :attribute must be an integer.',
     'ip' => 'The :attribute must be a valid IP address.',
@@ -102,6 +106,7 @@ return [
     ],
     'min_hours' => 'the :attribute must have an 6h interval.',
     'no_agreement' => 'The selected :attribute does not have an active agreement.',
+    'not_active' => 'The selected :attribute is not active.',
     'not_in' => 'The selected :attribute is invalid.',
     'not_regex' => 'The :attribute format is invalid.',
     'numeric' => 'The :attribute must be a number.',

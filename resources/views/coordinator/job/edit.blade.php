@@ -21,22 +21,13 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-sm-6">
-                        <div class="form-group @if($errors->has('ra')) has-error @endif">
-                            <label for="inputRA" class="col-sm-4 control-label">RA*</label>
+                        <div class="form-group">
+                            <label for="inputStudentName" class="col-sm-4 control-label">Aluno*</label>
 
                             <div class="col-sm-8">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="inputRA" name="ra" placeholder="1757047"
-                                           readonly data-inputmask="'mask': '9999999'"
-                                           value="{{ old('ra') ?? $job->ra }}">
-
-                                    <div class="input-group-btn">
-                                        <a href="#" data-toggle="modal" data-target="#searchStudentModal"
-                                           class="btn btn-default"><i class="fa fa-search"></i></a>
-                                    </div>
-                                </div>
-
-                                <span class="help-block">{{ $errors->first('ra') }}</span>
+                                <input type="text" class="form-control input-info" id="inputStudentName" name="student"
+                                       readonly
+                                       value="{{ $job->ra }} - {{ $job->student->nome ?? '' }}"/>
                             </div>
                         </div>
                     </div>
@@ -64,34 +55,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputStudentName" class="col-sm-2 control-label">Aluno</label>
-
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control input-info" id="inputStudentName" name="student" readonly
-                               value="{{ App\Models\NSac\Student::find(old('ra') ?? $job->ra)->nome ?? '' }}"/>
-                    </div>
-                </div>
-
-                <div class="form-group @if($errors->has('company')) has-error @endif">
                     <label for="inputCompany" class="col-sm-2 control-label">Empresa*</label>
 
                     <div class="col-sm-10">
-                        <select class="selection" name="company" id="inputCompany"
-                                style="width: 100%">
-
-                            @foreach($companies as $company)
-
-                                <option
-                                    value="{{ $company->id }}" {{ (old('company') ?? $job->company->id) == $company->id ? 'selected' : '' }}>
-                                    {{ $company->cpf_cnpj }}
-                                    - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
-                        <span class="help-block">{{ $errors->first('company') }}</span>
+                        <input type="text" class="form-control input-info" id="inputCompany"
+                               name="company" readonly
+                               value="{{ $job->company->cpf_cnpj }} - {{ $job->company->name }} {{ $job->company->fantasy_name != null ? "(". $job->company->fantasy_name. ")" : '' }}"/>
                     </div>
                 </div>
 
@@ -189,7 +158,10 @@
             <!-- /.box-body -->
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
         </div>
@@ -198,47 +170,11 @@
 
 @section('js')
     <script type="text/javascript">
-        function pj(isPj) {
-            if (isPj) {
-                jQuery('#CpfCnpjOption').text('CNPJ');
-
-                jQuery("input[id*='inputCompanyCpfCnpj']").inputmask({
-                    mask: '99.999.999/9999-99',
-                    removeMaskOnSubmit: true
-                });
-
-                jQuery('#inputCompanyPJ').val(1);
-            } else {
-                jQuery('#CpfCnpjOption').text('CPF');
-
-                jQuery("input[id*='inputCompanyCpfCnpj']").inputmask({
-                    mask: '999.999.999-99',
-                    removeMaskOnSubmit: true
-                });
-
-                jQuery('#inputCompanyPJ').val(0);
-            }
-        }
-
         jQuery(document).ready(function () {
             jQuery(':input').inputmask({removeMaskOnSubmit: true});
 
             jQuery('.selection').select2({
                 language: "pt-BR"
-            });
-
-            jQuery('#inputCompany').on('change', e => {
-                jQuery.ajax({
-                    url: `/api/coordenador/trabalho/empresa/${jQuery('#inputCompany').val()}`,
-                    dataType: 'json',
-                    method: 'GET',
-                    success: function (data) {
-                        jQuery('#inputCompanyRepresentative').val(data.representative_name);
-                    },
-                    error: function () {
-
-                    },
-                });
             });
         });
     </script>

@@ -25,7 +25,7 @@
                             @foreach($internships as $internship)
 
                                 <option value="{{ $internship->id }}"
-                                        {{ (old('internship') ?? $i) == $internship->id ? 'selected=selected' : '' }}>
+                                    {{ (old('internship') ?? $i) == $internship->id ? 'selected=selected' : '' }}>
                                     {{ $internship->ra }} - {{ $internship->student->nome }}
                                 </option>
 
@@ -69,7 +69,10 @@
             <!-- /.box-body -->
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
         </div>

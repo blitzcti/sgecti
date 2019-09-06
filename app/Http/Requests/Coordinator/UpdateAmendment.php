@@ -25,7 +25,7 @@ class UpdateAmendment extends FormRequest
      */
     public function rules()
     {
-        $internship = Internship::find($this->route('id'));
+        $internship = Internship::findOrFail($this->route('id'));
 
         return [
             'hasSchedule' => ['required', 'boolean'],

@@ -185,7 +185,6 @@ class ReportController extends Controller
         $log .= "\nUsuário: " . Auth::user()->name;
         $log .= "\nDados antigos: " . json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        $report->internship_id = $validatedData->internship;
         $report->date = $validatedData->date;
         $report->protocol = $validatedData->protocol;
         $saved = $report->save();
@@ -214,10 +213,7 @@ class ReportController extends Controller
         $log .= "\nUsuário: " . Auth::user()->name;
         $log .= "\nDados antigos: " . json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        $report->internship_id = $validatedData->internship;
         $report->date = $validatedData->date;
-
-        $course_id = $report->internship->student->course_id;
 
         $report->grade_1_a = $validatedData->grade_1_a;
         $report->grade_1_b = $validatedData->grade_1_b;

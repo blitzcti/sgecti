@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests\Company;
 
+use App\Models\Course;
+use App\Models\Proposal;
+use App\Rules\Active;
 use App\Rules\HourInterval;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,6 +27,8 @@ class UpdateProposal extends FormRequest
      */
     public function rules()
     {
+        $proposal = Proposal::findOrFail($this->route('id'));
+
         return [
             'hasSchedule' => ['required', 'boolean'],
             'has2Schedules' => ['required', 'boolean'],
@@ -65,7 +70,7 @@ class UpdateProposal extends FormRequest
             'observation' => ['nullable', 'max:8000'],
 
             'courses' => ['required', 'array', 'min:1'],
-            'courses.*' => ['required', 'numeric', 'distinct', 'min:1', 'exists:courses,id'],
+            'courses.*' => ['required', 'numeric', 'distinct', 'min:1', 'exists:courses,id', new Active(Course::class, $proposal->courses)],
         ];
     }
 }

@@ -2,7 +2,13 @@
 
 namespace App\Http\Requests\Coordinator;
 
+use App\Models\Company;
+use App\Models\Sector;
+use App\Models\Supervisor;
+use App\Rules\Active;
 use App\Rules\CompanyHasCourse;
+use App\Rules\CompanyHasSector;
+use App\Rules\CompanyHasSupervisor;
 use App\Rules\HasAgreement;
 use App\Rules\HasCourse;
 use App\Rules\HasInternship;
@@ -14,7 +20,6 @@ use App\Rules\RA;
 use App\Rules\SameCourse;
 use App\Rules\StudentAge;
 use App\Rules\StudentMaxYears;
-use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreInternship extends FormRequest
@@ -42,8 +47,8 @@ class StoreInternship extends FormRequest
 
             'ra' => ['required', 'numeric', 'min:1', new RA, new HasInternship, new HasJob, new SameCourse, new CompanyHasCourse($this->get('company')), new StudentAge($this->get('startDate')), (!$this->get('delation')) ? new StudentMaxYears($this->get('startDate')) : '', new MinimalYear, new MinimalSemester($this->get('startDate'))],
             'active' => ['required', 'boolean'],
-            'company' => ['required', 'numeric', 'min:1', 'exists:companies,id', new HasCourse, new HasAgreement($this->get('startDate'))],
-            'sector' => ['required', 'numeric', 'min:1', 'exists:sectors,id'],
+            'company' => ['required', 'numeric', 'min:1', 'exists:companies,id', new HasCourse, new HasAgreement($this->get('startDate')), new Active(Company::class)],
+            'sector' => ['required', 'numeric', 'min:1', 'exists:sectors,id', new CompanyHasSector($this->get('company')), new Active(Sector::class)],
             'startDate' => ['required', 'date', 'before:endDate'],
             'endDate' => ['required', 'date', 'after:startDate'],
             'activities' => ['required', 'max:8000'],
@@ -74,7 +79,7 @@ class StoreInternship extends FormRequest
             'satS2' => ['required_with:satE2', 'nullable', 'date_format:H:i', 'before:satE2'],
             'satE2' => ['required_with:satS2', 'nullable', 'date_format:H:i', 'after:satS2'],
 
-            'supervisor' => ['required', 'numeric', 'min:1', 'exists:supervisors,id'],
+            'supervisor' => ['required', 'numeric', 'min:1', 'exists:supervisors,id', new CompanyHasSupervisor($this->get('company')), new Active(Supervisor::class)],
 
             'protocol' => ['required', 'numeric', 'digits:5'],
             'observation' => ['nullable', 'max:8000'],

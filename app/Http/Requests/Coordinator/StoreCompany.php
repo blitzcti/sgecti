@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests\Coordinator;
 
+use App\Models\Course;
+use App\Models\Sector;
+use App\Rules\Active;
 use App\Rules\CNPJ;
 use App\Rules\CPF;
 use Illuminate\Foundation\Http\FormRequest;
@@ -49,9 +52,9 @@ class StoreCompany extends FormRequest
             'district' => ['required', 'max:50'],
 
             'sectors' => ['required', 'array', 'min:1'],
-            'sectors.*' => ['required', 'numeric', 'distinct', 'min:1', 'exists:sectors,id'],
+            'sectors.*' => ['required', 'numeric', 'distinct', 'min:1', 'exists:sectors,id', new Active(Sector::class)],
             'courses' => ['required', 'array', 'min:1'],
-            'courses.*' => ['required', 'numeric', 'distinct', 'min:1', 'exists:courses,id'],
+            'courses.*' => ['required', 'numeric', 'distinct', 'min:1', 'exists:courses,id', new Active(Course::class)],
 
             'startDate' => ['required_if:hasAgreement,1', 'date'],
             'observation' => ['nullable', 'max:8000'],

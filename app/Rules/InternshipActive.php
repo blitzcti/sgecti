@@ -20,8 +20,8 @@ class InternshipActive implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)
@@ -38,6 +38,6 @@ class InternshipActive implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return __('validation.internship_not_active');
     }
 }

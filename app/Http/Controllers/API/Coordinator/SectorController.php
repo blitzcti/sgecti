@@ -49,7 +49,7 @@ class SectorController extends Controller
         }
 
         return response()->json(
-            $sectors,
+            array_values($sectors->toArray()),
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',
@@ -80,7 +80,7 @@ class SectorController extends Controller
         }
 
         return response()->json(
-            $sectors,
+            array_values($sectors->toArray()),
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',

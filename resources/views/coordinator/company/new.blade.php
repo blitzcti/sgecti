@@ -25,7 +25,8 @@
 
             <div class="box-body">
                 <input type="hidden" id="inputPj" name="pj" value="{{ old('pj') ?? '0' }}">
-                <input type="hidden" id="inputHasAgreement" name="hasAgreement" value="{{ old('hasAgreement') ?? '0' }}">
+                <input type="hidden" id="inputHasAgreement" name="hasAgreement"
+                       value="{{ old('hasAgreement') ?? '0' }}">
 
                 <div class="row">
                     <div class="col-sm-6">
@@ -124,7 +125,8 @@
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputPhone" name="phone"
-                               placeholder="(14) 3103-6150" data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
+                               placeholder="(14) 3103-6150"
+                               data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
                                value="{{ old('phone') ?? '' }}"/>
 
                         <span class="help-block">{{ $errors->first('phone') }}</span>
@@ -268,7 +270,7 @@
             </div>
 
             <div class="box-body">
-                <div class="form-group @if($errors->has('sectors')) has-error @endif">
+                <div class="form-group @if($errors->has('sectors') || $errors->has('sectors.*')) has-error @endif">
                     <label for="inputSectors" class="col-sm-2 control-label">Setores*</label>
 
                     <div class="col-sm-10">
@@ -277,18 +279,22 @@
 
                             @foreach($sectors as $sector)
 
-                                <option value="{{ $sector->id }}" {{ in_array($sector->id, (old('sectors') ?? [])) ? "selected" : "" }}>
+                                <option
+                                    value="{{ $sector->id }}" {{ in_array($sector->id, (old('sectors') ?? [])) ? "selected" : "" }}>
                                     {{ $sector->name }}</option>
 
                             @endforeach
 
                         </select>
 
-                        <span class="help-block">{{ $errors->first('sectors') }}</span>
+                        <span class="help-block">
+                            {{ $errors->first('sectors') }}
+                            {{ $errors->first('sectors.*') }}
+                        </span>
                     </div>
                 </div>
 
-                <div class="form-group @if($errors->has('courses')) has-error @endif">
+                <div class="form-group @if($errors->has('courses') || $errors->has('courses.*')) has-error @endif">
                     <label for="inputCourses" class="col-sm-2 control-label">Cursos*</label>
 
                     <div class="col-sm-10">
@@ -297,14 +303,18 @@
 
                             @foreach($courses as $course)
 
-                                <option value="{{ $course->id }}" {{ in_array($course->id, (old('courses') ?? [])) ? "selected" : "" }}>
+                                <option
+                                    value="{{ $course->id }}" {{ in_array($course->id, (old('courses') ?? [])) ? "selected" : "" }}>
                                     {{ $course->name }}</option>
 
                             @endforeach
 
                         </select>
 
-                        <span class="help-block">{{ $errors->first('courses') }}</span>
+                        <span class="help-block">
+                            {{ $errors->first('courses') }}
+                            {{ $errors->first('courses.*') }}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -316,7 +326,10 @@
                     <button type="submit" class="btn btn-primary">Adicionar</button>
                 </div>
 
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
         </div>
@@ -325,7 +338,7 @@
             <div class="box-header with-border">
                 <h3 class="box-title">
                     <input type="checkbox" id="fakeInputHasAgreement" name="fakeHasAgreement"
-                            {{ (old('hasAgreement') ?? 0) ? 'checked="checked"' : '' }}/>
+                        {{ (old('hasAgreement') ?? 0) ? 'checked="checked"' : '' }}/>
 
                     Registrar convênio?
                 </h3>
@@ -359,7 +372,10 @@
                 <!-- /.box-body -->
                 <div class="box-footer">
                     <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                    <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+
+                    <input type="hidden" id="inputPrevious" name="previous"
+                           value="{{ old('previous') ?? url()->previous() }}">
+                    <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
                 </div>
                 <!-- /.box-footer -->
             </div>

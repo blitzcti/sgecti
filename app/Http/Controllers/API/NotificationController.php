@@ -12,7 +12,7 @@ class NotificationController
         $notifications = $user->notifications;
 
         return response()->json(
-            $notifications,
+            array_values($notifications->toArray()),
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',

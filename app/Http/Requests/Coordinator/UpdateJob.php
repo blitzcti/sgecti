@@ -2,13 +2,6 @@
 
 namespace App\Http\Requests\Coordinator;
 
-use App\Rules\CNPJ;
-use App\Rules\CompanyHasCourse;
-use App\Rules\CPF;
-use App\Rules\HasCourse;
-use App\Rules\HasInternship;
-use App\Rules\RA;
-use App\Rules\SameCourse;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateJob extends FormRequest
@@ -31,10 +24,7 @@ class UpdateJob extends FormRequest
     public function rules()
     {
         return [
-            'ra' => ['required', 'numeric', 'min:1', new RA, new SameCourse],
             'active' => ['required', 'boolean'],
-
-            'company' => ['required', 'numeric', 'min:1', 'exists:job_companies,id'],
 
             'startDate' => ['required', 'date', 'before:endDate'],
             'endDate' => ['required', 'date', 'after:startDate'],

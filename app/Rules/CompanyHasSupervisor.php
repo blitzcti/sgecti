@@ -3,19 +3,21 @@
 namespace App\Rules;
 
 use App\Models\Company;
+use App\Models\Supervisor;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
 
-class HasCourse implements Rule
+class CompanyHasSupervisor implements Rule
 {
+    private $company_id;
+
     /**
      * Create a new rule instance.
      *
-     * @return void
+     * @param $company_id
      */
-    public function __construct()
+    public function __construct($company_id)
     {
-        //
+        $this->company_id = $company_id;
     }
 
     /**
@@ -27,10 +29,12 @@ class HasCourse implements Rule
      */
     public function passes($attribute, $value)
     {
-        $company = Company::find($value);
-        return array_map(function ($c) {
-            return in_array($c["id"], Auth::user()->coordinator_of->toArray());
-        }, $company->courses->toArray());
+        $company = Company::find($this->company_id);
+        $supervisor = Supervisor::find($value);
+
+        return in_array($supervisor->id, $company->supervisors->map(function ($s) {
+            return $s->id;
+        })->toArray());
     }
 
     /**
@@ -40,6 +44,6 @@ class HasCourse implements Rule
      */
     public function message()
     {
-        return __('validation.has_course');
+        return __('validation.company_has_supervisor');
     }
 }

@@ -24,7 +24,7 @@
                     <div class="col-sm-10">
                         <input type="text" class="form-control input-info" id="inputCompanyName" name="companyName"
                                readonly
-                               value="{{ $agreement->company->cpf_cnpj }} - {{ $agreement->company->name }} {{ $agreement->company->fantasy_name != null ? " (" . $agreement->company->fantasy_name . ")" : '' }}"/>
+                               value="{{ $agreement->company->cpf_cnpj }} - {{ $agreement->company->name }} {{ $agreement->company->fantasy_name != null ? "(" . $agreement->company->fantasy_name . ")" : '' }}"/>
                     </div>
                 </div>
 
@@ -54,7 +54,10 @@
             <!-- /.box-body -->
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
         </form>

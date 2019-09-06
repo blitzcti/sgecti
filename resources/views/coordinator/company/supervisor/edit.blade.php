@@ -12,7 +12,8 @@
             <h3 class="box-title">Dados do supervisor</h3>
         </div>
 
-        <form class="form-horizontal" action="{{ route('coordenador.empresa.supervisor.alterar', $supervisor->id) }}" method="post">
+        <form class="form-horizontal" action="{{ route('coordenador.empresa.supervisor.alterar', $supervisor->id) }}"
+              method="post">
             @method('PUT')
             @csrf
 
@@ -45,7 +46,8 @@
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputSupervisorPhone" name="supervisorPhone"
-                               placeholder="(14) 93103-6150" data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
+                               placeholder="(14) 93103-6150"
+                               data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
                                value="{{ old('supervisorPhone') ?? $supervisor->phone }}"/>
 
                         <span class="help-block">{{ $errors->first('supervisorPhone') }}</span>
@@ -61,8 +63,10 @@
 
                             @foreach($companies as $company)
 
-                                <option value="{{ $company->id }}" {{ (old('company') ?? $supervisor->company_id) == $company->id ? 'selected' : '' }}>
-                                    {{ $company->cpf_cnpj }} - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
+                                <option
+                                    value="{{ $company->id }}" {{ (old('company') ?? $supervisor->company_id) == $company->id ? 'selected' : '' }}>
+                                    {{ $company->cpf_cnpj }}
+                                    - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
                                 </option>
 
                             @endforeach
@@ -72,12 +76,16 @@
                         <span class="help-block">{{ $errors->first('company') }}</span>
                     </div>
                 </div>
-                <!-- /.box-body -->
-                <div class="box-footer">
-                    <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-                    <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-                </div>
-                <!-- /.box-footer -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
+            </div>
+            <!-- /.box-footer -->
         </form>
     </div>
 @endsection

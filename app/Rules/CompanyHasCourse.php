@@ -23,8 +23,8 @@ class CompanyHasCourse implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)
@@ -32,7 +32,9 @@ class CompanyHasCourse implements Rule
         $company = Company::find($this->company_id);
         $student = Student::find($value);
 
-        return in_array($student->course->id, $company->courses->map(function ($c) { return $c->id; })->toArray());
+        return in_array($student->course->id, $company->courses->map(function ($c) {
+            return $c->id;
+        })->toArray());
     }
 
     /**

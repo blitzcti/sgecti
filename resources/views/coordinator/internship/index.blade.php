@@ -51,7 +51,7 @@
                             @endif
                         </td>
 
-                        <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? " (" . $internship->company->fantasy_name . ")" : '' }}</td>
+                        <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "(" . $internship->company->fantasy_name . ")" : '' }}</td>
                         <td>{{ $internship->coordinator->user->name }}</td>
                         <td>{{ $internship->state->description }}</td>
                         <td>
@@ -59,13 +59,13 @@
                             |
                             <a href="{{ route('coordenador.estagio.editar', ['id' => $internship->id]) }}">Editar</a>
 
-                            @if($internship->state->id == 1)
+                            @if(auth()->user()->can('internshipAmendment-list'))
+                                |
+                                <a href="{{ route('coordenador.estagio.aditivo', ['id' => $internship->id]) }}">Termos
+                                    aditivos</a>
+                            @endif
 
-                                @if(auth()->user()->can('internshipAmendment-list'))
-                                    |
-                                    <a href="{{ route('coordenador.estagio.aditivo', ['id' => $internship->id]) }}">Termos
-                                        aditivos</a>
-                                @endif
+                            @if($internship->state->id == 1)
 
                                 |
                                 <a href="#"

@@ -6,8 +6,7 @@ use App\Models\Company;
 use App\Models\Course;
 use App\Models\Sector;
 use App\Rules\Active;
-use App\Rules\CNPJ;
-use App\Rules\CPF;
+use App\Rules\Integer;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCompany extends FormRequest
@@ -32,20 +31,17 @@ class UpdateCompany extends FormRequest
         $company = Company::findOrFail($this->route('id'));
 
         return [
-            'pj' => ['required', 'boolean'],
-
-            'cpfCnpj' => ['required', 'numeric', "unique:companies,cpf_cnpj,$company->id", ($this->get('pj')) ? new CNPJ : new CPF],
-            'ie' => ['nullable', 'numeric', 'digits:10'],
+            'ie' => ['nullable', new Integer, 'digits:10'],
             'active' => ['required', 'boolean'],
             'name' => ['required', 'max:191'],
             'fantasyName' => ['nullable', 'max:191'],
             'email' => ['nullable', 'email', 'max:191'],
-            'phone' => ['nullable', 'numeric', 'digits_between:10,11'],
+            'phone' => ['nullable', new Integer, 'digits_between:10,11'],
 
             'representativeName' => ['required', 'max:50'],
             'representativeRole' => ['required', 'max:50'],
 
-            'cep' => ['required', 'numeric', 'digits:8'],
+            'cep' => ['required', new Integer, 'digits:8'],
             'uf' => ['required', 'max:2'],
             'city' => ['required', 'max:30'],
             'street' => ['required', 'max:50'],
@@ -54,9 +50,9 @@ class UpdateCompany extends FormRequest
             'district' => ['required', 'max:50'],
 
             'sectors' => ['required', 'array', 'min:1'],
-            'sectors.*' => ['required', 'numeric', 'distinct', 'min:1', 'exists:sectors,id', new Active(Sector::class, $company->sectors)],
+            'sectors.*' => ['required', 'integer', 'distinct', 'min:1', 'exists:sectors,id', new Active(Sector::class, $company->sectors)],
             'courses' => ['required', 'array', 'min:1'],
-            'courses.*' => ['required', 'numeric', 'distinct', 'min:1', 'exists:courses,id', new Active(Course::class, $company->courses)],
+            'courses.*' => ['required', 'integer', 'distinct', 'min:1', 'exists:courses,id', new Active(Course::class, $company->courses)],
         ];
     }
 }

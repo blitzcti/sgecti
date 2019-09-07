@@ -129,12 +129,12 @@
 
                                         <td class="text">
 
-                                            @if ($log['stack'])
+                                            @if (trim(preg_replace('/(.*)Usuário: .*?(\n.*)/s', '$1$2', $log['stack'])))
 
                                                 <button type="button"
                                                         class="float-right expand btn btn-outline-dark btn-sm mb-2 ml-2"
                                                         data-display="stack{{ $key }}">
-                                                    <span class="fa fa-search"></span>
+                                                    <span class="fa fa-plus"></span>
                                                 </button>
 
                                             @endif
@@ -147,10 +147,10 @@
 
                                             @endif
 
-                                            @if ($log['stack'])
+                                            @if (trim(preg_replace('/(.*)Usuário: .*?(\n.*)/s', '$1$2', $log['stack'])))
 
                                                 <div class="stack" id="stack{{ $key }}"
-                                                     style="display: none; white-space: pre-wrap;">{{ (preg_match('/Usuário: (.*?)\n.*/s', $log['stack'])) ? trim(preg_replace('/(.*)Usuário: .*?(\n.*)/s', '$1$2', $log['stack'])) : trim($log['stack']) }}</div>
+                                                     style="display: none; white-space: pre-wrap;">{{ trim(preg_replace('/(.*)Usuário: .*?(\n.*)/s', '$1$2', $log['stack'])) }}</div>
 
                                             @endif
 
@@ -179,7 +179,7 @@
 @section('js')
     <script type="text/javascript">
         jQuery(document).ready(() => {
-            jQuery('.table-container tr').on('click', function () {
+            jQuery('.table-container .text .expand').on('click', function () {
                 jQuery(`#${jQuery(this).data('display')}`).toggle();
             });
 

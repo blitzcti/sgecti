@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Coordinator;
 
+use App\Rules\Integer;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateBimestralReport extends FormRequest
@@ -25,7 +26,7 @@ class UpdateBimestralReport extends FormRequest
     {
         return [
             'date' => ['required', 'date'],
-            'protocol' => ['required', 'numeric', 'digits:5'],
+            'protocol' => ['required', new Integer, 'digits:7'],
         ];
     }
 }

@@ -60,8 +60,8 @@ class UpdateProposal extends FormRequest
             'satE2' => ['required_with:satS2', 'nullable', 'date_format:H:i', 'after:satS2'],
 
 
-            'type' => ['required', 'numeric', 'min:0', 'max:1'],
-            'remuneration' => ['required', 'numeric', 'min:0'],
+            'type' => ['required', 'integer', 'min:0', 'max:1'],
+            'remuneration' => ['required', 'integer', 'min:0'],
             'description' => ['required', 'max:8000'],
             'requirements' => ['required', 'max:8000'],
             'benefits' => ['nullable', 'max:8000'],
@@ -70,7 +70,7 @@ class UpdateProposal extends FormRequest
             'observation' => ['nullable', 'max:8000'],
 
             'courses' => ['required', 'array', 'min:1'],
-            'courses.*' => ['required', 'numeric', 'distinct', 'min:1', 'exists:courses,id', new Active(Course::class, $proposal->courses)],
+            'courses.*' => ['required', 'integer', 'distinct', 'min:1', 'exists:courses,id', new Active(Course::class, $proposal->courses)],
         ];
     }
 }

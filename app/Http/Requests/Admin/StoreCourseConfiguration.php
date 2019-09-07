@@ -24,11 +24,11 @@ class StoreCourseConfiguration extends FormRequest
     public function rules()
     {
         return [
-            'minYear' => ['required', 'numeric', 'min:1', 'max:3'],
-            'minSemester' => ['required', 'numeric', 'min:1', 'max:2'],
-            'minHour' => ['required', 'numeric', 'min:1', 'max:9999'],
-            'minMonth' => ['required', 'numeric', 'min:1', 'max:24'],
-            'minMonthCTPS' => ['required', 'numeric', 'min:1', 'max:999'],
+            'minYear' => ['required', 'integer', 'min:1', 'max:3'],
+            'minSemester' => ['required', 'integer', 'min:1', 'max:2'],
+            'minHour' => ['required', 'integer', 'min:1', 'max:9999'],
+            'minMonth' => ['required', 'integer', 'min:1', 'max:24'],
+            'minMonthCTPS' => ['required', 'integer', 'min:1', 'max:999'],
             'minGrade' => ['required', 'numeric', 'min:0', 'max:10'],
         ];
     }

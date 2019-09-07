@@ -33,6 +33,10 @@ class TemporaryCoordinator implements Rule
      */
     public function passes($attribute, $value)
     {
+        if ($value == 0) {
+            return true;
+        }
+
         $user = User::find($this->user);
         $course = Course::find($this->course);
         $coordinator = Coordinator::find($value);

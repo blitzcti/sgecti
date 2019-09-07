@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use PDF;
 
 class CompanyController extends Controller
 {
@@ -59,6 +60,25 @@ class CompanyController extends Controller
         return view('coordinator.company.details')->with(['company' => $company, 'address' => $address]);
     }
 
+    public function pdf($id)
+    {
+        ini_set('max_execution_time', 300);
+
+        $cIds = Auth::user()->coordinator_courses_id;
+        $company = Company::findOrFail($id);
+
+        $data = [
+            'company' => $company,
+            'internships' => $company->internships->where('state_id', '=', 1),
+            'finished_internships' => $company->internships->where('state_id', '=', 2),
+            'courses' => Course::findOrFail($cIds),
+        ];
+
+        $pdf = PDF::loadView('pdf.company.students', $data);
+        $pdf->setPaper('a4', 'landscape');
+        return $pdf->stream('estagiarios.pdf');
+    }
+
     public function store(StoreCompany $request)
     {
         $company = new Company();
@@ -90,8 +110,6 @@ class CompanyController extends Controller
         $address->number = $validatedData->number;
         $address->district = $validatedData->district;
 
-        //$log .= "\nNovos dados (endereço): " . json_encode($address, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
         $saved = $address->save();
 
         $company->address_id = $address->id;
@@ -105,9 +123,8 @@ class CompanyController extends Controller
 
             $agreement->start_date = $validatedData->startDate;
             $agreement->end_date = SystemConfiguration::getAgreementExpiration(Carbon::createFromFormat("Y-m-d", $agreement->start_date));
+            $agreement->active = true;
             $agreement->observation = $validatedData->observation;
-
-            //$log .= "\nNovos dados (convênio): " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
             $agreement->company_id = $company->id;
             $saved = $agreement->save();
@@ -133,7 +150,7 @@ class CompanyController extends Controller
 
     public function update($id, UpdateCompany $request)
     {
-        $company = Company::findOrFail($id);
+        $company = Company::with(['address'])->findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();
@@ -141,8 +158,6 @@ class CompanyController extends Controller
         $log = "Alteração de empresa";
         $log .= "\nUsuário: " . Auth::user()->name;
         $log .= "\nDados antigos: " . json_encode($company, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        //$log .= "\nDados antigos (endereço): " . json_encode($address, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        //$log .= "\nDados antigos (convênio): " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $company->ie = $validatedData->ie;
         $company->name = $validatedData->name;
@@ -162,8 +177,6 @@ class CompanyController extends Controller
         $address->complement = $validatedData->complement;
         $address->number = $validatedData->number;
         $address->district = $validatedData->district;
-
-        //$log .= "\nNovos dados (endereço): " . json_encode($address, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $saved = $address->save();
 

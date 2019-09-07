@@ -28,6 +28,7 @@ class HasCourse implements Rule
     public function passes($attribute, $value)
     {
         $company = Company::find($value);
+
         return array_map(function ($c) {
             return in_array($c["id"], Auth::user()->coordinator_of->toArray());
         }, $company->courses->toArray());

@@ -10,6 +10,7 @@ class SystemUsage extends Controller
 {
     public function __construct()
     {
+        $this->middleware('throttle:120,1');
         $this->middleware('permission:sysUsage');
     }
 

@@ -25,9 +25,9 @@ class UpdateCoordinator extends FormRequest
     public function rules()
     {
         return [
-            'user' => ['required', 'numeric', 'min:1', 'exists:users,id'],
-            'course' => ['required', 'numeric', 'min:1', 'exists:courses,id'],
-            'tempOf' => ['required', 'numeric', 'min:0', new TemporaryCoordinator($this->get('user'), $this->get('course')), ($this->get('tempOf') > 0) ? 'exists:coordinators,id' : ''],
+            'user' => ['required', 'integer', 'min:1', 'exists:users,id'],
+            'course' => ['required', 'integer', 'min:1', 'exists:courses,id'],
+            'tempOf' => ['required', 'integer', 'min:0', new TemporaryCoordinator($this->get('user'), $this->get('course')), ($this->get('tempOf') > 0) ? 'exists:coordinators,id' : ''],
             'startDate' => ['required', 'date'],
             'endDate' => ['nullable', 'date', 'after:startDate'],
         ];

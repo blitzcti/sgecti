@@ -4,6 +4,7 @@ namespace App\Http\Requests\Coordinator;
 
 use App\Models\Internship;
 use App\Rules\HourInterval;
+use App\Rules\Integer;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateAmendment extends FormRequest
@@ -61,7 +62,7 @@ class UpdateAmendment extends FormRequest
             'satS2' => ['required_with:satE2', 'nullable', 'date_format:H:i', 'before:satE2'],
             'satE2' => ['required_with:satS2', 'nullable', 'date_format:H:i', 'after:satS2'],
 
-            'protocol' => ['required', 'numeric', 'digits:5'],
+            'protocol' => ['required', new Integer, 'digits:7'],
             'observation' => ['nullable', 'max:8000'],
         ];
     }

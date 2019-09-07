@@ -28,7 +28,7 @@ class StoreAgreement extends FormRequest
     public function rules()
     {
         return [
-            'company' => ['required', 'numeric', 'min:1', 'exists:companies,id', new NoAgreement, new CompanyHasEmail, new Active(Company::class)],
+            'company' => ['required', 'integer', 'min:1', 'exists:companies,id', new NoAgreement, new CompanyHasEmail, new Active(Company::class)],
             'startDate' => ['required', 'date'],
             'observation' => ['nullable', 'max:8000'],
         ];

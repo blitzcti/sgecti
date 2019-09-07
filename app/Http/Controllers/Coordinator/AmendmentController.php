@@ -133,7 +133,7 @@ class AmendmentController extends Controller
 
     public function update($id, UpdateAmendment $request)
     {
-        $amendment = Amendment::findOrFail($id);
+        $amendment = Amendment::with(['schedule', 'schedule2'])->findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();

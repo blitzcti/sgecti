@@ -85,6 +85,8 @@ class PermissionTableSeeder extends Seeder
             'proposal-edit',
 
             'student-list',
+
+            'documents-list',
         ];
 
 

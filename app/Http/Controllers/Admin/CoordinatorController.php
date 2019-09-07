@@ -93,7 +93,8 @@ class CoordinatorController extends Controller
 
             Log::info($log);
             $cName = $coordinator->course->name;
-            $notification = new CoordinatorNotification(['description' => "Coordenadoria de $cName", 'text' => "Você agora é coordenador de $cName.", 'icon' => 'black-tie']);
+            $notification = $coordinator->temporary_of == null ? new CoordinatorNotification(['description' => "Coordenadoria de $cName", 'text' => "Você agora é coordenador de $cName.", 'icon' => 'black-tie'])
+                : new CoordinatorNotification(['description' => "Coordenadoria de $cName", 'text' => "Você agora é coordenador temporário de $cName.", 'icon' => 'black-tie']);
             $coordinator->user->notify($notification);
         } else {
             Log::error("Erro ao salvar coordenador");

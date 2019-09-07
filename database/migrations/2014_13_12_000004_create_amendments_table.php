@@ -29,7 +29,7 @@ class CreateAmendmentsTable extends Migration
             $table->bigInteger('schedule_2_id')->nullable(true)->default(null)->unsigned();
             $table->foreign('schedule_2_id')->references('id')->on('schedules');
 
-            $table->string('protocol', 15);
+            $table->string('protocol', 7);
             $table->text('observation')->nullable(true)->default(null);
 
             $table->timestamps();

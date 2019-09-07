@@ -34,6 +34,7 @@ class HasAgreement implements Rule
     public function passes($attribute, $value)
     {
         $company = Company::find($value);
+
         return $company->hasAgreementAt($this->date);
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Requests\Coordinator;
 use App\Models\Company;
 use App\Models\Supervisor;
 use App\Rules\Active;
+use App\Rules\Integer;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateSupervisor extends FormRequest
@@ -29,10 +30,10 @@ class UpdateSupervisor extends FormRequest
         $supervisor = Supervisor::findOrFail($this->route('id'));
 
         return [
-            'company' => ['required', 'numeric', 'min:1', 'exists:companies,id', new Active(Company::class, $supervisor->id)],
+            'company' => ['required', 'integer', 'min:1', 'exists:companies,id', new Active(Company::class, $supervisor->id)],
             'supervisorName' => ['required', 'max:50'],
-            'supervisorEmail' => ['required', 'max:50'],
-            'supervisorPhone' => ['required', 'numeric', 'digits_between:10,11'],
+            'supervisorEmail' => ['required', 'email', 'max:50'],
+            'supervisorPhone' => ['required', new Integer, 'digits_between:10,11'],
         ];
     }
 }

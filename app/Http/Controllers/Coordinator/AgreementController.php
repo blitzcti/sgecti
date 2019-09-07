@@ -63,6 +63,7 @@ class AgreementController extends Controller
         $agreement->company_id = $validatedData->company;
         $agreement->start_date = $validatedData->startDate;
         $agreement->end_date = SystemConfiguration::getAgreementExpiration(Carbon::createFromFormat("Y-m-d", $agreement->start_date));
+        $agreement->active = true;
         $agreement->observation = $validatedData->observation;
 
         $saved = $agreement->save();
@@ -93,10 +94,7 @@ class AgreementController extends Controller
         $log .= "\nDados antigos: " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $agreement->start_date = $validatedData->startDate;
-        if ($agreement->end_date > Carbon::today()) {
-            $agreement->end_date = SystemConfiguration::getAgreementExpiration(Carbon::createFromFormat("Y-m-d", $agreement->start_date));
-        }
-
+        $agreement->end_date = SystemConfiguration::getAgreementExpiration(Carbon::createFromFormat("Y-m-d", $agreement->start_date));
         $agreement->observation = $validatedData->observation;
 
         $saved = $agreement->save();
@@ -124,7 +122,7 @@ class AgreementController extends Controller
         $log = "Cancelamento de convênio";
         $log .= "\nUsuário: " . Auth::user()->name;
 
-        $agreement->end_date = Carbon::today();
+        $agreement->active = false;
 
         $saved = $agreement->save();
 
@@ -150,20 +148,18 @@ class AgreementController extends Controller
         $log = "Reativação de convênio";
         $log .= "\nUsuário: " . Auth::user()->name;
 
-        if (!$agreement->company->hasAgreementAt()) {
-            $agreement->end_date = SystemConfiguration::getAgreementExpiration(Carbon::createFromFormat("Y-m-d", $agreement->start_date));
+        $agreement->active = true;
 
-            $saved = $agreement->save();
+        $saved = $agreement->save();
 
-            if ($saved) {
-                Log::info($log);
-            } else {
-                Log::error("Erro ao reativar convênio");
-            }
-
-            $params['saved'] = $saved;
-            $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao reativar convênio");
         }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
         return redirect()->route('coordenador.empresa.convenio.index')->with($params);
     }

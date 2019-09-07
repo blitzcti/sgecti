@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SendMail;
+use App\Http\Requests\Admin\SendMail;
 use App\Mail\FreeMail;
 use App\Models\Course;
 use App\Models\NSac\Student;

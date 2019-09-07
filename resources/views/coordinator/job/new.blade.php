@@ -133,7 +133,7 @@
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputProtocol" name="protocol"
-                                       placeholder="001/19" data-inputmask="'mask': '999/99'"
+                                       placeholder="001/2019" data-inputmask="'mask': '999/9999'"
                                        value="{{ old('protocol') ?? '' }}"/>
 
                                 <span class="help-block">{{ $errors->first('protocol') }}</span>

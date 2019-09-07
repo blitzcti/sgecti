@@ -183,14 +183,14 @@
                         </div>
 
                         <div class="col-sm-6">
-                            <div class="form-group @if($errors->has('minMark')) has-error @endif">
-                                <label for="inputMinMark" class="col-sm-4 control-label">Nota mínima*</label>
+                            <div class="form-group @if($errors->has('minGrade')) has-error @endif">
+                                <label for="inputMinGrade" class="col-sm-4 control-label">Nota mínima*</label>
 
                                 <div class="col-sm-8">
-                                    <input type="number" class="form-control" id="inputMinMark" name="minMark"
-                                           placeholder="10" step="0.5" value="{{ old('minMark') ?? '' }}"/>
+                                    <input type="number" class="form-control" id="inputMinGrade" name="minGrade"
+                                           placeholder="10" step="0.5" value="{{ old('minGrade') ?? '' }}"/>
 
-                                    <span class="help-block">{{ $errors->first('minMark') }}</span>
+                                    <span class="help-block">{{ $errors->first('minGrade') }}</span>
                                 </div>
                             </div>
                         </div>

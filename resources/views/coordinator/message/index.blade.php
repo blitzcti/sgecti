@@ -34,6 +34,7 @@
 
         <input type="hidden" id="inputUseFilters" name="useFilters" value="{{ old('useFilters') ?? 1 }}">
         <input type="hidden" id="inputMessage" name="message" value="{{ old('message') ?? 3 }}">
+        <input type="hidden" id="inputProposal" name="proposal" value="{{ old('proposal') ?? '' }}">
 
         <div id="filters" class="nav-tabs-custom">
             <ul class="nav nav-tabs">
@@ -221,11 +222,47 @@
 
             <div class="tab-content">
                 <div class="tab-pane" id="tab_bimestralReport">
+                    <p>Olá, @{{ Aluno }}, </p>
+                    <p>Este é apenas um lembrete para que, durante a semana de provas, você protocole na secretaria do
+                        colégio o seu <b>relatório bimestral de estágio</b>.
+                        Caso o mesmo não seja entregue, estará sujeito às penalidades vigentes no código do estagiário.
+                    </p>
 
+                    <p>Possuindo problemas na entrega do relatório bimestral, comunique a coordenadoria do curso por
+                        email com urgência.</p>
+
+                    <p>Desconsidere essa mensagem caso já tenha protocolado seu relatório bimestral.</p>
                 </div>
 
                 <div class="tab-pane" id="tab_internshipProposal">
+                    <table id="proposals" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th>Empresa</th>
+                            <th>Descrição</th>
+                            <th>Validade</th>
+                            <th data-priority="2">Ações</th>
+                        </tr>
+                        </thead>
 
+                        <tbody>
+                        @foreach($proposals as $proposal)
+
+                            <tr>
+                                <th scope="row" data-priority="1">{{ $proposal->id }}</th>
+                                <td>{{ $proposal->company->name }} {{ $proposal->company->fantasy_name != null ? "(" . $proposal->company->fantasy_name . ")" : '' }}</td>
+                                <td>{{ $proposal->description }}</td>
+                                <td>{{ $proposal->deadline }}</td>
+
+                                <td>
+                                    <a href="#" onclick="proposal({{ $proposal->id }}); return false;">Selecionar</a>
+                                </td>
+                            </tr>
+
+                        @endforeach
+                        </tbody>
+                    </table>
                 </div>
 
                 <div class="tab-pane active gambi" id="tab_message">
@@ -309,6 +346,13 @@
             jQuery('#messageType a[href="#tab_message"]').tab('show');
 
             @endif
+
+            jQuery("#proposals").DataTable({
+                language: {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
+                },
+                lengthChange: true,
+            });
         });
     </script>
 @endsection

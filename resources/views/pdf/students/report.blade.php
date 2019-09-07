@@ -1,6 +1,6 @@
 @extends('pdf.noimg')
 
-@section('title', 'Relatório final de estágio')
+@section('title', 'Relação de alunos')
 
 @section('css')
 
@@ -54,7 +54,7 @@
                                     @foreach($internships->filter(function ($i) use ($course, $grade, $class) { return $i->student->course_id == $course->id && $i->student->grade == $grade && $i->student->class == $class; }) as $internship)
 
                                         <tr>
-                                            <th scope="row">{{ $internship->protocol }}</th>
+                                            <th scope="row">{{ $internship->formatted_protocol }}</th>
                                             <td>{{ $internship->student->matricula }}</td>
                                             <td>{{ $internship->student->nome }}</td>
                                             <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "(" . $internship->company->fantasy_name . ")" : '' }}</td>
@@ -118,12 +118,12 @@
                                     @foreach($finished_internships->filter(function ($i) use ($course, $grade, $class) { return $i->student->course_id == $course->id && $i->student->grade == $grade && $i->student->class == $class; }) as $internship)
 
                                         <tr>
-                                            <th scope="row">{{ $internship->protocol }}</th>
+                                            <th scope="row">{{ $internship->formatted_protocol }}</th>
                                             <td>{{ $internship->student->matricula }}</td>
                                             <td>{{ $internship->student->nome }}</td>
                                             <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "(" . $internship->company->fantasy_name . ")" : '' }}</td>
                                             <td>{{ date("d/m/Y", strtotime($internship->start_date)) }}</td>
-                                            <td>{{ date("d/m/Y", strtotime($internship->end_date)) }}</td>
+                                            <td>{{ date("d/m/Y", strtotime($internship->final_report->end_date)) }}</td>
                                         </tr>
 
                                     @endforeach

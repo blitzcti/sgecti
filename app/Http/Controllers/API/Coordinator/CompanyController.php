@@ -34,8 +34,8 @@ class CompanyController extends Controller
                 return (strpos(strtoupper($v[$col]), strtoupper($q)) !== false);
             }
         }, ARRAY_FILTER_USE_BOTH);
-        $array = array_values($array);
-        return $array;
+
+        return array_values($array);
     }
 
     public function get(Request $request)

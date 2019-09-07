@@ -18,6 +18,15 @@ class Internship extends Model
      */
     protected $appends = ['estimated_hours'];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'amendments',
+    ];
+
     public function student()
     {
         return $this->belongsTo(NSac\Student::class, 'ra');
@@ -123,6 +132,14 @@ class Internship extends Model
         }
 
         return $h;
+    }
+
+    public function getFormattedProtocolAttribute()
+    {
+        $protocol = $this->protocol;
+        $n = substr($protocol, 0, 3);
+        $y = substr($protocol, 3, 4);
+        return "$n/$y";
     }
 
     public static function requiringFinish()

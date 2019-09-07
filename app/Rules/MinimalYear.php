@@ -27,6 +27,7 @@ class MinimalYear implements Rule
     public function passes($attribute, $value)
     {
         $student = Student::find($value);
+
         return $student->grade >= $student->course_configuration->min_year;
     }
 

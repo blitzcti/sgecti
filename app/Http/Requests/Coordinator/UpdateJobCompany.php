@@ -4,6 +4,7 @@ namespace App\Http\Requests\Coordinator;
 
 use App\Rules\CNPJ;
 use App\Rules\CPF;
+use App\Rules\Integer;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateJobCompany extends FormRequest
@@ -28,8 +29,8 @@ class UpdateJobCompany extends FormRequest
         return [
             'pj' => ['required', 'boolean'],
 
-            'cpfCnpj' => ['required', 'numeric', ($this->get('pj')) ? new CNPJ : new CPF],
-            'ie' => ['nullable', 'numeric', 'digits:10'],
+            'cpfCnpj' => ['required', new Integer, ($this->get('pj')) ? new CNPJ : new CPF],
+            'ie' => ['nullable', new Integer, 'digits:10'],
             'name' => ['required', 'max:191'],
             'fantasyName' => ['nullable', 'max:191'],
 

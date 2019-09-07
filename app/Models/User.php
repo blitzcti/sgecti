@@ -72,6 +72,8 @@ class User extends Authenticatable
         if ($this->isCompany()) {
             return $this->belongsTo(Company::class, 'email', 'email');
         }
+
+        return null;
     }
 
     public function getCoordinatorOfAttribute()
@@ -111,17 +113,15 @@ class User extends Authenticatable
         $last = array_slice($array, -1);
         $first = join(', ', array_slice($array, 0, -1));
         $both = array_filter(array_merge([$first], $last), 'strlen');
-        $str = join(' e ', $both);
-        return $str;
+        return join(' e ', $both);
     }
 
-    public function getPhoneFormatedAttribute()
+    public function getFormattedPhoneAttribute()
     {
         $phone = $this->phone;
         $ddd = substr($phone, 0, 2);
         $p1 = (strlen($phone) == 10) ? substr($phone, 2, 4) : substr($phone, 2, 5);
         $p2 = (strlen($phone) == 10) ? substr($phone, 6, 4) : substr($phone, 7, 4);
-        $str = "($ddd) $p1-$p2";
-        return $str;
+        return "($ddd) $p1-$p2";
     }
 }

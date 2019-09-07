@@ -27,6 +27,7 @@ class NoAgreement implements Rule
     public function passes($attribute, $value)
     {
         $company = Company::find($value);
+
         return !$company->hasAgreementAt(null);
     }
 

@@ -30,10 +30,12 @@ class StudentMaxYears implements Rule
     public function passes($attribute, $value)
     {
         $student = Student::find($value);
+
         $dateS = date_create("$student->year-01-01");
         $max_years = GeneralConfiguration::getMaxYears($dateS);
         $d1 = date_create($this->startDate);
         $limitDate = $dateS->modify("+$max_years year")->modify("-1 day");
+
         return $d1 <= $limitDate;
     }
 

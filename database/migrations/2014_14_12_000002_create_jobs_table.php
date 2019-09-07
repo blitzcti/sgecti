@@ -32,7 +32,7 @@ class CreateJobsTable extends Migration
             $table->date('start_date');
             $table->date('end_date');
 
-            $table->string('protocol', 15);
+            $table->string('protocol', 7);
 
             $table->text('activities')->nullable(true)->default(null);
             $table->text('observation')->nullable(true)->default(null);

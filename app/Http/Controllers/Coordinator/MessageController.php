@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Coordinator;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SendMail;
+use App\Http\Requests\Coordinator\SendMail;
 use App\Mail\BimestralReportMail;
 use App\Mail\FreeMail;
 use App\Mail\ImportantMail;
@@ -30,7 +30,13 @@ class MessageController extends Controller
             return in_array($student->course_id, $cIds);
         });
 
-        return view('coordinator.message.index')->with(['courses' => $courses, 'students' => $students]);
+        $proposals = Proposal::approved();
+
+        return view('coordinator.message.index')->with([
+            'courses' => $courses,
+            'students' => $students,
+            'proposals' => $proposals,
+        ]);
     }
 
     public function sendBimestralReportMail(Student $student)

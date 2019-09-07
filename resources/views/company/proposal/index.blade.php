@@ -22,7 +22,7 @@
         <div class="box-body">
             <a id="addLink" href="{{ route('empresa.proposta.novo') }}" class="btn btn-success">Criar nova proposta</a>
 
-            <table id="users" class="table table-bordered table-hover">
+            <table id="proposals" class="table table-bordered table-hover">
                 <thead>
                 <tr>
                     <th scope="col" data-priority="1">ID</th>
@@ -58,8 +58,8 @@
 
 @section('js')
     <script>
-        jQuery(() => {
-            let table = jQuery("#users").DataTable({
+        jQuery(document).ready(function () {
+            let table = jQuery("#proposals").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
@@ -87,7 +87,7 @@
                     }
                 ],
                 initComplete: function () {
-                    table.buttons().container().appendTo(jQuery('#users_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().appendTo(jQuery('#proposals_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                     jQuery('#addLink').prependTo(table.buttons().container());
                 },

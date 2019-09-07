@@ -25,7 +25,7 @@ class UpdateCourse extends FormRequest
     {
         return [
             'name' => ['required', 'max:30'],
-            'color' => ['required', 'numeric', 'min:1', 'exists:colors,id'],
+            'color' => ['required', 'integer', 'min:1', 'exists:colors,id'],
             'active' => ['required', 'boolean'],
         ];
     }

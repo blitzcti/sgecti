@@ -21,7 +21,7 @@ class CreateBimestralReportsTable extends Migration
 
             $table->date('date');
 
-            $table->string('protocol', 15);
+            $table->string('protocol', 7);
 
             $table->timestamps();
         });

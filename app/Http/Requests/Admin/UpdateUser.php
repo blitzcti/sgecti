@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Rules\Integer;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateUser extends FormRequest
@@ -26,8 +27,8 @@ class UpdateUser extends FormRequest
         return [
             'name' => ['required', 'max:191'],
             'email' => ['required', 'email', 'max:191'],
-            'phone' => ['nullable', 'numeric', 'digits_between:10,11'],
-            'role' => ['required', 'numeric', 'min:1', 'exists:roles,id'],
+            'phone' => ['nullable', new Integer, 'digits_between:10,11'],
+            'role' => ['required', 'integer', 'min:1', 'exists:roles,id'],
         ];
     }
 }

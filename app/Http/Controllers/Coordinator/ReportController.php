@@ -8,9 +8,11 @@ use App\Http\Requests\Coordinator\StoreFinalReport;
 use App\Http\Requests\Coordinator\UpdateBimestralReport;
 use App\Http\Requests\Coordinator\UpdateFinalReport;
 use App\Models\BimestralReport;
+use App\Models\Course;
 use App\Models\FinalReport;
 use App\Models\State;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use PDF;
@@ -248,6 +250,50 @@ class ReportController extends Controller
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
         return redirect()->route('coordenador.relatorio.index')->with($params);
+    }
+
+    public function pdfBimestral(Request $request)
+    {
+        $validatedData = (object)$request->validate([
+            'startDate' => ['nullable', 'date'],
+            'endDate' => ['nullable', 'date'],
+        ]);
+
+        $grades = $grades ?? [1, 2, 3, 4];
+        $courses = Course::findOrFail(Auth::user()->coordinator_courses_id);
+        $classes = $classes ?? ['A', 'B', 'C', 'D'];
+
+        $startDate = $validatedData->startDate != null ? Carbon::createFromFormat("Y-m-d", $validatedData->startDate)
+            : Carbon::now();
+
+        $endDate = $validatedData->endDate != null ? Carbon::createFromFormat("Y-m-d", $validatedData->endDate)
+            : Carbon::createFromFormat("Y-m-d", $startDate->format("Y-m-d"))->modify('+7 day');
+
+        $students = State::findOrFail(1)->internships->filter(function ($i) use ($startDate, $endDate) {
+            $reports = $i->bimestral_reports;
+            foreach ($reports as $report) {
+                $date = Carbon::createFromFormat("Y-m-d", $report->date);
+                if ($date->between($startDate, $endDate)) {
+                    return false;
+                }
+            }
+
+            return true;
+        })->map(function ($i) {
+            return $i->student;
+        });
+
+        $data = [
+            'grades' => $grades,
+            'courses' => $courses,
+            'classes' => $classes,
+            'students' => $students,
+            'endDate' => $endDate,
+        ];
+
+        $pdf = PDF::loadView('pdf.report.bimestral', $data);
+        $pdf->setPaper('a4', 'portrait');
+        return $pdf->stream('relatorioBimestral.pdf');
     }
 
     public function pdfFinal($id)

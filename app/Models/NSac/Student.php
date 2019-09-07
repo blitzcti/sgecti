@@ -63,18 +63,15 @@ class Student extends Model
     public function getGradeAttribute()
     {
         if ($this->situacao_matricula > 3) {
-            $g = 4;
+            return 4;
         } else {
-            $g = intval(substr($this->turma, 1, 1));
+            return intval(substr($this->turma, 1, 1));
         }
-
-        return $g;
     }
 
     public function getClassAttribute()
     {
-        $c = substr($this->turma, 2, 1);
-        return $c;
+        return substr($this->turma, 2, 1);
     }
 
     public function getAgeAttribute()
@@ -122,7 +119,7 @@ class Student extends Model
         $internships = $this->finishedInternships;
         $h = 0;
         $h += $internships->reduce(function ($a, $i) {
-            $a += date_diff(date_create($i->start_date), date_create($i->end_date))->format("%m");
+            $a += date_diff(date_create($i->start_date), date_create($i->final_report->end_date))->format("%m");
             return $a;
         });
 

@@ -153,7 +153,7 @@ class InternshipController extends Controller
 
     public function update($id, UpdateInternship $request)
     {
-        $internship = Internship::findOrFail($id);
+        $internship = Internship::with(['schedule', 'schedule2'])->findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();

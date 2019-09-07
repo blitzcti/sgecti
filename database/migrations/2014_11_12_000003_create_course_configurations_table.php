@@ -26,7 +26,7 @@ class CreateCourseConfigurationsTable extends Migration
             $table->integer('min_months')->nullable(false);
             $table->integer('min_months_ctps')->nullable(false);
 
-            $table->integer('min_grade')->nullable(false);
+            $table->float('min_grade')->nullable(false);
 
             $table->timestamps();
         });

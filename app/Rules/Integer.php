@@ -2,26 +2,18 @@
 
 namespace App\Rules;
 
-use App\Models\NSac\Student;
-use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
 
-class MinimalSemester implements Rule
+class Integer implements Rule
 {
-    private $date;
-
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($date)
+    public function __construct()
     {
-        if ($date == null) {
-            $date = date("Y-m-d");
-        }
-
-        $this->date = Carbon::createFromFormat("Y-m-d", $date);
+        //
     }
 
     /**
@@ -33,10 +25,7 @@ class MinimalSemester implements Rule
      */
     public function passes($attribute, $value)
     {
-        $student = Student::find($value);
-        $semester = ($this->date->month < 7) ? 1 : 2;
-
-        return $semester >= $student->course_configuration->min_semester;
+        return ctype_digit($value);
     }
 
     /**
@@ -46,6 +35,6 @@ class MinimalSemester implements Rule
      */
     public function message()
     {
-        return __('validation.min_semester');
+        return 'The validation error message.';
     }
 }

@@ -59,5 +59,16 @@ class RoleTableSeeder extends Seeder
         $permissions = Permission::where('name', 'like', 'proposal-%')
             ->get();
         $role->syncPermissions($permissions);
+
+        $role = Role::create([
+            'name' => 'student',
+            'friendlyName' => 'Aluno',
+            'description' => 'Alunos do NSac'
+        ]);
+
+        $permissions = Permission::where('name', 'like', 'proposal-list')
+            ->orWhere('name', 'like', 'documents-%')
+            ->get();
+        $role->syncPermissions($permissions);
     }
 }

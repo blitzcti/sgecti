@@ -174,7 +174,7 @@ return [
         'minHour' => 'Horas mínimas',
         'minMonth' => 'Meses mínimos',
         'minMonthCTPS' => 'Meses mínimos (CTPS)',
-        'minMark' => 'Nota mínima',
+        'minGrade' => 'Nota mínima',
 
         'supervisorName' => 'Nome do supervisor',
         'supervisorEmail' => 'Email do supervisor',

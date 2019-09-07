@@ -75,18 +75,18 @@
 @section('js')
     <script>
         function courseId(id) {
-            jQuery(() => {
+            jQuery(document).ready(function () {
                 jQuery('#deleteModalCourseId').val(id);
             });
         }
 
         function course(name) {
-            jQuery(() => {
+            jQuery(document).ready(function () {
                 jQuery('#deleteModalCourseName').text(name);
             });
         }
 
-        jQuery(() => {
+        jQuery(document).ready(function () {
             let table = jQuery("#courses").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"

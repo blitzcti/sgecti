@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Rules\Integer;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreSystemConfiguration extends FormRequest
@@ -25,16 +26,16 @@ class StoreSystemConfiguration extends FormRequest
     {
         return [
             'name' => ['required', 'max:60'],
-            'cep' => ['required', 'numeric', 'digits:8'],
+            'cep' => ['required', new Integer, 'digits:8'],
             'uf' => ['required', 'max:2'],
             'city' => ['required', 'max:30'],
             'street' => ['required', 'max:50'],
             'number' => ['required', 'max:6'],
             'district' => ['required', 'max:50'],
-            'phone' => ['required', 'numeric', 'digits_between:10,11'],
+            'phone' => ['required', new Integer, 'digits_between:10,11'],
             'email' => ['required', 'email', 'max:50'],
-            'extension' => ['nullable', 'numeric', 'digits_between:3,4'],
-            'agreementExpiration' => ['required', 'numeric', 'min:1'],
+            'extension' => ['nullable', new Integer, 'digits_between:3,4'],
+            'agreementExpiration' => ['required', 'integer', 'min:1'],
         ];
     }
 }

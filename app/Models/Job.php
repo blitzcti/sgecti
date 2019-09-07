@@ -28,4 +28,12 @@ class Job extends Model
     {
         return $this->belongsTo(State::class);
     }
+
+    public function getFormattedProtocolAttribute()
+    {
+        $protocol = $this->protocol;
+        $n = substr($protocol, 0, 3);
+        $y = substr($protocol, 3, 4);
+        return "$n/$y";
+    }
 }

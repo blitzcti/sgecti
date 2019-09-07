@@ -14,6 +14,7 @@ use App\Rules\HasCourse;
 use App\Rules\HasInternship;
 use App\Rules\HasJob;
 use App\Rules\HourInterval;
+use App\Rules\Integer;
 use App\Rules\MinimalSemester;
 use App\Rules\MinimalYear;
 use App\Rules\RA;
@@ -45,10 +46,10 @@ class StoreInternship extends FormRequest
             'has2Schedules' => ['required', 'boolean'],
             'dilation' => ['required', 'boolean'],
 
-            'ra' => ['required', 'numeric', 'min:1', new RA, new HasInternship, new HasJob, new SameCourse, new CompanyHasCourse($this->get('company')), new StudentAge($this->get('startDate')), (!$this->get('delation')) ? new StudentMaxYears($this->get('startDate')) : '', new MinimalYear, new MinimalSemester($this->get('startDate'))],
+            'ra' => ['required', new Integer, 'min:1', new RA, new HasInternship, new HasJob, new SameCourse, new CompanyHasCourse($this->get('company')), new StudentAge($this->get('startDate')), (!$this->get('delation')) ? new StudentMaxYears($this->get('startDate')) : '', new MinimalYear, new MinimalSemester($this->get('startDate'))],
             'active' => ['required', 'boolean'],
-            'company' => ['required', 'numeric', 'min:1', 'exists:companies,id', new HasCourse, new HasAgreement($this->get('startDate')), new Active(Company::class)],
-            'sector' => ['required', 'numeric', 'min:1', 'exists:sectors,id', new CompanyHasSector($this->get('company')), new Active(Sector::class)],
+            'company' => ['required', 'integer', 'min:1', 'exists:companies,id', new HasCourse, new HasAgreement($this->get('startDate')), new Active(Company::class)],
+            'sector' => ['required', 'integer', 'min:1', 'exists:sectors,id', new CompanyHasSector($this->get('company')), new Active(Sector::class)],
             'startDate' => ['required', 'date', 'before:endDate'],
             'endDate' => ['required', 'date', 'after:startDate'],
             'activities' => ['required', 'max:8000'],
@@ -79,9 +80,9 @@ class StoreInternship extends FormRequest
             'satS2' => ['required_with:satE2', 'nullable', 'date_format:H:i', 'before:satE2'],
             'satE2' => ['required_with:satS2', 'nullable', 'date_format:H:i', 'after:satS2'],
 
-            'supervisor' => ['required', 'numeric', 'min:1', 'exists:supervisors,id', new CompanyHasSupervisor($this->get('company')), new Active(Supervisor::class)],
+            'supervisor' => ['required', 'integer', 'min:1', 'exists:supervisors,id', new CompanyHasSupervisor($this->get('company')), new Active(Supervisor::class)],
 
-            'protocol' => ['required', 'numeric', 'digits:5'],
+            'protocol' => ['required', new Integer, 'digits:7'],
             'observation' => ['nullable', 'max:8000'],
         ];
     }

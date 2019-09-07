@@ -31,6 +31,7 @@ class SameCourse implements Rule
         $cIds = Auth::user()->coordinator_of->map(function ($course) {
             return $course->id;
         })->toArray();
+
         return in_array($student->course_id, $cIds);
     }
 

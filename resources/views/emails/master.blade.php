@@ -29,7 +29,7 @@
             <span>Coordenador de {{ $user->coordinator_courses_name }}</span><br />
         @endif
 
-        <span>@if($user->phone != null){{ $user->phone_formated }} | @endif{{ $user->email }}</span><br /><br />
+        <span>@if($user->phone != null){{ $user->formated_phone }} | @endif{{ $user->email }}</span><br /><br />
     </div>
 </div>
 </body>

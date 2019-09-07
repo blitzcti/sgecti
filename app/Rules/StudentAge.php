@@ -29,6 +29,7 @@ class StudentAge implements Rule
     public function passes($attribute, $value)
     {
         $student = Student::find($value);
+
         return $student->getAgeByDate($this->startDate) >= 16;
     }
 

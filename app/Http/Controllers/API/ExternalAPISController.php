@@ -117,9 +117,7 @@ class ExternalAPISController extends Controller
             chr(197) . chr(190) => 'z', chr(197) . chr(191) => 's'
         );
 
-        $string = strtr($string, $chars);
-
-        return $string;
+        return strtr($string, $chars);
     }
 
     /**
@@ -163,8 +161,8 @@ class ExternalAPISController extends Controller
                 return (strpos(strtoupper($v[$col]), strtoupper($q)) !== false);
             }
         }, ARRAY_FILTER_USE_BOTH);
-        $array = array_values($array);
-        return $array;
+
+        return array_values($array);
     }
 
     /**
@@ -199,8 +197,7 @@ class ExternalAPISController extends Controller
     {
         $client = new Client();
         $response = $client->request($method, $url, $data);
-        $json = json_decode($response->getBody(), true);
-        return $json;
+        return json_decode($response->getBody(), true);
     }
 
     public function getUFS(Request $request)

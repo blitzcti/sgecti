@@ -37,7 +37,7 @@ class CreateFinalReportsTable extends Migration
 
             $table->integer('completed_hours');
             $table->date('end_date');
-            $table->string('approval_number');
+            $table->string('approval_number', '8');
 
             $table->bigInteger('coordinator_id')->nullable(false)->unsigned();
             $table->foreign('coordinator_id')->references('id')->on('coordinators');

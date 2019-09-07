@@ -9,6 +9,7 @@ use App\Rules\Active;
 use App\Rules\CompanyHasSector;
 use App\Rules\CompanyHasSupervisor;
 use App\Rules\HourInterval;
+use App\Rules\Integer;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateInternship extends FormRequest
@@ -36,7 +37,7 @@ class UpdateInternship extends FormRequest
             'has2Schedules' => ['required', 'boolean'],
 
             'active' => ['required', 'boolean'],
-            'sector' => ['required', 'numeric', 'min:1', 'exists:sectors,id', new CompanyHasSector($internship->company->id), new Active(Sector::class, $internship->sector_id)],
+            'sector' => ['required', 'integer', 'min:1', 'exists:sectors,id', new CompanyHasSector($internship->company->id), new Active(Sector::class, $internship->sector_id)],
             'startDate' => ['required', 'date', 'before:endDate'],
             'endDate' => ['required', 'date', 'after:startDate'],
             'activities' => ['required', 'max:8000'],
@@ -67,9 +68,9 @@ class UpdateInternship extends FormRequest
             'satS2' => ['required_with:satE2', 'nullable', 'date_format:H:i', 'before:satE2'],
             'satE2' => ['required_with:satS2', 'nullable', 'date_format:H:i', 'after:satS2'],
 
-            'supervisor' => ['required', 'numeric', 'min:1', 'exists:supervisors,id', new CompanyHasSupervisor($internship->company->id), new Active(Supervisor::class, $internship->supervisor_id)],
+            'supervisor' => ['required', 'integer', 'min:1', 'exists:supervisors,id', new CompanyHasSupervisor($internship->company->id), new Active(Supervisor::class, $internship->supervisor_id)],
 
-            'protocol' => ['required', 'numeric', 'digits:5'],
+            'protocol' => ['required', new Integer, 'digits:7'],
             'observation' => ['nullable', 'max:8000'],
         ];
     }

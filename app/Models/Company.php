@@ -54,7 +54,7 @@ class Company extends Model
         foreach ($this->agreements as $agreement) {
             $startDate = Carbon::createFromFormat("Y-m-d", $agreement->start_date);
             $endDate = Carbon::createFromFormat("Y-m-d", $agreement->end_date);
-            if ($date->between($startDate, $endDate)) {
+            if ($agreement->active && $date->between($startDate, $endDate)) {
                 return true;
             }
         }

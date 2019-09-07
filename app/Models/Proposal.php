@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+
 class Proposal extends Model
 {
     protected $fillable = [
@@ -32,5 +34,10 @@ class Proposal extends Model
     public function syncCourses($courses)
     {
         $this->courses()->sync($courses);
+    }
+
+    public static function approved()
+    {
+        return Proposal::where('approved_at', '<>', null)->where('deadline', '>=', Carbon::today())->get();
     }
 }

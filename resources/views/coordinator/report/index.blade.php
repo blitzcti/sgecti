@@ -7,6 +7,8 @@
 @stop
 
 @section('content')
+    @include('modals.coordinator.report.bimestral.students')
+
     @if(session()->has('message'))
         <div class="alert {{ session('saved') ? 'alert-success' : 'alert-error' }} alert-dismissible"
              role="alert">
@@ -26,6 +28,8 @@
         <div class="box-body">
             <a id="addBimestralLink" href="{{ route('coordenador.relatorio.bimestral.novo') }}"
                class="btn btn-success">Adicionar relatório</a>
+            <a id="pdfBimestralLink" href="#" data-toggle="modal" data-target="#viewStudentsModal"
+               class="btn btn-default" target="_blank">Não entregues</a>
 
             <table id="bimestralReports" class="table table-bordered table-hover">
                 <thead>
@@ -52,7 +56,7 @@
                         </td>
 
                         <td>{{ date("d/m/Y", strtotime($report->date)) }}</td>
-                        <td>{{ $report->protocol }}</td>
+                        <td>{{ $report->formatted_protocol }}</td>
                         <td>
                             <a href="{{ route('coordenador.relatorio.bimestral.editar', ['id' => $report->id]) }}">Editar</a>
                         </td>
@@ -124,7 +128,7 @@
     @endif
 
     <script type="text/javascript">
-        jQuery(() => {
+        jQuery(document).ready(function () {
             let bimestralTable = jQuery("#bimestralReports").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
@@ -155,6 +159,7 @@
                 initComplete: function () {
                     bimestralTable.buttons().container().appendTo(jQuery('#bimestralReports_wrapper .col-sm-6:eq(0)'));
                     bimestralTable.buttons().container().addClass('btn-group');
+                    jQuery('#pdfBimestralLink').prependTo(bimestralTable.buttons().container());
                     jQuery('#addBimestralLink').prependTo(bimestralTable.buttons().container());
                 },
             });

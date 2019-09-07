@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 class Agreement extends Model
 {
     protected $fillable = [
-        'company_id', 'start_date', 'end_date', 'observation',
+        'company_id', 'start_date', 'end_date', 'observation', 'active',
     ];
 
     public function company()

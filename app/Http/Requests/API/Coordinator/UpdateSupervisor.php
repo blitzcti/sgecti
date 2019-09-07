@@ -3,6 +3,7 @@
 namespace App\Http\Requests\API\Coordinator;
 
 use App\Http\Requests\API\FormRequest;
+use App\Rules\Integer;
 
 class UpdateSupervisor extends FormRequest
 {
@@ -24,10 +25,10 @@ class UpdateSupervisor extends FormRequest
     public function rules()
     {
         return [
-            'company' => ['required', 'numeric', 'min:1', 'exists:companies,id'],
+            'company' => ['required', 'integer', 'min:1', 'exists:companies,id'],
             'supervisorName' => ['required', 'max:50'],
-            'supervisorEmail' => ['required', 'max:50'],
-            'supervisorPhone' => ['required', 'numeric', 'digits_between:10,11'],
+            'supervisorEmail' => ['required', 'email', 'max:50'],
+            'supervisorPhone' => ['required', new Integer, 'digits_between:10,11'],
         ];
     }
 }

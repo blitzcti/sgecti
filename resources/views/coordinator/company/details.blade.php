@@ -84,9 +84,6 @@
                 <dt class="col-sm-2">Estágios concluídos</dt>
                 <dd class="col-sm-10">{{ sizeof($company->internships->filter(function ($i) {return $i->state->id == 2;})) }}</dd>
 
-                <dt class="col-sm-2">Estágios cancelados</dt>
-                <dd class="col-sm-10">{{ sizeof($company->internships->filter(function ($i) {return $i->state->id == 3;})) }}</dd>
-
                 <dt class="col-sm-12">Alunos de:</dt>
                 <dl class="col-sm-0"></dl>
 
@@ -97,6 +94,11 @@
 
                 @endforeach
             </dl>
+
+            <div class="btn-group">
+                <a href="{{ route('coordenador.empresa.pdf', ['id' => $company->id]) }}"
+                   target="_blank" class="btn btn-default">Imprimir relatório</a>
+            </div>
         </div>
         <!-- /.box-body -->
     </div>

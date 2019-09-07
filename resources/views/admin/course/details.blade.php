@@ -153,13 +153,13 @@
 @section('js')
     <script>
         function courseId(id) {
-            jQuery(() => {
+            jQuery(document).ready(function () {
                 jQuery('#deleteModalCourseId').val(id);
             });
         }
 
         function course(name) {
-            jQuery(() => {
+            jQuery(document).ready(function () {
                 jQuery('#deleteModalCourseName').text(name);
             });
         }

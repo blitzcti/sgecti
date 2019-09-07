@@ -146,6 +146,8 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
 
             Route::get('supervisor', 'Coordinator\SupervisorController@indexByCompany')->name('supervisor');
             Route::get('convenio', 'Coordinator\AgreementController@indexByCompany')->name('convenio');
+
+            Route::get('pdf', 'Coordinator\CompanyController@pdf')->name('pdf');
         });
 
         Route::prefix('setor')->name('setor.')->group(function () {
@@ -243,6 +245,7 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
         Route::prefix('bimestral')->name('bimestral.')->group(function () {
             Route::get('novo', 'Coordinator\ReportController@createBimestral')->name('novo');
             Route::post('salvar', 'Coordinator\ReportController@storeBimestral')->name('salvar');
+            Route::post('pdf', 'Coordinator\ReportController@pdfBimestral')->name('pdf');
 
             Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                 Route::get('editar', 'Coordinator\ReportController@editBimestral')->name('editar');

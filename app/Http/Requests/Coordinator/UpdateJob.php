@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Coordinator;
 
+use App\Rules\Integer;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateJob extends FormRequest
@@ -29,11 +30,11 @@ class UpdateJob extends FormRequest
             'startDate' => ['required', 'date', 'before:endDate'],
             'endDate' => ['required', 'date', 'after:startDate'],
 
-            'protocol' => ['required', 'numeric', 'digits:5'],
+            'protocol' => ['required', new Integer, 'digits:7'],
             'activities' => ['nullable', 'max:8000'],
             'observation' => ['nullable', 'max:8000'],
 
-            'ctps' => ['required', 'numeric', 'min:11'],
+            'ctps' => ['required', new Integer, 'min:11'],
         ];
     }
 }

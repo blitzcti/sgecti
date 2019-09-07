@@ -159,7 +159,9 @@
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
-                        <th colspan="6">A. QUALIDADE DO TRABALHO: qualidade e precisão da execução das tarefas</th>
+                        <th colspan="6" class="@if($errors->has('grade_1_a')) text-red @endif">
+                            A. QUALIDADE DO TRABALHO: qualidade e precisão da execução das tarefas
+                        </th>
                     </tr>
                     </thead>
 
@@ -219,7 +221,9 @@
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
-                        <th colspan="6">B. ATIVIDADE E RAPIDEZ: rapidez, facilidade na execução das tarefas</th>
+                        <th colspan="6" class="@if($errors->has('grade_1_b')) text-red @endif">
+                            B. ATIVIDADE E RAPIDEZ: rapidez, facilidade na execução das tarefas
+                        </th>
                     </tr>
                     </thead>
 
@@ -279,8 +283,8 @@
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
-                        <th colspan="6">C. ORGANIZAÇÃO E MÉTODO: uso de meios racionais para melhor desempenho das
-                            tarefas
+                        <th colspan="6" class="@if($errors->has('grade_1_c')) text-red @endif">
+                            C. ORGANIZAÇÃO E MÉTODO: uso de meios racionais para melhor desempenho das tarefas
                         </th>
                     </tr>
                     </thead>
@@ -349,8 +353,9 @@
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
-                        <th colspan="6">A. COMPORTAMENTO: facilidade em aceitar e seguir as instruções dos superiores e
-                            normas da Empresa
+                        <th colspan="6" class="@if($errors->has('grade_2_a')) text-red @endif">
+                            A. COMPORTAMENTO: facilidade em aceitar e seguir as instruções dos superiores e normas da
+                            Empresa
                         </th>
                     </tr>
                     </thead>
@@ -411,9 +416,9 @@
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
-                        <th colspan="6">B. ASSIDUIDADE E PONTUALIDADE: constância e pontualidade no cumprimento dos
-                            horários, dias de
-                            trabalho tarefas a serem executadas
+                        <th colspan="6" class="@if($errors->has('grade_2_b')) text-red @endif">
+                            B. ASSIDUIDADE E PONTUALIDADE: constância e pontualidade no cumprimento dos horários, dias
+                            de trabalho tarefas a serem executadas
                         </th>
                     </tr>
                     </thead>
@@ -474,9 +479,9 @@
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
-                        <th colspan="6">C. RELAÇÕES COM OS SUPERIORES: facilidade em aceitar as instruções superiores;
-                            facilidade com que age
-                            frente a pessoas e situações
+                        <th colspan="6" class="@if($errors->has('grade_2_c')) text-red @endif">
+                            C. RELAÇÕES COM OS SUPERIORES: facilidade em aceitar as instruções superiores; facilidade
+                            com que age frente a pessoas e situações
                         </th>
                     </tr>
                     </thead>
@@ -537,9 +542,9 @@
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
-                        <th colspan="6">D. RELAÇÕES COM OS COLEGAS: espontaneidade nas relações, cooperação com os
-                            colegas no sentido de
-                            alcançarem o mesmo objetivo, influência positiva no grupo
+                        <th colspan="6" class="@if($errors->has('grade_2_d')) text-red @endif">
+                            D. RELAÇÕES COM OS COLEGAS: espontaneidade nas relações, cooperação com os colegas no
+                            sentido de alcançarem o mesmo objetivo, influência positiva no grupo
                         </th>
                     </tr>
                     </thead>
@@ -608,9 +613,10 @@
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
-                        <th colspan="6">A. DEDICAÇÃO E CONSCIÊNCIA PROFISSIONAL: capacidade para cuidar e responder
-                            pelas atribuições,
-                            materiais, equipamentos e bens da Empresa que lhe foram confiados durante o Estágio
+                        <th colspan="6" class="@if($errors->has('grade_3_a')) text-red @endif">
+                            A. DEDICAÇÃO E CONSCIÊNCIA PROFISSIONAL: capacidade para cuidar e responder pelas
+                            atribuições, materiais, equipamentos e bens da Empresa que lhe foram confiados durante o
+                            Estágio
                         </th>
                     </tr>
                     </thead>
@@ -671,9 +677,9 @@
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
-                        <th colspan="6">B. INICIATIVA/INDEPENDÊNCIA: capacidade de procurar novas soluções, sem prévia
-                            orientação, adequadas
-                            aos padrões da Empresa
+                        <th colspan="6" class="@if($errors->has('grade_3_b')) text-red @endif">
+                            B. INICIATIVA/INDEPENDÊNCIA: capacidade de procurar novas soluções, sem prévia orientação,
+                            adequadas aos padrões da Empresa
                         </th>
                     </tr>
                     </thead>
@@ -742,9 +748,9 @@
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
-                        <th colspan="6">A. INTELIGÊNCIA E COMPREENSÃO: facilidade em compreender, interpretar e colocar
-                            em prática instruções
-                            novas e informações verbais e/ou críticas
+                        <th colspan="6" class="@if($errors->has('grade_4_a')) text-red @endif">
+                            A. INTELIGÊNCIA E COMPREENSÃO: facilidade em compreender, interpretar e colocar em prática
+                            instruções novas e informações verbais e/ou críticas
                         </th>
                     </tr>
                     </thead>
@@ -805,8 +811,9 @@
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
-                        <th colspan="6">B. CONHECIMENTOS GERAIS: demonstrado no cumprimento de instruções não
-                            específicas da área de atuação
+                        <th colspan="6" class="@if($errors->has('grade_4_b')) text-red @endif">
+                            B. CONHECIMENTOS GERAIS: demonstrado no cumprimento de instruções não específicas da área de
+                            atuação
                         </th>
                     </tr>
                     </thead>
@@ -867,9 +874,9 @@
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
-                        <th colspan="6">C. CONHECIMENTOS PROFISSIONAIS: demonstrado no cumprimento dos programas de
-                            Estágio relativos à área
-                            de atuação
+                        <th colspan="6" class="@if($errors->has('grade_4_c')) text-red @endif">
+                            C. CONHECIMENTOS PROFISSIONAIS: demonstrado no cumprimento dos programas de Estágio
+                            relativos à área de atuação
                         </th>
                     </tr>
                     </thead>

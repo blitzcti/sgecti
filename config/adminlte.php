@@ -183,7 +183,7 @@ return [
         ],
         [
             'name' => 'Datatables.responsive',
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'css',

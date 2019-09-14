@@ -283,10 +283,8 @@
 
                         </select>
 
-                        <span class="help-block">
-                            {{ $errors->first('sectors') }}
-                            {{ $errors->first('sectors.*') }}
-                        </span>
+                        <span class="help-block">{{ $errors->first('sectors') }}</span>
+                        <span class="help-block">{{ $errors->first('sectors.*') }}</span>
                     </div>
                 </div>
 
@@ -308,10 +306,8 @@
 
                         </select>
 
-                        <span class="help-block">
-                            {{ $errors->first('courses') }}
-                            {{ $errors->first('courses.*') }}
-                        </span>
+                        <span class="help-block">{{ $errors->first('courses') }}</span>
+                        <span class="help-block">{{ $errors->first('courses.*') }}</span>
                     </div>
                 </div>
             </div>

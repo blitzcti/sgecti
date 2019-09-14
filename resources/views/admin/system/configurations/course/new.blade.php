@@ -144,7 +144,7 @@
 
 @section('js')
     <script type="text/javascript">
-        jQuery(document).ready(() => {
+        jQuery(document).ready(function () {
             jQuery('.selection').select2({
                 language: "pt-BR"
             });

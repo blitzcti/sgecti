@@ -199,9 +199,6 @@
                 <!-- /.box-body -->
                 <div class="box-footer">
                     <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-
-                    <input type="hidden" id="inputPrevious" name="previous"
-                           value="{{ old('previous') ?? url()->previous() }}">
                     <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
                 </div>
                 <!-- /.box-footer -->
@@ -218,13 +215,8 @@
             });
 
             jQuery('#fakeInputHasConfig').on('ifChanged', function () {
-                if (this.checked) {
-                    jQuery('#div-config').css('display', 'block');
-                    jQuery('#inputHasConfig').val(1);
-                } else {
-                    jQuery('#div-config').css('display', 'none');
-                    jQuery('#inputHasConfig').val(0);
-                }
+                jQuery('#div-config').toggle(this.checked);
+                jQuery('#inputHasConfig').val(Number(this.checked));
             }).trigger('ifChanged').iCheck({
                 checkboxClass: 'icheckbox_square-blue',
                 radioClass: 'iradio_square-blue',

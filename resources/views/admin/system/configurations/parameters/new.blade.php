@@ -153,7 +153,8 @@
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('agreementExpiration')) has-error @endif">
                             <label for="inputAgreementExpiration" class="col-sm-4 control-label">Validade do
-                                convênio (anos)*</label>
+                                convênio*
+                            </label>
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputAgreementExpiration"
@@ -181,7 +182,7 @@
 
 @section('js')
     <script type="text/javascript">
-        jQuery(document).ready(() => {
+        jQuery(document).ready(function () {
             jQuery(':input').inputmask({removeMaskOnSubmit: true});
 
             jQuery('#inputUf').select2({

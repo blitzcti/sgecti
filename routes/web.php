@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,12 +14,7 @@
 |
 */
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-
-Route::get('', function () {
-    return view('index');
-});
+Route::get('', 'HomeController@frontPage');
 
 Auth::routes([
     'register' => false, // Registration Routes
@@ -24,12 +22,9 @@ Auth::routes([
     'verify' => false, // Email Verification Routes
 ]);
 
-Route::get('home', 'HomeController@index')->name('home');
-Route::get('notificacoes', 'HomeController@notifications')->name('notificacoes');
-
 Route::group(['middleware' => ['auth']], function () {
-    Route::resource('roles', 'RoleController');
-    Route::resource('users', 'UserController');
+    Route::get('home', 'HomeController@index')->name('home');
+    Route::get('notificacoes', 'HomeController@notifications')->name('notificacoes');
 });
 
 Route::prefix('usuario')->name('usuario.')->middleware('auth')->group(function () {
@@ -46,11 +41,11 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::prefix('usuario')->name('usuario.')->group(function () {
         Route::get('', 'Admin\UserController@index')->name('index');
         Route::get('novo', 'Admin\UserController@create')->name('novo');
-        Route::post('salvar', 'Admin\UserController@store')->name('salvar');
+        Route::post('', 'Admin\UserController@store')->name('salvar');
 
         Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
             Route::get('editar', 'Admin\UserController@edit')->name('editar');
-            Route::put('alterar', 'Admin\UserController@update')->name('alterar');
+            Route::put('', 'Admin\UserController@update')->name('alterar');
 
             Route::get('alterarSenha', 'Admin\UserController@changePassword')->name('alterarSenha');
             Route::put('salvarSenha', 'Admin\UserController@savePassword')->name('salvarSenha');
@@ -61,22 +56,22 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         Route::prefix('curso')->name('curso.')->group(function () {
             Route::get('', 'Admin\GeneralConfigurationController@index')->name('index');
             Route::get('novo', 'Admin\GeneralConfigurationController@create')->name('novo');
-            Route::post('salvar', 'Admin\GeneralConfigurationController@store')->name('salvar');
+            Route::post('', 'Admin\GeneralConfigurationController@store')->name('salvar');
 
             Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                 Route::get('editar', 'Admin\GeneralConfigurationController@edit')->name('editar');
-                Route::put('alterar', 'Admin\GeneralConfigurationController@update')->name('alterar');
+                Route::put('', 'Admin\GeneralConfigurationController@update')->name('alterar');
             });
         });
 
         Route::prefix('parametros')->name('parametros.')->group(function () {
             Route::get('', 'Admin\SystemConfigurationController@index')->name('index');
             Route::get('novo', 'Admin\SystemConfigurationController@create')->name('novo');
-            Route::post('salvar', 'Admin\SystemConfigurationController@store')->name('salvar');
+            Route::post('', 'Admin\SystemConfigurationController@store')->name('salvar');
 
             Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                 Route::get('editar', 'Admin\SystemConfigurationController@edit')->name('editar');
-                Route::put('alterar', 'Admin\SystemConfigurationController@update')->name('alterar');
+                Route::put('', 'Admin\SystemConfigurationController@update')->name('alterar');
             });
         });
 
@@ -91,24 +86,24 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::prefix('coordenador')->name('coordenador.')->group(function () {
         Route::get('', 'Admin\CoordinatorController@index')->name('index');
         Route::get('novo', 'Admin\CoordinatorController@create')->name('novo');
-        Route::post('salvar', 'Admin\CoordinatorController@store')->name('salvar');
+        Route::post('', 'Admin\CoordinatorController@store')->name('salvar');
 
         Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
             Route::get('editar', 'Admin\CoordinatorController@edit')->name('editar');
-            Route::put('alterar', 'Admin\CoordinatorController@update')->name('alterar');
+            Route::put('', 'Admin\CoordinatorController@update')->name('alterar');
         });
     });
 
     Route::prefix('curso')->name('curso.')->group(function () {
         Route::get('', 'Admin\CourseController@index')->name('index');
         Route::get('novo', 'Admin\CourseController@create')->name('novo');
-        Route::post('salvar', 'Admin\CourseController@store')->name('salvar');
+        Route::post('', 'Admin\CourseController@store')->name('salvar');
         Route::delete('excluir', 'Admin\CourseController@delete')->name('excluir');
 
         Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-            Route::get('', 'Admin\CourseController@details')->name('detalhes');
+            Route::get('', 'Admin\CourseController@show')->name('detalhes');
             Route::get('editar', 'Admin\CourseController@edit')->name('editar');
-            Route::put('alterar', 'Admin\CourseController@update')->name('alterar');
+            Route::put('', 'Admin\CourseController@update')->name('alterar');
 
             Route::prefix('coordenador')->name('coordenador.')->group(function () {
                 Route::get('', 'Admin\CoordinatorController@indexByCourse')->name('index');
@@ -117,11 +112,11 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
             Route::prefix('configuracao')->name('configuracao.')->group(function () {
                 Route::get('', 'Admin\CourseConfigurationController@index')->name('index');
                 Route::get('novo', 'Admin\CourseConfigurationController@create')->name('novo');
-                Route::post('salvar', 'Admin\CourseConfigurationController@store')->name('salvar');
+                Route::post('', 'Admin\CourseConfigurationController@store')->name('salvar');
 
                 Route::prefix('{id_config}')->where(['id_config' => '[0-9]+'])->group(function () {
                     Route::get('editar', 'Admin\CourseConfigurationController@edit')->name('editar');
-                    Route::put('alterar', 'Admin\CourseConfigurationController@update')->name('alterar');
+                    Route::put('', 'Admin\CourseConfigurationController@update')->name('alterar');
                 });
             });
         });
@@ -137,12 +132,12 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
     Route::prefix('empresa')->name('empresa.')->group(function () {
         Route::get('', 'Coordinator\CompanyController@index')->name('index');
         Route::get('novo', 'Coordinator\CompanyController@create')->name('novo');
-        Route::post('salvar', 'Coordinator\CompanyController@store')->name('salvar');
+        Route::post('', 'Coordinator\CompanyController@store')->name('salvar');
 
         Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-            Route::get('', 'Coordinator\CompanyController@details')->name('detalhes');
+            Route::get('', 'Coordinator\CompanyController@show')->name('detalhes');
             Route::get('editar', 'Coordinator\CompanyController@edit')->name('editar');
-            Route::put('alterar', 'Coordinator\CompanyController@update')->name('alterar');
+            Route::put('', 'Coordinator\CompanyController@update')->name('alterar');
 
             Route::get('supervisor', 'Coordinator\SupervisorController@indexByCompany')->name('supervisor');
             Route::get('convenio', 'Coordinator\AgreementController@indexByCompany')->name('convenio');
@@ -153,22 +148,22 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
         Route::prefix('setor')->name('setor.')->group(function () {
             Route::get('', 'Coordinator\SectorController@index')->name('index');
             Route::get('novo', 'Coordinator\SectorController@create')->name('novo');
-            Route::post('salvar', 'Coordinator\SectorController@store')->name('salvar');
+            Route::post('', 'Coordinator\SectorController@store')->name('salvar');
 
             Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                 Route::get('editar', 'Coordinator\SectorController@edit')->name('editar');
-                Route::put('alterar', 'Coordinator\SectorController@update')->name('alterar');
+                Route::put('', 'Coordinator\SectorController@update')->name('alterar');
             });
         });
 
         Route::prefix('convenio')->name('convenio.')->group(function () {
             Route::get('', 'Coordinator\AgreementController@index')->name('index');
             Route::get('novo', 'Coordinator\AgreementController@create')->name('novo');
-            Route::post('salvar', 'Coordinator\AgreementController@store')->name('salvar');
+            Route::post('', 'Coordinator\AgreementController@store')->name('salvar');
 
             Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                 Route::get('editar', 'Coordinator\AgreementController@edit')->name('editar');
-                Route::put('alterar', 'Coordinator\AgreementController@update')->name('alterar');
+                Route::put('', 'Coordinator\AgreementController@update')->name('alterar');
                 Route::put('cancelar', 'Coordinator\AgreementController@cancel')->name('cancelar');
                 Route::put('reativar', 'Coordinator\AgreementController@reactivate')->name('reativar');
             });
@@ -177,11 +172,11 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
         Route::prefix('supervisor')->name('supervisor.')->group(function () {
             Route::get('', 'Coordinator\SupervisorController@index')->name('index');
             Route::get('novo', 'Coordinator\SupervisorController@create')->name('novo');
-            Route::post('salvar', 'Coordinator\SupervisorController@store')->name('salvar');
+            Route::post('', 'Coordinator\SupervisorController@store')->name('salvar');
 
             Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                 Route::get('editar', 'Coordinator\SupervisorController@edit')->name('editar');
-                Route::put('alterar', 'Coordinator\SupervisorController@update')->name('alterar');
+                Route::put('', 'Coordinator\SupervisorController@update')->name('alterar');
             });
         });
     });
@@ -189,12 +184,12 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
     Route::prefix('estagio')->name('estagio.')->group(function () {
         Route::get('', 'Coordinator\InternshipController@index')->name('index');
         Route::get('novo', 'Coordinator\InternshipController@create')->name('novo');
-        Route::post('salvar', 'Coordinator\InternshipController@store')->name('salvar');
+        Route::post('', 'Coordinator\InternshipController@store')->name('salvar');
 
         Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-            Route::get('', 'Coordinator\InternshipController@details')->name('detalhes');
+            Route::get('', 'Coordinator\InternshipController@show')->name('detalhes');
             Route::get('editar', 'Coordinator\InternshipController@edit')->name('editar');
-            Route::put('alterar', 'Coordinator\InternshipController@update')->name('alterar');
+            Route::put('', 'Coordinator\InternshipController@update')->name('alterar');
             Route::put('cancelar', 'Coordinator\InternshipController@cancel')->name('cancelar');
             Route::put('reativar', 'Coordinator\InternshipController@reactivate')->name('reativar');
 
@@ -204,11 +199,11 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
         Route::prefix('aditivo')->name('aditivo.')->group(function () {
             Route::get('', 'Coordinator\AmendmentController@index')->name('index');
             Route::get('novo', 'Coordinator\AmendmentController@create')->name('novo');
-            Route::post('salvar', 'Coordinator\AmendmentController@store')->name('salvar');
+            Route::post('', 'Coordinator\AmendmentController@store')->name('salvar');
 
             Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                 Route::get('editar', 'Coordinator\AmendmentController@edit')->name('editar');
-                Route::put('alterar', 'Coordinator\AmendmentController@update')->name('alterar');
+                Route::put('', 'Coordinator\AmendmentController@update')->name('alterar');
             });
         });
     });
@@ -216,12 +211,12 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
     Route::prefix('trabalho')->name('trabalho.')->group(function () {
         Route::get('', 'Coordinator\JobController@index')->name('index');
         Route::get('novo', 'Coordinator\JobController@create')->name('novo');
-        Route::post('salvar', 'Coordinator\JobController@store')->name('salvar');
+        Route::post('', 'Coordinator\JobController@store')->name('salvar');
 
         Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-            Route::get('', 'Coordinator\JobController@details')->name('detalhes');
+            Route::get('', 'Coordinator\JobController@show')->name('detalhes');
             Route::get('editar', 'Coordinator\JobController@edit')->name('editar');
-            Route::put('alterar', 'Coordinator\JobController@update')->name('alterar');
+            Route::put('', 'Coordinator\JobController@update')->name('alterar');
             Route::put('cancelar', 'Coordinator\JobController@cancel')->name('cancelar');
             Route::put('reativar', 'Coordinator\JobController@reactivate')->name('reativar');
         });
@@ -229,12 +224,12 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
         Route::prefix('empresa')->name('empresa.')->group(function () {
             Route::get('', 'Coordinator\JobCompanyController@index')->name('index');
             Route::get('novo', 'Coordinator\JobCompanyController@create')->name('novo');
-            Route::post('salvar', 'Coordinator\JobCompanyController@store')->name('salvar');
+            Route::post('', 'Coordinator\JobCompanyController@store')->name('salvar');
 
             Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-                Route::get('', 'Coordinator\JobCompanyController@details')->name('detalhes');
+                Route::get('', 'Coordinator\JobCompanyController@show')->name('detalhes');
                 Route::get('editar', 'Coordinator\JobCompanyController@edit')->name('editar');
-                Route::put('alterar', 'Coordinator\JobCompanyController@update')->name('alterar');
+                Route::put('', 'Coordinator\JobCompanyController@update')->name('alterar');
             });
         });
     });
@@ -244,22 +239,22 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
 
         Route::prefix('bimestral')->name('bimestral.')->group(function () {
             Route::get('novo', 'Coordinator\ReportController@createBimestral')->name('novo');
-            Route::post('salvar', 'Coordinator\ReportController@storeBimestral')->name('salvar');
+            Route::post('', 'Coordinator\ReportController@storeBimestral')->name('salvar');
             Route::post('pdf', 'Coordinator\ReportController@pdfBimestral')->name('pdf');
 
             Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                 Route::get('editar', 'Coordinator\ReportController@editBimestral')->name('editar');
-                Route::put('alterar', 'Coordinator\ReportController@updateBimestral')->name('alterar');
+                Route::put('', 'Coordinator\ReportController@updateBimestral')->name('alterar');
             });
         });
 
         Route::prefix('final')->name('final.')->group(function () {
             Route::get('novo', 'Coordinator\ReportController@createFinal')->name('novo');
-            Route::post('salvar', 'Coordinator\ReportController@storeFinal')->name('salvar');
+            Route::post('', 'Coordinator\ReportController@storeFinal')->name('salvar');
 
             Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                 Route::get('editar', 'Coordinator\ReportController@editFinal')->name('editar');
-                Route::put('alterar', 'Coordinator\ReportController@updateFinal')->name('alterar');
+                Route::put('', 'Coordinator\ReportController@updateFinal')->name('alterar');
                 Route::get('pdf', 'Coordinator\ReportController@pdfFinal')->name('pdf');
             });
         });
@@ -276,7 +271,7 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
         Route::post('gerarPDF', 'Coordinator\StudentController@makePDF')->name('gerarPDF');
 
         Route::prefix('{ra}')->where(['ra' => '[0-9]+'])->group(function () {
-            Route::get('', 'Coordinator\StudentController@details')->name('detalhes');
+            Route::get('', 'Coordinator\StudentController@show')->name('detalhes');
         });
     });
 });
@@ -289,12 +284,12 @@ Route::prefix('empresa')->name('empresa.')->middleware('auth')->group(function (
     Route::prefix('proposta')->name('proposta.')->group(function () {
         Route::get('', 'Company\ProposalController@index')->name('index');
         Route::get('novo', 'Company\ProposalController@create')->name('novo');
-        Route::post('salvar', 'Company\ProposalController@store')->name('salvar');
+        Route::post('', 'Company\ProposalController@store')->name('salvar');
 
         Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-            Route::get('', 'Company\ProposalController@details')->name('detalhes');
+            Route::get('', 'Company\ProposalController@show')->name('detalhes');
             Route::get('editar', 'Company\ProposalController@edit')->name('editar');
-            Route::put('alterar', 'Company\ProposalController@update')->name('alterar');
+            Route::put('', 'Company\ProposalController@update')->name('alterar');
         });
     });
 });

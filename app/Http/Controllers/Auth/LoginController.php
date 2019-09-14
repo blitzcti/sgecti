@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Broker;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -35,5 +37,37 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    protected function attemptLogin(Request $request)
+    {
+        if (config('broker.useSSO')) {
+            $broker = new Broker;
+
+            $credentials = $this->credentials($request);
+
+            return $broker->login(
+                $credentials[$this->username()], $credentials['password'], $request->filled('remember')
+            );
+        } else {
+            return $this->guard()->attempt(
+                $this->credentials($request), $request->filled('remember')
+            );
+        }
+    }
+
+    protected function logout(Request $request)
+    {
+        if (config('broker.useSSO')) {
+            $broker = new Broker;
+
+            $broker->logout();
+        }
+
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        return $this->loggedOut($request) ?: redirect('/');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Models\NSac\Student;
+use Exception;
 use Illuminate\Contracts\Validation\Rule;
 
 class StudentAge implements Rule
@@ -28,9 +29,13 @@ class StudentAge implements Rule
      */
     public function passes($attribute, $value)
     {
-        $student = Student::find($value);
+        try {
+            $student = Student::find($value);
 
-        return $student->getAgeByDate($this->startDate) >= 16;
+            return $student->getAgeByDate($this->startDate) >= 16;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**

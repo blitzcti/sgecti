@@ -17,7 +17,7 @@ class CreateFinalReportsTable extends Migration
             $table->bigIncrements('id');
 
             $table->bigInteger('internship_id')->nullable(false)->unsigned();
-            $table->foreign('internship_id')->references('id')->on('internships');
+            $table->foreign('internship_id')->references('id')->on('internships')->onDelete('cascade');
 
             $table->date('date');
 
@@ -40,7 +40,7 @@ class CreateFinalReportsTable extends Migration
             $table->string('approval_number', '8');
 
             $table->bigInteger('coordinator_id')->nullable(false)->unsigned();
-            $table->foreign('coordinator_id')->references('id')->on('coordinators');
+            $table->foreign('coordinator_id')->references('id')->on('coordinators')->onDelete('cascade');
 
             $table->text('observation')->nullable(true)->default(null);
 

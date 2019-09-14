@@ -18,6 +18,10 @@
         .select2 {
             width: 100% !important;
         }
+
+        .dataTable {
+            width: 100% !important;
+        }
     </style>
 
     @stack('css')

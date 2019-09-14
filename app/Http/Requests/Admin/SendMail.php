@@ -27,13 +27,15 @@ class SendMail extends FormRequest
         return [
             'useFilters' => ['required', 'boolean'],
 
-            'grades' => [($this->get('useFilters')) ? 'required_without_all:periods,courses,internships' : '', 'nullable', 'array'],
+            'grades' => [($this->get('useFilters')) ? 'required_without_all:periods,classes,courses,internships' : '', 'nullable', 'array'],
             'grades.*' => ['nullable', 'integer', 'distinct', 'min:1', 'max:4'],
-            'periods' => [($this->get('useFilters')) ? 'required_without_all:grades,courses,internships' : '', 'nullable', 'array'],
+            'periods' => [($this->get('useFilters')) ? 'required_without_all:grades,classes,courses,internships' : '', 'nullable', 'array'],
             'periods.*' => ['nullable', 'integer', 'distinct', 'min:0', 'max:1'],
-            'courses' => [($this->get('useFilters')) ? 'required_without_all:grades,periods,internships' : '', 'nullable', 'array'],
+            'classes' => [($this->get('useFilters')) ? 'required_without_all:grades,periods,courses,internships' : '', 'nullable', 'array'],
+            'classes.*' => ['nullable', 'alpha', 'distinct', 'regex:/^[A-Z]$/u'],
+            'courses' => [($this->get('useFilters')) ? 'required_without_all:grades,periods,classes,internships' : '', 'nullable', 'array'],
             'courses.*' => ['nullable', 'integer', 'distinct', 'min:1', 'exists:courses,id'],
-            'internships' => [($this->get('useFilters')) ? 'required_without_all:grades,periods,courses' : '', 'nullable', 'array'],
+            'internships' => [($this->get('useFilters')) ? 'required_without_all:grades,periods,classes,courses' : '', 'nullable', 'array'],
             'internships.*' => ['nullable', 'integer', 'distinct', 'min:0', 'max:2'],
 
             'students' => ['required_if:useFilters,0', 'nullable', 'array'],

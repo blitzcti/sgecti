@@ -79,7 +79,7 @@
                         @else
 
                             <table id="logs" class="table table-bordered table-hover"
-                                   data-ordering-index="{{ $standardFormat ? 0 : 2 }}">
+                                   data-ordering-index="{{ $standardFormat ? 0 : 1 }}">
                                 <thead>
                                 <tr>
 
@@ -178,9 +178,15 @@
 
 @section('js')
     <script type="text/javascript">
-        jQuery(document).ready(() => {
+        jQuery(document).ready(function () {
             jQuery('.table-container .text .expand').on('click', function () {
-                jQuery(`#${jQuery(this).data('display')}`).toggle();
+                jQuery(`#${jQuery(this).data('display')}`).slideToggle(() => {
+                    if (jQuery(`#${jQuery(this).data('display')}`).css('display') === 'none') {
+                        jQuery(this).find('span').addClass('fa-plus').removeClass('fa-minus');
+                    } else {
+                        jQuery(this).find('span').addClass('fa-minus').removeClass('fa-plus');
+                    }
+                });
             });
 
             jQuery('#contentSidebar').slimScroll({

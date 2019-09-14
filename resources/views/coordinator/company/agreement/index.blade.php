@@ -32,7 +32,7 @@
             <table id="companies" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col" data-priority="1">ID</th>
+                    <th scope="col">ID</th>
 
                     @if(!isset($company))
 
@@ -43,7 +43,7 @@
                     <th>Início</th>
                     <th>Término</th>
                     <th>Obervações</th>
-                    <th data-priority="2">Ações</th>
+                    <th>Ações</th>
                 </tr>
                 </thead>
 

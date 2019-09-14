@@ -43,9 +43,15 @@
     <script type="text/javascript">
         let courses = [
                 @foreach(App\Models\Course::all()->sortBy('id') as $course)
-            {name: '{{ $course->name }}'},
+            {
+                name: '{{ $course->name }}'
+            },
             @endforeach
         ];
+
+        function getClasses() {
+            return jQuery('#inputClasses').val();
+        }
 
         function getGrades() {
             return jQuery('#inputGrades').val();
@@ -64,22 +70,27 @@
         }
 
         function loadStudents() {
+            let cs = getClasses().map(c => `&classes[]=${c}`);
             let gs = getGrades().map(g => `&grades[]=${g}`);
             let ps = getPeriods().map(p => `&periods[]=${p}`);
-            let cs = getCourses().map(c => `&courses[]=${c}`);
+            let Cs = getCourses().map(C => `&courses[]=${C}`);
             let es = getInternshipState().map(e => `&istates[]=${e}`);
 
-            if (gs.length === ps.length && ps.length === cs.length && cs.length === es.length && es.length === 0) {
+            if (cs.length === gs.length && gs.length === ps.length && ps.length === Cs.length && Cs.length === es.length && es.length === 0) {
                 return;
             } else {
                 jQuery('#messageStudentsModal').modal('show');
             }
 
-            if (cs.length === 0) {
-                cs = [{{ implode(", ", auth()->user()->coordinator_courses_id) }}].map(c => `&courses[]=${c}`);
+            if (Cs.length === 0) {
+                Cs = [{{ implode(", ", auth()->user()->coordinator_courses_id) }}].map(c => `&courses[]=${c}`);
             }
 
             let url = `/api/alunos?q=`;
+            if (cs.length > 0) {
+                url += cs;
+            }
+
             if (gs.length > 0) {
                 url += gs;
             }
@@ -88,8 +99,8 @@
                 url += ps;
             }
 
-            if (cs.length > 0) {
-                url += cs;
+            if (Cs.length > 0) {
+                url += Cs;
             }
 
             if (es.length > 0) {

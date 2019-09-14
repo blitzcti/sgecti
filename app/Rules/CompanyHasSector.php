@@ -4,6 +4,7 @@ namespace App\Rules;
 
 use App\Models\Company;
 use App\Models\Sector;
+use Exception;
 use Illuminate\Contracts\Validation\Rule;
 
 class CompanyHasSector implements Rule
@@ -29,12 +30,16 @@ class CompanyHasSector implements Rule
      */
     public function passes($attribute, $value)
     {
-        $company = Company::find($this->company_id);
-        $sector = Sector::find($value);
+        try {
+            $company = Company::find($this->company_id);
+            $sector = Sector::find($value);
 
-        return in_array($sector->id, $company->sectors->map(function ($s) {
-            return $s->id;
-        })->toArray());
+            return in_array($sector->id, $company->sectors->map(function ($s) {
+                return $s->id;
+            })->toArray());
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**

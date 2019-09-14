@@ -33,12 +33,12 @@
             <table id="amendments" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col" data-priority="1">ID</th>
+                    <th scope="col">ID</th>
                     <th>Aluno</th>
                     <th>Empresa</th>
                     <th>Data de início</th>
                     <th>Data de término</th>
-                    <th data-priority="2">Ações</th>
+                    <th>Ações</th>
                 </tr>
                 </thead>
 

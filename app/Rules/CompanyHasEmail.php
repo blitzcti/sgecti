@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Models\Company;
+use Exception;
 use Illuminate\Contracts\Validation\Rule;
 
 class CompanyHasEmail implements Rule
@@ -26,9 +27,13 @@ class CompanyHasEmail implements Rule
      */
     public function passes($attribute, $value)
     {
-        $company = Company::find($value);
+        try {
+            $company = Company::find($value);
 
-        return $company->email != null;
+            return $company->email != null;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**

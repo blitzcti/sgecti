@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Models\NSac\Student;
+use Exception;
 use Illuminate\Contracts\Validation\Rule;
 
 class MinimalYear implements Rule
@@ -26,9 +27,13 @@ class MinimalYear implements Rule
      */
     public function passes($attribute, $value)
     {
-        $student = Student::find($value);
+        try {
+            $student = Student::find($value);
 
-        return $student->grade >= $student->course_configuration->min_year;
+            return $student->grade >= $student->course_configuration->min_year;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**

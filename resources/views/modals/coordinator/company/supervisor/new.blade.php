@@ -76,7 +76,7 @@
     @parent
 
     <script type="text/javascript">
-        jQuery(document).ready(() => {
+        jQuery(document).ready(function () {
             jQuery('#inputSupervisorCompany').select2({
                 language: "pt-BR",
                 tags: true,

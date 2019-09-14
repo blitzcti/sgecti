@@ -12,7 +12,7 @@
             <h3 class="box-title">Senha</h3>
         </div>
 
-        <form class="form-horizontal" action="{{ route('usuario.salvarSenha', $user->id) }}" method="post">
+        <form class="form-horizontal" action="{{ route('usuario.salvarSenha') }}" method="post">
             @method('PUT')
             @csrf
 

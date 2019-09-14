@@ -4,6 +4,7 @@ namespace App\Rules;
 
 use App\Models\GeneralConfiguration;
 use App\Models\NSac\Student;
+use Exception;
 use Illuminate\Contracts\Validation\Rule;
 
 class StudentMaxYears implements Rule
@@ -29,14 +30,18 @@ class StudentMaxYears implements Rule
      */
     public function passes($attribute, $value)
     {
-        $student = Student::find($value);
+        try {
+            $student = Student::find($value);
 
-        $dateS = date_create("$student->year-01-01");
-        $max_years = GeneralConfiguration::getMaxYears($dateS);
-        $d1 = date_create($this->startDate);
-        $limitDate = $dateS->modify("+$max_years year")->modify("-1 day");
+            $dateS = date_create("$student->year-01-01");
+            $max_years = GeneralConfiguration::getMaxYears($dateS);
+            $d1 = date_create($this->startDate);
+            $limitDate = $dateS->modify("+$max_years year")->modify("-1 day");
 
-        return $d1 <= $limitDate;
+            return $d1 <= $limitDate;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**

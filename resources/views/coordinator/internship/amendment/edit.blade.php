@@ -69,6 +69,15 @@
                     </div>
                 </div>
             </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
+            </div>
+            <!-- /.box-footer -->
         </div>
 
         <div class="box box-default">
@@ -502,9 +511,6 @@
                 <!-- /.box-body -->
                 <div class="box-footer">
                     <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-
-                    <input type="hidden" id="inputPrevious" name="previous"
-                           value="{{ old('previous') ?? url()->previous() }}">
                     <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
                 </div>
                 <!-- /.box-footer -->
@@ -564,13 +570,8 @@
             }).parent().css('margin', '0');
 
             jQuery('#fakeInputHasSchedule').on('ifChanged', function () {
-                if (this.checked) {
-                    jQuery('#schedule').css('display', 'block');
-                    jQuery('#inputHasSchedule').val(1);
-                } else {
-                    jQuery('#schedule').css('display', 'none');
-                    jQuery('#inputHasSchedule').val(0);
-                }
+                jQuery('#schedule').toggle(this.checked);
+                jQuery('#inputHasSchedule').val(Number(this.checked));
             }).trigger('ifChanged').iCheck({
                 checkboxClass: 'icheckbox_square-blue',
                 radioClass: 'iradio_square-blue',
@@ -578,13 +579,8 @@
             });
 
             jQuery('#fakeInputHas2Schedules').on('ifChanged', function () {
-                if (this.checked) {
-                    jQuery('#weekDays2').css('display', 'initial');
-                    jQuery('#inputHas2Schedules').val(1);
-                } else {
-                    jQuery('#weekDays2').css('display', 'none');
-                    jQuery('#inputHas2Schedules').val(0);
-                }
+                jQuery('#weekDays2').toggle(this.checked);
+                jQuery('#inputHas2Schedules').val(Number(this.checked));
             }).trigger('ifChanged').iCheck({
                 checkboxClass: 'icheckbox_square-blue',
                 radioClass: 'iradio_square-blue',

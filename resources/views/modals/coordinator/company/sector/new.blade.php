@@ -58,7 +58,7 @@
     @parent
 
     <script type="text/javascript">
-        jQuery(document).ready(() => {
+        jQuery(document).ready(function () {
             jQuery('#formSetor').submit(e => {
                 e.preventDefault();
 

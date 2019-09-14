@@ -4,20 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Internship;
 use App\Models\Proposal;
-use Carbon\Carbon;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function frontPage()
     {
-        $this->middleware('auth');
+        return view('index');
     }
 
     /**

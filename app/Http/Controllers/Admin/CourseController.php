@@ -28,7 +28,7 @@ class CourseController extends Controller
         return view('admin.course.index')->with(['courses' => $courses]);
     }
 
-    public function details($id)
+    public function show($id)
     {
         $course = Course::findOrFail($id);
 

@@ -522,13 +522,8 @@
             });
 
             jQuery('#fakeInputHasSchedule').on('ifChanged', function () {
-                if (this.checked) {
-                    jQuery('#schedule').css('display', 'block');
-                    jQuery('#inputHasSchedule').val(1);
-                } else {
-                    jQuery('#schedule').css('display', 'none');
-                    jQuery('#inputHasSchedule').val(0);
-                }
+                jQuery('#schedule').toggle(this.checked);
+                jQuery('#inputHasSchedule').val(Number(this.checked));
             }).trigger('ifChanged').iCheck({
                 checkboxClass: 'icheckbox_square-blue',
                 radioClass: 'iradio_square-blue',
@@ -536,13 +531,8 @@
             });
 
             jQuery('#fakeInputHas2Schedules').on('ifChanged', function () {
-                if (this.checked) {
-                    jQuery('#weekDays2').css('display', 'block');
-                    jQuery('#inputHas2Schedules').val(1);
-                } else {
-                    jQuery('#weekDays2').css('display', 'none');
-                    jQuery('#inputHas2Schedules').val(0);
-                }
+                jQuery('#weekDays2').toggle(this.checked);
+                jQuery('#inputHas2Schedules').val(Number(this.checked));
             }).trigger('ifChanged').iCheck({
                 checkboxClass: 'icheckbox_square-blue',
                 radioClass: 'iradio_square-blue',

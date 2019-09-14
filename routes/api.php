@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,10 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
+Route::middleware('auth:api')->get('/user', 'API\UserController@get');
 
 Route::prefix('')->name('api.')->group(function () {
     Route::prefix('usuario')->name('usuario.')->group(function () {
@@ -42,6 +38,12 @@ Route::prefix('')->name('api.')->group(function () {
         Route::get('cnpj/{cnpj}', 'API\ExternalAPISController@getCompanyInfo')->name('cnpj');
     });
 
+    Route::prefix('alunos')->name('alunos.')->group(function () {
+        Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+            Route::get('foto', 'API\NSac\StudentController@getPhoto')->middleware('auth:api')->name('foto');
+        });
+    });
+
     Route::group(['middleware' => ['apiSession']], function () {
         Route::prefix('alunos')->name('alunos.')->group(function () {
             Route::get('', 'API\NSac\StudentController@get')->name('get');
@@ -51,7 +53,6 @@ Route::prefix('')->name('api.')->group(function () {
 
             Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                 Route::get('', 'API\NSac\StudentController@getByRA')->name('getByRA');
-                Route::get('foto', 'API\NSac\StudentController@getPhoto')->middleware('auth:api')->name('foto');
             });
         });
 
@@ -88,21 +89,21 @@ Route::prefix('')->name('api.')->group(function () {
 
                 Route::prefix('setor')->name('setor.')->group(function () {
                     Route::get('', 'API\Coordinator\SectorController@get')->name('get');
-                    Route::post('salvar', 'API\Coordinator\SectorController@store')->name('salvar');
+                    Route::post('', 'API\Coordinator\SectorController@store')->name('salvar');
 
                     Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                         Route::get('', 'API\Coordinator\SectorController@getById')->name('getById');
-                        Route::put('alterar', 'SectorController@update')->name('alterar');
+                        Route::put('', 'API\Coordinator\SectorController@update')->name('alterar');
                     });
                 });
 
                 Route::prefix('supervisor')->name('supervisor.')->group(function () {
                     Route::get('', 'API\Coordinator\SupervisorController@get')->name('get');
-                    Route::post('salvar', 'API\Coordinator\SupervisorController@store')->name('salvar');
+                    Route::post('', 'API\Coordinator\SupervisorController@store')->name('salvar');
 
                     Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                         Route::get('', 'API\Coordinator\SupervisorController@getById')->name('getById');
-                        Route::put('alterar', 'SupervisorController@update')->name('alterar');
+                        Route::put('', 'API\Coordinator\SupervisorController@update')->name('alterar');
                     });
                 });
             });

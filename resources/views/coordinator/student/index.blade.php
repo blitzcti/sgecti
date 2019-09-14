@@ -29,7 +29,7 @@
                     <th>Ano</th>
                     <th>Email</th>
                     <th>Email institucional</th>
-                    <th data-priority="2">Ações</th>
+                    <th>Ações</th>
                 </tr>
                 </thead>
 

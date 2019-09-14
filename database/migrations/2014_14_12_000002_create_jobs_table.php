@@ -21,13 +21,13 @@ class CreateJobsTable extends Migration
             $table->string('ctps', 13)->nullable(true)->default(null);
 
             $table->bigInteger('company_id')->nullable(false)->unsigned();
-            $table->foreign('company_id')->references('id')->on('job_companies');
+            $table->foreign('company_id')->references('id')->on('job_companies')->onDelete('cascade');
 
             $table->bigInteger('coordinator_id')->nullable(false)->unsigned();
-            $table->foreign('coordinator_id')->references('id')->on('coordinators');
+            $table->foreign('coordinator_id')->references('id')->on('coordinators')->onDelete('cascade');
 
             $table->bigInteger('state_id')->nullable(false)->unsigned();
-            $table->foreign('state_id')->references('id')->on('states');
+            $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
 
             $table->date('start_date');
             $table->date('end_date');

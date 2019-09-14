@@ -94,15 +94,14 @@
                         jQuery('#diskTotal').text(Math.round(data.disk.total / (1024 * 1024 * 1024)));
 
                         isDown = data.maintenance.isDown;
+                        jQuery('#divAllowed').toggle(isDown);
                         if (isDown) {
                             jQuery('#maintenance').addClass('fa-toggle-on').removeClass('fa-toggle-off');
                             jQuery('#maintenance-box').addClass('bg-red').removeClass('bg-light-blue');
                             jQuery('#allowed').text(data.maintenance.allowed.join(' | '));
-                            jQuery('#divAllowed').css('display', 'block');
                         } else {
                             jQuery('#maintenance').addClass('fa-toggle-off').removeClass('fa-toggle-on');
                             jQuery('#maintenance-box').addClass('bg-light-blue').removeClass('bg-red');
-                            jQuery('#divAllowed').css('display', 'none');
                         }
                     },
                     error: function () {

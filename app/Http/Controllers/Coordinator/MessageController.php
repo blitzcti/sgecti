@@ -160,6 +160,13 @@ class MessageController extends Controller
                         return in_array($student->grade, $grades);
                     });
                 }
+
+                if (isset($validatedData->classes)) {
+                    $classes = $validatedData->classes;
+                    $students = $students->filter(function ($student) use ($classes) {
+                        return in_array($student->class, $classes);
+                    });
+                }
             } else {
                 $students = Student::findOrFail($validatedData->students);
             }

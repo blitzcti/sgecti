@@ -34,11 +34,11 @@
             <table id="bimestralReports" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col" data-priority="1">ID</th>
+                    <th scope="col">ID</th>
                     <th>Aluno</th>
                     <th>Data</th>
                     <th>Protocolo</th>
-                    <th data-priority="2">Ações</th>
+                    <th>Ações</th>
                 </tr>
                 </thead>
 
@@ -80,12 +80,12 @@
             <table id="finalReports" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col" data-priority="1">ID</th>
+                    <th scope="col">ID</th>
                     <th>Aluno</th>
                     <th>Data</th>
                     <th>Nº de aprovação</th>
                     <th>Horas</th>
-                    <th data-priority="2">Ações</th>
+                    <th>Ações</th>
                 </tr>
                 </thead>
 

@@ -202,7 +202,7 @@
 
 @section('js')
     <script type="text/javascript">
-        jQuery(document).ready(() => {
+        jQuery(document).ready(function () {
             jQuery('#message').wysihtml5({
                 locale: 'pt-BR'
             });

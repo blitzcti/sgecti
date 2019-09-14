@@ -19,8 +19,6 @@ class CreateCompanySectorsTable extends Migration
 
             $table->bigInteger('sector_id')->nullable(false)->unsigned();
             $table->foreign('sector_id')->references('id')->on('sectors')->onDelete('cascade');
-
-            $table->timestamps();
         });
     }
 

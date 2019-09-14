@@ -60,7 +60,7 @@ class InternshipController extends Controller
         ]);
     }
 
-    public function details($id)
+    public function show($id)
     {
         $cIds = Auth::user()->coordinator_courses_id;
 

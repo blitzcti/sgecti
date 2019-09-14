@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Models\NSac\Student;
+use Exception;
 use Illuminate\Contracts\Validation\Rule;
 
 class RA implements Rule
@@ -27,8 +28,13 @@ class RA implements Rule
     public function passes($attribute, $value)
     {
         if ((new Student())->isConnected()) {
-            $s = Student::find($value)->get();
-            return sizeof($s) > 0;
+            try {
+                $s = Student::find($value)->get();
+
+                return sizeof($s) > 0;
+            } catch (Exception $e) {
+                return false;
+            }
         }
 
         return strlen($value) == 7;

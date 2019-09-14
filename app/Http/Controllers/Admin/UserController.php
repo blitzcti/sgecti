@@ -31,7 +31,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $roles = Role::all()->where('name', '<>', 'company')->sortBy('id');
+        $roles = Role::all()->where('name', '<>', 'company')->where('name', '<>', 'student')->sortBy('id');
 
         return view('admin.user.new')->with(['roles' => $roles]);
     }
@@ -39,26 +39,21 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $roles = Role::all()->where('name', '<>', 'company')->merge($user->roles)->sortBy('id');
+        $roles = Role::all()->where('name', '<>', 'company')->where('name', '<>', 'student')->merge($user->roles)->sortBy('id');
 
         return view('admin.user.edit')->with(['user' => $user, 'roles' => $roles]);
     }
 
     public function changePassword($id)
     {
-        if (!ctype_digit($id)) {
-            return redirect()->route('admin.user.index');
-        }
-
         $user = User::findOrFail($id);
 
-        // return view('admin.user.changePassword')->with(['user' => $user]);
-        return view('auth.passwords.reset')->with(['user' => $user]);
+        return view('admin.user.changePassword')->with(['user' => $user]);
     }
 
     public function store(StoreUser $request)
     {
-        $user = new User();
+        $user = config('broker.useSSO') ? new \App\Models\SSO\User() : new User();
         $params = [];
 
         $validatedData = (object)$request->validated();
@@ -70,11 +65,14 @@ class UserController extends Controller
         $user->email = $validatedData->email;
         $user->phone = $validatedData->phone;
         $user->password = Hash::make($validatedData->password);
-        $user->syncRoles([Role::findOrFail($validatedData->role)->name]);
-
-        $log .= "\nNovos dados: " . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $saved = $user->save();
+        $log .= "\nNovos dados: " . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        if (config('broker.useSSO')) {
+            $user = new User($user->toArray());
+        }
+        $user->syncRoles([Role::findOrFail($validatedData->role)->name]);
 
         if ($saved) {
             Log::info($log);
@@ -90,7 +88,7 @@ class UserController extends Controller
 
     public function update($id, UpdateUser $request)
     {
-        $user = User::findOrFail($id);
+        $user = config('broker.useSSO') ? \App\Models\SSO\User::findOrFail($id) : User::findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();
@@ -102,10 +100,14 @@ class UserController extends Controller
         $user->name = $validatedData->name;
         $user->email = $validatedData->email;
         $user->phone = $validatedData->phone;
-        $user->syncRoles([Role::findOrFail($validatedData->role)->name]);
 
         $saved = $user->save();
         $log .= "\nNovos dados: " . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        if (config('broker.useSSO')) {
+            $user = new User($user->toArray());
+        }
+        $user->syncRoles([Role::findOrFail($validatedData->role)->name]);
 
         if ($saved) {
             Log::info($log);
@@ -128,7 +130,7 @@ class UserController extends Controller
 
         $validatedData = (object)$request->validated();
 
-        $user = User::findOrFail($id);
+        $user = config('broker.useSSO') ? \App\Models\SSO\User::findOrFail($id) : User::findOrFail($id);
         $user->password = Hash::make($validatedData->password);
 
         $saved = $user->save();

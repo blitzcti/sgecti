@@ -63,7 +63,7 @@ class JobController extends Controller
         ]);
     }
 
-    public function details($id)
+    public function show($id)
     {
         $cIds = Auth::user()->coordinator_of->map(function ($course) {
             return $course->id;

@@ -110,6 +110,13 @@ class StudentController extends Controller
                 });
             }
 
+            if (is_array($request->classes)) {
+                $classes = $request->classes;
+                $students = $students->filter(function ($student) use ($classes) {
+                    return in_array($student->class, $classes);
+                });
+            }
+
             $students = array_values($students->toArray());
 
             if (!empty($request->q)) {

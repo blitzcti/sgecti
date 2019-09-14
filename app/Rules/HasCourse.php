@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Models\Company;
+use Exception;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,11 +28,15 @@ class HasCourse implements Rule
      */
     public function passes($attribute, $value)
     {
-        $company = Company::find($value);
+        try {
+            $company = Company::find($value);
 
-        return array_map(function ($c) {
-            return in_array($c["id"], Auth::user()->coordinator_of->toArray());
-        }, $company->courses->toArray());
+            return array_map(function ($c) {
+                return in_array($c["id"], Auth::user()->coordinator_of->toArray());
+            }, $company->courses->toArray());
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**

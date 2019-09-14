@@ -37,7 +37,7 @@ class JobCompanyController extends Controller
         return view('coordinator.job.company.edit')->with(['company' => $company,]);
     }
 
-    public function details($id)
+    public function show($id)
     {
         $company = JobCompany::findOrFail($id);
 

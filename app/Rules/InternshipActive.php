@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Models\Internship;
+use Exception;
 use Illuminate\Contracts\Validation\Rule;
 
 class InternshipActive implements Rule
@@ -26,9 +27,13 @@ class InternshipActive implements Rule
      */
     public function passes($attribute, $value)
     {
-        $internship = Internship::find($value);
+        try {
+            $internship = Internship::find($value);
 
-        return $internship->state->id == 1;
+            return $internship->state->id == 1;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**

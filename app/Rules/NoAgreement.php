@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Models\Company;
+use Exception;
 use Illuminate\Contracts\Validation\Rule;
 
 class NoAgreement implements Rule
@@ -26,9 +27,13 @@ class NoAgreement implements Rule
      */
     public function passes($attribute, $value)
     {
-        $company = Company::find($value);
+        try {
+            $company = Company::find($value);
 
-        return !$company->hasAgreementAt(null);
+            return !$company->hasAgreementAt();
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**

@@ -15,7 +15,8 @@
             <h3 class="box-title">Dados do parâmetro</h3>
         </div>
 
-        <form class="form-horizontal" action="{{ route('admin.configuracao.parametros.alterar', $systemConfig->id) }}" method="post">
+        <form class="form-horizontal" action="{{ route('admin.configuracao.parametros.alterar', $systemConfig->id) }}"
+              method="post">
             @method('PUT')
             @csrf
 
@@ -25,7 +26,8 @@
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputName" name="name"
-                               placeholder="Colégio Técnico Industrial" value="{{ old('name') ?? $systemConfig->name }}"/>
+                               placeholder="Colégio Técnico Industrial"
+                               value="{{ old('name') ?? $systemConfig->name }}"/>
 
                         <span class="help-block">{{ $errors->first('name') }}</span>
                     </div>
@@ -78,7 +80,8 @@
 
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="inputStreet" name="street"
-                                       placeholder="Avenida Nações Unidas" value="{{ old('street') ?? $systemConfig->street }}"/>
+                                       placeholder="Avenida Nações Unidas"
+                                       value="{{ old('street') ?? $systemConfig->street }}"/>
 
                                 <span class="help-block">{{ $errors->first('street') }}</span>
                             </div>
@@ -115,7 +118,8 @@
 
                     <div class="col-sm-10">
                         <input type="email" class="form-control" id="inputEmail" name="email"
-                               placeholder="dir_cti@feb.unesp.com.br" value="{{ old('email') ?? $systemConfig->email }}"/>
+                               placeholder="dir_cti@feb.unesp.com.br"
+                               value="{{ old('email') ?? $systemConfig->email }}"/>
 
                         <span class="help-block">{{ $errors->first('email') }}</span>
                     </div>
@@ -128,7 +132,8 @@
 
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" id="inputPhone" name="phone"
-                                       placeholder="(14) 3103-6150" data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
+                                       placeholder="(14) 3103-6150"
+                                       data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
                                        value="{{ old('phone') ?? $systemConfig->phone }}"/>
 
                                 <span class="help-block">{{ $errors->first('phone') }}</span>
@@ -152,7 +157,9 @@
 
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('agreementExpiration')) has-error @endif">
-                            <label for="inputAgreementExpiration" class="col-sm-4 control-label">Validade do convênio (anos)*</label>
+                            <label for="inputAgreementExpiration" class="col-sm-4 control-label">Validade do
+                                convênio*
+                            </label>
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputAgreementExpiration"
@@ -180,7 +187,7 @@
 
 @section('js')
     <script type="text/javascript">
-        jQuery(document).ready(() => {
+        jQuery(document).ready(function () {
             jQuery(':input').inputmask({removeMaskOnSubmit: true});
 
             jQuery('#inputUf').select2({

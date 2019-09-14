@@ -287,10 +287,8 @@
 
                         </select>
 
-                        <span class="help-block">
-                            {{ $errors->first('sectors') }}
-                            {{ $errors->first('sectors.*') }}
-                        </span>
+                        <span class="help-block">{{ $errors->first('sectors') }}</span>
+                        <span class="help-block">{{ $errors->first('sectors.*') }}</span>
                     </div>
                 </div>
 
@@ -311,10 +309,8 @@
 
                         </select>
 
-                        <span class="help-block">
-                            {{ $errors->first('courses') }}
-                            {{ $errors->first('courses.*') }}
-                        </span>
+                        <span class="help-block">{{ $errors->first('courses') }}</span>
+                        <span class="help-block">{{ $errors->first('courses.*') }}</span>
                     </div>
                 </div>
             </div>
@@ -372,9 +368,6 @@
                 <!-- /.box-body -->
                 <div class="box-footer">
                     <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-
-                    <input type="hidden" id="inputPrevious" name="previous"
-                           value="{{ old('previous') ?? url()->previous() }}">
                     <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
                 </div>
                 <!-- /.box-footer -->
@@ -423,13 +416,8 @@
             jQuery(':input').inputmask({removeMaskOnSubmit: true});
 
             jQuery('#fakeInputHasAgreement').on('ifChanged', function () {
-                if (this.checked) {
-                    jQuery('#div-agreement').css('display', 'block');
-                    jQuery('#inputHasAgreement').val(1);
-                } else {
-                    jQuery('#div-agreement').css('display', 'none');
-                    jQuery('#inputHasAgreement').val(0);
-                }
+                jQuery('#div-agreement').toggle(this.checked);
+                jQuery('#inputHasAgreement').val(Number(this.checked));
             }).trigger('ifChanged').iCheck({
                 checkboxClass: 'icheckbox_square-blue',
                 radioClass: 'iradio_square-blue',

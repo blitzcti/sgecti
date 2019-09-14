@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use Exception;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Collection;
 
@@ -43,9 +44,13 @@ class Active implements Rule
             return true;
         }
 
-        $m = $this->model::find($value);
+        try {
+            $m = $this->model::find($value);
 
-        return $m->active;
+            return $m->active;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**

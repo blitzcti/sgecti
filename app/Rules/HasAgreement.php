@@ -4,6 +4,7 @@ namespace App\Rules;
 
 use App\Models\Company;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Contracts\Validation\Rule;
 
 class HasAgreement implements Rule
@@ -20,7 +21,7 @@ class HasAgreement implements Rule
         if ($date == null) {
             $this->date = Carbon::today();
         } else {
-            $this->date = Carbon::createFromFormat("Y-m-d", $date);
+            $this->date = Carbon::createFromFormat("!Y-m-d", $date);
         }
     }
 
@@ -33,9 +34,13 @@ class HasAgreement implements Rule
      */
     public function passes($attribute, $value)
     {
-        $company = Company::find($value);
+        try {
+            $company = Company::find($value);
 
-        return $company->hasAgreementAt($this->date);
+            return $company->hasAgreementAt($this->date);
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**

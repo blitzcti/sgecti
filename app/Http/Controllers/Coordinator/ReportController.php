@@ -148,7 +148,7 @@ class ReportController extends Controller
         $report->grade_4_b = $validatedData->grade_4_b;
         $report->grade_4_c = $validatedData->grade_4_c;
 
-        $report->final_grade = ($report->grade_1_a * 5 + $report->grade_1_b * 4 + $report->grade_1_c * 2 + $report->grade_2_a * 3 + $report->grade_2_b * 4 + $report->grade_2_c * 3 + $report->grade_2_d * 1 + $report->grade_3_a * 5 + $report->grade_3_b * 4 + $report->grade_4_a * 2 + $report->grade_4_b * 2 + $report->grade_4_c * 5) / 24;
+        $report->final_grade = round(($report->grade_1_a * 5 + $report->grade_1_b * 4 + $report->grade_1_c * 2 + $report->grade_2_a * 3 + $report->grade_2_b * 4 + $report->grade_2_c * 3 + $report->grade_2_d * 1 + $report->grade_3_a * 5 + $report->grade_3_b * 4 + $report->grade_4_a * 2 + $report->grade_4_b * 2 + $report->grade_4_c * 5) / 24, 1);
         $report->completed_hours = $validatedData->completedHours;
         $report->end_date = $validatedData->endDate;
         $report->approval_number = $this->generateApprovalNumber($course_id);
@@ -230,7 +230,7 @@ class ReportController extends Controller
         $report->grade_4_b = $validatedData->grade_4_b;
         $report->grade_4_c = $validatedData->grade_4_c;
 
-        $report->final_grade = ($report->grade_1_a * 5 + $report->grade_1_b * 4 + $report->grade_1_c * 2 + $report->grade_2_a * 3 + $report->grade_2_b * 4 + $report->grade_2_c * 3 + $report->grade_2_d * 1 + $report->grade_3_a * 5 + $report->grade_3_b * 4 + $report->grade_4_a * 2 + $report->grade_4_b * 2 + $report->grade_4_c * 5) / 24;
+        $report->final_grade = round(($report->grade_1_a * 5 + $report->grade_1_b * 4 + $report->grade_1_c * 2 + $report->grade_2_a * 3 + $report->grade_2_b * 4 + $report->grade_2_c * 3 + $report->grade_2_d * 1 + $report->grade_3_a * 5 + $report->grade_3_b * 4 + $report->grade_4_a * 2 + $report->grade_4_b * 2 + $report->grade_4_c * 5) / 24, 1);
         $report->completed_hours = $validatedData->completedHours;
         $report->end_date = $validatedData->endDate;
         $report->observation = $validatedData->observation;
@@ -263,16 +263,16 @@ class ReportController extends Controller
         $courses = Course::findOrFail(Auth::user()->coordinator_courses_id);
         $classes = $classes ?? ['A', 'B', 'C', 'D'];
 
-        $startDate = $validatedData->startDate != null ? Carbon::createFromFormat("Y-m-d", $validatedData->startDate)
+        $startDate = $validatedData->startDate != null ? Carbon::createFromFormat("!Y-m-d", $validatedData->startDate)
             : Carbon::now();
 
-        $endDate = $validatedData->endDate != null ? Carbon::createFromFormat("Y-m-d", $validatedData->endDate)
-            : Carbon::createFromFormat("Y-m-d", $startDate->format("Y-m-d"))->modify('+7 day');
+        $endDate = $validatedData->endDate != null ? Carbon::createFromFormat("!Y-m-d", $validatedData->endDate)
+            : Carbon::createFromFormat("!Y-m-d", $startDate->format("Y-m-d"))->modify('+7 day');
 
         $students = State::findOrFail(1)->internships->filter(function ($i) use ($startDate, $endDate) {
             $reports = $i->bimestral_reports;
             foreach ($reports as $report) {
-                $date = Carbon::createFromFormat("Y-m-d", $report->date);
+                $date = Carbon::createFromFormat("!Y-m-d", $report->date);
                 if ($date->between($startDate, $endDate)) {
                     return false;
                 }

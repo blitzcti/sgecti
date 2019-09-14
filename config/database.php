@@ -17,6 +17,7 @@ return [
 
     'default' => env('DB_CONNECTION', 'mysql'),
     'nsac' => env('NSAC_CONNECTION', 'mysql') . '_nsac',
+    'sso' => env('SSO_CONNECTION', 'mysql') . '_sso',
 
     /*
     |--------------------------------------------------------------------------
@@ -38,6 +39,7 @@ return [
 
         'sqlite' => [
             'driver' => 'sqlite',
+            'url' => env('DATABASE_URL'),
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
@@ -45,13 +47,23 @@ return [
 
         'sqlite_nsac' => [
             'driver' => 'sqlite',
+            'url' => env('NSAC_URL'),
             'database' => env('NSAC_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
             'foreign_key_constraints' => env('NSAC_FOREIGN_KEYS', true),
         ],
 
+        'sqlite_sso' => [
+            'driver' => 'sqlite',
+            'url' => env('SSO_URL'),
+            'database' => env('SSO_DATABASE', database_path('database.sqlite')),
+            'prefix' => '',
+            'foreign_key_constraints' => env('SSO_FOREIGN_KEYS', true),
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
+            'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'forge'),
@@ -71,6 +83,7 @@ return [
 
         'mysql_nsac' => [
             'driver' => 'mysql',
+            'url' => env('NSAC_URL'),
             'host' => env('NSAC_HOST', '127.0.0.1'),
             'port' => env('NSAC_PORT', '3306'),
             'database' => env('NSAC_DATABASE', 'forge'),
@@ -88,8 +101,29 @@ return [
             ]) : [],
         ],
 
+        'mysql_sso' => [
+            'driver' => 'mysql',
+            'url' => env('SSO_URL'),
+            'host' => env('SSO_HOST', '127.0.0.1'),
+            'port' => env('SSO_PORT', '3306'),
+            'database' => env('SSO_DATABASE', 'forge'),
+            'username' => env('SSO_USERNAME', 'forge'),
+            'password' => env('SSO_PASSWORD', ''),
+            'unix_socket' => env('SSO_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
+            'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'forge'),
@@ -104,6 +138,7 @@ return [
 
         'pgsql_nsac' => [
             'driver' => 'pgsql',
+            'url' => env('NSAC_URL'),
             'host' => env('NSAC_HOST', '127.0.0.1'),
             'port' => env('NSAC_PORT', '5432'),
             'database' => env('NSAC_DATABASE', 'forge'),
@@ -116,8 +151,24 @@ return [
             'sslmode' => 'prefer',
         ],
 
+        'pgsql_sso' => [
+            'driver' => 'pgsql',
+            'url' => env('SSO_URL'),
+            'host' => env('SSO_HOST', '127.0.0.1'),
+            'port' => env('SSO_PORT', '5432'),
+            'database' => env('SSO_DATABASE', 'forge'),
+            'username' => env('SSO_USERNAME', 'forge'),
+            'password' => env('SSO_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'schema' => 'public',
+            'sslmode' => 'prefer',
+        ],
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
+            'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '1433'),
             'database' => env('DB_DATABASE', 'forge'),
@@ -130,11 +181,25 @@ return [
 
         'sqlsrv_nsac' => [
             'driver' => 'sqlsrv',
+            'url' => env('NSAC_URL'),
             'host' => env('NSAC_HOST', 'localhost'),
             'port' => env('NSAC_PORT', '1433'),
             'database' => env('NSAC_DATABASE', 'forge'),
             'username' => env('NSAC_USERNAME', 'forge'),
             'password' => env('NSAC_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+        ],
+
+        'sqlsrv_sso' => [
+            'driver' => 'sqlsrv',
+            'url' => env('SSO_URL'),
+            'host' => env('SSO_HOST', 'localhost'),
+            'port' => env('SSO_PORT', '1433'),
+            'database' => env('SSO_DATABASE', 'forge'),
+            'username' => env('SSO_USERNAME', 'forge'),
+            'password' => env('SSO_PASSWORD', ''),
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
@@ -168,14 +233,15 @@ return [
 
     'redis' => [
 
-        'client' => env('REDIS_CLIENT', 'predis'),
+        'client' => env('REDIS_CLIENT', 'phpredis'),
 
         'options' => [
-            'cluster' => env('REDIS_CLUSTER', 'predis'),
-            'prefix' => Str::slug(env('APP_NAME', 'laravel'), '_').'_database_',
+            'cluster' => env('REDIS_CLUSTER', 'redis'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [
+            'url' => env('REDIS_URL'),
             'host' => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', 6379),
@@ -183,6 +249,7 @@ return [
         ],
 
         'cache' => [
+            'url' => env('REDIS_URL'),
             'host' => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', 6379),

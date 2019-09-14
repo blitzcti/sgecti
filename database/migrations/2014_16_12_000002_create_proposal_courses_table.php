@@ -19,8 +19,6 @@ class CreateProposalCoursesTable extends Migration
 
             $table->bigInteger('course_id')->nullable(false)->unsigned();
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
-
-            $table->timestamps();
         });
     }
 

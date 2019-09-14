@@ -50,7 +50,7 @@
                             <th>Nome</th>
                             <th>Curso</th>
                             <th>Ano</th>
-                            <th data-priority="2">Ações</th>
+                            <th>Ações</th>
                         </tr>
                         </thead>
 
@@ -115,7 +115,7 @@
             }
         }
 
-        jQuery(document).ready(() => {
+        jQuery(document).ready(function () {
             jQuery('#form').submit(e => {
                 e.preventDefault();
 

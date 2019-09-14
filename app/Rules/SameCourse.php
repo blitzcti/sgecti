@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Models\NSac\Student;
+use Exception;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,12 +28,16 @@ class SameCourse implements Rule
      */
     public function passes($attribute, $value)
     {
-        $student = Student::find($value);
-        $cIds = Auth::user()->coordinator_of->map(function ($course) {
-            return $course->id;
-        })->toArray();
+        try {
+            $student = Student::find($value);
+            $cIds = Auth::user()->coordinator_of->map(function ($course) {
+                return $course->id;
+            })->toArray();
 
-        return in_array($student->course_id, $cIds);
+            return in_array($student->course_id, $cIds);
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Rules;
 
 use App\Models\Company;
 use App\Models\NSac\Student;
+use Exception;
 use Illuminate\Contracts\Validation\Rule;
 
 class CompanyHasCourse implements Rule
@@ -29,12 +30,16 @@ class CompanyHasCourse implements Rule
      */
     public function passes($attribute, $value)
     {
-        $company = Company::find($this->company_id);
-        $student = Student::find($value);
+        try {
+            $company = Company::find($this->company_id);
+            $student = Student::find($value);
 
-        return in_array($student->course->id, $company->courses->map(function ($c) {
-            return $c->id;
-        })->toArray());
+            return in_array($student->course->id, $company->courses->map(function ($c) {
+                return $c->id;
+            })->toArray());
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**

@@ -30,7 +30,7 @@
                     <th>Descrição</th>
                     <th>Texto</th>
                     <th>Data</th>
-                    <th data-priority="2">Ações</th>
+                    <th>Ações</th>
                 </tr>
                 </thead>
 

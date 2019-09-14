@@ -52,7 +52,7 @@ class CompanyController extends Controller
         ]);
     }
 
-    public function details($id)
+    public function show($id)
     {
         $company = Company::findOrFail($id);
         $address = $company->address;
@@ -122,7 +122,7 @@ class CompanyController extends Controller
             $agreement = new Agreement();
 
             $agreement->start_date = $validatedData->startDate;
-            $agreement->end_date = SystemConfiguration::getAgreementExpiration(Carbon::createFromFormat("Y-m-d", $agreement->start_date));
+            $agreement->end_date = SystemConfiguration::getAgreementExpiration(Carbon::createFromFormat("!Y-m-d", $agreement->start_date));
             $agreement->active = true;
             $agreement->observation = $validatedData->observation;
 

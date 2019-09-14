@@ -4,6 +4,7 @@ namespace App\Rules;
 
 use App\Models\Company;
 use App\Models\Supervisor;
+use Exception;
 use Illuminate\Contracts\Validation\Rule;
 
 class CompanyHasSupervisor implements Rule
@@ -29,12 +30,16 @@ class CompanyHasSupervisor implements Rule
      */
     public function passes($attribute, $value)
     {
-        $company = Company::find($this->company_id);
-        $supervisor = Supervisor::find($value);
+        try {
+            $company = Company::find($this->company_id);
+            $supervisor = Supervisor::find($value);
 
-        return in_array($supervisor->id, $company->supervisors->map(function ($s) {
-            return $s->id;
-        })->toArray());
+            return in_array($supervisor->id, $company->supervisors->map(function ($s) {
+                return $s->id;
+            })->toArray());
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**

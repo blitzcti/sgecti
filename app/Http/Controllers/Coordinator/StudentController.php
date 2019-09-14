@@ -31,7 +31,7 @@ class StudentController extends Controller
         return view('coordinator.student.index')->with(['students' => $students]);
     }
 
-    public function details($ra)
+    public function show($ra)
     {
         $cIds = Auth::user()->coordinator_of->map(function ($course) {
             return $course->id;

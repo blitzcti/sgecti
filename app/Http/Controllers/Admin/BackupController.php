@@ -58,7 +58,7 @@ class BackupController extends Controller
         if ($request->hasFile('file') && $request->file('file')->isValid()) {
             if ($request->file->extension() === "zip") {
                 $zip = new ZipArchive();
-                Storage::disk('local')->put('backups/uploaded/backup.zip', file_get_contents($request->file));
+                Storage::disk('local')->put('backups/uploaded/backup.zip', fopen($request->file, "r+"));
                 if ($zip->open(storage_path("app/backups/uploaded/backup.zip"))) {
                     $dir = storage_path("app/backups/uploaded/");
 
@@ -142,15 +142,15 @@ class BackupController extends Controller
         if (config('backup.zip')) {
             $this->generateZip();
             $fileName = Carbon::now()->toDateTimeString() . '.zip';
-            $data = file_get_contents(storage_path("app/backups/backup.zip"));
+            $f = fopen(storage_path("app/backups/backup.zip"), "r+");
         } else {
             $this->generateJson();
             $fileName = Carbon::now()->toDateTimeString() . '.json';
-            $data = file_get_contents(storage_path("app/backups/backup.json"));
+            $f = fopen(storage_path("app/backups/backup.json"), "r+");
         }
 
         try {
-            Storage::disk('sftp')->put($fileName, $data);
+            Storage::disk('sftp')->put($fileName, $f);
             Log::info("Arquivo de backup enviado para o servidor.\nNome: {$fileName}");
         } catch (Exception $e) {
             Log::error("Erro ao enviar o arquivo de backup para o servidor: {$e->getMessage()}");
@@ -163,8 +163,8 @@ class BackupController extends Controller
         $saved = false;
 
         $validatedData = (object)$request->validate([
-            'days' => 'required|array',
-            'hour' => 'required|date_format:H:i'
+            'days' => ['required', 'array'],
+            'hour' => ['required', 'date_format:H:i'],
         ]);
 
         $backupConfig = BackupConfiguration::findOrFail(1);
@@ -270,8 +270,9 @@ class BackupController extends Controller
         if ($toFile) {
             $dir = storage_path("app/backups/zip");
             foreach ($this->tables as $table => $class) {
-                $f = fopen("$dir/$table.json", "w+");
                 $data = $this->getTableData($table, $class);
+
+                $f = fopen("$dir/$table.json", "w+");
                 fwrite($f, json_encode($data, JSON_UNESCAPED_UNICODE));
                 fclose($f);
             }
@@ -280,9 +281,9 @@ class BackupController extends Controller
             foreach ($this->tables as $table => $class) {
                 $data[$table] = $this->getTableData($table, $class);
             }
-
-            return $data;
         }
+
+        return $data;
     }
 
     private function getTableData($table, $class)

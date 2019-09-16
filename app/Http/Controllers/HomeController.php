@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\Internship;
 use App\Models\Proposal;
 use Illuminate\Contracts\Support\Renderable;
@@ -28,7 +29,11 @@ class HomeController extends Controller
             $strCourses = $user->coordinator_courses_name;
             $data['strCourses'] = $strCourses;
             $data['requiringFinish'] = Internship::requiringFinish();
-            $data['proposals'] = Proposal::all()->sortBy('id');
+            $data['proposals'] = Proposal::all()->sortBy('id')->where('approved_at', '=', null);
+        } else if($user->isCompany()) {
+            $company = Company::all()->where('email', '=', $user->email)->first();
+            $data['proposals'] = Proposal::all()->where('company_id', '=', $company->id);
+            $data['proposalsInProgress'] = Proposal::all()->where('company_id', '<>', $company->id)->where('approved_at', '=', null);
         }
 
         return view('home')->with($data);

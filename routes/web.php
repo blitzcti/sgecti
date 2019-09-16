@@ -290,6 +290,7 @@ Route::prefix('empresa')->name('empresa.')->middleware('auth')->group(function (
             Route::get('', 'Company\ProposalController@show')->name('detalhes');
             Route::get('editar', 'Company\ProposalController@edit')->name('editar');
             Route::put('', 'Company\ProposalController@update')->name('alterar');
+            Route::put('cancelar', 'Company\ProposalController@cancel')->name('cancelar');
         });
     });
 });

@@ -52,7 +52,7 @@
 
     <div class="box box-default">
         <div class="box-header with-border">
-            <h3 class="box-title">Propostas de estágio</h3>
+            <h3 class="box-title">Propostas de estágio pendentes</h3>
         </div>
 
         <div class="box-body">
@@ -60,6 +60,9 @@
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Validade</th>
+                    <th scope="col">Ações</th>
                 </tr>
                 </thead>
 
@@ -67,7 +70,16 @@
                 @foreach($proposals as $proposal)
 
                     <tr>
-                        <th scope="row">{{ $proposal->id }}</th>
+                        <th scope="row">{{ $proposal->company->name }}</th>
+                        <th scope="row">{{ $proposal->description }}</th>
+                        <th scope="row">{{ $proposal->deadline }}</th>
+                        <th scope="row">
+                            <a href="#">Detalhes</a>
+                            |
+                            <a href="#">Aprovar</a>
+                            |
+                            <a href="#">Rejeitar</a>
+                        </th>
                     </tr>
 
                 @endforeach

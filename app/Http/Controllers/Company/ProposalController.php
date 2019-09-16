@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Company\CancelProposal;
 use App\Http\Requests\Company\StoreProposal;
 use App\Http\Requests\Company\UpdateProposal;
 use App\Models\Course;
@@ -27,6 +28,13 @@ class ProposalController extends Controller
         $proposals = Auth::user()->company->proposals;
 
         return view('company.proposal.index')->with(['proposals' => $proposals]);
+    }
+
+    public function show($id)
+    {
+        $proposal = Proposal::findOrFail($id);
+
+        return view('company.proposal.details')->with(['proposal' => $proposal]);
     }
 
     public function create()
@@ -202,6 +210,28 @@ class ProposalController extends Controller
 
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+
+        return redirect()->route('empresa.proposta.index')->with($params);
+    }
+
+    public function cancel($id)
+    {
+        $proposal = Proposal::findOrFail($id);
+
+        $log = "Cancelamento de proposta de estágio";
+        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nProposta cancelada: " . $proposal;
+
+        $saved = $proposal->delete();
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao cancelar proposta de estágio");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Excluído com sucesso' : 'Erro ao excluir!';
 
         return redirect()->route('empresa.proposta.index')->with($params);
     }

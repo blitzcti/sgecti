@@ -7,6 +7,8 @@
 @stop
 
 @section('content')
+    @include('modals.company.proposals.cancel')
+
     @if(session()->has('message'))
         <div class="alert {{ session('saved') ? 'alert-success' : 'alert-error' }} alert-dismissible"
              role="alert">
@@ -40,12 +42,21 @@
                         <th scope="row">{{ $proposal->id }}</th>
                         <td>{{ $proposal->description }}</td>
                         <td>{{ $proposal->deadline }}</td>
-                        <td>.</td>
+                        @if($proposal->approved_date != null)
+                            <td>Aprovado</td>
+                        @else
+                            <td>Pendente</td>
+                        @endif
 
                         <td>
+                            <a href="{{ route('empresa.proposta.detalhes', ['id' => $proposal->id]) }}">Detalhes</a>
+                            |
                             <a href="{{ route('empresa.proposta.editar', ['id' => $proposal->id]) }}">Editar</a>
                             |
-                            <a href="">Cancelar</a>
+                            <a href="#"
+                               onclick="proposalId('{{ $proposal->id }}'); return false;"
+                               data-toggle="modal" class="text-red"
+                               data-target="#internshipCancelModal">Cancelar</a>
                         </td>
                     </tr>
 

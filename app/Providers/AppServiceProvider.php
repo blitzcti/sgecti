@@ -408,6 +408,26 @@ class AppServiceProvider extends ServiceProvider
                 ]);
             }
 
+            $menu->add('EMPRESAS');
+            $menu->add([
+                'text' => 'menu.proposals',
+                'icon' => 'bullhorn',
+                'submenu' => [
+                    [
+                        'text' => 'menu.view',
+                        'route' => 'coordenador.proposta.index',
+                        'icon' => 'th-list',
+                        'active' => ['coordenador/proposta/']
+                    ],
+                    [
+                        'text' => 'menu.new',
+                        'route' => 'coordenador.proposta.novo',
+                        'icon' => 'edit',
+                        'active' => ['coordenador/proposta/novo']
+                    ],
+                ],
+            ]);
+
             $menu->add('ALUNOS');
             $menu->add([
                 'text' => 'menu.students',

@@ -78,7 +78,7 @@
                 </div>
 
                 <div class="form-group @if($errors->has('requirements')) has-error @endif">
-                    <label for="inputRequirements" class="col-sm-2 control-label">Requerimentos*</label>
+                    <label for="inputRequirements" class="col-sm-2 control-label">Requisitos*</label>
 
                     <div class="col-sm-10">
                             <textarea class="form-control" rows="3" id="inputRequirements" name="requirements"

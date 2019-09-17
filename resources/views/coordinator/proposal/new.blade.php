@@ -9,7 +9,7 @@
 @section('content')
     @include('modals.coordinator.cloneSchedule')
 
-    <form class="form-horizontal" action="{{ route('empresa.proposta.salvar') }}" method="post">
+    <form class="form-horizontal" action="{{ route('coordenador.proposta.salvar') }}" method="post">
         @csrf
 
         <input type="hidden" id="inputHasSchedule" name="hasSchedule"
@@ -24,6 +24,29 @@
             </div>
 
             <div class="box-body">
+                <div class="form-group @if($errors->has('company')) has-error @endif">
+                    <label for="inputCompany" class="col-sm-2 control-label">Empresa*</label>
+
+                    <div class="col-sm-10">
+                        <select class="selection" name="company" id="inputCompany"
+                                style="width: 100%">
+
+                            @foreach($companies as $company)
+
+                                <option
+                                    value="{{ $company->id }}" {{ (old('company') ?? 1) == $company->id ? 'selected' : '' }}>
+                                    {{ $company->cpf_cnpj }}
+                                    - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
+                                </option>
+
+                            @endforeach
+
+                        </select>
+
+                        <span class="help-block">{{ $errors->first('company') }}</span>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('type')) has-error @endif">

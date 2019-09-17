@@ -59,7 +59,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
+                    <th scope="col">Empresa</th>
                     <th scope="col">Descrição</th>
                     <th scope="col">Validade</th>
                     <th scope="col">Ações</th>
@@ -70,16 +70,16 @@
                 @foreach($proposals as $proposal)
 
                     <tr>
-                        <th scope="row">{{ $proposal->company->name }}</th>
-                        <th scope="row">{{ $proposal->description }}</th>
-                        <th scope="row">{{ $proposal->deadline }}</th>
-                        <th scope="row">
+                        <td>{{ $proposal->company->name }}</td>
+                        <td>{{ $proposal->description }}</td>
+                        <td>{{ $proposal->deadline }}</td>
+                        <td>
                             <a href="#">Detalhes</a>
                             |
-                            <a href="#">Aprovar</a>
+                            <a href="#" class="text-green">Aprovar</a>
                             |
-                            <a href="#">Rejeitar</a>
-                        </th>
+                            <a href="#" class="text-red">Rejeitar</a>
+                        </td>
                     </tr>
 
                 @endforeach

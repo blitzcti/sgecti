@@ -43,7 +43,7 @@ class Course extends Model
 
     public function coordinatorAt($date)
     {
-        $coordinator = $this->coordinators->where('end_date', $date != null ? '>' : '=', $date)->sortBy('id');
+        $coordinator = $this->coordinators->where('end_date', $date != null ? '>' : '=', $date)->where('temp_of', '=', null)->sortBy('id');
         return $coordinator->last();
     }
 

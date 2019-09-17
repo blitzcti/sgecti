@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Company;
+namespace App\Http\Controllers\Coordinator;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Company\CancelProposal;
-use App\Http\Requests\Company\StoreProposal;
-use App\Http\Requests\Company\UpdateProposal;
+use App\Http\Requests\Coordinator\StoreProposal;
+use App\Http\Requests\Coordinator\UpdateProposal;
 use App\Models\Course;
 use App\Models\ManyToMany\ProposalCourse;
 use App\Models\Proposal;
 use App\Models\Schedule;
-use App\Notifications\CoordinatorNotification;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -18,7 +17,7 @@ class ProposalController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('company');
+        $this->middleware('coordinator');
         $this->middleware('permission:proposal-list');
         $this->middleware('permission:proposal-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:proposal-edit', ['only' => ['edit', 'update']]);
@@ -26,31 +25,43 @@ class ProposalController extends Controller
 
     public function index()
     {
-        $proposals = Auth::user()->company->proposals;
+        $cIds = Auth::user()->coordinator_courses_id;
+        $proposals = Proposal::all()->filter(function ($proposal) use ($cIds) {
+            $ret = false;
+            foreach ($proposal->courses as $course) {
+                if (!$ret) {
+                    $ret = in_array($course->id, $cIds);
+                }
+            }
 
-        return view('company.proposal.index')->with(['proposals' => $proposals]);
+            return $ret;
+        });
+
+        return view('coordinator.proposal.index')->with(['proposals' => $proposals]);
     }
 
     public function show($id)
     {
         $proposal = Proposal::findOrFail($id);
 
-        return view('company.proposal.details')->with(['proposal' => $proposal]);
+        return view('coordinator.proposal.details')->with(['proposal' => $proposal]);
     }
 
     public function create()
     {
         $courses = Course::all()->where('active', '=', true)->sortBy('id');
+        $companies = \App\Models\Company::all()->where('active', '=', true)->sortBy('id');
 
-        return view('company.proposal.new')->with(['courses' => $courses]);
+        return view('coordinator.proposal.new')->with(['courses' => $courses, 'companies' => $companies]);
     }
 
     public function edit($id)
     {
         $proposal = Proposal::findOrFail($id);
         $courses = Course::all()->where('active', '=', true)->sortBy('id');
+        $companies = \App\Models\Company::all()->where('active', '=', true)->sortBy('id');
 
-        return view('company.proposal.edit')->with(['proposal' => $proposal, 'courses' => $courses]);
+        return view('coordinator.proposal.edit')->with(['proposal' => $proposal, 'courses' => $courses, 'companies' => $companies]);
     }
 
     public function store(StoreProposal $request)
@@ -62,7 +73,7 @@ class ProposalController extends Controller
         $validatedData = (object)$request->validated();
 
         $log = "Nova proposta de estágio";
-        $log .= "\nUsuário (empresa): " . Auth::user()->name . "(" . Auth::user()->company->name . ")";
+        $log .= "\nUsuário: " . Auth::user()->name;
 
         if ($validatedData->hasSchedule) {
             $schedule = new Schedule();
@@ -104,7 +115,7 @@ class ProposalController extends Controller
             }
         }
 
-        $proposal->company_id = Auth::user()->company->id;
+        $proposal->company_id = $validatedData->company;
         $proposal->deadline = $validatedData->deadline;
         $proposal->remuneration = $validatedData->remuneration;
         $proposal->description = $validatedData->description;
@@ -112,6 +123,7 @@ class ProposalController extends Controller
         $proposal->benefits = $validatedData->benefits;
         $proposal->contact = $validatedData->contact;
         $proposal->type = $validatedData->type;
+        $proposal->approved_at = Carbon::now();
         $proposal->observation = $validatedData->observation;
 
         $saved = $proposal->save();
@@ -122,12 +134,6 @@ class ProposalController extends Controller
 
         if ($saved) {
             Log::info($log);
-            $company = Auth::user()->company;
-            $notification = new CoordinatorNotification(['description' => "Proposta de estágio", 'text' => "A empresa $company->name acabou de enviar uma nova proposta de estágio.", 'icon' => 'bullhorn']);
-
-            foreach ($proposal->courses as $course) {
-                $course->coordinator()->user->notify($notification);
-            }
         } else {
             Log::error("Erro ao salvar proposta de estágio");
         }
@@ -135,7 +141,7 @@ class ProposalController extends Controller
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
-        return redirect()->route('empresa.proposta.index')->with($params);
+        return redirect()->route('coordenador.proposta.index')->with($params);
     }
 
     public function update($id, UpdateProposal $request)
@@ -146,7 +152,7 @@ class ProposalController extends Controller
         $validatedData = (object)$request->validated();
 
         $log = "Alteração de proposta de estágio";
-        $log .= "\nUsuário (empresa): " . Auth::user()->name . "(" . Auth::user()->company->name . ")";
+        $log .= "\nUsuário: " . Auth::user()->name;
         $log .= "\nDados antigos: " . json_encode($proposal, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         if ($validatedData->hasSchedule) {
@@ -193,7 +199,7 @@ class ProposalController extends Controller
             $proposal->schedule_id = null;
         }
 
-        $proposal->company_id = Auth::user()->company->id;
+        $proposal->company_id = $validatedData->company;
         $proposal->deadline = $validatedData->deadline;
         $proposal->remuneration = $validatedData->remuneration;
         $proposal->description = $validatedData->description;
@@ -201,6 +207,7 @@ class ProposalController extends Controller
         $proposal->benefits = $validatedData->benefits;
         $proposal->contact = $validatedData->contact;
         $proposal->type = $validatedData->type;
+        $proposal->approved_at = Carbon::now();
         $proposal->observation = $validatedData->observation;
 
         $saved = $proposal->save();
@@ -218,7 +225,30 @@ class ProposalController extends Controller
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
-        return redirect()->route('empresa.proposta.index')->with($params);
+        return redirect()->route('coordenador.proposta.index')->with($params);
+    }
+
+    public function approve($id)
+    {
+        $proposal = Proposal::findOrFail($id);
+        $proposal->approved_at = Carbon::now();
+
+        $saved = $proposal->save();
+
+        $log = "Aprovação de proposta de estágio";
+        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nProposta aprovada: " . $proposal;
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao aprovar proposta de estágio");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Aprovada com sucesso' : 'Erro ao aprovar!';
+
+        return redirect()->route('coordenador.proposta.index')->with($params);
     }
 
     public function cancel($id)
@@ -226,7 +256,7 @@ class ProposalController extends Controller
         $proposal = Proposal::findOrFail($id);
 
         $log = "Cancelamento de proposta de estágio";
-        $log .= "\nUsuário (empresa): " . Auth::user()->name . "(" . Auth::user()->company->name . ")";
+        $log .= "\nUsuário: " . Auth::user()->name;
         $log .= "\nProposta cancelada: " . $proposal;
 
         $saved = $proposal->delete();
@@ -240,6 +270,11 @@ class ProposalController extends Controller
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Excluído com sucesso' : 'Erro ao excluir!';
 
-        return redirect()->route('empresa.proposta.index')->with($params);
+        return redirect()->route('coordenador.proposta.index')->with($params);
+    }
+
+    public function mandaEmail()
+    {
+
     }
 }

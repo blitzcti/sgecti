@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Requests\Company;
+namespace App\Http\Requests\Coordinator;
 
+use App\Models\Company;
 use App\Models\Course;
 use App\Rules\Active;
 use App\Rules\HourInterval;
@@ -29,6 +30,8 @@ class StoreProposal extends FormRequest
         return [
             'hasSchedule' => ['required', 'boolean'],
             'has2Schedules' => ['required', 'boolean'],
+
+            'company' => ['required', 'integer', 'min:1', 'exists:companies,id', new Active(Company::class)],
 
             'monS' => [($this->get('hasSchedule')) ? 'required_without_all:tueS,wedS,thuS,friS,satS' : '', 'required_with:monE', 'nullable', 'date_format:H:i', 'before:monE'],
             'monE' => ['required_with:monS', 'nullable', 'date_format:H:i', 'after:monS', new HourInterval($this->get('monS'), $this->get('monE2'), $this->get('monS2'))],

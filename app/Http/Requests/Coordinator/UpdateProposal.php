@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Http\Requests\Company;
+namespace App\Http\Requests\Coordinator;
 
+use App\Models\Company;
 use App\Models\Course;
+use App\Models\Proposal;
 use App\Rules\Active;
 use App\Rules\HourInterval;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProposal extends FormRequest
+class UpdateProposal extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,9 +28,13 @@ class StoreProposal extends FormRequest
      */
     public function rules()
     {
+        $proposal = Proposal::findOrFail($this->route('id'));
+
         return [
             'hasSchedule' => ['required', 'boolean'],
             'has2Schedules' => ['required', 'boolean'],
+
+            'company' => ['required', 'integer', 'min:1', 'exists:companies,id', new Active(Company::class)],
 
             'monS' => [($this->get('hasSchedule')) ? 'required_without_all:tueS,wedS,thuS,friS,satS' : '', 'required_with:monE', 'nullable', 'date_format:H:i', 'before:monE'],
             'monE' => ['required_with:monS', 'nullable', 'date_format:H:i', 'after:monS', new HourInterval($this->get('monS'), $this->get('monE2'), $this->get('monS2'))],
@@ -56,6 +62,7 @@ class StoreProposal extends FormRequest
             'satS2' => ['required_with:satE2', 'nullable', 'date_format:H:i', 'before:satE2'],
             'satE2' => ['required_with:satS2', 'nullable', 'date_format:H:i', 'after:satS2'],
 
+
             'type' => ['required', 'integer', 'min:0', 'max:1'],
             'remuneration' => ['required', 'numeric', 'min:0'],
             'description' => ['required', 'max:8000'],
@@ -66,7 +73,7 @@ class StoreProposal extends FormRequest
             'observation' => ['nullable', 'max:8000'],
 
             'courses' => ['required', 'array', 'min:1'],
-            'courses.*' => ['required', 'integer', 'distinct', 'min:1', 'exists:courses,id', new Active(Course::class)],
+            'courses.*' => ['required', 'integer', 'distinct', 'min:1', 'exists:courses,id', new Active(Course::class, $proposal->courses)],
         ];
     }
 }

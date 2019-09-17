@@ -24,6 +24,9 @@
             <h3>Dados da proposta</h3>
 
             <dl class="row">
+                <dt class="col-sm-2">Empresa</dt>
+                <dd class="col-sm-10">{{ $proposal->company->name }}</dd>
+
                 <dt class="col-sm-2">Tipo de estágio</dt>
                 <dd class="col-sm-10">{{ ($proposal->type == 1) ? "Estágio padrão" : "Iniciação Científica" }}</dd>
 

@@ -274,6 +274,20 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
             Route::get('', 'Coordinator\StudentController@show')->name('detalhes');
         });
     });
+
+    Route::prefix('proposta')->name('proposta.')->group(function () {
+        Route::get('', 'Coordinator\ProposalController@index')->name('index');
+        Route::get('novo', 'Coordinator\ProposalController@create')->name('novo');
+        Route::post('', 'Coordinator\ProposalController@store')->name('salvar');
+
+        Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+            Route::get('', 'Coordinator\ProposalController@show')->name('detalhes');
+            Route::get('editar', 'Coordinator\ProposalController@edit')->name('editar');
+            Route::put('', 'Coordinator\ProposalController@update')->name('alterar');
+            Route::put('aprovar', 'Coordinator\ProposalController@approve')->name('aprovar');
+            Route::put('cancelar', 'Coordinator\ProposalController@cancel')->name('cancelar');
+        });
+    });
 });
 
 Route::prefix('aluno')->name('aluno.')->middleware('auth')->group(function () {

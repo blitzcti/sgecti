@@ -63,7 +63,7 @@ class ProposalController extends Controller
         $validatedData = (object)$request->validated();
 
         $log = "Nova proposta de estágio";
-        $log .= "\nUsuário (empresa): " . Auth::user()->name . "(" . Auth::user()->company->name . ")";
+        $log .= "\nUsuário: " . Auth::user()->name . " (" . Auth::user()->company->name . ")";
 
         if ($validatedData->hasSchedule) {
             $schedule = new Schedule();
@@ -153,7 +153,7 @@ class ProposalController extends Controller
         $validatedData = (object)$request->validated();
 
         $log = "Alteração de proposta de estágio";
-        $log .= "\nUsuário (empresa): " . Auth::user()->name . "(" . Auth::user()->company->name . ")";
+        $log .= "\nUsuário: " . Auth::user()->name . " (" . Auth::user()->company->name . ")";
         $log .= "\nDados antigos: " . json_encode($proposal, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         if ($validatedData->hasSchedule) {

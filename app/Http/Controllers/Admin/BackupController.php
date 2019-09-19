@@ -57,6 +57,9 @@ class BackupController extends Controller
         $params = [];
         if ($request->hasFile('file') && $request->file('file')->isValid()) {
             if ($request->file->extension() === "zip") {
+                // Gerar um arquivo de backup para caso o arquivo enviado falhe
+                $this->generateZip();
+
                 $zip = new ZipArchive();
                 Storage::disk('local')->put('backups/uploaded/backup.zip', fopen($request->file, "r+"));
                 if ($zip->open(storage_path("app/backups/uploaded/backup.zip"))) {
@@ -80,11 +83,30 @@ class BackupController extends Controller
                             Artisan::call('cache:forget', ['key' => 'spatie.permission.cache']);
                             // artisan config:cache impede que as mensagens sejam enviadas para a session ($params[])
                             Artisan::call('config:cache');
-                            Artisan::call('migrate:fresh', ['--seed' => true]);
-                            Log::info("Banco de dados reiniciado.");
 
-                            $params["saved"] = false;
-                            $params["message"] = "Ocorreu um erro ao restaurar o backup! Banco de dados reiniciado.";
+                            try {
+                                $zip->open(storage_path("app/backups/backup.zip"));
+                                $zip->extractTo(storage_path("app/backups/zip/"));
+                                $zip->close();
+
+                                Artisan::call('cache:forget', ['key' => 'spatie.permission.cache']);
+                                Artisan::call('migrate:fresh');
+
+                                $dir = storage_path("app/backups/zip");
+                                $this->restoreDataFromZip($dir);
+
+                                $params["saved"] = false;
+                                $params["message"] = "Ocorreu um erro ao restaurar o backup! Banco de dados restaurado.";
+                            } catch (Exception $e2) {
+                                Log::error("Erro ao restaurar do arquivo de backup: {$e2}");
+                                Artisan::call('cache:forget', ['key' => 'spatie.permission.cache']);
+                                Artisan::call('config:cache');
+                                Artisan::call('migrate:fresh', ['--seed' => true]);
+                                Log::info("Banco de dados reiniciado.");
+
+                                $params["saved"] = false;
+                                $params["message"] = "Ocorreu um erro ao restaurar o backup! Banco de dados reiniciado.";
+                            }
                         }
                     } else {
                         $zip->close();
@@ -99,6 +121,11 @@ class BackupController extends Controller
                 $file = $request->file;
                 $data = file_get_contents($file);
                 $data = json_decode($data, true);
+
+                $this->generateJson();
+                $file2 = storage_path("app/backups/backup.json");
+                $data2 = file_get_contents($file2);
+                $data2 = json_decode($data2, true);
 
                 if ($this->verifyData($data)) {
                     try {
@@ -115,11 +142,24 @@ class BackupController extends Controller
                         Log::error("Erro ao restaurar do arquivo de backup: {$e}");
                         Artisan::call('cache:forget', ['key' => 'spatie.permission.cache']);
                         Artisan::call('config:cache');
-                        Artisan::call('migrate:fresh', ['--seed' => true]);
-                        Log::info("Banco de dados reiniciado.");
 
-                        $params["saved"] = false;
-                        $params["message"] = "Ocorreu um erro ao restaurar o backup! Banco de dados reiniciado.";
+                        try {
+                            Artisan::call('migrate:fresh');
+
+                            $this->restoreData($data2);
+
+                            $params["saved"] = false;
+                            $params["message"] = "Ocorreu um erro ao restaurar o backup! Banco de dados restaurado.";
+                        } catch (Exception $e2) {
+                            Log::error("Erro ao restaurar do arquivo de backup: {$e2}");
+                            Artisan::call('cache:forget', ['key' => 'spatie.permission.cache']);
+                            Artisan::call('config:cache');
+                            Artisan::call('migrate:fresh', ['--seed' => true]);
+                            Log::info("Banco de dados reiniciado.");
+
+                            $params["saved"] = false;
+                            $params["message"] = "Ocorreu um erro ao restaurar o backup! Banco de dados reiniciado.";
+                        }
                     }
                 } else {
                     $params["saved"] = false;

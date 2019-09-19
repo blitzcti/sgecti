@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Broker;
 use App\Http\Controllers\Controller;
+use App\Models\NSac\Student;
+use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
@@ -41,15 +45,34 @@ class LoginController extends Controller
 
     protected function attemptLogin(Request $request)
     {
+        $credentials = $this->credentials($request);
         if (config('broker.useSSO')) {
             $broker = new Broker;
-
-            $credentials = $this->credentials($request);
 
             return $broker->login(
                 $credentials[$this->username()], $credentials['password'], $request->filled('remember')
             );
         } else {
+            if (!User::where('email', '=', $credentials[$this->username()])->exists() && Student::where('email2', '=', $credentials[$this->username()])->exists()) {
+                $student = Student::where('email2', '=', $credentials[$this->username()])->first();
+
+//                $user = new User();
+//                $user->name = $student->nome,
+//                $user->phone = null,
+//                $user->email = $student->email2;
+//                if (User::create([
+//                    'name' => $student->nome,
+//                    'phone' => null,
+//                    'email' => $student->email2,
+//                    'password' => Hash::make($credentials['password']),
+//                    'api_token' => null,
+//                ])) {
+//                    return $this->guard()->attempt(
+//                        $this->credentials($request), $request->filled('remember')
+//                    );
+//                }
+            }
+
             return $this->guard()->attempt(
                 $this->credentials($request), $request->filled('remember')
             );

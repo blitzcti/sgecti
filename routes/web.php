@@ -291,7 +291,17 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
 });
 
 Route::prefix('aluno')->name('aluno.')->middleware('auth')->group(function () {
+    Route::prefix('proposta')->name('proposta.')->group(function () {
+        Route::get('', 'Student\ProposalController@index')->name('index');
 
+        Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+            Route::get('', 'Student\ProposalController@show')->name('detalhes');
+        });
+    });
+
+    Route::prefix('documento')->name('documento.')->group(function () {
+        Route::get('', 'Student\DocumentController@index')->name('index');
+    });
 });
 
 Route::prefix('empresa')->name('empresa.')->middleware('auth')->group(function () {

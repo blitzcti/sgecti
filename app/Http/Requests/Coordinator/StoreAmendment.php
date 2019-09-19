@@ -48,9 +48,9 @@ class StoreAmendment extends FormRequest
             'thuS' => ['required_with:thuE', 'nullable', 'date_format:H:i', 'before:thuE'],
             'thuE' => ['required_with:thuS', 'nullable', 'date_format:H:i', 'after:thuS', new HourInterval($this->get('thuS'), $this->get('thuE2'), $this->get('thuS2'))],
             'friS' => ['required_with:friE', 'nullable', 'date_format:H:i', 'before:friE'],
-            'friE' => ['required_with:friS', 'nullable', 'date_format:H:i', 'after:friS', new HourInterval($this->get('friS'), $this->get('friE2'), $this->get('friE2'))],
+            'friE' => ['required_with:friS', 'nullable', 'date_format:H:i', 'after:friS', new HourInterval($this->get('friS'), $this->get('friE2'), $this->get('friS2'))],
             'satS' => ['required_with:satE', 'nullable', 'date_format:H:i', 'before:satE'],
-            'satE' => ['required_with:satS', 'nullable', 'date_format:H:i', 'after:satS', new HourInterval($this->get('satS'), $this->get('satS2'), $this->get('satE2'))],
+            'satE' => ['required_with:satS', 'nullable', 'date_format:H:i', 'after:satS', new HourInterval($this->get('satS'), $this->get('satE2'), $this->get('satS2'))],
 
             'monS2' => [($this->get('startDate') != null && $this->get('has2Schedules')) ? 'required_without_all:tueS2,wedS2,thuS2,friS2,satS2' : '', 'required_with:monE2', 'nullable', 'date_format:H:i', 'before:monE2'],
             'monE2' => ['required_with:monS2', 'nullable', 'date_format:H:i', 'after:monS2'],

@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Company\CancelProposal;
+use App\Http\Requests\Company\DeleteProposal;
 use App\Http\Requests\Company\StoreProposal;
 use App\Http\Requests\Company\UpdateProposal;
-use App\Models\Course;
-use App\Models\ManyToMany\ProposalCourse;
 use App\Models\Proposal;
 use App\Models\Schedule;
 use App\Notifications\CoordinatorNotification;
@@ -26,29 +24,33 @@ class ProposalController extends Controller
 
     public function index()
     {
-        $proposals = Auth::user()->company->proposals;
+        $company = Auth::user()->company;
+        $proposals = $company->proposals;
 
         return view('company.proposal.index')->with(['proposals' => $proposals]);
     }
 
     public function show($id)
     {
-        $proposal = Proposal::findOrFail($id);
+        $company = Auth::user()->company;
+        $proposal = $company->proposals()->findOrFail($id);
 
         return view('company.proposal.details')->with(['proposal' => $proposal]);
     }
 
     public function create()
     {
-        $courses = Course::all()->where('active', '=', true)->sortBy('id');
+        $company = Auth::user()->company;
+        $courses = $company->courses->where('active', '=', true)->sortBy('id');
 
         return view('company.proposal.new')->with(['courses' => $courses]);
     }
 
     public function edit($id)
     {
-        $proposal = Proposal::findOrFail($id);
-        $courses = Course::all()->where('active', '=', true)->sortBy('id');
+        $company = Auth::user()->company;
+        $proposal = $company->proposals()->findOrFail($id);
+        $courses = $company->courses->where('active', '=', true)->sortBy('id');
 
         return view('company.proposal.edit')->with(['proposal' => $proposal, 'courses' => $courses]);
     }
@@ -56,7 +58,6 @@ class ProposalController extends Controller
     public function store(StoreProposal $request)
     {
         $proposal = new Proposal();
-        $proposalCourse = new ProposalCourse();
         $params = [];
 
         $validatedData = (object)$request->validated();
@@ -123,7 +124,12 @@ class ProposalController extends Controller
         if ($saved) {
             Log::info($log);
             $company = Auth::user()->company;
-            $notification = new CoordinatorNotification(['description' => "Proposta de estágio", 'text' => "A empresa $company->name acabou de enviar uma nova proposta de estágio.", 'icon' => 'bullhorn']);
+            $notification = new CoordinatorNotification([
+                'description' => "Proposta de estágio",
+                'text' => "A empresa $company->name acabou de enviar uma nova proposta de estágio.",
+                'icon' => 'bullhorn',
+                'url' => route('coordenador.proposta.detalhes', ['id' => $proposal->id]),
+            ]);
 
             foreach ($proposal->courses as $course) {
                 $course->coordinator()->user->notify($notification);
@@ -140,7 +146,8 @@ class ProposalController extends Controller
 
     public function update($id, UpdateProposal $request)
     {
-        $proposal = Proposal::findOrFail($id);
+        $company = Auth::user()->company;
+        $proposal = $company->proposals()->findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();
@@ -221,20 +228,23 @@ class ProposalController extends Controller
         return redirect()->route('empresa.proposta.index')->with($params);
     }
 
-    public function cancel($id)
+    public function delete($id, DeleteProposal $request)
     {
-        $proposal = Proposal::findOrFail($id);
+        $company = Auth::user()->company;
+        $proposal = $company->proposals()->findOrFail($id);
 
-        $log = "Cancelamento de proposta de estágio";
-        $log .= "\nUsuário (empresa): " . Auth::user()->name . "(" . Auth::user()->company->name . ")";
-        $log .= "\nProposta cancelada: " . $proposal;
+        $validatedData = (object)$request->validated();
+
+        $log = "Exclusão de proposta de estágio";
+        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nProposta excluída: " . $proposal->id;
 
         $saved = $proposal->delete();
 
         if ($saved) {
             Log::info($log);
         } else {
-            Log::error("Erro ao cancelar proposta de estágio");
+            Log::error("Erro ao excluir proposta de estágio");
         }
 
         $params['saved'] = $saved;

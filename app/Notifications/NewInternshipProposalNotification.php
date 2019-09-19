@@ -8,7 +8,6 @@ use App\Models\Proposal;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NewInternshipProposalNotification extends Notification
 {
@@ -33,7 +32,7 @@ class NewInternshipProposalNotification extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -44,7 +43,7 @@ class NewInternshipProposalNotification extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return Mailable
      */
     public function toMail($notifiable)
@@ -55,7 +54,7 @@ class NewInternshipProposalNotification extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function toArray($notifiable)

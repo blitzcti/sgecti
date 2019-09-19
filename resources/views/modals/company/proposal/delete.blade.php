@@ -1,4 +1,4 @@
-<div class="modal fade" id="proposalCancelModal" tabindex="-1" role="dialog" aria-labelledby="proposalCancelModal"
+<div class="modal fade" id="proposalDeleteModal" tabindex="-1" role="dialog" aria-labelledby="proposalDeleteModal"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -7,16 +7,16 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
 
-                <h4 class="modal-title" id="deleteModalTitle">Cancelar proposta de estágio</h4>
+                <h4 class="modal-title" id="deleteModalTitle">Excluir proposta de estágio</h4>
             </div>
 
-            <form id="cancelForm" action="#" class="form-horizontal" method="post">
+            <form id="deleteForm" action="#" class="form-horizontal" method="post">
                 <div class="modal-body">
-                    @method('PUT')
+                    @method('DELETE')
                     @csrf
 
-                    <p>Deseja realmente cancelar essa proposta de estágio?</p>
-                    <p>Essa ação não poderá ser desfeita.</p>
+                    <p>Deseja realmente excluir essa proposta de estágio?</p>
+                    <p>Essa ação não poderá ser desfeita</p>
                 </div>
 
                 <div class="modal-footer">
@@ -34,8 +34,8 @@
     @parent
 
     <script type="text/javascript">
-        function deleteProposalId(id) {
-            jQuery('#cancelForm').attr('action', `/coordenador/proposta/${id}/cancelar`);
+        function proposalId(id) {
+            jQuery('#deleteForm').attr('action', `/empresa/proposta/${id}/`);
         }
     </script>
 @endsection

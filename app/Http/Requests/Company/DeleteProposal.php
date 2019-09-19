@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Coordinator;
+namespace App\Http\Requests\Company;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CancelInternship extends FormRequest
+class DeleteProposal extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class CancelInternship extends FormRequest
     public function rules()
     {
         return [
-            'canceledAt' => ['required', 'date'],
-            'reasonToCancel' => ['required', 'max:8000'],
+            //
         ];
     }
 }

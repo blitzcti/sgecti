@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    @include('modals.coordinator.proposal.cancel')
+    @include('modals.coordinator.proposal.delete')
     @include('modals.coordinator.proposal.approve')
 
     @if(session()->has('message'))
@@ -23,8 +23,7 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <a id="addLink" href="{{ route('coordenador.proposta.novo') }}" class="btn btn-success">Criar nova
-                proposta</a>
+            <a id="addLink" href="{{ route('coordenador.proposta.novo') }}" class="btn btn-success">Nova proposta</a>
 
             <table id="proposals" class="table table-bordered table-hover">
                 <thead>
@@ -76,7 +75,7 @@
                             <a href="#"
                                onclick="deleteProposalId('{{ $proposal->id }}'); return false;"
                                data-toggle="modal" class="text-red"
-                               data-target="#proposalCancelModal">Cancelar</a>
+                               data-target="#proposalDeleteModal">Excluir</a>
                         </td>
                     </tr>
 

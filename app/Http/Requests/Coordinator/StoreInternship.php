@@ -6,7 +6,7 @@ use App\Models\Company;
 use App\Models\Sector;
 use App\Models\Supervisor;
 use App\Rules\Active;
-use App\Rules\CompanyHasCourse;
+use App\Rules\CompanyHasStudentCourse;
 use App\Rules\CompanyHasSector;
 use App\Rules\CompanyHasSupervisor;
 use App\Rules\HasAgreement;
@@ -46,7 +46,7 @@ class StoreInternship extends FormRequest
             'has2Schedules' => ['required', 'boolean'],
             'dilation' => ['required', 'boolean'],
 
-            'ra' => ['required', new Integer, 'min:1', new RA, new HasInternship, new HasJob, new SameCourse, new CompanyHasCourse($this->get('company')), new StudentAge($this->get('startDate')), (!$this->get('delation')) ? new StudentMaxYears($this->get('startDate')) : '', new MinimalYear, new MinimalSemester($this->get('startDate'))],
+            'ra' => ['required', new Integer, 'min:1', new RA, new HasInternship, new HasJob, new SameCourse, new CompanyHasStudentCourse($this->get('company')), new StudentAge($this->get('startDate')), (!$this->get('delation')) ? new StudentMaxYears($this->get('startDate')) : '', new MinimalYear, new MinimalSemester($this->get('startDate'))],
             'active' => ['required', 'boolean'],
             'company' => ['required', 'integer', 'min:1', 'exists:companies,id', new HasCourse, new HasAgreement($this->get('startDate')), new Active(Company::class)],
             'sector' => ['required', 'integer', 'min:1', 'exists:sectors,id', new CompanyHasSector($this->get('company')), new Active(Sector::class)],
@@ -63,9 +63,9 @@ class StoreInternship extends FormRequest
             'thuS' => ['required_with:thuE', 'nullable', 'date_format:H:i', 'before:thuE'],
             'thuE' => ['required_with:thuS', 'nullable', 'date_format:H:i', 'after:thuS', new HourInterval($this->get('thuS'), $this->get('thuE2'), $this->get('thuS2'))],
             'friS' => ['required_with:friE', 'nullable', 'date_format:H:i', 'before:friE'],
-            'friE' => ['required_with:friS', 'nullable', 'date_format:H:i', 'after:friS', new HourInterval($this->get('friS'), $this->get('friE2'), $this->get('friE2'))],
+            'friE' => ['required_with:friS', 'nullable', 'date_format:H:i', 'after:friS', new HourInterval($this->get('friS'), $this->get('friE2'), $this->get('friS2'))],
             'satS' => ['required_with:satE', 'nullable', 'date_format:H:i', 'before:satE'],
-            'satE' => ['required_with:satS', 'nullable', 'date_format:H:i', 'after:satS', new HourInterval($this->get('satS'), $this->get('satS2'), $this->get('satE2'))],
+            'satE' => ['required_with:satS', 'nullable', 'date_format:H:i', 'after:satS', new HourInterval($this->get('satS'), $this->get('satE2'), $this->get('satS2'))],
 
             'monS2' => [($this->get('has2Schedules')) ? 'required_without_all:tueS2,wedS2,thuS2,friS2,satS2' : '', 'required_with:monE2', 'nullable', 'date_format:H:i', 'before:monE2'],
             'monE2' => ['required_with:monS2', 'nullable', 'date_format:H:i', 'after:monS2'],

@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Coordinator;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Coordinator\StoreProposal;
 use App\Http\Requests\Coordinator\UpdateProposal;
+use App\Models\Company;
 use App\Models\Course;
-use App\Models\ManyToMany\ProposalCourse;
 use App\Models\Proposal;
 use App\Models\Schedule;
 use Carbon\Carbon;
@@ -49,25 +49,24 @@ class ProposalController extends Controller
 
     public function create()
     {
+        $companies = Company::all()->where('active', '=', true)->sortBy('id');
         $courses = Course::all()->where('active', '=', true)->sortBy('id');
-        $companies = \App\Models\Company::all()->where('active', '=', true)->sortBy('id');
 
-        return view('coordinator.proposal.new')->with(['courses' => $courses, 'companies' => $companies]);
+        return view('coordinator.proposal.new')->with(['companies' => $companies, 'courses' => $courses]);
     }
 
     public function edit($id)
     {
         $proposal = Proposal::findOrFail($id);
+        $companies = Company::all()->where('active', '=', true)->sortBy('id');
         $courses = Course::all()->where('active', '=', true)->sortBy('id');
-        $companies = \App\Models\Company::all()->where('active', '=', true)->sortBy('id');
 
-        return view('coordinator.proposal.edit')->with(['proposal' => $proposal, 'courses' => $courses, 'companies' => $companies]);
+        return view('coordinator.proposal.edit')->with(['proposal' => $proposal, 'companies' => $companies, 'courses' => $courses]);
     }
 
     public function store(StoreProposal $request)
     {
         $proposal = new Proposal();
-        $proposalCourse = new ProposalCourse();
         $params = [];
 
         $validatedData = (object)$request->validated();
@@ -271,10 +270,5 @@ class ProposalController extends Controller
         $params['message'] = ($saved) ? 'Excluído com sucesso' : 'Erro ao excluir!';
 
         return redirect()->route('coordenador.proposta.index')->with($params);
-    }
-
-    public function mandaEmail()
-    {
-
     }
 }

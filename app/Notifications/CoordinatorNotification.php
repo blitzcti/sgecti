@@ -3,9 +3,8 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class CoordinatorNotification extends Notification
 {
@@ -26,7 +25,7 @@ class CoordinatorNotification extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -37,21 +36,21 @@ class CoordinatorNotification extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @param mixed $notifiable
+     * @return MailMessage
      */
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line($this->details['description'])
-                    ->action($this->details['action_text'], $this->details['url'])
-                    ->line($this->details['text']);
+            ->line($this->details['description'])
+            ->action($this->details['action_text'], $this->details['url'])
+            ->line($this->details['text']);
     }
 
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function toArray($notifiable)
@@ -60,6 +59,7 @@ class CoordinatorNotification extends Notification
             'description' => $this->details['description'],
             'text' => $this->details['text'],
             'icon' => $this->details['icon'],
+            'url' => $this->details['url'],
         ];
     }
 }

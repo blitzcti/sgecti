@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    @include('modals.company.proposal.cancel')
+    @include('modals.company.proposal.delete')
 
     @if(session()->has('message'))
         <div class="alert {{ session('saved') ? 'alert-success' : 'alert-error' }} alert-dismissible"
@@ -22,7 +22,7 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <a id="addLink" href="{{ route('empresa.proposta.novo') }}" class="btn btn-success">Criar nova proposta</a>
+            <a id="addLink" href="{{ route('empresa.proposta.novo') }}" class="btn btn-success">Nova proposta</a>
 
             <table id="proposals" class="table table-bordered table-hover">
                 <thead>
@@ -56,7 +56,7 @@
                             <a href="#"
                                onclick="proposalId('{{ $proposal->id }}'); return false;"
                                data-toggle="modal" class="text-red"
-                               data-target="#proposalCancelModal">Cancelar</a>
+                               data-target="#proposalDeleteModal">Excluir</a>
                         </td>
                     </tr>
 

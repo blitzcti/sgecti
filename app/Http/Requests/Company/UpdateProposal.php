@@ -3,10 +3,11 @@
 namespace App\Http\Requests\Company;
 
 use App\Models\Course;
-use App\Models\Proposal;
 use App\Rules\Active;
+use App\Rules\CompanyHasCourse;
 use App\Rules\HourInterval;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateProposal extends FormRequest
 {
@@ -27,7 +28,8 @@ class UpdateProposal extends FormRequest
      */
     public function rules()
     {
-        $proposal = Proposal::findOrFail($this->route('id'));
+        $company = Auth::user()->company;
+        $proposal = $company->proposals()->findOrFail($this->route('id'));
 
         return [
             'hasSchedule' => ['required', 'boolean'],
@@ -70,7 +72,7 @@ class UpdateProposal extends FormRequest
             'observation' => ['nullable', 'max:8000'],
 
             'courses' => ['required', 'array', 'min:1'],
-            'courses.*' => ['required', 'integer', 'distinct', 'min:1', 'exists:courses,id', new Active(Course::class, $proposal->courses)],
+            'courses.*' => ['required', 'integer', 'distinct', 'min:1', 'exists:courses,id', new Active(Course::class, $proposal->courses), new CompanyHasCourse($company->id)],
         ];
     }
 }

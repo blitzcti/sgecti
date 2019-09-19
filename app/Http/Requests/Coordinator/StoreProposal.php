@@ -5,6 +5,7 @@ namespace App\Http\Requests\Coordinator;
 use App\Models\Company;
 use App\Models\Course;
 use App\Rules\Active;
+use App\Rules\CompanyHasCourse;
 use App\Rules\HourInterval;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -69,7 +70,7 @@ class StoreProposal extends FormRequest
             'observation' => ['nullable', 'max:8000'],
 
             'courses' => ['required', 'array', 'min:1'],
-            'courses.*' => ['required', 'integer', 'distinct', 'min:1', 'exists:courses,id', new Active(Course::class)],
+            'courses.*' => ['required', 'integer', 'distinct', 'min:1', 'exists:courses,id', new Active(Course::class), new CompanyHasCourse($this->get('company'))],
         ];
     }
 }

@@ -4,8 +4,10 @@ namespace App\Http\Requests\Company;
 
 use App\Models\Course;
 use App\Rules\Active;
+use App\Rules\CompanyHasCourse;
 use App\Rules\HourInterval;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreProposal extends FormRequest
 {
@@ -26,6 +28,8 @@ class StoreProposal extends FormRequest
      */
     public function rules()
     {
+        $company = Auth::user()->company;
+
         return [
             'hasSchedule' => ['required', 'boolean'],
             'has2Schedules' => ['required', 'boolean'],
@@ -66,7 +70,7 @@ class StoreProposal extends FormRequest
             'observation' => ['nullable', 'max:8000'],
 
             'courses' => ['required', 'array', 'min:1'],
-            'courses.*' => ['required', 'integer', 'distinct', 'min:1', 'exists:courses,id', new Active(Course::class)],
+            'courses.*' => ['required', 'integer', 'distinct', 'min:1', 'exists:courses,id', new Active(Course::class), new CompanyHasCourse($company->id)],
         ];
     }
 }

@@ -3,12 +3,11 @@
 namespace App\Rules;
 
 use App\Models\Company;
-use App\Models\Course;
 use App\Models\NSac\Student;
 use Exception;
 use Illuminate\Contracts\Validation\Rule;
 
-class CompanyHasCourse implements Rule
+class CompanyHasStudentCourse implements Rule
 {
     private $company_id;
 
@@ -33,9 +32,9 @@ class CompanyHasCourse implements Rule
     {
         try {
             $company = Company::find($this->company_id);
-            $course = Course::find($value);
+            $student = Student::find($value);
 
-            return in_array($course->id, $company->courses->map(function ($c) {
+            return in_array($student->course->id, $company->courses->map(function ($c) {
                 return $c->id;
             })->toArray());
         } catch (Exception $e) {

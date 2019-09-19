@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Coordinator;
 
-use App\Http\Requests\API\FormRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
 class CancelAgreement extends FormRequest
 {

@@ -18,6 +18,7 @@
                 font-weight: 200;
                 height: 100vh;
                 margin: 0;
+                overflow: hidden;
             }
 
             .full-height {
@@ -77,7 +78,7 @@
     <body>
         <div id="particles-js"></div>
 
-        <div class="flex-center position-ref full-height" style="overflow: hidden">
+        <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth

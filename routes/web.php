@@ -283,7 +283,7 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
             Route::get('editar', 'Coordinator\ProposalController@edit')->name('editar');
             Route::put('', 'Coordinator\ProposalController@update')->name('alterar');
             Route::put('aprovar', 'Coordinator\ProposalController@approve')->name('aprovar');
-            Route::delete('', 'Coordinator\ProposalController@delete')->name('excluir');
+            Route::delete('', 'Coordinator\ProposalController@destroy')->name('excluir');
         });
     });
 });
@@ -312,7 +312,7 @@ Route::prefix('empresa')->name('empresa.')->middleware('auth')->group(function (
             Route::get('', 'Company\ProposalController@show')->name('detalhes');
             Route::get('editar', 'Company\ProposalController@edit')->name('editar');
             Route::put('', 'Company\ProposalController@update')->name('alterar');
-            Route::delete('', 'Company\ProposalController@delete')->name('excluir');
+            Route::delete('', 'Company\ProposalController@destroy')->name('excluir');
         });
     });
 });

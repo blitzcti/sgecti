@@ -273,7 +273,7 @@
                             <th scope="col">ID</th>
                             <th>Empresa</th>
                             <th>Descrição</th>
-                            <th>Validade</th>
+                            <th>Data limite</th>
                             <th>Ações</th>
                         </tr>
                         </thead>
@@ -285,10 +285,13 @@
                                 <th scope="row">{{ $proposal->id }}</th>
                                 <td>{{ $proposal->company->name }} {{ $proposal->company->fantasy_name != null ? "(" . $proposal->company->fantasy_name . ")" : '' }}</td>
                                 <td>{{ $proposal->description }}</td>
-                                <td>{{ $proposal->deadline }}</td>
+                                <td>{{ $proposal->deadline->format('d/m/Y') }}</td>
 
-                                <td>
-                                    <a href="#" onclick="proposal({{ $proposal->id }}); return false;">Selecionar</a>
+                                <td id="proposal_{{ $proposal->id }}" class="proposalSelect">
+                                    <a href="#"
+                                       onclick="proposal({{ $proposal->id }}); return false;">Selecionar</a>
+
+                                    <span class="selected text-green" style="display: none;">Selecionado</span>
                                 </td>
                             </tr>
 
@@ -315,6 +318,15 @@
 
 @section('js')
     <script type="text/javascript">
+        function proposal(id) {
+            jQuery('#inputProposal').val(id);
+            jQuery('.proposalSelect a').show();
+            jQuery('.proposalSelect .selected').hide();
+
+            jQuery(`#proposal_${id} a`).hide();
+            jQuery(`#proposal_${id} .selected`).show();
+        }
+
         jQuery(document).ready(function () {
             jQuery('#message').wysihtml5({
                 locale: 'pt-BR'

@@ -31,7 +31,7 @@
                     <th scope="col">ID</th>
                     <th>Empresa</th>
                     <th>Descrição</th>
-                    <th>Validade</th>
+                    <th>Data limite</th>
                     <th>Estado</th>
                     <th>Ações</th>
                 </tr>
@@ -44,7 +44,7 @@
                         <th scope="row">{{ $proposal->id }}</th>
                         <td>{{ $proposal->company->name }}</td>
                         <td>{{ $proposal->description }}</td>
-                        <td>{{ $proposal->deadline }}</td>
+                        <td>{{ $proposal->deadline->format('d/m/Y') }}</td>
 
                         @if($proposal->approved_at != null)
 

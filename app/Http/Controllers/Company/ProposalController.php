@@ -228,7 +228,7 @@ class ProposalController extends Controller
         return redirect()->route('empresa.proposta.index')->with($params);
     }
 
-    public function delete($id, DeleteProposal $request)
+    public function destroy($id, DeleteProposal $request)
     {
         $company = Auth::user()->company;
         $proposal = $company->proposals()->findOrFail($id);

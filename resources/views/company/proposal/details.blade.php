@@ -7,7 +7,6 @@
 @stop
 
 @section('content')
-    @include('modals.company.proposal.cancel')
     @include('modals.company.proposal.delete')
 
     <div class="box box-default">
@@ -44,12 +43,12 @@
                 <dd class="col-sm-10">{{ $proposal->contact }}</dd>
 
                 <dt class="col-sm-2">Data limite</dt>
-                <dd class="col-sm-10">{{ $proposal->deadline }}</dd>
+                <dd class="col-sm-10">{{ $proposal->deadline->format('d/m/Y') }}</dd>
 
                 @if($proposal->observation != null)
 
-                    <dt class="col-sm-2">Data limite</dt>
-                    <dd class="col-sm-10">{{ $proposal->deadline }}</dd>
+                    <dt class="col-sm-2">Observação</dt>
+                    <dd class="col-sm-10">{{ $proposal->observation }}</dd>
 
                 @endif
             </dl>

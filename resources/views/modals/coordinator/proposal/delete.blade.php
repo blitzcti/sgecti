@@ -11,10 +11,10 @@
             </div>
 
             <form id="deleteForm" action="#" class="form-horizontal" method="post">
-                <div class="modal-body">
-                    @method('DELETE')
-                    @csrf
+                @method('DELETE')
+                @csrf
 
+                <div class="modal-body">
                     <p>Deseja realmente excluir essa proposta de estágio?</p>
                     <p>Essa ação não poderá ser desfeita.</p>
                 </div>
@@ -35,7 +35,7 @@
 
     <script type="text/javascript">
         function deleteProposalId(id) {
-            jQuery('#cancelForm').attr('action', `/coordenador/proposta/${id}/cancelar`);
+            jQuery('#deleteForm').attr('action', `/coordenador/proposta/${id}`);
         }
     </script>
 @endsection

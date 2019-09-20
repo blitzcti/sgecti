@@ -255,7 +255,7 @@ class ProposalController extends Controller
         return redirect()->route('coordenador.proposta.index')->with($params);
     }
 
-    public function delete($id, DeleteProposal $request)
+    public function destroy($id, DeleteProposal $request)
     {
         $proposal = Proposal::findOrFail($id);
 

@@ -33,7 +33,7 @@ class HomeController extends Controller
         } else if ($user->isCompany()) {
             $company = Company::all()->where('email', '=', $user->email)->first();
             $data['proposals'] = Proposal::all()->where('company_id', '=', $company->id);
-            $data['proposalsInProgress'] = Proposal::all()->where('company_id', '<>', $company->id)->where('approved_at', '=', null);
+            $data['proposalsInProgress'] = Proposal::all()->where('company_id', '=', $company->id)->where('approved_at', '=', null);
         } else if ($user->isStudent()) {
 
         }

@@ -64,7 +64,7 @@
                 <tr>
                     <th scope="col">Empresa</th>
                     <th scope="col">Descrição</th>
-                    <th scope="col">Validade</th>
+                    <th scope="col">Data limite</th>
                     <th scope="col">Ações</th>
                 </tr>
                 </thead>
@@ -75,7 +75,7 @@
                     <tr>
                         <td>{{ $proposal->company->name }}</td>
                         <td>{{ $proposal->description }}</td>
-                        <td>{{ $proposal->deadline }}</td>
+                        <td>{{ $proposal->deadline->format('d/m/Y') }}</td>
                         <td>
                             <a href="{{ route('coordenador.proposta.detalhes', ['id' => $proposal->id]) }}">Detalhes</a>
                             |

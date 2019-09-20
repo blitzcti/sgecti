@@ -10,6 +10,20 @@ class Coordinator extends Model
         'user_id', 'course_id', 'start_date', 'end_date', 'temp_of',
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'user_id' => 'integer',
+        'course_id' => 'integer',
+        'temp_of' => 'integer',
+
+        'start_date' => 'date',
+        'end_date' => 'date',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

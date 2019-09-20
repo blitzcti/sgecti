@@ -50,6 +50,9 @@
 
 @if(sizeof($proposals) > 0)
 
+    @include('modals.coordinator.proposal.delete')
+    @include('modals.coordinator.proposal.approve')
+
     <div class="box box-default">
         <div class="box-header with-border">
             <h3 class="box-title">Propostas de estágio pendentes</h3>
@@ -74,11 +77,13 @@
                         <td>{{ $proposal->description }}</td>
                         <td>{{ $proposal->deadline }}</td>
                         <td>
-                            <a href="#">Detalhes</a>
+                            <a href="{{ route('coordenador.proposta.detalhes', ['id' => $proposal->id]) }}">Detalhes</a>
                             |
-                            <a href="#" class="text-green">Aprovar</a>
+                            <a href="#" onclick="approveProposalId('{{ $proposal->id }}'); return false;"
+                               data-toggle="modal" class="text-green" data-target="#proposalApproveModal">Aprovar</a>
                             |
-                            <a href="#" class="text-red">Rejeitar</a>
+                            <a href="#" onclick="deleteProposalId('{{ $proposal->id }}'); return false;"
+                               data-toggle="modal" class="text-red" data-target="#proposalDeleteModal">Excluir</a>
                         </td>
                     </tr>
 

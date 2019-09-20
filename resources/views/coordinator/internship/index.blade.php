@@ -73,7 +73,7 @@
                                    data-toggle="modal" class="text-red"
                                    data-target="#internshipCancelModal">Cancelar</a>
 
-                            @elseif($internship->state->id == 3)
+                            @elseif($internship->state->id == 3 && $internship->student->internship == null)
 
                                 |
                                 <a href="#"

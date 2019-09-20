@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\NSac\Student;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -71,6 +72,20 @@ class User extends Authenticatable
     {
         if ($this->isCompany()) {
             return $this->belongsTo(Company::class, 'email', 'email');
+        }
+
+        return null;
+    }
+
+    public function isStudent()
+    {
+        return $this->hasRole('student');
+    }
+
+    public function student()
+    {
+        if ($this->isStudent()) {
+            return $this->belongsTo(Student::class, 'email', 'email2');
         }
 
         return null;

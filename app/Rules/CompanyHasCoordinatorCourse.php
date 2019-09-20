@@ -5,8 +5,9 @@ namespace App\Rules;
 use App\Models\Company;
 use Exception;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
-class NoAgreement implements Rule
+class CompanyHasCoordinatorCourse implements Rule
 {
     /**
      * Create a new rule instance.
@@ -30,7 +31,9 @@ class NoAgreement implements Rule
         try {
             $company = Company::find($value);
 
-            return !$company->hasAgreementAt();
+            return array_map(function ($c) {
+                return in_array($c["id"], Auth::user()->coordinator_of->toArray());
+            }, $company->courses->toArray());
         } catch (Exception $e) {
             return false;
         }
@@ -43,6 +46,6 @@ class NoAgreement implements Rule
      */
     public function message()
     {
-        return __('validation.already_has_agreement');
+        return __('validation.has_course');
     }
 }

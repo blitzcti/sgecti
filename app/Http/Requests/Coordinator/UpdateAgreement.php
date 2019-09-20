@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Coordinator;
 
-use App\Rules\NoAgreement;
+use App\Rules\CompanyHasNoAgreement;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateAgreement extends FormRequest

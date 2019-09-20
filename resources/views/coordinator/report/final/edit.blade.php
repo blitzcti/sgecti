@@ -62,7 +62,7 @@
 
                             <div class="col-sm-8">
                                 <input type="date" class="form-control" id="inputEndDate" name="endDate"
-                                       value="{{ old('endDate') ?? $report->end_date }}"/>
+                                       value="{{ old('endDate') ?? $report->end_date->format("Y-m-d") }}"/>
 
                                 <span class="help-block">{{ $errors->first('endDate') }}</span>
                             </div>
@@ -117,14 +117,14 @@
                     <dt class="col-sm-2">Data de início</dt>
                     <dd class="col-sm-10">
                         <span id="internshipStartDate">
-                            {{ date("d/m/Y", strtotime(($report->internship ?? $internships->first())->start_date)) }}
+                            {{ date("d/m/Y", strtotime(($report->internship ?? $internships->first())->start_date->format("Y-m-d"))) }}
                         </span>
                     </dd>
 
                     <dt class="col-sm-2">Data de término</dt>
                     <dd class="col-sm-10">
                         <span id="internshipEndDate">
-                            {{ date("d/m/Y", strtotime(($report->internship ?? $internships->first())->end_date)) }}
+                            {{ date("d/m/Y", strtotime(($report->internship ?? $internships->first())->end_date->format("Y-m-d"))) }}
                         </span>
                     </dd>
 

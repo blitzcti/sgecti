@@ -127,14 +127,14 @@
                         <dt class="col-sm-2">Data de início</dt>
                         <dd class="col-sm-10">
                         <span id="internshipStartDate">
-                            {{ date("d/m/Y", strtotime((App\Models\Internship::find($i) ?? $internships->first())->start_date)) }}
+                            {{ date("d/m/Y", strtotime((App\Models\Internship::find($i) ?? $internships->first())->start_date->format("Y-m-d"))) }}
                         </span>
                         </dd>
 
                         <dt class="col-sm-2">Data de término</dt>
                         <dd class="col-sm-10">
                         <span id="internshipEndDate">
-                            {{ date("d/m/Y", strtotime((App\Models\Internship::find($i) ?? $internships->first())->end_date)) }}
+                            {{ date("d/m/Y", strtotime((App\Models\Internship::find($i) ?? $internships->first())->end_date->format("Y-m-d"))) }}
                         </span>
                         </dd>
 

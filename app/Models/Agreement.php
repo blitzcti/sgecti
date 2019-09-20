@@ -2,12 +2,27 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class Agreement extends Model
 {
     protected $fillable = [
         'company_id', 'start_date', 'end_date', 'observation', 'active',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'company_id' => 'integer',
+
+        'start_date' => 'date',
+        'end_date' => 'date',
+
+        'active' => 'boolean',
     ];
 
     public function company()
@@ -23,6 +38,19 @@ class Agreement extends Model
         $user->phone = null;
         $user->name = $this->company->representative_name;
         $user->assignRole('company');
+        $user->delete();
         return $user->save();
+    }
+
+    public function deleteUser()
+    {
+        $user = $this->company->user;
+
+        return $user->delete();
+    }
+
+    public static function expiredToday()
+    {
+        return Agreement::where('end_date', '=', Carbon::today()->toDateString())->orderBy('id')->get();
     }
 }

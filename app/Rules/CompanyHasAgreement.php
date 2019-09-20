@@ -2,22 +2,27 @@
 
 namespace App\Rules;
 
-use App\Models\NSac\Student;
+use App\Models\Company;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Validation\Rule;
 
-class StudentAge implements Rule
+class CompanyHasAgreement implements Rule
 {
-    private $startDate;
+    private $date;
 
     /**
      * Create a new rule instance.
      *
-     * @param $startDate
+     * @param $date
      */
-    public function __construct($startDate)
+    public function __construct($date)
     {
-        $this->startDate = $startDate;
+        if ($date == null) {
+            $this->date = Carbon::today();
+        } else {
+            $this->date = Carbon::createFromFormat("!Y-m-d", $date);
+        }
     }
 
     /**
@@ -30,9 +35,9 @@ class StudentAge implements Rule
     public function passes($attribute, $value)
     {
         try {
-            $student = Student::find($value);
+            $company = Company::find($value);
 
-            return $student->getAgeByDate($this->startDate) >= 16;
+            return $company->hasAgreementAt($this->date);
         } catch (Exception $e) {
             return false;
         }
@@ -45,6 +50,6 @@ class StudentAge implements Rule
      */
     public function message()
     {
-        return __('validation.age');
+        return __('validation.no_agreement');
     }
 }

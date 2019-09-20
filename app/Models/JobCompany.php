@@ -9,6 +9,17 @@ class JobCompany extends Model
         'active',
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'pj' => 'boolean',
+
+        'active' => 'boolean',
+    ];
+
     public function jobs()
     {
         return $this->hasMany(Job::class, 'company_id');

@@ -102,6 +102,11 @@ class AgreementController extends Controller
 
         if ($saved) {
             Log::info($log);
+
+            if ($agreement->end_date < Carbon::now()) {
+                // O convênio está expirado, logo o usuário deve ser removido
+                $agreement->deleteUser();
+            }
         } else {
             Log::error("Erro ao salvar convênio");
         }
@@ -121,6 +126,7 @@ class AgreementController extends Controller
 
         $log = "Cancelamento de convênio";
         $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nEmpresa com convênio cancelado: " . $agreement->company->name;
 
         $agreement->active = false;
 
@@ -128,6 +134,7 @@ class AgreementController extends Controller
 
         if ($saved) {
             Log::info($log);
+            $agreement->deleteUser();
         } else {
             Log::error("Erro ao cancelar convênio");
         }
@@ -147,6 +154,7 @@ class AgreementController extends Controller
 
         $log = "Reativação de convênio";
         $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nEmpresa com convênio reativado: " . $agreement->company->name;
 
         $agreement->active = true;
 
@@ -154,6 +162,7 @@ class AgreementController extends Controller
 
         if ($saved) {
             Log::info($log);
+            $agreement->createUser();
         } else {
             Log::error("Erro ao reativar convênio");
         }
@@ -162,5 +171,13 @@ class AgreementController extends Controller
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
         return redirect()->route('coordenador.empresa.convenio.index')->with($params);
+    }
+
+    public function deleteUsers()
+    {
+        $agreements = Agreement::expiredToday();
+        foreach ($agreements as $agreement) {
+            $agreement->deleteUser();
+        }
     }
 }

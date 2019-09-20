@@ -10,6 +10,7 @@ use App\Http\Requests\Coordinator\UpdateInternship;
 use App\Models\Company;
 use App\Models\Internship;
 use App\Models\Schedule;
+use App\Models\State;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -229,7 +230,7 @@ class InternshipController extends Controller
         $internship = Internship::findOrFail($id);
         $validatedData = (object)$request->validated();
 
-        $internship->state_id = 3;
+        $internship->state_id = State::CANCELED;
         $internship->reason_to_cancel = $validatedData->reasonToCancel;
         $internship->canceled_at = $validatedData->canceledAt;
         $saved = $internship->save();
@@ -255,7 +256,7 @@ class InternshipController extends Controller
         $internship = Internship::findOrFail($id);
         $validatedData = (object)$request->validated();
 
-        $internship->state_id = 1;
+        $internship->state_id = State::OPEN;
         $internship->reason_to_cancel = null;
         $internship->canceled_at = null;
         $saved = $internship->save();

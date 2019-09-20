@@ -2,27 +2,20 @@
 
 namespace App\Rules;
 
-use App\Models\Company;
-use Carbon\Carbon;
+use App\Models\NSac\Student;
 use Exception;
 use Illuminate\Contracts\Validation\Rule;
 
-class HasAgreement implements Rule
+class StudentHasInternship implements Rule
 {
-    private $date;
-
     /**
      * Create a new rule instance.
      *
-     * @param $date
+     * @return void
      */
-    public function __construct($date)
+    public function __construct()
     {
-        if ($date == null) {
-            $this->date = Carbon::today();
-        } else {
-            $this->date = Carbon::createFromFormat("!Y-m-d", $date);
-        }
+        //
     }
 
     /**
@@ -35,9 +28,9 @@ class HasAgreement implements Rule
     public function passes($attribute, $value)
     {
         try {
-            $company = Company::find($value);
+            $student = Student::findOrFail($value);
 
-            return $company->hasAgreementAt($this->date);
+            return $student->internship == null;
         } catch (Exception $e) {
             return false;
         }
@@ -50,6 +43,6 @@ class HasAgreement implements Rule
      */
     public function message()
     {
-        return __('validation.no_agreement');
+        return __('validation.already_has_internship');
     }
 }

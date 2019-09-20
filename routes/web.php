@@ -105,9 +105,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
             Route::get('editar', 'Admin\CourseController@edit')->name('editar');
             Route::put('', 'Admin\CourseController@update')->name('alterar');
 
-            Route::prefix('coordenador')->name('coordenador.')->group(function () {
-                Route::get('', 'Admin\CoordinatorController@indexByCourse')->name('index');
-            });
+            Route::get('coordenador', 'Admin\CoordinatorController@indexByCourse')->name('coordenador');
 
             Route::prefix('configuracao')->name('configuracao.')->group(function () {
                 Route::get('', 'Admin\CourseConfigurationController@index')->name('index');

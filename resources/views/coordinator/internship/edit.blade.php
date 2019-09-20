@@ -108,7 +108,7 @@
 
                             <div class="col-sm-8">
                                 <input type="date" class="form-control" id="inputStartDate" name="startDate"
-                                       value="{{ old('startDate') ?? $internship->start_date }}"/>
+                                       value="{{ old('startDate') ?? $internship->start_date->format("Y-m-d") }}"/>
 
                                 <span class="help-block">{{ $errors->first('startDate') }}</span>
                             </div>
@@ -121,7 +121,7 @@
 
                             <div class="col-sm-8">
                                 <input type="date" class="form-control" id="inputEndDate" name="endDate"
-                                       value="{{ old('endDate') ?? $internship->end_date }}">
+                                       value="{{ old('endDate') ?? $internship->end_date->format("Y-m-d") }}">
 
                                 <span class="help-block">{{ $errors->first('endDate') }}</span>
                             </div>

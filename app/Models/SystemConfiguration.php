@@ -10,7 +10,17 @@ class SystemConfiguration extends Model
         'name', 'cep', 'uf', 'city', 'street', 'number', 'district', 'phone', 'email', 'extension', 'agreement_expiration',
     ];
 
-    public static function getAgreementExpiration(Carbon $date) {
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'agreement_expiration' => 'integer',
+    ];
+
+    public static function getAgreementExpiration(Carbon $date)
+    {
         $configs = SystemConfiguration::all()->sortBy('id');
         return $date->modify("+" . $configs->last()->agreement_expiration . " year")->format("Y-m-d");
     }

@@ -3,9 +3,10 @@
 namespace App\Rules;
 
 use App\Models\NSac\Student;
+use Exception;
 use Illuminate\Contracts\Validation\Rule;
 
-class HasJob implements Rule
+class StudentHasJob implements Rule
 {
     /**
      * Create a new rule instance.
@@ -26,7 +27,13 @@ class HasJob implements Rule
      */
     public function passes($attribute, $value)
     {
-        return Student::findOrFail($value)->job == null;
+        try {
+            $student = Student::findOrFail($value);
+
+            return $student->job == null;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**

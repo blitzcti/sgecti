@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Coordinator;
 
+use App\Models\Agreement;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ReactivateAgreement extends FormRequest
@@ -13,7 +14,9 @@ class ReactivateAgreement extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $agreement = Agreement::findOrFail($this->route('id'));
+
+        return !$agreement->active && !$agreement->company->hasAgreementAt($agreement->start_date);
     }
 
     /**

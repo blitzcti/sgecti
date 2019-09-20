@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\NSac;
 
 use App\Http\Controllers\Controller;
+use App\Models\Internship;
 use App\Models\NSac\Student;
 use App\Models\State;
 use Carbon\Carbon;
@@ -50,19 +51,19 @@ class StudentController extends Controller
 
                 $istates = $request->istates;
                 if (in_array(0, $istates)) { // Estagiando
-                    $students2 = $students2->merge(State::findOrFail(1)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) use ($students) {
+                    $students2 = $students2->merge(Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) use ($students) {
                         return $students->find($i->ra);
                     }));
                 }
 
                 if (in_array(1, $istates)) { // Estágio finalizado
-                    $students2 = $students2->merge(State::findOrFail(2)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) use ($students) {
+                    $students2 = $students2->merge(Internship::where('state_id', '=', State::FINISHED)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) use ($students) {
                         return $students->find($i->ra);
                     }));
                 }
 
                 if (in_array(2, $istates)) { // Não estagiando
-                    $is = State::findOrFail(1)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
+                    $is = Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) {
                         return $i->ra;
                     })->toArray();
 
@@ -72,11 +73,11 @@ class StudentController extends Controller
                 }
 
                 if (in_array(3, $istates)) { // Nunca estagiaram
-                    $is = State::findOrFail(1)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
+                    $is = Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) {
                         return $i->ra;
                     })->toArray();
 
-                    $fis = State::findOrFail(2)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
+                    $fis = Internship::where('state_id', '=', State::FINISHED)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) {
                         return $i->ra;
                     })->toArray();
 

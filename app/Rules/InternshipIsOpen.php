@@ -2,12 +2,11 @@
 
 namespace App\Rules;
 
-use App\Models\Company;
+use App\Models\Internship;
 use Exception;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
 
-class HasCourse implements Rule
+class InternshipIsOpen implements Rule
 {
     /**
      * Create a new rule instance.
@@ -29,11 +28,9 @@ class HasCourse implements Rule
     public function passes($attribute, $value)
     {
         try {
-            $company = Company::find($value);
+            $internship = Internship::find($value);
 
-            return array_map(function ($c) {
-                return in_array($c["id"], Auth::user()->coordinator_of->toArray());
-            }, $company->courses->toArray());
+            return $internship->state->id == 1;
         } catch (Exception $e) {
             return false;
         }
@@ -46,6 +43,6 @@ class HasCourse implements Rule
      */
     public function message()
     {
-        return __('validation.has_course');
+        return __('validation.internship_not_active');
     }
 }

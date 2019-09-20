@@ -39,7 +39,7 @@ return [
     'sectors' => 'Setores',
 
     'internships' => 'Estágios',
-    'amendments' => 'Termo aditivo',
+    'amendments' => 'Termos aditivos',
     'jobs' => 'Trabalhos',
 
     'reports' => 'Relatórios',

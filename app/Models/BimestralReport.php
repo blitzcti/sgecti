@@ -8,6 +8,17 @@ class BimestralReport extends Model
         'internship_id', 'date', 'protocol',
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'internship_id' => 'integer',
+
+        'date' => 'date',
+    ];
+
     public function internship()
     {
         return $this->belongsTo(Internship::class);

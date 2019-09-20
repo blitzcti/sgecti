@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Coordinator;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Coordinator\StudentPDF;
 use App\Models\Course;
+use App\Models\Internship;
 use App\Models\NSac\Student;
 use App\Models\State;
 use Illuminate\Support\Facades\Auth;
@@ -67,19 +68,19 @@ class StudentController extends Controller
 
             $istates = $validatedData->internships;
             if (in_array(0, $istates)) { // Estagiando
-                $students2 = $students2->merge(State::findOrFail(1)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) use ($students) {
+                $students2 = $students2->merge(Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) use ($students) {
                     return $students->find($i->ra);
                 }));
             }
 
             if (in_array(1, $istates)) { // Estágio finalizado
-                $students2 = $students2->merge(State::findOrFail(2)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) use ($students) {
+                $students2 = $students2->merge(Internship::where('state_id', '=', State::FINISHED)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) use ($students) {
                     return $students->find($i->ra);
                 }));
             }
 
             if (in_array(2, $istates)) { // Não estagiando
-                $is = State::findOrFail(1)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
+                $is = Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) {
                     return $i->ra;
                 })->toArray();
 
@@ -89,11 +90,11 @@ class StudentController extends Controller
             }
 
             if (in_array(3, $istates)) { // Nunca estagiaram
-                $is = State::findOrFail(1)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
+                $is = Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) {
                     return $i->ra;
                 })->toArray();
 
-                $fis = State::findOrFail(2)->internships->where('active', '=', true)->sortBy('id')->map(function ($i) {
+                $fis = Internship::where('state_id', '=', State::FINISHED)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) {
                     return $i->ra;
                 })->toArray();
 
@@ -150,14 +151,14 @@ class StudentController extends Controller
         $classes = $classes ?? ['A', 'B', 'C', 'D'];
         $istates = $istates ?? [];
         if (sizeof($istates) == 0 || in_array(0, $istates)) {
-            $internships = State::findOrFail(1)->internships->where('active', '=', true)->whereIn('ra', $students_ra)->sortBy('id');
+            $internships = Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->orderBy('id')->get()->whereIn('ra', $students_ra);
             $internships_ra = $internships->map(function ($i) {
                 return $i->ra;
             })->toArray();
         }
 
         if (sizeof($istates) == 0 || in_array(1, $istates)) {
-            $finished_internships = State::findOrFail(2)->internships->where('active', '=', true)->whereIn('ra', $students_ra)->sortBy('id');
+            $finished_internships = Internship::where('state_id', '=', State::FINISHED)->where('active', '=', true)->whereIn('ra', $students_ra)->orderBy('id')->get();
             $finished_internships_ra = $finished_internships->map(function ($fi) {
                 return $fi->ra;
             })->toArray();
@@ -165,7 +166,7 @@ class StudentController extends Controller
 
         if (sizeof($istates) == 0 || in_array(2, $istates)) {
             if (sizeof($internships) == 0) {
-                $internships = State::findOrFail(1)->internships->where('active', '=', true)->whereIn('ra', $students_ra)->sortBy('id');
+                $internships = Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->orderBy('id')->get()->whereIn('ra', $students_ra);
                 $internships_ra = $internships->map(function ($i) {
                     return $i->ra;
                 })->toArray();
@@ -178,14 +179,14 @@ class StudentController extends Controller
 
         if (sizeof($istates) == 0 || in_array(3, $istates)) {
             if (sizeof($internships) == 0) {
-                $internships = State::findOrFail(1)->internships->where('active', '=', true)->whereIn('ra', $students_ra)->sortBy('id');
+                $internships = Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->whereIn('ra', $students_ra)->orderBy('id')->get();
                 $internships_ra = $internships->map(function ($i) {
                     return $i->ra;
                 })->toArray();
             }
 
             if (sizeof($internships) == 0) {
-                $finished_internships = State::findOrFail(2)->internships->where('active', '=', true)->whereIn('ra', $students_ra)->sortBy('id');
+                $finished_internships = Internship::where('state_id', '=', State::FINISHED)->where('active', '=', true)->whereIn('ra', $students_ra)->orderBy('id')->get();
                 $finished_internships_ra = $finished_internships->map(function ($fi) {
                     return $fi->ra;
                 })->toArray();

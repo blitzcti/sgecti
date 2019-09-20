@@ -45,9 +45,10 @@ class AmendmentController extends Controller
     {
         $cIds = Auth::user()->coordinator_courses_id;
 
-        $internships = State::findOrFail(1)->internships->filter(function ($internship) use ($cIds) {
-            return in_array($internship->student->course_id, $cIds);
-        })->where('active', '=', true)->sortBy('id');
+        $internships = Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->orderBy('id')->get()
+            ->filter(function ($internship) use ($cIds) {
+                return in_array($internship->student->course_id, $cIds);
+            });
 
         $i = request()->i;
         return view('coordinator.internship.amendment.new')->with(['internships' => $internships, 'i' => $i]);

@@ -6,7 +6,7 @@ use App\Models\Internship;
 use App\Rules\Active;
 use App\Rules\HourInterval;
 use App\Rules\Integer;
-use App\Rules\InternshipActive;
+use App\Rules\InternshipIsOpen;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreAmendment extends FormRequest
@@ -34,7 +34,7 @@ class StoreAmendment extends FormRequest
             'hasSchedule' => ['required', 'boolean'],
             'has2Schedules' => ['required', 'boolean'],
 
-            'internship' => ['required', 'integer', 'min:1', 'exists:internships,id', new InternshipActive, new Active(Internship::class)],
+            'internship' => ['required', 'integer', 'min:1', 'exists:internships,id', new InternshipIsOpen, new Active(Internship::class)],
             'startDate' => ['required_if:hasSchedule,1', 'nullable', 'date', 'after:' . $internship->start_date],
             'endDate' => ['required_with:startDate', 'nullable', 'date', 'after:startDate'],
             'newEndDate' => ['nullable', 'date', 'after:' . $internship->start_date],

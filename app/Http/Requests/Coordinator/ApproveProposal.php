@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests\Coordinator;
 
-use App\Models\Internship;
-use App\Models\State;
+use App\Models\Proposal;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ReactivateInternship extends FormRequest
+class ApproveProposal extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,10 +14,9 @@ class ReactivateInternship extends FormRequest
      */
     public function authorize()
     {
-        $internship = Internship::findOrFail($this->route('id'));
-        $student = $internship->student;
+        $proposal = Proposal::findOrFail($this->route('id'));
 
-        return $internship->state_id == State::CANCELED && $student->internship == null;
+        return $proposal->approved_at == null;
     }
 
     /**
@@ -28,8 +26,6 @@ class ReactivateInternship extends FormRequest
      */
     public function rules()
     {
-        $internship = Internship::findOrFail($this->route('id'));
-
         return [
             //
         ];

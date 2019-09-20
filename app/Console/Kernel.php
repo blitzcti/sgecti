@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Models\Agreement;
 use App\Models\BackupConfiguration;
 use App\Models\Coordinator;
 use App\Models\User;
@@ -50,6 +51,11 @@ class Kernel extends ConsoleKernel
 
                 $schedule->call('App\Http\Controllers\Admin\BackupController@scheduledBackup')->days($days)->at($hour);
                 $schedule->call('App\Http\Controllers\Admin\LogController@clearLogs')->monthly()->at('00:00');
+            }
+
+            if (Schema::hasTable((new User())->getTable())
+                && Schema::hasTable((new Agreement())->getTable())) {
+                $schedule->call('App\Http\Controllers\Coordinator\AgreementController@deleteUsers')->daily()->at('00:00');
             }
 
             if (Schema::hasTable((new User())->getTable())

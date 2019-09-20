@@ -32,5 +32,9 @@
 
         @include('company.home')
 
+    @elseif($user->isStudent())
+
+        @include('student.home')
+
     @endif
 @stop

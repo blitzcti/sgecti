@@ -7,8 +7,24 @@ use Carbon\Carbon;
 class Proposal extends Model
 {
     protected $fillable = [
-        'name', 'company_id', 'deadline', 'schedule_id', 'remuneration', 'description', 'requirements', 'benefits',
-        'contact', 'type', 'observation',
+        'name', 'company_id', 'deadline', 'schedule_id', 'schedule_2_id', 'remuneration', 'description', 'requirements',
+        'benefits', 'contact', 'type', 'observation',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'company_id' => 'integer',
+        'schedule_id' => 'integer',
+        'schedule_2_id' => 'integer',
+        'type' => 'integer',
+
+        'remuneration' => 'float',
+
+        'deadline' => 'date',
     ];
 
     public function company()

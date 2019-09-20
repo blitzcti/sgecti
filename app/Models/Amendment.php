@@ -8,6 +8,21 @@ class Amendment extends Model
         'internship_id', 'start_date', 'end_date', 'new_end_date', 'schedule_id', 'schedule_2_id', 'protocol', 'observation',
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'internship_id' => 'integer',
+        'schedule_id' => 'integer',
+        'schedule_2_id' => 'integer',
+
+        'start_date' => 'date',
+        'end_date' => 'date',
+        'new_end_date' => 'date',
+    ];
+
     public function internship()
     {
         return $this->belongsTo(Internship::class);

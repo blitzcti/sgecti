@@ -10,6 +10,18 @@ class Company extends Model
         'cpf_cnpj', 'ie', 'pj', 'name', 'fantasy_name', 'email', 'phone', 'representative_name', 'representative_role', 'active', 'address_id',
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'pj' => 'boolean',
+        'address_id' => 'integer',
+
+        'active' => 'boolean',
+    ];
+
     public function address()
     {
         return $this->belongsTo(Address::class);
@@ -43,6 +55,11 @@ class Company extends Model
     public function proposals()
     {
         return $this->hasMany(Proposal::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'email', 'email');
     }
 
     public function hasAgreementAt(Carbon $date = null)

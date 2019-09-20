@@ -11,6 +11,17 @@ class Course extends Model
         'name', 'color_id', 'active',
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'color_id' => 'integer',
+
+        'active' => 'boolean',
+    ];
+
     public function getStudentsAttribute()
     {
         return Student::actives()->where('course_id', '=', $this->id);

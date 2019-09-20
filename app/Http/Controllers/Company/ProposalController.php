@@ -236,7 +236,7 @@ class ProposalController extends Controller
         $validatedData = (object)$request->validated();
 
         $log = "Exclusão de proposta de estágio";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: " . Auth::user()->name . " (" . Auth::user()->company->name . ")";
         $log .= "\nProposta excluída: " . $proposal->id;
 
         $saved = $proposal->delete();

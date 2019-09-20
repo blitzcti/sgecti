@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Coordinator;
 
+use App\Models\Agreement;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CancelAgreement extends FormRequest
@@ -13,7 +14,9 @@ class CancelAgreement extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $agreement = Agreement::findOrFail($this->route('id'));
+
+        return $agreement->active;
     }
 
     /**

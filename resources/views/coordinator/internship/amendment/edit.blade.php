@@ -119,7 +119,7 @@
                     <dd class="col-sm-10">
                         <span class="form-group" style="margin: 0;">
                             <span id="internshipEndDate" class="@if($errors->has('newEndDate')) text-red @endif">
-                            {{ date("d/m/Y", strtotime(old('newEndDate') ?? $amendment->end_date)) }}
+                            {{ date("d/m/Y", strtotime(old('newEndDate') ?? $amendment->end_date->format("Y-m-d"))) }}
                             </span>
 
                             <a href="#" data-target="#changeInternshipEndDateModal" data-toggle="modal"
@@ -156,7 +156,7 @@
 
                                 <div class="col-sm-8">
                                     <input type="date" class="form-control" id="inputStartDate" name="startDate"
-                                           value="{{ old('startDate') ?? $amendment->start_date }}"/>
+                                           value="{{ old('startDate') ?? $amendment->start_date->format("Y-m-d") }}"/>
 
                                     <span class="help-block">{{ $errors->first('startDate') }}</span>
                                 </div>
@@ -185,7 +185,7 @@
                                         </div>
 
                                         <input type="date" class="form-control" id="inputEndDate" name="endDate"
-                                               value="{{ old('endDate') ?? $amendment->end_date }}"/>
+                                               value="{{ old('endDate') ?? $amendment->end_date->format("Y-m-d") }}"/>
                                     </div>
 
                                     <span class="help-block">{{ $errors->first('endDate') }}</span>

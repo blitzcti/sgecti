@@ -8,6 +8,17 @@ class Supervisor extends Model
         'name', 'email', 'phone', 'active', 'company_id',
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'company_id' => 'integer',
+
+        'active' => 'boolean',
+    ];
+
     public function company()
     {
         return $this->belongsTo(Company::class);

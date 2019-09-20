@@ -12,6 +12,27 @@ class Internship extends Model
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'company_id' => 'integer',
+        'sector_id' => 'integer',
+        'coordinator_id' => 'integer',
+        'schedule_id' => 'integer',
+        'schedule_2_id' => 'integer',
+        'supervisor_id' => 'integer',
+        'state_id' => 'integer',
+
+        'start_date' => 'date',
+        'end_date' => 'date',
+        'canceled_at' => 'datetime',
+
+        'active' => 'boolean',
+    ];
+
+    /**
      * The accessors to append to the model's array form.
      *
      * @var array
@@ -96,16 +117,16 @@ class Internship extends Model
         return $this->hasOne(FinalReport::class);
     }
 
-    public function getEndDateAttribute()
+    public function getAEndDateAttribute()
     {
         $endDate = $this->attributes['end_date'];
         foreach ($this->amendments->sortByDesc('id') as $amendment) {
             if ($amendment->new_end_date !== null) {
-                $endDate = $amendment->new_end_date;
+                $endDate = $amendment->new_end_date->format("Y-m-d");
             }
         }
 
-        return $endDate;
+        return Carbon::createFromFormat("!Y-m-d", $endDate);
     }
 
     public function getEstimatedHoursAttribute()
@@ -145,6 +166,6 @@ class Internship extends Model
     public static function requiringFinish()
     {
         $today = Carbon::today()->modify('-20 day');
-        return Internship::where('state_id', '=', 1)->where('active', '=', true)->get()->where('end_date', '<=', $today);
+        return Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->get()->where('end_date', '<=', $today);
     }
 }

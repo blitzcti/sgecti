@@ -14,9 +14,9 @@ class MinimalSemester implements Rule
     /**
      * Create a new rule instance.
      *
-     * @return void
+     * @param null $date
      */
-    public function __construct($date)
+    public function __construct($date = null)
     {
         if ($date == null) {
             $date = date("Y-m-d");

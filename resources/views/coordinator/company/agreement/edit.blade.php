@@ -33,7 +33,7 @@
 
                     <div class="col-sm-10">
                         <input type="date" class="form-control" id="inputStartDate" name="startDate"
-                               value="{{ old('startDate') ?? $agreement->start_date }}"/>
+                               value="{{ old('startDate') ?? $agreement->start_date->format("Y-m-d") }}"/>
 
                         <span class="help-block">{{ $errors->first('startDate') }}</span>
                     </div>

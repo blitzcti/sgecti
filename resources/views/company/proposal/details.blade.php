@@ -7,7 +7,8 @@
 @stop
 
 @section('content')
-    @include('modals.company.proposals.cancel')
+    @include('modals.company.proposal.cancel')
+    @include('modals.company.proposal.delete')
 
     <div class="box box-default">
         <div class="box-body">
@@ -16,8 +17,8 @@
                    class="btn btn-primary">Editar proposta</a>
 
                 <a href="#"
-                   onclick="proposalId('{{ $proposal->id }}'); return false;"
-                   data-toggle="modal" class="btn btn-danger" data-target="#internshipReactivateModal">Excluir
+                   onclick="deleteProposalId('{{ $proposal->id }}'); return false;"
+                   data-toggle="modal" class="btn btn-danger" data-target="#proposalDeleteModal">Excluir
                     proposta</a>
             </div>
 

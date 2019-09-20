@@ -7,7 +7,7 @@ use Exception;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
-class SameCourse implements Rule
+class StudentSameCoordinatorCourse implements Rule
 {
     /**
      * Create a new rule instance.

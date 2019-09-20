@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Coordinator;
 
+use App\Models\Internship;
+use App\Models\State;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CancelInternship extends FormRequest
@@ -13,7 +15,9 @@ class CancelInternship extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $internship = Internship::findOrFail($this->route('id'));
+
+        return $internship->state_id == State::OPEN;
     }
 
     /**

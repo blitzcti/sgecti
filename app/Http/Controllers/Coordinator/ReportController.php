@@ -10,6 +10,7 @@ use App\Http\Requests\Coordinator\UpdateFinalReport;
 use App\Models\BimestralReport;
 use App\Models\Course;
 use App\Models\FinalReport;
+use App\Models\Internship;
 use App\Models\State;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -46,9 +47,9 @@ class ReportController extends Controller
     {
         $cIds = Auth::user()->coordinator_courses_id;
 
-        $internships = State::findOrFail(1)->internships->filter(function ($internship) use ($cIds) {
+        $internships = Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->orderBy('id')->get()->filter(function ($internship) use ($cIds) {
             return in_array($internship->student->course_id, $cIds);
-        })->where('active', '=', true)->sortBy('id');
+        });
 
         $i = request()->i;
         return view('coordinator.report.bimestral.new')->with(['internships' => $internships, 'i' => $i]);
@@ -58,9 +59,9 @@ class ReportController extends Controller
     {
         $cIds = Auth::user()->coordinator_courses_id;
 
-        $internships = State::findOrFail(1)->internships->filter(function ($internship) use ($cIds) {
+        $internships = Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->orderBy('id')->get()->filter(function ($internship) use ($cIds) {
             return in_array($internship->student->course_id, $cIds);
-        })->where('active', '=', true)->sortBy('id');
+        });
 
         $i = request()->i;
         return view('coordinator.report.final.new')->with(['internships' => $internships, 'i' => $i]);
@@ -72,9 +73,9 @@ class ReportController extends Controller
 
         $cIds = Auth::user()->coordinator_courses_id;
 
-        $internships = State::findOrFail(1)->internships->filter(function ($internship) use ($cIds) {
+        $internships = Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->get()->filter(function ($internship) use ($cIds) {
             return in_array($internship->student->course_id, $cIds);
-        })->where('active', '=', true)->merge([$report->internship])->sortBy('id');
+        })->merge([$report->internship])->sortBy('id');
 
         return view('coordinator.report.bimestral.edit')->with(['report' => $report, 'internships' => $internships]);
     }
@@ -85,9 +86,9 @@ class ReportController extends Controller
 
         $cIds = Auth::user()->coordinator_courses_id;
 
-        $internships = State::findOrFail(1)->internships->filter(function ($internship) use ($cIds) {
+        $internships = State::findOrFail(State::OPEN)->internships->where('active', '=', true)->filter(function ($internship) use ($cIds) {
             return in_array($internship->student->course_id, $cIds);
-        })->where('active', '=', true)->merge([$report->internship])->sortBy('id');
+        })->merge([$report->internship])->sortBy('id');
 
         return view('coordinator.report.final.edit')->with(['report' => $report, 'internships' => $internships]);
     }
@@ -269,7 +270,7 @@ class ReportController extends Controller
         $endDate = $validatedData->endDate != null ? Carbon::createFromFormat("!Y-m-d", $validatedData->endDate)
             : Carbon::createFromFormat("!Y-m-d", $startDate->format("Y-m-d"))->modify('+7 day');
 
-        $students = State::findOrFail(1)->internships->filter(function ($i) use ($startDate, $endDate) {
+        $students = Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->get()->filter(function ($i) use ($startDate, $endDate) {
             $reports = $i->bimestral_reports;
             foreach ($reports as $report) {
                 $date = Carbon::createFromFormat("!Y-m-d", $report->date);

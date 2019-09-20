@@ -5,7 +5,7 @@ namespace App\Http\Requests\Coordinator;
 use App\Models\Internship;
 use App\Rules\Active;
 use App\Rules\Integer;
-use App\Rules\InternshipActive;
+use App\Rules\InternshipIsOpen;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreBimestralReport extends FormRequest
@@ -28,7 +28,7 @@ class StoreBimestralReport extends FormRequest
     public function rules()
     {
         return [
-            'internship' => ['required', 'integer', 'min:1', 'exists:internships,id', new InternshipActive, new Active(Internship::class)],
+            'internship' => ['required', 'integer', 'min:1', 'exists:internships,id', new InternshipIsOpen, new Active(Internship::class)],
             'date' => ['required', 'date'],
             'protocol' => ['required', new Integer, 'digits:7'],
         ];

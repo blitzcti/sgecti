@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Coordinator;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Coordinator\ApproveProposal;
+use App\Http\Requests\Coordinator\DeleteProposal;
 use App\Http\Requests\Coordinator\StoreProposal;
 use App\Http\Requests\Coordinator\UpdateProposal;
 use App\Models\Company;
@@ -227,16 +229,19 @@ class ProposalController extends Controller
         return redirect()->route('coordenador.proposta.index')->with($params);
     }
 
-    public function approve($id)
+    public function approve($id, ApproveProposal $request)
     {
         $proposal = Proposal::findOrFail($id);
-        $proposal->approved_at = Carbon::now();
 
-        $saved = $proposal->save();
+        $validatedData = (object)$request->validated();
 
         $log = "Aprovação de proposta de estágio";
         $log .= "\nUsuário: " . Auth::user()->name;
-        $log .= "\nProposta aprovada: " . $proposal;
+        $log .= "\nProposta aprovada: " . $proposal->id;
+
+        $proposal->approved_at = Carbon::now();
+
+        $saved = $proposal->save();
 
         if ($saved) {
             Log::info($log);
@@ -250,20 +255,22 @@ class ProposalController extends Controller
         return redirect()->route('coordenador.proposta.index')->with($params);
     }
 
-    public function cancel($id)
+    public function delete($id, DeleteProposal $request)
     {
         $proposal = Proposal::findOrFail($id);
 
-        $log = "Cancelamento de proposta de estágio";
+        $validatedData = (object)$request->validated();
+
+        $log = "Exclusão de proposta de estágio";
         $log .= "\nUsuário: " . Auth::user()->name;
-        $log .= "\nProposta cancelada: " . $proposal;
+        $log .= "\nProposta excluída: " . $proposal->id;
 
         $saved = $proposal->delete();
 
         if ($saved) {
             Log::info($log);
         } else {
-            Log::error("Erro ao cancelar proposta de estágio");
+            Log::error("Erro ao excluir proposta de estágio");
         }
 
         $params['saved'] = $saved;

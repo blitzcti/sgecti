@@ -54,7 +54,7 @@
                             <a href="{{ route('empresa.proposta.editar', ['id' => $proposal->id]) }}">Editar</a>
                             |
                             <a href="#"
-                               onclick="proposalId('{{ $proposal->id }}'); return false;"
+                               onclick="deleteProposalId('{{ $proposal->id }}'); return false;"
                                data-toggle="modal" class="text-red"
                                data-target="#proposalDeleteModal">Excluir</a>
                         </td>

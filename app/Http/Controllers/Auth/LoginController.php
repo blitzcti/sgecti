@@ -9,7 +9,6 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
@@ -56,21 +55,18 @@ class LoginController extends Controller
             if (!User::where('email', '=', $credentials[$this->username()])->exists() && Student::where('email2', '=', $credentials[$this->username()])->exists()) {
                 $student = Student::where('email2', '=', $credentials[$this->username()])->first();
 
-//                $user = new User();
-//                $user->name = $student->nome,
-//                $user->phone = null,
-//                $user->email = $student->email2;
-//                if (User::create([
-//                    'name' => $student->nome,
-//                    'phone' => null,
-//                    'email' => $student->email2,
-//                    'password' => Hash::make($credentials['password']),
-//                    'api_token' => null,
-//                ])) {
-//                    return $this->guard()->attempt(
-//                        $this->credentials($request), $request->filled('remember')
-//                    );
-//                }
+                $user = new User();
+                $user->name = $student->nome;
+                $user->phone = null;
+                $user->email = $student->email2;
+                $user->password = Hash::make($credentials['password']);
+                $user->api_token = null;
+                $user->assignRole('student');
+                if ($user->save()) {
+                    return $this->guard()->attempt(
+                        $this->credentials($request), $request->filled('remember')
+                    );
+                }
             }
 
             return $this->guard()->attempt(

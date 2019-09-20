@@ -104,10 +104,13 @@
                     <dd class="col-sm-10">{{ $student->internship->supervisor->name }}</dd>
 
                     <dt class="col-sm-2">Data de início</dt>
-                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($student->internship->start_date)) }}</dd>
+                    <dd class="col-sm-10">{{ $student->internship->start_date->format("d/m/Y") }}</dd>
 
                     <dt class="col-sm-2">Data de término</dt>
-                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($student->internship->end_date)) }}</dd>
+                    <dd class="col-sm-10">
+                        {{ $student->internship->a_end_date->format("d/m/Y") }}
+                        @if($student->internship->a_end_date != $student->internship->end_date) * @endif
+                    </dd>
 
                     <dt class="col-sm-2">Horas estimadas</dt>
                     <dd class="col-sm-10">{{ $student->internship->estimated_hours }}</dd>
@@ -148,10 +151,10 @@
                     <dd class="col-sm-10">{{ $internship->supervisor->name }}</dd>
 
                     <dt class="col-sm-2">Data de início</dt>
-                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($internship->start_date)) }}</dd>
+                    <dd class="col-sm-10">{{ $internship->start_date->format("d/m/Y") }}</dd>
 
                     <dt class="col-sm-2">Data de término</dt>
-                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($internship->final_report->end_date)) }}</dd>
+                    <dd class="col-sm-10">{{ $internship->final_report->end_date->format("d/m/Y") }}</dd>
 
                     <dt class="col-sm-2">Horas concluídas</dt>
                     <dd class="col-sm-10">{{ $internship->final_report->completed_hours }}</dd>
@@ -187,10 +190,10 @@
                     <dd class="col-sm-10">{{ $student->job->company->fantasy_name }}</dd>
 
                     <dt class="col-sm-2">Data de início</dt>
-                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($student->job->start_date)) }}</dd>
+                    <dd class="col-sm-10">{{ $student->job->start_date->format("d/m/Y") }}</dd>
 
                     <dt class="col-sm-2">Data de término</dt>
-                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($student->job->end_date)) }}</dd>
+                    <dd class="col-sm-10">{{ $student->job->end_date->format("d/m/Y") }}</dd>
 
                     <dt class="col-sm-2">CTPS</dt>
                     <dd class="col-sm-10">{{ $student->job->ctps }}</dd>
@@ -225,10 +228,10 @@
                     <dd class="col-sm-10">{{ $job->company_fantasy_name }}</dd>
 
                     <dt class="col-sm-2">Data de início</dt>
-                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($job->start_date)) }}</dd>
+                    <dd class="col-sm-10">{{ $job->start_date->format("d/m/Y") }}</dd>
 
                     <dt class="col-sm-2">Data de término</dt>
-                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($job->end_date)) }}</dd>
+                    <dd class="col-sm-10">{{ $job->end_date->format("d/m/Y") }}</dd>
 
                     <dt class="col-sm-2">CTPS</dt>
                     <dd class="col-sm-10">{{ $job->ctps }}</dd>

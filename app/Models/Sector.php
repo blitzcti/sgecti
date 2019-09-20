@@ -8,6 +8,15 @@ class Sector extends Model
         'name', 'description', 'active',
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'active' => 'boolean',
+    ];
+
     public function companies()
     {
         return $this->belongsToMany(Company::class, 'company_courses');

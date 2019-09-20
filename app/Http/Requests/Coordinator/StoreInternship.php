@@ -9,16 +9,16 @@ use App\Rules\Active;
 use App\Rules\CompanyHasStudentCourse;
 use App\Rules\CompanyHasSector;
 use App\Rules\CompanyHasSupervisor;
-use App\Rules\HasAgreement;
-use App\Rules\HasCourse;
-use App\Rules\HasInternship;
-use App\Rules\HasJob;
+use App\Rules\CompanyHasAgreement;
+use App\Rules\CompanyHasCoordinatorCourse;
+use App\Rules\StudentHasInternship;
+use App\Rules\StudentHasJob;
 use App\Rules\HourInterval;
 use App\Rules\Integer;
 use App\Rules\MinimalSemester;
 use App\Rules\MinimalYear;
 use App\Rules\RA;
-use App\Rules\SameCourse;
+use App\Rules\StudentSameCoordinatorCourse;
 use App\Rules\StudentAge;
 use App\Rules\StudentMaxYears;
 use Illuminate\Foundation\Http\FormRequest;
@@ -46,9 +46,9 @@ class StoreInternship extends FormRequest
             'has2Schedules' => ['required', 'boolean'],
             'dilation' => ['required', 'boolean'],
 
-            'ra' => ['required', new Integer, 'min:1', new RA, new HasInternship, new HasJob, new SameCourse, new CompanyHasStudentCourse($this->get('company')), new StudentAge($this->get('startDate')), (!$this->get('delation')) ? new StudentMaxYears($this->get('startDate')) : '', new MinimalYear, new MinimalSemester($this->get('startDate'))],
+            'ra' => ['required', new Integer, 'min:1', new RA, new StudentHasInternship, new StudentHasJob, new StudentSameCoordinatorCourse, new CompanyHasStudentCourse($this->get('company')), new StudentAge($this->get('startDate')), (!$this->get('delation')) ? new StudentMaxYears($this->get('startDate')) : '', new MinimalYear, new MinimalSemester($this->get('startDate'))],
             'active' => ['required', 'boolean'],
-            'company' => ['required', 'integer', 'min:1', 'exists:companies,id', new HasCourse, new HasAgreement($this->get('startDate')), new Active(Company::class)],
+            'company' => ['required', 'integer', 'min:1', 'exists:companies,id', new CompanyHasCoordinatorCourse, new CompanyHasAgreement($this->get('startDate')), new Active(Company::class)],
             'sector' => ['required', 'integer', 'min:1', 'exists:sectors,id', new CompanyHasSector($this->get('company')), new Active(Sector::class)],
             'startDate' => ['required', 'date', 'before:endDate'],
             'endDate' => ['required', 'date', 'after:startDate'],

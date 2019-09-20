@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Coordinator;
 
+use App\Models\Job;
+use App\Models\State;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CancelJob extends FormRequest
@@ -13,7 +15,9 @@ class CancelJob extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $job = Job::findOrFail($this->route('id'));
+
+        return $job->state_id == State::OPEN;
     }
 
     /**

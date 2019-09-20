@@ -2,11 +2,11 @@
 
 namespace App\Rules;
 
-use App\Models\Internship;
+use App\Models\Company;
 use Exception;
 use Illuminate\Contracts\Validation\Rule;
 
-class InternshipActive implements Rule
+class CompanyHasNoAgreement implements Rule
 {
     /**
      * Create a new rule instance.
@@ -28,9 +28,9 @@ class InternshipActive implements Rule
     public function passes($attribute, $value)
     {
         try {
-            $internship = Internship::find($value);
+            $company = Company::find($value);
 
-            return $internship->state->id == 1;
+            return !$company->hasAgreementAt();
         } catch (Exception $e) {
             return false;
         }
@@ -43,6 +43,6 @@ class InternshipActive implements Rule
      */
     public function message()
     {
-        return __('validation.internship_not_active');
+        return __('validation.already_has_agreement');
     }
 }

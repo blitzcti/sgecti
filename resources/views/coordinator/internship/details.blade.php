@@ -31,7 +31,7 @@
                        onclick="internshipId('{{ $internship->id }}'); studentName('{{ $internship->student->nome }}'); return false;"
                        data-toggle="modal" class="btn btn-danger" data-target="#internshipCancelModal">Cancelar</a>
 
-                @elseif($internship->state->id == 3)
+                @elseif($internship->state->id == 3 && $internship->student->internship == null)
 
                     <a href="#"
                        onclick="reactivateInternshipId('{{ $internship->id }}'); reactivateStudentName('{{ $internship->student->nome }}'); return false;"
@@ -85,12 +85,15 @@
                 <dd class="col-sm-10">{{ $internship->supervisor->name }}</dd>
 
                 <dt class="col-sm-2">Data de início</dt>
-                <dd class="col-sm-10">{{ date("d/m/Y", strtotime($internship->start_date)) }}</dd>
+                <dd class="col-sm-10">{{ $internship->start_date->format("d/m/Y") }}</dd>
 
                 @if($internship->final_report == null)
 
                     <dt class="col-sm-2">Data de término</dt>
-                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($internship->end_date)) }}</dd>
+                    <dd class="col-sm-10">
+                        {{ $internship->a_end_date->format('d/m/Y') }}
+                        @if($internship->a_end_date != $internship->end_date) * @endif
+                    </dd>
 
                     <dt class="col-sm-2">Horas estimadas</dt>
                     <dd class="col-sm-10">{{ $internship->estimated_hours }}</dd>
@@ -98,7 +101,7 @@
                 @else
 
                     <dt class="col-sm-2">Data de término</dt>
-                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($internship->final_report->end_date)) }}</dd>
+                    <dd class="col-sm-10">{{ $internship->final_report->end_date->format("d/m/Y") }}</dd>
 
                     <dt class="col-sm-2">Horas concluídas</dt>
                     <dd class="col-sm-10">{{ $internship->final_report->completed_hours }}</dd>
@@ -120,7 +123,7 @@
                     <dd class="col-sm-10">{{ $internship->reason_to_cancel }}</dd>
 
                     <dt class="col-sm-2">Data do cancelamento</dt>
-                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($internship->canceled_at)) }}</dd>
+                    <dd class="col-sm-10">{{ $internship->canceled_at->format("d/m/Y") }}</dd>
 
                 @endif
             </dl>

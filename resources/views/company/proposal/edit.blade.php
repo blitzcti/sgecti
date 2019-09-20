@@ -120,7 +120,7 @@
 
                             <div class="col-sm-8">
                                 <input type="date" class="form-control" id="inputDeadline" name="deadline"
-                                       value="{{ old('deadline') ?? $proposal->deadline }}"/>
+                                       value="{{ old('deadline') ?? $proposal->deadline->format("Y-m-d") }}"/>
 
                                 <span class="help-block">{{ $errors->first('deadline') }}</span>
                             </div>

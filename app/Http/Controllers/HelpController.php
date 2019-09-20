@@ -124,7 +124,25 @@ class HelpController extends Controller
 
             'Funcionalidades extras' => [
                 'Mensagem' => [
-                    null
+                    'desc' => null,
+                    'content' => [
+                        [
+                            'img' => 'mensagem/mensagem_visualizar.png',
+                            'text' => '    Ao clicar nesse botão você visualizará os alunos que se encaixam nos filtros pré selecionados. ',
+                        ],
+                        [
+                            'img' => 'mensagem/mensagem_enviar.png',
+                            'text' => '  Ao clicar nesse botão você enviará a mensagem aos alunos selecionados.  ',
+                        ],
+                        [
+                            'img' => 'mensagem/mensagem_tipos.png',
+                            'text' => ' Nesse campo você poderá utilizar esses parametros para editar o texto da sua mensagem.    ',
+                        ],
+                        [
+                            'img' => 'mensagem/mensagem_alunos.png',
+                            'text' => '   Nesse campo você poderá escolher um aluno especifico. ',
+                        ],
+                    ]
                 ],
 
                 'Logs' => [

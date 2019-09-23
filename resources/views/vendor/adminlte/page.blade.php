@@ -20,6 +20,10 @@
         .dataTable {
             width: 100% !important;
         }
+
+        .bg-white {
+            background-color: #ffffff !important;
+        }
     </style>
 
     @stack('css')
@@ -204,7 +208,7 @@
         <!-- /.content-wrapper -->
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Versão</b> 0.8.7
+                <b>Versão</b> 0.9.1
             </div>
 
             <b>Copyright © 2019 Blitz.</b> Todos os direitos reservados.

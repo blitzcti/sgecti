@@ -471,5 +471,23 @@ class AppServiceProvider extends ServiceProvider
                 ],
             ]);
         }
+
+        if($user->isStudent()) {
+            $menu->add('ESTÁGIOS');
+            $menu->add([
+                'text' => 'menu.proposals',
+                'icon' => 'bullhorn',
+                'route' => 'aluno.proposta.index',
+                'active' => ['aluno/proposta/']
+            ]);
+
+            $menu->add('DOCUMENTOS');
+            $menu->add([
+                'text' => 'menu.documentation',
+                'route' => 'aluno.documento.index',
+                'icon' => 'book',
+                'active' => ['aluno/documento/']
+            ]);
+        }
     }
 }

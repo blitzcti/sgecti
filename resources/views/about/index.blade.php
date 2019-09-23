@@ -54,7 +54,7 @@
             <div class="dg dg1">
                 <div class="img">
                     <div class="video">
-                        <iframe width="auto" height="auto" src="https://www.youtube.com/embed/X7WZz317AP4?controls=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe width="auto" height="auto" src="https://www.youtube.com/embed/T_fnFxxa7s0?controls=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                 </div>
                 <div class="txt">

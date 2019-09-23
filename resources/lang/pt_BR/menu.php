@@ -58,4 +58,6 @@ return [
 
     'pdf' => 'PDF',
 
+    'documentation' => 'Documentação de estágio',
+
 ];

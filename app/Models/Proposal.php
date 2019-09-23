@@ -6,6 +6,9 @@ use Carbon\Carbon;
 
 class Proposal extends Model
 {
+    public const INTERNSHIP = 0;
+    public const IC = 1;
+
     protected $fillable = [
         'name', 'company_id', 'deadline', 'schedule_id', 'schedule_2_id', 'remuneration', 'description', 'requirements',
         'benefits', 'contact', 'type', 'observation',

@@ -27,15 +27,27 @@ class HomeController extends Controller
 
         if ($user->isCoordinator()) {
             $strCourses = $user->coordinator_courses_name;
+            $cIds = Auth::user()->coordinator_courses_id;
+
             $data['strCourses'] = $strCourses;
             $data['requiringFinish'] = Internship::requiringFinish();
-            $data['proposals'] = Proposal::all()->sortBy('id')->where('approved_at', '=', null);
+            $data['proposals'] = Proposal::all()->sortBy('id')->where('approved_at', '=', null)
+                ->filter(function ($proposal) use ($cIds) {
+                    $ret = false;
+                    foreach ($proposal->courses as $course) {
+                        if (!$ret) {
+                            $ret = in_array($course->id, $cIds);
+                        }
+                    }
+
+                    return $ret;
+                });
         } else if ($user->isCompany()) {
             $company = Company::all()->where('email', '=', $user->email)->first();
             $data['proposals'] = Proposal::all()->where('company_id', '=', $company->id);
             $data['proposalsInProgress'] = Proposal::all()->where('company_id', '=', $company->id)->where('approved_at', '=', null);
         } else if ($user->isStudent()) {
-
+            $data['proposals'] = Proposal::all()->sortBy('id')->where('approved_at', '<>', null);
         }
 
         return view('home')->with($data);

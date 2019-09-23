@@ -57,5 +57,7 @@ return [
 
     'pdf' => 'PDF',
 
+    'documentation' => 'Documentation',
+
 ];
 

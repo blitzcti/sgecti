@@ -25,10 +25,10 @@
             @if(sizeof($internships->filter(function ($i) use ($course) { return $i->student->course_id == $course->id; })) > 0)
                 <h4>{{ $course->name }}</h4>
 
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-sm">
                     <thead>
                     <tr>
-                        <th scope="col">Protocolo</th>
+                        <th>Protocolo</th>
                         <th>RA</th>
                         <th>Nome</th>
                         <th>Empresa</th>
@@ -41,12 +41,12 @@
                     @foreach($internships->filter(function ($i) use ($course) { return $i->student->course_id == $course->id; }) as $internship)
 
                         <tr>
-                            <th scope="row">{{ $internship->formatted_protocol }}</th>
+                            <td>{{ $internship->formatted_protocol }}</td>
                             <td>{{ $internship->student->matricula }}</td>
                             <td>{{ $internship->student->nome }}</td>
                             <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "(" . $internship->company->fantasy_name . ")" : '' }}</td>
-                            <td>{{ date("d/m/Y", strtotime($internship->start_date)) }}</td>
-                            <td>{{ date("d/m/Y", strtotime($internship->end_date)) }}</td>
+                            <td>{{ $internship->start_date->format("d/m/Y") }}</td>
+                            <td>{{ $internship->end_date->format("d/m/Y") }}</td>
                         </tr>
 
                     @endforeach
@@ -70,10 +70,10 @@
             @if(sizeof($finished_internships->filter(function ($i) use ($course) { return $i->student->course_id == $course->id; })) > 0)
                 <h4>{{ $course->name }}</h4>
 
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-sm">
                     <thead>
                     <tr>
-                        <th scope="col">Protocolo</th>
+                        <th>Protocolo</th>
                         <th>RA</th>
                         <th>Nome</th>
                         <th>Empresa</th>
@@ -86,12 +86,12 @@
                     @foreach($finished_internships->filter(function ($i) use ($course) { return $i->student->course_id == $course->id; }) as $internship)
 
                         <tr>
-                            <th scope="row">{{ $internship->formatted_protocol }}</th>
+                            <td>{{ $internship->formatted_protocol }}</td>
                             <td>{{ $internship->student->matricula }}</td>
                             <td>{{ $internship->student->nome }}</td>
                             <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "(" . $internship->company->fantasy_name . ")" : '' }}</td>
-                            <td>{{ date("d/m/Y", strtotime($internship->start_date)) }}</td>
-                            <td>{{ date("d/m/Y", strtotime($internship->final_report->end_date)) }}</td>
+                            <td>{{ $internship->start_date->format("d/m/Y") }}</td>
+                            <td>{{ $internship->final_report->end_date->format("d/m/Y") }}</td>
                         </tr>
 
                     @endforeach

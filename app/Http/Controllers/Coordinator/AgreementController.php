@@ -62,7 +62,7 @@ class AgreementController extends Controller
 
         $agreement->company_id = $validatedData->company;
         $agreement->start_date = $validatedData->startDate;
-        $agreement->end_date = SystemConfiguration::getAgreementExpiration(Carbon::createFromFormat("!Y-m-d", $agreement->start_date));
+        $agreement->end_date = SystemConfiguration::getAgreementExpiration($agreement->start_date);
         $agreement->active = true;
         $agreement->observation = $validatedData->observation;
 
@@ -94,7 +94,7 @@ class AgreementController extends Controller
         $log .= "\nDados antigos: " . json_encode($agreement, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $agreement->start_date = $validatedData->startDate;
-        $agreement->end_date = SystemConfiguration::getAgreementExpiration(Carbon::createFromFormat("!Y-m-d", $agreement->start_date));
+        $agreement->end_date = SystemConfiguration::getAgreementExpiration($agreement->start_date);
         $agreement->observation = $validatedData->observation;
 
         $saved = $agreement->save();

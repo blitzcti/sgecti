@@ -75,8 +75,6 @@
         }
 
         jQuery(document).ready(function () {
-            getServerInfo();
-
             function getServerInfo() {
                 jQuery.ajax({
                     url: `{{ route('api.admin.sysUsage') }}`,

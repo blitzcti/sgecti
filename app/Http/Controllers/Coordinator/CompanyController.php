@@ -9,6 +9,7 @@ use App\Models\Agreement;
 use App\Models\Company;
 use App\Models\Course;
 use App\Models\Sector;
+use App\Models\State;
 use App\Models\SystemConfiguration;
 use Carbon\Carbon;
 use Illuminate\Routing\Controller;
@@ -69,8 +70,8 @@ class CompanyController extends Controller
 
         $data = [
             'company' => $company,
-            'internships' => $company->internships->where('state_id', '=', 1),
-            'finished_internships' => $company->internships->where('state_id', '=', 2),
+            'internships' => $company->internships->where('state_id', '=', State::OPEN)->sortBy('student.nome'),
+            'finished_internships' => $company->internships->where('state_id', '=', State::FINISHED)->sortBy('student.nome'),
             'courses' => Course::findOrFail($cIds),
         ];
 
@@ -122,7 +123,7 @@ class CompanyController extends Controller
             $agreement = new Agreement();
 
             $agreement->start_date = $validatedData->startDate;
-            $agreement->end_date = SystemConfiguration::getAgreementExpiration(Carbon::createFromFormat("!Y-m-d", $agreement->start_date));
+            $agreement->end_date = SystemConfiguration::getAgreementExpiration($agreement->start_date);
             $agreement->active = true;
             $agreement->observation = $validatedData->observation;
 

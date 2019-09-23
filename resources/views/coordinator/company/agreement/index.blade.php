@@ -60,8 +60,8 @@
 
                         @endif
 
-                        <td>{{ date("d/m/Y", strtotime($agreement->start_date)) }}</td>
-                        <td>{{ date("d/m/Y", strtotime($agreement->end_date)) }}</td>
+                        <td>{{ $agreement->start_date->format("d/m/Y") }}</td>
+                        <td>{{ $agreement->end_date>format("d/m/Y") }}</td>
                         <td>{{ $agreement->observation }}</td>
                         <td>
                             <a href="{{ route('coordenador.empresa.convenio.editar', ['id' => $agreement->id]) }}">Editar</a>

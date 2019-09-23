@@ -38,10 +38,10 @@
                                     @endif
                                 </h4>
 
-                                <table class="table table-bordered table-striped">
+                                <table class="table table-bordered table-sm">
                                     <thead>
                                     <tr>
-                                        <th scope="col">Protocolo</th>
+                                        <th>Protocolo</th>
                                         <th>RA</th>
                                         <th>Nome</th>
                                         <th>Empresa</th>
@@ -54,12 +54,12 @@
                                     @foreach($internships->filter(function ($i) use ($course, $grade, $class) { return $i->student->course_id == $course->id && $i->student->grade == $grade && $i->student->class == $class; }) as $internship)
 
                                         <tr>
-                                            <th scope="row">{{ $internship->formatted_protocol }}</th>
+                                            <td>{{ $internship->formatted_protocol }}</td>
                                             <td>{{ $internship->student->matricula }}</td>
                                             <td>{{ $internship->student->nome }}</td>
                                             <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "(" . $internship->company->fantasy_name . ")" : '' }}</td>
-                                            <td>{{ date("d/m/Y", strtotime($internship->start_date)) }}</td>
-                                            <td>{{ date("d/m/Y", strtotime($internship->end_date)) }}</td>
+                                            <td>{{ $internship->start_date->format("d/m/Y") }}</td>
+                                            <td>{{ $internship->end_date->format("d/m/Y") }}</td>
                                         </tr>
 
                                     @endforeach
@@ -102,10 +102,10 @@
                                     @endif
                                 </h4>
 
-                                <table class="table table-bordered table-striped">
+                                <table class="table table-bordered table-sm">
                                     <thead>
                                     <tr>
-                                        <th scope="col">Protocolo</th>
+                                        <th>Protocolo</th>
                                         <th>RA</th>
                                         <th>Nome</th>
                                         <th>Empresa</th>
@@ -118,12 +118,12 @@
                                     @foreach($finished_internships->filter(function ($i) use ($course, $grade, $class) { return $i->student->course_id == $course->id && $i->student->grade == $grade && $i->student->class == $class; }) as $internship)
 
                                         <tr>
-                                            <th scope="row">{{ $internship->formatted_protocol }}</th>
+                                            <td>{{ $internship->formatted_protocol }}</td>
                                             <td>{{ $internship->student->matricula }}</td>
                                             <td>{{ $internship->student->nome }}</td>
                                             <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "(" . $internship->company->fantasy_name . ")" : '' }}</td>
-                                            <td>{{ date("d/m/Y", strtotime($internship->start_date)) }}</td>
-                                            <td>{{ date("d/m/Y", strtotime($internship->final_report->end_date)) }}</td>
+                                            <td>{{ $internship->start_date->format("d/m/Y") }}</td>
+                                            <td>{{ $internship->final_report->end_date->format("d/m/Y") }}</td>
                                         </tr>
 
                                     @endforeach
@@ -165,10 +165,10 @@
                                     @endif
                                 </h4>
 
-                                <table class="table table-bordered table-striped">
+                                <table class="table table-bordered table-sm">
                                     <thead>
                                     <tr>
-                                        <th scope="col">RA</th>
+                                        <th>RA</th>
                                         <th>Nome</th>
                                         <th>Turma</th>
                                     </tr>
@@ -178,7 +178,7 @@
                                     @foreach($not_in_internships->filter(function ($s) use ($course, $grade, $class) { return $s->course_id == $course->id && $s->grade == $grade && $s->class == $class; }) as $student)
 
                                         <tr>
-                                            <th scope="row">{{ $student->matricula }}</th>
+                                            <td>{{ $student->matricula }}</td>
                                             <td>{{ $student->nome }}</td>
                                             <td>{{ $student->turma }}</td>
                                         </tr>
@@ -222,10 +222,10 @@
                                     @endif
                                 </h4>
 
-                                <table class="table table-bordered table-striped">
+                                <table class="table table-bordered table-sm">
                                     <thead>
                                     <tr>
-                                        <th scope="col">RA</th>
+                                        <th>RA</th>
                                         <th>Nome</th>
                                         <th>Turma</th>
                                     </tr>
@@ -235,7 +235,7 @@
                                     @foreach($never_had_internship->filter(function ($s) use ($course, $grade, $class) { return $s->course_id == $course->id && $s->grade == $grade && $s->class == $class; }) as $student)
 
                                         <tr>
-                                            <th scope="row">{{ $student->matricula }}</th>
+                                            <td>{{ $student->matricula }}</td>
                                             <td>{{ $student->nome }}</td>
                                             <td>{{ $student->turma }}</td>
                                         </tr>

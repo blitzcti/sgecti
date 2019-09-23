@@ -31,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(Dispatcher $events)
     {
         Schema::defaultStringLength(191);
+        setlocale(LC_TIME, $this->app->getLocale() . '.UTF8');
 
         $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
             $this->loadMenu($event->menu);
@@ -449,7 +450,7 @@ class AppServiceProvider extends ServiceProvider
             ]);
         }
 
-        if($user->isCompany()) {
+        if ($user->isCompany()) {
             $menu->add('ESTÁGIO');
             $menu->add([
                 'text' => 'menu.proposals',

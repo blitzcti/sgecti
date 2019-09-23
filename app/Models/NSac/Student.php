@@ -5,6 +5,7 @@ namespace App\Models\NSac;
 use App\Models\Course;
 use App\Models\Internship;
 use App\Models\Job;
+use App\Models\State;
 use Carbon\Carbon;
 
 class Student extends Model
@@ -140,27 +141,41 @@ class Student extends Model
 
     public function internship()
     {
-        return $this->hasOne(Internship::class, 'ra')->where('state_id', '=', 1);
+        return $this->hasOne(Internship::class, 'ra')->where('state_id', '=', State::OPEN);
     }
 
     public function finishedInternships()
     {
-        return $this->hasMany(Internship::class, 'ra')->where('state_id', '=', 2);
+        return $this->hasMany(Internship::class, 'ra')->where('state_id', '=', State::FINISHED);
     }
 
     public function job()
     {
-        return $this->hasOne(Job::class, 'ra')->where('state_id', '=', 1);
+        return $this->hasOne(Job::class, 'ra')->where('state_id', '=', State::OPEN);
     }
 
     public function finishedJobs()
     {
-        return $this->hasMany(Job::class, 'ra')->where('state_id', '=', 2);
+        return $this->hasMany(Job::class, 'ra')->where('state_id', '=', State::FINISHED);
     }
 
     public function course()
     {
         return $this->belongsTo(Course::class);
+    }
+
+    public function canGraduate()
+    {
+        if ($this->situacao_matricula == 5) {
+            return true;
+        } else if ($this->situacao_matricula == 0) {
+            if (($this->completed_hours >= $this->course_configuration->min_hours && $this->completed_months >= $this->course_configuration->min_months)
+                || $this->ctps_completed_months >= $this->course_configuration->min_months_ctps) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static function actives()

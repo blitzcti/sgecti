@@ -70,7 +70,7 @@
                             <nav class="navbar navbar-static-top" role="navigation">
                                 <!-- Sidebar toggle button-->
                                 <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-                                    <span class="sr-only">{{ trans('adminlte::adminlte.toggle_navigation') }}</span>
+                                    <span class="sr-only">{{ trans('adminlte.toggle_navigation') }}</span>
                                 </a>
                             @endif
                             <!-- Navbar Right Menu -->
@@ -133,7 +133,7 @@
                                             @if(config('adminlte.logout_method') == 'GET' || !config('adminlte.logout_method') && version_compare(\Illuminate\Foundation\Application::VERSION, '5.3.0', '<'))
                                                 <a href="{{ url(config('adminlte.logout_url', 'auth/logout')) }}">
                                                     <i class="fa fa-fw fa-power-off"></i>
-                                                    <b>{{ trans('adminlte::adminlte.log_out') }}</b>
+                                                    <b>{{ trans('adminlte.log_out') }}</b>
                                                     ({{ strtok(auth()->user()->name, " ") }})
                                                 </a>
                                             @else
@@ -141,7 +141,7 @@
                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                                                 >
                                                     <i class="fa fa-fw fa-power-off"></i>
-                                                    <b>{{ trans('adminlte::adminlte.log_out') }}</b>
+                                                    <b>{{ trans('adminlte.log_out') }}</b>
                                                     ({{ strtok(auth()->user()->name, " ") }})
                                                 </a>
                                                 <form id="logout-form"

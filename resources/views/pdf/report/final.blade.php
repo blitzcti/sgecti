@@ -1,69 +1,106 @@
-@extends('pdf.noimg')
+@extends('pdf.master', ['page_number' => false])
 
 @section('title', 'Relatório final de estágio')
 
+@section('css')
+    <style type="text/css">
+        .list {
+            border: none;
+            margin-left: 40px;
+            border-collapse: separate;
+            border-spacing: 0 6px;
+        }
+
+        h3 {
+            font-size: 16pt !important;
+        }
+    </style>
+@endsection
+
 @section('content')
 
-    <h3>Relatório final de estágio</h3>
-    <hr />
+    <h3 style="margin-top: 5px; text-decoration: underline;" class="text-center">Ficha de Avaliação de Estágio</h3>
 
-    @if($student != null)
+    <div style="text-align: center; margin-bottom: 10px;">
+        <img src="{{ route('api.alunos.foto', ['id' => $student->matricula]) }}" style="height: 140px" alt="">
+    </div>
 
-    <h3>Dados do aluno</h3>
-    <hr />
+    <table class="list">
+        <tbody>
+        <tr>
+            <td class="text-right"><b>Número de aprovação: </b></td>
+            <td>{{ $report->approval_number }}</td>
+        </tr>
 
-    <dl class="row">
-        <dt class="col-sm-2">RA</dt>
-        <dd class="col-sm-10">{{ $student->matricula }}</dd>
+        <tr>
+            <td class="text-right"><b>Número do estágio: </b></td>
+            <td>{{ $report->internship->formatted_protocol }}</td>
+        </tr>
 
-        <dt class="col-sm-2">Nome</dt>
-        <dd class="col-sm-10">{{ $student->nome }}</dd>
+        <tr>
+            <td class="text-right"><b>Número de matrícula: </b></td>
+            <td>{{ $student->matricula }}</td>
+        </tr>
 
-        <dt class="col-sm-2">Curso</dt>
-        <dd class="col-sm-10">{{ $student->course->name }}</dd>
+        <tr>
+            <td class="text-right"><b>Nome do aluno: </b></td>
+            <td>{{ $student->nome }}</td>
+        </tr>
 
-        <dt class="col-sm-2">Turma</dt>
-        <dd class="col-sm-10">{{ $student->turma }} ({{ $student->turma_ano }})</dd>
+        <tr>
+            <td class="text-right"><b>Curso: </b></td>
+            <td>{{ $student->course->name }}</td>
+        </tr>
 
-        <dt class="col-sm-2">Ano de matrícula</dt>
-        <dd class="col-sm-10">{{ $student->year }}</dd>
+        <tr>
+            <td class="text-right"><b>Empresa: </b></td>
+            <td>{{ $report->internship->company->name }}</td>
+        </tr>
 
-        <dt class="col-sm-2">Email</dt>
-        <dd class="col-sm-10">{{ $student->email }}</dd>
+        <tr>
+            <td class="text-right"><b>Setor: </b></td>
+            <td>{{ $report->internship->sector->name }}</td>
+        </tr>
 
-        <dt class="col-sm-2">Email institucional</dt>
-        <dd class="col-sm-10">{{ $student->email2 }}</dd>
-    </dl>
+        <tr>
+            <td class="text-right"><b>Supervisor da empresa: </b></td>
+            <td>{{ $report->internship->supervisor->name }}</td>
+        </tr>
 
+        <tr>
+            <td class="text-right"><b>Período de estágio: </b></td>
+            <td>
+                {{ $report->internship->start_date->format("d/m/Y") }} a {{ $report->end_date->format("d/m/Y") }}
+                - {{ $report->end_date->diff($report->internship->start_date)->d }} dias.
+            </td>
+        </tr>
+
+        <tr>
+            <td class="text-right"><b>Avaliação: </b></td>
+            <td>{{ $report->final_grade }} - {{ $report->final_grade_explanation }}</td>
+        </tr>
+
+        <tr>
+            <td class="text-right"><b>Total em horas: </b></td>
+            <td>{{ $report->completed_hours }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <br/><br/>
+
+    @if($student->canGraduate())
+        <span><b>Aluno Habilitado a colar grau no curso técnico em Informática.</b></span><br/>
     @endif
 
-    <h3>Dados do estágio</h3>
-    <hr />
+    <span class="pull-right">Bauru, {{ \Carbon\Carbon::now()->formatLocalized('%d de %B de %Y') }}.</span>
 
-    <dl class="row">
-        <dt class="col-sm-2">Empresa</dt>
-        <dd class="col-sm-10">{{ $report->internship->company->name }}</dd>
+@endsection
 
-        <dt class="col-sm-2">Setor</dt>
-        <dd class="col-sm-10">{{ $report->internship->sector->name }}</dd>
-
-        <dt class="col-sm-2">Supervisor</dt>
-        <dd class="col-sm-10">{{ $report->internship->supervisor->name }}</dd>
-
-        <dt class="col-sm-2">Data de início</dt>
-        <dd class="col-sm-10">{{ date("d/m/Y", strtotime($report->internship->start_date)) }}</dd>
-
-        <dt class="col-sm-2">Data de término</dt>
-        <dd class="col-sm-10">{{ date("d/m/Y", strtotime($report->end_date)) }}</dd>
-
-        <dt class="col-sm-2">Horas concluídas</dt>
-        <dd class="col-sm-10">{{ $report->completed_hours }}</dd>
-
-        <dt class="col-sm-2">Nota final</dt>
-        <dd class="col-sm-10">{{ $report->final_grade }}</dd>
-
-        <dt class="col-sm-2">Número de aprovação</dt>
-        <dd class="col-sm-10">{{ $report->approval_number }}</dd>
-    </dl>
-
+@section('footer')
+    <div style="font-size: 7pt; text-align: center;">
+        <span>{{ $sysConfig->name }} - Coordenadoria de Estágio</span><br/>
+        <span>{{ $sysConfig->street }}, {{ $sysConfig->number }} - CEP {{ $sysConfig->formatted_cep }} {{ $sysConfig->city }}, {{ $sysConfig->uf }} Brasil.</span><br/>
+        <span>Tel {{ $sysConfig->formatted_phone }} Fax {{ $sysConfig->formatted_fax }}</span>
+    </div>
 @endsection

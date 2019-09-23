@@ -56,8 +56,8 @@
                         </td>
 
                         <td>{{ $amendment->internship->company->name }} {{ $amendment->internship->company->fantasy_name != null ? "(" . $amendment->internship->company->fantasy_name . ")" : '' }}</td>
-                        <td>{{ date("d/m/Y", strtotime($amendment->start_date)) }}</td>
-                        <td>{{ date("d/m/Y", strtotime($amendment->end_date)) }}</td>
+                        <td>{{ $amendment->start_date->format("d/m/Y") }}</td>
+                        <td>{{ $amendment->end_date->format("d/m/Y") }}</td>
                         <td>
                             <a href="{{ route('coordenador.estagio.aditivo.editar', ['id' => $amendment->id]) }}">Editar</a>
                         </td>

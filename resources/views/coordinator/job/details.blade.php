@@ -63,10 +63,10 @@
                 <dd class="col-sm-10">{{ $job->company->fantasy_name }}</dd>
 
                 <dt class="col-sm-2">Data de início</dt>
-                <dd class="col-sm-10">{{ date("d/m/Y", strtotime($job->start_date)) }}</dd>
+                <dd class="col-sm-10">{{ $job->start_date->format("d/m/Y") }}</dd>
 
                 <dt class="col-sm-2">Data de término</dt>
-                <dd class="col-sm-10">{{ date("d/m/Y", strtotime($job->end_date)) }}</dd>
+                <dd class="col-sm-10">{{ $job->end_date->format("d/m/Y") }}</dd>
 
                 <dt class="col-sm-2">CTPS</dt>
                 <dd class="col-sm-10">{{ $job->ctps }}</dd>
@@ -80,7 +80,7 @@
                     <dd class="col-sm-10">{{ $job->reason_to_cancel }}</dd>
 
                     <dt class="col-sm-2">Data do cancelamento</dt>
-                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($job->canceled_at)) }}</dd>
+                    <dd class="col-sm-10">{{ $job->canceled_at->format("d/m/Y") }}</dd>
 
                 @endif
             </dl>

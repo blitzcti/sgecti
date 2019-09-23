@@ -119,14 +119,14 @@ class Internship extends Model
 
     public function getAEndDateAttribute()
     {
-        $endDate = $this->attributes['end_date'];
+        $endDate = $this->end_date;
         foreach ($this->amendments->sortByDesc('id') as $amendment) {
             if ($amendment->new_end_date !== null) {
-                $endDate = $amendment->new_end_date->format("Y-m-d");
+                $endDate = $amendment->new_end_date;
             }
         }
 
-        return Carbon::createFromFormat("!Y-m-d", $endDate);
+        return $endDate;
     }
 
     public function getEstimatedHoursAttribute()

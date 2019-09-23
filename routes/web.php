@@ -254,6 +254,7 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
                 Route::get('editar', 'Coordinator\ReportController@editFinal')->name('editar');
                 Route::put('', 'Coordinator\ReportController@updateFinal')->name('alterar');
                 Route::get('pdf', 'Coordinator\ReportController@pdfFinal')->name('pdf');
+                Route::get('pdf2', 'Coordinator\ReportController@pdf2Final')->name('pdf2');
             });
         });
     });

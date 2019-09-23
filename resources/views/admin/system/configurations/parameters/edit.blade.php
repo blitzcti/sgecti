@@ -10,15 +10,15 @@
     @include('modals.cep.loading')
     @include('modals.cep.error')
 
-    <div class="box box-default">
-        <div class="box-header with-border">
-            <h3 class="box-title">Dados do parâmetro</h3>
-        </div>
+    <form class="form-horizontal" action="{{ route('admin.configuracao.parametros.alterar', $systemConfig->id) }}"
+          method="post">
+        @method('PUT')
+        @csrf
 
-        <form class="form-horizontal" action="{{ route('admin.configuracao.parametros.alterar', $systemConfig->id) }}"
-              method="post">
-            @method('PUT')
-            @csrf
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Dados do parâmetro</h3>
+            </div>
 
             <div class="box-body">
                 <div class="form-group @if($errors->has('name')) has-error @endif">
@@ -156,19 +156,38 @@
                     </div>
 
                     <div class="col-sm-6">
-                        <div class="form-group @if($errors->has('agreementExpiration')) has-error @endif">
-                            <label for="inputAgreementExpiration" class="col-sm-4 control-label">Validade do
-                                convênio*
-                            </label>
+                        <div class="form-group @if($errors->has('fax')) has-error @endif">
+                            <label for="inputFax" class="col-sm-2 control-label">Fax</label>
 
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="inputAgreementExpiration"
-                                       name="agreementExpiration" placeholder="5"
-                                       value="{{ old('agreementExpiration') ?? $systemConfig->agreement_expiration }}"/>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputFax" name="fax"
+                                       placeholder="(14) 3103-6150"
+                                       data-inputmask="'mask': '(99) 9999-9999'"
+                                       value="{{ old('fax') ?? $systemConfig->fax }}"/>
 
-                                <span class="help-block">{{ $errors->first('agreementExpiration') }}</span>
+                                <span class="help-block">{{ $errors->first('fax') }}</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Dados do convênio</h3>
+            </div>
+
+            <div class="box-body">
+                <div class="form-group @if($errors->has('agreementExpiration')) has-error @endif">
+                    <label for="inputAgreementExpiration" class="col-sm-2 control-label">Validade (anos)*</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputAgreementExpiration"
+                               name="agreementExpiration" placeholder="5"
+                               value="{{ old('agreementExpiration') ?? $systemConfig->agreement_expiration }}"/>
+
+                        <span class="help-block">{{ $errors->first('agreementExpiration') }}</span>
                     </div>
                 </div>
             </div>
@@ -181,8 +200,8 @@
                 <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
-        </form>
-    </div>
+        </div>
+    </form>
 @endsection
 
 @section('js')

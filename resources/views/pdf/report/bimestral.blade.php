@@ -37,10 +37,10 @@
                                     @endif
                                 </h4>
 
-                                <table class="table table-bordered table-striped">
+                                <table class="table table-bordered table-sm">
                                     <thead>
                                     <tr>
-                                        <th scope="col">RA</th>
+                                        <th>RA</th>
                                         <th>Nome</th>
                                         <th>Turma</th>
                                     </tr>
@@ -50,7 +50,7 @@
                                     @foreach($students->filter(function ($s) use ($course, $grade, $class) { return $s->course_id == $course->id && $s->grade == $grade && $s->class == $class; }) as $student)
 
                                         <tr>
-                                            <th scope="row">{{ $student->matricula }}</th>
+                                            <td>{{ $student->matricula }}</td>
                                             <td>{{ $student->nome }}</td>
                                             <td>{{ $student->turma }}</td>
                                         </tr>

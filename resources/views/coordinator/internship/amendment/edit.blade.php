@@ -111,7 +111,7 @@
                     <dt class="col-sm-2">Data de início</dt>
                     <dd class="col-sm-10">
                         <span id="internshipStartDate">
-                            {{ date("d/m/Y", strtotime($amendment->internship->start_date)) }}
+                            {{ $amendment->internship->start_date->format("d/m/Y") }}
                         </span>
                     </dd>
 

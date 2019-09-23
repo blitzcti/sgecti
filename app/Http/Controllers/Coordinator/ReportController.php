@@ -12,6 +12,7 @@ use App\Models\Course;
 use App\Models\FinalReport;
 use App\Models\Internship;
 use App\Models\State;
+use App\Models\SystemConfiguration;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -273,8 +274,7 @@ class ReportController extends Controller
         $students = Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->get()->filter(function ($i) use ($startDate, $endDate) {
             $reports = $i->bimestral_reports;
             foreach ($reports as $report) {
-                $date = Carbon::createFromFormat("!Y-m-d", $report->date);
-                if ($date->between($startDate, $endDate)) {
+                if ($report->date->between($startDate, $endDate)) {
                     return false;
                 }
             }
@@ -282,7 +282,7 @@ class ReportController extends Controller
             return true;
         })->map(function ($i) {
             return $i->student;
-        });
+        })->sortBy('nome');
 
         $data = [
             'grades' => $grades,
@@ -302,16 +302,61 @@ class ReportController extends Controller
         ini_set('max_execution_time', 300);
 
         $report = FinalReport::findOrFail($id);
-        $student = $report->internship->student ?? null;
+        $student = $report->internship->student;
+        $sysConfig = SystemConfiguration::getCurrent();
 
         $data = [
             'report' => $report,
             'student' => $student,
+            'sysConfig' => $sysConfig,
         ];
 
         $pdf = PDF::loadView('pdf.report.final', $data);
+        $pdf->getDomPDF()->setHttpContext(stream_context_create([
+            'http' => [
+                'method' => 'GET',
+                'header' => 'Cookie: ' . implode("; ", array_map(
+                        function ($k, $v) {
+                            return "$k=$v";
+                        },
+                        array_keys($_COOKIE),
+                        array_values($_COOKIE)
+                    )),
+            ],
+        ]));
         $pdf->setPaper('a4', 'portrait');
         return $pdf->stream('relatorioFinal.pdf');
+    }
+
+    public function pdf2Final($id)
+    {
+        ini_set('max_execution_time', 300);
+
+        $report = FinalReport::findOrFail($id);
+        $student = $report->internship->student;
+        $sysConfig = SystemConfiguration::getCurrent();
+
+        $data = [
+            'report' => $report,
+            'student' => $student,
+            'sysConfig' => $sysConfig,
+        ];
+
+        $pdf = PDF::loadView('pdf.report.final_full', $data);
+        $pdf->getDomPDF()->setHttpContext(stream_context_create([
+            'http' => [
+                'method' => 'GET',
+                'header' => 'Cookie: ' . implode("; ", array_map(
+                        function ($k, $v) {
+                            return "$k=$v";
+                        },
+                        array_keys($_COOKIE),
+                        array_values($_COOKIE)
+                    )),
+            ],
+        ]));
+        $pdf->setPaper('a4', 'portrait');
+        return $pdf->stream('relatorioFinalCompleto.pdf');
     }
 
     private function generateApprovalNumber($course_id)

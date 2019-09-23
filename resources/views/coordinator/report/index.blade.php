@@ -55,7 +55,7 @@
                             @endif
                         </td>
 
-                        <td>{{ date("d/m/Y", strtotime($report->date)) }}</td>
+                        <td>{{ $report->date->format("d/m/Y") }}</td>
                         <td>{{ $report->formatted_protocol }}</td>
                         <td>
                             <a href="{{ route('coordenador.relatorio.bimestral.editar', ['id' => $report->id]) }}">Editar</a>
@@ -102,14 +102,13 @@
                             @endif
                         </td>
 
-                        <td>{{ date("d/m/Y", strtotime($report->date)) }}</td>
+                        <td>{{ $report->date->format("d/m/Y") }}</td>
                         <td>{{ $report->approval_number }}</td>
                         <td>{{ $report->completed_hours }}</td>
                         <td>
                             <a href="{{ route('coordenador.relatorio.final.editar', ['id' => $report->id]) }}">Editar</a>
                             |
-                            <a href="{{ route('coordenador.relatorio.final.pdf', ['id' => $report->id]) }}"
-                               target="_blank">PDF</a>
+                            <a href="#" onclick="pdf({{ $report->id }}); return false;" target="_blank">PDF</a>
                         </td>
                     </tr>
 
@@ -123,11 +122,16 @@
 @section('js')
     @if(session()->has('id') && session()->get('id'))
         <script type="text/javascript">
-            window.open('{{ route('coordenador.relatorio.final.pdf', ['id' => session()->get('id')]) }}', '_blank');
+            pdf({{ session()->get('id') }});
         </script>
     @endif
 
     <script type="text/javascript">
+        function pdf(id) {
+            window.open(`/coordenador/relatorio/final/${id}/pdf`, '_blank');
+            window.open(`/coordenador/relatorio/final/${id}/pdf2`, '_blank');
+        }
+
         jQuery(document).ready(function () {
             let bimestralTable = jQuery("#bimestralReports").DataTable({
                 language: {

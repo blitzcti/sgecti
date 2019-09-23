@@ -34,4 +34,41 @@ class FinalReport extends Model
     {
         return $this->belongsTo(Coordinator::class);
     }
+
+    public function gradeExplanation($grade)
+    {
+        if ($grade == 6) {
+            return "Excelente";
+        } else if ($grade == 5) {
+            return "Ótimo";
+        } else if ($grade == 4) {
+            return "Bom";
+        } else if ($grade == 3) {
+            return "Médio";
+        } else if ($grade == 2) {
+            return "Regular";
+        } else {
+            return "Fraco";
+        }
+    }
+
+    public function getFinalGradeExplanationAttribute()
+    {
+        $finalGrade = $this->final_grade;
+        if ($finalGrade >= 8.5) {
+            return "Excelente";
+        } else if ($finalGrade >= 7.2) {
+            return "Ótimo";
+        } else if ($finalGrade >= 5.8) {
+            return "Bom";
+        } else if ($finalGrade >= 4.3) {
+            return "Médio";
+        } else if ($finalGrade >= 2.9) {
+            return "Regular";
+        } else if ($finalGrade >= 1.4) {
+            return "Fraco";
+        } else {
+            return "Negativo";
+        }
+    }
 }

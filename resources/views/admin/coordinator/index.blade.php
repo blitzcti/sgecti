@@ -42,8 +42,8 @@
                         <th scope="row">{{ $coordinator->id }}</th>
                         <td>{{ $coordinator->user->name }}</td>
                         <td>{{ $coordinator->course->name }}</td>
-                        <td>{{ date("d/m/Y", strtotime($coordinator->start_date)) }}</td>
-                        <td>{{ $coordinator->end_date != null ? date("d/m/Y", strtotime($coordinator->end_date)) : 'Indefinido' }}</td>
+                        <td>{{ $coordinator->start_date->format("d/m/Y") }}</td>
+                        <td>{{ $coordinator->end_date != null ? $coordinator->end_date->format("d/m/Y") : 'Indefinido' }}</td>
 
                         <td>
                             <a href="{{ route('admin.coordenador.editar', ['id' => $coordinator->id]) }}">Editar</a>

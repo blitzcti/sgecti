@@ -22,8 +22,10 @@ class SystemConfigurationTableSeeder extends Seeder
         $systemConfig->number = '58-50';
         $systemConfig->district = 'Núcleo Residencial Presidente Geisel';
         $systemConfig->phone = '1431036150';
+        $systemConfig->extension = null;
+        $systemConfig->fax = '1431036150';
         $systemConfig->email = 'dir-cti@feb.unesp.br';
-        $systemConfig->agreement_expiration = '5';
+        $systemConfig->agreement_expiration = 5;
         $systemConfig->save();
     }
 }

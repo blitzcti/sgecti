@@ -38,12 +38,6 @@ Route::prefix('')->name('api.')->group(function () {
         Route::get('cnpj/{cnpj}', 'API\ExternalAPISController@getCompanyInfo')->name('cnpj');
     });
 
-    Route::prefix('alunos')->name('alunos.')->group(function () {
-        Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
-            Route::get('foto', 'API\NSac\StudentController@getPhoto')->middleware('auth:api')->name('foto');
-        });
-    });
-
     Route::group(['middleware' => ['apiSession']], function () {
         Route::prefix('alunos')->name('alunos.')->group(function () {
             Route::get('', 'API\NSac\StudentController@get')->name('get');
@@ -53,6 +47,7 @@ Route::prefix('')->name('api.')->group(function () {
 
             Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                 Route::get('', 'API\NSac\StudentController@getByRA')->name('getByRA');
+                Route::get('foto', 'API\NSac\StudentController@getPhoto')->name('foto');
             });
         });
 

@@ -135,7 +135,7 @@ class CoordinatorController extends Controller
 
             $cName = $coordinator->course->name;
             $user = Auth::user();
-            $endDate = ($coordinator->end_date != null) ? date("d/m/Y", strtotime($coordinator->end_date)) : 'Indeterminado';
+            $endDate = ($coordinator->end_date != null) ? $coordinator->end_date->format("d/m/Y") : 'Indeterminado';
             $notification = new CoordinatorNotification(['description' => "Coordenadoria de $cName", 'text' => "O usuário $user->name alterou sua data de vigência para $endDate.", 'icon' => 'black-tie']);
             $coordinator->user->notify($notification);
         } else {

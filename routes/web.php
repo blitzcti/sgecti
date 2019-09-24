@@ -300,6 +300,7 @@ Route::prefix('aluno')->name('aluno.')->middleware('auth')->group(function () {
 
     Route::prefix('documento')->name('documento.')->group(function () {
         Route::get('', 'Student\DocumentController@index')->name('index');
+        Route::get('manual', 'Student\DocumentController@getManual')->name('manual');
     });
 });
 

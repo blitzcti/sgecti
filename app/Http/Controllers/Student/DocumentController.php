@@ -17,4 +17,12 @@ class DocumentController extends Controller
     {
         return view('student.document.index');
     }
+
+    public function getManual()
+    {
+        return response()->file(storage_path('app/public/docs/manual.pdf'), [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline;Manual do Estagiário.pdf',
+        ]);
+    }
 }

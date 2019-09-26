@@ -7,6 +7,8 @@
 @stop
 
 @section('content')
+    @include('modals.student.document.protocol')
+
     @if(session()->has('message'))
         <div class="alert {{ session('saved') ? 'alert-success' : 'alert-error' }} alert-dismissible"
              role="alert">
@@ -48,7 +50,9 @@
                     <div class="icon">
                         <i class="fa fa-file-text-o"></i>
                     </div>
-                    <a href="#" class="small-box-footer">Gerar <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="#" class="small-box-footer"
+                       data-toggle="modal" class="text-red"
+                       data-target="#documentProtocol">Gerar <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>
@@ -71,7 +75,7 @@
                         <i class="fa fa-paper-plane"></i>
                     </div>
                     <a href="#" class="small-box-footer">Gerar documento <i class="fa fa-arrow-circle-right"></i></a>
-                    <a href="#" class="small-box-footer">Ajuda <i class="fa fa-question-circle"></i></a>
+                    <a href="{{ route('aluno.documento.ajuda.plano') }}" class="small-box-footer">Ajuda <i class="fa fa-question-circle"></i></a>
                 </div>
             </div>
 

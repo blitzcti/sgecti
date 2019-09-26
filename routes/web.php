@@ -301,6 +301,13 @@ Route::prefix('aluno')->name('aluno.')->middleware('auth')->group(function () {
     Route::prefix('documento')->name('documento.')->group(function () {
         Route::get('', 'Student\DocumentController@index')->name('index');
         Route::get('manual', 'Student\DocumentController@getManual')->name('manual');
+        Route::get('protocolo', 'Student\DocumentController@generateProtocol')->name('protocolo');
+
+        Route::prefix('ajuda')->name('ajuda.')->group(function () {
+            Route::get('plano', 'Student\DocumentHelpController@getPlan')->name('plano');
+            Route::get('termo', 'Student\DocumentHelpController@getTerm')->name('termo');
+            Route::get('convenio', 'Student\DocumentHelpController@getAgreement')->name('convenio');
+        });
     });
 });
 

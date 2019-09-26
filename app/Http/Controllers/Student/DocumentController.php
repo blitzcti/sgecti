@@ -22,7 +22,13 @@ class DocumentController extends Controller
     {
         return response()->file(storage_path('app/public/docs/manual.pdf'), [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline;Manual do Estagiário.pdf',
+            'Content-Disposition' => 'inline;',
         ]);
+    }
+
+    public function generateProtocol(Request $request)
+    {
+        $id = $request->id;
+        dd('foi: ' . $id);
     }
 }

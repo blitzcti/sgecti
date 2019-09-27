@@ -9,7 +9,7 @@
 
 @section('content')
 
-    @if(auth()->user()->can('course-delete'))
+    @if(\App\Auth::user()->can('course-delete'))
 
         @include('modals.admin.course.delete')
 
@@ -49,7 +49,7 @@
 
                 @endif
 
-                @if(auth()->user()->can('course-delete'))
+                @if(\App\Auth::user()->can('course-delete'))
 
                     <a href="#" onclick="courseId('{{ $course->id }}'); course('{{ $course->name }}'); return false;"
                        data-toggle="modal" data-target="#deleteModal" class="btn btn-danger">Excluir curso</a>

@@ -15,6 +15,10 @@
                     @method('PUT')
                     @csrf
 
+                    @if(isset($redirect_to))
+                        <input type="hidden" name="redirectTo" value="{{ $redirect_to }}"/>
+                    @endif
+
                     <p>Deseja realmente aprovar essa proposta de estágio?</p>
                 </div>
 

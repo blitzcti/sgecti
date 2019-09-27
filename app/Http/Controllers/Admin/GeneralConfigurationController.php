@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreGeneralConfiguration;
 use App\Http\Requests\Admin\UpdateGeneralConfiguration;
 use App\Models\GeneralConfiguration;
-use Illuminate\Support\Facades\Auth;
+use App\Auth;
 use Illuminate\Support\Facades\Log;
 
 class GeneralConfigurationController extends Controller

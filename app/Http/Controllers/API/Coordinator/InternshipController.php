@@ -46,7 +46,7 @@ class InternshipController extends Controller
         }
 
         return response()->json(
-            array_values($internships->toArray()),
+            $internships,
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',
@@ -74,7 +74,7 @@ class InternshipController extends Controller
         $internships = Internship::where('ra', '=', $ra)->get()->sortBy('id');
 
         return response()->json(
-            array_values($internships->toArray()),
+            $internships,
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',

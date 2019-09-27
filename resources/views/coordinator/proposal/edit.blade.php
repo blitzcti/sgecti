@@ -25,6 +25,16 @@
             </div>
 
             <div class="box-body">
+                <div class="form-group">
+                    <label for="inputCompany" class="col-sm-2 control-label">Empresa*</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control input-info" id="inputCompany"
+                               name="company" readonly
+                               value="{{ $proposal->company->cpf_cnpj }} - {{ $proposal->company->name }} {{ $proposal->company->fantasy_name != null ? "({$proposal->company->fantasy_name})" : '' }}"/>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('type')) has-error @endif">

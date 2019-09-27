@@ -3,7 +3,7 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
+use App\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class CurrentPassword implements Rule

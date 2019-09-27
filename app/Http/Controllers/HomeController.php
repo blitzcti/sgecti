@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Company;
+use App\Auth;
 use App\Models\Internship;
 use App\Models\Proposal;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -31,7 +30,9 @@ class HomeController extends Controller
 
             $data['strCourses'] = $strCourses;
             $data['requiringFinish'] = Internship::requiringFinish();
-            $data['proposals'] = Proposal::all()->sortBy('id')->where('approved_at', '=', null)
+            $data['proposals'] = Proposal::all()
+                ->where('approved_at', '=', null)
+                ->where('reason_to_reject', '=', null)
                 ->filter(function ($proposal) use ($cIds) {
                     $ret = false;
                     foreach ($proposal->courses as $course) {
@@ -41,13 +42,13 @@ class HomeController extends Controller
                     }
 
                     return $ret;
-                });
+                })->sortBy('id');
         } else if ($user->isCompany()) {
-            $company = Company::all()->where('email', '=', $user->email)->first();
-            $data['proposals'] = Proposal::all()->where('company_id', '=', $company->id);
-            $data['proposalsInProgress'] = Proposal::all()->where('company_id', '=', $company->id)->where('approved_at', '=', null);
+            $company = $user->company;
+            $data['proposals'] = $company->proposals;
+            $data['proposalsApproved'] = $company->proposals->where('approved_at', '<>', null);
         } else if ($user->isStudent()) {
-            $data['proposals'] = Proposal::all()->sortBy('id')->where('approved_at', '<>', null);
+            $data['proposals'] = Proposal::approved();
         }
 
         return view('home')->with($data);

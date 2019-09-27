@@ -2,6 +2,40 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+
+/**
+ * Class FinalReport
+ *
+ * @package App\Models
+ * @property int id
+ * @property int internship_id
+ * @property int coordinator_id
+ * @property Carbon date
+ * @property int grade_1_a
+ * @property int grade_1_b
+ * @property int grade_1_c
+ * @property int grade_1_d
+ * @property int grade_2_a
+ * @property int grade_2_b
+ * @property int grade_2_c
+ * @property int grade_2_d
+ * @property int grade_3_a
+ * @property int grade_3_b
+ * @property int grade_4_a
+ * @property int grade_4_b
+ * @property int grade_4_c
+ * @property float final_grade
+ * @property int completed_hours
+ * @property Carbon end_date
+ * @property string approval_number
+ * @property string observation
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ *
+ * @property Internship internship
+ * @property Coordinator coordinator
+ */
 class FinalReport extends Model
 {
     protected $fillable = [
@@ -18,8 +52,9 @@ class FinalReport extends Model
     protected $casts = [
         'internship_id' => 'integer',
         'coordinator_id' => 'integer',
-        'final_grade' => 'float',
         'completed_hours' => 'integer',
+
+        'final_grade' => 'float',
 
         'date' => 'date',
         'end_date' => 'date',

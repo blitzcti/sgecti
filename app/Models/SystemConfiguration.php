@@ -4,10 +4,34 @@ namespace App\Models;
 
 use Carbon\Carbon;
 
+/**
+ * Class SystemConfiguration
+ *
+ * @package App\Models
+ * @property int id
+ * @property string name
+ * @property string cep
+ * @property string uf
+ * @property string city
+ * @property string street
+ * @property string number
+ * @property string district
+ * @property string phone
+ * @property string extension
+ * @property string fax
+ * @property string email
+ * @property int agreement_expiration
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ *
+ * @property string formatted_phone
+ * @property string formatted_fax
+ * @property string formatted_cep
+ */
 class SystemConfiguration extends Model
 {
     protected $fillable = [
-        'name', 'cep', 'uf', 'city', 'street', 'number', 'district', 'phone', 'fax', 'email', 'extension',
+        'name', 'cep', 'uf', 'city', 'street', 'number', 'district', 'phone', 'extension', 'fax', 'email',
         'agreement_expiration',
     ];
 
@@ -48,7 +72,7 @@ class SystemConfiguration extends Model
 
     public static function getAgreementExpiration(Carbon $date)
     {
-        $configs = SystemConfiguration::all()->sortBy('id');
+        $configs = static::all()->sortBy('id');
         return $date->modify("+" . $configs->last()->agreement_expiration . " year")->format("Y-m-d");
     }
 

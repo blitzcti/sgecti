@@ -2,6 +2,25 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+
+/**
+ * Class CourseConfiguration
+ *
+ * @package App\Models
+ * @property int id
+ * @property int course_id
+ * @property int min_year
+ * @property int min_semester
+ * @property int min_hours
+ * @property int min_months
+ * @property int min_months_ctps
+ * @property float min_grade
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ *
+ * @property Course course
+ */
 class CourseConfiguration extends Model
 {
     protected $fillable = [

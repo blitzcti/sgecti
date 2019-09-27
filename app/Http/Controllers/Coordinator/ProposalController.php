@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\Coordinator;
 
+use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Coordinator\ApproveProposal;
 use App\Http\Requests\Coordinator\DeleteProposal;
+use App\Http\Requests\Coordinator\RejectProposal;
 use App\Http\Requests\Coordinator\StoreProposal;
 use App\Http\Requests\Coordinator\UpdateProposal;
 use App\Models\Company;
 use App\Models\Course;
 use App\Models\Proposal;
 use App\Models\Schedule;
+use App\Notifications\WebNotification;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class ProposalController extends Controller
@@ -200,7 +202,6 @@ class ProposalController extends Controller
             $proposal->schedule_id = null;
         }
 
-        $proposal->company_id = $validatedData->company;
         $proposal->deadline = $validatedData->deadline;
         $proposal->remuneration = $validatedData->remuneration;
         $proposal->description = $validatedData->description;
@@ -210,6 +211,7 @@ class ProposalController extends Controller
         $proposal->type = $validatedData->type;
         $proposal->approved_at = Carbon::now();
         $proposal->observation = $validatedData->observation;
+        $proposal->reason_to_reject = null;
 
         $saved = $proposal->save();
 
@@ -245,12 +247,68 @@ class ProposalController extends Controller
 
         if ($saved) {
             Log::info($log);
+
+            $cName = Auth::user()->coordinator_courses_name;
+            $notification = new WebNotification([
+                'description' => "Proposta de estágio",
+                'text' => "O coordenador de {$cName} aprovou sua proposta de estágio.",
+                'icon' => 'bullhorn',
+                'url' => route('empresa.proposta.detalhes', ['id' => $proposal->id]),
+            ]);
+
+            $user = $proposal->company->user;
+            $user->notify($notification);
         } else {
             Log::error("Erro ao aprovar proposta de estágio");
         }
 
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Aprovada com sucesso' : 'Erro ao aprovar!';
+
+        if (isset($validatedData->redirectTo) && $validatedData->redirectTo != null) {
+            return redirect()->route($validatedData->redirectTo)->with($params);
+        }
+
+        return redirect()->route('coordenador.proposta.index')->with($params);
+    }
+
+    public function reject($id, RejectProposal $request)
+    {
+        $proposal = Proposal::findOrFail($id);
+
+        $validatedData = (object)$request->validated();
+
+        $log = "Rejeição de proposta de estágio";
+        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nProposta rejeitada: " . $proposal->id;
+
+        $proposal->reason_to_reject = $validatedData->reasonToReject;
+
+        $saved = $proposal->save();
+
+        if ($saved) {
+            Log::info($log);
+
+            $cName = Auth::user()->coordinator_courses_name;
+            $notification = new WebNotification([
+                'description' => "Proposta de estágio",
+                'text' => "O coordenador de {$cName} rejeitou sua proposta de estágio. Clique para mais detalhes.",
+                'icon' => 'bullhorn',
+                'url' => route('empresa.proposta.detalhes', ['id' => $proposal->id]),
+            ]);
+
+            $user = $proposal->company->user;
+            $user->notify($notification);
+        } else {
+            Log::error("Erro ao rejeitar proposta de estágio");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Rejeitada com sucesso' : 'Erro ao rejeitar!';
+
+        if (isset($validatedData->redirectTo) && $validatedData->redirectTo != null) {
+            return redirect()->route($validatedData->redirectTo)->with($params);
+        }
 
         return redirect()->route('coordenador.proposta.index')->with($params);
     }
@@ -275,6 +333,10 @@ class ProposalController extends Controller
 
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Excluído com sucesso' : 'Erro ao excluir!';
+
+        if (isset($validatedData->redirectTo) && $validatedData->redirectTo != null) {
+            return redirect()->route($validatedData->redirectTo)->with($params);
+        }
 
         return redirect()->route('coordenador.proposta.index')->with($params);
     }

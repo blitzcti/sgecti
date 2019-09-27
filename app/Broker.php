@@ -4,7 +4,6 @@ namespace App;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
 
@@ -20,6 +19,17 @@ class Broker extends \Jasny\SSO\Broker
         $this->token = null;
 
         $this->saveToken();
+    }
+
+    public function serverLoginPage()
+    {
+        $parameters = [
+            'return_url' => $this->getCurrentUrl(),
+            'broker' => $this->broker,
+            'session_id' => $this->getSessionId(),
+        ];
+
+        return $this->generateCommandUrl('loginForm', $parameters);
     }
 
     /**
@@ -104,6 +114,10 @@ class Broker extends \Jasny\SSO\Broker
         $query = '';
         if (!empty($parameters)) {
             $query = '?' . http_build_query($parameters);
+        }
+
+        if ($command == 'loginForm') {
+            return $this->url . '/loginForm' . $query;
         }
 
         return $this->url . '/api/sso/' . $command . $query;

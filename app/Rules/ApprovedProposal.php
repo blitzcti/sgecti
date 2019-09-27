@@ -2,12 +2,12 @@
 
 namespace App\Rules;
 
-use App\Models\Company;
+use App\Models\Proposal;
 use Exception;
 use Illuminate\Contracts\Validation\Rule;
-use App\Auth;
+use Illuminate\Support\Collection;
 
-class CompanyHasCoordinatorCourse implements Rule
+class ApprovedProposal implements Rule
 {
     /**
      * Create a new rule instance.
@@ -29,11 +29,9 @@ class CompanyHasCoordinatorCourse implements Rule
     public function passes($attribute, $value)
     {
         try {
-            $company = Company::find($value);
+            $proposal = Proposal::find($value);
 
-            return array_map(function ($c) {
-                return in_array($c["id"], Auth::user()->coordinator_of->toArray());
-            }, $company->courses->toArray());
+            return $proposal->approved_at != null;
         } catch (Exception $e) {
             return false;
         }
@@ -46,6 +44,6 @@ class CompanyHasCoordinatorCourse implements Rule
      */
     public function message()
     {
-        return __('validation.has_course');
+        return __('validation.not_active');
     }
 }

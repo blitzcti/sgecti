@@ -33,8 +33,8 @@
         @csrf
 
         <input type="hidden" id="inputUseFilters" name="useFilters" value="{{ old('useFilters') ?? 1 }}">
-        <input type="hidden" id="inputMessage" name="message" value="{{ old('message') ?? 3 }}">
-        <input type="hidden" id="inputProposal" name="proposal" value="{{ old('proposal') ?? '' }}">
+        <input type="hidden" id="inputMessage" name="message" value="{{ old('message') ?? ($p == null ? 3 : 1) }}">
+        <input type="hidden" id="inputProposal" name="proposal" value="{{ old('proposal') ?? $p ?? '' }}">
 
         <div id="filters" class="nav-tabs-custom">
             <ul class="nav nav-tabs">
@@ -234,16 +234,18 @@
                     <a href="#tab_bimestralReport" data-toggle="tab" aria-expanded="false">Relatório bimestral</a>
                 </li>
 
-                <li>
-                    <a href="#tab_internshipProposal" data-toggle="tab" aria-expanded="false">Proposta de estágio</a>
+                <li class="{{ $p != null ? 'active' : '' }}">
+                    <a href="#tab_internshipProposal" data-toggle="tab"
+                       aria-expanded="{{ $p != null ? 'true' : 'false' }}">Proposta de estágio</a>
                 </li>
 
                 <li>
                     <a href="#tab_importantMessage" data-toggle="tab" aria-expanded="false">Aviso importante</a>
                 </li>
 
-                <li class="active">
-                    <a href="#tab_message" data-toggle="tab" aria-expanded="true">Livre</a>
+                <li class="{{ $p == null ? 'active' : '' }}">
+                    <a href="#tab_message" data-toggle="tab"
+                       aria-expanded="{{ $p == null ? 'true' : 'false' }}">Livre</a>
                 </li>
 
                 <li class="pull-right">
@@ -266,7 +268,7 @@
                     <p>Desconsidere essa mensagem caso já tenha protocolado seu relatório bimestral.</p>
                 </div>
 
-                <div class="tab-pane" id="tab_internshipProposal">
+                <div class="tab-pane {{ $p != null ? 'active' : '' }}" id="tab_internshipProposal">
                     <table id="proposals" class="table table-bordered table-striped">
                         <thead>
                         <tr>
@@ -300,7 +302,7 @@
                     </table>
                 </div>
 
-                <div class="tab-pane active gambi" id="tab_message">
+                <div class="tab-pane {{ $p == null ? 'active' : '' }} gambi" id="tab_message">
                     <div class="form-group @if($errors->has('subject')) has-error @endif" id="inputSubject">
                         <input type="text" class="form-control" name="subject" placeholder="Assunto"
                                value="{{ old('subject') ?? '' }}">
@@ -377,7 +379,7 @@
 
             jQuery('#messageType a[href="#tab_bimestralReport"]').tab('show');
 
-            @elseif((old('message') ?? 3) == 1)
+            @elseif((old('message') ?? ($p == null ? 3 : 1)) == 1)
 
             jQuery('#messageType a[href="#tab_internshipProposal"]').tab('show');
 
@@ -385,7 +387,7 @@
 
             jQuery('#messageType a[href="#tab_importantMessage"]').tab('show');
 
-            @elseif((old('message') ?? 3) == 3)
+            @elseif((old('message') ?? ($p == null ? 3 : 1)) == 3)
 
             jQuery('#messageType a[href="#tab_message"]').tab('show');
 
@@ -397,6 +399,12 @@
                 },
                 lengthChange: true,
             });
+
+            @if((old('proposal') ?? $p) != null)
+
+            proposal({{ old('proposal') ?? $p }});
+
+            @endif
         });
     </script>
 @endsection

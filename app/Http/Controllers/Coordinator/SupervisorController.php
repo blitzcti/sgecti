@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Coordinator;
 
+use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Coordinator\StoreSupervisor;
 use App\Http\Requests\Coordinator\UpdateSupervisor;
 use App\Models\Company;
 use App\Models\Supervisor;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class SupervisorController extends Controller

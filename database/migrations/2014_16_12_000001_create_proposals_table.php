@@ -36,6 +36,7 @@ class CreateProposalsTable extends Migration
             $table->text('observation')->nullable(true);
 
             $table->timestamp('approved_at')->nullable(true);
+            $table->text('reason_to_reject')->nullable(true);
 
             $table->timestamps();
         });

@@ -5,6 +5,21 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Class Agreement
+ *
+ * @package App\Models
+ * @property int id
+ * @property int company_id
+ * @property Carbon start_date
+ * @property Carbon end_date
+ * @property string observation
+ * @property boolean active
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ *
+ * @property Company company
+ */
 class Agreement extends Model
 {
     protected $fillable = [
@@ -51,6 +66,6 @@ class Agreement extends Model
 
     public static function expiredToday()
     {
-        return Agreement::where('end_date', '=', Carbon::today()->toDateString())->orderBy('id')->get();
+        return static::where('end_date', '=', Carbon::today()->toDateString())->orderBy('id')->get();
     }
 }

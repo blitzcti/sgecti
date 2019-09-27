@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
+use App\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -284,6 +284,7 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
             Route::get('editar', 'Coordinator\ProposalController@edit')->name('editar');
             Route::put('', 'Coordinator\ProposalController@update')->name('alterar');
             Route::put('aprovar', 'Coordinator\ProposalController@approve')->name('aprovar');
+            Route::put('rejeitar', 'Coordinator\ProposalController@reject')->name('rejeitar');
             Route::delete('', 'Coordinator\ProposalController@destroy')->name('excluir');
         });
     });

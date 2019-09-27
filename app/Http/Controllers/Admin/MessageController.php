@@ -9,7 +9,7 @@ use App\Models\Course;
 use App\Models\Internship;
 use App\Models\NSac\Student;
 use App\Models\State;
-use Illuminate\Support\Facades\Auth;
+use App\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class MessageController extends Controller

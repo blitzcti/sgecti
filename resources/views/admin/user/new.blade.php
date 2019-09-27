@@ -82,7 +82,7 @@
 
                                 <option value="{{ $role->id }}"
                                         {{ (old('role') ?? 1) == $role->id ? 'selected' : '' }}>
-                                    {{ $role->friendlyName }}
+                                    {{ $role->friendly_name }}
                                 </option>
 
                             @endforeach

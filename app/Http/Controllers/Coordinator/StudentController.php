@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Coordinator;
 
+use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Coordinator\StudentPDF;
 use App\Models\Course;
 use App\Models\Internship;
 use App\Models\NSac\Student;
 use App\Models\State;
-use Illuminate\Support\Facades\Auth;
 use PDF;
 
 class StudentController extends Controller

@@ -50,8 +50,9 @@
 
 @if(sizeof($proposals) > 0)
 
-    @include('modals.coordinator.proposal.delete')
-    @include('modals.coordinator.proposal.approve')
+    @include('modals.coordinator.proposal.approve', ['redirect_to' => 'home'])
+    @include('modals.coordinator.proposal.reject', ['redirect_to' => 'home'])
+    @include('modals.coordinator.proposal.delete', ['redirect_to' => 'home'])
 
     <div class="box box-default">
         <div class="box-header with-border">
@@ -81,6 +82,9 @@
                             |
                             <a href="#" onclick="approveProposalId('{{ $proposal->id }}'); return false;"
                                data-toggle="modal" class="text-green" data-target="#proposalApproveModal">Aprovar</a>
+                            |
+                            <a href="#" onclick="rejectProposalId('{{ $proposal->id }}'); return false;"
+                               data-toggle="modal" class="text-red" data-target="#proposalRejectModal">Recusar</a>
                             |
                             <a href="#" onclick="deleteProposalId('{{ $proposal->id }}'); return false;"
                                data-toggle="modal" class="text-red" data-target="#proposalDeleteModal">Excluir</a>

@@ -42,6 +42,29 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    /**
+     * Show the application's login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showLoginForm()
+    {
+        if (config('broker.useSSO')) {
+            $broker = new Broker;
+
+            return redirect($broker->serverLoginPage());
+        } else {
+            return view('auth.login');
+        }
+    }
+
+    /**
+     * Attempt to log the user into the application.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return bool
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     protected function attemptLogin(Request $request)
     {
         $credentials = $this->credentials($request);
@@ -75,6 +98,13 @@ class LoginController extends Controller
         }
     }
 
+    /**
+     * Log the user out of the application.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     protected function logout(Request $request)
     {
         if (config('broker.useSSO')) {

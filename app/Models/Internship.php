@@ -2,8 +2,49 @@
 
 namespace App\Models;
 
+use App\Models\NSac\Student;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class Internship
+ *
+ * @package App\Models
+ * @property int id
+ * @property int ra
+ * @property int company_id
+ * @property int sector_id
+ * @property int coordinator_id
+ * @property int schedule_id
+ * @property int schedule_2_id
+ * @property int supervisor_id
+ * @property int state_id
+ * @property int start_date
+ * @property int end_date
+ * @property int protocol
+ * @property int activities
+ * @property int observation
+ * @property int reason_to_cancel
+ * @property int canceled_at
+ * @property int active
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ *
+ * @property Student student
+ * @property Company company
+ * @property Sector sector
+ * @property Coordinator coordinator
+ * @property Schedule schedule
+ * @property Schedule schedule2
+ * @property State state
+ * @property Collection|Amendment[] amendments
+ * @property Collection|Amendment[] not_empty_amendments
+ * @property Collection|BimestralReport[] bimestral_reports
+ * @property FinalReport final_report
+ * @property Carbon a_end_date
+ * @property int estimated_hours
+ * @property string formatted_protocol
+ */
 class Internship extends Model
 {
     protected $fillable = [
@@ -93,7 +134,7 @@ class Internship extends Model
         return $this->hasMany(Amendment::class);
     }
 
-    public function not_empty_amendments()
+    public function getNotEmptyAmendmentsAttribute()
     {
         return $this->hasMany(Amendment::class)->get()->filter(function ($a) {
             $days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -107,12 +148,12 @@ class Internship extends Model
         });
     }
 
-    public function bimestral_reports()
+    public function bimestralReports()
     {
         return $this->hasMany(BimestralReport::class);
     }
 
-    public function final_report()
+    public function finalReport()
     {
         return $this->hasOne(FinalReport::class);
     }
@@ -131,7 +172,7 @@ class Internship extends Model
 
     public function getEstimatedHoursAttribute()
     {
-        $amendments = $this->not_empty_amendments();
+        $amendments = $this->not_empty_amendments;
 
         $h = $this->schedule->countHours($this->start_date, $this->end_date, $amendments);
         if ($this->schedule2 != null) {
@@ -166,6 +207,6 @@ class Internship extends Model
     public static function requiringFinish()
     {
         $today = Carbon::today()->modify('-20 day');
-        return Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->get()->where('end_date', '<=', $today);
+        return static::where('state_id', '=', State::OPEN)->where('active', '=', true)->get()->where('end_date', '<=', $today);
     }
 }

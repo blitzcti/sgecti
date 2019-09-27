@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
+use App\Auth;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 
 class Company

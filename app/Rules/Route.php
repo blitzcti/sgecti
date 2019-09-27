@@ -2,12 +2,10 @@
 
 namespace App\Rules;
 
-use App\Models\Company;
 use Exception;
 use Illuminate\Contracts\Validation\Rule;
-use App\Auth;
 
-class CompanyHasCoordinatorCourse implements Rule
+class Route implements Rule
 {
     /**
      * Create a new rule instance.
@@ -28,15 +26,11 @@ class CompanyHasCoordinatorCourse implements Rule
      */
     public function passes($attribute, $value)
     {
-        try {
-            $company = Company::find($value);
-
-            return array_map(function ($c) {
-                return in_array($c["id"], Auth::user()->coordinator_of->toArray());
-            }, $company->courses->toArray());
-        } catch (Exception $e) {
-            return false;
+        if ($value == null) {
+            return true;
         }
+
+        return \Illuminate\Support\Facades\Route::has($value);
     }
 
     /**
@@ -46,6 +40,6 @@ class CompanyHasCoordinatorCourse implements Rule
      */
     public function message()
     {
-        return __('validation.has_course');
+        return __('validation.route');
     }
 }

@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests\Coordinator;
 
+use App\Models\Proposal;
 use App\Rules\Route;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteProposal extends FormRequest
+class RejectProposal extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +15,9 @@ class DeleteProposal extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $proposal = Proposal::findOrFail($this->route('id'));
+
+        return $proposal->approved_at == null;
     }
 
     /**
@@ -25,6 +28,7 @@ class DeleteProposal extends FormRequest
     public function rules()
     {
         return [
+            'reasonToReject' => ['required', 'max:8000'],
             'redirectTo' => ['nullable', new Route],
         ];
     }

@@ -7,8 +7,9 @@
 @stop
 
 @section('content')
-    @include('modals.coordinator.proposal.delete')
     @include('modals.coordinator.proposal.approve')
+    @include('modals.coordinator.proposal.reject')
+    @include('modals.coordinator.proposal.delete')
 
     @if(session()->has('message'))
         <div class="alert {{ session('saved') ? 'alert-success' : 'alert-error' }} alert-dismissible"
@@ -47,13 +48,11 @@
                         <td>{{ $proposal->deadline->format('d/m/Y') }}</td>
 
                         @if($proposal->approved_at != null)
-
                             <td>Aprovado</td>
-
+                        @elseif($proposal->reason_to_reject != null)
+                            <td>Requer alterações</td>
                         @else
-
                             <td>Pendente</td>
-
                         @endif
 
                         <td>
@@ -62,12 +61,23 @@
                             <a href="{{ route('coordenador.proposta.editar', ['id' => $proposal->id]) }}">Editar</a>
                             |
 
-                            @if($proposal->approved_at == null)
+                            @if($proposal->approved_at != null)
+                                <a href="{{ route('coordenador.mensagem.index', ['p' => $proposal->id]) }}"
+                                   class="text-green">Enviar email</a>
+                                |
+                            @endif
+
+                            @if($proposal->approved_at == null && $proposal->reason_to_reject == null)
 
                                 <a href="#"
                                    onclick="approveProposalId('{{ $proposal->id }}'); return false;"
                                    data-toggle="modal" class="text-green"
                                    data-target="#proposalApproveModal">Aprovar</a>
+                                |
+                                <a href="#"
+                                   onclick="rejectProposalId('{{ $proposal->id }}'); return false;"
+                                   data-toggle="modal" class="text-red"
+                                   data-target="#proposalRejectModal">Rejeitar</a>
                                 |
 
                             @endif

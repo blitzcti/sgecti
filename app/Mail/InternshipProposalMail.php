@@ -6,7 +6,7 @@ use App\Models\Proposal;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Auth;
+use App\Auth;
 
 class InternshipProposalMail extends Mailable
 {

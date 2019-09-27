@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreSystemConfiguration;
 use App\Http\Requests\Admin\UpdateSystemConfiguration;
 use App\Models\SystemConfiguration;
-use Illuminate\Support\Facades\Auth;
+use App\Auth;
 use Illuminate\Support\Facades\Log;
 
 class SystemConfigurationController extends Controller

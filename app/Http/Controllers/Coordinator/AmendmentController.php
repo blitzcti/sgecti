@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Coordinator;
 
+use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Coordinator\StoreAmendment;
 use App\Http\Requests\Coordinator\UpdateAmendment;
@@ -9,7 +10,6 @@ use App\Models\Amendment;
 use App\Models\Internship;
 use App\Models\Schedule;
 use App\Models\State;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class AmendmentController extends Controller

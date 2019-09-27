@@ -40,12 +40,12 @@
                     <tr>
                         <td>{{ $notification->toArray()['data']['description'] }}</td>
                         <td>{{ $notification->toArray()['data']['text'] }}</td>
-                        <td>{{ $notification->created_at }}</td>
+                        <td>{{ $notification->created_at->format('d/m/Y H:i') }}</td>
 
                         <td>
                             @if($notification->read_at == null)
 
-                            <a href="#" onclick="markAsSeen('{{ $notification->id }}'); (function (e) {e.parentNode.removeChild(e)})(this); return false;">Marcar como lida</a>
+                            <a href="#" onclick="markAsSeen('{{ $notification->id }}', false); (function (e) {e.parentNode.removeChild(e)})(this); return false;">Marcar como lida</a>
 
                             @endif
                         </td>

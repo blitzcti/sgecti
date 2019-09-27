@@ -46,7 +46,7 @@ class JobCompanyController extends Controller
         }
 
         return response()->json(
-            array_values($companies->toArray()),
+            $companies,
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',

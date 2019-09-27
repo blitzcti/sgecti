@@ -2,6 +2,26 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+
+/**
+ * Class Address
+ *
+ * @package App\Models
+ * @property int id
+ * @property string cep
+ * @property string uf
+ * @property string city
+ * @property string street
+ * @property string complement
+ * @property string number
+ * @property string district
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ *
+ * @property Company company
+ * @property string formatted_cep
+ */
 class Address extends Model
 {
     protected $fillable = [

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Company;
 
+use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\DeleteProposal;
 use App\Http\Requests\Company\StoreProposal;
 use App\Http\Requests\Company\UpdateProposal;
 use App\Models\Proposal;
 use App\Models\Schedule;
-use App\Notifications\CoordinatorNotification;
-use Illuminate\Support\Facades\Auth;
+use App\Notifications\WebNotification;
 use Illuminate\Support\Facades\Log;
 
 class ProposalController extends Controller
@@ -123,8 +123,9 @@ class ProposalController extends Controller
 
         if ($saved) {
             Log::info($log);
+
             $company = Auth::user()->company;
-            $notification = new CoordinatorNotification([
+            $notification = new WebNotification([
                 'description' => "Proposta de estágio",
                 'text' => "A empresa $company->name acabou de enviar uma nova proposta de estágio.",
                 'icon' => 'bullhorn',
@@ -218,6 +219,38 @@ class ProposalController extends Controller
 
         if ($saved) {
             Log::info($log);
+
+            if ($proposal->reason_to_reject != null) {
+                $proposal->reason_to_reject = null;
+                $proposal->save();
+
+                $company = Auth::user()->company;
+                $notification = new WebNotification([
+                    'description' => "Proposta de estágio",
+                    'text' => "A empresa $company->name reenviou uma proposta de estágio rejeitada.",
+                    'icon' => 'bullhorn',
+                    'url' => route('coordenador.proposta.detalhes', ['id' => $proposal->id]),
+                ]);
+
+                foreach ($proposal->courses as $course) {
+                    $course->coordinator()->user->notify($notification);
+                }
+            } else {
+                $proposal->approved_at = null;
+                $proposal->save();
+
+                $company = Auth::user()->company;
+                $notification = new WebNotification([
+                    'description' => "Proposta de estágio",
+                    'text' => "A empresa $company->name editou uma proposta de estágio.",
+                    'icon' => 'bullhorn',
+                    'url' => route('coordenador.proposta.detalhes', ['id' => $proposal->id]),
+                ]);
+
+                foreach ($proposal->courses as $course) {
+                    $course->coordinator()->user->notify($notification);
+                }
+            }
         } else {
             Log::error("Erro ao salvar proposta de estágio");
         }

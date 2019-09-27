@@ -5,6 +5,30 @@ namespace App\Models;
 use Carbon\Carbon;
 use DateTime;
 
+/**
+ * Class Schedule
+ *
+ * @package App\Models
+ * @property int id
+ * @property string mon_s
+ * @property string mon_e
+ * @property string tue_s
+ * @property string tue_e
+ * @property string wed_s
+ * @property string wed_e
+ * @property string thu_s
+ * @property string thu_e
+ * @property string fri_s
+ * @property string fri_e
+ * @property string sat_s
+ * @property string sat_e
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ *
+ * @property Internship internship
+ * @property Amendment amendment
+ * @property Proposal proposal
+ */
 class Schedule extends Model
 {
     protected $fillable = [

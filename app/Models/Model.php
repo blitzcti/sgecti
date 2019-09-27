@@ -5,6 +5,13 @@ namespace App\Models;
 use Illuminate\Support\Facades\DB;
 use PDOException;
 
+/**
+ * Class Model
+ *
+ * @package App\Models
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin \Illuminate\Database\Query\Builder
+ */
 abstract class Model extends \Illuminate\Database\Eloquent\Model
 {
     public function __construct(array $attributes = [])

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Coordinator;
 
+use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Coordinator\CancelJob;
 use App\Http\Requests\Coordinator\ReactivateJob;
@@ -9,7 +10,7 @@ use App\Http\Requests\Coordinator\StoreJob;
 use App\Http\Requests\Coordinator\UpdateJob;
 use App\Models\Job;
 use App\Models\JobCompany;
-use Illuminate\Support\Facades\Auth;
+use App\Models\State;
 use Illuminate\Support\Facades\Log;
 
 class JobController extends Controller
@@ -94,7 +95,7 @@ class JobController extends Controller
         $coordinator_id = $coordinator->temporary_of->id ?? $coordinator->id;
         $job->coordinator_id = $coordinator_id;
 
-        $job->state_id = 1;
+        $job->state_id = State::FINISHED;
         $job->start_date = $validatedData->startDate;
         $job->end_date = $validatedData->endDate;
         $job->protocol = $validatedData->protocol;
@@ -157,7 +158,7 @@ class JobController extends Controller
         $job = Job::findOrFail($id);
         $validatedData = (object)$request->validated();
 
-        $job->state_id = 3;
+        $job->state_id = State::CANCELED;
         $job->reason_to_cancel = $validatedData->reasonToCancel;
         $job->canceled_at = $validatedData->canceledAt;
         $saved = $job->save();
@@ -183,7 +184,7 @@ class JobController extends Controller
         $job = Job::findOrFail($id);
         $validatedData = (object)$request->validated();
 
-        $job->state_id = 1;
+        $job->state_id = State::FINISHED;
         $job->reason_to_cancel = null;
         $job->canceled_at = null;
         $saved = $job->save();

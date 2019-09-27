@@ -7,7 +7,7 @@ use App\Rules\Active;
 use App\Rules\CompanyHasCourse;
 use App\Rules\HourInterval;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
+use App\Auth;
 
 class UpdateProposal extends FormRequest
 {

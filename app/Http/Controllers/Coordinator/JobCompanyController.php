@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Coordinator;
 
+use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Coordinator\StoreJobCompany;
 use App\Http\Requests\Coordinator\UpdateJobCompany;
 use App\Models\JobCompany;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class JobCompanyController extends Controller

@@ -3,15 +3,42 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class Proposal
+ *
+ * @package App\Models
+ * @property int id
+ * @property int company_id
+ * @property Carbon deadline
+ * @property int schedule_id
+ * @property int schedule_2_id
+ * @property float remuneration
+ * @property string description
+ * @property string requirements
+ * @property string benefits
+ * @property string contact
+ * @property int type
+ * @property string observation
+ * @property Carbon approved_at
+ * @property string reason_to_reject
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ *
+ * @property Company company
+ * @property Schedule schedule
+ * @property Schedule schedule2
+ * @property Collection|Course[] courses
+ */
 class Proposal extends Model
 {
     public const INTERNSHIP = 0;
     public const IC = 1;
 
     protected $fillable = [
-        'name', 'company_id', 'deadline', 'schedule_id', 'schedule_2_id', 'remuneration', 'description', 'requirements',
-        'benefits', 'contact', 'type', 'observation',
+        'company_id', 'deadline', 'schedule_id', 'schedule_2_id', 'remuneration', 'description', 'requirements',
+        'benefits', 'contact', 'type', 'observation', 'approved_at', 'reason_to_reject'
     ];
 
     /**
@@ -57,6 +84,6 @@ class Proposal extends Model
 
     public static function approved()
     {
-        return Proposal::where('approved_at', '<>', null)->where('deadline', '>=', Carbon::today())->get();
+        return static::where('approved_at', '<>', null)->where('deadline', '>=', Carbon::today())->get();
     }
 }

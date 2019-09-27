@@ -17,8 +17,8 @@ return [
     'tables' => [
         'users' => \App\Models\User::class,
         'password_resets' => \App\Models\PasswordReset::class,
-        'permissions' => \Spatie\Permission\Models\Permission::class,
-        'roles' => \Spatie\Permission\Models\Role::class,
+        'permissions' => \App\Models\Permission::class,
+        'roles' => \App\Models\Role::class,
         'model_has_permissions' => \App\Models\ManyToMany\ModelHasPermission::class,
         'model_has_roles' => \App\Models\ManyToMany\ModelHasRole::class,
         'role_has_permissions' => \App\Models\ManyToMany\RoleHasPermission::class,
@@ -54,6 +54,17 @@ return [
         'proposals' => \App\Models\Proposal::class,
         'proposal_courses' => \App\Models\ManyToMany\ProposalCourse::class,
     ],
+
+    /*
+        |--------------------------------------------------------------------------
+        | Tables to ignore
+        |--------------------------------------------------------------------------
+        |
+        | This option controls the tables to ignore when doing backup.
+        |
+        */
+
+    'sso_tables' => ['users', 'password_resets', 'roles', 'model_has_roles'],
 
 
 ];

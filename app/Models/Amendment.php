@@ -2,6 +2,29 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+
+/**
+ * Class Amendment
+ *
+ * @package App\Models
+ * @property int id
+ * @property int internship_id
+ * @property Carbon start_date
+ * @property Carbon end_date
+ * @property Carbon new_end_date
+ * @property int schedule_id
+ * @property int schedule_2_id
+ * @property string protocol
+ * @property string observation
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ *
+ * @property Internship internship
+ * @property Schedule schedule
+ * @property Schedule schedule2
+ * @property string formatted_protocol
+ */
 class Amendment extends Model
 {
     protected $fillable = [

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Coordinator;
 
+use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Coordinator\SendMail;
 use App\Mail\BimestralReportMail;
@@ -12,7 +13,7 @@ use App\Models\Internship;
 use App\Models\NSac\Student;
 use App\Models\Proposal;
 use App\Models\State;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class MessageController extends Controller
@@ -22,10 +23,14 @@ class MessageController extends Controller
         $this->middleware('coordinator');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $cIds = Auth::user()->coordinator_courses_id;
         $courses = Auth::user()->coordinator_of;
+        $p = $request->p;
+        if (!ctype_digit($p)) {
+            $p = null;
+        }
 
         $students = Student::actives()->filter(function ($student) use ($cIds) {
             return in_array($student->course_id, $cIds);
@@ -37,6 +42,7 @@ class MessageController extends Controller
             'courses' => $courses,
             'students' => $students,
             'proposals' => $proposals,
+            'p' => $p,
         ]);
     }
 

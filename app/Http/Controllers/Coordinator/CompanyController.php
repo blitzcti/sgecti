@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Coordinator;
 
+use App\Auth;
 use App\Http\Requests\Coordinator\StoreCompany;
 use App\Http\Requests\Coordinator\UpdateCompany;
 use App\Models\Address;
@@ -11,9 +12,7 @@ use App\Models\Course;
 use App\Models\Sector;
 use App\Models\State;
 use App\Models\SystemConfiguration;
-use Carbon\Carbon;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use PDF;
 
@@ -152,6 +151,7 @@ class CompanyController extends Controller
     public function update($id, UpdateCompany $request)
     {
         $company = Company::with(['address'])->findOrFail($id);
+        $cUser = $company->user;
         $params = [];
 
         $validatedData = (object)$request->validated();
@@ -191,6 +191,9 @@ class CompanyController extends Controller
 
         if ($saved) {
             Log::info($log);
+
+            $cUser->email = $company->email;
+            $cUser->save();
         } else {
             Log::error("Erro ao salvar empresa");
         }

@@ -2,6 +2,22 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+
+/**
+ * Class BimestralReport
+ *
+ * @package App\Models
+ * @property int id
+ * @property int internship_id
+ * @property Carbon date
+ * @property string protocol
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ *
+ * @property Internship internship
+ * @property string formatted_protocol
+ */
 class BimestralReport extends Model
 {
     protected $fillable = [

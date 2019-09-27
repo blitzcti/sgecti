@@ -9,7 +9,7 @@ use App\Models\Color;
 use App\Models\Course;
 use App\Models\CourseConfiguration;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Auth;
 use Illuminate\Support\Facades\Log;
 
 class CourseController extends Controller

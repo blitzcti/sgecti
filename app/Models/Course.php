@@ -4,7 +4,27 @@ namespace App\Models;
 
 use App\Models\NSac\Student;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class Course
+ *
+ * @package App\Models
+ * @property int id
+ * @property string name
+ * @property int color_id
+ * @property boolean active
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ *
+ * @property Collection|Student[] students
+ * @property Collection|Coordinator[] coordinators
+ * @property Collection|Coordinator[] non_temp_coordinators
+ * @property Collection|CourseConfiguration[] configurations
+ * @property Color color
+ * @property Collection|Company[] companies
+ * @property Collection|Proposal[] proposals
+ */
 class Course extends Model
 {
     protected $fillable = [

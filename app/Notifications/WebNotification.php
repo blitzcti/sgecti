@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class CoordinatorNotification extends Notification
+class WebNotification extends Notification
 {
     use Queueable;
 

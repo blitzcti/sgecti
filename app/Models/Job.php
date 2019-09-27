@@ -2,6 +2,35 @@
 
 namespace App\Models;
 
+use App\Models\NSac\Student;
+use Carbon\Carbon;
+
+/**
+ * Class Job
+ *
+ * @package App\Models
+ * @property int id
+ * @property int ra
+ * @property int company_id
+ * @property int coordinator_id
+ * @property int state_id
+ * @property int start_date
+ * @property int end_date
+ * @property int protocol
+ * @property int observation
+ * @property int reason_to_cancel
+ * @property int canceled_at
+ * @property int active
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ *
+ * @property Student student
+ * @property Company company
+ * @property Coordinator coordinator
+ * @property State state
+ * @property string formatted_protocol
+ * @property string formatted_ctps
+ */
 class Job extends Model
 {
     protected $fillable = [
@@ -52,5 +81,13 @@ class Job extends Model
         $n = substr($protocol, 0, 3);
         $y = substr($protocol, 3, 4);
         return "$n/$y";
+    }
+
+    public function getFormattedCtpsAttribute()
+    {
+        $ctps = $this->ctps;
+        $p1 = substr($ctps, 0, 6);
+        $p2 = substr($ctps, 6, 5);
+        return "$p1/$p2";
     }
 }

@@ -59,7 +59,7 @@
                             |
                             <a href="{{ route('coordenador.estagio.editar', ['id' => $internship->id]) }}">Editar</a>
 
-                            @if(auth()->user()->can('internshipAmendment-list'))
+                            @if(\App\Auth::user()->can('internshipAmendment-list'))
                                 |
                                 <a href="{{ route('coordenador.estagio.aditivo', ['id' => $internship->id]) }}">Termos
                                     aditivos</a>

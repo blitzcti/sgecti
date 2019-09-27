@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Coordinator;
 
+use App\Rules\ApprovedProposal;
 use App\Rules\RA;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -41,7 +42,7 @@ class SendMail extends FormRequest
 
             'message' => ['nullable', 'integer', 'min:0', 'max:3'],
 
-            'proposal' => ['required_if:message,1', 'nullable', 'integer', 'min:1', 'exists:proposals,id'],
+            'proposal' => ['required_if:message,1', 'nullable', 'integer', 'min:1', 'exists:proposals,id', new ApprovedProposal],
 
             'subject' => ['required_if:message,3', 'nullable', 'max:100'],
             'messageBody' => ['required_if:message,2', 'required_if:message,3', 'nullable', 'max:8000'],

@@ -4,11 +4,39 @@ namespace App\Models;
 
 use App\Models\NSac\Student;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Auth;
+use App\Auth;
 use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * Class User
+ *
+ * @package App\Models
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin \Illuminate\Database\Query\Builder
+ * @property int id
+ * @property string name
+ * @property string email
+ * @property string phone
+ * @property string password
+ * @property string remember_token
+ * @property string api_token
+ * @property Carbon email_verified_at
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ *
+ * @property Collection|DatabaseNotification[] notifications
+ * @property Collection|Coordinator[] coordinators
+ * @property Company company
+ * @property Student student
+ * @property Collection|Course[] coordinator_of
+ * @property Collection|Course[] non_temp_coordinator_of
+ * @property int[] coordinator_courses_id
+ * @property string coordinator_courses_name
+ * @property string formatted_phone
+ */
 class User extends Authenticatable
 {
     use HasRoles;
@@ -41,6 +69,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        if (config('broker.useSSO')) {
+            $this->connection = config('database.sso');
+        }
+    }
+
+    public function notifications()
+    {
+        return $this->morphMany(DatabaseNotification::class, 'notifiable')->orderBy('created_at', 'desc');
+    }
 
     public function coordinators()
     {
@@ -107,14 +148,14 @@ class User extends Authenticatable
 
     public function getCoordinatorCoursesIdAttribute()
     {
-        return Auth::user()->coordinator_of->map(function ($course) {
+        return $this->coordinator_of->map(function ($course) {
             return $course->id;
         })->toArray();
     }
 
     public function getNonTempCoordinatorCoursesIdAttribute()
     {
-        return Auth::user()->non_temp_coordinator_of->map(function ($course) {
+        return $this->non_temp_coordinator_of->map(function ($course) {
             return $course->id;
         })->toArray();
     }

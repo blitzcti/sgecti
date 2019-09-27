@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Coordinator;
 
+use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Coordinator\CancelAgreement;
 use App\Http\Requests\Coordinator\ReactivateAgreement;
@@ -11,7 +12,6 @@ use App\Models\Agreement;
 use App\Models\Company;
 use App\Models\SystemConfiguration;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class AgreementController extends Controller

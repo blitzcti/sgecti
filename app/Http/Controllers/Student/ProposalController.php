@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Student;
 use App\Models\Proposal;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Auth;
 
 class ProposalController extends Controller
 {

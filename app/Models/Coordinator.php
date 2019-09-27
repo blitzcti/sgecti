@@ -4,6 +4,23 @@ namespace App\Models;
 
 use Carbon\Carbon;
 
+/**
+ * Class Coordinator
+ *
+ * @package App\Models
+ * @property int id
+ * @property int user_id
+ * @property int course_id
+ * @property Carbon start_date
+ * @property Carbon end_date
+ * @property int temp_of
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ *
+ * @property User user
+ * @property Course course
+ * @property Coordinator temporary_of
+ */
 class Coordinator extends Model
 {
     protected $fillable = [
@@ -41,11 +58,11 @@ class Coordinator extends Model
 
     public static function actives()
     {
-        return Coordinator::where('end_date', '>', Carbon::today()->toDateString())->orderBy('id')->get();
+        return static::where('end_date', '>', Carbon::today()->toDateString())->orderBy('id')->get();
     }
 
     public static function expiredToday()
     {
-        return Coordinator::where('end_date', '=', Carbon::today()->toDateString())->orderBy('id')->get();
+        return static::where('end_date', '=', Carbon::today()->toDateString())->orderBy('id')->get();
     }
 }

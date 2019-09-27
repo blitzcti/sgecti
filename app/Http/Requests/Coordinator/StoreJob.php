@@ -4,9 +4,10 @@ namespace App\Http\Requests\Coordinator;
 
 use App\Models\JobCompany;
 use App\Rules\Active;
-use App\Rules\StudentHasInternship;
 use App\Rules\Integer;
 use App\Rules\RA;
+use App\Rules\StudentHasInternship;
+use App\Rules\StudentHasJob;
 use App\Rules\StudentSameCoordinatorCourse;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -30,7 +31,7 @@ class StoreJob extends FormRequest
     public function rules()
     {
         return [
-            'ra' => ['required', 'integer', 'min:1', new RA, new StudentHasInternship, new StudentSameCoordinatorCourse],
+            'ra' => ['required', 'integer', 'min:1', new RA, new StudentHasInternship, new StudentHasJob, new StudentSameCoordinatorCourse],
             'active' => ['required', 'boolean'],
 
             'company' => ['required', 'integer', 'min:1', 'exists:job_companies,id', new Active(JobCompany::class)],

@@ -18,7 +18,7 @@
         </div>
     @endif
 
-    <p>Você está conectado como {{ $user->roles->pluck('friendlyName')[0] }}.</p>
+    <p>Você está conectado como {{ $user->roles->pluck('friendly_name')[0] }}.</p>
 
     @if($user->isCoordinator())
 

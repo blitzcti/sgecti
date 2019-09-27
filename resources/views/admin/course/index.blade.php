@@ -18,7 +18,7 @@
         </div>
     @endif
 
-    @if(auth()->user()->can('course-delete'))
+    @if(\App\Auth::user()->can('course-delete'))
 
         @include('modals.admin.course.delete')
 
@@ -56,7 +56,7 @@
                             <a href="{{ route('admin.curso.coordenador.index', ['id' => $course->id]) }}">Coordenadores</a>
                             |
                             <a href="{{ route('admin.curso.configuracao.index', ['id' => $course->id]) }}">Configurações</a>
-                            @if(auth()->user()->can('course-delete'))
+                            @if(\App\Auth::user()->can('course-delete'))
                                 |
                                 <a href="#"
                                    onclick="courseId('{{ $course->id }}'); course('{{ $course->name }}'); return false;"

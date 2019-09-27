@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Coordinator;
 
+use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Coordinator\StoreBimestralReport;
 use App\Http\Requests\Coordinator\StoreFinalReport;
@@ -15,7 +16,6 @@ use App\Models\State;
 use App\Models\SystemConfiguration;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use PDF;
 

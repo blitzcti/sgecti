@@ -34,7 +34,6 @@
                     <th>Endereço</th>
                     <th>Bairro</th>
                     <th>Email</th>
-                    <th>Validade do convênio</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
@@ -52,7 +51,6 @@
                         <td>{{ $systemConfig->street . ', nº ' .  $systemConfig->number }}</td>
                         <td>{{ $systemConfig->district }}</td>
                         <td>{{ $systemConfig->email }}</td>
-                        <td>{{ $systemConfig->agreement_expiration }}</td>
 
                         <td>
                             <a href="{{ route('admin.configuracao.parametros.editar', ['id' => $systemConfig->id]) }}">Editar</a>

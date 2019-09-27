@@ -3,11 +3,42 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class Company
+ *
+ * @package App\Models
+ * @property int id
+ * @property string cpf_cnpj
+ * @property string ie
+ * @property boolean pj
+ * @property string name
+ * @property string fantasy_name
+ * @property string email
+ * @property string phone
+ * @property string representative_name
+ * @property string representative_role
+ * @property boolean active
+ * @property int address_id
+ * @property Carbon created_at
+ * @property Carbon updated_at
+ *
+ * @property Address address
+ * @property Collection|Course[] courses
+ * @property Collection|Sector[] sectors
+ * @property Collection|Supervisor[] supervisors
+ * @property Collection|Agreement[] agreements
+ * @property Collection|Internship[] internships
+ * @property Collection|Proposal[] proposals
+ * @property User user
+ * @property string formatted_phone
+ */
 class Company extends Model
 {
     protected $fillable = [
-        'cpf_cnpj', 'ie', 'pj', 'name', 'fantasy_name', 'email', 'phone', 'representative_name', 'representative_role', 'active', 'address_id',
+        'cpf_cnpj', 'ie', 'pj', 'name', 'fantasy_name', 'email', 'phone', 'representative_name', 'representative_role',
+        'active', 'address_id',
     ];
 
     /**
@@ -87,5 +118,14 @@ class Company extends Model
     public function syncSectors($sectors)
     {
         $this->sectors()->sync($sectors);
+    }
+
+    public function getFormattedPhoneAttribute()
+    {
+        $phone = $this->phone;
+        $ddd = substr($phone, 0, 2);
+        $p1 = (strlen($phone) == 10) ? substr($phone, 2, 4) : substr($phone, 2, 5);
+        $p2 = (strlen($phone) == 10) ? substr($phone, 6, 4) : substr($phone, 7, 4);
+        return "($ddd) $p1-$p2";
     }
 }

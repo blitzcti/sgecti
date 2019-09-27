@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUser;
 use App\Http\Requests\Admin\UpdateUser;
 use App\Http\Requests\ChangeUserPassword;
+use App\Models\Role;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -53,7 +53,7 @@ class UserController extends Controller
 
     public function store(StoreUser $request)
     {
-        $user = config('broker.useSSO') ? new \App\Models\SSO\User() : new User();
+        $user = new User();
         $params = [];
 
         $validatedData = (object)$request->validated();
@@ -69,9 +69,6 @@ class UserController extends Controller
         $saved = $user->save();
         $log .= "\nNovos dados: " . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        if (config('broker.useSSO')) {
-            $user = new User($user->toArray());
-        }
         $user->syncRoles([Role::findOrFail($validatedData->role)->name]);
 
         if ($saved) {
@@ -88,7 +85,7 @@ class UserController extends Controller
 
     public function update($id, UpdateUser $request)
     {
-        $user = config('broker.useSSO') ? \App\Models\SSO\User::findOrFail($id) : User::findOrFail($id);
+        $user = User::findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();
@@ -104,9 +101,6 @@ class UserController extends Controller
         $saved = $user->save();
         $log .= "\nNovos dados: " . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        if (config('broker.useSSO')) {
-            $user = new User($user->toArray());
-        }
         $user->syncRoles([Role::findOrFail($validatedData->role)->name]);
 
         if ($saved) {
@@ -130,7 +124,7 @@ class UserController extends Controller
 
         $validatedData = (object)$request->validated();
 
-        $user = config('broker.useSSO') ? \App\Models\SSO\User::findOrFail($id) : User::findOrFail($id);
+        $user = User::findOrFail($id);
         $user->password = Hash::make($validatedData->password);
 
         $saved = $user->save();

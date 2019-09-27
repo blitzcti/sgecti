@@ -3,11 +3,44 @@
 namespace App\Models\NSac;
 
 use App\Models\Course;
+use App\Models\CourseConfiguration;
+use App\Models\GeneralConfiguration;
 use App\Models\Internship;
 use App\Models\Job;
 use App\Models\State;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class Student
+ *
+ * @package App\Models\NSac
+ * @property string matricula
+ * @property string nome
+ * @property string email
+ * @property string email2
+ * @property string turma
+ * @property int turma_ano
+ * @property int turma_periodo
+ * @property int situacao_matricula
+ * @property Carbon data_de_nascimento
+ *
+ * @property int course_id
+ * @property int year
+ * @property int grade
+ * @property int class
+ * @property int age
+ * @property CourseConfiguration|GeneralConfiguration course_configuration
+ * @property int internship_state
+ * @property int completed_hours
+ * @property int completed_months
+ * @property int ctps_completed_months
+ *
+ * @property Internship internship
+ * @property Collection|Internship[] finished_internships
+ * @property Job job
+ * @property Course course
+ */
 class Student extends Model
 {
     /**
@@ -31,6 +64,19 @@ class Student extends Model
      * @var bool
      */
     public $incrementing = false;
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'turma_ano' => 'integer',
+        'turma_periodo' => 'integer',
+        'situacao_matricula' => 'integer',
+
+        'data_de_nascimento' => 'date',
+    ];
 
     /**
      * The accessors to append to the model's array form.
@@ -95,7 +141,7 @@ class Student extends Model
         if ($this->internship != null) {
             return 0;
         } else {
-            if (sizeof($this->finishedInternships) > 0) {
+            if (sizeof($this->finished_internships) > 0) {
                 return 1;
             } else {
                 return 2;
@@ -129,12 +175,10 @@ class Student extends Model
 
     public function getCtpsCompletedMonthsAttribute()
     {
-        $jobs = $this->finishedJobs;
         $h = 0;
-        $h += $jobs->reduce(function ($a, $j) {
-            $a += date_diff(date_create($j->start_date), date_create($j->end_date))->format("%m");
-            return $a;
-        });
+        if ($this->job != null) {
+            $h += date_diff(date_create($this->job->start_date), date_create($this->job->end_date))->format("%m");
+        }
 
         return $h;
     }
@@ -151,12 +195,7 @@ class Student extends Model
 
     public function job()
     {
-        return $this->hasOne(Job::class, 'ra')->where('state_id', '=', State::OPEN);
-    }
-
-    public function finishedJobs()
-    {
-        return $this->hasMany(Job::class, 'ra')->where('state_id', '=', State::FINISHED);
+        return $this->hasOne(Job::class, 'ra')->where('state_id', '=', State::FINISHED);
     }
 
     public function course()

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Auth;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class UserController extends Controller

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Coordinator;
 
+use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Coordinator\StoreSector;
 use App\Http\Requests\Coordinator\UpdateSector;
 use App\Models\Sector;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class SectorController extends Controller

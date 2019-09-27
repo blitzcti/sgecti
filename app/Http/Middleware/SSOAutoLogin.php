@@ -33,7 +33,7 @@ class SSOAutoLogin
             }
 
             // If client is logged in SSO server and didn't logged in broker...
-            if (isset($response['data']) && (auth()->guest() || auth()->user()->id != $response['data']['id'])) {
+            if (isset($response['data']) && (auth()->guest() || \App\Auth::user()->id != $response['data']['id'])) {
                 // ... we will authenticate our client.
                 auth()->loginUsingId($response['data']['id']);
             }

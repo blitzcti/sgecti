@@ -61,7 +61,7 @@
 
                                 <option value="{{ $role->id }}"
                                         {{ (old('role') ?? $user->roles->pluck('id')[0]) == $role->id ? 'selected' : '' }}>
-                                    {{ $role->friendlyName }}
+                                    {{ $role->friendly_name }}
                                 </option>
 
                             @endforeach

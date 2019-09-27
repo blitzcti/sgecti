@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Coordinator;
 
+use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Coordinator\CancelInternship;
 use App\Http\Requests\Coordinator\ReactivateInternship;
@@ -11,7 +12,6 @@ use App\Models\Company;
 use App\Models\Internship;
 use App\Models\Schedule;
 use App\Models\State;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class InternshipController extends Controller
@@ -128,7 +128,7 @@ class InternshipController extends Controller
         $internship->coordinator_id = $coordinator_id;
 
         $internship->schedule_id = $schedule->id;
-        $internship->state_id = 1;
+        $internship->state_id = State::OPEN;
         $internship->supervisor_id = $validatedData->supervisor;
         $internship->start_date = $validatedData->startDate;
         $internship->end_date = $validatedData->endDate;

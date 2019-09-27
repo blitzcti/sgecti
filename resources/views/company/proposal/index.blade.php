@@ -42,8 +42,11 @@
                         <th scope="row">{{ $proposal->id }}</th>
                         <td>{{ $proposal->description }}</td>
                         <td>{{ $proposal->deadline->format('d/m/Y') }}</td>
+
                         @if($proposal->approved_at != null)
                             <td>Aprovado</td>
+                        @elseif($proposal->reason_to_reject != null)
+                            <td>Requer alterações</td>
                         @else
                             <td>Pendente</td>
                         @endif

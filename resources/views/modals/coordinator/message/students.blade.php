@@ -83,7 +83,7 @@
             }
 
             if (Cs.length === 0) {
-                Cs = [{{ implode(", ", auth()->user()->coordinator_courses_id) }}].map(c => `&courses[]=${c}`);
+                Cs = [{{ implode(", ", \App\Auth::user()->coordinator_courses_id) }}].map(c => `&courses[]=${c}`);
             }
 
             let url = `/api/alunos?q=`;

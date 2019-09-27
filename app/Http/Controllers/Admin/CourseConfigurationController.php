@@ -7,7 +7,7 @@ use App\Http\Requests\Admin\StoreCourseConfiguration;
 use App\Http\Requests\Admin\UpdateCourseConfiguration;
 use App\Models\Course;
 use App\Models\CourseConfiguration;
-use Illuminate\Support\Facades\Auth;
+use App\Auth;
 use Illuminate\Support\Facades\Log;
 
 class CourseConfigurationController extends Controller

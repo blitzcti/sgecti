@@ -86,7 +86,7 @@
                                                aria-expanded="false">
                                                 <i class="fa fa-bell-o"></i>
                                                 <span id="notificationCounter"
-                                                      class="label label-success">{{ sizeof(auth()->user()->unreadNotifications) }}</span>
+                                                      class="label label-success">{{ sizeof(\App\Auth::user()->unreadNotifications) }}</span>
                                             </a>
 
                                             <ul class="dropdown-menu">
@@ -94,7 +94,7 @@
 
                                                 <li>
                                                     <ul id="ulNotifications" class="menu">
-                                                        @if(sizeof(auth()->user()->unreadNotifications) == 0)
+                                                        @if(sizeof(\App\Auth::user()->unreadNotifications) == 0)
 
                                                             <li>
                                                                 <a href="#">
@@ -104,7 +104,7 @@
 
                                                         @else
 
-                                                            @foreach(auth()->user()->unreadNotifications as $notification)
+                                                            @foreach(\App\Auth::user()->unreadNotifications as $notification)
 
                                                                 <li id="notification-{{ $notification->id }}">
                                                                     <form method="post"
@@ -114,7 +114,7 @@
                                                                     </form>
 
                                                                     <a href="{{ $notification->toArray()['data']['url'] ?? '#' }}"
-                                                                       onclick="markAsSeen('{{ $notification->id }}')">
+                                                                       onclick="markAsSeen('{{ $notification->id }}'); return false;">
                                                                         <i class="fa fa-{{ $notification->toArray()['data']['icon'] }}"></i>
                                                                         <b>{{ $notification->toArray()['data']['description'] }}</b>
                                                                         <p style="margin: 0; white-space: normal;">{{ $notification->toArray()['data']['text'] }}</p>
@@ -138,7 +138,7 @@
                                                 <a href="{{ url(config('adminlte.logout_url', 'auth/logout')) }}">
                                                     <i class="fa fa-fw fa-power-off"></i>
                                                     <b>{{ trans('adminlte.log_out') }}</b>
-                                                    ({{ strtok(auth()->user()->name, " ") }})
+                                                    ({{ strtok(\App\Auth::user()->name, " ") }})
                                                 </a>
                                             @else
                                                 <a href="#"
@@ -146,7 +146,7 @@
                                                 >
                                                     <i class="fa fa-fw fa-power-off"></i>
                                                     <b>{{ trans('adminlte.log_out') }}</b>
-                                                    ({{ strtok(auth()->user()->name, " ") }})
+                                                    ({{ strtok(\App\Auth::user()->name, " ") }})
                                                 </a>
                                                 <form id="logout-form"
                                                       action="{{ url(config('adminlte.logout_url', 'auth/logout')) }}"
@@ -242,14 +242,17 @@
             jQuery('.has-error').on('focusin', removeHasError).on('change', removeHasError);
         });
 
-        function markAsSeen(id) {
+        function markAsSeen(id, redir = true) {
             jQuery.ajax({
                 url: `/api/usuario/notificacao/${id}/lida`,
                 method: 'POST',
                 data: {
+                    _token: '{{ csrf_token() }}',
                     _method: 'PUT'
                 },
                 success: function (data) {
+                    let url = jQuery(`#notification-${id} a`).attr('href');
+
                     let notificationCounter = jQuery('#notificationCounter');
                     notificationCounter.text(parseInt(notificationCounter.text()) - 1);
                     jQuery(`#notification-${id}`).remove();
@@ -258,9 +261,15 @@
                         let noNotifications = '<li><a href="#">Nenhuma notificação</a></li>';
                         jQuery('#ulNotifications').append(noNotifications);
                     }
+
+                    if (redir) {
+                        window.location = url;
+                    }
                 },
                 error: function (e) {
-                    console.log(e);
+                    if (redir) {
+                        window.location = jQuery(`#notification-${id} a`).attr('href');
+                    }
                 }
             });
         }

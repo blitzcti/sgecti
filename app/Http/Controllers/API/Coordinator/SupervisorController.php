@@ -50,7 +50,7 @@ class SupervisorController extends Controller
         }
 
         return response()->json(
-            array_values($supervisors->toArray()),
+            $supervisors,
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',
@@ -81,7 +81,7 @@ class SupervisorController extends Controller
         }
 
         return response()->json(
-            array_values($supervisors->toArray()),
+            $supervisors,
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',

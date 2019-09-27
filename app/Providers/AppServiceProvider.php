@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Models\Course;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Support\Facades\Auth;
+use App\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;

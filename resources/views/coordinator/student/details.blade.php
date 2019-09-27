@@ -59,21 +59,23 @@
                 <dt class="col-sm-2">Email institucional</dt>
                 <dd class="col-sm-10">{{ $student->email2 }}</dd>
 
-                <dt class="col-sm-2">Horas necessárias</dt>
-                <dd class="col-sm-10">{{ $student->course_configuration->min_hours }}</dd>
+                @if($student->job == null)
 
-                <dt class="col-sm-2">Horas concluídas</dt>
-                <dd class="col-sm-10">{{ $student->completed_hours }}</dd>
+                    <dt class="col-sm-2">Horas necessárias</dt>
+                    <dd class="col-sm-10">{{ $student->course_configuration->min_hours }}</dd>
 
-                <dt class="col-sm-2">Meses necessários</dt>
-                <dd class="col-sm-10">{{ $student->course_configuration->min_months }}</dd>
+                    <dt class="col-sm-2">Horas concluídas</dt>
+                    <dd class="col-sm-10">{{ $student->completed_hours }}</dd>
 
-                <dt class="col-sm-2">Meses concluídos</dt>
-                <dd class="col-sm-10">{{ $student->completed_months }}</dd>
+                    <dt class="col-sm-2">Meses necessários</dt>
+                    <dd class="col-sm-10">{{ $student->course_configuration->min_months }}</dd>
 
-                @if($student->job != null || sizeof($student->finishedJobs) > 0)
+                    <dt class="col-sm-2">Meses concluídos</dt>
+                    <dd class="col-sm-10">{{ $student->completed_months }}</dd>
 
-                    <dt class="col-sm-2" style="width: auto; padding-right: 11.5px;">Meses necessários (CTPS)</dt>
+                @else
+
+                    <dt class="col-sm-2">Meses necessários</dt>
                     <dd class="col-sm-10">{{ $student->course_configuration->min_months_ctps }}</dd>
 
                     <dt class="col-sm-2">Meses concluídos</dt>
@@ -175,7 +177,7 @@
 
             @endforeach
 
-            <h3>Trabalho ativo do aluno</h3>
+            <h3>Trabalho do aluno</h3>
 
             @if ($student->job != null)
 
@@ -201,45 +203,10 @@
 
             @else
 
-                <p>Este aluno não possui um trabalho ativo no momento.</p>
+                <p>Este aluno não possui um trabalho no momento.</p>
                 <hr/>
 
             @endif
-
-            <h3>Trabalhos finalizados do aluno</h3>
-
-            @if(sizeof($student->finishedJobs) == 0)
-
-                <p>O aluno ainda não concluiu um trabalho.</p>
-                <hr/>
-
-            @endif
-
-            @foreach($student->finishedJobs as $job)
-
-                <dl class="row">
-                    <dt class="col-sm-2">CPF / CNPJ da empresa</dt>
-                    <dd class="col-sm-10">{{ $job->company_cpf_cnpj }}</dd>
-
-                    <dt class="col-sm-2">Empresa</dt>
-                    <dd class="col-sm-10">{{ $job->company_name }}</dd>
-
-                    <dt class="col-sm-2">Nome fantasia</dt>
-                    <dd class="col-sm-10">{{ $job->company_fantasy_name }}</dd>
-
-                    <dt class="col-sm-2">Data de início</dt>
-                    <dd class="col-sm-10">{{ $job->start_date->format("d/m/Y") }}</dd>
-
-                    <dt class="col-sm-2">Data de término</dt>
-                    <dd class="col-sm-10">{{ $job->end_date->format("d/m/Y") }}</dd>
-
-                    <dt class="col-sm-2">CTPS</dt>
-                    <dd class="col-sm-10">{{ $job->ctps }}</dd>
-                </dl>
-
-                <hr/>
-
-            @endforeach
         </div>
         <!-- /.box-body -->
     </div>

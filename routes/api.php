@@ -16,8 +16,15 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', 'API\UserController@get');
 
 Route::prefix('')->name('api.')->group(function () {
-    Route::prefix('usuario')->name('usuario.')->group(function () {
-        Route::group(['middleware' => ['apiSession']], function () {
+    Route::prefix('external')->name('external.')->group(function () {
+        Route::get('ufs', 'API\ExternalAPISController@getUFS')->name('ufs');
+        Route::get('cities/{uf}', 'API\ExternalAPISController@getCities')->name('cities');
+        Route::get('cep/{cep}', 'API\ExternalAPISController@getAddress')->name('cep');
+        Route::get('cnpj/{cnpj}', 'API\ExternalAPISController@getCompanyInfo')->name('cnpj');
+    });
+
+    Route::group(['middleware' => ['apiSession']], function () {
+        Route::prefix('usuario')->name('usuario.')->group(function () {
             Route::get('', 'API\UserController@get')->name('get');
             Route::get('apiToken', 'API\UserController@generateAPIToken')->name('apiToken');
 
@@ -29,16 +36,7 @@ Route::prefix('')->name('api.')->group(function () {
                 });
             });
         });
-    });
 
-    Route::prefix('external')->name('external.')->group(function () {
-        Route::get('ufs', 'API\ExternalAPISController@getUFS')->name('ufs');
-        Route::get('cities/{uf}', 'API\ExternalAPISController@getCities')->name('cities');
-        Route::get('cep/{cep}', 'API\ExternalAPISController@getAddress')->name('cep');
-        Route::get('cnpj/{cnpj}', 'API\ExternalAPISController@getCompanyInfo')->name('cnpj');
-    });
-
-    Route::group(['middleware' => ['apiSession']], function () {
         Route::prefix('alunos')->name('alunos.')->group(function () {
             Route::get('', 'API\NSac\StudentController@get')->name('get');
             Route::get('curso/{course}', 'API\NSac\StudentController@getByCourse')->name('getByCourse');

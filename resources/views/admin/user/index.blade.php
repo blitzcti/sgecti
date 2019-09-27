@@ -42,7 +42,7 @@
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->phone }}</td>
-                        <td>{{ $user->roles->pluck('friendlyName')[0] . (($user->hasRole('teacher') && $user->isCoordinator()) ? ' (Coordenador)' : '') }}</td>
+                        <td>{{ $user->roles->pluck('friendly_name')[0] . (($user->hasRole('teacher') && $user->isCoordinator()) ? ' (Coordenador)' : '') }}</td>
 
                         <td>
                             <a href="{{ route('admin.usuario.editar', ['id' => $user->id]) }}">Editar</a>

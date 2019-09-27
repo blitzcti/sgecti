@@ -5,7 +5,7 @@ namespace App\Rules;
 use App\Models\NSac\Student;
 use Exception;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
+use App\Auth;
 
 class StudentSameCoordinatorCourse implements Rule
 {

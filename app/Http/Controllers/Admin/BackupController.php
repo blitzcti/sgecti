@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Auth;
+use App\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -18,11 +18,13 @@ use ZipArchive;
 class BackupController extends Controller
 {
     private $tables;
+    private $sso_tables;
 
     public function __construct()
     {
         $this->middleware('permission:systemConfiguration-backup');
         $this->tables = Config::get('backup.tables');
+        $this->sso_tables = Config::get('backup.sso_tables');
     }
 
     public function index()
@@ -310,6 +312,10 @@ class BackupController extends Controller
         if ($toFile) {
             $dir = storage_path("app/backups/zip");
             foreach ($this->tables as $table => $class) {
+                if (config('broker.useSSO') && in_array($table, $this->sso_tables)) {
+                    continue;
+                }
+
                 $data = $this->getTableData($table, $class);
 
                 $f = fopen("$dir/$table.json", "w+");

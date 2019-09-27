@@ -13,7 +13,7 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        if (config('broker.useSSO')) {
+        if (!config('broker.useSSO')) {
             Schema::create('users', function (Blueprint $table) {
                 $table->bigIncrements('id');
 
@@ -37,7 +37,7 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        if (config('broker.useSSO')) {
+        if (!config('broker.useSSO')) {
             Schema::dropIfExists('users');
         }
     }

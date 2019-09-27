@@ -13,7 +13,7 @@ class CreatePasswordResetsTable extends Migration
      */
     public function up()
     {
-        if (config('broker.useSSO')) {
+        if (!config('broker.useSSO')) {
             Schema::create('password_resets', function (Blueprint $table) {
                 $table->string('email')->index();
                 $table->string('token');
@@ -29,7 +29,7 @@ class CreatePasswordResetsTable extends Migration
      */
     public function down()
     {
-        if (config('broker.useSSO')) {
+        if (!config('broker.useSSO')) {
             Schema::dropIfExists('password_resets');
         }
     }

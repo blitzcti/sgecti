@@ -304,10 +304,30 @@ Route::prefix('aluno')->name('aluno.')->middleware('auth')->group(function () {
         Route::get('manual', 'Student\DocumentController@getManual')->name('manual');
         Route::get('protocolo', 'Student\DocumentController@generateProtocol')->name('protocolo');
 
+        Route::get('plano', 'Student\DocumentController@generatePlan')->name('plano');
+        Route::get('termo', 'Student\DocumentController@generateTerm')->name('termo');
+        Route::get('convenio', 'Student\DocumentController@generateAgreement')->name('convenio');
+
+        Route::get('certificado', 'Student\DocumentController@generateCertificate')->name('certificado');
+        Route::get('avaliacao', 'Student\DocumentController@generateEvaluation')->name('avaliacao');
+        Route::get('apresentacao', 'Student\DocumentController@generatePresentation')->name('apresentacao');
+        Route::get('conteudo', 'Student\DocumentController@generateContent')->name('conteudo');
+        Route::get('questionario', 'Student\DocumentController@generateQuestionnaire')->name('questionario');
+
+        Route::get('relatorio', 'Student\DocumentController@generateReport')->name('relatorio');
+        Route::get('aditivo', 'Student\DocumentController@generateAditive')->name('aditivo');
+        Route::get('situacao', 'Student\DocumentController@generateSituation')->name('situacao');
+
         Route::prefix('ajuda')->name('ajuda.')->group(function () {
             Route::get('plano', 'Student\DocumentHelpController@getPlan')->name('plano');
             Route::get('termo', 'Student\DocumentHelpController@getTerm')->name('termo');
             Route::get('convenio', 'Student\DocumentHelpController@getAgreement')->name('convenio');
+
+            Route::get('certificado', 'Student\DocumentHelpController@getCertificate')->name('certificado');
+            Route::get('avaliacao', 'Student\DocumentHelpController@getEvaluation')->name('avaliacao');
+            Route::get('apresentacao', 'Student\DocumentHelpController@getPresentation')->name('apresentacao');
+            Route::get('conteudo', 'Student\DocumentHelpController@getContent')->name('conteudo');
+            Route::get('questionario', 'Student\DocumentHelpController@getQuestionnaire')->name('questionario');
         });
     });
 });

@@ -36,7 +36,8 @@
                     <div class="icon">
                         <i class="fa fa-paperclip"></i>
                     </div>
-                    <a href="{{ route('aluno.documento.manual') }}" class="small-box-footer">Visualizar <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('aluno.documento.manual') }}" class="small-box-footer">Visualizar <i
+                            class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
 
@@ -74,8 +75,10 @@
                     <div class="icon">
                         <i class="fa fa-paper-plane"></i>
                     </div>
-                    <a href="#" class="small-box-footer">Gerar documento <i class="fa fa-arrow-circle-right"></i></a>
-                    <a href="{{ route('aluno.documento.ajuda.plano') }}" class="small-box-footer">Ajuda <i class="fa fa-question-circle"></i></a>
+                    <a href="{{ route('aluno.documento.plano') }}" class="small-box-footer">Gerar documento <i
+                            class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('aluno.documento.ajuda.plano') }}" class="small-box-footer">Ajuda <i
+                            class="fa fa-question-circle"></i></a>
                 </div>
             </div>
 
@@ -89,8 +92,10 @@
                     <div class="icon">
                         <i class="fa fa-paper-plane"></i>
                     </div>
-                    <a href="#" class="small-box-footer">Gerar documento <i class="fa fa-arrow-circle-right"></i></a>
-                    <a href="#" class="small-box-footer">Ajuda <i class="fa fa-question-circle"></i></a>
+                    <a href="{{ route('aluno.documento.termo') }}" class="small-box-footer">Gerar documento <i
+                            class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('aluno.documento.ajuda.termo') }}" class="small-box-footer">Ajuda <i
+                            class="fa fa-question-circle"></i></a>
                 </div>
             </div>
 
@@ -104,8 +109,10 @@
                     <div class="icon">
                         <i class="fa fa-paper-plane"></i>
                     </div>
-                    <a href="#" class="small-box-footer">Gerar documento <i class="fa fa-arrow-circle-right"></i></a>
-                    <a href="#" class="small-box-footer">Ajuda <i class="fa fa-question-circle"></i></a>
+                    <a href="{{ route('aluno.documento.convenio') }}" class="small-box-footer">Gerar documento <i
+                            class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('aluno.documento.ajuda.convenio') }}" class="small-box-footer">Ajuda <i
+                            class="fa fa-question-circle"></i></a>
                 </div>
             </div>
         </div>
@@ -128,8 +135,10 @@
                         <div class="icon">
                             <i class="fa fa-flag-checkered"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Gerar documento <i class="fa fa-arrow-circle-right"></i></a>
-                        <a href="#" class="small-box-footer">Ajuda <i class="fa fa-question-circle"></i></a>
+                        <a href="{{ route('aluno.documento.certificado') }}" class="small-box-footer">Gerar documento <i
+                                class="fa fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('aluno.documento.ajuda.certificado') }}" class="small-box-footer">Ajuda <i
+                                class="fa fa-question-circle"></i></a>
                     </div>
                 </div>
 
@@ -143,8 +152,10 @@
                         <div class="icon">
                             <i class="fa fa-flag-checkered"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Gerar documento <i class="fa fa-arrow-circle-right"></i></a>
-                        <a href="#" class="small-box-footer">Ajuda <i class="fa fa-question-circle"></i></a>
+                        <a href="{{ route('aluno.documento.avaliacao') }}" class="small-box-footer">Gerar documento <i
+                                class="fa fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('aluno.documento.ajuda.avaliacao') }}" class="small-box-footer">Ajuda <i
+                                class="fa fa-question-circle"></i></a>
                     </div>
                 </div>
 
@@ -158,8 +169,11 @@
                         <div class="icon">
                             <i class="fa fa-flag-checkered"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Gerar documento <i class="fa fa-arrow-circle-right"></i></a>
-                        <a href="#" class="small-box-footer">Ajuda <i class="fa fa-question-circle"></i></a>
+                        <a href="{{ route('aluno.documento.apresentacao') }}" class="small-box-footer">Gerar documento
+                            <i
+                                class="fa fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('aluno.documento.ajuda.apresentacao') }}" class="small-box-footer">Ajuda <i
+                                class="fa fa-question-circle"></i></a>
                     </div>
                 </div>
             </div>
@@ -175,8 +189,10 @@
                         <div class="icon">
                             <i class="fa fa-flag-checkered"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Gerar documento <i class="fa fa-arrow-circle-right"></i></a>
-                        <a href="#" class="small-box-footer">Ajuda <i class="fa fa-question-circle"></i></a>
+                        <a href="{{ route('aluno.documento.conteudo') }}" class="small-box-footer">Gerar documento <i
+                                class="fa fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('aluno.documento.ajuda.conteudo') }}" class="small-box-footer">Ajuda <i
+                                class="fa fa-question-circle"></i></a>
                     </div>
                 </div>
 
@@ -190,8 +206,11 @@
                         <div class="icon">
                             <i class="fa fa-flag-checkered"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Gerar documento <i class="fa fa-arrow-circle-right"></i></a>
-                        <a href="#" class="small-box-footer">Ajuda <i class="fa fa-question-circle"></i></a>
+                        <a href="{{ route('aluno.documento.questionario') }}" class="small-box-footer">Gerar documento
+                            <i
+                                class="fa fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('aluno.documento.ajuda.questionario') }}" class="small-box-footer">Ajuda <i
+                                class="fa fa-question-circle"></i></a>
                     </div>
                 </div>
             </div>
@@ -214,8 +233,8 @@
                     <div class="icon">
                         <i class="fa fa-calendar-minus-o"></i>
                     </div>
-                    <a href="#" class="small-box-footer">Gerar documento <i class="fa fa-arrow-circle-right"></i></a>
-                    <a href="#" class="small-box-footer">Ajuda <i class="fa fa-question-circle"></i></a>
+                    <a href="{{ route('aluno.documento.relatorio') }}" class="small-box-footer">Gerar documento <i
+                            class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
 
@@ -229,8 +248,8 @@
                     <div class="icon">
                         <i class="fa fa-plus"></i>
                     </div>
-                    <a href="#" class="small-box-footer">Gerar documento <i class="fa fa-arrow-circle-right"></i></a>
-                    <a href="#" class="small-box-footer">Ajuda <i class="fa fa-question-circle"></i></a>
+                    <a href="{{ route('aluno.documento.aditivo') }}" class="small-box-footer">Gerar documento <i
+                            class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
 
@@ -244,8 +263,8 @@
                     <div class="icon">
                         <i class="fa fa-briefcase"></i>
                     </div>
-                    <a href="#" class="small-box-footer">Gerar documento <i class="fa fa-arrow-circle-right"></i></a>
-                    <a href="#" class="small-box-footer">Ajuda <i class="fa fa-question-circle"></i></a>
+                    <a href="{{ route('aluno.documento.situacao') }}" class="small-box-footer">Gerar documento <i
+                            class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>

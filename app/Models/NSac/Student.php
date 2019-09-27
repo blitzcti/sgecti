@@ -43,6 +43,9 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class Student extends Model
 {
+    public const MORNING = 0;
+    public const NIGHT = 1;
+
     /**
      * The table associated with the model.
      *

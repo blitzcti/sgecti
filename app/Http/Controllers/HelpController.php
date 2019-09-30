@@ -887,7 +887,7 @@ class HelpController extends Controller
                         'desc' => null,
                         'content' => [
                             [
-                                'img' => 'Empresa/alterar_senha_empresa.PNG',
+                                'img' => 'empresa/alterar_senha_empresa.png',
                                 'text' => 'Escreve aqui Tevinho',
                             ],
                         ]
@@ -900,7 +900,7 @@ class HelpController extends Controller
                         'desc' => null,
                         'content' => [
                             [
-                                'img' => 'Empresa/csv_empresa.PNG',
+                                'img' => 'empresa/csv_empresa.png',
                                 'text' => 'Escreve aqui Tevinho',
                             ],
 
@@ -911,7 +911,7 @@ class HelpController extends Controller
                         'desc' => null,
                         'content' => [
                             [
-                                'img' => 'Empresa/imprimir_empresa.PNG',
+                                'img' => 'empresa/imprimir_empresa.png',
                                 'text' => 'Escreve aqui Tevinho',
                             ],
                         ]
@@ -923,7 +923,7 @@ class HelpController extends Controller
                         'desc' => null,
                         'content' => [
                             [
-                                'img' => 'Empresa/notificacao_empresa.PNG',
+                                'img' => 'empresa/notificacao_empresa.png',
                                 'text' => 'Escreve aqui Tevinho',
                             ],
                         ]
@@ -933,7 +933,7 @@ class HelpController extends Controller
                         'desc' => null,
                         'content' => [
                             [
-                                'img' => 'Empresa/inicio_empresa.PNG',
+                                'img' => 'empresa/inicio_empresa.png',
                                 'text' => 'Escreve aqui Tevinho',
                             ],
                         ]
@@ -947,18 +947,18 @@ class HelpController extends Controller
                         'content' => [
                             'Visualizar Proposta' => [
                                 [
-                                    'img' => 'Empresa/visualizar_propostas_empresa.PNG',
+                                    'img' => 'empresa/visualizar_propostas_empresa.png',
                                     'text' => 'Escreve aqui Tevinho',
                                 ],
                             ],
 
                             'Adicionar Proposta' => [
                                 [
-                                    'img' => 'Empresa/adicionar_proposta_empresa.PNG',
+                                    'img' => 'empresa/adicionar_proposta_empresa.png',
                                     'text' => 'Escreve aqui Tevinho',
                                 ],
                                 [
-                                    'img' => 'Empresa/adicionar_proposta_empresa2.PNG',
+                                    'img' => 'empresa/adicionar_proposta_empresa2.png',
                                     'text' => 'Escreve aqui Tevinho',
                                 ],
 
@@ -979,7 +979,7 @@ class HelpController extends Controller
                         'desc' => 'Utilize essa interface para alterar sua senha.',
                         'content' => [
                             [
-                                'img' => 'Aluno/alterar_senha_aluno.PNG',
+                                'img' => 'aluno/alterar_senha_aluno.png',
                                 'text' => '',
                             ],
                         ]
@@ -991,7 +991,7 @@ class HelpController extends Controller
                         'desc' => 'Nesse local apareceram as novas notificações e alertas sobre sua documentação ou propostas de estágio.',
                         'content' => [
                             [
-                                'img' => 'Aluno/notificacao_aluno.PNG',
+                                'img' => 'aluno/notificacao_aluno.png',
                                 'text' => '',
                             ],
                         ]
@@ -1001,7 +1001,7 @@ class HelpController extends Controller
                         'desc' => 'Atualizações sobre oportunidades oferecidas por empresas e instituições.',
                         'content' => [
                             [
-                                'img' => 'Aluno/inicio_aluno.PNG',
+                                'img' => 'aluno/inicio_aluno.png',
                                 'text' => '',
                             ],
                         ]
@@ -1015,7 +1015,7 @@ class HelpController extends Controller
                         'content' => [
                             '' => [
                                 [
-                                    'img' => 'Aluno/propostas_aluno.PNG',
+                                    'img' => 'aluno/propostas_aluno.png',
                                     'text' => '',
                                 ],
                             ],
@@ -1027,15 +1027,15 @@ class HelpController extends Controller
                         'content' => [
                             '' => [
                                 [
-                                    'img' => 'Aluno/documentacao_aluno.PNG',
+                                    'img' => 'aluno/documentacao_aluno.png',
                                     'text' => '',
                                 ],
                                 [
-                                    'img' => 'Aluno/documentacao_aluno1.PNG',
+                                    'img' => 'aluno/documentacao_aluno1.png',
                                     'text' => '',
                                 ],
                                 [
-                                    'img' => 'Aluno/documentacao_aluno2.PNG',
+                                    'img' => 'aluno/documentacao_aluno2.png',
                                     'text' => '',
                                 ],
                             ],

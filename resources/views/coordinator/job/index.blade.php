@@ -8,6 +8,7 @@
 
 @section('content')
     @include('modals.coordinator.job.cancel')
+    @include('modals.coordinator.job.reactivate')
 
     @if(session()->has('message'))
         <div class="alert {{ session('saved') ? 'alert-success' : 'alert-error' }} alert-dismissible"
@@ -43,14 +44,9 @@
                     <tr>
                         <th scope="row">{{ $job->id }}</th>
 
-                        <td>{{ $job->ra}}
+                        <td>{{ $job->ra }} - {{ ($job->student->nome }}</td>
 
-                            @if((new \App\Models\NSac\Student)->isConnected())
-                                {{ (' - ' . $job->student->nome) ?? '' }}
-                            @endif
-                        </td>
-
-                        <td>{{ $job->company->name }} {{ $job->company->fantasy_name != null ? "(" . $job->company->fantasy_name . ")" : '' }}</td>
+                        <td>{{ $job->company->name }} {{ $job->company->fantasy_name != null ? "({$job->company->fantasy_name})" : '' }}</td>
                         <td>{{ $job->coordinator->user->name }}</td>
                         <td>{{ $job->state->description }}</td>
                         <td>
@@ -58,12 +54,19 @@
                             |
                             <a href="{{ route('coordenador.trabalho.editar', ['id' => $job->id]) }}">Editar</a>
 
-                            @if($job->state->id == 1)
+                            @if($job->state->id == \App\Models\State::FINISHED)
 
                                 |
                                 <a href="#"
                                    onclick="jobId('{{ $job->id }}'); studentName('{{ $job->student->nome }}'); return false;"
                                    data-toggle="modal" class="text-red" data-target="#jobCancelModal">Cancelar</a>
+
+                            @elseif($job->state->id == \App\Models\State::CANCELED && $job->student->job == null)
+
+                                |
+                                <a href="#"
+                                   onclick="reactivateJobId('{{ $job->id }}'); reactivateStudentName('{{ $job->student->nome }}'); return false;"
+                                   data-toggle="modal" data-target="#jobReactivateModal">Reativar</a>
 
                             @endif
                         </td>

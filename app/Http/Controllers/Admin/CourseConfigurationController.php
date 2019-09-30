@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\DestroyCourseConfiguration;
 use App\Http\Requests\Admin\StoreCourseConfiguration;
 use App\Http\Requests\Admin\UpdateCourseConfiguration;
 use App\Models\Course;
 use App\Models\CourseConfiguration;
-use App\Auth;
 use Illuminate\Support\Facades\Log;
 
 class CourseConfigurationController extends Controller
@@ -17,6 +18,7 @@ class CourseConfigurationController extends Controller
         $this->middleware('permission:courseConfiguration-list');
         $this->middleware('permission:courseConfiguration-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:courseConfiguration-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:course-delete', ['only' => ['destroy']]);
     }
 
     public function index($id)
@@ -52,8 +54,9 @@ class CourseConfigurationController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Nova configuração de curso";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
 
         $config->course_id = $courseId;
         $config->min_year = $validatedData->minYear;
@@ -85,8 +88,9 @@ class CourseConfigurationController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Alteração de configuração de curso";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
         $log .= "\nDados antigos: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $config->course_id = $courseId;
@@ -109,6 +113,31 @@ class CourseConfigurationController extends Controller
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
-        return redirect()->route('admin.curso.configuracao.index', $courseId)->with($params);
+        return redirect()->route('admin.curso.configuracao.index', ['id' => $courseId])->with($params);
+    }
+
+    public function destroy($courseId, $id, DestroyCourseConfiguration $request)
+    {
+        $config = CourseConfiguration::findOrFail($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $user = Auth::user();
+        $log = "Exclusão de configuração de curso";
+        $log .= "\nUsuário: {$user->name}";
+        $log .= "\nDados antigos: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $saved = $config->delete();
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao excluir configuração de curso");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Excluído com sucesso' : 'Erro ao excluir!';
+        return redirect()->route('admin.curso.configuracao.index', ['id' => $courseId])->with($params);
     }
 }

@@ -94,7 +94,7 @@ class Student extends Model
      * @var array
      */
     protected $hidden = [
-        'internship', 'finishedInternships',
+        'internship', 'finished_internships',
     ];
 
     public function getCourseIdAttribute()
@@ -154,7 +154,7 @@ class Student extends Model
 
     public function getCompletedHoursAttribute()
     {
-        $internships = $this->finishedInternships;
+        $internships = $this->finished_internships;
         $h = 0;
         $h += $internships->reduce(function ($a, $i) {
             $a += $i->final_report->completed_hours;
@@ -166,7 +166,7 @@ class Student extends Model
 
     public function getCompletedMonthsAttribute()
     {
-        $internships = $this->finishedInternships;
+        $internships = $this->finished_internships;
         $h = 0;
         $h += $internships->reduce(function ($a, $i) {
             $a += date_diff(date_create($i->start_date), date_create($i->final_report->end_date))->format("%m");
@@ -191,7 +191,7 @@ class Student extends Model
         return $this->hasOne(Internship::class, 'ra')->where('state_id', '=', State::OPEN);
     }
 
-    public function finishedInternships()
+    public function finished_internships()
     {
         return $this->hasMany(Internship::class, 'ra')->where('state_id', '=', State::FINISHED);
     }

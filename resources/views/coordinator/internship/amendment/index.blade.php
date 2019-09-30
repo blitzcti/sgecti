@@ -48,14 +48,9 @@
                     <tr>
                         <th scope="row">{{ $amendment->id }}</th>
 
-                        <td>{{ $amendment->internship->ra}}
+                        <td>{{ $amendment->internship->ra }} - {{ ($amendment->internship->student->nome }}</td>
 
-                            @if((new \App\Models\NSac\Student)->isConnected())
-                                {{ (' - ' . $amendment->internship->student->nome) ?? '' }}
-                            @endif
-                        </td>
-
-                        <td>{{ $amendment->internship->company->name }} {{ $amendment->internship->company->fantasy_name != null ? "(" . $amendment->internship->company->fantasy_name . ")" : '' }}</td>
+                        <td>{{ $amendment->internship->company->name }} {{ $amendment->internship->company->fantasy_name != null ? "({$amendment->internship->company->fantasy_name})" : '' }}</td>
                         <td>{{ $amendment->start_date->format("d/m/Y") }}</td>
                         <td>{{ $amendment->end_date->format("d/m/Y") }}</td>
                         <td>

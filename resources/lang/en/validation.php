@@ -170,10 +170,10 @@ return [
         'name' => 'Name',
         'color' => 'Color',
         'active' => 'Active',
-        'startDate' => 'Start date',
-        'endDate' => 'End date',
+        'startDate' => 'Start Date',
+        'endDate' => 'End Date',
 
-        'currentPassword' => 'Current password',
+        'current_password' => 'Current Password',
         'password' => 'Password',
         'group' => 'Group',
 
@@ -201,8 +201,8 @@ return [
         'district' => 'District',
         'phone' => 'Phone',
         'email' => 'Email',
-        'extension' => 'Extension line',
-        'agreementExpiration' => 'Agreement validity',
+        'extension' => 'Extension Line',
+        'agreementExpiration' => 'Agreement Validity',
 
         'cpfCnpj' => 'CPF / CNPJ',
         'ie' => 'I.E.',

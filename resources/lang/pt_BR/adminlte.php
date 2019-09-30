@@ -4,7 +4,9 @@ return [
 
     'full_name'                   => 'Nome completo',
     'email'                       => 'Email',
+    'current_password'            => 'Senha atual',
     'password'                    => 'Senha',
+    'new_password'                    => 'Nova senha',
     'retype_password'             => 'Repita a senha',
     'remember_me'                 => 'Lembrar-me',
     'register'                    => 'Registrar',
@@ -17,6 +19,8 @@ return [
     'login_message'               => 'Entre para iniciar uma nova sessão',
     'register_message'            => 'Registrar um novo membro',
     'password_reset_message'      => 'Recuperar senha',
+    'password_change_message'     => 'Alterar senha',
     'reset_password'              => 'Recuperar senha',
+    'change_password'             => 'Alterar senha',
     'send_password_reset_link'    => 'Enviar link de recuperação de senha',
 ];

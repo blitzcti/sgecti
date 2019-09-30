@@ -56,12 +56,12 @@
 
                         @if(!isset($company))
 
-                            <td>{{ $agreement->company->name }} {{ $agreement->company->fantasy_name != null ? "(" . $agreement->company->fantasy_name . ")" : '' }}</td>
+                            <td>{{ $agreement->company->name }} {{ $agreement->company->fantasy_name != null ? "({$agreement->company->fantasy_name})" : '' }}</td>
 
                         @endif
 
                         <td>{{ $agreement->start_date->format("d/m/Y") }}</td>
-                        <td>{{ $agreement->end_date>format("d/m/Y") }}</td>
+                        <td>{{ $agreement->end_date->format("d/m/Y") }}</td>
                         <td>{{ $agreement->observation }}</td>
                         <td>
                             <a href="{{ route('coordenador.empresa.convenio.editar', ['id' => $agreement->id]) }}">Editar</a>

@@ -57,7 +57,7 @@ class InternshipController extends Controller
 
     public function getById($id)
     {
-        $internship = Internship::findOrFail($id);
+        $internship = Internship::with(['company', 'sector', 'supervisor'])->findOrFail($id);
 
         return response()->json(
             $internship,

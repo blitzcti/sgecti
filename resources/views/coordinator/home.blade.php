@@ -27,14 +27,9 @@
 
                     <tr>
                         <th scope="row">{{ $internship->id }}</th>
-                        <td>{{ $internship->ra}}
+                        <td>{{ $internship->ra }} - {{ $internship->student->nome }}</td>
 
-                            @if((new \App\Models\NSac\Student)->isConnected())
-                                {{ (' - ' . $internship->student->nome) ?? '' }}
-                            @endif
-                        </td>
-
-                        <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "(" . $internship->company->fantasy_name . ")" : '' }}</td>
+                        <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "({$internship->company->fantasy_name})" : '' }}</td>
                         <td>
                             <a href="{{ route('coordenador.estagio.detalhes', ['id' => $internship->id]) }}">Detalhes</a>
                         </td>

@@ -2,20 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\DestroyCoordinator;
+use App\Http\Requests\Admin\DestroyGeneralConfiguration;
 use App\Http\Requests\Admin\StoreGeneralConfiguration;
 use App\Http\Requests\Admin\UpdateGeneralConfiguration;
 use App\Models\GeneralConfiguration;
-use App\Auth;
 use Illuminate\Support\Facades\Log;
 
 class GeneralConfigurationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:systemConfiguration-list');
-        $this->middleware('permission:systemConfiguration-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:systemConfiguration-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:generalConfiguration-list');
+        $this->middleware('permission:generalConfiguration-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:generalConfiguration-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:generalConfiguration-delete', ['only' => ['destroy']]);
     }
 
     public function index()
@@ -42,8 +45,9 @@ class GeneralConfigurationController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Nova configuração geral de curso";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
 
         $config->max_years = $validatedData->maxYears;
         $config->min_year = $validatedData->minYear;
@@ -75,8 +79,9 @@ class GeneralConfigurationController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Alteração de configuração geral de curso";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
         $log .= "\nDados antigos: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $config->max_years = $validatedData->maxYears;
@@ -99,6 +104,31 @@ class GeneralConfigurationController extends Controller
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
+        return redirect()->route('admin.configuracao.curso.index')->with($params);
+    }
+
+    public function destroy($id, DestroyGeneralConfiguration $request)
+    {
+        $config = GeneralConfiguration::findOrFail($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $user = Auth::user();
+        $log = "Exclusão de configuração geral de curso";
+        $log .= "\nUsuário: {$user->name}";
+        $log .= "\nDados antigos: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $saved = $config->delete();
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao excluir configuração geral de curso");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Excluído com sucesso' : 'Erro ao excluir!';
         return redirect()->route('admin.configuracao.curso.index')->with($params);
     }
 }

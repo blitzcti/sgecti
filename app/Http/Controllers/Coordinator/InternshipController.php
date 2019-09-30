@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Coordinator;
 use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Coordinator\CancelInternship;
+use App\Http\Requests\Coordinator\DestroyInternship;
 use App\Http\Requests\Coordinator\ReactivateInternship;
 use App\Http\Requests\Coordinator\StoreInternship;
 use App\Http\Requests\Coordinator\UpdateInternship;
@@ -22,6 +23,7 @@ class InternshipController extends Controller
         $this->middleware('permission:internship-list');
         $this->middleware('permission:internship-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:internship-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:internship-delete', ['only' => ['destroy']]);
     }
 
     public function index()
@@ -80,8 +82,9 @@ class InternshipController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Novo estágio";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
 
         $schedule = new Schedule();
 
@@ -159,8 +162,9 @@ class InternshipController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Alteração de estágio";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
         $log .= "\nDados antigos: " . json_encode($internship, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $schedule = $internship->schedule;
@@ -225,6 +229,31 @@ class InternshipController extends Controller
         return redirect()->route('coordenador.estagio.index')->with($params);
     }
 
+    public function destroy($id, DestroyInternship $request)
+    {
+        $internship = Internship::findOrFail($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $user = Auth::user();
+        $log = "Exclusão de estágio";
+        $log .= "\nUsuário: {$user->name}";
+        $log .= "\nDados antigos: " . json_encode($internship, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $saved = $internship->delete();
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao excluir estágio");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Excluído com sucesso' : 'Erro ao excluir!';
+        return redirect()->route('coordenador.estagio.index')->with($params);
+    }
+
     public function cancel($id, CancelInternship $request)
     {
         $internship = Internship::findOrFail($id);
@@ -235,9 +264,10 @@ class InternshipController extends Controller
         $internship->canceled_at = $validatedData->canceledAt;
         $saved = $internship->save();
 
+        $user = Auth::user();
         $log = "Cancelamento de estágio";
-        $log .= "\nUsuário: " . Auth::user()->name;
-        $log .= "\nAluno com estágio cancelado: " . $internship->student->nome;
+        $log .= "\nUsuário: {$user->name}";
+        $log .= "\nAluno com estágio cancelado: {$internship->student->nome}";
 
         if ($saved) {
             Log::info($log);
@@ -261,9 +291,10 @@ class InternshipController extends Controller
         $internship->canceled_at = null;
         $saved = $internship->save();
 
+        $user = Auth::user();
         $log = "Reativamento de estágio";
-        $log .= "\nUsuário: " . Auth::user()->name;
-        $log .= "\nAluno com estágio reativado: " . $internship->student->nome;
+        $log .= "\nUsuário: {$user->name}";
+        $log .= "\nAluno com estágio reativado: {$internship->student->nome}";
 
         if ($saved) {
             Log::info($log);

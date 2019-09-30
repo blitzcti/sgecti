@@ -35,9 +35,9 @@ class StoreAmendment extends FormRequest
             'has2Schedules' => ['required', 'boolean'],
 
             'internship' => ['required', 'integer', 'min:1', 'exists:internships,id', new InternshipIsOpen, new Active(Internship::class)],
-            'startDate' => ['required_if:hasSchedule,1', 'nullable', 'date', 'after:' . $internship->start_date],
+            'startDate' => ['required_if:hasSchedule,1', 'nullable', 'date', "after:{$internship->start_date}"],
             'endDate' => ['required_with:startDate', 'nullable', 'date', 'after:startDate'],
-            'newEndDate' => ['nullable', 'date', 'after:' . $internship->start_date],
+            'newEndDate' => ['nullable', 'date', "after:{$internship->start_date}"],
 
             'monS' => [($this->get('hasSchedule')) ? 'required_without_all:tueS,wedS,thuS,friS,satS' : '', 'required_with:monE', 'nullable', 'date_format:H:i', 'before:monE'],
             'monE' => ['required_with:monS', 'nullable', 'date_format:H:i', 'after:monS', new HourInterval($this->get('monS'), $this->get('monE2'), $this->get('monS2'))],

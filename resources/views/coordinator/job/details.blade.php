@@ -8,6 +8,7 @@
 
 @section('content')
     @include('modals.coordinator.job.cancel')
+    @include('modals.coordinator.job.reactivate')
 
     <div class="box box-default">
         <div class="box-body">
@@ -15,11 +16,17 @@
                 <a href="{{ route('coordenador.trabalho.editar', $job->id) }}"
                    class="btn btn-primary">Editar trabalho</a>
 
-                @if($job->state->id == 1)
+                @if($job->state->id == \App\Models\State::FINISHED)
 
                     <a href="#"
                        onclick="jobId('{{ $job->id }}'); studentName('{{ $job->student->nome }}'); return false;"
                        data-toggle="modal" class="btn btn-danger" data-target="#jobCancelModal">Cancelar</a>
+
+                @elseif($job->state->id == \App\Models\State::CANCELED && $job->student->job == null)
+
+                    <a href="#"
+                       onclick="reactivateJobId('{{ $job->id }}'); reactivateStudentName('{{ $job->student->nome }}'); return false;"
+                       data-toggle="modal" class="btn btn-default" data-target="#jobReactivateModal">Reativar</a>
 
                 @endif
             </div>

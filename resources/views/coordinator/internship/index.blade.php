@@ -44,14 +44,9 @@
                     <tr>
                         <th scope="row">{{ $internship->id }}</th>
 
-                        <td>{{ $internship->ra}}
+                        <td>{{ $internship->ra }} - {{ ($internship->student->nome }}</td>
 
-                            @if((new \App\Models\NSac\Student)->isConnected())
-                                {{ (' - ' . $internship->student->nome) ?? '' }}
-                            @endif
-                        </td>
-
-                        <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "(" . $internship->company->fantasy_name . ")" : '' }}</td>
+                        <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "({$internship->company->fantasy_name})" : '' }}</td>
                         <td>{{ $internship->coordinator->user->name }}</td>
                         <td>{{ $internship->state->description }}</td>
                         <td>
@@ -65,7 +60,7 @@
                                     aditivos</a>
                             @endif
 
-                            @if($internship->state->id == 1)
+                            @if($internship->state->id == \App\Models\State::OPEN)
 
                                 |
                                 <a href="#"
@@ -73,7 +68,7 @@
                                    data-toggle="modal" class="text-red"
                                    data-target="#internshipCancelModal">Cancelar</a>
 
-                            @elseif($internship->state->id == 3 && $internship->student->internship == null)
+                            @elseif($internship->state->id == \App\Models\State::CANCELED && $internship->student->internship == null)
 
                                 |
                                 <a href="#"

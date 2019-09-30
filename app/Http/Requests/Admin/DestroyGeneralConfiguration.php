@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Company;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteProposal extends FormRequest
+class DestroyGeneralConfiguration extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

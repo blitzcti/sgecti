@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Company;
 
 use App\Auth;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Company\DeleteProposal;
+use App\Http\Requests\Company\DestroyProposal;
 use App\Http\Requests\Company\StoreProposal;
 use App\Http\Requests\Company\UpdateProposal;
 use App\Models\Proposal;
@@ -20,6 +20,7 @@ class ProposalController extends Controller
         $this->middleware('permission:proposal-list');
         $this->middleware('permission:proposal-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:proposal-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:proposal-delete', ['only' => ['destroy']]);
     }
 
     public function index()
@@ -62,8 +63,9 @@ class ProposalController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Nova proposta de estágio";
-        $log .= "\nUsuário: " . Auth::user()->name . " (" . Auth::user()->company->name . ")";
+        $log .= "\nUsuário: {$user->name} ({$user->company->name})";
 
         if ($validatedData->hasSchedule) {
             $schedule = new Schedule();
@@ -133,7 +135,7 @@ class ProposalController extends Controller
             ]);
 
             foreach ($proposal->courses as $course) {
-                $course->coordinator()->user->notify($notification);
+                $course->coordinator->user->notify($notification);
             }
         } else {
             Log::error("Erro ao salvar proposta de estágio");
@@ -153,8 +155,9 @@ class ProposalController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Alteração de proposta de estágio";
-        $log .= "\nUsuário: " . Auth::user()->name . " (" . Auth::user()->company->name . ")";
+        $log .= "\nUsuário: {$user->name} ({$user->company->name})";
         $log .= "\nDados antigos: " . json_encode($proposal, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         if ($validatedData->hasSchedule) {
@@ -233,7 +236,7 @@ class ProposalController extends Controller
                 ]);
 
                 foreach ($proposal->courses as $course) {
-                    $course->coordinator()->user->notify($notification);
+                    $course->coordinator->user->notify($notification);
                 }
             } else {
                 $proposal->approved_at = null;
@@ -248,7 +251,7 @@ class ProposalController extends Controller
                 ]);
 
                 foreach ($proposal->courses as $course) {
-                    $course->coordinator()->user->notify($notification);
+                    $course->coordinator->user->notify($notification);
                 }
             }
         } else {
@@ -261,16 +264,18 @@ class ProposalController extends Controller
         return redirect()->route('empresa.proposta.index')->with($params);
     }
 
-    public function destroy($id, DeleteProposal $request)
+    public function destroy($id, DestroyProposal $request)
     {
         $company = Auth::user()->company;
         $proposal = $company->proposals()->findOrFail($id);
+        $params = [];
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Exclusão de proposta de estágio";
-        $log .= "\nUsuário: " . Auth::user()->name . " (" . Auth::user()->company->name . ")";
-        $log .= "\nProposta excluída: " . $proposal->id;
+        $log .= "\nUsuário: {$user->name} ({$user->company->name})";
+        $log .= "\nDados antigos: " . json_encode($proposal, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $saved = $proposal->delete();
 

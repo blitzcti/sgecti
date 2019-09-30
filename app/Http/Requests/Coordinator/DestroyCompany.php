@@ -5,7 +5,7 @@ namespace App\Http\Requests\Coordinator;
 use App\Rules\Route;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteProposal extends FormRequest
+class DestroyCompany extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class DeleteProposal extends FormRequest
     public function rules()
     {
         return [
-            'redirectTo' => ['nullable', new Route],
+            //
         ];
     }
 }

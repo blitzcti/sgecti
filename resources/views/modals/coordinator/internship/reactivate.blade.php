@@ -22,7 +22,7 @@
                 <div class="modal-footer">
                     <div class="btn-group">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
-                        <button type="submit" class="btn btn-danger">Sim</button>
+                        <button type="submit" class="btn btn-primary">Sim</button>
                     </div>
                 </div>
             </form>

@@ -1,8 +1,8 @@
 <?php
 
+use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class RoleTableSeeder extends Seeder
 {
@@ -20,10 +20,12 @@ class RoleTableSeeder extends Seeder
         ]);
 
         $permissions = Permission::where('name', 'like', 'sysUsage')
+            ->orWhere('name', 'like', 'db-%')
             ->orWhere('name', 'like', 'role-%')
             ->orWhere('name', 'like', 'user-%')
             ->orWhere('name', 'like', 'course-%')
             ->orWhere('name', 'like', 'courseConfiguration-%')
+            ->orWhere('name', 'like', 'generalConfiguration-%')
             ->orWhere('name', 'like', 'systemConfiguration-%')
             ->orWhere('name', 'like', 'coordinator-%')
             ->orWhere('name', 'like', 'student-%')
@@ -52,7 +54,7 @@ class RoleTableSeeder extends Seeder
 
         $role = Role::create([
             'name' => 'company',
-            'friendly_name' => 'Empresa',
+            'friendly_name' => 'empresa',
             'description' => 'Empresas conveniadas com o colégio'
         ]);
 
@@ -62,7 +64,7 @@ class RoleTableSeeder extends Seeder
 
         $role = Role::create([
             'name' => 'student',
-            'friendly_name' => 'Aluno',
+            'friendly_name' => 'aluno',
             'description' => 'Alunos do NSac'
         ]);
 

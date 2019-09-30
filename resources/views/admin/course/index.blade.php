@@ -19,9 +19,7 @@
     @endif
 
     @if(\App\Auth::user()->can('course-delete'))
-
         @include('modals.admin.course.delete')
-
     @endif
 
     <div class="box box-default">
@@ -45,7 +43,7 @@
                     <tr>
                         <th scope="row">{{ $course->id }}</th>
                         <td>{{ $course->name }}</td>
-                        <td>{{ __('colors.' . $course->color->name) }}</td>
+                        <td>{{ __("colors.{$course->color->name}") }}</td>
                         <td>{{ ($course->active) ? 'Sim' : 'Não' }}</td>
 
                         <td>
@@ -53,14 +51,15 @@
                             |
                             <a href="{{ route('admin.curso.editar', ['id' => $course->id]) }}">Editar</a>
                             |
-                            <a href="{{ route('admin.curso.coordenador.index', ['id' => $course->id]) }}">Coordenadores</a>
+                            <a href="{{ route('admin.curso.coordenador', ['id' => $course->id]) }}">Coordenadores</a>
                             |
                             <a href="{{ route('admin.curso.configuracao.index', ['id' => $course->id]) }}">Configurações</a>
+
                             @if(\App\Auth::user()->can('course-delete'))
                                 |
                                 <a href="#"
-                                   onclick="courseId('{{ $course->id }}'); course('{{ $course->name }}'); return false;"
-                                   data-toggle="modal" class="text-red" data-target="#deleteModal">Excluir</a>
+                                   onclick="deleteCourseId('{{ $course->id }}'); courseName('{{ $course->name }}'); return false;"
+                                   data-toggle="modal" class="text-red" data-target="#courseDeleteModal">Excluir</a>
                             @endif
                         </td>
                     </tr>
@@ -73,19 +72,7 @@
 @endsection
 
 @section('js')
-    <script>
-        function courseId(id) {
-            jQuery(document).ready(function () {
-                jQuery('#deleteModalCourseId').val(id);
-            });
-        }
-
-        function course(name) {
-            jQuery(document).ready(function () {
-                jQuery('#deleteModalCourseName').text(name);
-            });
-        }
-
+    <script type="text/javascript">
         jQuery(document).ready(function () {
             let table = jQuery("#courses").DataTable({
                 language: {

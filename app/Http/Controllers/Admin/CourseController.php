@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\DestroyCourse;
 use App\Http\Requests\Admin\StoreCourse;
 use App\Http\Requests\Admin\UpdateCourse;
 use App\Models\Color;
 use App\Models\Course;
 use App\Models\CourseConfiguration;
-use Illuminate\Http\Request;
-use App\Auth;
 use Illuminate\Support\Facades\Log;
 
 class CourseController extends Controller
@@ -19,7 +19,7 @@ class CourseController extends Controller
         $this->middleware('permission:course-list');
         $this->middleware('permission:course-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:course-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:course-delete', ['only' => ['delete']]);
+        $this->middleware('permission:course-delete', ['only' => ['destroy']]);
     }
 
     public function index()
@@ -34,7 +34,7 @@ class CourseController extends Controller
 
         $color = $course->color;
         $config = $course->configuration();
-        $coordinator = $course->coordinator();
+        $coordinator = $course->coordinator;
 
         return view('admin.course.details')->with(['course' => $course, 'config' => $config, 'coordinator' => $coordinator, 'color' => $color]);
     }
@@ -65,8 +65,9 @@ class CourseController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Novo curso";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
 
         $course->name = $validatedData->name;
         $course->color_id = $validatedData->color;
@@ -108,8 +109,9 @@ class CourseController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Alteração de curso";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
         $log .= "\nDados antigos: " . json_encode($course, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $course->name = $validatedData->name;
@@ -131,15 +133,24 @@ class CourseController extends Controller
         return redirect()->route('admin.curso.index')->with($params);
     }
 
-    public function delete(Request $request)
+    public function destroy($id, DestroyCourse $request)
     {
+        $course = Course::findOrFail($id);
         $params = [];
-        $saved = false;
 
-        if ($request->exists('id')) {
-            $id = $request->input('id');
-            $course = Course::findOrFail($id);
-            $saved = $course->delete();
+        $validatedData = (object)$request->validated();
+
+        $user = Auth::user();
+        $log = "Exclusão de curso";
+        $log .= "\nUsuário: {$user->name}";
+        $log .= "\nDados antigos: " . json_encode($course, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $saved = $course->delete();
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao excluir curso");
         }
 
         $params['saved'] = $saved;

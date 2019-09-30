@@ -41,7 +41,7 @@
 
                                         <option value="{{ $color->id }}"
                                             {{ (old('color') ?? -1) == $color->id ? 'selected=selected' : '' }}>
-                                            {{ __('colors.' . $color->name) }}
+                                            {{ __("colors.{$color->name}") }}
                                         </option>
 
                                     @endforeach

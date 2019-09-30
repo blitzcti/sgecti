@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\DestroySystemConfiguration;
 use App\Http\Requests\Admin\StoreSystemConfiguration;
 use App\Http\Requests\Admin\UpdateSystemConfiguration;
 use App\Models\SystemConfiguration;
-use App\Auth;
 use Illuminate\Support\Facades\Log;
 
 class SystemConfigurationController extends Controller
@@ -16,12 +17,13 @@ class SystemConfigurationController extends Controller
         $this->middleware('permission:systemConfiguration-list');
         $this->middleware('permission:systemConfiguration-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:systemConfiguration-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:systemConfiguration-delete', ['only' => ['destroy']]);
     }
 
     public function index()
     {
-        $systemConfigs = SystemConfiguration::all();
-        return view('admin.system.configurations.parameters.index')->with(['systemConfigs' => $systemConfigs]);
+        $configs = SystemConfiguration::all();
+        return view('admin.system.configurations.parameters.index')->with(['configs' => $configs]);
     }
 
     public function create()
@@ -31,35 +33,36 @@ class SystemConfigurationController extends Controller
 
     public function edit($id)
     {
-        $systemConfig = SystemConfiguration::findOrFail($id);
+        $config = SystemConfiguration::findOrFail($id);
 
-        return view('admin.system.configurations.parameters.edit')->with(['systemConfig' => $systemConfig]);
+        return view('admin.system.configurations.parameters.edit')->with(['config' => $config]);
     }
 
     public function store(StoreSystemConfiguration $request)
     {
-        $systemConfig = new SystemConfiguration();
+        $config = new SystemConfiguration();
         $params = [];
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Nova configuração do sistema";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
 
-        $systemConfig->name = $validatedData->name;
-        $systemConfig->cep = $validatedData->cep;
-        $systemConfig->uf = $validatedData->uf;
-        $systemConfig->city = $validatedData->city;
-        $systemConfig->street = $validatedData->street;
-        $systemConfig->number = $validatedData->number;
-        $systemConfig->district = $validatedData->district;
-        $systemConfig->phone = $validatedData->phone;
-        $systemConfig->email = $validatedData->email;
-        $systemConfig->extension = $validatedData->extension;
-        $systemConfig->agreement_expiration = $validatedData->agreementExpiration;
+        $config->name = $validatedData->name;
+        $config->cep = $validatedData->cep;
+        $config->uf = $validatedData->uf;
+        $config->city = $validatedData->city;
+        $config->street = $validatedData->street;
+        $config->number = $validatedData->number;
+        $config->district = $validatedData->district;
+        $config->phone = $validatedData->phone;
+        $config->email = $validatedData->email;
+        $config->extension = $validatedData->extension;
+        $config->agreement_expiration = $validatedData->agreementExpiration;
 
-        $saved = $systemConfig->save();
-        $log .= "\nNovos dados: " . json_encode($systemConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $saved = $config->save();
+        $log .= "\nNovos dados: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         if ($saved) {
             Log::info($log);
@@ -75,29 +78,30 @@ class SystemConfigurationController extends Controller
 
     public function update($id, UpdateSystemConfiguration $request)
     {
-        $systemConfig = SystemConfiguration::findOrFail($id);
+        $config = SystemConfiguration::findOrFail($id);
         $params = [];
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Alteração de configuração do sistema";
-        $log .= "\nUsuário: " . Auth::user()->name;
-        $log .= "\nDados antigos: " . json_encode($systemConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $log .= "\nUsuário: {$user->name}";
+        $log .= "\nDados antigos: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        $systemConfig->name = $validatedData->name;
-        $systemConfig->cep = $validatedData->cep;
-        $systemConfig->uf = $validatedData->uf;
-        $systemConfig->city = $validatedData->city;
-        $systemConfig->street = $validatedData->street;
-        $systemConfig->number = $validatedData->number;
-        $systemConfig->district = $validatedData->district;
-        $systemConfig->phone = $validatedData->phone;
-        $systemConfig->email = $validatedData->email;
-        $systemConfig->extension = $validatedData->extension;
-        $systemConfig->agreement_expiration = $validatedData->agreementExpiration;
+        $config->name = $validatedData->name;
+        $config->cep = $validatedData->cep;
+        $config->uf = $validatedData->uf;
+        $config->city = $validatedData->city;
+        $config->street = $validatedData->street;
+        $config->number = $validatedData->number;
+        $config->district = $validatedData->district;
+        $config->phone = $validatedData->phone;
+        $config->email = $validatedData->email;
+        $config->extension = $validatedData->extension;
+        $config->agreement_expiration = $validatedData->agreementExpiration;
 
-        $saved = $systemConfig->save();
-        $log .= "\nNovos dados: " . json_encode($systemConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $saved = $config->save();
+        $log .= "\nNovos dados: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         if ($saved) {
             Log::info($log);
@@ -108,6 +112,31 @@ class SystemConfigurationController extends Controller
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
+        return redirect()->route('admin.configuracao.parametros.index')->with($params);
+    }
+
+    public function destroy($id, DestroySystemConfiguration $request)
+    {
+        $config = SystemConfiguration::findOrFail($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $user = Auth::user();
+        $log = "Exclusão de configuração do sistema";
+        $log .= "\nUsuário: {$user->name}";
+        $log .= "\nDados antigos: " . json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $saved = $config->delete();
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao excluir configuração do sistema");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Excluído com sucesso' : 'Erro ao excluir!';
         return redirect()->route('admin.configuracao.parametros.index')->with($params);
     }
 }

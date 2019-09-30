@@ -148,12 +148,12 @@ class Internship extends Model
         });
     }
 
-    public function bimestralReports()
+    public function bimestral_reports()
     {
         return $this->hasMany(BimestralReport::class);
     }
 
-    public function finalReport()
+    public function final_report()
     {
         return $this->hasOne(FinalReport::class);
     }

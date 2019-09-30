@@ -13,5 +13,5 @@ class CompanyCourse extends Model
      *
      * @var string
      */
-    protected $table = "company_courses";
+    protected $table = "company_has_courses";
 }

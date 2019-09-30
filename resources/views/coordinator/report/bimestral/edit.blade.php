@@ -24,7 +24,7 @@
                     <div class="col-sm-10">
                         <input type="text" class="form-control input-info" id="inputInternship" name="internship"
                                readonly
-                               value="{{ $report->internship->ra }} - {{ $report->internship->student->nome ?? '' }}"/>
+                               value="{{ $report->internship->ra }} - {{ $report->internship->student->nome }}"/>
                     </div>
                 </div>
 

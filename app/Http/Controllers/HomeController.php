@@ -22,6 +22,10 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
+        if ($user->password_change_at == null) {
+            return redirect()->route('usuario.senha.editar');
+        }
+
         $data = ['user' => $user];
 
         if ($user->isCoordinator()) {

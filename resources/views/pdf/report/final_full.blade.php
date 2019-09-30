@@ -22,14 +22,18 @@
             font-size: 9pt;
         }
 
+        .grades {
+            padding-left: 75px;
+        }
+
         .grades div {
-            padding: 0 0 0 110px;
+            padding: 0 0 0 10px;
             font-size: 0;
             width: 250px;
         }
 
-        .grades div div {
-            text-align: left;
+        .grades table td {
+            vertical-align: top;
         }
 
         .grades span {
@@ -128,77 +132,93 @@
     </div>
 
     <div class="grades text-center">
-        <h4 style="text-decoration: underline;" class="text-center">I - Exigências do Trabalho</h4>
-        <div>
-            <div>
-                <span class="t-left">Letra A) {{ $report->gradeExplanation($report->grade_1_a) }}</span>
-                <span class="t-right">X 5 = {{ $report->grade_1_a * 5 }}</span>
-            </div>
+        <table>
+            <tbody>
+            <tr>
+                <td>
+                    <h4 style="text-decoration: underline;" class="text-center">I - Exigências do Trabalho</h4>
+                    <div>
+                        <div>
+                            <span class="t-left">Letra A) {{ $report->gradeExplanation($report->grade_1_a) }}</span>
+                            <span class="t-right">X 5 = {{ $report->grade_1_a * 5 }}</span>
+                        </div>
 
-            <div>
-                <span class="t-left">Letra B) {{ $report->gradeExplanation($report->grade_1_b) }}</span>
-                <span class="t-right">X 4 = {{ $report->grade_1_b * 4 }}</span>
-            </div>
+                        <div>
+                            <span class="t-left">Letra B) {{ $report->gradeExplanation($report->grade_1_b) }}</span>
+                            <span class="t-right">X 4 = {{ $report->grade_1_b * 4 }}</span>
+                        </div>
 
-            <div>
-                <span class="t-left">Letra C) {{ $report->gradeExplanation($report->grade_1_c) }}</span>
-                <span class="t-right">X 2 = {{ $report->grade_1_c * 2 }}</span>
-            </div>
-        </div>
+                        <div>
+                            <span class="t-left">Letra C) {{ $report->gradeExplanation($report->grade_1_c) }}</span>
+                            <span class="t-right">X 2 = {{ $report->grade_1_c * 2 }}</span>
+                        </div>
+                    </div>
+                </td>
 
-        <h4 style="text-decoration: underline;" class="text-center">II - Formação Educacional</h4>
-        <div>
-            <div>
-                <span class="t-left">Letra A) {{ $report->gradeExplanation($report->grade_2_a) }}</span>
-                <span class="t-right">X 3 = {{ $report->grade_2_a * 3 }}</span>
-            </div>
+                <td>
+                    <h4 style="text-decoration: underline;" class="text-center">II - Formação Educacional</h4>
+                    <div>
+                        <div>
+                            <span class="t-left">Letra A) {{ $report->gradeExplanation($report->grade_2_a) }}</span>
+                            <span class="t-right">X 3 = {{ $report->grade_2_a * 3 }}</span>
+                        </div>
 
-            <div>
-                <span class="t-left">Letra B) {{ $report->gradeExplanation($report->grade_2_b) }}</span>
-                <span class="t-right">X 4 = {{ $report->grade_2_b * 4 }}</span>
-            </div>
+                        <div>
+                            <span class="t-left">Letra B) {{ $report->gradeExplanation($report->grade_2_b) }}</span>
+                            <span class="t-right">X 4 = {{ $report->grade_2_b * 4 }}</span>
+                        </div>
 
-            <div>
-                <span class="t-left">Letra C) {{ $report->gradeExplanation($report->grade_2_c) }}</span>
-                <span class="t-right">X 3 = {{ $report->grade_2_c * 3 }}</span>
-            </div>
+                        <div>
+                            <span class="t-left">Letra C) {{ $report->gradeExplanation($report->grade_2_c) }}</span>
+                            <span class="t-right">X 3 = {{ $report->grade_2_c * 3 }}</span>
+                        </div>
 
-            <div>
-                <span class="t-left">Letra D) {{ $report->gradeExplanation($report->grade_2_d) }}</span>
-                <span class="t-right">X 1 = {{ $report->grade_2_d * 1 }}</span>
-            </div>
-       </div>
+                        <div>
+                            <span class="t-left">Letra D) {{ $report->gradeExplanation($report->grade_2_d) }}</span>
+                            <span class="t-right">X 1 = {{ $report->grade_2_d * 1 }}</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
 
-        <h4 style="text-decoration: underline;" class="text-center">III - Formação Profissional</h4>
-        <div>
-            <div>
-                <span class="t-left">Letra A) {{ $report->gradeExplanation($report->grade_3_a) }}</span>
-                <span class="t-right">X 5 = {{ $report->grade_3_a * 5 }}</span>
-            </div>
+            <tr>
+                <td>
+                    <h4 style="text-decoration: underline;" class="text-center">III - Formação Profissional</h4>
+                    <div>
+                        <div>
+                            <span class="t-left">Letra A) {{ $report->gradeExplanation($report->grade_3_a) }}</span>
+                            <span class="t-right">X 5 = {{ $report->grade_3_a * 5 }}</span>
+                        </div>
 
-            <div>
-                <span class="t-left">Letra B) {{ $report->gradeExplanation($report->grade_3_b) }}</span>
-                <span class="t-right">X 4 = {{ $report->grade_3_b * 4 }}</span>
-            </div>
-        </div>
+                        <div>
+                            <span class="t-left">Letra B) {{ $report->gradeExplanation($report->grade_3_b) }}</span>
+                            <span class="t-right">X 4 = {{ $report->grade_3_b * 4 }}</span>
+                        </div>
+                    </div>
+                </td>
 
-        <h4 style="text-decoration: underline;" class="text-center">IV - Formação Completa</h4>
-        <div>
-            <div>
-                <span class="t-left">Letra A) {{ $report->gradeExplanation($report->grade_4_a) }}</span>
-                <span class="t-right">X 2 = {{ $report->grade_4_a * 2 }}</span>
-            </div>
+                <td>
+                    <h4 style="text-decoration: underline;" class="text-center">IV - Formação Completa</h4>
+                    <div>
+                        <div>
+                            <span class="t-left">Letra A) {{ $report->gradeExplanation($report->grade_4_a) }}</span>
+                            <span class="t-right">X 2 = {{ $report->grade_4_a * 2 }}</span>
+                        </div>
 
-            <div>
-                <span class="t-left">Letra B) {{ $report->gradeExplanation($report->grade_4_b) }}</span>
-                <span class="t-right">X 2 = {{ $report->grade_4_b * 2 }}</span>
-            </div>
+                        <div>
+                            <span class="t-left">Letra B) {{ $report->gradeExplanation($report->grade_4_b) }}</span>
+                            <span class="t-right">X 2 = {{ $report->grade_4_b * 2 }}</span>
+                        </div>
 
-            <div>
-                <span class="t-left">Letra C) {{ $report->gradeExplanation($report->grade_4_c) }}</span>
-                <span class="t-right">X 5 = {{ $report->grade_4_c * 5 }}</span>
-            </div>
-        </div>
+                        <div>
+                            <span class="t-left">Letra C) {{ $report->gradeExplanation($report->grade_4_c) }}</span>
+                            <span class="t-right">X 5 = {{ $report->grade_4_c * 5 }}</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
     <div style="margin-left: -26px; margin-bottom: 10px;">

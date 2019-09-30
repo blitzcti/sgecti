@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ChangeUserPassword;
 use App\Auth;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
@@ -14,14 +15,14 @@ class UserController extends Controller
 
     }
 
-    public function changeUserPassword()
+    public function editPassword()
     {
         $user = Auth::user();
 
         return view('auth.passwords.change')->with(['user' => $user]);
     }
 
-    public function savePassword($id, ChangeUserPassword $request)
+    public function updatePassword(ChangeUserPassword $request)
     {
         $params = [];
         $validatedData = (object)$request->validated();
@@ -30,6 +31,7 @@ class UserController extends Controller
 
         $user = Auth::user();
         $user->password = Hash::make($validatedData->password);
+        $user->password_change_at = Carbon::now();
 
         $saved = $user->save();
 

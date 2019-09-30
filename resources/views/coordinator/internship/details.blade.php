@@ -19,7 +19,7 @@
                 <a href="{{ route('coordenador.estagio.aditivo', ['id' => $internship->id]) }}"
                    class="btn btn-default">Termos aditivos</a>
 
-                @if($internship->state->id == 1)
+                @if($internship->state->id == \App\Models\State::OPEN)
 
                     <a href="{{ route('coordenador.relatorio.bimestral.novo', ['i' => $internship->id]) }}"
                        class="btn btn-success">Adicionar relatório bimestral</a>
@@ -31,7 +31,7 @@
                        onclick="internshipId('{{ $internship->id }}'); studentName('{{ $internship->student->nome }}'); return false;"
                        data-toggle="modal" class="btn btn-danger" data-target="#internshipCancelModal">Cancelar</a>
 
-                @elseif($internship->state->id == 3 && $internship->student->internship == null)
+                @elseif($internship->state->id == \App\Models\State::CANCELED && $internship->student->internship == null)
 
                     <a href="#"
                        onclick="reactivateInternshipId('{{ $internship->id }}'); reactivateStudentName('{{ $internship->student->nome }}'); return false;"

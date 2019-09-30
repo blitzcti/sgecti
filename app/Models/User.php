@@ -21,6 +21,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string email
  * @property string phone
  * @property string password
+ * @property Carbon password_change_at
  * @property string remember_token
  * @property string api_token
  * @property Carbon email_verified_at
@@ -49,7 +50,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'phone', 'password',
+        'name', 'email', 'phone', 'password', 'password_change_at', 'api_token'
     ];
 
     /**
@@ -67,6 +68,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
+        'password_change_at' => 'datetime',
         'email_verified_at' => 'datetime',
     ];
 

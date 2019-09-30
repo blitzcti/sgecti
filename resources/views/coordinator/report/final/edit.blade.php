@@ -36,7 +36,7 @@
                                 <input type="text" class="form-control input-info" id="inputInternship"
                                        name="internship"
                                        readonly
-                                       value="{{ $report->internship->ra }} - {{ $report->internship->student->nome ?? '' }}"/>
+                                       value="{{ $report->internship->ra }} - {{ $report->internship->student->nome }}"/>
                             </div>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
 
                             <div class="col-sm-8">
                                 <input type="date" class="form-control" id="inputDate" name="date"
-                                       value="{{ old('date') ?? $report->date }}"/>
+                                       value="{{ old('date') ?? $report->date->format("Y-m-d") }}"/>
 
                                 <span class="help-block">{{ $errors->first('date') }}</span>
                             </div>
@@ -96,42 +96,42 @@
                     <dt class="col-sm-2">Empresa</dt>
                     <dd class="col-sm-10">
                         <span id="internshipCompanyName">
-                            {{ ($report->internship ?? $internships->first())->company->name }}
+                            {{ $report->internship->company->name }}
                         </span>
                     </dd>
 
                     <dt class="col-sm-2">Setor</dt>
                     <dd class="col-sm-10">
                         <span id="internshipSector">
-                            {{ ($report->internship ?? $internships->first())->sector->name }}
+                            {{ $report->internship->sector->name }}
                         </span>
                     </dd>
 
                     <dt class="col-sm-2">Supervisor</dt>
                     <dd class="col-sm-10">
                         <span id="internshipSupervisorName">
-                            {{ ($report->internship ?? $internships->first())->supervisor->name }}
+                            {{ $report->internship->supervisor->name }}
                         </span>
                     </dd>
 
                     <dt class="col-sm-2">Data de início</dt>
                     <dd class="col-sm-10">
                         <span id="internshipStartDate">
-                            {{ date("d/m/Y", strtotime(($report->internship ?? $internships->first())->start_date->format("Y-m-d"))) }}
+                            {{ $report->internship->start_date->format("Y-m-d") }}
                         </span>
                     </dd>
 
                     <dt class="col-sm-2">Data de término</dt>
                     <dd class="col-sm-10">
                         <span id="internshipEndDate">
-                            {{ date("d/m/Y", strtotime(($report->internship ?? $internships->first())->end_date->format("Y-m-d"))) }}
+                            {{ $report->internship->end_date->format("Y-m-d") }}
                         </span>
                     </dd>
 
                     <dt class="col-sm-2">Horas estimadas</dt>
                     <dd class="col-sm-10">
                         <span id="internshipEstimatedHours">
-                            {{ ($report->internship ?? $internships->first())->estimated_hours }}
+                            {{ round($report->internship->estimated_hours) }}
                         </span>
                     </dd>
                 </dl>

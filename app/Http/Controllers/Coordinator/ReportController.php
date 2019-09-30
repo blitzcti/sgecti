@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Coordinator;
 
 use App\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Coordinator\DestroyBimestralReport;
+use App\Http\Requests\Coordinator\DestroyFinalReport;
 use App\Http\Requests\Coordinator\StoreBimestralReport;
 use App\Http\Requests\Coordinator\StoreFinalReport;
 use App\Http\Requests\Coordinator\UpdateBimestralReport;
@@ -27,6 +29,7 @@ class ReportController extends Controller
         $this->middleware('permission:report-list');
         $this->middleware('permission:report-create', ['only' => ['createBimestral', 'createFinal', 'storeBimestral', 'storeFinal']]);
         $this->middleware('permission:report-edit', ['only' => ['editBimestral', 'editFinal', 'updateBimestral', 'updateFinal']]);
+        $this->middleware('permission:report-delete', ['only' => ['destroyBimestral', 'destroyFinal']]);
     }
 
     public function index()
@@ -101,8 +104,9 @@ class ReportController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Novo relatório bimestral";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
 
         $report->internship_id = $validatedData->internship;
         $report->date = $validatedData->date;
@@ -129,8 +133,9 @@ class ReportController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Novo relatório final";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
 
         $report->internship_id = $validatedData->internship;
         $report->date = $validatedData->date;
@@ -185,8 +190,9 @@ class ReportController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Alteração de relatório bimestral";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
         $log .= "\nDados antigos: " . json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $report->date = $validatedData->date;
@@ -213,8 +219,9 @@ class ReportController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Alteração de relatório final";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
         $log .= "\nDados antigos: " . json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $report->date = $validatedData->date;
@@ -250,6 +257,58 @@ class ReportController extends Controller
 
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
+
+        return redirect()->route('coordenador.relatorio.index')->with($params);
+    }
+
+    public function destroyBimestral($id, DestroyBimestralReport $request)
+    {
+        $report = BimestralReport::findOrFail($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $user = Auth::user();
+        $log = "Exclusão de relatório bimestral";
+        $log .= "\nUsuário: {$user->name}";
+        $log .= "\nDados antigos: " . json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $saved = $report->delete();
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao excluir relatório bimestral");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Excluído com sucesso' : 'Erro ao excluir!';
+
+        return redirect()->route('coordenador.relatorio.index')->with($params);
+    }
+
+    public function destroyFinal($id, DestroyFinalReport $request)
+    {
+        $report = FinalReport::findOrFail($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $user = Auth::user();
+        $log = "Exclusão de relatório final";
+        $log .= "\nUsuário: {$user->name}";
+        $log .= "\nDados antigos: " . json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $saved = $report->delete();
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao excluir relatório final");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Excluído com sucesso' : 'Erro ao excluir!';
 
         return redirect()->route('coordenador.relatorio.index')->with($params);
     }

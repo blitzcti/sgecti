@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\DestroyUser;
 use App\Http\Requests\Admin\StoreUser;
 use App\Http\Requests\Admin\UpdateUser;
 use App\Http\Requests\ChangeUserPassword;
 use App\Models\Role;
 use App\Models\User;
-use App\Auth;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
@@ -19,6 +21,7 @@ class UserController extends Controller
         $this->middleware('permission:user-list');
         $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
         $this->middleware('permission:user-changePassword', ['only' => ['changePassword']]);
     }
 
@@ -44,7 +47,7 @@ class UserController extends Controller
         return view('admin.user.edit')->with(['user' => $user, 'roles' => $roles]);
     }
 
-    public function changePassword($id)
+    public function editPassword($id)
     {
         $user = User::findOrFail($id);
 
@@ -115,10 +118,35 @@ class UserController extends Controller
         return redirect()->route('admin.usuario.index')->with($params);
     }
 
-    public function savePassword($id, ChangeUserPassword $request)
+    public function destroy($id, DestroyUser $request)
     {
-        $log = "Alteração de senha de usuário";
+        $user = User::findOrFail($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $log = "Exclusão de usuário";
         $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nDados antigos: " . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $saved = $user->delete();
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao excluir usuário");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Excluído com sucesso' : 'Erro ao excluir!';
+        return redirect()->route('admin.usuario.index')->with($params);
+    }
+
+    public function updatePassword($id, ChangeUserPassword $request)
+    {
+        $user = Auth::user();
+        $log = "Alteração de senha de usuário";
+        $log .= "\nUsuário: {$user->name}";
 
         $params = [];
 
@@ -126,6 +154,7 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
         $user->password = Hash::make($validatedData->password);
+        $user->password_change_at = Carbon::now();
 
         $saved = $user->save();
 

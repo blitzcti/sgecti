@@ -22,7 +22,8 @@ class BackupController extends Controller
 
     public function __construct()
     {
-        $this->middleware('permission:systemConfiguration-backup');
+        $this->middleware('permission:db-backup', ['only' => ['index', 'backup']]);
+        $this->middleware('permission:db-restore', ['only' => ['restore']]);
         $this->tables = Config::get('backup.tables');
         $this->sso_tables = Config::get('backup.sso_tables');
     }
@@ -37,8 +38,9 @@ class BackupController extends Controller
 
     public function backup()
     {
+        $user = Auth::user();
         $log = "Solicitação de backup.";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
         Log::info($log);
 
         if (config('backup.zip')) {
@@ -358,6 +360,10 @@ class BackupController extends Controller
     private function restoreData($data)
     {
         foreach ($this->tables as $table => $class) {
+            if (config('broker.useSSO') && in_array($table, $this->sso_tables)) {
+                continue;
+            }
+
             foreach ($data->{$table} as $innerData) {
                 DB::table($table)->insert($innerData);
             }

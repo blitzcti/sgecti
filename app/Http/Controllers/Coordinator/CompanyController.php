@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Coordinator;
 
 use App\Auth;
+use App\Http\Requests\Coordinator\DestroyCompany;
 use App\Http\Requests\Coordinator\StoreCompany;
 use App\Http\Requests\Coordinator\UpdateCompany;
 use App\Models\Address;
@@ -24,6 +25,7 @@ class CompanyController extends Controller
         $this->middleware('permission:company-list');
         $this->middleware('permission:company-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:company-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:company-delete', ['only' => ['destroy']]);
     }
 
     public function index()
@@ -86,8 +88,9 @@ class CompanyController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Nova empresa";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
 
         $company->cpf_cnpj = $validatedData->cpfCnpj;
         $company->ie = $validatedData->ie;
@@ -156,8 +159,9 @@ class CompanyController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Alteração de empresa";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
         $log .= "\nDados antigos: " . json_encode($company, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $company->ie = $validatedData->ie;
@@ -201,6 +205,31 @@ class CompanyController extends Controller
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
+        return redirect()->route('coordenador.empresa.index')->with($params);
+    }
+
+    public function destroy($id, DestroyCompany $request)
+    {
+        $company = Company::findOrFail($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $user = Auth::user();
+        $log = "Exclusão de empresa";
+        $log .= "\nUsuário: {$user->name}";
+        $log .= "\nDados antigos: " . json_encode($company, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $saved = $company->delete();
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao excluir empresa");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Excluído com sucesso' : 'Erro ao excluir!';
         return redirect()->route('coordenador.empresa.index')->with($params);
     }
 }

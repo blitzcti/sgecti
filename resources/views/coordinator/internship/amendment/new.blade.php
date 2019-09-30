@@ -139,7 +139,7 @@
                         <dt class="col-sm-2">Horas estimadas</dt>
                         <dd class="col-sm-10">
                         <span id="internshipEstimatedHours">
-                            {{ (App\Models\Internship::find($i) ?? $internships->first())->estimated_hours }}
+                            {{ round((App\Models\Internship::find($i) ?? $internships->first())->estimated_hours) }}
                         </span>
                         </dd>
                     </dl>
@@ -605,42 +605,9 @@
                     dataType: 'json',
                     method: 'GET',
                     success: function (data) {
-                        jQuery.ajax({
-                            url: `/api/coordenador/empresa/${data.company_id}`,
-                            dataType: 'json',
-                            method: 'GET',
-                            success: function (data) {
-                                jQuery('#internshipCompanyName').text(data.name);
-                            },
-                            error: function () {
-
-                            },
-                        });
-
-                        jQuery.ajax({
-                            url: `/api/coordenador/empresa/setor/${data.sector_id}`,
-                            dataType: 'json',
-                            method: 'GET',
-                            success: function (data) {
-                                jQuery('#internshipSector').text(data.name);
-                            },
-                            error: function () {
-
-                            },
-                        });
-
-                        jQuery.ajax({
-                            url: `/api/coordenador/empresa/supervisor/${data.supervisor_id}`,
-                            dataType: 'json',
-                            method: 'GET',
-                            success: function (data) {
-                                jQuery('#internshipSupervisorName').text(data.name);
-                            },
-                            error: function () {
-
-                            },
-                        });
-
+                        jQuery('#internshipCompanyName').text(data.company.name);
+                        jQuery('#internshipSector').text(data.sector.name);
+                        jQuery('#internshipSupervisorName').text(data.supervisor.name);
                         jQuery('#internshipStartDate').text(new Date(`${data.start_date} `).toLocaleDateString());
                         jQuery('#internshipEndDate').text(new Date(`${data.end_date} `).toLocaleDateString());
                         jQuery('#internshipEstimatedHours').text(data.estimated_hours.toFixed(0));

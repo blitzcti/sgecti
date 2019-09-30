@@ -93,7 +93,7 @@
         <span><b>Aluno Habilitado a colar grau no curso técnico em Informática.</b></span><br/>
     @endif
 
-    <span class="pull-right">Bauru, {{ \Carbon\Carbon::now()->formatLocalized('%d de %B de %Y') }}.</span>
+    <span class="pull-right">{{ $sysConfig->city }}, {{ \Carbon\Carbon::now()->formatLocalized('%02d de %B de %Y') }}.</span>
 
 @endsection
 

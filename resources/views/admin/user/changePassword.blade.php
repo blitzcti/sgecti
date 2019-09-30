@@ -12,19 +12,19 @@
             <h3 class="box-title">Senha</h3>
         </div>
 
-        <form class="form-horizontal" action="{{ route('admin.usuario.salvarSenha', $user->id) }}" method="post">
+        <form class="form-horizontal" action="{{ route('admin.usuario.senha.alterar', $user->id) }}" method="post">
             @method('PUT')
             @csrf
 
             <div class="box-body">
-                <div class="form-group  @if($errors->has('currentPassword')) has-error @endif">
+                <div class="form-group  @if($errors->has('current_password')) has-error @endif">
                     <label for="inputCurrentPassword" class="col-sm-2 control-label">Senha atual*</label>
 
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inputCurrentPassword" name="currentPassword"
+                        <input type="password" class="form-control" id="inputCurrentPassword" name="current_password"
                                placeholder="Senha atualmente em uso"/>
 
-                        <span class="help-block">{{ $errors->first('currentPassword') }}</span>
+                        <span class="help-block">{{ $errors->first('current_password') }}</span>
                     </div>
                 </div>
 

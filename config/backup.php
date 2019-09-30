@@ -37,8 +37,8 @@ return [
         'sectors' => \App\Models\Sector::class,
         'supervisors' => \App\Models\Supervisor::class,
         'agreements' => \App\Models\Agreement::class,
-        'company_courses' => \App\Models\ManyToMany\CompanyCourse::class,
-        'company_sectors' => \App\Models\ManyToMany\CompanySector::class,
+        'company_has_courses' => \App\Models\ManyToMany\CompanyCourse::class,
+        'company_has_sectors' => \App\Models\ManyToMany\CompanySector::class,
 
         'schedules' => \App\Models\Schedule::class,
         'states' => \App\Models\State::class,
@@ -52,7 +52,7 @@ return [
         'final_reports' => \App\Models\FinalReport::class,
 
         'proposals' => \App\Models\Proposal::class,
-        'proposal_courses' => \App\Models\ManyToMany\ProposalCourse::class,
+        'proposal_has_courses' => \App\Models\ManyToMany\ProposalCourse::class,
     ],
 
     /*

@@ -57,7 +57,7 @@
                                             <td>{{ $internship->formatted_protocol }}</td>
                                             <td>{{ $internship->student->matricula }}</td>
                                             <td>{{ $internship->student->nome }}</td>
-                                            <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "(" . $internship->company->fantasy_name . ")" : '' }}</td>
+                                            <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "({$internship->company->fantasy_name})" : '' }}</td>
                                             <td>{{ $internship->start_date->format("d/m/Y") }}</td>
                                             <td>{{ $internship->end_date->format("d/m/Y") }}</td>
                                         </tr>
@@ -121,7 +121,7 @@
                                             <td>{{ $internship->formatted_protocol }}</td>
                                             <td>{{ $internship->student->matricula }}</td>
                                             <td>{{ $internship->student->nome }}</td>
-                                            <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "(" . $internship->company->fantasy_name . ")" : '' }}</td>
+                                            <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "({$internship->company->fantasy_name})" : '' }}</td>
                                             <td>{{ $internship->start_date->format("d/m/Y") }}</td>
                                             <td>{{ $internship->final_report->end_date->format("d/m/Y") }}</td>
                                         </tr>

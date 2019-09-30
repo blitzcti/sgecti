@@ -48,12 +48,7 @@
                     <tr>
                         <th scope="row">{{ $report->id }}</th>
 
-                        <td>{{ $report->internship->ra}}
-
-                            @if((new \App\Models\NSac\Student)->isConnected())
-                                {{ (' - ' . $report->internship->student->nome) ?? '' }}
-                            @endif
-                        </td>
+                        <td>{{ $report->internship->ra }} - {{ ($report->internship->student->nome }}</td>
 
                         <td>{{ $report->date->format("d/m/Y") }}</td>
                         <td>{{ $report->formatted_protocol }}</td>
@@ -95,12 +90,7 @@
                     <tr>
                         <th scope="row">{{ $report->id }}</th>
 
-                        <td>{{ $report->internship->ra}}
-
-                            @if((new \App\Models\NSac\Student)->isConnected())
-                                {{ (' - ' . $report->internship->student->nome) ?? '' }}
-                            @endif
-                        </td>
+                        <td>{{ $report->internship->ra }} - {{ ($report->internship->student->nome }}</td>
 
                         <td>{{ $report->date->format("d/m/Y") }}</td>
                         <td>{{ $report->approval_number }}</td>

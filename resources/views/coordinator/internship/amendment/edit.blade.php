@@ -130,7 +130,7 @@
                     <dt class="col-sm-2">Horas estimadas</dt>
                     <dd class="col-sm-10">
                         <span id="internshipEstimatedHours">
-                            {{ $amendment->internship->estimated_hours }}
+                            {{ round($amendment->internship->estimated_hours) }}
                         </span>
                     </dd>
                 </dl>

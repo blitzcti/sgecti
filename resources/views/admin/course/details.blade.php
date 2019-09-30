@@ -10,9 +10,7 @@
 @section('content')
 
     @if(\App\Auth::user()->can('course-delete'))
-
         @include('modals.admin.course.delete')
-
     @endif
 
     <div class="box box-default">
@@ -35,7 +33,7 @@
 
                 @endif
 
-                <a href="{{ route('admin.curso.coordenador.index', $course->id) }}" class="btn btn-default">Coordenadores</a>
+                <a href="{{ route('admin.curso.coordenador', ['id' => $course->id]) }}" class="btn btn-default">Coordenadores</a>
 
                 @if ($coordinator != null)
 
@@ -51,8 +49,9 @@
 
                 @if(\App\Auth::user()->can('course-delete'))
 
-                    <a href="#" onclick="courseId('{{ $course->id }}'); course('{{ $course->name }}'); return false;"
-                       data-toggle="modal" data-target="#deleteModal" class="btn btn-danger">Excluir curso</a>
+                    <a href="#"
+                       onclick="deleteCourseId('{{ $course->id }}'); courseName('{{ $course->name }}'); return false;"
+                       data-toggle="modal" data-target="#courseDeleteModal" class="btn btn-danger">Excluir curso</a>
 
                 @endif
             </div>
@@ -64,7 +63,7 @@
                 <dd class="col-sm-10">{{ $course->name }}</dd>
 
                 <dt class="col-sm-2">Cor do curso</dt>
-                <dd class="col-sm-10">{{ __('colors.' . $color->name) }}</dd>
+                <dd class="col-sm-10">{{ __("colors.{$color->name}") }}</dd>
 
                 <dt class="col-sm-2">Ativo</dt>
                 <dd class="col-sm-10">{{ $course->active ? 'Sim' : 'Não' }}</dd>
@@ -133,8 +132,8 @@
 
                     @if ($coordinator->end_date != null)
 
-                    <dt class="col-sm-2">Fim da vigência</dt>
-                    <dd class="col-sm-10">{{ $coordinator->end_date->format("d/m/Y") }}</dd>
+                        <dt class="col-sm-2">Fim da vigência</dt>
+                        <dd class="col-sm-10">{{ $coordinator->end_date->format("d/m/Y") }}</dd>
 
                     @endif
                 </dl>
@@ -151,17 +150,7 @@
 @endsection
 
 @section('js')
-    <script>
-        function courseId(id) {
-            jQuery(document).ready(function () {
-                jQuery('#deleteModalCourseId').val(id);
-            });
-        }
+    <script type="text/javascript">
 
-        function course(name) {
-            jQuery(document).ready(function () {
-                jQuery('#deleteModalCourseName').text(name);
-            });
-        }
     </script>
 @endsection

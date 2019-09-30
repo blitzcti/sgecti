@@ -120,7 +120,7 @@
                 e.preventDefault();
 
                 let val = (s === 0 || s === 2) ? jQuery('#inputSearch').inputmask('unmaskedvalue') : jQuery('#inputSearch').val().trim();
-                let filter = (s === 1 || s === 2) ? `${[{{ implode(', ', \App\Auth::user()->coordinator_courses_id)}}].map(a => `courses[]=${a}`).join('&')}` : undefined;
+                let filter = (s === 1 || s === 2) ? `${[{{ implode(', ', \App\Auth::user()->coordinator_courses_id) }}].map(a => `courses[]=${a}`).join('&')}` : undefined;
                 let url = (s === 0) ?
                     `/api/alunos/${val}` : (s === 1) ?
                         `/api/alunos?${filter}&q=${val}` :

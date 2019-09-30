@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Coordinator;
 use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Coordinator\ApproveProposal;
-use App\Http\Requests\Coordinator\DeleteProposal;
+use App\Http\Requests\Coordinator\DestroyProposal;
 use App\Http\Requests\Coordinator\RejectProposal;
 use App\Http\Requests\Coordinator\StoreProposal;
 use App\Http\Requests\Coordinator\UpdateProposal;
@@ -25,6 +25,7 @@ class ProposalController extends Controller
         $this->middleware('permission:proposal-list');
         $this->middleware('permission:proposal-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:proposal-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:proposal-delete', ['only' => ['destroy']]);
     }
 
     public function index()
@@ -75,8 +76,9 @@ class ProposalController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Nova proposta de estágio";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
 
         if ($validatedData->hasSchedule) {
             $schedule = new Schedule();
@@ -154,8 +156,9 @@ class ProposalController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Alteração de proposta de estágio";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
         $log .= "\nDados antigos: " . json_encode($proposal, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         if ($validatedData->hasSchedule) {
@@ -231,15 +234,46 @@ class ProposalController extends Controller
         return redirect()->route('coordenador.proposta.index')->with($params);
     }
 
+    public function destroy($id, DestroyProposal $request)
+    {
+        $proposal = Proposal::findOrFail($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $user = Auth::user();
+        $log = "Exclusão de proposta de estágio";
+        $log .= "\nUsuário: {$user->name}";
+        $log .= "\nDados antigos: " . json_encode($proposal, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $saved = $proposal->delete();
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao excluir proposta de estágio");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Excluído com sucesso' : 'Erro ao excluir!';
+
+        if (isset($validatedData->redirectTo) && $validatedData->redirectTo != null) {
+            return redirect()->route($validatedData->redirectTo)->with($params);
+        }
+
+        return redirect()->route('coordenador.proposta.index')->with($params);
+    }
+
     public function approve($id, ApproveProposal $request)
     {
         $proposal = Proposal::findOrFail($id);
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Aprovação de proposta de estágio";
-        $log .= "\nUsuário: " . Auth::user()->name;
-        $log .= "\nProposta aprovada: " . $proposal->id;
+        $log .= "\nUsuário: {$user->name}";
+        $log .= "\nProposta aprovada: {$proposal->id}";
 
         $proposal->approved_at = Carbon::now();
 
@@ -278,9 +312,10 @@ class ProposalController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Rejeição de proposta de estágio";
-        $log .= "\nUsuário: " . Auth::user()->name;
-        $log .= "\nProposta rejeitada: " . $proposal->id;
+        $log .= "\nUsuário: {$user->name}";
+        $log .= "\nProposta rejeitada: {$proposal->id}";
 
         $proposal->reason_to_reject = $validatedData->reasonToReject;
 
@@ -305,34 +340,6 @@ class ProposalController extends Controller
 
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Rejeitada com sucesso' : 'Erro ao rejeitar!';
-
-        if (isset($validatedData->redirectTo) && $validatedData->redirectTo != null) {
-            return redirect()->route($validatedData->redirectTo)->with($params);
-        }
-
-        return redirect()->route('coordenador.proposta.index')->with($params);
-    }
-
-    public function destroy($id, DeleteProposal $request)
-    {
-        $proposal = Proposal::findOrFail($id);
-
-        $validatedData = (object)$request->validated();
-
-        $log = "Exclusão de proposta de estágio";
-        $log .= "\nUsuário: " . Auth::user()->name;
-        $log .= "\nProposta excluída: " . $proposal->id;
-
-        $saved = $proposal->delete();
-
-        if ($saved) {
-            Log::info($log);
-        } else {
-            Log::error("Erro ao excluir proposta de estágio");
-        }
-
-        $params['saved'] = $saved;
-        $params['message'] = ($saved) ? 'Excluído com sucesso' : 'Erro ao excluir!';
 
         if (isset($validatedData->redirectTo) && $validatedData->redirectTo != null) {
             return redirect()->route($validatedData->redirectTo)->with($params);

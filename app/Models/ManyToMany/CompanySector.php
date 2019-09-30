@@ -13,5 +13,5 @@ class CompanySector extends Model
      *
      * @var string
      */
-    protected $table = "company_sectors";
+    protected $table = "company_has_sectors";
 }

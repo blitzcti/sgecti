@@ -4,7 +4,9 @@ return [
 
     'full_name'                   => 'Full name',
     'email'                       => 'Email',
+    'current_password'            => 'Current Password',
     'password'                    => 'Password',
+    'new_password'                => 'New Password',
     'retype_password'             => 'Retype password',
     'remember_me'                 => 'Remember Me',
     'register'                    => 'Register',
@@ -17,6 +19,8 @@ return [
     'login_message'               => 'Sign in to start your session',
     'register_message'            => 'Register a new membership',
     'password_reset_message'      => 'Reset Password',
+    'password_change_message'     => 'Change Password',
     'reset_password'              => 'Reset Password',
+    'change_password'             => 'Change Password',
     'send_password_reset_link'    => 'Send Password Reset Link',
 ];

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Coordinator;
 use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Coordinator\CancelJob;
+use App\Http\Requests\Coordinator\DestroyJob;
 use App\Http\Requests\Coordinator\ReactivateJob;
 use App\Http\Requests\Coordinator\StoreJob;
 use App\Http\Requests\Coordinator\UpdateJob;
@@ -21,6 +22,7 @@ class JobController extends Controller
         $this->middleware('permission:job-list');
         $this->middleware('permission:job-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:job-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:job-delete', ['only' => ['destroy']]);
     }
 
     public function index()
@@ -85,8 +87,9 @@ class JobController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Novo trabalho";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
 
         $job->ra = $validatedData->ra;
         $job->company_id = $validatedData->company;
@@ -126,8 +129,9 @@ class JobController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Alteração de trabalho";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
         $log .= "\nDados antigos: " . json_encode($job, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $job->start_date = $validatedData->startDate;
@@ -153,6 +157,31 @@ class JobController extends Controller
         return redirect()->route('coordenador.trabalho.index')->with($params);
     }
 
+    public function destroy($id, DestroyJob $request)
+    {
+        $job = Job::findOrFail($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $user = Auth::user();
+        $log = "Exclusão de trabalho";
+        $log .= "\nUsuário: {$user->name}";
+        $log .= "\nDados antigos: " . json_encode($job, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $saved = $job->delete();
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao excluir trabalho");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Excluído com sucesso' : 'Erro ao excluir!';
+        return redirect()->route('coordenador.trabalho.index')->with($params);
+    }
+
     public function cancel($id, CancelJob $request)
     {
         $job = Job::findOrFail($id);
@@ -163,8 +192,9 @@ class JobController extends Controller
         $job->canceled_at = $validatedData->canceledAt;
         $saved = $job->save();
 
+        $user = Auth::user();
         $log = "Cancelamento de trabalho";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
         $log .= "\nAluno com trabalho cancelado: " . $job->student->nome;
 
         if ($saved) {
@@ -189,8 +219,9 @@ class JobController extends Controller
         $job->canceled_at = null;
         $saved = $job->save();
 
+        $user = Auth::user();
         $log = "Reativamento de trabalho";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
         $log .= "\nAluno com trabalho reativado: " . $job->student->nome;
 
         if ($saved) {

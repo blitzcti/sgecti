@@ -17,7 +17,7 @@ class CancelJob extends FormRequest
     {
         $job = Job::findOrFail($this->route('id'));
 
-        return $job->state_id == State::OPEN;
+        return $job->state_id == State::FINISHED;
     }
 
     /**

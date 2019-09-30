@@ -10,7 +10,7 @@
     @include('modals.cep.loading')
     @include('modals.cep.error')
 
-    <form class="form-horizontal" action="{{ route('admin.configuracao.parametros.alterar', $systemConfig->id) }}"
+    <form class="form-horizontal" action="{{ route('admin.configuracao.parametros.alterar', $config->id) }}"
           method="post">
         @method('PUT')
         @csrf
@@ -27,7 +27,7 @@
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputName" name="name"
                                placeholder="Colégio Técnico Industrial"
-                               value="{{ old('name') ?? $systemConfig->name }}"/>
+                               value="{{ old('name') ?? $config->name }}"/>
 
                         <span class="help-block">{{ $errors->first('name') }}</span>
                     </div>
@@ -41,7 +41,7 @@
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" id="inputCep" name="cep"
                                        placeholder="17033-260" data-inputmask="'mask': '99999-999'"
-                                       value="{{ old('cep') ?? $systemConfig->cep }}"/>
+                                       value="{{ old('cep') ?? $config->cep }}"/>
 
                                 <span class="help-block">{{ $errors->first('cep') }}</span>
                             </div>
@@ -81,7 +81,7 @@
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="inputStreet" name="street"
                                        placeholder="Avenida Nações Unidas"
-                                       value="{{ old('street') ?? $systemConfig->street }}"/>
+                                       value="{{ old('street') ?? $config->street }}"/>
 
                                 <span class="help-block">{{ $errors->first('street') }}</span>
                             </div>
@@ -94,7 +94,7 @@
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputNumber" name="number"
-                                       placeholder="58-50" value="{{ old('number') ?? $systemConfig->number }}"/>
+                                       placeholder="58-50" value="{{ old('number') ?? $config->number }}"/>
 
                                 <span class="help-block">{{ $errors->first('number') }}</span>
                             </div>
@@ -107,7 +107,7 @@
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputDistrict" name="district"
-                               placeholder="Vargem Limpa" value="{{ old('district') ?? $systemConfig->district }}"/>
+                               placeholder="Vargem Limpa" value="{{ old('district') ?? $config->district }}"/>
 
                         <span class="help-block">{{ $errors->first('district') }}</span>
                     </div>
@@ -119,7 +119,7 @@
                     <div class="col-sm-10">
                         <input type="email" class="form-control" id="inputEmail" name="email"
                                placeholder="dir_cti@feb.unesp.com.br"
-                               value="{{ old('email') ?? $systemConfig->email }}"/>
+                               value="{{ old('email') ?? $config->email }}"/>
 
                         <span class="help-block">{{ $errors->first('email') }}</span>
                     </div>
@@ -134,7 +134,7 @@
                                 <input type="text" class="form-control" id="inputPhone" name="phone"
                                        placeholder="(14) 3103-6150"
                                        data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
-                                       value="{{ old('phone') ?? $systemConfig->phone }}"/>
+                                       value="{{ old('phone') ?? $config->phone }}"/>
 
                                 <span class="help-block">{{ $errors->first('phone') }}</span>
                             </div>
@@ -148,7 +148,7 @@
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputExtension" name="extension"
                                        placeholder="3845" data-inputmask="'mask': '9999'"
-                                       value="{{ old('extension') ?? $systemConfig->extension }}"/>
+                                       value="{{ old('extension') ?? $config->extension }}"/>
 
                                 <span class="help-block">{{ $errors->first('extension') }}</span>
                             </div>
@@ -163,7 +163,7 @@
                                 <input type="text" class="form-control" id="inputFax" name="fax"
                                        placeholder="(14) 3103-6150"
                                        data-inputmask="'mask': '(99) 9999-9999'"
-                                       value="{{ old('fax') ?? $systemConfig->fax }}"/>
+                                       value="{{ old('fax') ?? $config->fax }}"/>
 
                                 <span class="help-block">{{ $errors->first('fax') }}</span>
                             </div>
@@ -185,7 +185,7 @@
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputAgreementExpiration"
                                name="agreementExpiration" placeholder="5"
-                               value="{{ old('agreementExpiration') ?? $systemConfig->agreement_expiration }}"/>
+                               value="{{ old('agreementExpiration') ?? $config->agreement_expiration }}"/>
 
                         <span class="help-block">{{ $errors->first('agreementExpiration') }}</span>
                     </div>
@@ -326,8 +326,8 @@
                 }
             });
 
-            jQuery('#inputUf').append(new Option('{{ old('uf') ?? $systemConfig->uf }}', '{{ old('uf') ?? $systemConfig->uf }}', false, true)).change();
-            jQuery('#inputCity').append(new Option('{{ old('city') ?? $systemConfig->city }}', '{{ old('city') ?? $systemConfig->city }}', false, true));
+            jQuery('#inputUf').append(new Option('{{ old('uf') ?? $config->uf }}', '{{ old('uf') ?? $config->uf }}', false, true)).change();
+            jQuery('#inputCity').append(new Option('{{ old('city') ?? $config->city }}', '{{ old('city') ?? $config->city }}', false, true));
         });
     </script>
 @endsection

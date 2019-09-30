@@ -33,7 +33,7 @@ class DocumentController extends Controller
         ]);
     }
 
-    public function download($template, $fileName)
+    public function download(TemplateProcessor $template, $fileName)
     {
         $temp_file = tempnam(sys_get_temp_dir(), 'PHPWord');
         $template->saveAs($temp_file);
@@ -67,14 +67,14 @@ class DocumentController extends Controller
 
         $template->setValue('course_upper', mb_strtoupper($student->course->name));
         $template->setValue('course', $student->course->name);
-        $template->setValue('coordinator', $student->course->coordinator()->user->name);
+        $template->setValue('coordinator', $student->course->coordinator->user->name);
         $template->setValue('name', $student->nome);
         $template->setValue('class', $student->turma);
         $template->setValue('period', ($student->turma_periodo == Student::MORNING) ? 'Diurno' : 'Noturno');
         $template->setValue('ra', $student->matricula);
         $template->setValue('email', $student->email);
 
-        $this->download($template, $fileName);
+        return $this->download($template, $fileName);
     }
 
     //New Internship
@@ -94,7 +94,7 @@ class DocumentController extends Controller
         $template->setValue('class', $student->turma);
         $template->setValue('date', Carbon::now()->format("d/m/Y"));
 
-        $this->download($template, $fileName);
+        return $this->download($template, $fileName);
     }
 
     public function generateTerm()
@@ -111,9 +111,9 @@ class DocumentController extends Controller
         $template->setValue('course', $student->course->name);
         $template->setValue('date', Carbon::now()->formatLocalized("%d de %B de %Y"));
         $template->setValue('birth', $student->data_de_nascimento->format("d/m/Y"));
-        $template->setValue('coordinator', $student->course->coordinator()->user->name);
+        $template->setValue('coordinator', $student->course->coordinator->user->name);
 
-        $this->download($template, $fileName);
+        return $this->download($template, $fileName);
     }
 
     public function generateAgreement()
@@ -124,7 +124,7 @@ class DocumentController extends Controller
 
         $template->setValue('date', Carbon::now()->formatLocalized("%d de %B de %Y"));
 
-        $this->download($template, $fileName);
+        return $this->download($template, $fileName);
     }
 
     //Finish Internship

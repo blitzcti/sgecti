@@ -13,6 +13,7 @@ return [
     |
     */
 
+    'back' => 'Voltar',
     'previous' => '&laquo; Anterior',
     'next' => 'Próximo &raquo;',
 

@@ -595,7 +595,7 @@
                 jQuery('#inputSector').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `/api/coordenador/empresa/${jQuery('#inputCompany').val()}/setor/`,
+                        url: `/api/coordenador/empresa/${jQuery('#inputCompany').val()}/setor`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -623,7 +623,7 @@
                 jQuery('#inputSupervisor').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `/api/coordenador/empresa/${jQuery('#inputCompany').val()}/supervisor/`,
+                        url: `/api/coordenador/empresa/${jQuery('#inputCompany').val()}/supervisor`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,

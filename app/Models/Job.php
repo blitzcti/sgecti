@@ -11,6 +11,7 @@ use Carbon\Carbon;
  * @package App\Models
  * @property int id
  * @property int ra
+ * @property string ctps
  * @property int company_id
  * @property int coordinator_id
  * @property int state_id

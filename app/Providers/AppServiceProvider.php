@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(Dispatcher $events)
     {
         Schema::defaultStringLength(191);
-        setlocale(LC_TIME, $this->app->getLocale() . '.UTF8');
+        setlocale(LC_TIME, "{$this->app->getLocale()}.UTF8");
 
         $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
             $this->loadMenu($event->menu);
@@ -46,9 +46,9 @@ class AppServiceProvider extends ServiceProvider
         $menu->add('menu.user');
         $menu->add([
             'text' => 'menu.changePassword',
-            'route' => 'usuario.alterarSenha',
+            'route' => 'usuario.senha.editar',
             'icon' => 'lock',
-            'active' => ['usuario/alterarSenha/']
+            'active' => ['usuario/senha/']
         ]);
 
         $menu->add('menu.system');

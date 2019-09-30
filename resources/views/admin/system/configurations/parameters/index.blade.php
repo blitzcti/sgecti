@@ -40,20 +40,20 @@
 
                 <tbody>
 
-                @foreach($systemConfigs as $systemConfig)
+                @foreach($configs as $config)
 
                     <tr>
-                        <th scope="row">{{ $systemConfig->id }}</th>
-                        <td>{{ $systemConfig->name }}</td>
-                        <td>{{ $systemConfig->cep }}</td>
-                        <td>{{ $systemConfig->uf }}</td>
-                        <td>{{ $systemConfig->city }}</td>
-                        <td>{{ $systemConfig->street . ', nº ' .  $systemConfig->number }}</td>
-                        <td>{{ $systemConfig->district }}</td>
-                        <td>{{ $systemConfig->email }}</td>
+                        <th scope="row">{{ $config->id }}</th>
+                        <td>{{ $config->name }}</td>
+                        <td>{{ $config->cep }}</td>
+                        <td>{{ $config->uf }}</td>
+                        <td>{{ $config->city }}</td>
+                        <td>{{ "{$config->street}, nº {$config->number}" }}</td>
+                        <td>{{ $config->district }}</td>
+                        <td>{{ $config->email }}</td>
 
                         <td>
-                            <a href="{{ route('admin.configuracao.parametros.editar', ['id' => $systemConfig->id]) }}">Editar</a>
+                            <a href="{{ route('admin.configuracao.parametros.editar', ['id' => $config->id]) }}">Editar</a>
                         </td>
                     </tr>
 

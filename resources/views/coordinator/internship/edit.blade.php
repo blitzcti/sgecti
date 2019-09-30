@@ -32,7 +32,7 @@
                             <div class="col-sm-8">
                                 <input type="text" class="form-control input-info" id="inputStudentName" name="student"
                                        readonly
-                                       value="{{ $internship->ra }} - {{ $internship->student->nome ?? '' }}"/>
+                                       value="{{ $internship->ra }} - {{ $internship->student->nome }}"/>
                             </div>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                     <div class="col-sm-10">
                         <input type="text" class="form-control input-info" id="inputCompanyRepresentative"
                                name="representative" readonly
-                               value="{{$internship->company->representative_name }}"/>
+                               value="{{ $internship->company->representative_name }}"/>
                     </div>
                 </div>
 
@@ -551,7 +551,7 @@
                 jQuery('#inputSector').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `/api/coordenador/empresa/{{ $internship->company->id }}/setor/`,
+                        url: `/api/coordenador/empresa/{{ $internship->company->id }}/setor`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -579,7 +579,7 @@
                 jQuery('#inputSupervisor').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `/api/coordenador/empresa/{{ $internship->company->id }}/supervisor/`,
+                        url: `/api/coordenador/empresa/{{ $internship->company->id }}/supervisor`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,

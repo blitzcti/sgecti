@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\DestroyCoordinator;
 use App\Http\Requests\Admin\StoreCoordinator;
 use App\Http\Requests\Admin\UpdateCoordinator;
 use App\Models\Coordinator;
@@ -21,6 +22,7 @@ class CoordinatorController extends Controller
         $this->middleware('permission:coordinator-list');
         $this->middleware('permission:coordinator-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:coordinator-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:coordinator-delete', ['only' => ['destroy']]);
     }
 
     public function index()
@@ -68,8 +70,9 @@ class CoordinatorController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Novo coordenador";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
 
         $coordinator->user_id = $validatedData->user;
         $coordinator->course_id = $validatedData->course;
@@ -113,8 +116,9 @@ class CoordinatorController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Alteração de coordenador";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
         $log .= "\nDados antigos: " . json_encode($coordinator, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $coordinator->user_id = $validatedData->user;
@@ -145,6 +149,31 @@ class CoordinatorController extends Controller
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
+        return redirect()->route('admin.coordenador.index')->with($params);
+    }
+
+    public function destroy($id, DestroyCoordinator $request)
+    {
+        $coordinator = Coordinator::findOrFail($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $user = Auth::user();
+        $log = "Exclusão de coordenador";
+        $log .= "\nUsuário: {$user->name}";
+        $log .= "\nDados antigos: " . json_encode($coordinator, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $saved = $coordinator->delete();
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao excluir coordenador");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Excluído com sucesso' : 'Erro ao excluir!';
         return redirect()->route('admin.coordenador.index')->with($params);
     }
 

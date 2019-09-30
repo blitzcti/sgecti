@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Coordinator;
 
 use App\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Coordinator\DestroyAmendment;
 use App\Http\Requests\Coordinator\StoreAmendment;
 use App\Http\Requests\Coordinator\UpdateAmendment;
 use App\Models\Amendment;
@@ -20,6 +21,7 @@ class AmendmentController extends Controller
         $this->middleware('permission:internshipAmendment-list');
         $this->middleware('permission:internshipAmendment-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:internshipAmendment-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:internshipAmendment-delete', ['only' => ['destroy']]);
     }
 
     public function index()
@@ -67,8 +69,9 @@ class AmendmentController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Novo termo aditivo";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
 
         if ($validatedData->hasSchedule) {
             $schedule = new Schedule();
@@ -139,8 +142,9 @@ class AmendmentController extends Controller
 
         $validatedData = (object)$request->validated();
 
+        $user = Auth::user();
         $log = "Alteração de termo aditivo";
-        $log .= "\nUsuário: " . Auth::user()->name;
+        $log .= "\nUsuário: {$user->name}";
         $log .= "\nDados antigos: " . json_encode($amendment, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         if ($validatedData->hasSchedule) {
@@ -203,6 +207,31 @@ class AmendmentController extends Controller
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
+        return redirect()->route('coordenador.estagio.aditivo.index')->with($params);
+    }
+
+    public function destroy($id, DestroyAmendment $request)
+    {
+        $amendment = Amendment::findOrFail($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $user = Auth::user();
+        $log = "Exclusão de termo aditivo";
+        $log .= "\nUsuário: {$user->name}";
+        $log .= "\nDados antigos: " . json_encode($amendment, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        $saved = $amendment->delete();
+
+        if ($saved) {
+            Log::info($log);
+        } else {
+            Log::error("Erro ao excluir termo aditivo");
+        }
+
+        $params['saved'] = $saved;
+        $params['message'] = ($saved) ? 'Excluído com sucesso' : 'Erro ao excluir!';
         return redirect()->route('coordenador.estagio.aditivo.index')->with($params);
     }
 }

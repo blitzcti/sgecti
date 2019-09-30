@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Collection;
  *
  * @property Collection|Student[] students
  * @property Collection|Coordinator[] coordinators
+ * @property Coordinator coordinator
  * @property Collection|Coordinator[] non_temp_coordinators
  * @property Collection|CourseConfiguration[] configurations
  * @property Color color
@@ -78,7 +79,7 @@ class Course extends Model
         return $coordinator->last();
     }
 
-    public function coordinator()
+    public function getCoordinatorAttribute()
     {
         $coordinator = $this->coordinatorAt(Carbon::today()->toDateString()) ?? $this->coordinatorAt(null);
         return $coordinator;

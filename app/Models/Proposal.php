@@ -74,7 +74,7 @@ class Proposal extends Model
 
     public function courses()
     {
-        return $this->belongsToMany(Course::class, 'proposal_courses');
+        return $this->belongsToMany(Course::class, 'proposal_has_courses');
     }
 
     public function syncCourses($courses)

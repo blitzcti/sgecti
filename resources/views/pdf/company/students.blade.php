@@ -18,6 +18,8 @@
 
 @section('content')
 
+    <h3>{{ $company->name }} {{ $company->fantasy_name != null ? "({$company->fantasy_name})" : '' }}</h3>
+
     @if(sizeof($internships) > 0)
         <h3>Alunos estagiando</h3>
 
@@ -31,7 +33,6 @@
                         <th>Protocolo</th>
                         <th>RA</th>
                         <th>Nome</th>
-                        <th>Empresa</th>
                         <th>Data de início</th>
                         <th>Data de término</th>
                     </tr>
@@ -44,7 +45,6 @@
                             <td>{{ $internship->formatted_protocol }}</td>
                             <td>{{ $internship->student->matricula }}</td>
                             <td>{{ $internship->student->nome }}</td>
-                            <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "(" . $internship->company->fantasy_name . ")" : '' }}</td>
                             <td>{{ $internship->start_date->format("d/m/Y") }}</td>
                             <td>{{ $internship->end_date->format("d/m/Y") }}</td>
                         </tr>
@@ -76,7 +76,6 @@
                         <th>Protocolo</th>
                         <th>RA</th>
                         <th>Nome</th>
-                        <th>Empresa</th>
                         <th>Data de início</th>
                         <th>Data de término</th>
                     </tr>
@@ -89,7 +88,6 @@
                             <td>{{ $internship->formatted_protocol }}</td>
                             <td>{{ $internship->student->matricula }}</td>
                             <td>{{ $internship->student->nome }}</td>
-                            <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "(" . $internship->company->fantasy_name . ")" : '' }}</td>
                             <td>{{ $internship->start_date->format("d/m/Y") }}</td>
                             <td>{{ $internship->final_report->end_date->format("d/m/Y") }}</td>
                         </tr>

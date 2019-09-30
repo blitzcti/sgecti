@@ -1,7 +1,7 @@
 <?php
 
+use App\Models\Permission;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
 
 class PermissionTableSeeder extends Seeder
@@ -18,13 +18,18 @@ class PermissionTableSeeder extends Seeder
         $permissions = [
             'sysUsage',
 
+            'db-backup',
+            'db-restore',
+
             'role-list',
             'role-create',
             'role-edit',
+            //'role-delete',
 
             'user-list',
             'user-create',
             'user-edit',
+            //'user-delete',
 
             'course-list',
             'course-create',
@@ -34,55 +39,72 @@ class PermissionTableSeeder extends Seeder
             'courseConfiguration-list',
             'courseConfiguration-create',
             'courseConfiguration-edit',
+            //'courseConfiguration-delete',
 
-            'systemConfiguration-backup',
+            'generalConfiguration-list',
+            'generalConfiguration-create',
+            'generalConfiguration-edit',
+            //'systemConfiguration-delete',
+
             'systemConfiguration-list',
             'systemConfiguration-create',
             'systemConfiguration-edit',
+            //'systemConfiguration-delete',
 
             'coordinator-list',
             'coordinator-create',
             'coordinator-edit',
+            //'coordinator-delete',
 
             'company-list',
             'company-create',
             'company-edit',
+            //'company-delete',
 
             'companySector-list',
             'companySector-create',
             'companySector-edit',
+            //'companySector-delete',
 
             'companyAgreement-list',
             'companyAgreement-create',
             'companyAgreement-edit',
+            //'companyAgreement-delete',
 
             'companySupervisor-list',
             'companySupervisor-create',
             'companySupervisor-edit',
+            //'companySupervisor-delete',
 
             'internship-list',
             'internship-create',
             'internship-edit',
+            //'internship-delete',
 
             'internshipAmendment-list',
             'internshipAmendment-create',
             'internshipAmendment-edit',
+            //'internshipAmendment-delete',
 
             'jobCompany-list',
             'jobCompany-create',
             'jobCompany-edit',
+            //'jobCompany-delete',
 
             'job-list',
             'job-create',
             'job-edit',
+            //'job-delete',
 
             'report-list',
             'report-create',
             'report-edit',
+            //'report-delete',
 
             'proposal-list',
             'proposal-create',
             'proposal-edit',
+            'proposal-delete',
 
             'student-list',
 
@@ -91,7 +113,10 @@ class PermissionTableSeeder extends Seeder
 
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+            $p = new Permission();
+            $p->name = $permission;
+            $p->guard_name = 'web';
+            $p->save();
         }
     }
 }

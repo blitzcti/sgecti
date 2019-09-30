@@ -60,12 +60,12 @@ class Company extends Model
 
     public function courses()
     {
-        return $this->belongsToMany(Course::class, 'company_courses');
+        return $this->belongsToMany(Course::class, 'company_has_courses');
     }
 
     public function sectors()
     {
-        return $this->belongsToMany(Sector::class, 'company_sectors');
+        return $this->belongsToMany(Sector::class, 'company_has_sectors');
     }
 
     public function supervisors()

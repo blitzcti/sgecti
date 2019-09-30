@@ -40,4 +40,9 @@ class Address extends Model
         $p2 = substr($cep, 5, 3);
         return "$p1-$p2";
     }
+
+    public function getFormattedAddress()
+    {
+        return "{$this->street}, Nº {$this->number}";
+    }
 }

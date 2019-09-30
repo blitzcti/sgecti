@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
  *
  * @package App\Models
  * @property int id
- * @property int ra
+ * @property string ra
  * @property int company_id
  * @property int sector_id
  * @property int coordinator_id
@@ -19,14 +19,14 @@ use Illuminate\Database\Eloquent\Collection;
  * @property int schedule_2_id
  * @property int supervisor_id
  * @property int state_id
- * @property int start_date
- * @property int end_date
- * @property int protocol
- * @property int activities
- * @property int observation
+ * @property Carbon start_date
+ * @property Carbon end_date
+ * @property string protocol
+ * @property string activities
+ * @property string observation
  * @property int reason_to_cancel
- * @property int canceled_at
- * @property int active
+ * @property Carbon canceled_at
+ * @property boolean active
  * @property Carbon created_at
  * @property Carbon updated_at
  *
@@ -36,6 +36,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @property Coordinator coordinator
  * @property Schedule schedule
  * @property Schedule schedule2
+ * @property Supervisor supervisor
  * @property State state
  * @property Collection|Amendment[] amendments
  * @property Collection|Amendment[] not_empty_amendments

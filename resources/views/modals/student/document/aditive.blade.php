@@ -1,4 +1,4 @@
-<div class="modal fade" id="documentProtocol" tabindex="-1" role="dialog" aria-labelledby="documentProtocol"
+<div class="modal fade" id="documentAditive" tabindex="-1" role="dialog" aria-labelledby="documentAditive"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -7,22 +7,22 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
 
-                <h4 class="modal-title" id="documentProtocolTitle">Protocolo de estágio</h4>
+                <h4 class="modal-title" id="documentAditiveTitle">Termo aditivo</h4>
             </div>
 
-            <form id="protocolForm" action="{{ route('aluno.documento.protocolo') }}" target="_blank"
+            <form id="aditiveForm" action="{{ route('aluno.documento.aditivo') }}" target="_blank"
                   class="form-horizontal" method="get">
                 <div class="modal-body">
-                    <p>Qual tipo de protocolo de estágio você precisa?</p>
+                    <p>Qual tipo de termo aditivo você precisa?</p>
 
-                    <p><b>Plano de estágio:</b> entrada nos documentos para <b>iniciar</b> um estágio.</p>
-                    <p><b>Relatório final:</b> entrada nos documentos para <b>finalizar</b> um estágio.</p>
+                    <p><b>Mudança da Data Final:</b> adiantar ou prorrogar o tempo de estágio.</p>
+                    <p><b>Outros fins:</b> outros motivos, como mudar os horarios em que você vai fazer estágio.</p>
 
                     <br>
 
-                    <input type="radio" name="id" value="0" checked> Plano de estágio
+                    <input type="radio" name="id" value="0" checked> Nova Data Final
                     &nbsp;
-                    <input type="radio" name="id" value="1"> Relatório final
+                    <input type="radio" name="id" value="1"> Outros fins
                 </div>
 
                 <div class="modal-footer">
@@ -41,8 +41,8 @@
 
     <script type="text/javascript">
         jQuery(document).ready(function () {
-            jQuery('#protocolForm').on('submit', () => {
-                jQuery('#documentProtocol').modal('hide');
+            jQuery('#aditiveForm').on('submit', () => {
+                jQuery('#documentAditive').modal('hide');
             });
         })
     </script>

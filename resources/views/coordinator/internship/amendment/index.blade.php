@@ -48,7 +48,7 @@
                     <tr>
                         <th scope="row">{{ $amendment->id }}</th>
 
-                        <td>{{ $amendment->internship->ra }} - {{ ($amendment->internship->student->nome }}</td>
+                        <td>{{ $amendment->internship->ra }} - {{ $amendment->internship->student->nome }}</td>
 
                         <td>{{ $amendment->internship->company->name }} {{ $amendment->internship->company->fantasy_name != null ? "({$amendment->internship->company->fantasy_name})" : '' }}</td>
                         <td>{{ $amendment->start_date->format("d/m/Y") }}</td>
@@ -66,7 +66,7 @@
 @endsection
 
 @section('js')
-    <script>
+    <script type="text/javascript">
         jQuery(document).ready(function () {
             let table = jQuery("#amendments").DataTable({
                 language: {

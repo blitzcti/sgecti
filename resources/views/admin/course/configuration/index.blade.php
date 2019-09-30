@@ -66,8 +66,8 @@
 @endsection
 
 @section('js')
-    <script>
-        jQuery(function () {
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
             let table = jQuery("#courseConfigurations").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"

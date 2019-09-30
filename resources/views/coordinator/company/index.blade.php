@@ -62,7 +62,7 @@
 @endsection
 
 @section('js')
-    <script>
+    <script type="text/javascript">
         jQuery(document).ready(function () {
             let table = jQuery("#companies").DataTable({
                 language: {

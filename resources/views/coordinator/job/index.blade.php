@@ -44,7 +44,7 @@
                     <tr>
                         <th scope="row">{{ $job->id }}</th>
 
-                        <td>{{ $job->ra }} - {{ ($job->student->nome }}</td>
+                        <td>{{ $job->ra }} - {{ $job->student->nome }}</td>
 
                         <td>{{ $job->company->name }} {{ $job->company->fantasy_name != null ? "({$job->company->fantasy_name})" : '' }}</td>
                         <td>{{ $job->coordinator->user->name }}</td>
@@ -80,7 +80,7 @@
 @endsection
 
 @section('js')
-    <script>
+    <script type="text/javascript">
         jQuery(document).ready(function () {
             let table = jQuery("#jobs").DataTable({
                 language: {

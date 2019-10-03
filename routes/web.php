@@ -366,10 +366,10 @@ Route::prefix('empresa')->name('empresa.')->middleware('auth')->group(function (
     });
 });
 
-Route::prefix('ajuda')->name('ajuda.')->group(function () {
+Route::prefix('ajuda')->name('ajuda.')->middleware('auth')->group(function () {
     Route::get('', 'HelpController@index')->name('index');
 });
 
-Route::prefix('sobre')->name('sobre.')->group(function () {
+Route::prefix('sobre')->name('sobre.')->middleware('auth')->group(function () {
     Route::get('', 'AboutController@index')->name('index');
 });

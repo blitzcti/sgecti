@@ -870,7 +870,7 @@ class HelpController extends Controller
                                 ],
                                 [
                                     'img' => 'empresas/new/convenio/add_registro_convenio_empresa.png',
-                                    'text' => 'Ao clicar em adicionar, conclui - se a operação',
+                                    'text' => 'Ao clicar em adicionar, conclui-se a operação',
                                 ],
                             ],
                         ],
@@ -884,11 +884,11 @@ class HelpController extends Controller
             $content = [
                 'Configurações do sistema' => [
                     'Alterar senha' => [
-                        'desc' => null,
+                        'desc' => "Utilize essa interface para alterar sua senha.",
                         'content' => [
                             [
                                 'img' => 'empresa/alterar_senha_empresa.png',
-                                'text' => 'Escreve aqui Tevinho',
+                                'text' => '',
                             ],
                         ]
                     ],
@@ -897,22 +897,22 @@ class HelpController extends Controller
 
                 'Padronização de tabelas' => [
                     'CSV' => [
-                        'desc' => null,
+                        'desc' => "Todas as tabelas possuem essa opção, e sua utilidade é baixar as informações existentes nela.",
                         'content' => [
                             [
                                 'img' => 'empresa/csv_empresa.png',
-                                'text' => 'Escreve aqui Tevinho',
+                                'text' => '',
                             ],
 
                         ]
                     ],
 
                     'Imprimir' => [
-                        'desc' => null,
+                        'desc' => "Todas as tabelas possuem essa opção, e sua utilidade é imprimir as informações existentes nela.",
                         'content' => [
                             [
                                 'img' => 'empresa/imprimir_empresa.png',
-                                'text' => 'Escreve aqui Tevinho',
+                                'text' => '',
                             ],
                         ]
                     ],
@@ -920,7 +920,7 @@ class HelpController extends Controller
 
                 'Página inicial' => [
                     'Notificações' => [
-                        'desc' => null,
+                        'desc' => 'Nesse local apareceram as novas notificações e alertas sobre as propostas de estágio solicitadas, se foram aceitas ou não pelo coordenador.',
                         'content' => [
                             [
                                 'img' => 'empresa/notificacao_empresa.png',
@@ -930,7 +930,7 @@ class HelpController extends Controller
                     ],
 
                     'Propostas' => [
-                        'desc' => null,
+                        'desc' => 'Na página inicial, há o número de propostas feitas pela empresa, e quantas foram aprovadas.',
                         'content' => [
                             [
                                 'img' => 'empresa/inicio_empresa.png',
@@ -943,23 +943,25 @@ class HelpController extends Controller
                 'Funcionalidades do sistema' => [
 
                     'Propostas' => [
-                        'desc' => null,
+                        'desc' => 'Visualize e adicione as propostas fornecidas ao Colégio.',
                         'content' => [
                             'Visualizar Proposta' => [
+
                                 [
                                     'img' => 'empresa/visualizar_propostas_empresa.png',
-                                    'text' => 'Escreve aqui Tevinho',
+                                    'text' => 'A tabela mostra quais as propostas que a sua sempresa já forneceu ao Colégio.',
                                 ],
                             ],
 
                             'Adicionar Proposta' => [
                                 [
+                                    'text' => '',
                                     'img' => 'empresa/adicionar_proposta_empresa.png',
-                                    'text' => 'Escreve aqui Tevinho',
+
                                 ],
                                 [
                                     'img' => 'empresa/adicionar_proposta_empresa2.png',
-                                    'text' => 'Escreve aqui Tevinho',
+                                    'text' => '',
                                 ],
 
                             ],
@@ -1023,7 +1025,7 @@ class HelpController extends Controller
                     ],
 
                     'Documentação de estágio' => [
-                        'desc' => null,
+                        'desc' => "Nesta interface, é possível visualizar todos os documentos necessários no início, no processo e no término do estágio.",
                         'content' => [
                             '' => [
                                 [

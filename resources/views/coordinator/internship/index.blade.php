@@ -8,6 +8,7 @@
 
 @section('content')
     @include('modals.coordinator.internship.cancel')
+    @include('modals.coordinator.internship.reactivate')
 
     @if(session()->has('message'))
         <div class="alert {{ session('saved') ? 'alert-success' : 'alert-error' }} alert-dismissible"
@@ -43,14 +44,9 @@
                     <tr>
                         <th scope="row">{{ $internship->id }}</th>
 
-                        <td>{{ $internship->ra}}
+                        <td>{{ $internship->ra }} - {{ $internship->student->nome }}</td>
 
-                            @if((new \App\Models\NSac\Student)->isConnected())
-                                {{ (' - ' . $internship->student->nome) ?? '' }}
-                            @endif
-                        </td>
-
-                        <td>{{ $internship->company->name }}</td>
+                        <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "({$internship->company->fantasy_name})" : '' }}</td>
                         <td>{{ $internship->coordinator->user->name }}</td>
                         <td>{{ $internship->state->description }}</td>
                         <td>
@@ -58,17 +54,26 @@
                             |
                             <a href="{{ route('coordenador.estagio.editar', ['id' => $internship->id]) }}">Editar</a>
 
-                            @if($internship->state->id == 1)
+                            @if(\App\Auth::user()->can('internshipAmendment-list'))
+                                |
+                                <a href="{{ route('coordenador.estagio.aditivo', ['id' => $internship->id]) }}">Termos
+                                    aditivos</a>
+                            @endif
 
-                                @if(auth()->user()->can('internshipAmendment-list'))
-                                    |
-                                    <a href="{{ route('coordenador.estagio.aditivo', ['id' => $internship->id]) }}">Termos aditivos</a>
-                                @endif
+                            @if($internship->state->id == \App\Models\State::OPEN)
 
                                 |
-                                    <a href="#"
-                                       onclick="internshipId('{{ $internship->id }}'); studentName('{{ $internship->student->nome }}'); return false;"
-                                       data-toggle="modal" class="text-red" data-target="#internshipCancelModal">Cancelar</a>
+                                <a href="#"
+                                   onclick="internshipId('{{ $internship->id }}'); studentName('{{ $internship->student->nome }}'); return false;"
+                                   data-toggle="modal" class="text-red"
+                                   data-target="#internshipCancelModal">Cancelar</a>
+
+                            @elseif($internship->state->id == \App\Models\State::CANCELED && $internship->student->internship == null)
+
+                                |
+                                <a href="#"
+                                   onclick="reactivateInternshipId('{{ $internship->id }}'); reactivateStudentName('{{ $internship->student->nome }}'); return false;"
+                                   data-toggle="modal" data-target="#internshipReactivateModal">Reativar</a>
 
                             @endif
                         </td>
@@ -82,12 +87,13 @@
 @endsection
 
 @section('js')
-    <script>
-        jQuery(() => {
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
             let table = jQuery("#internships").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
+                responsive: true,
                 lengthChange: false,
                 buttons: [
                     {
@@ -111,7 +117,7 @@
                     }
                 ],
                 initComplete: function () {
-                    table.buttons().container().appendTo($('#internships_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().appendTo(jQuery('#internships_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                     jQuery('#addLink').prependTo(table.buttons().container());
                 },

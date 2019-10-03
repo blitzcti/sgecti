@@ -9,7 +9,7 @@
 @section('content')
 
     @include('modals.coordinator.company.supervisor.new')
-    @include('modals.coordinator.student.search')
+    @include('modals.coordinator.cloneSchedule')
 
     <form class="form-horizontal" action="{{ route('coordenador.estagio.alterar', $internship->id) }}" method="post">
         @method('PUT')
@@ -21,28 +21,18 @@
             </div>
 
             <div class="box-body">
-                <input type="hidden" id="inputHas2Turnos" name="has2Turnos"
-                       value="{{ (old('has2Turnos') ?? $internship->schedule2 != null) ? '1' : '0' }}">
-                <input type="hidden" id="inputHasCTPS" name="hasCTPS"
-                       value="{{ (old('hasCTPS') ?? $internship->ctps_id != null) ? '1' : '0' }}">
+                <input type="hidden" id="inputHas2Schedules" name="has2Schedules"
+                       value="{{ (old('has2Schedules') ?? $internship->schedule2 != null) ? '1' : '0' }}">
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <div class="form-group @if($errors->has('ra')) has-error @endif">
-                            <label for="inputRA" class="col-sm-4 control-label">RA*</label>
+                        <div class="form-group">
+                            <label for="inputStudentName" class="col-sm-4 control-label">Aluno*</label>
 
                             <div class="col-sm-8">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="inputRA" name="ra" placeholder="1757047"
-                                           readonly data-inputmask="'mask': '9999999'" value="{{ old('ra') ?? $internship->ra }}">
-
-                                    <div class="input-group-btn">
-                                        <a href="#" data-toggle="modal" data-target="#searchStudentModal"
-                                           class="btn btn-default"><i class="fa fa-search"></i></a>
-                                    </div>
-                                </div>
-
-                                <span class="help-block">{{ $errors->first('ra') }}</span>
+                                <input type="text" class="form-control input-info" id="inputStudentName" name="student"
+                                       readonly
+                                       value="{{ $internship->ra }} - {{ $internship->student->nome }}"/>
                             </div>
                         </div>
                     </div>
@@ -69,24 +59,13 @@
                     </div>
                 </div>
 
-                <div class="form-group @if($errors->has('company')) has-error @endif">
+                <div class="form-group">
                     <label for="inputCompany" class="col-sm-2 control-label">Empresa*</label>
 
                     <div class="col-sm-10">
-                        <select class="selection" name="company" id="inputCompany"
-                                style="width: 100%">
-
-                            @foreach($companies as $company)
-
-                                <option value="{{ $company->id }}" {{ (old('company') ?? $internship->company->id) == $company->id ? 'selected' : '' }}>
-                                    {{ $company->cpf_cnpj }} - {{ $company->name }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
-                        <span class="help-block">{{ $errors->first('company') }}</span>
+                        <input type="text" class="form-control input-info" id="inputCompany"
+                               name="company" readonly
+                               value="{{ $internship->company->cpf_cnpj }} - {{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "(". $internship->company->fantasy_name . ")" : '' }}"/>
                     </div>
                 </div>
 
@@ -94,8 +73,9 @@
                     <label for="inputCompanyRepresentative" class="col-sm-2 control-label">Representante*</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputCompanyRepresentative" name="representative" readonly
-                               value="{{ (App\Models\Company::find(old('company')) ?? $internship->company)->representative_name }}"/>
+                        <input type="text" class="form-control input-info" id="inputCompanyRepresentative"
+                               name="representative" readonly
+                               value="{{ $internship->company->representative_name }}"/>
                     </div>
                 </div>
 
@@ -108,7 +88,8 @@
 
                             @foreach($internship->company->sectors as $sector)
 
-                                <option value="{{ $sector->id }}" {{ (old('sector') ?? $internship->sector->id) == $sector->id ? "selected" : "" }}>
+                                <option
+                                    value="{{ $sector->id }}" {{ (old('sector') ?? $internship->sector->id) == $sector->id ? "selected" : "" }}>
                                     {{ $sector->name }}
                                 </option>
 
@@ -123,11 +104,11 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('startDate')) has-error @endif">
-                            <label for="inputStartDate" class="col-sm-4 control-label">Data Início*</label>
+                            <label for="inputStartDate" class="col-sm-4 control-label">Data de início*</label>
 
                             <div class="col-sm-8">
                                 <input type="date" class="form-control" id="inputStartDate" name="startDate"
-                                       value="{{ old('startDate') ?? $internship->start_date }}"/>
+                                       value="{{ old('startDate') ?? $internship->start_date->format("Y-m-d") }}"/>
 
                                 <span class="help-block">{{ $errors->first('startDate') }}</span>
                             </div>
@@ -136,11 +117,11 @@
 
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('endDate')) has-error @endif">
-                            <label for="inputEndDate" class="col-sm-4 control-label">Data Fim*</label>
+                            <label for="inputEndDate" class="col-sm-4 control-label">Data de término*</label>
 
                             <div class="col-sm-8">
                                 <input type="date" class="form-control" id="inputEndDate" name="endDate"
-                                       value="{{ old('endDate') ?? $internship->end_date }}">
+                                       value="{{ old('endDate') ?? $internship->end_date->format("Y-m-d") }}">
 
                                 <span class="help-block">{{ $errors->first('endDate') }}</span>
                             </div>
@@ -161,7 +142,7 @@
                 </div>
 
                 <div class="form-group @if($errors->has('observation')) has-error @endif">
-                    <label for="inputObservation" class="col-sm-2 control-label">Obervação</label>
+                    <label for="inputObservation" class="col-sm-2 control-label">Observações</label>
 
                     <div class="col-sm-10">
                         <textarea class="form-control" rows="3" id="inputObservation" name="observation"
@@ -172,12 +153,6 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
 
         <div class="box box-default">
@@ -193,7 +168,12 @@
                         <table id="inputWeekDays" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th></th>
+                                <th>
+                                    <a href="#" data-toggle="modal" data-target="#cloneScheduleModal"
+                                       onclick="schedule2 = false;">
+                                        <i class="fa fa-copy"></i>
+                                    </a>
+                                </th>
 
                                 <th>
                                     <label class="control-label">Seg</label>
@@ -322,12 +302,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="fakeInputHas2Turnos" class="col-sm-2 control-label" style="padding-top: 0">2
+                    <label for="fakeInputHas2Schedules" class="col-sm-2 control-label" style="padding-top: 0">2
                         turnos?</label>
 
                     <div class="col-sm-10">
-                        <input type="checkbox" id="fakeInputHas2Turnos" name="fakeHas2Turnos"
-                                {{ old('has2Turnos') ?? ($internship->schedule2 != null) ? 'checked="checked"' : '' }}>
+                        <input type="checkbox" id="fakeInputHas2Schedules" name="fakeHas2Schedules"
+                            {{ old('has2Schedules') ?? ($internship->schedule2 != null) ? 'checked="checked"' : '' }}>
                     </div>
                 </div>
 
@@ -338,7 +318,12 @@
                         <table id="inputWeekDays" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th></th>
+                                <th>
+                                    <a href="#" data-toggle="modal" data-target="#cloneScheduleModal"
+                                       onclick="schedule2 = true;">
+                                        <i class="fa fa-copy"></i>
+                                    </a>
+                                </th>
 
                                 <th>
                                     <label class="control-label">Seg</label>
@@ -466,69 +451,22 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
 
-        <div class="box box-default">
-            <div class="box-header with-border">
-                <h3 class="box-title">Supervisor</h3>
-            </div>
-
-            <div class="box-body">
-                <div class="form-group @if($errors->has('supervisor')) has-error @endif">
-                    <label for="inputSupervisor" class="col-sm-2 control-label">Supervisor*</label>
-
-                    <div class="col-sm-10">
-                        <select class="selection" name="supervisor"
-                                id="inputSupervisor"
-                                style="width: 100%">
-
-                            @foreach($internship->company->supervisors as $supervisor)
-
-                                <option value="{{ $supervisor->id }}" {{ (old('supervisor') ?? $internship->supervisor->id) == $supervisor->id ? "selected" : "" }}>
-                                    {{ $supervisor->name }}
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
-                        <span class="help-block">{{ $errors->first('supervisor') }}</span>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Dados da secretaria</h3>
                     </div>
-                </div>
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <div class="btn-group pull-right">
-                    <a href="#" class="btn btn-success" id="aAddSupervisor" data-toggle="modal"
-                       data-target="#newInternshipSupervisorModal">Novo supervisor</a>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
-                </div>
 
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
-        </div>
-
-        <div class="box box-default">
-            <div class="box-header with-border">
-                <h3 class="box-title">Dados da secretaria</h3>
-            </div>
-
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-sm-6">
+                    <div class="box-body">
                         <div class="form-group @if($errors->has('protocol')) has-error @endif">
                             <label for="inputProtocol" class="col-sm-4 control-label">Protocolo*</label>
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputProtocol" name="protocol"
-                                       placeholder="001/19" data-inputmask="'mask': '999/99'"
+                                       placeholder="001/2019" data-inputmask="'mask': '999/9999'"
                                        value="{{ old('protocol') ?? $internship->protocol }}"/>
 
                                 <span class="help-block">{{ $errors->first('protocol') }}</span>
@@ -537,44 +475,51 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
-        </div>
 
-        <div class="box box-default">
-            <div class="box-header with-border">
-                <h3 class="box-title">
-                    <input type="checkbox" id="fakeInputHasCTPS" name="fakeHasCTPS"
-                            {{ (old('hasCTPS') ?? $internship->ctps != null) ? 'checked=checked' : '' }}/>
+            <div class="col-sm-6">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Supervisor</h3>
+                    </div>
 
-                    O estágio é CTPS?
-                </h3>
-            </div>
+                    <div class="box-body">
+                        <div class="form-group @if($errors->has('supervisor')) has-error @endif">
+                            <label for="inputSupervisor" class="col-sm-4 control-label">Supervisor*</label>
 
-            <div id="div-ctps" style="display: none">
-                <div class="box-body">
-                    <div class="form-group @if($errors->has('ctps')) has-error @endif">
-                        <label for="inputCTPS" class="col-sm-2 control-label">Número da CTPS</label>
+                            <div class="col-sm-8">
+                                <select class="selection" name="supervisor"
+                                        id="inputSupervisor"
+                                        style="width: 100%">
 
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputCTPS" name="ctps"
-                                   data-inputmask="'mask': '999999/99999'"
-                                   value="{{ old('ctps') ?? $internship->ctps ?? '' }}"/>
+                                    @foreach($internship->company->supervisors as $supervisor)
 
-                            <span class="help-block">{{ $errors->first('ctps') }}</span>
+                                        <option
+                                            value="{{ $supervisor->id }}" {{ (old('supervisor') ?? $internship->supervisor->id) == $supervisor->id ? "selected" : "" }}>
+                                            {{ $supervisor->name }}
+                                        </option>
+
+                                    @endforeach
+
+                                </select>
+
+                                <span class="help-block">{{ $errors->first('supervisor') }}</span>
+                            </div>
                         </div>
                     </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="btn-group pull-right">
+                            <a href="#" class="btn btn-success" id="aAddSupervisor" data-toggle="modal"
+                               data-target="#newInternshipSupervisorModal">Novo supervisor</a>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
+
+                        <input type="hidden" id="inputPrevious" name="previous"
+                               value="{{ old('previous') ?? url()->previous() }}">
+                        <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
+                    </div>
+                    <!-- /.box-footer -->
                 </div>
-                <!-- /.box-body -->
-                <div class="box-footer">
-                    <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-                    <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-                </div>
-                <!-- /.box-footer -->
             </div>
         </div>
     </form>
@@ -593,103 +538,74 @@
                 language: "pt-BR"
             });
 
-            jQuery('#fakeInputHasCTPS').on('ifChanged', function () {
-                if (this.checked) {
-                    jQuery('#div-ctps').css('display', 'initial');
-                    jQuery('#inputHasCTPS').val(1);
-                } else {
-                    jQuery('#div-ctps').css('display', 'none');
-                    jQuery('#inputHasCTPS').val(0);
-                }
+            jQuery('#fakeInputHas2Schedules').on('ifChanged', function () {
+                jQuery('#weekDays2').toggle(this.checked);
+                jQuery('#inputHas2Schedules').val(Number(this.checked));
             }).trigger('ifChanged').iCheck({
                 checkboxClass: 'icheckbox_square-blue',
                 radioClass: 'iradio_square-blue',
                 increaseArea: '20%' // optional
             });
 
-            jQuery('#fakeInputHas2Turnos').on('ifChanged', function () {
-                if (this.checked) {
-                    jQuery('#weekDays2').css('display', 'initial');
-                    jQuery('#inputHas2Turnos').val(1);
-                } else {
-                    jQuery('#weekDays2').css('display', 'none');
-                    jQuery('#inputHas2Turnos').val(0);
-                }
-            }).trigger('ifChanged').iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue',
-                increaseArea: '20%' // optional
-            });
+            function reloadSelect() {
+                jQuery('#inputSector').select2({
+                    language: "pt-BR",
+                    ajax: {
+                        url: `/api/coordenador/empresa/{{ $internship->company->id }}/setor`,
+                        dataType: 'json',
+                        method: 'GET',
+                        cache: true,
+                        data: function (params) {
+                            return {
+                                q: params.term // search term
+                            };
+                        },
 
-            jQuery('#inputCompany').on('change', e => {
-                jQuery.ajax({
-                    url: `/api/empresa/${jQuery('#inputCompany').val()}`,
-                    dataType: 'json',
-                    method: 'GET',
-                    success: function (data) {
-                        jQuery('#inputCompanyRepresentative').val(data.representative_name);
-                    },
-                    error: function () {
+                        processResults: function (response) {
+                            sectors = [];
+                            response.forEach(sector => {
+                                if (sector.active) {
+                                    sectors.push({id: sector.id, text: sector.name});
+                                }
+                            });
 
-                    },
+                            return {
+                                results: sectors
+                            };
+                        },
+                    }
                 });
-            });
 
-            jQuery('#inputSector').select2({
-                language: "pt-BR",
-                ajax: {
-                    url: `/api/empresa/${jQuery('#inputCompany').val()}/setor/`,
-                    dataType: 'json',
-                    method: 'GET',
-                    cache: true,
-                    data: function (params) {
-                        return {
-                            q: params.term // search term
-                        };
-                    },
+                jQuery('#inputSupervisor').select2({
+                    language: "pt-BR",
+                    ajax: {
+                        url: `/api/coordenador/empresa/{{ $internship->company->id }}/supervisor`,
+                        dataType: 'json',
+                        method: 'GET',
+                        cache: true,
+                        data: function (params) {
+                            return {
+                                q: params.term // search term
+                            };
+                        },
 
-                    processResults: function (response) {
-                        sectors = [];
-                        response.forEach(sector => {
-                            if (sector.active) {
-                                sectors.push({id: sector.id, text: sector.name});
-                            }
-                        });
+                        processResults: function (response) {
+                            supervisors = [];
+                            response.forEach(supervisor => {
+                                if (supervisor.active) {
+                                    supervisors.push({id: supervisor.id, text: supervisor.name});
+                                }
+                            });
 
-                        return {
-                            results: sectors
-                        };
-                    },
-                }
-            });
+                            return {
+                                results: supervisors
+                            };
+                        },
+                    }
+                });
+            }
 
-            jQuery('#inputSupervisor').select2({
-                language: "pt-BR",
-                ajax: {
-                    url: `/api/empresa/${jQuery('#inputCompany').val()}/supervisor/`,
-                    dataType: 'json',
-                    method: 'GET',
-                    cache: true,
-                    data: function (params) {
-                        return {
-                            q: params.term // search term
-                        };
-                    },
-
-                    processResults: function (response) {
-                        supervisors = [];
-                        response.forEach(supervisor => {
-                            if (supervisor.active) {
-                                supervisors.push({id: supervisor.id, text: supervisor.name});
-                            }
-                        });
-
-                        return {
-                            results: supervisors
-                        };
-                    },
-                }
-            });
+            reloadSelect();
         });
     </script>
 @endsection

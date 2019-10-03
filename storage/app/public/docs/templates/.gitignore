@@ -1,0 +1,8 @@
+*
+!.gitignore
+!*.docx
+!*.odt
+
+!new
+!end
+!etc

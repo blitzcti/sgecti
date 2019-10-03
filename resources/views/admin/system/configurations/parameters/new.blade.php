@@ -10,13 +10,13 @@
     @include('modals.cep.loading')
     @include('modals.cep.error')
 
-    <div class="box box-default">
-        <div class="box-header with-border">
-            <h3 class="box-title">Dados do parâmetro</h3>
-        </div>
+    <form class="form-horizontal" action="{{ route('admin.configuracao.parametros.salvar') }}" method="post">
+        @csrf
 
-        <form class="form-horizontal" action="{{ route('admin.configuracoes.parametros.salvar') }}" method="post">
-            @csrf
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Dados do parâmetro</h3>
+            </div>
 
             <div class="box-body">
                 <div class="form-group @if($errors->has('name')) has-error @endif">
@@ -127,7 +127,8 @@
 
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" id="inputPhone" name="phone"
-                                       placeholder="(14) 3103-6150" data-inputmask="'mask': '(99) 9999-9999'"
+                                       placeholder="(14) 3103-6150"
+                                       data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
                                        value="{{ old('phone') ?? '' }}"/>
 
                                 <span class="help-block">{{ $errors->first('phone') }}</span>
@@ -150,34 +151,57 @@
                     </div>
 
                     <div class="col-sm-6">
-                        <div class="form-group @if($errors->has('agreementExpiration')) has-error @endif">
-                            <label for="inputAgreementExpiration" class="col-sm-4 control-label">Validade do
-                                convênio*</label>
+                        <div class="form-group @if($errors->has('fax')) has-error @endif">
+                            <label for="inputFax" class="col-sm-2 control-label">Fax</label>
 
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="inputAgreementExpiration"
-                                       name="agreementExpiration" placeholder="5"
-                                       value="{{ old('agreementExpiration') ?? '' }}"/>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputFax" name="fax"
+                                       placeholder="(14) 3103-6150"
+                                       data-inputmask="'mask': '(99) 9999-9999'"
+                                       value="{{ old('fax') ?? '' }}"/>
 
-                                <span class="help-block">{{ $errors->first('agreementExpiration') }}</span>
+                                <span class="help-block">{{ $errors->first('fax') }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Dados do convênio</h3>
+            </div>
+
+            <div class="box-body">
+                <div class="form-group @if($errors->has('agreementExpiration')) has-error @endif">
+                    <label for="inputAgreementExpiration" class="col-sm-2 control-label">Validade (anos)*</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputAgreementExpiration"
+                               name="agreementExpiration" placeholder="5"
+                               value="{{ old('agreementExpiration') ?? '' }}"/>
+
+                        <span class="help-block">{{ $errors->first('agreementExpiration') }}</span>
+                    </div>
+                </div>
+            </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
-        </form>
-    </div>
+        </div>
+    </form>
 @endsection
 
 @section('js')
     <script type="text/javascript">
-        jQuery(document).ready(() => {
+        jQuery(document).ready(function () {
             jQuery(':input').inputmask({removeMaskOnSubmit: true});
 
             jQuery('#inputUf').select2({
@@ -196,7 +220,7 @@
                     processResults: function (response) {
                         ufs = [];
                         response.forEach(uf => {
-                            ufs.push({id: uf.sigla, text: uf.sigla});
+                            ufs.push({id: uf, text: uf});
                         });
 
                         return {
@@ -207,6 +231,8 @@
             });
 
             jQuery('#inputUf').on('change', e => {
+                jQuery('#inputCity').empty();
+
                 jQuery('#inputCity').select2({
                     language: "pt-BR",
                     ajax: {
@@ -223,7 +249,7 @@
                         processResults: function (response) {
                             cities = [];
                             response.forEach(city => {
-                                cities.push({id: city.nome, text: city.nome});
+                                cities.push({id: city, text: city});
                             });
 
                             return {
@@ -235,59 +261,58 @@
             });
 
             function loadCep() {
-                $("#cepLoadingModal").modal({
+                jQuery("#cepLoadingModal").modal({
                     backdrop: "static",
                     keyboard: false,
                     show: true
                 });
 
-                let xhttp = new XMLHttpRequest();
-                xhttp.open("GET", `/api/external/cep/${jQuery('#inputCep').inputmask('unmaskedvalue')}`, true);
-                xhttp.onreadystatechange = function () {
-                    $("#cepLoadingModal").modal("hide");
+                jQuery.ajax({
+                    url: `/api/external/cep/${jQuery('#inputCep').inputmask('unmaskedvalue')}`,
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (address) {
+                        jQuery("#cepLoadingModal").modal("hide");
 
-                    if (this.readyState === 4) {
-                        if (this.status === 200) {
-                            let address = JSON.parse(xhttp.responseText);
-                            if (address.error) {
-                                $("#cepErrorModal").modal({
-                                    backdrop: "static",
-                                    keyboard: false,
-                                    show: true
-                                });
-
-                                address.street = '';
-                                address.district = '';
-                                address.city = '';
-                                address.uf = '';
-                            }
-
-                            jQuery('#inputStreet').val(address.street);
-                            jQuery('#inputDistrict').val(address.district);
-
-                            if (address.city !== '') {
-                                jQuery('#inputCity').append(new Option(address.city, address.city, false, true));
-                            } else {
-                                jQuery('#inputCity').val(address.city);
-                            }
-
-
-                            if (address.uf !== '') {
-                                jQuery('#inputUf').append(new Option(address.uf, address.uf, false, true)).change();
-                            } else {
-                                jQuery('#inputUf').val(address.uf);
-                            }
-                        } else {
-                            $("#cepErrorModal").modal({
+                        if (address.error) {
+                            jQuery("#cepErrorModal").modal({
                                 backdrop: "static",
                                 keyboard: false,
                                 show: true
                             });
-                        }
-                    }
-                };
 
-                xhttp.send();
+                            address.street = '';
+                            address.district = '';
+                            address.city = '';
+                            address.uf = '';
+                        }
+
+                        if (address.uf !== '') {
+                            jQuery('#inputUf').append(new Option(address.uf, address.uf, false, true)).change();
+                        } else {
+                            jQuery('#inputUf').val(address.uf);
+                        }
+
+                        if (address.city !== '') {
+                            jQuery('#inputCity').append(new Option(address.city, address.city, false, true));
+                        } else {
+                            jQuery('#inputCity').val(address.city);
+                        }
+
+                        jQuery('#inputStreet').val(address.street);
+                        jQuery('#inputDistrict').val(address.district);
+                    },
+
+                    error: function () {
+                        jQuery("#cepLoadingModal").modal("hide");
+
+                        jQuery("#cepErrorModal").modal({
+                            backdrop: "static",
+                            keyboard: false,
+                            show: true
+                        });
+                    }
+                });
             }
 
             jQuery('#inputCep').blur(() => {
@@ -296,7 +321,10 @@
                 }
             });
 
-            jQuery('#inputUf').append(new Option('{{ old('uf') ?? '' }}', '{{ old('uf') ?? '' }}', false, true)).change();
+            if ('{{ old('uf') ?? '' }}' !== '') {
+                jQuery('#inputUf').append(new Option('{{ old('uf') ?? '' }}', '{{ old('uf') ?? '' }}', false, true)).change();
+            }
+
             jQuery('#inputCity').append(new Option('{{ old('city') ?? '' }}', '{{ old('city') ?? '' }}', false, true));
         });
     </script>

@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Auth;
+use App\Models\Internship;
+use App\Models\Proposal;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function frontPage()
     {
-        $this->middleware('auth');
+        return view('index');
     }
 
     /**
@@ -25,16 +22,47 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-
-        $strCourses = '';
-        if ($user->isCoordinator()) {
-            $array = $user->coordinator_of->map(function ($c) {return $c->name; })->toArray();
-            $last = array_slice($array, -1);
-            $first = join(', ', array_slice($array, 0, -1));
-            $both = array_filter(array_merge([$first], $last), 'strlen');
-            $strCourses = join(' e ', $both);
+        if ($user->password_change_at == null) {
+            return redirect()->route('usuario.senha.editar');
         }
 
-        return view('home')->with(['user' => $user, 'strCourses' => $strCourses]);
+        $data = ['user' => $user];
+
+        if ($user->isCoordinator()) {
+            $strCourses = $user->coordinator_courses_name;
+            $cIds = Auth::user()->coordinator_courses_id;
+
+            $data['strCourses'] = $strCourses;
+            $data['requiringFinish'] = Internship::requiringFinish();
+            $data['proposals'] = Proposal::all()
+                ->where('approved_at', '=', null)
+                ->where('reason_to_reject', '=', null)
+                ->filter(function ($proposal) use ($cIds) {
+                    $ret = false;
+                    foreach ($proposal->courses as $course) {
+                        if (!$ret) {
+                            $ret = in_array($course->id, $cIds);
+                        }
+                    }
+
+                    return $ret;
+                })->sortBy('id');
+        } else if ($user->isCompany()) {
+            $company = $user->company;
+            $data['proposals'] = $company->proposals;
+            $data['proposalsApproved'] = $company->proposals->where('approved_at', '<>', null);
+        } else if ($user->isStudent()) {
+            $data['proposals'] = Proposal::approved();
+        }
+
+        return view('home')->with($data);
+    }
+
+    public function notifications()
+    {
+        $user = Auth::user();
+        $notifications = $user->notifications;
+
+        return view('user.notifications')->with(['notifications' => $notifications]);
     }
 }

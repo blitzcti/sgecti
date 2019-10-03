@@ -16,6 +16,27 @@
             @csrf
 
             <div class="box-body">
+                <div class="form-group @if($errors->has('company')) has-error @endif">
+                    <label for="inputCompany" class="col-sm-2 control-label">Empresa*</label>
+
+                    <div class="col-sm-10">
+                        <select class="selection" name="company" id="inputCompany"
+                                style="width: 100%">
+
+                            @foreach($companies as $company)
+
+                                <option
+                                    value="{{ $company->id }}" {{ (old('company') ?? $c) == $company->id ? 'selected' : '' }}>
+                                    {{ $company->cpf_cnpj }}
+                                    - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
+                                </option>
+
+                            @endforeach
+
+                        </select>
+                    </div>
+                </div>
+
                 <div class="form-group  @if($errors->has('supervisorName')) has-error @endif">
                     <label for="inputSupervisorName" class="col-sm-2 control-label">Nome*</label>
 
@@ -43,35 +64,21 @@
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputSupervisorPhone" name="supervisorPhone"
-                               placeholder="(14) 93103-6150" data-inputmask="'mask': '(99) 99999-9999'"
+                               placeholder="(14) 93103-6150"
+                               data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
                                value="{{ old('supervisorPhone') ?? '' }}"/>
 
                         <span class="help-block">{{ $errors->first('supervisorPhone') }}</span>
-                    </div>
-                </div>
-
-                <div class="form-group @if($errors->has('company')) has-error @endif">
-                    <label for="inputCompany" class="col-sm-2 control-label">Empresa*</label>
-
-                    <div class="col-sm-10">
-                        <select class="selection" name="company" id="inputCompany"
-                                style="width: 100%">
-
-                            @foreach($companies as $company)
-
-                                <option value="{{ $company->id }}" {{ (old('company') ?? 1) == $company->id ? 'selected' : '' }}>
-                                    {{ $company->name }}</option>
-
-                            @endforeach
-
-                        </select>
                     </div>
                 </div>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
         </form>

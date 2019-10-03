@@ -17,7 +17,7 @@
 
             <div class="box-body">
                 <div class="form-group @if($errors->has('internship')) has-error @endif">
-                    <label for="inputInternship" class="col-sm-2 control-label">Nome do aluno*</label>
+                    <label for="inputInternship" class="col-sm-2 control-label">Aluno*</label>
 
                     <div class="col-sm-10">
                         <select class="form-control selection" id="inputInternship" name="internship">
@@ -25,8 +25,8 @@
                             @foreach($internships as $internship)
 
                                 <option value="{{ $internship->id }}"
-                                        {{ (old('internship') ?? $i) == $internship->id ? 'selected=selected' : '' }}>
-                                    {{ $internship->student->nome }}
+                                    {{ (old('internship') ?? $i) == $internship->id ? 'selected=selected' : '' }}>
+                                    {{ $internship->ra }} - {{ $internship->student->nome }}
                                 </option>
 
                             @endforeach
@@ -50,16 +50,14 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('protocol')) has-error @endif">
                             <label for="inputProtocol" class="col-sm-4 control-label">Protocolo*</label>
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputProtocol" name="protocol"
-                                       placeholder="001/19" data-inputmask="'mask': '999/99'"
+                                       placeholder="001/2019" data-inputmask="'mask': '999/9999'"
                                        value="{{ old('protocol') ?? '' }}"/>
 
                                 <span class="help-block">{{ $errors->first('protocol') }}</span>
@@ -71,7 +69,10 @@
             <!-- /.box-body -->
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
         </div>

@@ -20,8 +20,15 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <a id="addLink" href="{{ route('coordenador.estagio.aditivo.novo') }}"
-               class="btn btn-success">Adicionar termo</a>
+
+            @if(!isset($internship) || (isset($internship) && $internship->state->id == 1))
+
+                <a id="addLink" class="btn btn-success"
+                   href="{{ (isset($internship)) ? route('coordenador.estagio.aditivo.novo', ['i' => $internship->id]) : route('coordenador.estagio.aditivo.novo') }}">
+                    Adicionar termo
+                </a>
+
+            @endif
 
             <table id="amendments" class="table table-bordered table-hover">
                 <thead>
@@ -41,16 +48,11 @@
                     <tr>
                         <th scope="row">{{ $amendment->id }}</th>
 
-                        <td>{{ $amendment->internship->ra}}
+                        <td>{{ $amendment->internship->ra }} - {{ $amendment->internship->student->nome }}</td>
 
-                            @if((new \App\Models\NSac\Student)->isConnected())
-                                {{ (' - ' . $amendment->internship->student->nome) ?? '' }}
-                            @endif
-                        </td>
-
-                        <td>{{ $amendment->internship->company->name }}</td>
-                        <td>{{ date("d/m/Y", strtotime($amendment->start_date)) }}</td>
-                        <td>{{ date("d/m/Y", strtotime($amendment->end_date)) }}</td>
+                        <td>{{ $amendment->internship->company->name }} {{ $amendment->internship->company->fantasy_name != null ? "({$amendment->internship->company->fantasy_name})" : '' }}</td>
+                        <td>{{ $amendment->start_date->format("d/m/Y") }}</td>
+                        <td>{{ $amendment->end_date->format("d/m/Y") }}</td>
                         <td>
                             <a href="{{ route('coordenador.estagio.aditivo.editar', ['id' => $amendment->id]) }}">Editar</a>
                         </td>
@@ -64,12 +66,13 @@
 @endsection
 
 @section('js')
-    <script>
-        jQuery(() => {
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
             let table = jQuery("#amendments").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
+                responsive: true,
                 lengthChange: false,
                 buttons: [
                     {
@@ -93,7 +96,7 @@
                     }
                 ],
                 initComplete: function () {
-                    table.buttons().container().appendTo($('#amendments_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().appendTo(jQuery('#amendments_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                     jQuery('#addLink').prependTo(table.buttons().container());
                 },

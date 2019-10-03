@@ -25,8 +25,9 @@ class CreateSystemConfigurationsTable extends Migration
             $table->string('number', 6)->nullable(false);
             $table->string('district', 50)->nullable(false);
             $table->string('phone', 11)->nullable(false);
-            $table->string('email', 50)->nullable(false);
             $table->string('extension', 5)->nullable(true)->default(null);
+            $table->string('fax', 10)->nullable(true)->default(null);
+            $table->string('email', 50)->nullable(false);
             $table->integer('agreement_expiration')->nullable(false);
 
             $table->timestamps();

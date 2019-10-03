@@ -2,7 +2,7 @@
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form id="formSetor" class="form-horizontal" action="{{ route('api.empresa.setor.salvar') }}"
+            <form id="formSetor" class="form-horizontal" action="{{ route('api.coordenador.empresa.setor.salvar') }}"
                   method="post">
                 @csrf
 
@@ -16,7 +16,7 @@
 
                 <div class="modal-body">
                     <div class="form-group @if($errors->has('sectorName')) has-error @endif">
-                        <label for="inputSectorName" class="col-sm-3 control-label">Nome do setor</label>
+                        <label for="inputSectorName" class="col-sm-3 control-label">Nome</label>
 
                         <div class="col-sm-9">
                             <input type="text" class="form-control" id="inputSectorName" name="name"
@@ -28,8 +28,8 @@
                         <label for="inputSectorDescription" class="col-sm-3 control-label">Descrição</label>
 
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="inputSectorDescription" name="description"
-                                   placeholder=""/>
+                            <textarea class="form-control" rows="3" id="inputSectorDescription" name="sectorDescription"
+                                      style="resize: none" placeholder="Descrição do setor"></textarea>
                         </div>
                     </div>
 
@@ -58,33 +58,35 @@
     @parent
 
     <script type="text/javascript">
-        jQuery(document).ready(() => {
+        jQuery(document).ready(function () {
             jQuery('#formSetor').submit(e => {
                 e.preventDefault();
 
                 jQuery.ajax({
-                    url: '{{ route('api.empresa.setor.salvar') }}',
+                    url: '{{ route('api.coordenador.empresa.setor.salvar') }}',
                     data: {
-                        '_token': '{{ csrf_token() }}',
                         'name': jQuery('#inputSectorName').val(),
                         'description': jQuery('#inputSectorDescription').val(),
                         'active': parseInt(jQuery('#inputSectorActive').select2('val'))
                     },
                     method: 'POST',
                     success: function (data) {
-                        if (data.saved) {
-                            jQuery('#inputSectorName').val('');
-                            jQuery('#inputSectorDescription').val('');
-                            jQuery('#inputSectorActive').select2('val', '1');
+                        jQuery('#inputSectorName').val('');
+                        jQuery('#inputSectorDescription').val('');
+                        jQuery('#inputSectorActive').select2('val', '1');
 
-                            jQuery('#newCompanySectorModal').modal('hide');
-                        } else {
-                            alert(data.errors.join('\n'));
-                        }
+                        jQuery('#newCompanySectorModal').modal('hide');
                     },
 
-                    error: function () {
+                    error: function (data) {
+                        let errors = [];
+                        for (let key in data.responseJSON.errors) {
+                            data.responseJSON.errors[key].forEach(e => {
+                                errors.push(e);
+                            });
+                        }
 
+                        alert(errors.join('\n'));
                     }
                 });
             });

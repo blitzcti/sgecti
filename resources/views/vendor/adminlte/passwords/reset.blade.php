@@ -14,7 +14,7 @@
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <p class="login-box-msg">{{ trans('adminlte::adminlte.password_reset_message') }}</p>
+            <p class="login-box-msg">{{ trans('adminlte.password_reset_message') }}</p>
             <form action="{{ url(config('adminlte.password_reset_url', 'password/reset')) }}" method="post">
                 {!! csrf_field() !!}
 
@@ -23,7 +23,7 @@
                 <div class="form-group has-feedback {{ $errors->has('email') ? 'has-error' : '' }}">
                     <input type="email" name="email" class="form-control"
                            value="{{ isset($email) ? $email : old('email') }}"
-                           placeholder="{{ trans('adminlte::adminlte.email') }}">
+                           placeholder="{{ trans('adminlte.email') }}">
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     @if ($errors->has('email'))
                         <span class="help-block">
@@ -33,7 +33,7 @@
                 </div>
                 <div class="form-group has-feedback {{ $errors->has('password') ? 'has-error' : '' }}">
                     <input type="password" name="password" class="form-control"
-                           placeholder="{{ trans('adminlte::adminlte.password') }}">
+                           placeholder="{{ trans('adminlte.password') }}">
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     @if ($errors->has('password'))
                         <span class="help-block">
@@ -43,7 +43,7 @@
                 </div>
                 <div class="form-group has-feedback {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
                     <input type="password" name="password_confirmation" class="form-control"
-                           placeholder="{{ trans('adminlte::adminlte.retype_password') }}">
+                           placeholder="{{ trans('adminlte.retype_password') }}">
                     <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
                     @if ($errors->has('password_confirmation'))
                         <span class="help-block">
@@ -53,10 +53,16 @@
                 </div>
                 <button type="submit"
                         class="btn btn-primary btn-block btn-flat"
-                >{{ trans('adminlte::adminlte.reset_password') }}</button>
+                >{{ trans('adminlte.reset_password') }}</button>
             </form>
         </div>
         <!-- /.login-box-body -->
+        <div class="box-footer" style="text-align: center;">
+            <small>Colégio Técnico Industrial "Prof. Isaac Portal Roldán" UNESP Bauru<br/>
+                Copyright © 2019 SGE
+            </small>
+        </div>
+        <!-- /.box-footer -->
     </div><!-- /.login-box -->
 @stop
 

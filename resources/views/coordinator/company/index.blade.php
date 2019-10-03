@@ -40,11 +40,15 @@
                     <tr>
                         <th scope="row">{{ $company->id }}</th>
                         <td>{{ $company->cpf_cnpj }}</td>
-                        <td>{{ $company->name }}</td>
+                        <td>{{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}</td>
                         <td>{{ ($company->active) ? 'Sim' : 'Não' }}</td>
 
                         <td>
                             <a href="{{ route('coordenador.empresa.detalhes', ['id' => $company->id]) }}">Detalhes</a>
+                            |
+                            <a href="{{ route('coordenador.empresa.supervisor', ['id' => $company->id]) }}">Supervisores</a>
+                            |
+                            <a href="{{ route('coordenador.empresa.convenio', ['id' => $company->id]) }}">Convênios</a>
                             |
                             <a href="{{ route('coordenador.empresa.editar', ['id' => $company->id]) }}">Editar</a>
                         </td>
@@ -58,12 +62,13 @@
 @endsection
 
 @section('js')
-    <script>
-        jQuery(() => {
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
             let table = jQuery("#companies").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
+                responsive: true,
                 lengthChange: false,
                 buttons: [
                     {
@@ -87,7 +92,7 @@
                     }
                 ],
                 initComplete: function () {
-                    table.buttons().container().appendTo($('#companies_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().appendTo(jQuery('#companies_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                     jQuery('#addLink').prependTo(table.buttons().container());
                 },

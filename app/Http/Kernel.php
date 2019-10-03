@@ -35,11 +35,18 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\SSOAutoLogin::class,
         ],
 
         'api' => [
             'throttle:60,1',
             'bindings',
+        ],
+
+        'apiSession' => [
+            \App\Http\Middleware\EncryptCookies::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+            \App\Http\Middleware\SSOAutoLogin::class,
         ],
     ];
 
@@ -51,16 +58,21 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
+        'admin' => \App\Http\Middleware\Admin::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'company' => \App\Http\Middleware\Company::class,
         'coordinator' => \App\Http\Middleware\Coordinator::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'intern' => \App\Http\Middleware\Intern::class,
+        'non_intern' => \App\Http\Middleware\NonIntern::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
+        'student' => \App\Http\Middleware\Student::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
@@ -73,9 +85,11 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middlewarePriority = [
+        \App\Http\Middleware\EncryptCookies::class,
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \App\Http\Middleware\Authenticate::class,
+        \App\Http\Middleware\APIAuthenticate::class,
         \Illuminate\Session\Middleware\AuthenticateSession::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \Illuminate\Auth\Middleware\Authorize::class,

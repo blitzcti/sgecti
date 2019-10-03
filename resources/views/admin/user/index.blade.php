@@ -28,6 +28,7 @@
                     <th scope="col">ID</th>
                     <th>Nome</th>
                     <th>Email</th>
+                    <th>Telefone</th>
                     <th>Grupo</th>
                     <th>Ações</th>
                 </tr>
@@ -40,12 +41,18 @@
                         <th scope="row">{{ $user->id }}</th>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->roles->pluck('friendlyName')[0] . (($user->hasRole('teacher') && $user->isCoordinator()) ? ' (Coordenador)' : '') }}</td>
+                        <td>{{ $user->phone }}</td>
+                        <td>{{ $user->roles->pluck('friendly_name')[0] . (($user->hasRole('teacher') && $user->isCoordinator()) ? ' (Coordenador)' : '') }}</td>
 
                         <td>
                             <a href="{{ route('admin.usuario.editar', ['id' => $user->id]) }}">Editar</a>
+
+                            @if($user->can('user-changePassword'))
+
                             |
                             <a href="{{ route('admin.usuario.alterarSenha', ['id' => $user->id]) }}">Alterar senha</a>
+
+                            @endif
                         </td>
                     </tr>
 
@@ -57,12 +64,13 @@
 @endsection
 
 @section('js')
-    <script>
-        jQuery(() => {
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
             let table = jQuery("#users").DataTable({
-                "language": {
+                language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
+                responsive: true,
                 lengthChange: false,
                 buttons: [
                     {
@@ -86,7 +94,7 @@
                     }
                 ],
                 initComplete: function () {
-                    table.buttons().container().appendTo($('#users_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().appendTo(jQuery('#users_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                     jQuery('#addLink').prependTo(table.buttons().container());
                 },

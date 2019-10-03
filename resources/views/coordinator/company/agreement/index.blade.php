@@ -3,10 +3,14 @@
 @section('title', 'Convênios - SGE CTI')
 
 @section('content_header')
-    <h1>Convênios com o CTI</h1>
+    <h1>Convênios com o CTI @if(isset($company))
+            de {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }} @endif</h1>
 @stop
 
 @section('content')
+    @include('modals.coordinator.company.agreement.cancel')
+    @include('modals.coordinator.company.agreement.reactivate')
+
     @if(session()->has('message'))
         <div class="alert {{ session('saved') ? 'alert-success' : 'alert-error' }} alert-dismissible"
              role="alert">
@@ -20,15 +24,24 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <a id="addLink" href="{{ route('coordenador.empresa.convenio.novo') }}"
-               class="btn btn-success">Adicionar convênio</a>
+            <a id="addLink" class="btn btn-success"
+               href="{{ (isset($company)) ? route('coordenador.empresa.convenio.novo', ['c' => $company->id]) : route('coordenador.empresa.convenio.novo') }}">
+                Adicionar convênio
+            </a>
 
             <table id="companies" class="table table-bordered table-hover">
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th>Empresa</th>
-                    <th>Validade</th>
+
+                    @if(!isset($company))
+
+                        <th>Empresa</th>
+
+                    @endif
+
+                    <th>Início</th>
+                    <th>Término</th>
                     <th>Obervações</th>
                     <th>Ações</th>
                 </tr>
@@ -40,11 +53,31 @@
 
                     <tr>
                         <th scope="row">{{ $agreement->id }}</th>
-                        <td>{{ $agreement->company->name }}</td>
-                        <td>{{ date("d/m/Y", strtotime($agreement->expiration_date)) }}</td>
+
+                        @if(!isset($company))
+
+                            <td>{{ $agreement->company->name }} {{ $agreement->company->fantasy_name != null ? "({$agreement->company->fantasy_name})" : '' }}</td>
+
+                        @endif
+
+                        <td>{{ $agreement->start_date->format("d/m/Y") }}</td>
+                        <td>{{ $agreement->end_date->format("d/m/Y") }}</td>
                         <td>{{ $agreement->observation }}</td>
                         <td>
                             <a href="{{ route('coordenador.empresa.convenio.editar', ['id' => $agreement->id]) }}">Editar</a>
+
+                            @if($agreement->active)
+                                |
+                                <a href="#"
+                                   onclick="agreementId('{{ $agreement->id }}'); companyName('{{ $agreement->company->name }}'); return false;"
+                                   data-toggle="modal" class="text-red"
+                                   data-target="#agreementCancelModal">Cancelar</a>
+                            @elseif(!$agreement->company->hasAgreementAt())
+                                |
+                                <a href="#"
+                                   onclick="reactivateAgreementId('{{ $agreement->id }}'); reactivateCompanyName('{{ $agreement->company->name }}'); return false;"
+                                   data-toggle="modal" data-target="#agreementReactivateModal">Reativar</a>
+                            @endif
                         </td>
                     </tr>
 
@@ -57,12 +90,13 @@
 @endsection
 
 @section('js')
-    <script>
-        jQuery(() => {
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
             let table = jQuery("#companies").DataTable({
-                "language": {
+                language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
+                responsive: true,
                 lengthChange: false,
                 buttons: [
                     {
@@ -86,7 +120,7 @@
                     }
                 ],
                 initComplete: function () {
-                    table.buttons().container().appendTo($('#companies_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().appendTo(jQuery('#companies_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                     jQuery('#addLink').prependTo(table.buttons().container());
                 },

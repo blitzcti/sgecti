@@ -2,9 +2,13 @@
 
 return [
 
+    'user' => 'USER',
+    'changePassword' => 'Change Password',
+
+
+
     'accountSettings' => 'ACCOUNT SETTINGS',
     'profile' => 'Profile',
-    'changePassword' => 'Change Password',
 
 
     'system' => 'SYSTEM',
@@ -12,6 +16,7 @@ return [
 
     'users' => 'Users',
 
+    'courseConfig' => 'General course configurations',
     'configurations' => 'Parameters',
     'backup' => 'System backup',
 
@@ -25,17 +30,20 @@ return [
 
     'administration' => 'ADMINISTRATION',
     'courses' => 'Courses',
+    'coordinators' => 'Coordinators',
 
-    'company' => 'Companies',
+
+
+    'companies' => 'Companies',
     'agreements' => 'Agreements',
-    'sector' => 'Sectors',
+    'sectors' => 'Sectors',
 
-    'internship' => 'Internships',
-    'ctps' => 'CTPS',
-    'aditive' => 'Aditive term',
+    'internships' => 'Internships',
+    'amendments' => 'Amendments',
+    'jobs' => 'Jobs',
 
-    'report' => 'Reports',
-    'proposal' => 'Proposals',
+    'reports' => 'Reports',
+    'proposals' => 'Proposals',
     'bimestral' => 'Bimestral',
     'final' => 'Final',
 
@@ -48,6 +56,8 @@ return [
     'data' => 'Data',
 
     'pdf' => 'PDF',
+
+    'documentation' => 'Documentation',
 
 ];
 

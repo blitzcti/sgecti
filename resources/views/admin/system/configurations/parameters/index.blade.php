@@ -20,7 +20,7 @@
 
     <div class="box box-default">
         <div class="box-body">
-            <a id="addLink" href="{{ route('admin.configuracoes.parametros.novo') }}"
+            <a id="addLink" href="{{ route('admin.configuracao.parametros.novo') }}"
                class="btn btn-success">Adicionar parâmetros</a>
 
             <table id="systemConfigurations" class="table table-bordered table-hover">
@@ -34,28 +34,26 @@
                     <th>Endereço</th>
                     <th>Bairro</th>
                     <th>Email</th>
-                    <th>Validade do convênio</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
 
                 <tbody>
 
-                @foreach($systemConfigs as $systemConfig)
+                @foreach($configs as $config)
 
                     <tr>
-                        <th scope="row">{{ $systemConfig->id }}</th>
-                        <td>{{ $systemConfig->name }}</td>
-                        <td>{{ $systemConfig->cep }}</td>
-                        <td>{{ $systemConfig->uf }}</td>
-                        <td>{{ $systemConfig->city }}</td>
-                        <td>{{ $systemConfig->street . ', nº ' .  $systemConfig->number }}</td>
-                        <td>{{ $systemConfig->district }}</td>
-                        <td>{{ $systemConfig->email }}</td>
-                        <td>{{ $systemConfig->agreement_expiration }}</td>
+                        <th scope="row">{{ $config->id }}</th>
+                        <td>{{ $config->name }}</td>
+                        <td>{{ $config->cep }}</td>
+                        <td>{{ $config->uf }}</td>
+                        <td>{{ $config->city }}</td>
+                        <td>{{ "{$config->street}, nº {$config->number}" }}</td>
+                        <td>{{ $config->district }}</td>
+                        <td>{{ $config->email }}</td>
 
                         <td>
-                            <a href="{{ route('admin.configuracoes.parametros.editar', ['id' => $systemConfig->id]) }}">Editar</a>
+                            <a href="{{ route('admin.configuracao.parametros.editar', ['id' => $config->id]) }}">Editar</a>
                         </td>
                     </tr>
 
@@ -68,12 +66,13 @@
 @endsection
 
 @section('js')
-    <script>
-        jQuery(function () {
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
             let table = jQuery("#systemConfigurations").DataTable({
-                "language": {
+                language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
+                responsive: true,
                 lengthChange: false,
                 buttons: [
                     {
@@ -97,7 +96,7 @@
                     }
                 ],
                 initComplete: function () {
-                    table.buttons().container().appendTo($('#systemConfigurations_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().appendTo(jQuery('#systemConfigurations_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                     jQuery('#addLink').prependTo(table.buttons().container());
                 },

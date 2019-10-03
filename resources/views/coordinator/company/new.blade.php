@@ -1,7 +1,3 @@
-{{--
-    TODO: empresa => insc municipal, estadual (mei, pf)
---}}
-
 @extends('adminlte::page')
 
 @section('title', 'Nova empresa - SGE CTI')
@@ -29,7 +25,8 @@
 
             <div class="box-body">
                 <input type="hidden" id="inputPj" name="pj" value="{{ old('pj') ?? '0' }}">
-                <input type="hidden" id="inputHasConvenio" name="hasConvenio" value="{{ old('hasConvenio') ?? '0' }}">
+                <input type="hidden" id="inputHasAgreement" name="hasAgreement"
+                       value="{{ old('hasAgreement') ?? '0' }}">
 
                 <div class="row">
                     <div class="col-sm-6">
@@ -79,8 +76,19 @@
                     </div>
                 </div>
 
+                <div class="form-group @if($errors->has('ie')) has-error @endif">
+                    <label for="inputIE" class="col-sm-2 control-label">Inscrição estadual</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputIE" name="ie" placeholder="02.232.3355-6"
+                               data-inputmask="'mask': '99.999.9999-9'" value="{{ old('ie') ?? '' }}"/>
+
+                        <span class="help-block">{{ $errors->first('ie') }}</span>
+                    </div>
+                </div>
+
                 <div class="form-group @if($errors->has('name')) has-error @endif">
-                    <label for="inputName" class="col-sm-2 control-label">Nome da empresa*</label>
+                    <label for="inputName" class="col-sm-2 control-label">Nome*</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputName" name="name" placeholder="MSTech"
@@ -102,7 +110,7 @@
                 </div>
 
                 <div class="form-group @if($errors->has('email')) has-error @endif">
-                    <label for="inputEmail" class="col-sm-2 control-label">Email*</label>
+                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
 
                     <div class="col-sm-10">
                         <input type="email" class="form-control" id="inputEmail" name="email"
@@ -113,23 +121,18 @@
                 </div>
 
                 <div class="form-group @if($errors->has('phone')) has-error @endif">
-                    <label for="inputPhone" class="col-sm-2 control-label">Telefone*</label>
+                    <label for="inputPhone" class="col-sm-2 control-label">Telefone</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputPhone" name="phone"
-                               placeholder="(14) 3103-6150" data-inputmask="'mask': '(99) 9999-9999'"
+                               placeholder="(14) 3103-6150"
+                               data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
                                value="{{ old('phone') ?? '' }}"/>
 
                         <span class="help-block">{{ $errors->first('phone') }}</span>
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
 
         <div class="box box-default">
@@ -139,7 +142,7 @@
 
             <div class="box-body">
                 <div class="form-group @if($errors->has('representativeName')) has-error @endif">
-                    <label for="inputRepresentativeName" class="col-sm-2 control-label">Nome do representante*</label>
+                    <label for="inputRepresentativeName" class="col-sm-2 control-label">Nome*</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputRepresentativeName" name="representativeName"
@@ -161,12 +164,6 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
 
         <div class="box box-default">
@@ -265,12 +262,6 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
 
         <div class="box box-default">
@@ -279,7 +270,7 @@
             </div>
 
             <div class="box-body">
-                <div class="form-group @if($errors->has('sectors')) has-error @endif">
+                <div class="form-group @if($errors->has('sectors') || $errors->has('sectors.*')) has-error @endif">
                     <label for="inputSectors" class="col-sm-2 control-label">Setores*</label>
 
                     <div class="col-sm-10">
@@ -288,7 +279,8 @@
 
                             @foreach($sectors as $sector)
 
-                                <option value="{{ $sector->id }}" {{ in_array($sector->id, (old('sectors') ?? [])) ? "selected" : "" }}>
+                                <option
+                                    value="{{ $sector->id }}" {{ in_array($sector->id, (old('sectors') ?? [])) ? "selected" : "" }}>
                                     {{ $sector->name }}</option>
 
                             @endforeach
@@ -296,10 +288,11 @@
                         </select>
 
                         <span class="help-block">{{ $errors->first('sectors') }}</span>
+                        <span class="help-block">{{ $errors->first('sectors.*') }}</span>
                     </div>
                 </div>
 
-                <div class="form-group @if($errors->has('courses')) has-error @endif">
+                <div class="form-group @if($errors->has('courses') || $errors->has('courses.*')) has-error @endif">
                     <label for="inputCourses" class="col-sm-2 control-label">Cursos*</label>
 
                     <div class="col-sm-10">
@@ -308,7 +301,8 @@
 
                             @foreach($courses as $course)
 
-                                <option value="{{ $course->id }}" {{ in_array($course->id, (old('courses') ?? [])) ? "selected" : "" }}>
+                                <option
+                                    value="{{ $course->id }}" {{ in_array($course->id, (old('courses') ?? [])) ? "selected" : "" }}>
                                     {{ $course->name }}</option>
 
                             @endforeach
@@ -316,6 +310,7 @@
                         </select>
 
                         <span class="help-block">{{ $errors->first('courses') }}</span>
+                        <span class="help-block">{{ $errors->first('courses.*') }}</span>
                     </div>
                 </div>
             </div>
@@ -327,7 +322,10 @@
                     <button type="submit" class="btn btn-primary">Adicionar</button>
                 </div>
 
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
         </div>
@@ -335,28 +333,28 @@
         <div class="box box-default">
             <div class="box-header with-border">
                 <h3 class="box-title">
-                    <input type="checkbox" id="fakeInputHasConvenio" name="fakeHasConvenio"
-                            {{ (old('hasConvenio') ?? 0) ? 'checked="checked"' : '' }}/>
+                    <input type="checkbox" id="fakeInputHasAgreement" name="fakeHasAgreement"
+                        {{ (old('hasAgreement') ?? 0) ? 'checked="checked"' : '' }}/>
 
                     Registrar convênio?
                 </h3>
             </div>
 
-            <div id="div-convenio" style="display: none">
+            <div id="div-agreement" style="display: none">
                 <div class="box-body">
-                    <div class="form-group @if($errors->has('expirationDate')) has-error @endif">
-                        <label for="inputExpirationDate" class="col-sm-2 control-label">Validade*</label>
+                    <div class="form-group @if($errors->has('startDate')) has-error @endif">
+                        <label for="inputStartDate" class="col-sm-2 control-label">Data de início*</label>
 
                         <div class="col-sm-10">
-                            <input type="date" class="form-control" id="inputExpirationDate" name="expirationDate"
-                                   value="{{ old('expirationDate') ?? '' }}"/>
+                            <input type="date" class="form-control" id="inputStartDate" name="startDate"
+                                   value="{{ old('startDate') ?? date("Y-m-d") }}"/>
 
-                            <span class="help-block">{{ $errors->first('expirationDate') }}</span>
+                            <span class="help-block">{{ $errors->first('startDate') }}</span>
                         </div>
                     </div>
 
                     <div class="form-group @if($errors->has('observation')) has-error @endif">
-                        <label for="inputObservation" class="col-sm-2 control-label">Observação</label>
+                        <label for="inputObservation" class="col-sm-2 control-label">Observações</label>
 
                         <div class="col-sm-10">
                             <textarea class="form-control" rows="3" id="inputObservation" name="observation"
@@ -370,7 +368,7 @@
                 <!-- /.box-body -->
                 <div class="box-footer">
                     <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                    <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+                    <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
                 </div>
                 <!-- /.box-footer -->
             </div>
@@ -384,7 +382,7 @@
             if (isPj) {
                 jQuery('#CpfCnpjOption').text('CNPJ');
 
-                $("input[id*='inputCpfCnpj']").inputmask({
+                jQuery("input[id*='inputCpfCnpj']").inputmask({
                     mask: '99.999.999/9999-99',
                     removeMaskOnSubmit: true
                 });
@@ -393,7 +391,7 @@
             } else {
                 jQuery('#CpfCnpjOption').text('CPF');
 
-                $("input[id*='inputCpfCnpj']").inputmask({
+                jQuery("input[id*='inputCpfCnpj']").inputmask({
                     mask: '999.999.999-99',
                     removeMaskOnSubmit: true
                 });
@@ -417,14 +415,9 @@
 
             jQuery(':input').inputmask({removeMaskOnSubmit: true});
 
-            jQuery('#fakeInputHasConvenio').on('ifChanged', function () {
-                if (this.checked) {
-                    jQuery('#div-convenio').css('display', 'initial');
-                    jQuery('#inputHasConvenio').val(1);
-                } else {
-                    jQuery('#div-convenio').css('display', 'none');
-                    jQuery('#inputHasConvenio').val(0);
-                }
+            jQuery('#fakeInputHasAgreement').on('ifChanged', function () {
+                jQuery('#div-agreement').toggle(this.checked);
+                jQuery('#inputHasAgreement').val(Number(this.checked));
             }).trigger('ifChanged').iCheck({
                 checkboxClass: 'icheckbox_square-blue',
                 radioClass: 'iradio_square-blue',
@@ -434,7 +427,7 @@
             jQuery('#inputSectors').select2({
                 language: "pt-BR",
                 ajax: {
-                    url: '{{ route('api.empresa.setor.get') }}',
+                    url: '{{ route('api.coordenador.empresa.setor.get') }}',
                     dataType: 'json',
                     method: 'GET',
                     cache: true,
@@ -475,7 +468,7 @@
                     processResults: function (response) {
                         ufs = [];
                         response.forEach(uf => {
-                            ufs.push({id: uf.sigla, text: uf.sigla});
+                            ufs.push({id: uf, text: uf});
                         });
 
                         return {
@@ -486,6 +479,8 @@
             });
 
             jQuery('#inputUf').on('change', e => {
+                jQuery('#inputCity').empty();
+
                 jQuery('#inputCity').select2({
                     language: "pt-BR",
                     ajax: {
@@ -502,7 +497,7 @@
                         processResults: function (response) {
                             cities = [];
                             response.forEach(city => {
-                                cities.push({id: city.nome, text: city.nome});
+                                cities.push({id: city, text: city});
                             });
 
                             return {
@@ -515,7 +510,7 @@
 
             function loadCnpj() {
                 if (jQuery('#inputPj').val() === '1') {
-                    $("#cnpjLoadingModal").modal({
+                    jQuery("#cnpjLoadingModal").modal({
                         backdrop: "static",
                         keyboard: false,
                         show: true
@@ -526,10 +521,10 @@
                         dataType: 'json',
                         type: 'GET',
                         success: function (company) {
-                            $("#cnpjLoadingModal").modal("hide");
+                            jQuery("#cnpjLoadingModal").modal("hide");
 
                             if (company.error) {
-                                $("#cnpjErrorModal").modal({
+                                jQuery("#cnpjErrorModal").modal({
                                     backdrop: "static",
                                     keyboard: false,
                                     show: true
@@ -552,31 +547,22 @@
                             jQuery('#inputFantasyName').val(company.fantasyName);
                             jQuery('#inputEmail').val(company.email);
                             jQuery('#inputPhone').val(company.phone);
-                            jQuery('#inputCep').val(company.cep).blur();
+                            jQuery('#inputCep').val(company.cep);
 
-                            if (company.uf !== '') {
-                                jQuery('#inputUf').append(new Option(company.uf, company.uf, false, true)).change();
-                            } else {
-                                jQuery('#inputUf').val(company.uf);
-                            }
-
-
-                            if (company.city !== '') {
-                                jQuery('#inputCity').append(new Option(company.city, company.city, false, true));
-                            } else {
-                                jQuery('#inputCity').val(company.city);
-                            }
-
-                            jQuery('#inputStreet').val(company.street);
-                            jQuery('#inputNumber').val(company.number);
-                            jQuery('#inputComplement').val(company.complement);
-                            jQuery('#inputDistrict').val(company.district);
+                            loadCep({
+                                uf: company.uf,
+                                city: company.city,
+                                street: company.street,
+                                number: company.number,
+                                complement: company.complement,
+                                district: company.district
+                            });
                         },
 
                         error: function () {
-                            $("#cnpjLoadingModal").modal("hide");
+                            jQuery("#cnpjLoadingModal").modal("hide");
 
-                            $("#cnpjErrorModal").modal({
+                            jQuery("#cnpjErrorModal").modal({
                                 backdrop: "static",
                                 keyboard: false,
                                 show: true
@@ -586,62 +572,77 @@
                 }
             }
 
-            function loadCep() {
-                $("#cepLoadingModal").modal({
+            function loadCep(data = null) {
+                jQuery("#cepLoadingModal").modal({
                     backdrop: "static",
                     keyboard: false,
                     show: true
                 });
 
-                let xhttp = new XMLHttpRequest();
-                xhttp.open("GET", `/api/external/cep/${jQuery('#inputCep').inputmask('unmaskedvalue')}`, true);
-                xhttp.onreadystatechange = function () {
-                    $("#cepLoadingModal").modal("hide");
+                jQuery.ajax({
+                    url: `/api/external/cep/${jQuery('#inputCep').inputmask('unmaskedvalue')}`,
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (address) {
+                        jQuery("#cepLoadingModal").modal("hide");
 
-                    if (this.readyState === 4) {
-                        if (this.status === 200) {
-                            let address = JSON.parse(xhttp.responseText);
-                            if (address.error) {
-                                $("#cepErrorModal").modal({
-                                    backdrop: "static",
-                                    keyboard: false,
-                                    show: true
-                                });
+                        let fields = [
+                            'street', 'number', 'complement', 'district', 'city', 'uf'
+                        ];
 
-                                address.street = '';
-                                address.complement = '';
-                                address.district = '';
-                                address.city = '';
-                                address.uf = '';
-                            }
-
-                            jQuery('#inputStreet').val(address.street);
-                            jQuery('#inputComplement').val(address.complement);
-                            jQuery('#inputDistrict').val(address.district);
-
-                            if (address.city !== '') {
-                                jQuery('#inputCity').append(new Option(address.city, address.city, false, true));
-                            } else {
-                                jQuery('#inputCity').val(address.city);
-                            }
-
-
-                            if (address.uf !== '') {
-                                jQuery('#inputUf').append(new Option(address.uf, address.uf, false, true)).change();
-                            } else {
-                                jQuery('#inputUf').val(address.uf);
-                            }
-                        } else {
-                            $("#cepErrorModal").modal({
+                        if (address.error) {
+                            jQuery("#cepErrorModal").modal({
                                 backdrop: "static",
                                 keyboard: false,
                                 show: true
                             });
-                        }
-                    }
-                };
 
-                xhttp.send();
+                            fields.forEach(f => {
+                                address[f] = '';
+                            });
+                        }
+
+                        if (data !== null && typeof data === "object") {
+                            if (!address.hasOwnProperty('number')) {
+                                address.number = '';
+                            }
+
+                            fields.forEach(f => {
+                                if (address[f] === '') {
+                                    address[f] = data[f];
+                                }
+                            });
+
+                            jQuery('#inputNumber').val(address.number);
+                        }
+
+                        if (address.uf !== '') {
+                            jQuery('#inputUf').append(new Option(address.uf, address.uf, false, true)).change();
+                        } else {
+                            jQuery('#inputUf').val(address.uf);
+                        }
+
+                        if (address.city !== '') {
+                            jQuery('#inputCity').append(new Option(address.city, address.city, false, true));
+                        } else {
+                            jQuery('#inputCity').val(address.city);
+                        }
+
+                        jQuery('#inputStreet').val(address.street);
+                        jQuery('#inputComplement').val(address.complement);
+                        jQuery('#inputDistrict').val(address.district);
+                    },
+
+                    error: function () {
+                        jQuery("#cepLoadingModal").modal("hide");
+
+                        jQuery("#cepErrorModal").modal({
+                            backdrop: "static",
+                            keyboard: false,
+                            show: true
+                        });
+                    }
+                });
             }
 
             jQuery('#inputCep').blur(() => {
@@ -656,9 +657,12 @@
                 }
             });
 
-            pj(true);
+            pj({{ (old('pj') ?? 1) == 1 }});
 
-            jQuery('#inputUf').append(new Option('{{ old('uf') ?? '' }}', '{{ old('uf') ?? '' }}', false, true)).change();
+            if ('{{ old('uf') ?? '' }}' !== '') {
+                jQuery('#inputUf').append(new Option('{{ old('uf') ?? '' }}', '{{ old('uf') ?? '' }}', false, true)).change();
+            }
+
             jQuery('#inputCity').append(new Option('{{ old('city') ?? '' }}', '{{ old('city') ?? '' }}', false, true));
         });
     </script>

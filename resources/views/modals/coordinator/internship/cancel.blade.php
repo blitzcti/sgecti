@@ -18,20 +18,33 @@
                     <p>Deseja realmente cancelar o estágio de <span id="cancelModalStudentName"
                                                                     class="text-bold"></span>?</p>
 
+                    <div class="form-group @if($errors->has('canceledAt')) has-error @endif">
+                        <label class="control-label col-sm-2" for="inputCanceledAt">Data*</label>
+
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" id="inputCanceledAt" name="canceledAt"
+                                   value="{{ old('canceledAt') ?? '' }}"/>
+
+                            <span class="help-block">{{ $errors->first('canceledAt') }}</span>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label for="inputReasonToCancel" class="col-sm-2 control-label">Motivo*</label>
 
                         <div class="col-sm-10">
                             <textarea class="form-control" rows="3" id="inputReasonToCancel" name="reasonToCancel"
-                                      style="resize: none"
+                                      style="resize: none" required
                                       placeholder="O motivo do cancelamento do estágio"></textarea>
                         </div>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
-                    <button type="submit" class="btn btn-danger">Sim</button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                        <button type="submit" class="btn btn-danger">Sim</button>
+                    </div>
                 </div>
             </form>
         </div>

@@ -9,10 +9,8 @@
 
 @section('content')
 
-    @if(auth()->user()->can('course-delete'))
-
+    @if(\App\Auth::user()->can('course-delete'))
         @include('modals.admin.course.delete')
-
     @endif
 
     <div class="box box-default">
@@ -21,16 +19,39 @@
                 <a href="{{ route('admin.curso.editar', $course->id) }}"
                    class="btn btn-primary">Editar curso</a>
 
-                <a href="{{ route('admin.curso.configuracao.index', $course->id) }}" class="btn btn-default">Exibir
-                    configurações</a>
+                <a href="{{ route('admin.curso.configuracao.index', $course->id) }}" class="btn btn-default">Configurações</a>
 
-                <a href="{{ route('admin.curso.configuracao.novo', $course->id) }}"
-                   class="btn btn-success">Adicionar configuração</a>
+                @if ($config != null && !isset($config->max_years))
 
-                @if(auth()->user()->can('course-delete'))
+                    <a href="{{ route('admin.curso.configuracao.editar', ['id' => $course->id, 'id_config' => $config->id]) }}"
+                       class="btn btn-primary">Editar configuração</a>
 
-                    <a href="#" onclick="courseId('{{ $course->id }}'); course('{{ $course->name }}'); return false;"
-                       data-toggle="modal" data-target="#deleteModal" class="btn btn-danger">Excluir curso</a>
+                @else
+
+                    <a href="{{ route('admin.curso.configuracao.novo', ['id' => $course->id]) }}"
+                       class="btn btn-success">Adicionar configuração</a>
+
+                @endif
+
+                <a href="{{ route('admin.curso.coordenador', ['id' => $course->id]) }}" class="btn btn-default">Coordenadores</a>
+
+                @if ($coordinator != null)
+
+                    <a href="{{ route('admin.coordenador.editar', ['id' => $coordinator->id]) }}"
+                       class="btn btn-primary">Editar coordenador</a>
+
+                @else
+
+                    <a href="{{ route('admin.coordenador.novo', ['c' => $course->id]) }}"
+                       class="btn btn-success">Adicionar coordenador</a>
+
+                @endif
+
+                @if(\App\Auth::user()->can('course-delete'))
+
+                    <a href="#"
+                       onclick="deleteCourseId('{{ $course->id }}'); courseName('{{ $course->name }}'); return false;"
+                       data-toggle="modal" data-target="#courseDeleteModal" class="btn btn-danger">Excluir curso</a>
 
                 @endif
             </div>
@@ -42,13 +63,25 @@
                 <dd class="col-sm-10">{{ $course->name }}</dd>
 
                 <dt class="col-sm-2">Cor do curso</dt>
-                <dd class="col-sm-10">{{ __('colors.' . $color->name) }}</dd>
+                <dd class="col-sm-10">{{ __("colors.{$color->name}") }}</dd>
 
                 <dt class="col-sm-2">Ativo</dt>
                 <dd class="col-sm-10">{{ $course->active ? 'Sim' : 'Não' }}</dd>
 
                 <dt class="col-sm-2">Alunos</dt>
                 <dd class="col-sm-10">{{ sizeof($course->students) }}</dd>
+
+                <dt class="col-sm-2">1º ano</dt>
+                <dd class="col-sm-10">{{ sizeof($course->students->filter(function ($s) {return $s->grade == 1;})) }}</dd>
+
+                <dt class="col-sm-2">2º ano</dt>
+                <dd class="col-sm-10">{{ sizeof($course->students->filter(function ($s) {return $s->grade == 2;})) }}</dd>
+
+                <dt class="col-sm-2">3º ano</dt>
+                <dd class="col-sm-10">{{ sizeof($course->students->filter(function ($s) {return $s->grade == 3;})) }}</dd>
+
+                <dt class="col-sm-2">Formados</dt>
+                <dd class="col-sm-10">{{ sizeof($course->students->filter(function ($s) {return $s->grade == 4;})) }}</dd>
             </dl>
 
             <hr/>
@@ -76,7 +109,7 @@
                     <dd class="col-sm-10">{{ $config->min_grade }}</dd>
 
                     <dt class="col-sm-2">Ativo desde</dt>
-                    <dd class="col-sm-10">{{ date_format($config->created_at, "d/m/Y") }}</dd>
+                    <dd class="col-sm-10">{{ date_format($config->created_at, "d/m/Y") }} {{ isset($config->max_years) ? ' (Configuração geral)' : '' }}</dd>
                 </dl>
 
             @else
@@ -95,12 +128,12 @@
                     <dd class="col-sm-10">{{ $coordinator->user->name }}</dd>
 
                     <dt class="col-sm-2">Início da vigência</dt>
-                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($coordinator->start_date)) }}</dd>
+                    <dd class="col-sm-10">{{ $coordinator->start_date->format("d/m/Y") }}</dd>
 
                     @if ($coordinator->end_date != null)
 
-                    <dt class="col-sm-2">Fim da vigência</dt>
-                    <dd class="col-sm-10">{{ date("d/m/Y", strtotime($coordinator->end_date)) }}</dd>
+                        <dt class="col-sm-2">Fim da vigência</dt>
+                        <dd class="col-sm-10">{{ $coordinator->end_date->format("d/m/Y") }}</dd>
 
                     @endif
                 </dl>
@@ -117,17 +150,7 @@
 @endsection
 
 @section('js')
-    <script>
-        function courseId(id) {
-            jQuery(() => {
-                jQuery('#deleteModalCourseId').val(id);
-            });
-        }
+    <script type="text/javascript">
 
-        function course(name) {
-            jQuery(() => {
-                jQuery('#deleteModalCourseName').text(name);
-            });
-        }
     </script>
 @endsection

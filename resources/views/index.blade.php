@@ -13,11 +13,12 @@
         <style>
             html, body {
                 background-color: #fff;
-                color: #636b6f;
+                color: #d4e7ee;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;
                 height: 100vh;
                 margin: 0;
+                overflow: hidden;
             }
 
             .full-height {
@@ -49,7 +50,7 @@
             }
 
             .links > a {
-                color: #636b6f;
+                color: #d4e7ee;
                 padding: 0 25px;
                 font-size: 13px;
                 font-weight: 600;
@@ -61,9 +62,22 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            #particles-js {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background-color: #006991;
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: 50% 50%;
+                opacity: 1;
+            }
         </style>
     </head>
     <body>
+        <div id="particles-js"></div>
+
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
@@ -85,5 +99,13 @@
                 </div>
             </div>
         </div>
+
+        <script src="{{ asset('js/particles.min.js') }}" type="text/javascript"></script>
+
+        <script type="text/javascript">
+            particlesJS.load('particles-js', '{{ asset('js/particles.json') }}', function() {
+                console.log('callback - particles.js config loaded');
+            });
+        </script>
     </body>
 </html>

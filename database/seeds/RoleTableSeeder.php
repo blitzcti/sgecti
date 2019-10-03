@@ -1,8 +1,8 @@
 <?php
 
+use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class RoleTableSeeder extends Seeder
 {
@@ -15,22 +15,26 @@ class RoleTableSeeder extends Seeder
     {
         $role = Role::create([
             'name' => 'admin',
-            'friendlyName' => 'Administrador',
+            'friendly_name' => 'Administrador',
             'description' => 'Administra o sistema (root)'
         ]);
 
-        $permissions = Permission::where('name', 'like', 'role-%')
+        $permissions = Permission::where('name', 'like', 'sysUsage')
+            ->orWhere('name', 'like', 'db-%')
+            ->orWhere('name', 'like', 'role-%')
             ->orWhere('name', 'like', 'user-%')
             ->orWhere('name', 'like', 'course-%')
             ->orWhere('name', 'like', 'courseConfiguration-%')
+            ->orWhere('name', 'like', 'generalConfiguration-%')
             ->orWhere('name', 'like', 'systemConfiguration-%')
             ->orWhere('name', 'like', 'coordinator-%')
+            ->orWhere('name', 'like', 'student-%')
             ->get();
         $role->syncPermissions($permissions);
 
         $role = Role::create([
             'name' => 'teacher',
-            'friendlyName' => 'Professor',
+            'friendly_name' => 'Professor',
             'description' => 'Professor de uma disciplina técnica'
         ]);
 
@@ -39,7 +43,33 @@ class RoleTableSeeder extends Seeder
             ->orWhere('name', 'like', 'companyAgreement-%')
             ->orWhere('name', 'like', 'companySupervisor-%')
             ->orWhere('name', 'like', 'internship-%')
+            ->orWhere('name', 'like', 'internshipAmendment-%')
+            ->orWhere('name', 'like', 'jobCompany-%')
+            ->orWhere('name', 'like', 'job-%')
             ->orWhere('name', 'like', 'report-%')
+            ->orWhere('name', 'like', 'proposal-%')
+            ->orWhere('name', 'like', 'student-%')
+            ->get();
+        $role->syncPermissions($permissions);
+
+        $role = Role::create([
+            'name' => 'company',
+            'friendly_name' => 'empresa',
+            'description' => 'Empresas conveniadas com o colégio'
+        ]);
+
+        $permissions = Permission::where('name', 'like', 'proposal-%')
+            ->get();
+        $role->syncPermissions($permissions);
+
+        $role = Role::create([
+            'name' => 'student',
+            'friendly_name' => 'aluno',
+            'description' => 'Alunos do NSac'
+        ]);
+
+        $permissions = Permission::where('name', 'like', 'proposal-list')
+            ->orWhere('name', 'like', 'documents-%')
             ->get();
         $role->syncPermissions($permissions);
     }

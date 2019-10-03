@@ -1,4 +1,4 @@
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal"
+<div class="modal fade" id="courseDeleteModal" tabindex="-1" role="dialog" aria-labelledby="courseDeleteModal"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -10,20 +10,37 @@
                 <h4 class="modal-title" id="deleteModalTitle">Excluir curso</h4>
             </div>
 
-            <form action="{{ route('admin.curso.excluir', $course->id) }}" method="post">
-                <div class="modal-body">
-                    @csrf
+            <form id="deleteForm" action="#" class="form-horizontal" method="post">
+                @method('DELETE')
+                @csrf
 
+                <div class="modal-body">
                     <p>Deseja realmente excluir o curso <span id="deleteModalCourseName" class="text-bold"></span>?</p>
-                    <p>Tenha em mente que, fazendo isso, serão excluídos também todos os registros que referenciam este
-                        curso.</p>
+                    <p>Essa ação não poderá ser desfeita</p>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-danger">Excluir</button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                        <button type="submit" class="btn btn-danger">Sim</button>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+@section('js')
+    @parent
+
+    <script type="text/javascript">
+        function deleteCourseId(id) {
+            jQuery('#deleteForm').attr('action', `/admin/curso/${id}`);
+        }
+
+        function courseName(name) {
+            jQuery('#deleteModalCourseName').text(name);
+        }
+    </script>
+@endsection
+

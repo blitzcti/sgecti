@@ -38,6 +38,18 @@
                     </div>
                 </div>
 
+                <div class="form-group @if($errors->has('phone')) has-error @endif">
+                    <label for="inputPhone" class="col-sm-2 control-label">Telefone</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputPhone" name="phone"
+                               placeholder="(14) 3103-6150" data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
+                               value="{{ old('phone') ?? '' }}"/>
+
+                        <span class="help-block">{{ $errors->first('phone') }}</span>
+                    </div>
+                </div>
+
                 <div class="form-group @if($errors->has('password')) has-error @endif">
                     <label for="inputPassword" class="col-sm-2 control-label">Senha*</label>
 
@@ -46,6 +58,17 @@
                                placeholder="Deve ser de no mínimo 8 caracteres"/>
 
                         <span class="help-block">{{ $errors->first('password') }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group @if($errors->has('password_confirmation')) has-error @endif">
+                    <label for="inputPasswordConfirmation" class="col-sm-2 control-label">Confirmar senha*</label>
+
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="inputPasswordConfirmation" name="password_confirmation"
+                               placeholder="Confirme a nova senha"/>
+
+                        <span class="help-block">{{ $errors->first('password_confirmation') }}</span>
                     </div>
                 </div>
 
@@ -59,7 +82,7 @@
 
                                 <option value="{{ $role->id }}"
                                         {{ (old('role') ?? 1) == $role->id ? 'selected' : '' }}>
-                                    {{ $role->friendlyName }}
+                                    {{ $role->friendly_name }}
                                 </option>
 
                             @endforeach
@@ -73,7 +96,10 @@
             <!-- /.box-body -->
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
         </form>
@@ -87,6 +113,8 @@
             jQuery('.selection').select2({
                 language: "pt-BR"
             });
+
+            jQuery(':input').inputmask({removeMaskOnSubmit: true});
         });
     </script>
 @endsection

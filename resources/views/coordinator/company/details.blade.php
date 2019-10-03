@@ -12,6 +12,12 @@
             <div class="btn-group" style="display: inline-flex; margin: 0">
                 <a href="{{ route('coordenador.empresa.editar', $company->id) }}"
                    class="btn btn-primary">Editar empresa</a>
+
+                <a href="{{ route('coordenador.empresa.supervisor', $company->id) }}"
+                   class="btn btn-default">Supervisores</a>
+
+                <a href="{{ route('coordenador.empresa.convenio', $company->id) }}"
+                   class="btn btn-default">Convênios</a>
             </div>
 
             <h3>Dados da empresa</h3>
@@ -30,10 +36,10 @@
                 <dd class="col-sm-10">{{ $company->active ? 'Sim' : 'Não' }}</dd>
 
                 <dt class="col-sm-2">Email</dt>
-                <dd class="col-sm-10">{{ $company->email }}</dd>
+                <dd class="col-sm-10">{{ $company->email ?? '(Não informado)' }}</dd>
 
                 <dt class="col-sm-2">Telefone</dt>
-                <dd class="col-sm-10">{{ $company->phone }}</dd>
+                <dd class="col-sm-10">{{ $company->phone ?? '(Não informado)' }}</dd>
 
                 <dt class="col-sm-2">Representante</dt>
                 <dd class="col-sm-10">{{ $company->representative_name }}</dd>
@@ -78,10 +84,7 @@
                 <dt class="col-sm-2">Estágios concluídos</dt>
                 <dd class="col-sm-10">{{ sizeof($company->internships->filter(function ($i) {return $i->state->id == 2;})) }}</dd>
 
-                <dt class="col-sm-2">Estágios cancelados</dt>
-                <dd class="col-sm-10">{{ sizeof($company->internships->filter(function ($i) {return $i->state->id == 3;})) }}</dd>
-
-                <dt class="col-sm-12">Alunos de: </dt>
+                <dt class="col-sm-12">Alunos de:</dt>
                 <dl class="col-sm-0"></dl>
 
                 @foreach($company->courses as $course)
@@ -91,6 +94,11 @@
 
                 @endforeach
             </dl>
+
+            <div class="btn-group">
+                <a href="{{ route('coordenador.empresa.pdf', ['id' => $company->id]) }}"
+                   target="_blank" class="btn btn-default">Imprimir relatório</a>
+            </div>
         </div>
         <!-- /.box-body -->
     </div>

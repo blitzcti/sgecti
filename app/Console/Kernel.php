@@ -2,9 +2,13 @@
 
 namespace App\Console;
 
+use App\Models\Agreement;
 use App\Models\BackupConfiguration;
+use App\Models\Coordinator;
+use App\Models\User;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use PDOException;
@@ -20,7 +24,8 @@ class Kernel extends ConsoleKernel
         //
     ];
 
-    private function isConnected() {
+    private function isConnected()
+    {
         try {
             DB::connection()->getPdo();
             return true;
@@ -32,7 +37,7 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
@@ -44,7 +49,19 @@ class Kernel extends ConsoleKernel
                 $days = $backupConfig->cronDays();
                 $hour = $backupConfig->getHour();
 
-                $schedule->call('App\Http\Controllers\BackupController@scheduledBackup')->days($days)->at($hour);
+                $schedule->call('App\Http\Controllers\Admin\BackupController@scheduledBackup')->days($days)->at($hour);
+                $schedule->call('App\Http\Controllers\Admin\LogController@clearLogs')->monthly()->at('00:00');
+            }
+
+            if (Schema::hasTable((new User())->getTable())
+                && Schema::hasTable((new Agreement())->getTable())) {
+                $schedule->call('App\Http\Controllers\Coordinator\AgreementController@deleteUsers')->daily()->at('00:00');
+            }
+
+            if (Schema::hasTable((new User())->getTable())
+                && Schema::hasTable((new Coordinator())->getTable())
+                && Schema::hasTable((new DatabaseNotification())->getTable())) {
+                $schedule->call('App\Http\Controllers\Admin\CoordinatorController@checkCoordinators')->daily()->at('00:00');
             }
         }
     }
@@ -56,7 +73,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

@@ -7,6 +7,8 @@
 @stop
 
 @section('content')
+    @include('modals.coordinator.report.bimestral.students')
+
     @if(session()->has('message'))
         <div class="alert {{ session('saved') ? 'alert-success' : 'alert-error' }} alert-dismissible"
              role="alert">
@@ -26,6 +28,8 @@
         <div class="box-body">
             <a id="addBimestralLink" href="{{ route('coordenador.relatorio.bimestral.novo') }}"
                class="btn btn-success">Adicionar relatório</a>
+            <a id="pdfBimestralLink" href="#" data-toggle="modal" data-target="#viewStudentsModal"
+               class="btn btn-default" target="_blank">Não entregues</a>
 
             <table id="bimestralReports" class="table table-bordered table-hover">
                 <thead>
@@ -44,15 +48,10 @@
                     <tr>
                         <th scope="row">{{ $report->id }}</th>
 
-                        <td>{{ $report->internship->ra}}
+                        <td>{{ $report->internship->ra }} - {{ $report->internship->student->nome }}</td>
 
-                            @if((new \App\Models\NSac\Student)->isConnected())
-                                {{ (' - ' . $report->internship->student->nome) ?? '' }}
-                            @endif
-                        </td>
-
-                        <td>{{ date("d/m/Y", strtotime($report->date)) }}</td>
-                        <td>{{ $report->protocol }}</td>
+                        <td>{{ $report->date->format("d/m/Y") }}</td>
+                        <td>{{ $report->formatted_protocol }}</td>
                         <td>
                             <a href="{{ route('coordenador.relatorio.bimestral.editar', ['id' => $report->id]) }}">Editar</a>
                         </td>
@@ -91,20 +90,15 @@
                     <tr>
                         <th scope="row">{{ $report->id }}</th>
 
-                        <td>{{ $report->internship->ra}}
+                        <td>{{ $report->internship->ra }} - {{ $report->internship->student->nome }}</td>
 
-                            @if((new \App\Models\NSac\Student)->isConnected())
-                                {{ (' - ' . $report->internship->student->nome) ?? '' }}
-                            @endif
-                        </td>
-
-                        <td>{{ date("d/m/Y", strtotime($report->date)) }}</td>
+                        <td>{{ $report->date->format("d/m/Y") }}</td>
                         <td>{{ $report->approval_number }}</td>
-                        <td>{{ $report->hours_completed }}</td>
+                        <td>{{ $report->completed_hours }}</td>
                         <td>
                             <a href="{{ route('coordenador.relatorio.final.editar', ['id' => $report->id]) }}">Editar</a>
                             |
-                            <a href="{{ route('coordenador.relatorio.final.pdf', ['id' => $report->id]) }}" target="_blank">PDF</a>
+                            <a href="#" onclick="pdf({{ $report->id }}); return false;" target="_blank">PDF</a>
                         </td>
                     </tr>
 
@@ -116,12 +110,24 @@
 @endsection
 
 @section('js')
-    <script>
-        jQuery(() => {
+    @if(session()->has('id') && session()->get('id'))
+        <script type="text/javascript">
+            pdf({{ session()->get('id') }});
+        </script>
+    @endif
+
+    <script type="text/javascript">
+        function pdf(id) {
+            window.open(`/coordenador/relatorio/final/${id}/pdf`, '_blank');
+            window.open(`/coordenador/relatorio/final/${id}/pdf2`, '_blank');
+        }
+
+        jQuery(document).ready(function () {
             let bimestralTable = jQuery("#bimestralReports").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
+                responsive: true,
                 lengthChange: false,
                 buttons: [
                     {
@@ -145,8 +151,9 @@
                     }
                 ],
                 initComplete: function () {
-                    bimestralTable.buttons().container().appendTo($('#bimestralReports_wrapper .col-sm-6:eq(0)'));
+                    bimestralTable.buttons().container().appendTo(jQuery('#bimestralReports_wrapper .col-sm-6:eq(0)'));
                     bimestralTable.buttons().container().addClass('btn-group');
+                    jQuery('#pdfBimestralLink').prependTo(bimestralTable.buttons().container());
                     jQuery('#addBimestralLink').prependTo(bimestralTable.buttons().container());
                 },
             });
@@ -155,6 +162,7 @@
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
+                responsive: true,
                 lengthChange: false,
                 buttons: [
                     {
@@ -178,7 +186,7 @@
                     }
                 ],
                 initComplete: function () {
-                    finalTable.buttons().container().appendTo($('#finalReports_wrapper .col-sm-6:eq(0)'));
+                    finalTable.buttons().container().appendTo(jQuery('#finalReports_wrapper .col-sm-6:eq(0)'));
                     finalTable.buttons().container().addClass('btn-group');
                     jQuery('#addFinalLink').prependTo(finalTable.buttons().container());
                 },

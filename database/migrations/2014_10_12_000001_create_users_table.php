@@ -13,17 +13,22 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        if (!config('broker.useSSO')) {
+            Schema::create('users', function (Blueprint $table) {
+                $table->bigIncrements('id');
 
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+                $table->string('name');
+                $table->string('email')->unique();
+                $table->timestamp('email_verified_at')->nullable();
+                $table->string('phone', 11)->nullable(true)->default(null);
+                $table->string('password');
+                $table->timestamp('password_change_at')->nullable();
+                $table->string('api_token', 80)->unique()->nullable()->default(null);
 
-            $table->rememberToken();
-            $table->timestamps();
-        });
+                $table->rememberToken();
+                $table->timestamps();
+            });
+        }
     }
 
     /**
@@ -33,6 +38,8 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        if (!config('broker.useSSO')) {
+            Schema::dropIfExists('users');
+        }
     }
 }

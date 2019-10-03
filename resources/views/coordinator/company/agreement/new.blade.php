@@ -25,8 +25,11 @@
 
                             @foreach($companies as $company)
 
-                                <option value="{{ $company->id }}" {{ (old('company') ?? 1) == $company->id ? 'selected=selected' : '' }}>
-                                    {{ $company->name }}</option>
+                                <option
+                                    value="{{ $company->id }}" {{ (old('company') ?? $c) == $company->id ? 'selected=selected' : '' }}>
+                                    {{ $company->cpf_cnpj }}
+                                    - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
+                                </option>
 
                             @endforeach
 
@@ -36,22 +39,23 @@
                     </div>
                 </div>
 
-                <div class="form-group @if($errors->has('expirationDate')) has-error @endif">
-                    <label for="inputExpirationDate" class="col-sm-2 control-label">Validade*</label>
+                <div class="form-group @if($errors->has('startDate')) has-error @endif">
+                    <label for="inputStartDate" class="col-sm-2 control-label">Data de início*</label>
 
                     <div class="col-sm-10">
-                        <input type="date" class="form-control" id="inputExpirationDate" name="expirationDate"
-                               value="{{ old('expirationDate') ?? '' }}">
+                        <input type="date" class="form-control" id="inputStartDate" name="startDate"
+                               value="{{ old('startDate') ?? date("Y-m-d") }}"/>
 
-                        <span class="help-block">{{ $errors->first('expirationDate') }}</span>
+                        <span class="help-block">{{ $errors->first('startDate') }}</span>
                     </div>
                 </div>
 
                 <div class="form-group @if($errors->has('observation')) has-error @endif">
-                    <label for="inputObservation" class="col-sm-2 control-label">Observação</label>
+                    <label for="inputObservation" class="col-sm-2 control-label">Observações</label>
 
                     <div class="col-sm-10">
-                        <textarea class="form-control" rows="3" id="inputObservation" name="observation" style="resize: none"
+                        <textarea class="form-control" rows="3" id="inputObservation" name="observation"
+                                  style="resize: none"
                                   placeholder="Observações adicionais">{{ old('observation') ?? '' }}</textarea>
 
                         <span class="help-block">{{ $errors->first('observation') }}</span>
@@ -61,7 +65,10 @@
             <!-- /.box-body -->
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
         </form>

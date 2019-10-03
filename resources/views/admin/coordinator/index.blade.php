@@ -3,7 +3,7 @@
 @section('title', 'Coordenadores - SGE CTI')
 
 @section('content_header')
-    <h1>Coordenadores</h1>
+    <h1>Coordenadores @if(isset($course)) de {{ $course->name }} @endif</h1>
 @stop
 
 @section('content')
@@ -20,7 +20,7 @@
 
     <div class="box box-default">
         <div class="box-body">
-                <a id="addLink" href="{{ route('admin.coordenador.novo') }}"
+                <a id="addLink" href="{{ (isset($course)) ? route('admin.coordenador.novo', ['c' => $course->id]) : route('admin.coordenador.novo') }}"
                    class="btn btn-success">Adicionar coordenador</a>
 
             <table id="coordinators" class="table table-bordered table-hover">
@@ -30,7 +30,7 @@
                     <th>Nome</th>
                     <th>Curso</th>
                     <th>Início</th>
-                    <th>Fim</th>
+                    <th>Término</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
@@ -42,8 +42,8 @@
                         <th scope="row">{{ $coordinator->id }}</th>
                         <td>{{ $coordinator->user->name }}</td>
                         <td>{{ $coordinator->course->name }}</td>
-                        <td>{{ date("d/m/Y", strtotime($coordinator->start_date)) }}</td>
-                        <td>{{ date("d/m/Y", strtotime($coordinator->end_date)) }}</td>
+                        <td>{{ $coordinator->start_date->format("d/m/Y") }}</td>
+                        <td>{{ $coordinator->end_date != null ? $coordinator->end_date->format("d/m/Y") : 'Indefinido' }}</td>
 
                         <td>
                             <a href="{{ route('admin.coordenador.editar', ['id' => $coordinator->id]) }}">Editar</a>
@@ -58,12 +58,13 @@
 @endsection
 
 @section('js')
-    <script>
-        jQuery(function () {
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
             let table = jQuery("#coordinators").DataTable({
-                "language": {
+                language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
+                responsive: true,
                 lengthChange: false,
                 buttons: [
                     {
@@ -87,7 +88,7 @@
                     }
                 ],
                 initComplete: function () {
-                    table.buttons().container().appendTo($('#coordinators_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().appendTo(jQuery('#coordinators_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                     jQuery('#addLink').prependTo(table.buttons().container());
                 },

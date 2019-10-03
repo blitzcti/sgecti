@@ -57,10 +57,10 @@
                                 <select class="form-control selection" data-minimum-results-for-search="Infinity"
                                         id="inputActive" name="active">
                                     <option value="1"
-                                            {{ (old('active') ?? $company->active) ? 'selected=selected' : '' }}>Sim
+                                        {{ (old('active') ?? $company->active) ? 'selected=selected' : '' }}>Sim
                                     </option>
                                     <option value="0"
-                                            {{ !(old('active') ?? $company->active) ? 'selected=selected' : '' }}>Não
+                                        {{ !(old('active') ?? $company->active) ? 'selected=selected' : '' }}>Não
                                     </option>
                                 </select>
 
@@ -70,8 +70,19 @@
                     </div>
                 </div>
 
+                <div class="form-group @if($errors->has('ie')) has-error @endif">
+                    <label for="inputIE" class="col-sm-2 control-label">Inscrição estadual</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputIE" name="ie" placeholder="02.232.3355-6"
+                               data-inputmask="'mask': '99.999.9999-9'" value="{{ old('ie') ?? $company->ie }}"/>
+
+                        <span class="help-block">{{ $errors->first('ie') }}</span>
+                    </div>
+                </div>
+
                 <div class="form-group @if($errors->has('name')) has-error @endif">
-                    <label for="inputName" class="col-sm-2 control-label">Nome da empresa*</label>
+                    <label for="inputName" class="col-sm-2 control-label">Nome*</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputName" name="name" placeholder="MSTech"
@@ -93,7 +104,7 @@
                 </div>
 
                 <div class="form-group @if($errors->has('email')) has-error @endif">
-                    <label for="inputEmail" class="col-sm-2 control-label">Email*</label>
+                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
 
                     <div class="col-sm-10">
                         <input type="email" class="form-control" id="inputEmail" name="email"
@@ -104,23 +115,18 @@
                 </div>
 
                 <div class="form-group @if($errors->has('phone')) has-error @endif">
-                    <label for="inputPhone" class="col-sm-2 control-label">Telefone*</label>
+                    <label for="inputPhone" class="col-sm-2 control-label">Telefone</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputPhone" name="phone"
-                               placeholder="(14) 3103-6150" data-inputmask="'mask': '(99) 9999-9999'"
+                               placeholder="(14) 3103-6150"
+                               data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
                                value="{{ old('phone') ?? $company->phone }}"/>
 
                         <span class="help-block">{{ $errors->first('phone') }}</span>
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
         <div class="box box-default">
             <div class="box-header with-border">
@@ -129,7 +135,7 @@
 
             <div class="box-body">
                 <div class="form-group @if($errors->has('representativeName')) has-error @endif">
-                    <label for="inputRepresentativeName" class="col-sm-2 control-label">Nome do representante*</label>
+                    <label for="inputRepresentativeName" class="col-sm-2 control-label">Nome*</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputRepresentativeName" name="representativeName"
@@ -151,12 +157,6 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
 
         <div class="box box-default">
@@ -257,12 +257,6 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
 
         <div class="box box-default">
@@ -271,7 +265,7 @@
             </div>
 
             <div class="box-body">
-                <div class="form-group @if($errors->has('sectors')) has-error @endif">
+                <div class="form-group @if($errors->has('sectors') || $errors->has('sectors.*')) has-error @endif">
                     <label for="inputSectors" class="col-sm-2 control-label">Setores*</label>
 
                     <div class="col-sm-10">
@@ -280,7 +274,8 @@
 
                             @foreach($sectors as $sector)
 
-                                <option value="{{ $sector->id }}" {{ in_array($sector->id, old('sectors') ?? array_column($company->sectors->toArray(), 'id')) ? "selected" : "" }}>
+                                <option
+                                    value="{{ $sector->id }}" {{ in_array($sector->id, old('sectors') ?? array_column($company->sectors->toArray(), 'id')) ? "selected" : "" }}>
                                     {{ $sector->name }}
                                 </option>
 
@@ -289,10 +284,11 @@
                         </select>
 
                         <span class="help-block">{{ $errors->first('sectors') }}</span>
+                        <span class="help-block">{{ $errors->first('sectors.*') }}</span>
                     </div>
                 </div>
 
-                <div class="form-group @if($errors->has('courses')) has-error @endif">
+                <div class="form-group @if($errors->has('courses') || $errors->has('courses.*')) has-error @endif">
                     <label for="inputCourses" class="col-sm-2 control-label">Cursos*</label>
 
                     <div class="col-sm-10">
@@ -301,7 +297,8 @@
 
                             @foreach($courses as $course)
 
-                                <option value="{{ $course->id }}" {{ in_array($course->id, old('courses') ?? array_column($company->courses->toArray(), 'id')) ? "selected" : "" }}>
+                                <option
+                                    value="{{ $course->id }}" {{ in_array($course->id, old('courses') ?? array_column($company->courses->toArray(), 'id')) ? "selected" : "" }}>
                                     {{ $course->name }}
                                 </option>
 
@@ -310,6 +307,7 @@
                         </select>
 
                         <span class="help-block">{{ $errors->first('courses') }}</span>
+                        <span class="help-block">{{ $errors->first('courses.*') }}</span>
                     </div>
                 </div>
             </div>
@@ -321,7 +319,9 @@
                     <button type="submit" class="btn btn-primary">Salvar</button>
                 </div>
 
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
         </div>
@@ -334,7 +334,7 @@
             if (isPj) {
                 jQuery('#CpfCnpjOption').text('CNPJ');
 
-                $("input[id*='inputCpfCnpj']").inputmask({
+                jQuery("input[id*='inputCpfCnpj']").inputmask({
                     mask: '99.999.999/9999-99',
                     removeMaskOnSubmit: true
                 });
@@ -343,7 +343,7 @@
             } else {
                 jQuery('#CpfCnpjOption').text('CPF');
 
-                $("input[id*='inputCpfCnpj']").inputmask({
+                jQuery("input[id*='inputCpfCnpj']").inputmask({
                     mask: '999.999.999-99',
                     removeMaskOnSubmit: true
                 });
@@ -370,7 +370,7 @@
             jQuery('#inputSectors').select2({
                 language: "pt-BR",
                 ajax: {
-                    url: '{{ route('api.empresa.setor.get') }}',
+                    url: '{{ route('api.coordenador.empresa.setor.get') }}',
                     dataType: 'json',
                     method: 'GET',
                     cache: true,
@@ -411,7 +411,7 @@
                     processResults: function (response) {
                         ufs = [];
                         response.forEach(uf => {
-                            ufs.push({id: uf.sigla, text: uf.sigla});
+                            ufs.push({id: uf, text: uf});
                         });
 
                         return {
@@ -422,6 +422,8 @@
             });
 
             jQuery('#inputUf').on('change', e => {
+                jQuery('#inputCity').empty();
+
                 jQuery('#inputCity').select2({
                     language: "pt-BR",
                     ajax: {
@@ -438,7 +440,7 @@
                         processResults: function (response) {
                             cities = [];
                             response.forEach(city => {
-                                cities.push({id: city.nome, text: city.nome});
+                                cities.push({id: city, text: city});
                             });
 
                             return {
@@ -451,7 +453,7 @@
 
             function loadCnpj() {
                 if (jQuery('#inputPj').val() === '1') {
-                    $("#cnpjLoadingModal").modal({
+                    jQuery("#cnpjLoadingModal").modal({
                         backdrop: "static",
                         keyboard: false,
                         show: true
@@ -462,10 +464,10 @@
                         dataType: 'json',
                         type: 'GET',
                         success: function (company) {
-                            $("#cnpjLoadingModal").modal("hide");
+                            jQuery("#cnpjLoadingModal").modal("hide");
 
                             if (company.error) {
-                                $("#cnpjErrorModal").modal({
+                                jQuery("#cnpjErrorModal").modal({
                                     backdrop: "static",
                                     keyboard: false,
                                     show: true
@@ -488,31 +490,22 @@
                             jQuery('#inputFantasyName').val(company.fantasyName);
                             jQuery('#inputEmail').val(company.email);
                             jQuery('#inputPhone').val(company.phone);
-                            jQuery('#inputCep').val(company.cep).blur();
+                            jQuery('#inputCep').val(company.cep);
 
-                            if (company.uf !== '') {
-                                jQuery('#inputUf').append(new Option(company.uf, company.uf, false, true)).change();
-                            } else {
-                                jQuery('#inputUf').val(company.uf);
-                            }
-
-
-                            if (company.city !== '') {
-                                jQuery('#inputCity').append(new Option(company.city, company.city, false, true));
-                            } else {
-                                jQuery('#inputCity').val(company.city);
-                            }
-
-                            jQuery('#inputStreet').val(company.street);
-                            jQuery('#inputNumber').val(company.number);
-                            jQuery('#inputComplement').val(company.complement);
-                            jQuery('#inputDistrict').val(company.district);
+                            loadCep({
+                                uf: company.uf,
+                                city: company.city,
+                                street: company.street,
+                                number: company.number,
+                                complement: company.complement,
+                                district: company.district
+                            });
                         },
 
                         error: function () {
-                            $("#cnpjLoadingModal").modal("hide");
+                            jQuery("#cnpjLoadingModal").modal("hide");
 
-                            $("#cnpjErrorModal").modal({
+                            jQuery("#cnpjErrorModal").modal({
                                 backdrop: "static",
                                 keyboard: false,
                                 show: true
@@ -522,62 +515,77 @@
                 }
             }
 
-            function loadCep() {
-                $("#cepLoadingModal").modal({
+            function loadCep(data = null) {
+                jQuery("#cepLoadingModal").modal({
                     backdrop: "static",
                     keyboard: false,
                     show: true
                 });
 
-                let xhttp = new XMLHttpRequest();
-                xhttp.open("GET", `/api/external/cep/${jQuery('#inputCep').inputmask('unmaskedvalue')}`, true);
-                xhttp.onreadystatechange = function () {
-                    $("#cepLoadingModal").modal("hide");
+                jQuery.ajax({
+                    url: `/api/external/cep/${jQuery('#inputCep').inputmask('unmaskedvalue')}`,
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (address) {
+                        jQuery("#cepLoadingModal").modal("hide");
 
-                    if (this.readyState === 4) {
-                        if (this.status === 200) {
-                            let address = JSON.parse(xhttp.responseText);
-                            if (address.error) {
-                                $("#cepErrorModal").modal({
-                                    backdrop: "static",
-                                    keyboard: false,
-                                    show: true
-                                });
+                        let fields = [
+                            'street', 'number', 'complement', 'district', 'city', 'uf'
+                        ];
 
-                                address.street = '';
-                                address.complement = '';
-                                address.district = '';
-                                address.city = '';
-                                address.uf = '';
-                            }
-
-                            jQuery('#inputStreet').val(address.street);
-                            jQuery('#inputComplement').val(address.complement);
-                            jQuery('#inputDistrict').val(address.district);
-
-                            if (address.city !== '') {
-                                jQuery('#inputCity').append(new Option(address.city, address.city, false, true));
-                            } else {
-                                jQuery('#inputCity').val(address.city);
-                            }
-
-
-                            if (address.uf !== '') {
-                                jQuery('#inputUf').append(new Option(address.uf, address.uf, false, true)).change();
-                            } else {
-                                jQuery('#inputUf').val(address.uf);
-                            }
-                        } else {
-                            $("#cepErrorModal").modal({
+                        if (address.error) {
+                            jQuery("#cepErrorModal").modal({
                                 backdrop: "static",
                                 keyboard: false,
                                 show: true
                             });
-                        }
-                    }
-                };
 
-                xhttp.send();
+                            fields.forEach(f => {
+                                address[f] = '';
+                            });
+                        }
+
+                        if (data !== null && typeof data === "object") {
+                            if (!address.hasOwnProperty('number')) {
+                                address.number = '';
+                            }
+
+                            fields.forEach(f => {
+                                if (address[f] === '') {
+                                    address[f] = data[f];
+                                }
+                            });
+
+                            jQuery('#inputNumber').val(address.number);
+                        }
+
+                        if (address.uf !== '') {
+                            jQuery('#inputUf').append(new Option(address.uf, address.uf, false, true)).change();
+                        } else {
+                            jQuery('#inputUf').val(address.uf);
+                        }
+
+                        if (address.city !== '') {
+                            jQuery('#inputCity').append(new Option(address.city, address.city, false, true));
+                        } else {
+                            jQuery('#inputCity').val(address.city);
+                        }
+
+                        jQuery('#inputStreet').val(address.street);
+                        jQuery('#inputComplement').val(address.complement);
+                        jQuery('#inputDistrict').val(address.district);
+                    },
+
+                    error: function () {
+                        jQuery("#cepLoadingModal").modal("hide");
+
+                        jQuery("#cepErrorModal").modal({
+                            backdrop: "static",
+                            keyboard: false,
+                            show: true
+                        });
+                    }
+                });
             }
 
             jQuery('#inputCep').blur(() => {

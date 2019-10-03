@@ -39,6 +39,18 @@
                     </div>
                 </div>
 
+                <div class="form-group @if($errors->has('phone')) has-error @endif">
+                    <label for="inputPhone" class="col-sm-2 control-label">Telefone</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputPhone" name="phone"
+                               placeholder="(14) 3103-6150" data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
+                               value="{{ old('phone') ?? $user->phone }}"/>
+
+                        <span class="help-block">{{ $errors->first('phone') }}</span>
+                    </div>
+                </div>
+
                 <div class="form-group @if($errors->has('role')) has-error @endif">
                     <label for="inputRole" class="col-sm-2 control-label">Grupo*</label>
 
@@ -49,7 +61,7 @@
 
                                 <option value="{{ $role->id }}"
                                         {{ (old('role') ?? $user->roles->pluck('id')[0]) == $role->id ? 'selected' : '' }}>
-                                    {{ $role->friendlyName }}
+                                    {{ $role->friendly_name }}
                                 </option>
 
                             @endforeach
@@ -63,7 +75,10 @@
             <!-- /.box-body -->
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
         </form>
@@ -77,6 +92,8 @@
             jQuery('.selection').select2({
                 language: "pt-BR"
             });
+
+            jQuery(':input').inputmask({removeMaskOnSubmit: true});
         });
     </script>
 @endsection

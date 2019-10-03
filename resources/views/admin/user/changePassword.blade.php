@@ -12,19 +12,19 @@
             <h3 class="box-title">Senha</h3>
         </div>
 
-        <form class="form-horizontal" action="{{ route('admin.usuario.salvarSenha', $user->id) }}" method="post">
+        <form class="form-horizontal" action="{{ route('admin.usuario.senha.alterar', $user->id) }}" method="post">
             @method('PUT')
             @csrf
 
             <div class="box-body">
-                <div class="form-group  @if($errors->has('oldPassword')) has-error @endif">
-                    <label for="inputOldPassword" class="col-sm-2 control-label">Senha atual*</label>
+                <div class="form-group  @if($errors->has('current_password')) has-error @endif">
+                    <label for="inputCurrentPassword" class="col-sm-2 control-label">Senha atual*</label>
 
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inputOldPassword" name="old_password"
+                        <input type="password" class="form-control" id="inputCurrentPassword" name="current_password"
                                placeholder="Senha atualmente em uso"/>
 
-                        <span class="help-block">{{ $errors->first('oldPassword') }}</span>
+                        <span class="help-block">{{ $errors->first('current_password') }}</span>
                     </div>
                 </div>
 
@@ -39,21 +39,24 @@
                     </div>
                 </div>
 
-                <div class="form-group @if($errors->has('passwordConfirmation')) has-error @endif">
+                <div class="form-group @if($errors->has('password_confirmation')) has-error @endif">
                     <label for="inputPasswordConfirmation" class="col-sm-2 control-label">Confirmar senha*</label>
 
                     <div class="col-sm-10">
                         <input type="password" class="form-control" id="inputPasswordConfirmation"
                                name="password_confirmation" placeholder="Confirme a nova senha"/>
 
-                        <span class="help-block">{{ $errors->first('passwordConfirmation') }}</span>
+                        <span class="help-block">{{ $errors->first('password_confirmation') }}</span>
                     </div>
                 </div>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
                 <button type="submit" class="btn btn-primary pull-right">Salvar</button>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
         </form>

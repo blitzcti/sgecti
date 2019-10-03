@@ -4,7 +4,7 @@
 
 @section('content_header')
     <h1>Editar configurações do curso <a
-                href="{{ route('admin.curso.detalhes', ['id' => $course->id]) }}">{{ $course->name }}</a></h1>
+            href="{{ route('admin.curso.detalhes', ['id' => $course->id]) }}">{{ $course->name }}</a></h1>
 @stop
 
 @section('content')
@@ -13,7 +13,8 @@
             <h3 class="box-title">Dados da configuração do curso</h3>
         </div>
 
-        <form class="form-horizontal" method="post" action="{{ route('admin.curso.configuracao.alterar', [$config->course_id, $config->id]) }}">
+        <form class="form-horizontal" method="post"
+              action="{{ route('admin.curso.configuracao.alterar', [$config->course_id, $config->id]) }}">
             @method('PUT')
             @csrf
 
@@ -27,13 +28,16 @@
                                 <select class="form-control selection" data-minimum-results-for-search="Infinity"
                                         id="inputMinYear" name="minYear">
                                     <option value="1"
-                                            {{ (old('minYear') ?? $config->min_year) == 1 ? 'selected=selected' : '' }}>1º ano
+                                        {{ (old('minYear') ?? $config->min_year) == 1 ? 'selected=selected' : '' }}>1º
+                                        ano
                                     </option>
                                     <option value="2"
-                                            {{ (old('minYear') ?? $config->min_year) == 2 ? 'selected=selected' : '' }}>2º ano
+                                        {{ (old('minYear') ?? $config->min_year) == 2 ? 'selected=selected' : '' }}>2º
+                                        ano
                                     </option>
                                     <option value="3"
-                                            {{ (old('minYear') ?? $config->min_year) == 3 ? 'selected=selected' : '' }}>3º ano
+                                        {{ (old('minYear') ?? $config->min_year) == 3 ? 'selected=selected' : '' }}>3º
+                                        ano
                                     </option>
                                 </select>
 
@@ -50,10 +54,12 @@
                                 <select class="form-control selection" data-minimum-results-for-search="Infinity"
                                         id="inputMinSemester" name="minSemester">
                                     <option value="1"
-                                            {{ (old('minSemester') ?? $config->min_semester) == 1 ? 'selected=selected' : '' }}>1º semestre
+                                        {{ (old('minSemester') ?? $config->min_semester) == 1 ? 'selected=selected' : '' }}>
+                                        1º semestre
                                     </option>
                                     <option value="2"
-                                            {{ (old('minSemester') ?? $config->min_semester) == 2 ? 'selected=selected' : '' }}>2º semestre
+                                        {{ (old('minSemester') ?? $config->min_semester) == 2 ? 'selected=selected' : '' }}>
+                                        2º semestre
                                     </option>
                                 </select>
 
@@ -106,14 +112,14 @@
                     </div>
 
                     <div class="col-sm-6">
-                        <div class="form-group @if($errors->has('minMark')) has-error @endif">
-                            <label for="inputMinMark" class="col-sm-4 control-label">Nota mínima*</label>
+                        <div class="form-group @if($errors->has('minGrade')) has-error @endif">
+                            <label for="inputMinGrade" class="col-sm-4 control-label">Nota mínima*</label>
 
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="inputMinMark" name="minMark"
-                                       placeholder="10" step="0.5" value="{{ old('minMark') ?? $config->min_grade }}"/>
+                                <input type="number" class="form-control" id="inputMinGrade" name="minGrade"
+                                       placeholder="10" step="0.5" value="{{ old('minGrade') ?? $config->min_grade }}"/>
 
-                                <span class="help-block">{{ $errors->first('minMark') }}</span>
+                                <span class="help-block">{{ $errors->first('minGrade') }}</span>
                             </div>
                         </div>
                     </div>
@@ -122,7 +128,10 @@
             <!-- /.box-body -->
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
         </form>

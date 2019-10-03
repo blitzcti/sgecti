@@ -13,7 +13,7 @@ class PasswordReset extends Model
      *
      * @var string
      */
-    protected $table = 'model_has_roles';
+    protected $table = 'password_resets';
 
     /**
      * primaryKey

@@ -4,7 +4,7 @@
 
 @section('content_header')
     <h1>Adicionar nova configuração do curso <a
-                href="{{ route('admin.curso.detalhes', ['id' => $course->id]) }}">{{ $course->name }}</a></h1>
+            href="{{ route('admin.curso.detalhes', ['id' => $course->id]) }}">{{ $course->name }}</a></h1>
 @stop
 
 @section('content')
@@ -27,13 +27,13 @@
                                 <select class="form-control selection" data-minimum-results-for-search="Infinity"
                                         id="inputMinYear" name="minYear">
                                     <option value="1"
-                                            {{ (old('minYear') ?? 1) == 1 ? 'selected=selected' : '' }}>1º ano
+                                        {{ (old('minYear') ?? 1) == 1 ? 'selected=selected' : '' }}>1º ano
                                     </option>
                                     <option value="2"
-                                            {{ (old('minYear') ?? 1) == 2 ? 'selected=selected' : '' }}>2º ano
+                                        {{ (old('minYear') ?? 1) == 2 ? 'selected=selected' : '' }}>2º ano
                                     </option>
                                     <option value="3"
-                                            {{ (old('minYear') ?? 1) == 3 ? 'selected=selected' : '' }}>3º ano
+                                        {{ (old('minYear') ?? 1) == 3 ? 'selected=selected' : '' }}>3º ano
                                     </option>
                                 </select>
 
@@ -50,10 +50,10 @@
                                 <select class="form-control selection" data-minimum-results-for-search="Infinity"
                                         id="inputMinSemester" name="minSemester">
                                     <option value="1"
-                                            {{ (old('minSemester') ?? 1) == 1 ? 'selected=selected' : '' }}>1º semestre
+                                        {{ (old('minSemester') ?? 1) == 1 ? 'selected=selected' : '' }}>1º semestre
                                     </option>
                                     <option value="2"
-                                            {{ (old('minSemester') ?? 1) == 2 ? 'selected=selected' : '' }}>2º semestre
+                                        {{ (old('minSemester') ?? 1) == 2 ? 'selected=selected' : '' }}>2º semestre
                                     </option>
                                 </select>
 
@@ -106,14 +106,14 @@
                     </div>
 
                     <div class="col-sm-6">
-                        <div class="form-group @if($errors->has('minMark')) has-error @endif">
-                            <label for="inputMinMark" class="col-sm-4 control-label">Nota mínima*</label>
+                        <div class="form-group @if($errors->has('minGrade')) has-error @endif">
+                            <label for="inputMinGrade" class="col-sm-4 control-label">Nota mínima*</label>
 
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="inputMinMark" name="minMark"
-                                       placeholder="10" step="0.5" value="{{ old('minMark') ?? '' }}"/>
+                                <input type="number" class="form-control" id="inputMinGrade" name="minGrade"
+                                       placeholder="10" step="0.5" value="{{ old('minGrade') ?? '' }}"/>
 
-                                <span class="help-block">{{ $errors->first('minMark') }}</span>
+                                <span class="help-block">{{ $errors->first('minGrade') }}</span>
                             </div>
                         </div>
                     </div>
@@ -122,7 +122,10 @@
             <!-- /.box-body -->
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                <a href="{{url()->previous()}}" class="btn btn-default">Cancelar</a>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
             <!-- /.box-footer -->
         </form>

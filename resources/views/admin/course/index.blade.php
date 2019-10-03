@@ -18,10 +18,8 @@
         </div>
     @endif
 
-    @if(auth()->user()->can('course-delete'))
-
+    @if(\App\Auth::user()->can('course-delete'))
         @include('modals.admin.course.delete')
-
     @endif
 
     <div class="box box-default">
@@ -33,6 +31,7 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th>Nome</th>
+                    <th>Cor</th>
                     <th>Ativo</th>
                     <th>Ações</th>
                 </tr>
@@ -44,6 +43,7 @@
                     <tr>
                         <th scope="row">{{ $course->id }}</th>
                         <td>{{ $course->name }}</td>
+                        <td>{{ __("colors.{$course->color->name}") }}</td>
                         <td>{{ ($course->active) ? 'Sim' : 'Não' }}</td>
 
                         <td>
@@ -51,14 +51,15 @@
                             |
                             <a href="{{ route('admin.curso.editar', ['id' => $course->id]) }}">Editar</a>
                             |
-                            <a href="{{ route('admin.coordenador.novo', ['c' => $course->id]) }}">Coordenador</a>
+                            <a href="{{ route('admin.curso.coordenador', ['id' => $course->id]) }}">Coordenadores</a>
                             |
                             <a href="{{ route('admin.curso.configuracao.index', ['id' => $course->id]) }}">Configurações</a>
-                            @if(auth()->user()->can('course-delete'))
+
+                            @if(\App\Auth::user()->can('course-delete'))
                                 |
                                 <a href="#"
-                                   onclick="courseId('{{ $course->id }}'); course('{{ $course->name }}'); return false;"
-                                   data-toggle="modal" class="text-red" data-target="#deleteModal">Excluir</a>
+                                   onclick="deleteCourseId('{{ $course->id }}'); courseName('{{ $course->name }}'); return false;"
+                                   data-toggle="modal" class="text-red" data-target="#courseDeleteModal">Excluir</a>
                             @endif
                         </td>
                     </tr>
@@ -71,24 +72,13 @@
 @endsection
 
 @section('js')
-    <script>
-        function courseId(id) {
-            jQuery(() => {
-                jQuery('#deleteModalCourseId').val(id);
-            });
-        }
-
-        function course(name) {
-            jQuery(() => {
-                jQuery('#deleteModalCourseName').text(name);
-            });
-        }
-
-        jQuery(() => {
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
             let table = jQuery("#courses").DataTable({
-                "language": {
+                language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
+                responsive: true,
                 lengthChange: false,
                 buttons: [
                     {
@@ -112,7 +102,7 @@
                     }
                 ],
                 initComplete: function () {
-                    table.buttons().container().appendTo($('#courses_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().appendTo(jQuery('#courses_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                     jQuery('#addLink').prependTo(table.buttons().container());
                 },

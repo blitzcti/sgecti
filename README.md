@@ -1,11 +1,11 @@
 ﻿# SGE - Sistema de Gerenciamento de Estágio
 O SGE é um Trabalho de Conclusão de Curso apresentado ao CTI - Colégio Técnico Industrial "Prof. Isaac Portal Roldán" - Unesp - Universidade Estadual Paulista "Júlio de Mesquita Filho" - Campus de Bauru.
-Desenvolvido pela equipe Blitz, esse projeto tem como finalidade gerenciar os estágios do CTI.
+Desenvolvido pela equipe Blitz, o projeto tem como finalidade gerenciar os estágios do CTI.
 
 <p align="center">
 <a href="https://travis-ci.org/blitzcti/sgecti"><img src="https://travis-ci.org/blitzcti/sgecti.svg?branch=master" alt="Build Status"></a>
-<a href="https://github.com/laravel/laravel"><img src="https://img.shields.io/badge/Laravel-5.8.29-blue.svg" alt="Laravel Version"></a>
-<a href="https://github.com/ColorlibHQ/AdminLTE"><img src="https://img.shields.io/badge/AdminLTE-2.4.15-blue.svg" alt="AdminLTE Version"></a>
+<a href="https://github.com/laravel/laravel"><img src="https://img.shields.io/badge/Laravel-6.0.4-red.svg" alt="Laravel Version"></a>
+<a href="https://github.com/ColorlibHQ/AdminLTE"><img src="https://img.shields.io/badge/AdminLTE-2.4.18-blue.svg" alt="AdminLTE Version"></a>
 </p>
 
 ## Instalação e configuração inicial
@@ -32,6 +32,11 @@ Para o Ubuntu, rode o seguinte comando:
     sudo systemctl enable postgresql
     sudo service postgresql start
     ```
+   
+3. Adicione seu usuário ao grupo www-data:
+    ```console
+   sudo usermod -aG www-data ${USER}
+   ```
 
 ### Configurando o SGE
 Feito a instalação do servidor HTTP, PHP e do gerenciador de banco de dados, agora será necessário realizar as devidas configurações.
@@ -55,6 +60,13 @@ Feito a instalação do servidor HTTP, PHP e do gerenciador de banco de dados, a
 
 3. Reinicie o Apache para aplicar as alterações.
 
+#### SGE
+Após o servidor estar devidamente configurado, clone esse repositório para {Instalação do SGE no servidor}
+(por exemplo, para /var/www/html):
+```console
+cd {Instalação do SGE no servidor}
+git clone https://github.com/blitzcti/sgecti.git
+```
 
 #### Composer
 O Composer é um gerenciador de pacotes para o PHP. O SGE utiliza o Composer para gerenciar suas dependências de back-end.
@@ -139,6 +151,15 @@ Com o Node instalado, execute o seguinte comando para instalar as dependências 
 npm ci
 ```
 
+## Preparando para uso (Linux)
+Após instalar o SGE, certifique-se que as permissões estão corretas:
+```console
+cd {Instalação do SGE no servidor}
+sudo chown www-data:www-data ./ -R
+sudo find . -type f -exec chmod 664 {} \;
+sudo find . -type d -exec chmod 775 {} \;
+```
+
 ## Usando o SGE
 ### Usuário administrador
 O login padrão do usuário administrador é
@@ -147,6 +168,9 @@ e a senha é
 ```123456789```.
 Assim que entrar no sistema, altere a senha de administrador imediatamente para manter o sistema seguro.
 
+## FAQ
+### 1. O sistema apenas retorna "The stream or file "{laravel.log}" could not be opened: failed to open stream: Permission denied" ao tentar salvar um arquivo.
+#### R: O arquivo de log não está acessível para o Apache/Nginx, assim é necessário dar permissões de acesso para o usuário www-data. Pode ser também que as tarefas agendadas estejam sendo executadas como usuário root, ao invés de serem executadas como www-data.
 
 © 2019 Equipe Blitz.
 

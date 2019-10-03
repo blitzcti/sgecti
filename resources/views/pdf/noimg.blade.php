@@ -5,18 +5,29 @@
     @yield('css')
     @stack('css')
 
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/vendor/bootstrap/dist/css/bootstrap.pdf.min.css') }}">
+
     <style type="text/css">
+        html, body {
+            font-size: 11pt;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: #222222;
+        }
+
         body, h1, h2, h3, h4, h5, h6 {
             font-family: sans-serif;
         }
 
         @page {
-            margin: 4cm 2cm 1.5cm 2cm;
+            margin: 3.4cm 1.2cm 1.0cm 1.2cm;
         }
 
         header {
             position: fixed;
             top: -85px;
+            font-size: 10pt;
         }
 
         footer {
@@ -30,6 +41,15 @@
 
         .page-break {
             page-break-after: always;
+        }
+
+        .table > thead > tr > th,
+        .table > tbody > tr > th,
+        .table > tfoot > tr > th,
+        .table > thead > tr > td,
+        .table > tbody > tr > td,
+        .table > tfoot > tr > td {
+            padding: 6px;
         }
     </style>
 
@@ -62,9 +82,13 @@
 </header>
 
 <footer>
-    <div>
-        <div class="pull-right page-number"></div>
-    </div>
+    @if(!isset($page_number) || (isset($page_number) && $page_number))
+        <div>
+            <div class="pull-right page-number"></div>
+        </div>
+    @endif
+
+    @yield('footer')
 </footer>
 
 <main>

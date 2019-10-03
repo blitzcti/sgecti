@@ -79,7 +79,7 @@
                         @else
 
                             <table id="logs" class="table table-bordered table-hover"
-                                   data-ordering-index="{{ $standardFormat ? 0 : 2 }}">
+                                   data-ordering-index="{{ $standardFormat ? 0 : 1 }}">
                                 <thead>
                                 <tr>
 
@@ -87,7 +87,7 @@
 
                                         <th>Data / hora</th>
                                         <th>Nível</th>
-                                        <th>Contexto</th>
+                                        <th>Usuário</th>
 
                                     @else
 
@@ -113,18 +113,28 @@
                                                   aria-hidden="true"></span>&nbsp;&nbsp;{{ $log['level'] }}
                                             </td>
 
-                                            <td class="text">{{ $log['context'] }}</td>
+                                            <td class="text">
+                                                @if ($log['stack'] && preg_match('/Usuário: (.*?)\n.*/s', $log['stack']))
+
+                                                    {{ preg_replace('/Usuário: (.*?)\n.*/s', '$1', $log['stack']) }}
+
+                                                @else
+
+                                                    Servidor
+
+                                                @endif
+                                            </td>
 
                                         @endif
 
                                         <td class="text">
 
-                                            @if ($log['stack'])
+                                            @if (trim(preg_replace('/(.*)Usuário: .*?(\n.*)/s', '$1$2', $log['stack'])))
 
                                                 <button type="button"
                                                         class="float-right expand btn btn-outline-dark btn-sm mb-2 ml-2"
                                                         data-display="stack{{ $key }}">
-                                                    <span class="fa fa-search"></span>
+                                                    <span class="fa fa-plus"></span>
                                                 </button>
 
                                             @endif
@@ -137,11 +147,10 @@
 
                                             @endif
 
-                                            @if ($log['stack'])
+                                            @if (trim(preg_replace('/(.*)Usuário: .*?(\n.*)/s', '$1$2', $log['stack'])))
 
                                                 <div class="stack" id="stack{{ $key }}"
-                                                     style="display: none; white-space: pre-wrap;">{{ trim($log['stack']) }}
-                                                </div>
+                                                     style="display: none; white-space: pre-wrap;">{{ trim(preg_replace('/(.*)Usuário: .*?(\n.*)/s', '$1$2', $log['stack'])) }}</div>
 
                                             @endif
 
@@ -169,9 +178,15 @@
 
 @section('js')
     <script type="text/javascript">
-        jQuery(document).ready(() => {
-            jQuery('.table-container tr').on('click', function () {
-                jQuery(`#${jQuery(this).data('display')}`).toggle();
+        jQuery(document).ready(function () {
+            jQuery('.table-container .text .expand').on('click', function () {
+                jQuery(`#${jQuery(this).data('display')}`).slideToggle(() => {
+                    if (jQuery(`#${jQuery(this).data('display')}`).css('display') === 'none') {
+                        jQuery(this).find('span').addClass('fa-plus').removeClass('fa-minus');
+                    } else {
+                        jQuery(this).find('span').addClass('fa-minus').removeClass('fa-plus');
+                    }
+                });
             });
 
             jQuery('#contentSidebar').slimScroll({
@@ -182,6 +197,7 @@
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
+                responsive: true,
                 order: [jQuery('#logs').data('orderingIndex'), 'desc'],
                 stateSave: true,
                 stateSaveCallback: function (settings, data) {
@@ -245,7 +261,7 @@
 
                 ],
                 initComplete: function () {
-                    table.buttons().container().appendTo($('#logs_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().appendTo(jQuery('#logs_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                 },
             });

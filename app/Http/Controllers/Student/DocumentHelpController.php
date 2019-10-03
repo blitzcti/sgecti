@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Student;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class DocumentHelpController extends Controller
@@ -11,6 +10,8 @@ class DocumentHelpController extends Controller
     {
         $this->middleware('student');
         $this->middleware('permission:documents-list');
+        $this->middleware('intern', ['only' => ['getCertificate', 'getEvaluation', 'getPresentation', 'getContent', 'getQuestionnaire']]);
+        $this->middleware('non_intern', ['only' => ['getPlan', 'getTerm', 'getAgreement', 'generateSituation']]);
     }
 
     //New Internhip

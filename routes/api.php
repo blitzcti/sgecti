@@ -24,7 +24,7 @@ Route::prefix('')->name('api.')->group(function () {
     });
 
     Route::group(['middleware' => ['apiSession']], function () {
-        Route::prefix('usuario')->name('usuario.')->group(function () {
+        Route::prefix('usuario')->name('usuario.')->middleware('auth')->group(function () {
             Route::get('', 'API\UserController@get')->name('get');
             Route::get('apiToken', 'API\UserController@generateAPIToken')->name('apiToken');
 
@@ -37,7 +37,7 @@ Route::prefix('')->name('api.')->group(function () {
             });
         });
 
-        Route::prefix('alunos')->name('alunos.')->group(function () {
+        Route::prefix('alunos')->name('alunos.')->middleware('auth')->group(function () {
             Route::get('', 'API\NSac\StudentController@get')->name('get');
             Route::get('curso/{course}', 'API\NSac\StudentController@getByCourse')->name('getByCourse');
             Route::get('ano/{year}', 'API\NSac\StudentController@getByYear')->name('getByYear');
@@ -49,7 +49,7 @@ Route::prefix('')->name('api.')->group(function () {
             });
         });
 
-        Route::prefix('admin')->name('admin.')->group(function () {
+        Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
             Route::get('sysUsage', 'API\Admin\SystemUsage@index')->name('sysUsage');
             Route::post('down', 'API\Admin\SystemUsage@down')->name('down');
             Route::post('up', 'API\Admin\SystemUsage@up')->name('up');
@@ -64,7 +64,7 @@ Route::prefix('')->name('api.')->group(function () {
             });
         });
 
-        Route::prefix('coordenador')->name('coordenador.')->group(function () {
+        Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(function () {
             Route::prefix('empresa')->name('empresa.')->group(function () {
                 Route::get('', 'API\Coordinator\CompanyController@get')->name('get');
 
@@ -131,6 +131,12 @@ Route::prefix('')->name('api.')->group(function () {
                         Route::get('', 'API\Coordinator\JobCompanyController@getById')->name('getById');
                     });
                 });
+            });
+        });
+
+        Route::prefix('aluno')->name('aluno.')->middleware('auth')->group(function () {
+            Route::prefix('documento')->name('documento.')->group(function () {
+                Route::get('formato', 'API\Student\DocumentController@getFormat')->name('formato');
             });
         });
     });

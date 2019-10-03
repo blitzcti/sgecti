@@ -205,9 +205,9 @@
 
                 <div class="tab-pane" id="tab_students">
                     <div class="form-group @if($errors->has('students')) has-error @endif">
-                        <label for="inputStudents" class="col-sm-2 control-label">Alunos</label>
+                        <label for="inputStudents" class="col-sm-1 control-label">Alunos</label>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-11">
                             <select class="form-control selection" id="inputStudents" name="students[]"
                                     multiple>
 

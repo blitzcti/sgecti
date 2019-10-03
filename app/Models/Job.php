@@ -10,18 +10,18 @@ use Carbon\Carbon;
  *
  * @package App\Models
  * @property int id
- * @property int ra
+ * @property string ra
  * @property string ctps
  * @property int company_id
  * @property int coordinator_id
  * @property int state_id
- * @property int start_date
- * @property int end_date
- * @property int protocol
- * @property int observation
- * @property int reason_to_cancel
- * @property int canceled_at
- * @property int active
+ * @property Carbon start_date
+ * @property Carbon end_date
+ * @property string protocol
+ * @property string observation
+ * @property string reason_to_cancel
+ * @property Carbon canceled_at
+ * @property boolean active
  * @property Carbon created_at
  * @property Carbon updated_at
  *

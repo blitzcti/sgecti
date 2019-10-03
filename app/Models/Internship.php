@@ -208,6 +208,6 @@ class Internship extends Model
     public static function requiringFinish()
     {
         $today = Carbon::today()->modify('-20 day');
-        return static::where('state_id', '=', State::OPEN)->where('active', '=', true)->get()->where('end_date', '<=', $today);
+        return static::where('state_id', '=', State::OPEN)->where('active', '=', true)->get()->where('new_end_date', '<=', $today);
     }
 }

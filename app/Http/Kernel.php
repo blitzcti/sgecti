@@ -45,8 +45,8 @@ class Kernel extends HttpKernel
 
         'apiSession' => [
             \App\Http\Middleware\EncryptCookies::class,
+            \Illuminate\Session\Middleware\StartSession::class,
             \App\Http\Middleware\SSOAutoLogin::class,
-            \App\Http\Middleware\APIAuthenticate::class,
         ],
     ];
 
@@ -60,7 +60,6 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'admin' => \App\Http\Middleware\Admin::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
-        'api.auth' => \App\Http\Middleware\APIAuthenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
@@ -68,6 +67,8 @@ class Kernel extends HttpKernel
         'company' => \App\Http\Middleware\Company::class,
         'coordinator' => \App\Http\Middleware\Coordinator::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'intern' => \App\Http\Middleware\Intern::class,
+        'non_intern' => \App\Http\Middleware\NonIntern::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,

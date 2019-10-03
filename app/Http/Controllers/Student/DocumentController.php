@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Student;
 
 use App\Auth;
+use App\Http\Controllers\Controller;
 use App\Models\NSac\Student;
 use App\Models\SystemConfiguration;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
+use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 class DocumentController extends Controller
@@ -16,6 +18,8 @@ class DocumentController extends Controller
     {
         $this->middleware('student');
         $this->middleware('permission:documents-list');
+        $this->middleware('intern', ['only' => ['generateCertificate', 'generateEvaluation', 'generatePresentation', 'generateContent', 'generateQuestionnaire', 'generateReport', 'generateAditive']]);
+        $this->middleware('non_intern', ['only' => ['generatePlan', 'generateTerm', 'generateAgreement', 'generateSituation']]);
     }
 
     public function index()
@@ -34,15 +38,22 @@ class DocumentController extends Controller
         ]);
     }
 
-    public function download(TemplateProcessor $template, $fileName)
+    private function download(TemplateProcessor $template, $fileName)
     {
         $temp_file = tempnam(sys_get_temp_dir(), 'PHPWord');
         $template->saveAs($temp_file);
 
-        return response()->download($temp_file, "$fileName.docx")->deleteFileAfterSend(true);
+        $format = Session::get('format') ?? 'docx';
+        if ($format == 'odt') {
+            $phpWord = IOFactory::load($temp_file);
+            $objWriter = IOFactory::createWriter($phpWord, 'ODText');
+            $objWriter->save($temp_file);
+        }
+
+        return response()->download($temp_file, "{$fileName}.{$format}")->deleteFileAfterSend(true);
     }
 
-    //FILE GENERATION
+    // FILE GENERATION
 
     public function generateProtocol(Request $request)
     {
@@ -52,18 +63,12 @@ class DocumentController extends Controller
 
         $fileName = "";
 
-        $id = $request->id;
-
-        switch ($id) {
-            case 0:
-                $folder = "new";
-                $fileName = "Protocolo de inicio (1 via)";
-                break;
-
-            case 1:
-                $folder = "end";
-                $fileName = "Protocolo de finalizacao (1 via)";
-                break;
+        if ($student->internship == null) {
+            $folder = "new";
+            $fileName = "Protocolo de inicio (1 via)";
+        } else {
+            $folder = "end";
+            $fileName = "Protocolo de finalizacao (1 via)";
         }
 
         $template = new TemplateProcessor(storage_path("app/public/docs/templates/$folder/protocol.docx"));
@@ -82,7 +87,7 @@ class DocumentController extends Controller
         return $this->download($template, $fileName);
     }
 
-    //New Internship
+    // New Internship
 
     public function generatePlan()
     {
@@ -145,7 +150,7 @@ class DocumentController extends Controller
         return $this->download($template, $fileName);
     }
 
-    //Finish Internship
+    // Finish Internship
 
     public function generateCertificate()
     {

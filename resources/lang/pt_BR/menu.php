@@ -6,7 +6,6 @@ return [
     'changePassword' => 'Alterar senha',
 
 
-
     'accountSettings' => 'CONFIGURAÇÕES DA CONTA',
     'profile' => 'Perfil',
 
@@ -31,7 +30,6 @@ return [
     'administration' => 'ADMINISTRAÇÃO',
     'courses' => 'Cursos',
     'coordinators' => 'Coordenadores',
-
 
 
     'companies' => 'Empresas',
@@ -59,5 +57,7 @@ return [
     'pdf' => 'PDF',
 
     'documentation' => 'Documentação de estágio',
+
+    'graduation' => 'Colação de grau'
 
 ];

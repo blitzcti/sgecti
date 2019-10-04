@@ -208,9 +208,7 @@ class Student extends Model
 
     public function canGraduate()
     {
-        if ($this->situacao_matricula == 5) {
-            return true;
-        } else if ($this->situacao_matricula == 0) {
+        if ($this->situacao_matricula == 0) {
             if (($this->completed_hours >= $this->course_configuration->min_hours && $this->completed_months >= $this->course_configuration->min_months)
                 || $this->ctps_completed_months >= $this->course_configuration->min_months_ctps) {
                 return true;

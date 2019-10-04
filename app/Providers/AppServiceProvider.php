@@ -152,7 +152,7 @@ class AppServiceProvider extends ServiceProvider
 
                 $menu->add([
                     'text' => 'menu.courses',
-                    'icon' => 'graduation-cap',
+                    'icon' => 'institution',
                     'submenu' => $submenu,
                 ]);
             }
@@ -177,6 +177,16 @@ class AppServiceProvider extends ServiceProvider
                     'text' => 'menu.coordinators',
                     'icon' => 'black-tie',
                     'submenu' => $submenu,
+                ]);
+            }
+
+            $menu->add('SECRETARIA');
+            if ($user->can('graduation-list')) {
+                $menu->add([
+                    'text' => 'menu.graduation',
+                    'route' => 'admin.colacao.index',
+                    'icon' => 'graduation-cap',
+                    'active' => ['admin/colacao/']
                 ]);
             }
 

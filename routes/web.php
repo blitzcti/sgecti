@@ -133,6 +133,14 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         Route::get('', 'Admin\MessageController@index')->name('index');
         Route::post('enviar', 'Admin\MessageController@sendEmail')->name('enviar');
     });
+
+    Route::prefix('colacao')->name('colacao.')->group(function () {
+        Route::get('', 'Admin\GraduationController@index')->name('index');
+
+        Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+            Route::put('graduar', 'Admin\GraduationController@graduate')->name('graduar');
+        });
+    });
 });
 
 Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(function () {

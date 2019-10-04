@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
         'coordinator' => \App\Http\Middleware\Coordinator::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'intern' => \App\Http\Middleware\Intern::class,
+        'never_intern' => \App\Http\Middleware\NeverIntern::class,
         'non_intern' => \App\Http\Middleware\NonIntern::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,

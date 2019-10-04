@@ -19,7 +19,8 @@ class DocumentController extends Controller
         $this->middleware('student');
         $this->middleware('permission:documents-list');
         $this->middleware('intern', ['only' => ['generateCertificate', 'generateEvaluation', 'generatePresentation', 'generateContent', 'generateQuestionnaire', 'generateReport', 'generateAditive']]);
-        $this->middleware('non_intern', ['only' => ['generatePlan', 'generateTerm', 'generateAgreement', 'generateSituation']]);
+        $this->middleware('non_intern', ['only' => ['generatePlan', 'generateTerm', 'generateAgreement']]);
+        $this->middleware('never_intern', ['only' => ['generateSituation']]);
     }
 
     public function index()
@@ -104,10 +105,9 @@ class DocumentController extends Controller
         $template->setValue('birth', $student->data_de_nascimento->format("d/m/Y"));
         $template->setValue('course', $student->course->name);
         $template->setValue('class', $student->turma);
+        $template->setValue('year', $student->turma_ano);
 
         $template->setValue('city', $sysConfig->city);
-
-        $template->setValue('year', Carbon::now()->year);
 
         return $this->download($template, $fileName);
     }
@@ -124,15 +124,13 @@ class DocumentController extends Controller
 
         $template->setValue('student', $student->nome);
         $template->setValue('ra', $student->matricula);
-        $template->setValue('grade', $student->turma);
+        $template->setValue('grade', $student->grade);
         $template->setValue('course', $student->course->name);
         $template->setValue('birth', $student->data_de_nascimento->format("d/m/Y"));
         $template->setValue('coordinator', $student->course->coordinator->user->name);
 
         $template->setValue('college', $sysConfig->name);
         $template->setValue('city', $sysConfig->city);
-
-        $template->setValue('date', Carbon::now()->formatLocalized("%d de %B de %Y"));
 
         return $this->download($template, $fileName);
     }
@@ -141,7 +139,7 @@ class DocumentController extends Controller
     {
         $sysConfig = SystemConfiguration::getCurrent();
 
-        $fileName = "Convenio de Estágio (2 vias)";
+        $fileName = "convenio de Estágio (2 vias)";
 
         $template = new TemplateProcessor(storage_path("app/public/docs/templates/new/agreement.docx"));
 
@@ -218,7 +216,7 @@ class DocumentController extends Controller
         $template->setValue('ra', $student->matricula);
         $template->setValue('student', $student->nome);
         $template->setValue('course', $student->course->name);
-        $template->setValue('class', $student->turma);
+        $template->setValue('grade', $student->grade);
         $template->setValue('coordinator', $student->course->coordinator->user->name);
 
         $template->setValue('company', $internship->company->name);
@@ -320,9 +318,8 @@ class DocumentController extends Controller
 
         $template->setValue('ra', $student->matricula);
         $template->setValue('student', $student->nome);
-        $template->setValue('grade', $student->turma);
+        $template->setValue('grade', $student->grade);
         $template->setValue('course', $student->course->name);
-        $template->setValue('class', $student->turma);
         $template->setValue('coordinator', $student->course->coordinator->user->name);
 
         $template->setValue('company', $internship->company->name);
@@ -340,9 +337,17 @@ class DocumentController extends Controller
 
     public function generateSituation()
     {
+        $user = Auth::user();
+        $student = $user->student;
+        $sysConfig = SystemConfiguration::getCurrent();
+
         $fileName = "Declaração de situação funcional (1 via)";
 
         $template = new TemplateProcessor(storage_path("app/public/docs/templates/etc/job.docx"));
+
+        $template->setValue('student', $student->nome);
+
+        $template->setValue('city', $sysConfig->city);
 
         return $this->download($template, $fileName);
     }

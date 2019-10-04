@@ -42,6 +42,10 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
+        if ($user->hasRole('company') || $user->hasRole('student')) {
+            abort(404);
+        }
+
         $roles = Role::all()->where('name', '<>', 'company')->where('name', '<>', 'student')->merge($user->roles)->sortBy('id');
 
         return view('admin.user.edit')->with(['user' => $user, 'roles' => $roles]);

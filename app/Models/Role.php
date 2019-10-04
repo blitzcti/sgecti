@@ -24,6 +24,11 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class Role extends \Spatie\Permission\Models\Role
 {
+    public const ADMIN = 1;
+    public const TEACHER = 2;
+    public const COMPANY = 3;
+    public const STUDENT = 4;
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);

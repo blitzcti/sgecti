@@ -168,9 +168,10 @@ class ReportController extends Controller
         $saved = $report->save();
         $log .= "\nNovos dados: " . json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
+        $minGrade = $report->internship->student->course_configuration->min_grade;
         if ($saved) {
             Log::info($log);
-            $report->internship->state_id = 2;
+            $report->internship->state_id = ($report->final_grade >= $minGrade) ? State::FINISHED : State::INVALID;
             $report->internship->save();
         } else {
             Log::error("Erro ao salvar relatório final");
@@ -247,9 +248,11 @@ class ReportController extends Controller
         $saved = $report->save();
         $log .= "\nNovos dados: " . json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
+        $minGrade = $report->internship->student->course_configuration->min_grade;
+
         if ($saved) {
             Log::info($log);
-            $report->internship->state_id = 2;
+            $report->internship->state_id = ($report->final_grade >= $minGrade) ? State::FINISHED : State::INVALID;
             $report->internship->save();
         } else {
             Log::error("Erro ao salvar relatório final");

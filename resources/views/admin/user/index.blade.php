@@ -45,13 +45,14 @@
                         <td>{{ $user->roles->pluck('friendly_name')[0] . (($user->hasRole('teacher') && $user->isCoordinator()) ? ' (Coordenador)' : '') }}</td>
 
                         <td>
-                            <a href="{{ route('admin.usuario.editar', ['id' => $user->id]) }}">Editar</a>
+                            @if($user->hasRole('teacher') || $user->hasRole('admin'))
+                                <a href="{{ route('admin.usuario.editar', ['id' => $user->id]) }}">Editar</a>
+                            @endif
 
                             @if($user->can('user-changePassword'))
-
-                            |
-                            <a href="{{ route('admin.usuario.alterarSenha', ['id' => $user->id]) }}">Alterar senha</a>
-
+                                |
+                                <a href="{{ route('admin.usuario.alterarSenha', ['id' => $user->id]) }}">
+                                    Alterar senha</a>
                             @endif
                         </td>
                     </tr>

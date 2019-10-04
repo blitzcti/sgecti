@@ -127,14 +127,14 @@
             <hr/>
             <h3>Estágios finalizados do aluno</h3>
 
-            @if(sizeof($student->finishedInternships) == 0)
+            @if(sizeof($student->finished_internships) == 0)
 
                 <p>O aluno ainda não concluiu um estágio.</p>
                 <hr/>
 
             @endif
 
-            @foreach($student->finishedInternships as $internship)
+            @foreach($student->finished_internships as $internship)
 
                 <dl class="row">
                     <dt class="col-sm-2">CPF / CNPJ da empresa</dt>

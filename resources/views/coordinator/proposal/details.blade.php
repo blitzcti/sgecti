@@ -52,8 +52,12 @@
                 <dt class="col-sm-2">Requisitos</dt>
                 <dd class="col-sm-10">{{ $proposal->requirements }}</dd>
 
-                <dt class="col-sm-2">Benefícios</dt>
-                <dd class="col-sm-10">{{ $proposal->benefits }}</dd>
+                @if($proposal->benefits != null)
+
+                    <dt class="col-sm-2">Benefícios</dt>
+                    <dd class="col-sm-10">{{ $proposal->benefits }}</dd>
+
+                @endif
 
                 <dt class="col-sm-2">Contato</dt>
                 <dd class="col-sm-10">{{ $proposal->contact }}</dd>

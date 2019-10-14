@@ -335,6 +335,8 @@ class ReportController extends Controller
 
         $students = Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->get()->filter(function ($i) use ($startDate, $endDate) {
             $reports = $i->bimestral_reports;
+
+            /* @var $report BimestralReport */
             foreach ($reports as $report) {
                 if ($report->date->between($startDate, $endDate)) {
                     return false;
@@ -428,6 +430,7 @@ class ReportController extends Controller
 
         $reports = FinalReport::whereYear('date', '=', $year)->get();
 
+        /* @var $report FinalReport */
         foreach ($reports as $report) {
             if ($report->internship->student->course_id == $course_id) {
                 $no++;

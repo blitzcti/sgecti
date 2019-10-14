@@ -196,8 +196,10 @@ class CompanyController extends Controller
         if ($saved) {
             Log::info($log);
 
-            $cUser->email = $company->email;
-            $cUser->save();
+            if ($cUser != null) {
+                $cUser->email = $company->email;
+                $cUser->save();
+            }
         } else {
             Log::error("Erro ao salvar empresa");
         }

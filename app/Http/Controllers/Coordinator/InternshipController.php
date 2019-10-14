@@ -42,9 +42,11 @@ class InternshipController extends Controller
         $companies = Company::all()->where('active', '=', true)->sortBy('id');
         $s = request()->s;
 
-        return view('coordinator.internship.new')->with(
-            ['companies' => $companies, 's' => $s]
-        );
+        return view('coordinator.internship.new')->with([
+            'companies' => $companies,
+            's' => $s,
+            'fields' => ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'],
+        ]);
     }
 
     public function edit($id)
@@ -59,7 +61,9 @@ class InternshipController extends Controller
         $companies = Company::all()->where('active', '=', true)->merge([$internship->company])->sortBy('id');
 
         return view('coordinator.internship.edit')->with([
-            'internship' => $internship, 'companies' => $companies,
+            'internship' => $internship,
+            'companies' => $companies,
+            'fields' => ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'],
         ]);
     }
 

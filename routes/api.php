@@ -126,9 +126,11 @@ Route::prefix('')->name('api.')->group(function () {
 
                 Route::prefix('empresa')->name('empresa.')->group(function () {
                     Route::get('', 'API\Coordinator\JobCompanyController@get')->name('get');
+                    Route::post('', 'API\Coordinator\JobCompanyController@store')->name('salvar');
 
                     Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
                         Route::get('', 'API\Coordinator\JobCompanyController@getById')->name('getById');
+                        Route::put('', 'API\Coordinator\JobCompanyController@update')->name('alterar');
                     });
                 });
             });

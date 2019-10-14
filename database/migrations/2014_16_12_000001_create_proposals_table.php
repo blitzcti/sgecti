@@ -30,7 +30,7 @@ class CreateProposalsTable extends Migration
             $table->float('remuneration')->default(0);
             $table->text('description');
             $table->text('requirements');
-            $table->text('benefits');
+            $table->text('benefits')->nullable(true);
             $table->text('contact');
             $table->bigInteger('type')->nullable(false)->default(1);
             $table->text('observation')->nullable(true);

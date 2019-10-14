@@ -18,7 +18,7 @@
 
 @section('content')
 
-    <h3>{{ $company->name }} {{ $company->fantasy_name != null ? "({$company->fantasy_name})" : '' }}</h3>
+    <h3>{{ $company->formatted_cpf_cnpj }} - {{ $company->name }} {{ $company->fantasy_name != null ? "({$company->fantasy_name})" : '' }}</h3>
 
     @if(sizeof($internships) > 0)
         <h3>Alunos estagiando</h3>

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\DestroyProposal;
 use App\Http\Requests\Company\StoreProposal;
 use App\Http\Requests\Company\UpdateProposal;
+use App\Models\Course;
 use App\Models\Proposal;
 use App\Models\Schedule;
 use App\Notifications\WebNotification;
@@ -44,7 +45,10 @@ class ProposalController extends Controller
         $company = Auth::user()->company;
         $courses = $company->courses->where('active', '=', true)->sortBy('id');
 
-        return view('company.proposal.new')->with(['courses' => $courses]);
+        return view('company.proposal.new')->with([
+            'courses' => $courses,
+            'fields' => ['mon', 'tue', 'wed', 'thu', 'fri', 'sat']
+        ]);
     }
 
     public function edit($id)
@@ -53,7 +57,11 @@ class ProposalController extends Controller
         $proposal = $company->proposals()->findOrFail($id);
         $courses = $company->courses->where('active', '=', true)->sortBy('id');
 
-        return view('company.proposal.edit')->with(['proposal' => $proposal, 'courses' => $courses]);
+        return view('company.proposal.edit')->with([
+            'proposal' => $proposal,
+            'courses' => $courses,
+            'fields' => ['mon', 'tue', 'wed', 'thu', 'fri', 'sat']
+        ]);
     }
 
     public function store(StoreProposal $request)
@@ -134,6 +142,7 @@ class ProposalController extends Controller
                 'url' => route('coordenador.proposta.detalhes', ['id' => $proposal->id]),
             ]);
 
+            /* @var $course Course */
             foreach ($proposal->courses as $course) {
                 $course->coordinator->user->notify($notification);
             }
@@ -235,6 +244,7 @@ class ProposalController extends Controller
                     'url' => route('coordenador.proposta.detalhes', ['id' => $proposal->id]),
                 ]);
 
+                /* @var $course Course */
                 foreach ($proposal->courses as $course) {
                     $course->coordinator->user->notify($notification);
                 }
@@ -250,6 +260,7 @@ class ProposalController extends Controller
                     'url' => route('coordenador.proposta.detalhes', ['id' => $proposal->id]),
                 ]);
 
+                /* @var $course Course */
                 foreach ($proposal->courses as $course) {
                     $course->coordinator->user->notify($notification);
                 }

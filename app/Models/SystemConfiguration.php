@@ -24,9 +24,9 @@ use Carbon\Carbon;
  * @property Carbon created_at
  * @property Carbon updated_at
  *
- * @property string formatted_phone
- * @property string formatted_fax
- * @property string formatted_cep
+ * @property-read string formatted_phone
+ * @property-read string formatted_fax
+ * @property-read string formatted_cep
  */
 class SystemConfiguration extends Model
 {

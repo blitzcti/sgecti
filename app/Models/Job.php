@@ -29,8 +29,8 @@ use Carbon\Carbon;
  * @property Company company
  * @property Coordinator coordinator
  * @property State state
- * @property string formatted_protocol
- * @property string formatted_ctps
+ * @property-read string formatted_protocol
+ * @property-read string formatted_ctps
  */
 class Job extends Model
 {

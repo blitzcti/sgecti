@@ -95,10 +95,12 @@ class SupervisorController extends Controller
         $supervisor = new Supervisor();
         $params = [];
 
-        $supervisor->name = $request->input('supervisorName');
-        $supervisor->email = $request->input('supervisorEmail');
-        $supervisor->phone = $request->input('supervisorPhone');
-        $supervisor->company_id = $request->input('company');
+        $validatedData = (object)$request->validated();
+
+        $supervisor->company_id = $validatedData->company;
+        $supervisor->name = $validatedData->name;
+        $supervisor->email = $validatedData->email;
+        $supervisor->phone = $validatedData->phone;
 
         $saved = $supervisor->save();
 
@@ -109,13 +111,15 @@ class SupervisorController extends Controller
 
     public function update($id, UpdateSupervisor $request)
     {
-        $supervisor = Sector::findOrFail($id);
+        $supervisor = Supervisor::findOrFail($id);
         $params = [];
 
-        $supervisor->name = $request->input('supervisorName');
-        $supervisor->email = $request->input('supervisorEmail');
-        $supervisor->phone = $request->input('supervisorPhone');
-        $supervisor->company_id = $request->input('company');
+        $validatedData = (object)$request->validated();
+
+        $supervisor->company_id = $validatedData->company;
+        $supervisor->name = $validatedData->name;
+        $supervisor->email = $validatedData->email;
+        $supervisor->phone = $validatedData->phone;
 
         $saved = $supervisor->save();
 

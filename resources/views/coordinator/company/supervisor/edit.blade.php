@@ -65,7 +65,7 @@
 
                                 <option
                                     value="{{ $company->id }}" {{ (old('company') ?? $supervisor->company_id) == $company->id ? 'selected' : '' }}>
-                                    {{ $company->cpf_cnpj }}
+                                    {{ $company->formatted_cpf_cnpj }}
                                     - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
                                 </option>
 

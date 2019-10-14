@@ -71,7 +71,7 @@ class MessageController extends Controller
         $params = [];
         $validatedData = (object)$request->validated();
 
-        if (!config('app.debug')) {
+        if (config('app.debug')) {
             $student = Student::find(1757037);
 
             switch ($validatedData->message) {
@@ -180,31 +180,35 @@ class MessageController extends Controller
 
             switch ($validatedData->message) {
                 case 0:
-                    /*foreach ($students as $student) {
-                        $this->sendBimestralReportMail($student->matricula);
-                    }*/
+                    /* @var $student Student */
+                    foreach ($students as $student) {
+                        $this->sendBimestralReportMail($student);
+                    }
 
                     break;
 
                 case 1:
                     $proposal = Proposal::find($validatedData->proposal);
-                    /*foreach ($students as $student) {
+                    /* @var $student Student */
+                    foreach ($students as $student) {
                         $this->sendInternshipProposalMail($proposal, $student);
-                    }*/
+                    }
 
                     break;
 
                 case 2:
-                    /*foreach ($students as $student) {
+                    /* @var $student Student */
+                    foreach ($students as $student) {
                         $this->sendImportantMail($validatedData->messageBody, $student);
-                    }*
+                    }
 
                     break;
 
                 case 3:
-                    /*foreach ($students as $student) {
+                    /* @var $student Student */
+                    foreach ($students as $student) {
                         $this->sendFreeMail($validatedData->subject, $validatedData->messageBody, $student);
-                    }*/
+                    }
 
                     break;
             }

@@ -24,7 +24,7 @@
                     <div class="col-sm-10">
                         <input type="text" class="form-control input-info" id="inputCompanyName" name="companyName"
                                readonly
-                               value="{{ $agreement->company->cpf_cnpj }} - {{ $agreement->company->name }} {{ $agreement->company->fantasy_name != null ? "({$agreement->company->fantasy_name})" : '' }}"/>
+                               value="{{ $agreement->company->formatted_cpf_cnpj }} - {{ $agreement->company->name }} {{ $agreement->company->fantasy_name != null ? "({$agreement->company->fantasy_name})" : '' }}"/>
                     </div>
                 </div>
 

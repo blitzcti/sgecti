@@ -150,28 +150,6 @@
 
 @section('js')
     <script type="text/javascript">
-        function pj(isPj) {
-            if (isPj) {
-                jQuery('#CpfCnpjOption').text('CNPJ');
-
-                jQuery("input[id*='inputCpfCnpj']").inputmask({
-                    mask: '99.999.999/9999-99',
-                    removeMaskOnSubmit: true
-                });
-
-                jQuery('#inputPj').val(1);
-            } else {
-                jQuery('#CpfCnpjOption').text('CPF');
-
-                jQuery("input[id*='inputCpfCnpj']").inputmask({
-                    mask: '999.999.999-99',
-                    removeMaskOnSubmit: true
-                });
-
-                jQuery('#inputPj').val(0);
-            }
-        }
-
         jQuery(document).ready(function () {
             jQuery('.selection').select2({
                 language: "pt-BR"

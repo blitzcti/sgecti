@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Auth;
+use App\Models\Course;
 use App\Models\Internship;
 use App\Models\Proposal;
 use Illuminate\Contracts\Support\Renderable;
@@ -39,6 +40,8 @@ class HomeController extends Controller
                 ->where('reason_to_reject', '=', null)
                 ->filter(function ($proposal) use ($cIds) {
                     $ret = false;
+
+                    /* @var $course Course */
                     foreach ($proposal->courses as $course) {
                         if (!$ret) {
                             $ret = in_array($course->id, $cIds);

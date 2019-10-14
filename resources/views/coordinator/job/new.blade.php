@@ -7,6 +7,7 @@
 @stop
 
 @section('content')
+    @include('modals.coordinator.job.company.new')
     @include('modals.coordinator.student.search')
 
     <form class="form-horizontal" action="{{ route('coordenador.trabalho.salvar') }}" method="post">
@@ -76,7 +77,7 @@
 
                                 <option
                                     value="{{ $company->id }}" {{ (old('company') ?? 1) == $company->id ? 'selected' : '' }}>
-                                    {{ $company->cpf_cnpj }}
+                                    {{ $company->formatted_cpf_cnpj }}
                                     - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
                                 </option>
 
@@ -147,7 +148,8 @@
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputCTPS" name="ctps"
-                                       data-inputmask="'mask': '999999/99999'" value="{{ old('ctps') ?? '' }}"/>
+                                       placeholder="123321/22222" data-inputmask="'mask': '999999/99999'"
+                                       value="{{ old('ctps') ?? '' }}"/>
 
                                 <span class="help-block">{{ $errors->first('ctps') }}</span>
                             </div>
@@ -181,7 +183,11 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
+                <div class="btn-group pull-right">
+                    <a href="#" class="btn btn-success" id="aAddCompany" data-toggle="modal"
+                       data-target="#newJobCompanyModal">Nova empresa</a>
+                    <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
+                </div>
 
                 <input type="hidden" id="inputPrevious" name="previous"
                        value="{{ old('previous') ?? url()->previous() }}">
@@ -221,6 +227,39 @@
 
             jQuery('.selection').select2({
                 language: "pt-BR"
+            });
+
+            jQuery('#inputCompany').select2({
+                language: "pt-BR",
+                ajax: {
+                    url: `/api/coordenador/trabalho/empresa`,
+                    dataType: 'json',
+                    method: 'GET',
+                    cache: true,
+                    data: function (params) {
+                        return {
+                            q: params.term // search term
+                        };
+                    },
+
+                    processResults: function (response) {
+                        companies = [];
+                        response.forEach(company => {
+                            if (company.active) {
+                                let text = `${company.cpf_cnpj} - ${company.name}`;
+                                if (company.fantasy_name !== '') {
+                                    text = `${text} (${company.fantasy_name})`;
+                                }
+
+                                companies.push({id: company.id, text: text});
+                            }
+                        });
+
+                        return {
+                            results: companies
+                        };
+                    },
+                }
             });
 
             jQuery('#inputCompany').on('change', e => {

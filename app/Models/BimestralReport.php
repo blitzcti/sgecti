@@ -16,7 +16,7 @@ use Carbon\Carbon;
  * @property Carbon updated_at
  *
  * @property Internship internship
- * @property string formatted_protocol
+ * @property-read string formatted_protocol
  */
 class BimestralReport extends Model
 {

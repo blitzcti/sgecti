@@ -26,7 +26,7 @@
                        onclick="deleteProposalId('{{ $proposal->id }}'); return false;" data-toggle="modal"
                        class="btn btn-danger" data-target="#proposalDeleteModal">Excluir proposta</a>
 
-                @elseif($proposal->approved_at != null)
+                @elseif($proposal->deadline >= \Carbon\Carbon::now() && $proposal->approved_at != null)
 
                     <a href="{{ route('coordenador.mensagem.index', ['p' => $proposal->id]) }}"
                        class="btn btn-success">Enviar email</a>
@@ -52,8 +52,12 @@
                 <dt class="col-sm-2">Requisitos</dt>
                 <dd class="col-sm-10">{{ $proposal->requirements }}</dd>
 
-                <dt class="col-sm-2">Benefícios</dt>
-                <dd class="col-sm-10">{{ $proposal->benefits }}</dd>
+                @if($proposal->benefits != null)
+
+                    <dt class="col-sm-2">Benefícios</dt>
+                    <dd class="col-sm-10">{{ $proposal->benefits }}</dd>
+
+                @endif
 
                 <dt class="col-sm-2">Contato</dt>
                 <dd class="col-sm-10">{{ $proposal->contact }}</dd>

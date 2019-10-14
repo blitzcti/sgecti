@@ -43,8 +43,10 @@
                         <td>{{ $proposal->description }}</td>
                         <td>{{ $proposal->deadline->format('d/m/Y') }}</td>
 
-                        @if($proposal->approved_at != null)
-                            <td>Aprovado</td>
+                        @if($proposal->deadline < \Carbon\Carbon::now())
+                            <td>Expirada</td>
+                        @elseif($proposal->approved_at != null)
+                            <td>Aprovada</td>
                         @elseif($proposal->reason_to_reject != null)
                             <td>Requer alterações</td>
                         @else

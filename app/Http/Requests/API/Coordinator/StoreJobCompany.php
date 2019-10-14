@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Coordinator;
+namespace App\Http\Requests\API\Coordinator;
 
+use App\Http\Requests\API\FormRequest;
 use App\Rules\CNPJ;
 use App\Rules\CPF;
 use App\Rules\Integer;
-use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateJobCompany extends FormRequest
+class StoreJobCompany extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,6 +27,9 @@ class UpdateJobCompany extends FormRequest
     public function rules()
     {
         return [
+            'pj' => ['required', 'boolean'],
+
+            'cpfCnpj' => ['required', new Integer, 'unique:job_companies,cpf_cnpj', ($this->get('pj')) ? new CNPJ : new CPF],
             'ie' => ['nullable', new Integer, 'digits:10'],
             'name' => ['required', 'max:191'],
             'fantasyName' => ['nullable', 'max:191'],

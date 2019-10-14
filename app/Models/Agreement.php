@@ -61,7 +61,9 @@ class Agreement extends Model
     {
         $user = $this->company->user;
 
-        return $user->delete();
+        if ($user != null) {
+            return $user->delete();
+        }
     }
 
     public static function expiredToday()

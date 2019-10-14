@@ -33,7 +33,7 @@ class StudentPDF extends FormRequest
             'courses' => ['required_without_all:grades,periods,classes,internships', 'nullable', 'array'],
             'courses.*' => ['nullable', 'integer', 'distinct', 'min:1', 'exists:courses,id'],
             'internships' => ['required_without_all:grades,periods,classes,courses', 'nullable', 'array'],
-            'internships.*' => ['nullable', 'integer', 'distinct', 'min:0', 'max:2'],
+            'internships.*' => ['nullable', 'integer', 'distinct', 'min:0', 'max:3'],
         ];
     }
 }

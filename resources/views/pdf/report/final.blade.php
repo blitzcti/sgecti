@@ -90,7 +90,7 @@
     <br/><br/>
 
     @if($student->canGraduate())
-        <span><b>Aluno Habilitado a colar grau no curso técnico em Informática.</b></span><br/>
+        <span><b>Aluno habilitado a colar grau no curso técnico em Informática.</b></span><br/>
     @endif
 
     <span class="pull-right">{{ $sysConfig->city }}, {{ \Carbon\Carbon::now()->formatLocalized('%02d de %B de %Y') }}.</span>

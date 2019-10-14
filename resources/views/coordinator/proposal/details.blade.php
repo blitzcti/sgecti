@@ -26,7 +26,7 @@
                        onclick="deleteProposalId('{{ $proposal->id }}'); return false;" data-toggle="modal"
                        class="btn btn-danger" data-target="#proposalDeleteModal">Excluir proposta</a>
 
-                @elseif($proposal->approved_at != null)
+                @elseif($proposal->deadline >= \Carbon\Carbon::now() && $proposal->approved_at != null)
 
                     <a href="{{ route('coordenador.mensagem.index', ['p' => $proposal->id]) }}"
                        class="btn btn-success">Enviar email</a>

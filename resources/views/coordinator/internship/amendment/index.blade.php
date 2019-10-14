@@ -34,7 +34,9 @@
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th>Aluno</th>
+                    @if(!isset($internship))
+                        <th>Aluno</th>
+                    @endif
                     <th>Empresa</th>
                     <th>Data de início</th>
                     <th>Data de término</th>
@@ -48,9 +50,12 @@
                     <tr>
                         <th scope="row">{{ $amendment->id }}</th>
 
-                        <td>{{ $amendment->internship->ra }} - {{ $amendment->internship->student->nome }}</td>
+                        @if(!isset($internship))
+                            <td>{{ $amendment->internship->ra }} - {{ $amendment->internship->student->nome }}</td>
+                        @endif
 
-                        <td>{{ $amendment->internship->company->name }} {{ $amendment->internship->company->fantasy_name != null ? "({$amendment->internship->company->fantasy_name})" : '' }}</td>
+                        <td>{{ $amendment->internship->company->formatted_cpf_cnpj }}
+                            - {{ $amendment->internship->company->name }} {{ $amendment->internship->company->fantasy_name != null ? "({$amendment->internship->company->fantasy_name})" : '' }}</td>
                         <td>{{ $amendment->start_date->format("d/m/Y") }}</td>
                         <td>{{ $amendment->end_date->format("d/m/Y") }}</td>
                         <td>

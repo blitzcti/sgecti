@@ -60,7 +60,7 @@
                     <div class="col-sm-10">
                         <input type="text" class="form-control input-info" id="inputCompany"
                                name="company" readonly
-                               value="{{ $job->company->cpf_cnpj }} - {{ $job->company->name }} {{ $job->company->fantasy_name != null ? "(". $job->company->fantasy_name. ")" : '' }}"/>
+                               value="{{ $job->company->formatted_cpf_cnpj }} - {{ $job->company->name }} {{ $job->company->fantasy_name != null ? "(". $job->company->fantasy_name. ")" : '' }}"/>
                     </div>
                 </div>
 
@@ -123,7 +123,8 @@
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputCTPS" name="ctps"
-                                       data-inputmask="'mask': '999999/99999'" value="{{ old('ctps') ?? $job->ctps }}"/>
+                                       placeholder="123321/22222" data-inputmask="'mask': '999999/99999'"
+                                       value="{{ old('ctps') ?? $job->ctps }}"/>
 
                                 <span class="help-block">{{ $errors->first('ctps') }}</span>
                             </div>

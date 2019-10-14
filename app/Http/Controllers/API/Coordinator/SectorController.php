@@ -93,9 +93,11 @@ class SectorController extends Controller
         $sector = new Sector();
         $params = [];
 
-        $sector->name = $request->input('name');
-        $sector->description = $request->input('description');
-        $sector->active = $request->input('active');
+        $validatedData = (object)$request->validated();
+
+        $sector->name = $validatedData->name;
+        $sector->description = $validatedData->description;
+        $sector->active = $validatedData->active;
 
         $saved = $sector->save();
 
@@ -109,9 +111,11 @@ class SectorController extends Controller
         $sector = Sector::findOrFail($id);
         $params = [];
 
-        $sector->name = $request->input('name');
-        $sector->description = $request->input('description');
-        $sector->active = $request->input('active');
+        $validatedData = (object)$request->validated();
+
+        $sector->name = $validatedData->name;
+        $sector->description = $validatedData->description;
+        $sector->active = $validatedData->active;
 
         $saved = $sector->save();
 

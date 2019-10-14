@@ -70,7 +70,7 @@
 
             <dl class="row">
                 <dt class="col-sm-2">CPF / CNPJ da empresa</dt>
-                <dd class="col-sm-10">{{ $internship->company->cpf_cnpj }}</dd>
+                <dd class="col-sm-10">{{ $internship->company->formatted_cpf_cnpj }}</dd>
 
                 <dt class="col-sm-2">Empresa</dt>
                 <dd class="col-sm-10">{{ $internship->company->name }}</dd>

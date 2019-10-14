@@ -37,7 +37,7 @@ class MessageController extends Controller
         $params = [];
         $validatedData = (object)$request->validated();
 
-        if (!config('app.debug')) {
+        if (config('app.debug')) {
             $student = Student::find(1757037);
 
             $this->sendFreeMail($validatedData->subject, $validatedData->messageBody, $student);
@@ -127,9 +127,10 @@ class MessageController extends Controller
                 $students = Student::findOrFail($validatedData->students);
             }
 
-            /*foreach ($students as $student) {
+            /* @var $student Student */
+            foreach ($students as $student) {
                 $this->sendFreeMail($validatedData->subject, $validatedData->messageBody, $student);
-            }*/
+            }
         }
 
         $params['sent'] = count(Mail::failures()) == 0;

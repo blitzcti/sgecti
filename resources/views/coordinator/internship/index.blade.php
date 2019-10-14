@@ -46,7 +46,7 @@
 
                         <td>{{ $internship->ra }} - {{ $internship->student->nome }}</td>
 
-                        <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "({$internship->company->fantasy_name})" : '' }}</td>
+                        <td>{{ $internship->company->formatted_cpf_cnpj }} - {{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "({$internship->company->fantasy_name})" : '' }}</td>
                         <td>{{ $internship->coordinator->user->name }}</td>
                         <td>{{ $internship->state->description }}</td>
                         <td>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API\Coordinator;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\Coordinator\StoreJobCompany;
+use App\Http\Requests\API\Coordinator\UpdateJobCompany;
 use App\Models\JobCompany;
 use Illuminate\Http\Request;
 
@@ -67,5 +69,49 @@ class JobCompanyController extends Controller
                 'charset' => 'utf-8'
             ],
             JSON_UNESCAPED_UNICODE);
+    }
+
+    public function store(StoreJobCompany $request)
+    {
+        $company = new JobCompany();
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $company->cpf_cnpj = $validatedData->cpfCnpj;
+        $company->ie = $validatedData->ie;
+        $company->pj = $validatedData->pj;
+        $company->name = $validatedData->name;
+        $company->fantasy_name = $validatedData->fantasyName;
+        $company->representative_name = $validatedData->representativeName;
+        $company->representative_role = $validatedData->representativeRole;
+        $company->active = $validatedData->active;
+
+        $saved = $company->save();
+
+        $params['saved'] = $saved;
+
+        return response()->json($params);
+    }
+
+    public function update($id, UpdateJobCompany $request)
+    {
+        $company = JobCompany::findOrFail($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $company->ie = $validatedData->ie;
+        $company->name = $validatedData->name;
+        $company->fantasy_name = $validatedData->fantasyName;
+        $company->representative_name = $validatedData->representativeName;
+        $company->representative_role = $validatedData->representativeRole;
+        $company->active = $validatedData->active;
+
+        $saved = $company->save();
+
+        $params['saved'] = $saved;
+
+        return response()->json($params);
     }
 }

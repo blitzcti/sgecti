@@ -221,7 +221,7 @@ class DocumentController extends Controller
 
         $template->setValue('company', $internship->company->name);
         $template->setValue('sector', $internship->sector->name);
-        $template->setValue('address', $internship->company->address->getFormattedAddress());
+        $template->setValue('address', $internship->company->address->formatted_address);
         $template->setValue('company_city', $internship->company->address->city);
         $template->setValue('uf', $internship->company->address->uf);
         $template->setValue('phone', $internship->company->formatted_phone);
@@ -280,7 +280,7 @@ class DocumentController extends Controller
         $template->setValue('coordinator', $student->course->coordinator->user->name);
 
         $template->setValue('company', $internship->company->name);
-        $template->setValue('address', $internship->company->address->getFormattedAddress());
+        $template->setValue('address', $internship->company->address->formatted_address);
         $template->setValue('company_city', $internship->company->address->city);
         $template->setValue('uf', $internship->company->address->uf);
         $template->setValue('phone', $internship->company->formatted_phone);
@@ -323,7 +323,7 @@ class DocumentController extends Controller
         $template->setValue('coordinator', $student->course->coordinator->user->name);
 
         $template->setValue('company', $internship->company->name);
-        $template->setValue('address', $internship->company->address->getFormattedAddress());
+        $template->setValue('address', $internship->company->address->formatted_address);
         $template->setValue('company_city', $internship->company->address->city);
         $template->setValue('uf', $internship->company->address->uf);
         $template->setValue('phone', $internship->company->formatted_phone);

@@ -47,8 +47,10 @@
                         <td>{{ $proposal->description }}</td>
                         <td>{{ $proposal->deadline->format('d/m/Y') }}</td>
 
-                        @if($proposal->approved_at != null)
-                            <td>Aprovado</td>
+                        @if($proposal->deadline < \Carbon\Carbon::now())
+                            <td>Expirada</td>
+                        @elseif($proposal->approved_at != null)
+                            <td>Aprovada</td>
                         @elseif($proposal->reason_to_reject != null)
                             <td>Requer alterações</td>
                         @else
@@ -61,7 +63,7 @@
                             <a href="{{ route('coordenador.proposta.editar', ['id' => $proposal->id]) }}">Editar</a>
                             |
 
-                            @if($proposal->approved_at != null)
+                            @if($proposal->deadline >= \Carbon\Carbon::now() && $proposal->approved_at != null)
                                 <a href="{{ route('coordenador.mensagem.index', ['p' => $proposal->id]) }}"
                                    class="text-green">Enviar email</a>
                                 |

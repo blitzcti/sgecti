@@ -25,16 +25,16 @@ use Illuminate\Database\Eloquent\Collection;
  * @property int situacao_matricula
  * @property Carbon data_de_nascimento
  *
- * @property int course_id
- * @property int year
- * @property int grade
- * @property int class
- * @property int age
- * @property CourseConfiguration|GeneralConfiguration course_configuration
- * @property int internship_state
- * @property int completed_hours
- * @property int completed_months
- * @property int ctps_completed_months
+ * @property-read int course_id
+ * @property-read int year
+ * @property-read int grade
+ * @property-read int class
+ * @property-read int age
+ * @property-read CourseConfiguration|GeneralConfiguration course_configuration
+ * @property-read int internship_state
+ * @property-read int completed_hours
+ * @property-read int completed_months
+ * @property-read int ctps_completed_months
  *
  * @property Internship internship
  * @property Collection|Internship[] finished_internships
@@ -220,6 +220,6 @@ class Student extends Model
 
     public static function actives()
     {
-        return Student::where('situacao_matricula', '=', 0)->orWhere('situacao_matricula', '=', 5)->get();
+        return static::where('situacao_matricula', '=', 0)->orWhere('situacao_matricula', '=', 5)->get();
     }
 }

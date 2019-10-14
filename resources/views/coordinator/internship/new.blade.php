@@ -84,7 +84,7 @@
 
                                 <option
                                     value="{{ $company->id }}" {{ (old('company') ?? 1) == $company->id ? 'selected' : '' }}>
-                                    {{ $company->cpf_cnpj }}
+                                    {{ $company->formatted_cpf_cnpj }}
                                     - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
                                 </option>
 
@@ -188,6 +188,23 @@
             </div>
 
             <div class="box-body">
+                @foreach($fields as $field)
+                    @if($errors->has("{$field}S") || $errors->has("{$field}E") || $errors->has("{$field}S2") || $errors->has("{$field}E2"))
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            @foreach($fields as $f)
+                                <p>{{ $errors->first("{$f}S") }}</p>
+                                <p>{{ $errors->first("{$f}E") }}</p>
+                                <p>{{ $errors->first("{$f}S2") }}</p>
+                                <p>{{ $errors->first("{$f}E2") }}</p>
+                            @endforeach
+                        </div>
+                        @break
+                    @endif
+                @endforeach
+
                 <div class="form-group">
                     <label for="inputWeekDays" class="col-sm-2 control-label">Horário*</label>
 

@@ -24,7 +24,7 @@
 
             <dl class="row">
                 <dt class="col-sm-2">{{ ($company->pj) ? 'CNPJ' : 'CPF' }}</dt>
-                <dd class="col-sm-10">{{ $company->cpf_cnpj }}</dd>
+                <dd class="col-sm-10">{{ $company->formatted_cpf_cnpj }}</dd>
 
                 <dt class="col-sm-2">Nome</dt>
                 <dd class="col-sm-10">{{ $company->name }}</dd>
@@ -53,7 +53,7 @@
 
             <dl class="row">
                 <dt class="col-sm-2">CEP</dt>
-                <dd class="col-sm-10">{{ $address->cep }}</dd>
+                <dd class="col-sm-10">{{ $address->formatted_cep }}</dd>
 
                 <dt class="col-sm-2">UF</dt>
                 <dd class="col-sm-10">{{ $address->uf }}</dd>

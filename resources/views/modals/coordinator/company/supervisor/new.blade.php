@@ -25,7 +25,7 @@
 
                                 @foreach($companies as $company)
 
-                                    <option value="{{ $company->id }}">{{ $company->cpf_cnpj }}
+                                    <option value="{{ $company->id }}">{{ $company->formatted_cpf_cnpj }}
                                         - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
                                     </option>
 
@@ -89,10 +89,10 @@
                 jQuery.ajax({
                     url: '{{ route('api.coordenador.empresa.supervisor.salvar') }}',
                     data: {
-                        'supervisorName': jQuery('#inputSupervisorName').val(),
-                        'supervisorEmail': jQuery('#inputSupervisorEmail').val(),
-                        'supervisorPhone': jQuery('#inputSupervisorPhone').val(),
-                        'company': parseInt(jQuery('#inputSupervisorCompany').select2('val'))
+                        company: parseInt(jQuery('#inputSupervisorCompany').select2('val')),
+                        name: jQuery('#inputSupervisorName').val(),
+                        email: jQuery('#inputSupervisorEmail').val(),
+                        phone: jQuery('#inputSupervisorPhone').val(),
                     },
                     method: 'POST',
                     success: function (data) {

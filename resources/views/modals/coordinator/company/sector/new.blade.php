@@ -2,7 +2,7 @@
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form id="formSetor" class="form-horizontal" action="{{ route('api.coordenador.empresa.setor.salvar') }}"
+            <form id="formSector" class="form-horizontal" action="{{ route('api.coordenador.empresa.setor.salvar') }}"
                   method="post">
                 @csrf
 
@@ -59,15 +59,15 @@
 
     <script type="text/javascript">
         jQuery(document).ready(function () {
-            jQuery('#formSetor').submit(e => {
+            jQuery('#formSector').submit(e => {
                 e.preventDefault();
 
                 jQuery.ajax({
                     url: '{{ route('api.coordenador.empresa.setor.salvar') }}',
                     data: {
-                        'name': jQuery('#inputSectorName').val(),
-                        'description': jQuery('#inputSectorDescription').val(),
-                        'active': parseInt(jQuery('#inputSectorActive').select2('val'))
+                        name: jQuery('#inputSectorName').val(),
+                        description: jQuery('#inputSectorDescription').val(),
+                        active: parseInt(jQuery('#inputSectorActive').select2('val')),
                     },
                     method: 'POST',
                     success: function (data) {

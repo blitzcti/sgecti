@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Coordinator;
+namespace App\Http\Requests\API\Coordinator;
 
+use App\Http\Requests\API\FormRequest;
 use App\Rules\CNPJ;
 use App\Rules\CPF;
 use App\Rules\Integer;
-use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateJobCompany extends FormRequest
 {

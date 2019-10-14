@@ -32,11 +32,11 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Collection|Coordinator[] coordinators
  * @property Company company
  * @property Student student
- * @property Collection|Course[] coordinator_of
- * @property Collection|Course[] non_temp_coordinator_of
- * @property int[] coordinator_courses_id
- * @property string coordinator_courses_name
- * @property string formatted_phone
+ * @property-read Collection|Course[] coordinator_of
+ * @property-read Collection|Course[] non_temp_coordinator_of
+ * @property-read int[] coordinator_courses_id
+ * @property-read string coordinator_courses_name
+ * @property-read string formatted_phone
  */
 class User extends Authenticatable
 {

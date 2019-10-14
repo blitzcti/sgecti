@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
+use App\Auth;
 use App\Models\Course;
 use Illuminate\Contracts\Events\Dispatcher;
-use App\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
@@ -192,6 +192,8 @@ class AppServiceProvider extends ServiceProvider
 
             //Cursos tab
             $menu->add('CURSOS');
+
+            /* @var $course Course */
             foreach ($courses as $course) {
                 if ($course->active) {
                     $color = $course->color;
@@ -482,7 +484,7 @@ class AppServiceProvider extends ServiceProvider
             ]);
         }
 
-        if($user->isStudent()) {
+        if ($user->isStudent()) {
             $menu->add('ESTÁGIOS');
             $menu->add([
                 'text' => 'menu.proposals',

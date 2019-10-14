@@ -42,9 +42,9 @@ use Illuminate\Database\Eloquent\Collection;
  * @property Collection|Amendment[] not_empty_amendments
  * @property Collection|BimestralReport[] bimestral_reports
  * @property FinalReport final_report
- * @property Carbon a_end_date
- * @property int estimated_hours
- * @property string formatted_protocol
+ * @property-read Carbon a_end_date
+ * @property-read int estimated_hours
+ * @property-read string formatted_protocol
  */
 class Internship extends Model
 {
@@ -162,6 +162,8 @@ class Internship extends Model
     public function getAEndDateAttribute()
     {
         $endDate = $this->end_date;
+
+        /* @var $amendment Amendment */
         foreach ($this->amendments->sortByDesc('id') as $amendment) {
             if ($amendment->new_end_date !== null) {
                 $endDate = $amendment->new_end_date;
@@ -181,6 +183,7 @@ class Internship extends Model
         }
 
         if ($amendments != null) {
+            /* @var $amendment Amendment */
             foreach ($amendments as $amendment) {
                 $h += $amendment->schedule->countHours($amendment->start_date, $amendment->end_date, $amendments);
 

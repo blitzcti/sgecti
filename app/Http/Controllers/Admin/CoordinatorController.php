@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\DestroyCoordinator;
 use App\Http\Requests\Admin\StoreCoordinator;
@@ -11,8 +12,6 @@ use App\Models\Course;
 use App\Models\User;
 use App\Notifications\WebNotification;
 use Carbon\Carbon;
-use DateTime;
-use App\Auth;
 use Illuminate\Support\Facades\Log;
 
 class CoordinatorController extends Controller
@@ -180,6 +179,8 @@ class CoordinatorController extends Controller
     public function checkCoordinators()
     {
         $coordinators = Coordinator::expiredToday();
+
+        /* @var $coordinator Coordinator */
         foreach ($coordinators as $coordinator) {
             $cName = $coordinator->course->name;
             $notification = new WebNotification(['description' => "Coordenadoria de $cName", 'text' => "Seu cargo de coordenador expirou.", 'icon' => 'calendar']);
@@ -187,8 +188,10 @@ class CoordinatorController extends Controller
         }
 
         $coordinators = Coordinator::actives();
+
+        /* @var $coordinator Coordinator */
         foreach ($coordinators as $coordinator) {
-            $endDate = new DateTime($coordinator->end_date);
+            $endDate = $coordinator->end_date;
             $max = Carbon::now()->modify('-30 day');
             if ($endDate < $max) {
                 $period = $max->diff($endDate)->format("%a");

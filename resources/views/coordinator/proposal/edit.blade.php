@@ -31,7 +31,7 @@
                     <div class="col-sm-10">
                         <input type="text" class="form-control input-info" id="inputCompany"
                                name="company" readonly
-                               value="{{ $proposal->company->cpf_cnpj }} - {{ $proposal->company->name }} {{ $proposal->company->fantasy_name != null ? "({$proposal->company->fantasy_name})" : '' }}"/>
+                               value="{{ $proposal->company->formatted_cpf_cnpj }} - {{ $proposal->company->name }} {{ $proposal->company->fantasy_name != null ? "({$proposal->company->fantasy_name})" : '' }}"/>
                     </div>
                 </div>
 
@@ -205,6 +205,23 @@
 
             <div id="schedule">
                 <div class="box-body">
+                    @foreach($fields as $field)
+                        @if($errors->has("{$field}S") || $errors->has("{$field}E") || $errors->has("{$field}S2") || $errors->has("{$field}E2"))
+                            <div class="alert alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                @foreach($fields as $f)
+                                    <p>{{ $errors->first("{$f}S") }}</p>
+                                    <p>{{ $errors->first("{$f}E") }}</p>
+                                    <p>{{ $errors->first("{$f}S2") }}</p>
+                                    <p>{{ $errors->first("{$f}E2") }}</p>
+                                @endforeach
+                            </div>
+                            @break
+                        @endif
+                    @endforeach
+
                     <div class="form-group">
                         <label for="inputWeekDays" class="col-sm-2 control-label">Horário</label>
 

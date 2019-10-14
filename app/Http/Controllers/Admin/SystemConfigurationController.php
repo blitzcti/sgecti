@@ -22,8 +22,8 @@ class SystemConfigurationController extends Controller
 
     public function index()
     {
-        $configs = SystemConfiguration::all();
-        return view('admin.system.configurations.parameters.index')->with(['configs' => $configs]);
+        $config = SystemConfiguration::getCurrent();
+        return view('admin.system.configurations.parameters.edit')->with(['config' => $config]);
     }
 
     public function create()

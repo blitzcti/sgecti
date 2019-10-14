@@ -43,6 +43,6 @@ class CompanyHasEmail implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return __('validation.company_has_email');
     }
 }

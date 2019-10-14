@@ -197,6 +197,7 @@ class CompanyController extends Controller
             Log::info($log);
 
             if ($cUser != null) {
+                $cUser->name = $company->representative_name;
                 $cUser->email = $company->email;
                 $cUser->save();
             }

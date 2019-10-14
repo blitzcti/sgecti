@@ -38,6 +38,7 @@ return [
     'cnpj' => 'The :attribute should be a valid CNPJ.',
     'cpf' => 'The :attribute should be a valid CPF.',
     'company_has_course' => 'The course from :attribute is not from a course the company covers.',
+    'company_has_email' => 'The company from :attribute does not have an email.',
     'company_has_student_course' => 'The student from :attribute is not from a course the company covers.',
     'company_has_sector' => 'The sector from :attribute is not from a sector the company covers.',
     'company_has_supervisor' => 'The supervisor from :attribute is not from a supervisor that the company has.',

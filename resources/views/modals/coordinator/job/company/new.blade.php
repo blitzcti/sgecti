@@ -150,13 +150,13 @@
                 jQuery.ajax({
                     url: '{{ route('api.coordenador.trabalho.empresa.salvar') }}',
                     data: {
-                        cpf_cnpj: jQuery('#inputCompanyCpfCnpj').val(),
-                        ie: jQuery('#inputCompanyIE').val(),
+                        cpfCnpj: jQuery('#inputCompanyCpfCnpj').inputmask('unmaskedvalue'),
+                        ie: jQuery('#inputCompanyIE').inputmask('unmaskedvalue'),
                         pj: jQuery('#inputCompanyPj').val(),
                         name: jQuery('#inputCompanyName').val(),
-                        fantasy_name: jQuery('#inputCompanyFantasyName').val(),
-                        representative_name: jQuery('#inputCompanyRepresentativeName').val(),
-                        representative_role: jQuery('#inputCompanyRepresentativeRole').val(),
+                        fantasyName: jQuery('#inputCompanyFantasyName').val(),
+                        representativeName: jQuery('#inputCompanyRepresentativeName').val(),
+                        representativeRole: jQuery('#inputCompanyRepresentativeRole').val(),
                         active: parseInt(jQuery('#inputCompanyActive').select2('val')),
                     },
                     method: 'POST',
@@ -170,7 +170,7 @@
                         jQuery('#inputCompanyRepresentativeRole').val('');
                         jQuery('#inputCompanyActive').select2('val', '1');
 
-                        jQuery('#newCompanySectorModal').modal('hide');
+                        jQuery('#newJobCompanyModal').modal('hide');
                     },
 
                     error: function (data) {
@@ -184,6 +184,55 @@
                         alert(errors.join('\n'));
                     }
                 });
+            });
+
+            function loadCnpj() {
+                if (jQuery('#inputCompanyPj').val() === '1') {
+                    jQuery("#cnpjLoadingModal").modal({
+                        backdrop: "static",
+                        keyboard: false,
+                        show: true
+                    });
+
+                    jQuery.ajax({
+                        url: `/api/external/cnpj/${jQuery('#inputCompanyCpfCnpj').inputmask('unmaskedvalue')}`,
+                        dataType: 'json',
+                        type: 'GET',
+                        success: function (company) {
+                            jQuery("#cnpjLoadingModal").modal("hide");
+
+                            if (company.error) {
+                                jQuery("#cnpjErrorModal").modal({
+                                    backdrop: "static",
+                                    keyboard: false,
+                                    show: true
+                                });
+
+                                company.name = '';
+                                company.fantasyName = '';
+                            }
+
+                            jQuery('#inputCompanyName').val(company.name);
+                            jQuery('#inputCompanyFantasyName').val(company.fantasyName);
+                        },
+
+                        error: function () {
+                            jQuery("#cnpjLoadingModal").modal("hide");
+
+                            jQuery("#cnpjErrorModal").modal({
+                                backdrop: "static",
+                                keyboard: false,
+                                show: true
+                            });
+                        }
+                    });
+                }
+            }
+
+            jQuery('#inputCompanyCpfCnpj').blur(() => {
+                if (jQuery('#inputCompanyCpfCnpj').val() !== "") {
+                    loadCnpj();
+                }
             });
 
             pj(1);

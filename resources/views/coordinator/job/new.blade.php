@@ -246,7 +246,23 @@
                         companies = [];
                         response.forEach(company => {
                             if (company.active) {
-                                let text = `${company.cpf_cnpj} - ${company.name}`;
+                                let formatted_cpf_cnpj;
+                                if (company.pj) {
+                                    let p1 = company.cpf_cnpj.substring(0, 2);
+                                    let p2 = company.cpf_cnpj.substring(2, 5);
+                                    let p3 = company.cpf_cnpj.substring(5, 8);
+                                    let p4 = company.cpf_cnpj.substring(8, 12);
+                                    let p5 = company.cpf_cnpj.substring(12, 14);
+                                    formatted_cpf_cnpj = `${p1}.${p2}.${p3}/${p4}-${p5}`;
+                                } else {
+                                    let p1 = company.cpf_cnpj.substring(0, 3);
+                                    let p2 = company.cpf_cnpj.substring(3, 6);
+                                    let p3 = company.cpf_cnpj.substring(6, 9);
+                                    let p4 = company.cpf_cnpj.substring(9, 11);
+                                    formatted_cpf_cnpj = `${p1}.${p2}.${p3}-${p4}`;
+                                }
+
+                                let text = `${formatted_cpf_cnpj} - ${company.name}`;
                                 if (company.fantasy_name !== '') {
                                     text = `${text} (${company.fantasy_name})`;
                                 }

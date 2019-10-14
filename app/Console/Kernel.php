@@ -5,6 +5,8 @@ namespace App\Console;
 use App\Models\Agreement;
 use App\Models\BackupConfiguration;
 use App\Models\Coordinator;
+use App\Models\FinalReport;
+use App\Models\Internship;
 use App\Models\User;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -62,6 +64,12 @@ class Kernel extends ConsoleKernel
                 && Schema::hasTable((new Coordinator())->getTable())
                 && Schema::hasTable((new DatabaseNotification())->getTable())) {
                 $schedule->call('App\Http\Controllers\Admin\CoordinatorController@checkCoordinators')->daily()->at('00:00');
+            }
+
+            if (Schema::hasTable((new User())->getTable())
+                && Schema::hasTable((new Internship())->getTable())
+                && Schema::hasTable((new FinalReport())->getTable())) {
+                $schedule->call('App\Http\Controllers\Admin\InternshipController@checkFinishedToday')->daily()->at('00:00');
             }
         }
     }

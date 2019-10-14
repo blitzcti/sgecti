@@ -35,6 +35,7 @@ return [
     'cnpj' => 'O campo :attribute deve ser um CNPJ válido.',
     'cpf' => 'O campo :attribute deve ser um CPF válido.',
     'company_has_course' => 'O curso do campo :attribute não é de um curso que a empresa aborda.',
+    'company_has_email' => 'A empresa do campo :attribute não possui um email.',
     'company_has_student_course' => 'O aluno do campo :attribute não é de um curso que a empresa aborda.',
     'company_has_sector' => 'O setor do campo :attribute não é de um setor que a empresa aborda.',
     'company_has_supervisor' => 'O supervisor do campo :attribute não é de um supervisor que a empresa possui.',

@@ -9,11 +9,13 @@ use App\Http\Requests\Coordinator\DestroyInternship;
 use App\Http\Requests\Coordinator\ReactivateInternship;
 use App\Http\Requests\Coordinator\StoreInternship;
 use App\Http\Requests\Coordinator\UpdateInternship;
+use App\Mail\FinalReportMail;
 use App\Models\Company;
 use App\Models\Internship;
 use App\Models\Schedule;
 use App\Models\State;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class InternshipController extends Controller
 {
@@ -310,5 +312,15 @@ class InternshipController extends Controller
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
         return redirect()->route('coordenador.estagio.index')->with($params);
+    }
+
+    public function checkFinishedToday()
+    {
+        $internships = Internship::finishedToday();
+
+        /* @var $internship Internship */
+        foreach ($internships as $internship) {
+            Mail::to($internship->student->email)->send(new FinalReportMail($internship->student));
+        }
     }
 }

@@ -208,9 +208,20 @@ class Internship extends Model
         return "$n/$y";
     }
 
+    public function needsFinalReport()
+    {
+        return $this->state_id == State::OPEN && $this->a_end_date <= Carbon::today()->modify('-20 day');
+    }
+
+    public static function finishedToday()
+    {
+        $today = Carbon::today();
+        return static::where('state_id', '=', State::OPEN)->where('active', '=', true)->get()->where('a_end_date', '=', $today);
+    }
+
     public static function requiringFinish()
     {
         $today = Carbon::today()->modify('-20 day');
-        return static::where('state_id', '=', State::OPEN)->where('active', '=', true)->get()->where('new_end_date', '<=', $today);
+        return static::where('state_id', '=', State::OPEN)->where('active', '=', true)->get()->where('a_end_date', '<=', $today);
     }
 }

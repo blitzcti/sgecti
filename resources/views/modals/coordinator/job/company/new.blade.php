@@ -186,6 +186,55 @@
                 });
             });
 
+            function loadCnpj() {
+                if (jQuery('#inputPj').val() === '1') {
+                    jQuery("#cnpjLoadingModal").modal({
+                        backdrop: "static",
+                        keyboard: false,
+                        show: true
+                    });
+
+                    jQuery.ajax({
+                        url: `/api/external/cnpj/${jQuery('#inputCompanyCpfCnpj').inputmask('unmaskedvalue')}`,
+                        dataType: 'json',
+                        type: 'GET',
+                        success: function (company) {
+                            jQuery("#cnpjLoadingModal").modal("hide");
+
+                            if (company.error) {
+                                jQuery("#cnpjErrorModal").modal({
+                                    backdrop: "static",
+                                    keyboard: false,
+                                    show: true
+                                });
+
+                                company.name = '';
+                                company.fantasyName = '';
+                            }
+
+                            jQuery('#inputCompanyName').val(company.name);
+                            jQuery('#inputCompanyFantasyName').val(company.fantasyName);
+                        },
+
+                        error: function () {
+                            jQuery("#cnpjLoadingModal").modal("hide");
+
+                            jQuery("#cnpjErrorModal").modal({
+                                backdrop: "static",
+                                keyboard: false,
+                                show: true
+                            });
+                        }
+                    });
+                }
+            }
+
+            jQuery('#inputCompanyCpfCnpj').blur(() => {
+                if (jQuery('#inputCompanyCpfCnpj').val() !== "") {
+                    loadCnpj();
+                }
+            });
+
             pj(1);
         });
     </script>

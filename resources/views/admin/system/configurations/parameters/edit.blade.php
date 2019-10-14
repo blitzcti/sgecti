@@ -10,6 +10,17 @@
     @include('modals.cep.loading')
     @include('modals.cep.error')
 
+    @if(session()->has('message'))
+        <div class="alert {{ session('saved') ? 'alert-success' : 'alert-error' }} alert-dismissible"
+             role="alert">
+            {{ session()->get('message') }}
+
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+
     <form class="form-horizontal" action="{{ route('admin.configuracao.parametros.alterar', $config->id) }}"
           method="post">
         @method('PUT')

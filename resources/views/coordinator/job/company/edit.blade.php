@@ -197,31 +197,10 @@
 
                                 company.name = '';
                                 company.fantasyName = '';
-                                company.email = '';
-                                company.phone = '';
-                                company.cep = '';
-                                company.uf = '';
-                                company.city = '';
-                                company.street = '';
-                                company.number = '';
-                                company.complement = '';
-                                company.district = '';
                             }
 
                             jQuery('#inputName').val(company.name);
                             jQuery('#inputFantasyName').val(company.fantasyName);
-                            jQuery('#inputEmail').val(company.email);
-                            jQuery('#inputPhone').val(company.phone);
-                            jQuery('#inputCep').val(company.cep);
-
-                            loadCep({
-                                uf: company.uf,
-                                city: company.city,
-                                street: company.street,
-                                number: company.number,
-                                complement: company.complement,
-                                district: company.district
-                            });
                         },
 
                         error: function () {

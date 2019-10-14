@@ -41,14 +41,14 @@
                 <tbody>
                 @foreach($internships as $internship)
 
-                    <tr>
+                    <tr class="{{ ($internship->needsFinalReport()) ? 'text-red' : '' }}">
                         <th scope="row">{{ $internship->id }}</th>
 
                         <td>{{ $internship->ra }} - {{ $internship->student->nome }}</td>
 
                         <td>{{ $internship->company->formatted_cpf_cnpj }} - {{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "({$internship->company->fantasy_name})" : '' }}</td>
                         <td>{{ $internship->coordinator->user->name }}</td>
-                        <td>{{ $internship->state->description }}</td>
+                        <td>{{ ($internship->needsFinalReport()) ? 'Requer finalização' : $internship->state->description }}</td>
                         <td>
                             <a href="{{ route('coordenador.estagio.detalhes', ['id' => $internship->id]) }}">Detalhes</a>
                             |

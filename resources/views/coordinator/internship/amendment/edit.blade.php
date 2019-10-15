@@ -180,6 +180,8 @@
                             </div>
                         </div>
 
+                        {{ dd(true) }}
+
                         <div class="col-sm-6">
                             <div class="form-group @if($errors->has('endDate')) has-error @endif">
                                 <label for="inputEndDate" class="col-sm-4 control-label">Data de término</label>

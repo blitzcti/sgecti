@@ -38,8 +38,6 @@
                         <th>Aluno</th>
                     @endif
                     <th>Empresa</th>
-                    <th>Data de início</th>
-                    <th>Data de término</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
@@ -56,8 +54,6 @@
 
                         <td>{{ $amendment->internship->company->formatted_cpf_cnpj }}
                             - {{ $amendment->internship->company->name }} {{ $amendment->internship->company->fantasy_name != null ? "({$amendment->internship->company->fantasy_name})" : '' }}</td>
-                        <td>{{ $amendment->start_date->format("d/m/Y") }}</td>
-                        <td>{{ $amendment->end_date->format("d/m/Y") }}</td>
                         <td>
                             <a href="{{ route('coordenador.estagio.aditivo.editar', ['id' => $amendment->id]) }}">Editar</a>
                         </td>

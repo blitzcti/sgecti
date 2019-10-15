@@ -42,7 +42,6 @@
 
                     <th>Início</th>
                     <th>Término</th>
-                    <th>Obervações</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
@@ -62,7 +61,6 @@
 
                         <td>{{ $agreement->start_date->format("d/m/Y") }}</td>
                         <td>{{ $agreement->end_date->format("d/m/Y") }}</td>
-                        <td>{{ $agreement->observation }}</td>
                         <td>
                             <a href="{{ route('coordenador.empresa.convenio.editar', ['id' => $agreement->id]) }}">Editar</a>
 

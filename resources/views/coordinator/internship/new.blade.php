@@ -667,6 +667,8 @@
             }
 
             jQuery('#inputCompany').on('change', e => {
+                jQuery('#inputSupervisorCompany').val(jQuery('#inputCompany').val()).trigger('change');
+
                 jQuery.ajax({
                     url: `/api/coordenador/empresa/${jQuery('#inputCompany').val()}`,
                     dataType: 'json',

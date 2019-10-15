@@ -42,7 +42,7 @@ class CreateFinalReportsTable extends Migration
             $table->bigInteger('coordinator_id')->nullable(false)->unsigned();
             $table->foreign('coordinator_id')->references('id')->on('coordinators')->onDelete('cascade');
 
-            $table->text('observation')->nullable(true)->default(null);
+            $table->text('observation')->nullable(true);
 
             $table->timestamps();
         });

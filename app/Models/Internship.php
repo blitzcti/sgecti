@@ -137,7 +137,11 @@ class Internship extends Model
 
     public function getNotEmptyAmendmentsAttribute()
     {
-        return $this->hasMany(Amendment::class)->get()->filter(function ($a) {
+        return $this->amendments->filter(function ($a) {
+            if ($a->schedule == null) {
+                return false;
+            }
+
             $days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
             foreach ($days as $day) {
                 if ($a->schedule->{$day . "_s"} != null || $a->schedule->{$day . "_e"} != null) {

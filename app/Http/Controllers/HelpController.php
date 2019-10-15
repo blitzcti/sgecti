@@ -281,7 +281,7 @@ class HelpController extends Controller
                         ],
 
                         'Informações do coordenador' => [
-                            'desc' => 'Nesse local apareceram as informações do coordenador.',
+                            'desc' => 'Nesse local apareceram as informações do coordenador, e informações sobre os estágios dos alunos.',
                             'content' => [
                                 [
                                     'img' => 'coordenador/pagina_inicial_coordenadores.png',
@@ -456,20 +456,20 @@ class HelpController extends Controller
                     ],
 
                     'Propostas' => [
-                        'desc' => null,
+                        'desc' => 'Visualize e adicione as propostas de estágio.',
                         'content' => [
-                            'Visualizar coordenadores' => [
+                            'Visualizar propostas' => [
                                 [
-                                    'img' => 'coordenadores/coord_view_barra.png',
-                                    'text' => 'Neste campo será possível observar os coordenadores que foram adicionados . Caso não haja nenhum coordenador cadastrado, apresentará a mensagem “Nenhum registro encontrado”.',
+                                    'img' => 'coordenador/visualizar_propostas_coordenadores.png',
+                                    'text' => '',
                                 ],
 
                             ],
 
-                            'Novo coordenador' => [
+                            'Adicionar proposta' => [
                                 [
-                                    'img' => 'coordenadores/coord_new_barra.png',
-                                    'text' => 'Neste campo será possível adicionar um novo coordenador, visto que pode haver troca de profissionais e até mesmo criação de novos curso no colégio.',
+                                    'img' => 'coordenador/add_proposta_coordenadores.png',
+                                    'text' => '',
                                 ],
 
                             ],
@@ -477,20 +477,20 @@ class HelpController extends Controller
                     ],
 
                     'Alunos' => [
-                        'desc' => null,
+                        'desc' => 'Visualize e obtenha o PDF dos alunos.',
                         'content' => [
-                            'Visualizar coordenadores' => [
+                            'Visualizar dados dos alunos' => [
                                 [
-                                    'img' => 'coordenadores/coord_view_barra.png',
-                                    'text' => 'Neste campo será possível observar os coordenadores que foram adicionados . Caso não haja nenhum coordenador cadastrado, apresentará a mensagem “Nenhum registro encontrado”.',
+                                    'img' => 'coordenador/dados_alunos.png',
+                                    'text' => '',
                                 ],
 
                             ],
 
-                            'Novo coordenador' => [
+                            'Obter PDF dos alunos' => [
                                 [
-                                    'img' => 'coordenadores/coord_new_barra.png',
-                                    'text' => 'Neste campo será possível adicionar um novo coordenador, visto que pode haver troca de profissionais e até mesmo criação de novos curso no colégio.',
+                                    'img' => 'coordenador/relacao_alunos.png',
+                                    'text' => 'Nessa interface, você filtra as informações dos alunos para obter o PDF somente dos desejados.',
                                 ],
 
                             ],

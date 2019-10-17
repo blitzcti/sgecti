@@ -144,7 +144,9 @@ class ProposalController extends Controller
 
             /* @var $course Course */
             foreach ($proposal->courses as $course) {
-                $course->coordinator->user->notify($notification);
+                if ($course->coordinator != null) {
+                    $course->coordinator->user->notify($notification);
+                }
             }
         } else {
             Log::error("Erro ao salvar proposta de estágio");
@@ -246,7 +248,9 @@ class ProposalController extends Controller
 
                 /* @var $course Course */
                 foreach ($proposal->courses as $course) {
-                    $course->coordinator->user->notify($notification);
+                    if ($course->coordinator != null) {
+                        $course->coordinator->user->notify($notification);
+                    }
                 }
             } else {
                 $proposal->approved_at = null;

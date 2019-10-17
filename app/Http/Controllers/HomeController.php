@@ -6,6 +6,7 @@ use App\Auth;
 use App\Models\Course;
 use App\Models\Internship;
 use App\Models\Proposal;
+use Carbon\Carbon;
 use Illuminate\Contracts\Support\Renderable;
 
 class HomeController extends Controller
@@ -38,6 +39,7 @@ class HomeController extends Controller
             $data['proposals'] = Proposal::all()
                 ->where('approved_at', '=', null)
                 ->where('reason_to_reject', '=', null)
+                ->where('deadline', '>=', Carbon::today())
                 ->filter(function ($proposal) use ($cIds) {
                     $ret = false;
 

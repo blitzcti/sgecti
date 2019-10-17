@@ -4,6 +4,7 @@ namespace App\Http\Requests\Coordinator;
 
 use App\Models\Proposal;
 use App\Rules\Route;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ApproveProposal extends FormRequest
@@ -17,7 +18,7 @@ class ApproveProposal extends FormRequest
     {
         $proposal = Proposal::findOrFail($this->route('id'));
 
-        return $proposal->approved_at == null;
+        return $proposal->deadline >= Carbon::today() && $proposal->approved_at == null;
     }
 
     /**

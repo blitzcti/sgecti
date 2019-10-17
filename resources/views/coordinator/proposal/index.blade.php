@@ -70,7 +70,7 @@
                                 |
                             @endif
 
-                            @if($proposal->approved_at == null && $proposal->reason_to_reject == null)
+                            @if($proposal->deadline >= \Carbon\Carbon::now() && $proposal->approved_at == null && $proposal->reason_to_reject == null)
 
                                 <a href="#"
                                    onclick="approveProposalId('{{ $proposal->id }}'); return false;"

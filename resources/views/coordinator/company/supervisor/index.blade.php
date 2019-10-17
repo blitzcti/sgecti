@@ -30,13 +30,9 @@
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
-
                     @if(!isset($company))
-
                         <th>Empresa</th>
-
                     @endif
-
                     <th>Nome</th>
                     <th>Email</th>
                     <th>Ações</th>
@@ -51,7 +47,8 @@
 
                         @if(!isset($company))
 
-                            <td>{{ $supervisor->company->name }} {{ $supervisor->company->fantasy_name != null ? "({$supervisor->company->fantasy_name})" : '' }}</td>
+                            <td>{{ $supervisor->company->formatted_cpf_cnpj }}
+                                - {{ $supervisor->company->name }} {{ $supervisor->company->fantasy_name != null ? "({$supervisor->company->fantasy_name})" : '' }}</td>
 
                         @endif
 

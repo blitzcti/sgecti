@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Auth;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -177,6 +176,10 @@ class User extends Authenticatable
     public function getFormattedPhoneAttribute()
     {
         $phone = $this->phone;
+        if ($phone == null) {
+            return null;
+        }
+
         $ddd = substr($phone, 0, 2);
         $p1 = (strlen($phone) == 10) ? substr($phone, 2, 4) : substr($phone, 2, 5);
         $p2 = (strlen($phone) == 10) ? substr($phone, 6, 4) : substr($phone, 7, 4);

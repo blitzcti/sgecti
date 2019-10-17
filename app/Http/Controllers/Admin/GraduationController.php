@@ -26,6 +26,6 @@ class GraduationController extends Controller
 
     public function graduate($ra, Request $request)
     {
-        dd('Anderson, gradua o menino de RA = ' . $ra, 'Agora é com vc meu querido');
+        dd("Anderson, gradua o menino de RA = {$ra}", 'Agora é com vc meu querido');
     }
 }

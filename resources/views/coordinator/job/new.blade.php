@@ -263,7 +263,7 @@
                                 }
 
                                 let text = `${formatted_cpf_cnpj} - ${company.name}`;
-                                if (company.fantasy_name !== '') {
+                                if (company.fantasy_name !== null) {
                                     text = `${text} (${company.fantasy_name})`;
                                 }
 

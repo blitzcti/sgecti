@@ -37,7 +37,7 @@
 
                     <tr>
                         <th scope="row">{{ $proposal->id }}</th>
-                        <td>{{ $proposal->company->name }}</td>
+                        <td>{{ $proposal->company->name }} {{ $proposal->company->fantasy_name != null ? "({$proposal->company->fantasy_name})" : '' }}</td>
                         <td>{{ $proposal->remuneration > 0.0 ? 'R$' . number_format($proposal->remuneration, 2, ',', '.') : 'Sem' }}</td>
                         <td>{{ join(', ', $proposal->courses->map(function ($c) { return $c->name; })->toArray()) }}</td>
                         <td>{{ $proposal->deadline->format('d/m/Y') }}</td>

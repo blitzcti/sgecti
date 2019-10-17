@@ -71,7 +71,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('completedHours')) has-error @endif">
-                            <label for="inputHoursCompleted" class="col-sm-4 control-label">Horas Cumpridas*</label>
+                            <label for="inputHoursCompleted" class="col-sm-4 control-label">Horas cumpridas*</label>
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputHoursCompleted" name="completedHours"
@@ -117,14 +117,14 @@
                     <dt class="col-sm-2">Data de início</dt>
                     <dd class="col-sm-10">
                         <span id="internshipStartDate">
-                            {{ $report->internship->start_date->format("Y-m-d") }}
+                            {{ $report->internship->start_date->format("d/m/Y") }}
                         </span>
                     </dd>
 
                     <dt class="col-sm-2">Data de término</dt>
                     <dd class="col-sm-10">
                         <span id="internshipEndDate">
-                            {{ $report->internship->end_date->format("Y-m-d") }}
+                            {{ $report->internship->end_date->format("d/m/Y") }}
                         </span>
                     </dd>
 

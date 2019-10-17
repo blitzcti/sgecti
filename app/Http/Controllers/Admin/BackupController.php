@@ -194,10 +194,12 @@ class BackupController extends Controller
         }
 
         try {
-            Storage::disk('sftp')->put($fileName, $f);
+            Storage::disk('sftp')->writeStream($fileName, $f);
             Log::info("Arquivo de backup enviado para o servidor.\nNome: {$fileName}");
         } catch (Exception $e) {
             Log::error("Erro ao enviar o arquivo de backup para o servidor: {$e->getMessage()}");
+        } finally {
+            fclose($f);
         }
     }
 

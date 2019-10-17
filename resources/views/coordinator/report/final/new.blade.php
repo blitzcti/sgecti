@@ -79,7 +79,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('completedHours')) has-error @endif">
-                            <label for="inputHoursCompleted" class="col-sm-4 control-label">Horas Cumpridas*</label>
+                            <label for="inputHoursCompleted" class="col-sm-4 control-label">Horas cumpridas*</label>
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputHoursCompleted" name="completedHours"

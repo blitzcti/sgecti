@@ -7,7 +7,13 @@
 @stop
 
 @section('css')
-    <style>
+    <style type="text/css">
+        a.llv-active {
+            z-index: 2;
+            background-color: #f5f5f5;
+            border-color: #777;
+        }
+
         #contentSidebar a {
             color: #555;
         }
@@ -250,7 +256,7 @@
                         className: 'btn btn-default',
                         action: function (e, dt, node, config) {
                             if (confirm('Tem certeza?')) {
-                                window.location.replace(`?delall=true{{ ($current_folder) ? '&f=' . IlluminateSupportFacadesCrypt::encrypt($current_folder) : '' }}`);
+                                window.location.replace(`?delall=true{{ ($current_folder) ? '&f=' . Illuminate\Support\Facades\Crypt::encrypt($current_folder) : '' }}`);
                             }
                         }
                     }

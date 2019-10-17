@@ -28,7 +28,6 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th>Nome</th>
-                    <th>Descrição</th>
                     <th>Ativo</th>
                     <th>Ações</th>
                 </tr>
@@ -40,7 +39,6 @@
                     <tr>
                         <th scope="row">{{ $sector->id }}</th>
                         <td>{{ $sector->name }}</td>
-                        <td>{{ $sector->description }}</td>
                         <td>{{ ($sector->active) ? 'Sim' : 'Não' }}</td>
 
                         <td>

@@ -173,14 +173,12 @@
 
                                 <div class="col-sm-8">
                                     <input type="date" class="form-control" id="inputStartDate" name="startDate"
-                                           value="{{ old('startDate') ?? $amendment->start_date->format("Y-m-d") }}"/>
+                                           value="{{ old('startDate') ?? $amendment->start_date != null ? $amendment->start_date->format("Y-m-d") : '' }}"/>
 
                                     <span class="help-block">{{ $errors->first('startDate') }}</span>
                                 </div>
                             </div>
                         </div>
-
-                        {{ dd(true) }}
 
                         <div class="col-sm-6">
                             <div class="form-group @if($errors->has('endDate')) has-error @endif">
@@ -204,7 +202,7 @@
                                         </div>
 
                                         <input type="date" class="form-control" id="inputEndDate" name="endDate"
-                                               value="{{ old('endDate') ?? $amendment->end_date->format("Y-m-d") }}"/>
+                                               value="{{ old('endDate') ?? $amendment->end_date != null ? $amendment->end_date->format("Y-m-d") : '' }}"/>
                                     </div>
 
                                     <span class="help-block">{{ $errors->first('endDate') }}</span>

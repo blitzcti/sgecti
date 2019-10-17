@@ -39,7 +39,7 @@
                 <dd class="col-sm-10">{{ $company->email ?? '(Não informado)' }}</dd>
 
                 <dt class="col-sm-2">Telefone</dt>
-                <dd class="col-sm-10">{{ $company->phone ?? '(Não informado)' }}</dd>
+                <dd class="col-sm-10">{{ $company->formatted_phone ?? '(Não informado)' }}</dd>
 
                 <dt class="col-sm-2">Representante</dt>
                 <dd class="col-sm-10">{{ $company->representative_name }}</dd>

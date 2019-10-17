@@ -26,7 +26,7 @@
             <div class="box-body">
                 <input type="hidden" id="inputPj" name="pj" value="{{ old('pj') ?? '0' }}">
                 <input type="hidden" id="inputHasAgreement" name="hasAgreement"
-                       value="{{ old('hasAgreement') ?? '0' }}">
+                       value="{{ old('hasAgreement') ?? '1' }}">
 
                 <div class="row">
                     <div class="col-sm-6">
@@ -334,13 +334,13 @@
             <div class="box-header with-border">
                 <h3 class="box-title">
                     <input type="checkbox" id="fakeInputHasAgreement" name="fakeHasAgreement"
-                        {{ (old('hasAgreement') ?? 0) ? 'checked="checked"' : '' }}/>
+                        {{ (old('hasAgreement') ?? 1) ? 'checked="checked"' : '' }}/>
 
                     Registrar convênio?
                 </h3>
             </div>
 
-            <div id="div-agreement" style="display: none">
+            <div id="div-agreement">
                 <div class="box-body">
                     <div class="form-group @if($errors->has('startDate')) has-error @endif">
                         <label for="inputStartDate" class="col-sm-2 control-label">Data de início*</label>

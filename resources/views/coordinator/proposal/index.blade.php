@@ -43,7 +43,8 @@
 
                     <tr>
                         <th scope="row">{{ $proposal->id }}</th>
-                        <td>{{ $proposal->company->name }}</td>
+                        <td>{{ $proposal->company->formatted_cpf_cnpj }}
+                            - {{ $proposal->company->name }} {{ $proposal->company->fantasy_name != null ? "({$proposal->company->fantasy_name})" : '' }}</td>
                         <td>{{ $proposal->description }}</td>
                         <td>{{ $proposal->deadline->format('d/m/Y') }}</td>
 

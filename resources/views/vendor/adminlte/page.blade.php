@@ -208,7 +208,7 @@
         <!-- /.content-wrapper -->
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Versão</b> 0.9.9
+                <b>Versão</b> 0.9.89
             </div>
 
             <b>Copyright © 2019 Blitz.</b> Todos os direitos reservados.

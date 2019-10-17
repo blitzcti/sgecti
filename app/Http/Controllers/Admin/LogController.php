@@ -18,10 +18,12 @@ class LogController extends Controller
         $f = fopen(storage_path("app/backups/logs.zip"), "r+");
 
         try {
-            Storage::disk('sftp')->put("logs/$fileName", $f);
+            Storage::disk('sftp')->writeStream("logs/$fileName", $f);
             Log::info("Logs enviados para o servidor.\nNome: {$fileName}");
         } catch (Exception $e) {
             Log::error("Erro ao enviar os logs para o servidor: {$e->getMessage()}");
+        } finally {
+            fclose($f);
         }
     }
 

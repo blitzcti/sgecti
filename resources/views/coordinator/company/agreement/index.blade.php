@@ -33,13 +33,9 @@
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
-
                     @if(!isset($company))
-
                         <th>Empresa</th>
-
                     @endif
-
                     <th>Início</th>
                     <th>Término</th>
                     <th>Ações</th>
@@ -55,7 +51,8 @@
 
                         @if(!isset($company))
 
-                            <td>{{ $agreement->company->name }} {{ $agreement->company->fantasy_name != null ? "({$agreement->company->fantasy_name})" : '' }}</td>
+                            <td>{{ $agreement->company->formatted_cpf_cnpj }}
+                                - {{ $agreement->company->name }} {{ $agreement->company->fantasy_name != null ? "({$agreement->company->fantasy_name})" : '' }}</td>
 
                         @endif
 

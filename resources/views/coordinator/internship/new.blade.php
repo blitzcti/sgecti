@@ -612,7 +612,7 @@
                 jQuery('#inputSector').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `/api/coordenador/empresa/${jQuery('#inputCompany').val()}/setor`,
+                        url: `{{ config('app.api_prefix') ?? '' }}/api/coordenador/empresa/${jQuery('#inputCompany').val()}/setor`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -640,7 +640,7 @@
                 jQuery('#inputSupervisor').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `/api/coordenador/empresa/${jQuery('#inputCompany').val()}/supervisor`,
+                        url: `{{ config('app.api_prefix') ?? '' }}/api/coordenador/empresa/${jQuery('#inputCompany').val()}/supervisor`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -670,7 +670,7 @@
                 jQuery('#inputSupervisorCompany').val(jQuery('#inputCompany').val()).trigger('change');
 
                 jQuery.ajax({
-                    url: `/api/coordenador/empresa/${jQuery('#inputCompany').val()}`,
+                    url: `{{ config('app.api_prefix') ?? '' }}/api/coordenador/empresa/${jQuery('#inputCompany').val()}`,
                     dataType: 'json',
                     method: 'GET',
                     success: function (data) {

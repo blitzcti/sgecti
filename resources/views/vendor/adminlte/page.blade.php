@@ -244,7 +244,7 @@
 
         function markAsSeen(id, redir = true) {
             jQuery.ajax({
-                url: `/api/usuario/notificacao/${id}/lida`,
+                url: `{{ config('app.api_prefix') ?? '' }}/api/usuario/notificacao/${id}/lida`,
                 method: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',

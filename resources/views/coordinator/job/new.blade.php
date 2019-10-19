@@ -232,7 +232,7 @@
             jQuery('#inputCompany').select2({
                 language: "pt-BR",
                 ajax: {
-                    url: `/api/coordenador/trabalho/empresa`,
+                    url: `{{ config('app.api_prefix') ?? '' }}/api/coordenador/trabalho/empresa`,
                     dataType: 'json',
                     method: 'GET',
                     cache: true,
@@ -280,7 +280,7 @@
 
             jQuery('#inputCompany').on('change', e => {
                 jQuery.ajax({
-                    url: `/api/coordenador/trabalho/empresa/${jQuery('#inputCompany').val()}`,
+                    url: `{{ config('app.api_prefix') ?? '' }}/api/coordenador/trabalho/empresa/${jQuery('#inputCompany').val()}`,
                     dataType: 'json',
                     method: 'GET',
                     success: function (data) {

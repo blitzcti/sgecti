@@ -194,7 +194,7 @@
                 jQuery('#inputTempOf').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `/api/admin/coordenador/curso/${jQuery('#inputCourse').val()}`,
+                        url: `{{ config('app.api_prefix') ?? '' }}/api/admin/coordenador/curso/${jQuery('#inputCourse').val()}`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,

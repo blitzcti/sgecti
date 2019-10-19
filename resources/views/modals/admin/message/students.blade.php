@@ -75,7 +75,7 @@
                 jQuery('#messageStudentsModal').modal('show');
             }
 
-            let url = `/api/alunos?q=`;
+            let url = `{{ config('app.api_prefix') ?? '' }}/api/alunos?q=`;
             if (gs.length > 0) {
                 url += gs;
             }

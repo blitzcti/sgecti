@@ -568,7 +568,7 @@
                 jQuery('#inputSector').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `/api/coordenador/empresa/{{ $internship->company->id }}/setor`,
+                        url: `{{ config('app.api_prefix') ?? '' }}/api/coordenador/empresa/{{ $internship->company->id }}/setor`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -596,7 +596,7 @@
                 jQuery('#inputSupervisor').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `/api/coordenador/empresa/{{ $internship->company->id }}/supervisor`,
+                        url: `{{ config('app.api_prefix') ?? '' }}/api/coordenador/empresa/{{ $internship->company->id }}/supervisor`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,

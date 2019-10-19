@@ -618,7 +618,7 @@
 
             jQuery('#inputInternship').on('change', e => {
                 jQuery.ajax({
-                    url: `/api/coordenador/estagio/${jQuery('#inputInternship').val()}`,
+                    url: `{{ config('app.api_prefix') ?? '' }}/api/coordenador/estagio/${jQuery('#inputInternship').val()}`,
                     dataType: 'json',
                     method: 'GET',
                     success: function (data) {

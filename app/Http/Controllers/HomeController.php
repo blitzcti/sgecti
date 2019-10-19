@@ -54,8 +54,15 @@ class HomeController extends Controller
                 })->sortBy('id');
         } else if ($user->isCompany()) {
             $company = $user->company;
-            $data['proposals'] = $company->proposals;
-            $data['proposalsApproved'] = $company->proposals->where('approved_at', '<>', null);
+            $data['proposals'] = $company->proposals
+                ->where('approved_at', '=', null)
+                ->where('reason_to_reject', '=', null)
+                ->where('deadline', '>=', Carbon::today());
+            $data['proposalsApproved'] = $company->proposals
+                ->where('approved_at', '<>', null);
+            $data['propalsRejected'] = $company->proposals
+                ->where('reason_to_reject', '<>', null)
+                ->where('approved_at', '=', null);
         } else if ($user->isStudent()) {
             $data['proposals'] = Proposal::approved();
         }

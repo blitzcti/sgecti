@@ -76,15 +76,6 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-
-                <input type="hidden" id="inputPrevious" name="previous"
-                       value="{{ old('previous') ?? url()->previous() }}">
-                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
 
         @if ($internships->first() != null)
@@ -536,15 +527,18 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.box-body -->
-                <div class="box-footer">
-                    <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                    <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
-                </div>
-                <!-- /.box-footer -->
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
+            </div>
+        </div>
     </form>
 @endsection
 
@@ -618,7 +612,7 @@
 
             jQuery('#inputInternship').on('change', e => {
                 jQuery.ajax({
-                    url: `{{ config('app.api_prefix') ?? '' }}/api/coordenador/estagio/${jQuery('#inputInternship').val()}`,
+                    url: `{{ config('app.url') ?? '' }}/api/coordenador/estagio/${jQuery('#inputInternship').val()}`,
                     dataType: 'json',
                     method: 'GET',
                     success: function (data) {

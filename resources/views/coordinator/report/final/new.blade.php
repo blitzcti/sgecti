@@ -938,7 +938,7 @@
 
         <div class="box box-default">
             <div class="box-header with-border">
-                <h3 class="box-title">Dados administrativos</h3>
+                <h3 class="box-title">V - Informações que julgar útil</h3>
             </div>
 
             <div class="box-body">
@@ -954,15 +954,16 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
                 <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
 
                 <input type="hidden" id="inputPrevious" name="previous"
                        value="{{ old('previous') ?? url()->previous() }}">
                 <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
-            <!-- /.box-footer -->
         </div>
     </form>
 @endsection
@@ -978,7 +979,7 @@
 
             jQuery('#inputInternship').on('change', e => {
                 jQuery.ajax({
-                    url: `{{ config('app.api_prefix') ?? '' }}/api/coordenador/estagio/${jQuery('#inputInternship').val()}`,
+                    url: `{{ config('app.url') ?? '' }}/api/coordenador/estagio/${jQuery('#inputInternship').val()}`,
                     dataType: 'json',
                     method: 'GET',
                     success: function (data) {

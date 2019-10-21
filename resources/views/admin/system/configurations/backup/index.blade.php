@@ -183,6 +183,10 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary pull-right" name="save">Salvar</button>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </form>
         </div>
     </div>

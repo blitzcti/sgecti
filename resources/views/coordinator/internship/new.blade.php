@@ -564,15 +564,20 @@
                         <div class="btn-group pull-right">
                             <a href="#" class="btn btn-success" id="aAddSupervisor" data-toggle="modal"
                                data-target="#newInternshipSupervisorModal">Novo supervisor</a>
-                            <button type="submit" class="btn btn-primary">Adicionar</button>
                         </div>
-
-                        <input type="hidden" id="inputPrevious" name="previous"
-                               value="{{ old('previous') ?? url()->previous() }}">
-                        <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
                     </div>
                     <!-- /.box-footer -->
                 </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
         </div>
     </form>
@@ -612,7 +617,7 @@
                 jQuery('#inputSector').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `{{ config('app.api_prefix') ?? '' }}/api/coordenador/empresa/${jQuery('#inputCompany').val()}/setor`,
+                        url: `{{ config('app.url') ?? '' }}/api/coordenador/empresa/${jQuery('#inputCompany').val()}/setor`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -640,7 +645,7 @@
                 jQuery('#inputSupervisor').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `{{ config('app.api_prefix') ?? '' }}/api/coordenador/empresa/${jQuery('#inputCompany').val()}/supervisor`,
+                        url: `{{ config('app.url') ?? '' }}/api/coordenador/empresa/${jQuery('#inputCompany').val()}/supervisor`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -670,7 +675,7 @@
                 jQuery('#inputSupervisorCompany').val(jQuery('#inputCompany').val()).trigger('change');
 
                 jQuery.ajax({
-                    url: `{{ config('app.api_prefix') ?? '' }}/api/coordenador/empresa/${jQuery('#inputCompany').val()}`,
+                    url: `{{ config('app.url') ?? '' }}/api/coordenador/empresa/${jQuery('#inputCompany').val()}`,
                     dataType: 'json',
                     method: 'GET',
                     success: function (data) {

@@ -202,15 +202,16 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
                 <button type="submit" class="btn btn-primary pull-right">Salvar</button>
 
                 <input type="hidden" id="inputPrevious" name="previous"
                        value="{{ old('previous') ?? url()->previous() }}">
                 <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
-            <!-- /.box-footer -->
         </div>
     </form>
 @endsection
@@ -223,7 +224,7 @@
             jQuery('#inputUf').select2({
                 language: "pt-BR",
                 ajax: {
-                    url: `{{ config('app.api_prefix') ?? '' }}/api/external/ufs`,
+                    url: `{{ config('app.url') ?? '' }}/api/external/ufs`,
                     dataType: 'json',
                     method: 'GET',
                     cache: true,
@@ -252,7 +253,7 @@
                 jQuery('#inputCity').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `{{ config('app.api_prefix') ?? '' }}/api/external/cities/${jQuery('#inputUf').val()}`,
+                        url: `{{ config('app.url') ?? '' }}/api/external/cities/${jQuery('#inputUf').val()}`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -284,7 +285,7 @@
                 });
 
                 jQuery.ajax({
-                    url: `{{ config('app.api_prefix') ?? '' }}/api/external/cep/${jQuery('#inputCep').inputmask('unmaskedvalue')}`,
+                    url: `{{ config('app.url') ?? '' }}/api/external/cep/${jQuery('#inputCep').inputmask('unmaskedvalue')}`,
                     dataType: 'json',
                     type: 'GET',
                     success: function (address) {

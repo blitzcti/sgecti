@@ -23,7 +23,7 @@ class JobCompanyController extends Controller
      *
      * @param array $array
      * @param string $q
-     * @param null|string $col
+     * @param null|string|array $col
      *
      * @return array
      */
@@ -33,7 +33,17 @@ class JobCompanyController extends Controller
             if ($col == null) {
                 return (strpos(strtoupper($v), strtoupper($q)) !== false);
             } else {
-                return (strpos(strtoupper($v[$col]), strtoupper($q)) !== false);
+                if (is_array($col)) {
+                    foreach ($col as $c) {
+                        if (strpos(strtoupper($v[$c]), strtoupper($q)) !== false) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                } else {
+                    return (strpos(strtoupper($v[$col]), strtoupper($q)) !== false);
+                }
             }
         }, ARRAY_FILTER_USE_BOTH);
 
@@ -44,7 +54,7 @@ class JobCompanyController extends Controller
     {
         $companies = JobCompany::all()->sortBy('id');
         if (!empty($request->q)) {
-            $companies = $this->search($companies->toArray(), $request->q, 'name');
+            $companies = $this->search($companies->toArray(), $request->q, ['name', 'fantasy_name', 'cpf_cnpj']);
         }
 
         return response()->json(

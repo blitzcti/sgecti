@@ -9,11 +9,12 @@
 @section('content')
     @include('modals.coordinator.proposal.delete')
     @include('modals.coordinator.proposal.approve')
+    @include('modals.coordinator.proposal.reject')
 
     <div class="box box-default">
         <div class="box-body">
             <div class="btn-group" style="display: inline-flex; margin: 0">
-                <a href="{{ route('empresa.proposta.editar', $proposal->id) }}"
+                <a href="{{ route('coordenador.proposta.editar', $proposal->id) }}"
                    class="btn btn-primary">Editar proposta</a>
 
                 @if($proposal->approved_at == null && $proposal->reason_to_reject == null)
@@ -21,6 +22,10 @@
                     <a href="#"
                        onclick="approveProposalId('{{ $proposal->id }}'); return false;" data-toggle="modal"
                        class="btn btn-success" data-target="#proposalApproveModal">Aprovar proposta</a>
+
+                    <a href="#"
+                       onclick="rejectProposalId('{{ $proposal->id }}'); return false;" data-toggle="modal"
+                       class="btn btn-danger" data-target="#proposalRejectModal">Rejeitar proposta</a>
 
                     <a href="#"
                        onclick="deleteProposalId('{{ $proposal->id }}'); return false;" data-toggle="modal"
@@ -82,7 +87,8 @@
                         <dt class="col-sm-2">Segunda</dt>
                         <dd class="col-sm-10">
                             {{ $proposal->schedule->mon_s }} às {{ $proposal->schedule->mon_e }}
-                            @if($proposal->schedule2 != null) / {{ $proposal->schedule2->mon_s }} às {{ $proposal->schedule2->mon_e }}@endif
+                            @if($proposal->schedule2 != null) / {{ $proposal->schedule2->mon_s }}
+                            às {{ $proposal->schedule2->mon_e }}@endif
                         </dd>
                     @endif
 
@@ -90,7 +96,8 @@
                         <dt class="col-sm-2">Terça</dt>
                         <dd class="col-sm-10">
                             {{ $proposal->schedule->tue_s }} às {{ $proposal->schedule->tue_e }}
-                            @if($proposal->schedule2 != null) / {{ $proposal->schedule2->tue_s }} às {{ $proposal->schedule2->tue_e }}@endif
+                            @if($proposal->schedule2 != null) / {{ $proposal->schedule2->tue_s }}
+                            às {{ $proposal->schedule2->tue_e }}@endif
                         </dd>
                     @endif
 
@@ -98,7 +105,8 @@
                         <dt class="col-sm-2">Quarta</dt>
                         <dd class="col-sm-10">
                             {{ $proposal->schedule->wed_s }} às {{ $proposal->schedule->wed_e }}
-                            @if($proposal->schedule2 != null) / {{ $proposal->schedule2->wed_s }} às {{ $proposal->schedule2->wed_e }}@endif
+                            @if($proposal->schedule2 != null) / {{ $proposal->schedule2->wed_s }}
+                            às {{ $proposal->schedule2->wed_e }}@endif
                         </dd>
                     @endif
 
@@ -106,7 +114,8 @@
                         <dt class="col-sm-2">Quinta</dt>
                         <dd class="col-sm-10">
                             {{ $proposal->schedule->thu_s }} às {{ $proposal->schedule->thu_e }}
-                            @if($proposal->schedule2 != null) / {{ $proposal->schedule2->thu_s }} às {{ $proposal->schedule2->thu_e }}@endif
+                            @if($proposal->schedule2 != null) / {{ $proposal->schedule2->thu_s }}
+                            às {{ $proposal->schedule2->thu_e }}@endif
                         </dd>
                     @endif
 
@@ -114,7 +123,8 @@
                         <dt class="col-sm-2">Sexta</dt>
                         <dd class="col-sm-10">
                             {{ $proposal->schedule->fri_s }} às {{ $proposal->schedule->fri_e }}
-                            @if($proposal->schedule2 != null) / {{ $proposal->schedule2->fri_s }} às {{ $proposal->schedule2->fri_e }}@endif
+                            @if($proposal->schedule2 != null) / {{ $proposal->schedule2->fri_s }}
+                            às {{ $proposal->schedule2->fri_e }}@endif
                         </dd>
                     @endif
 
@@ -122,7 +132,8 @@
                         <dt class="col-sm-2">Sábado</dt>
                         <dd class="col-sm-10">
                             {{ $proposal->schedule->sat_s }} às {{ $proposal->schedule->sat_e }}
-                            @if($proposal->schedule2 != null) / {{ $proposal->schedule2->sat_s }} às {{ $proposal->schedule2->sat_e }}@endif
+                            @if($proposal->schedule2 != null) / {{ $proposal->schedule2->sat_s }}
+                            às {{ $proposal->schedule2->sat_e }}@endif
                         </dd>
                     @endif
                 </dl>

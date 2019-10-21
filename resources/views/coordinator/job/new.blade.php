@@ -186,14 +186,19 @@
                 <div class="btn-group pull-right">
                     <a href="#" class="btn btn-success" id="aAddCompany" data-toggle="modal"
                        data-target="#newJobCompanyModal">Nova empresa</a>
-                    <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
                 </div>
+            </div>
+            <!-- /.box-footer -->
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
 
                 <input type="hidden" id="inputPrevious" name="previous"
                        value="{{ old('previous') ?? url()->previous() }}">
                 <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
-            <!-- /.box-footer -->
         </div>
     </form>
 @endsection
@@ -232,7 +237,7 @@
             jQuery('#inputCompany').select2({
                 language: "pt-BR",
                 ajax: {
-                    url: `{{ config('app.api_prefix') ?? '' }}/api/coordenador/trabalho/empresa`,
+                    url: `{{ config('app.url') ?? '' }}/api/coordenador/trabalho/empresa`,
                     dataType: 'json',
                     method: 'GET',
                     cache: true,
@@ -280,7 +285,7 @@
 
             jQuery('#inputCompany').on('change', e => {
                 jQuery.ajax({
-                    url: `{{ config('app.api_prefix') ?? '' }}/api/coordenador/trabalho/empresa/${jQuery('#inputCompany').val()}`,
+                    url: `{{ config('app.url') ?? '' }}/api/coordenador/trabalho/empresa/${jQuery('#inputCompany').val()}`,
                     dataType: 'json',
                     method: 'GET',
                     success: function (data) {

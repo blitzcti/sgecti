@@ -1,6 +1,3 @@
-{{--<p>Atualmente, você possui {{ sizeof($proposals) == 0 ? "nenhuma" : sizeof($proposals) }} {{ sizeof($proposals) < 2 ? "proposta" : "propostas" }} de estágio.</p>--}}
-{{--<p>Destas propostas, {{ sizeof($proposalsApproved) == 0 ? "nenhuma" : sizeof($proposalsApproved) }} {{ sizeof($proposalsApproved) < 2 ? "está aprovada" : "estão aprovadas" }}.</p>--}}
-
 <div class="col-sm-4">
     <div class="small-box bg-blue">
         <div class="inner">
@@ -23,7 +20,7 @@
             <p>{{ sizeof($proposalsApproved) < 2 ? "Proposta aprovada" : "Propostas aprovadas" }}.</p>
         </div>
         <div class="icon">
-            <i class="fa fa-calendar-check-o"></i>
+            <i class="fa fa-check"></i>
         </div>
         <a href="{{ route('empresa.proposta.index') }}" class="small-box-footer">Mais detalhes <i class="fa fa-arrow-circle-right"></i></a>
     </div>
@@ -37,7 +34,7 @@
             <p>{{ sizeof($propalsRejected) < 2 ? "Proposta requer alteração" : "Propostas requerem alterações" }}.</p>
         </div>
         <div class="icon">
-            <i class="fa fa-calendar-times-o"></i>
+            <i class="fa fa-times"></i>
         </div>
         <a href="{{ route('empresa.proposta.index') }}" class="small-box-footer">Mais detalhes <i class="fa fa-arrow-circle-right"></i></a>
     </div>

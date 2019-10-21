@@ -528,15 +528,20 @@
                         <div class="btn-group pull-right">
                             <a href="#" class="btn btn-success" id="aAddSupervisor" data-toggle="modal"
                                data-target="#newInternshipSupervisorModal">Novo supervisor</a>
-                            <button type="submit" class="btn btn-primary">Salvar</button>
                         </div>
-
-                        <input type="hidden" id="inputPrevious" name="previous"
-                               value="{{ old('previous') ?? url()->previous() }}">
-                        <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
                     </div>
                     <!-- /.box-footer -->
                 </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
         </div>
     </form>
@@ -568,7 +573,7 @@
                 jQuery('#inputSector').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `{{ config('app.api_prefix') ?? '' }}/api/coordenador/empresa/{{ $internship->company->id }}/setor`,
+                        url: `{{ config('app.url') ?? '' }}/api/coordenador/empresa/{{ $internship->company->id }}/setor`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -596,7 +601,7 @@
                 jQuery('#inputSupervisor').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `{{ config('app.api_prefix') ?? '' }}/api/coordenador/empresa/{{ $internship->company->id }}/supervisor`,
+                        url: `{{ config('app.url') ?? '' }}/api/coordenador/empresa/{{ $internship->company->id }}/supervisor`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,

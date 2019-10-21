@@ -87,14 +87,14 @@
                     </div>
                 </div>
 
-                <div class="form-group @if($errors->has('name')) has-error @endif">
-                    <label for="inputName" class="col-sm-2 control-label">Nome*</label>
+                <div class="form-group @if($errors->has('companyName')) has-error @endif">
+                    <label for="inputName" class="col-sm-2 control-label">Razão social*</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputName" name="name" placeholder="MSTech"
-                               value="{{ old('name') ?? '' }}"/>
+                        <input type="text" class="form-control" id="inputName" name="companyName" placeholder="MSTech"
+                               value="{{ old('companyName') ?? '' }}"/>
 
-                        <span class="help-block">{{ $errors->first('name') }}</span>
+                        <span class="help-block">{{ $errors->first('companyName') }}</span>
                     </div>
                 </div>
 
@@ -109,27 +109,33 @@
                     </div>
                 </div>
 
-                <div class="form-group @if($errors->has('email')) has-error @endif">
-                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group @if($errors->has('email')) has-error @endif">
+                            <label for="inputEmail" class="col-sm-3 control-label">Email</label>
 
-                    <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputEmail" name="email"
-                               placeholder="dir_cti@feb.unesp.com.br" value="{{ old('email') ?? '' }}"/>
+                            <div class="col-sm-9">
+                                <input type="email" class="form-control" id="inputEmail" name="email"
+                                       placeholder="dir_cti@feb.unesp.com.br" value="{{ old('email') ?? '' }}"/>
 
-                        <span class="help-block">{{ $errors->first('email') }}</span>
+                                <span class="help-block">{{ $errors->first('email') }}</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group @if($errors->has('phone')) has-error @endif">
-                    <label for="inputPhone" class="col-sm-2 control-label">Telefone</label>
+                    <div class="col-sm-4">
+                        <div class="form-group @if($errors->has('phone')) has-error @endif">
+                            <label for="inputPhone" class="col-sm-2 control-label">Telefone</label>
 
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputPhone" name="phone"
-                               placeholder="(14) 3103-6150"
-                               data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
-                               value="{{ old('phone') ?? '' }}"/>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputPhone" name="phone"
+                                       placeholder="(14) 3103-6150"
+                                       data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
+                                       value="{{ old('phone') ?? '' }}"/>
 
-                        <span class="help-block">{{ $errors->first('phone') }}</span>
+                                <span class="help-block">{{ $errors->first('phone') }}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

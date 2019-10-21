@@ -8,7 +8,7 @@
         <div class="icon">
             <i class="fa fa-calendar-minus-o"></i>
         </div>
-        <a href="{{ route('empresa.proposta.index') }}" class="small-box-footer">Mais detalhes <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{ route('empresa.proposta.index', ['s' => 'p']) }}" class="small-box-footer">Mais detalhes <i class="fa fa-arrow-circle-right"></i></a>
     </div>
 </div>
 
@@ -22,7 +22,7 @@
         <div class="icon">
             <i class="fa fa-check"></i>
         </div>
-        <a href="{{ route('empresa.proposta.index') }}" class="small-box-footer">Mais detalhes <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{ route('empresa.proposta.index', ['s' => 'a']) }}" class="small-box-footer">Mais detalhes <i class="fa fa-arrow-circle-right"></i></a>
     </div>
 </div>
 
@@ -36,6 +36,6 @@
         <div class="icon">
             <i class="fa fa-times"></i>
         </div>
-        <a href="{{ route('empresa.proposta.index') }}" class="small-box-footer">Mais detalhes <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{ route('empresa.proposta.index', ['s' => 'c']) }}" class="small-box-footer">Mais detalhes <i class="fa fa-arrow-circle-right"></i></a>
     </div>
 </div>

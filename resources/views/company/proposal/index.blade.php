@@ -106,6 +106,16 @@
                     table.buttons().container().appendTo(jQuery('#proposals_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                     jQuery('#addLink').prependTo(table.buttons().container());
+
+                    @if(isset($s))
+                        @if($s == 'p')
+                            jQuery('#proposals_wrapper input[type=search]').val('Pendente').trigger('keyup');
+                        @elseif($s == 'a')
+                            jQuery('#proposals_wrapper input[type=search]').val('Aprovada').trigger('keyup');
+                        @elseif($s == 'c')
+                            jQuery('#proposals_wrapper input[type=search]').val('Requer alterações').trigger('keyup');
+                        @endif
+                    @endif
                 },
             });
         });

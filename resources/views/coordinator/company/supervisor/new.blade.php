@@ -7,13 +7,13 @@
 @stop
 
 @section('content')
-    <div class="box box-default">
-        <div class="box-header with-border">
-            <h3 class="box-title">Dados do supervisor</h3>
-        </div>
+    <form class="form-horizontal" action="{{ route('coordenador.empresa.supervisor.salvar') }}" method="post">
+        @csrf
 
-        <form class="form-horizontal" action="{{ route('coordenador.empresa.supervisor.salvar') }}" method="post">
-            @csrf
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Dados do supervisor</h3>
+            </div>
 
             <div class="box-body">
                 <div class="form-group @if($errors->has('company')) has-error @endif">
@@ -72,17 +72,18 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
                 <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
 
                 <input type="hidden" id="inputPrevious" name="previous"
                        value="{{ old('previous') ?? url()->previous() }}">
                 <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
-            <!-- /.box-footer -->
-        </form>
-    </div>
+        </div>
+    </form>
 @endsection
 
 @section('js')

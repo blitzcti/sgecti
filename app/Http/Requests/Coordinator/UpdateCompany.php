@@ -33,7 +33,7 @@ class UpdateCompany extends FormRequest
         return [
             'ie' => ['nullable', new Integer, 'digits:10'],
             'active' => ['required', 'boolean'],
-            'name' => ['required', 'max:191'],
+            'companyName' => ['required', 'max:191'],
             'fantasyName' => ['nullable', 'max:191'],
             'email' => ['nullable', 'email', 'max:191'],
             'phone' => ['nullable', new Integer, 'digits_between:10,11'],

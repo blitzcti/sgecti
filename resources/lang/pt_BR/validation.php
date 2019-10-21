@@ -197,6 +197,7 @@ return [
 
         'cpfCnpj' => 'CPF / CNPJ',
         'ie' => 'I.E.',
+        'companyName' => 'Razão social',
         'representativeName' => 'Nome do representante',
         'representativeRole' => 'Cargo do representante',
         'sector' => 'Setor',

@@ -82,14 +82,14 @@
                     </div>
                 </div>
 
-                <div class="form-group @if($errors->has('name')) has-error @endif">
-                    <label for="inputName" class="col-sm-2 control-label">Nome*</label>
+                <div class="form-group @if($errors->has('companyName')) has-error @endif">
+                    <label for="inputName" class="col-sm-2 control-label">Razão social*</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputName" name="name" placeholder="MSTech"
-                               value="{{ old('name') ?? '' }}"/>
+                        <input type="text" class="form-control" id="inputName" name="companyName" placeholder="MSTech"
+                               value="{{ old('companyName') ?? '' }}"/>
 
-                        <span class="help-block">{{ $errors->first('name') }}</span>
+                        <span class="help-block">{{ $errors->first('companyName') }}</span>
                     </div>
                 </div>
 

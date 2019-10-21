@@ -11,6 +11,7 @@ use App\Models\Course;
 use App\Models\Proposal;
 use App\Models\Schedule;
 use App\Notifications\WebNotification;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class ProposalController extends Controller
@@ -24,12 +25,16 @@ class ProposalController extends Controller
         $this->middleware('permission:proposal-delete', ['only' => ['destroy']]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $company = Auth::user()->company;
         $proposals = $company->proposals;
+        $s = $request->s;
 
-        return view('company.proposal.index')->with(['proposals' => $proposals]);
+        return view('company.proposal.index')->with([
+            'proposals' => $proposals,
+            's' => $s,
+        ]);
     }
 
     public function show($id)

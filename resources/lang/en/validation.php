@@ -207,6 +207,7 @@ return [
 
         'cpfCnpj' => 'CPF / CNPJ',
         'ie' => 'I.E.',
+        'companyName' => 'Name',
         'representativeName' => 'Representative Name',
         'representativeRole' => 'Representative Role',
         'sector' => 'Sector',

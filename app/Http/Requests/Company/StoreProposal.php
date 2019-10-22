@@ -65,9 +65,13 @@ class StoreProposal extends FormRequest
             'description' => ['required', 'max:8000'],
             'requirements' => ['required', 'max:8000'],
             'benefits' => ['nullable', 'max:8000'],
-            'contact' => ['required', 'max:8000'],
             'deadline' => ['required', 'date'],
             'observation' => ['nullable', 'max:8000'],
+
+            'email' => ['required', 'max:8000'],
+            'subject' => ['required', 'max:8000'],
+            'phone' => ['nullable', 'max:8000'],
+            'other' => ['nullable', 'max:8000'],
 
             'courses' => ['required', 'array', 'min:1'],
             'courses.*' => ['required', 'integer', 'distinct', 'min:1', 'exists:courses,id', new Active(Course::class), new CompanyHasCourse($company->id)],

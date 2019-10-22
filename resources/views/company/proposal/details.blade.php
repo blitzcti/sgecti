@@ -51,9 +51,6 @@
 
                 @endif
 
-                <dt class="col-sm-2">Contato</dt>
-                <dd class="col-sm-10">{{ $proposal->contact }}</dd>
-
                 <dt class="col-sm-2">Data limite</dt>
                 <dd class="col-sm-10">{{ $proposal->deadline->format('d/m/Y') }}</dd>
 
@@ -61,6 +58,31 @@
 
                     <dt class="col-sm-2">Observação</dt>
                     <dd class="col-sm-10">{{ $proposal->observation }}</dd>
+
+                @endif
+            </dl>
+
+            <hr>
+            <h3>Contato</h3>
+
+            <dl class="row">
+                <dt class="col-sm-2">Email</dt>
+                <dd class="col-sm-10">{{ $proposal->email }}</dd>
+
+                <dt class="col-sm-2">Assunto do email</dt>
+                <dd class="col-sm-10">{{ $proposal->subject }}</dd>
+
+                @if($proposal->phone != null)
+
+                    <dt class="col-sm-2">Telefone</dt>
+                    <dd class="col-sm-10">{{ $proposal->formatted_phone }}</dd>
+
+                @endif
+
+                @if($proposal->other != null)
+
+                    <dt class="col-sm-2">Outra forma</dt>
+                    <dd class="col-sm-10">{{ $proposal->other }}</dd>
 
                 @endif
             </dl>
@@ -75,7 +97,7 @@
                         <dd class="col-sm-10">
                             {{ substr($proposal->schedule->mon_s, 0, 5) }}
                             às {{ substr($proposal->schedule->mon_e, 0, 5) }}
-                            @if($internship->schedule2 != null && $proposal->schedule2->mon_s != null)
+                            @if($proposal->schedule2 != null && $proposal->schedule2->mon_s != null)
                                 / {{ substr($proposal->schedule2->mon_s, 0, 5) }}
                                 às {{ substr($proposal->schedule2->mon_e, 0, 5) }}
                             @endif
@@ -87,7 +109,7 @@
                         <dd class="col-sm-10">
                             {{ substr($proposal->schedule->tue_s, 0, 5) }}
                             às {{ substr($proposal->schedule->tue_e, 0, 5) }}
-                            @if($internship->schedule2 != null && $proposal->schedule2->tue_s != null)
+                            @if($proposal->schedule2 != null && $proposal->schedule2->tue_s != null)
                                 / {{ substr($proposal->schedule2->tue_s, 0, 5) }}
                                 às {{ substr($proposal->schedule2->tue_e, 0, 5) }}
                             @endif
@@ -99,7 +121,7 @@
                         <dd class="col-sm-10">
                             {{ substr($proposal->schedule->wed_s, 0, 5) }}
                             às {{ substr($proposal->schedule->wed_e, 0, 5) }}
-                            @if($internship->schedule2 != null && $proposal->schedule2->wed_s != null)
+                            @if($proposal->schedule2 != null && $proposal->schedule2->wed_s != null)
                                 / {{ substr($proposal->schedule2->wed_s, 0, 5) }}
                                 às {{ substr($proposal->schedule2->wed_e, 0, 5) }}
                             @endif
@@ -111,7 +133,7 @@
                         <dd class="col-sm-10">
                             {{ substr($proposal->schedule->thu_s, 0, 5) }}
                             às {{ substr($proposal->schedule->thu_e, 0, 5) }}
-                            @if($internship->schedule2 != null && $proposal->schedule2->thu_s != null)
+                            @if($proposal->schedule2 != null && $proposal->schedule2->thu_s != null)
                                 / {{ substr($proposal->schedule2->thu_s, 0, 5) }}
                                 às {{ substr($proposal->schedule2->thu_e, 0, 5) }}
                             @endif
@@ -123,7 +145,7 @@
                         <dd class="col-sm-10">
                             {{ substr($proposal->schedule->fri_s, 0, 5) }}
                             às {{ substr($proposal->schedule->fri_e, 0, 5) }}
-                            @if($internship->schedule2 != null && $proposal->schedule2->fri_s != null)
+                            @if($proposal->schedule2 != null && $proposal->schedule2->fri_s != null)
                                 / {{ substr($proposal->schedule2->fri_s, 0, 5) }}
                                 às {{ substr($proposal->schedule2->fri_e, 0, 5) }}
                             @endif
@@ -135,7 +157,7 @@
                         <dd class="col-sm-10">
                             {{ substr($proposal->schedule->sat_s, 0, 5) }}
                             às {{ substr($proposal->schedule->sat_e, 0, 5) }}
-                            @if($internship->schedule2 != null && $proposal->schedule2->sat_s != null)
+                            @if($proposal->schedule2 != null && $proposal->schedule2->sat_s != null)
                                 / {{ substr($proposal->schedule2->sat_s, 0, 5) }}
                                 às {{ substr($proposal->schedule2->sat_e, 0, 5) }}
                             @endif

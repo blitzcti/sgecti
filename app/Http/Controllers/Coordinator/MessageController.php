@@ -80,7 +80,7 @@ class MessageController extends Controller
                     break;
 
                 case 1:
-                    $proposal = Proposal::find(1);
+                    $proposal = Proposal::find($validatedData->proposal);
                     $this->sendInternshipProposalMail($proposal, $student);
                     break;
 

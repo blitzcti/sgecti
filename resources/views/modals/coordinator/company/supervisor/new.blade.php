@@ -59,7 +59,7 @@
                         <div class="col-sm-9">
                             <input type="text" class="form-control" id="inputSupervisorPhone" name="supervisorPhone"
                                    placeholder="(14) 93103-6150"
-                                   data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"/>
+                                   data-inputmask="'mask': ['(99) 9999-9999', '(99) 99999-9999']"/>
                         </div>
                     </div>
                 </div>

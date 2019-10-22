@@ -96,7 +96,7 @@ class User extends Authenticatable
         if ($temp) {
             return sizeof($this->coordinators) > 0;
         } else {
-            return sizeof($this->coordinators->where('temp_of', '<>', null)) > 0;
+            return sizeof($this->coordinators->where('temp_of', '=', null)) > 0;
         }
     }
 

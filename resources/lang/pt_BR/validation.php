@@ -222,5 +222,6 @@ return [
         'internships' => 'Estágios',
         'students' => 'Alunos',
 
+        'subject' => 'Assunto',
     ],
 ];

@@ -137,7 +137,10 @@ class ProposalController extends Controller
         $proposal->description = $validatedData->description;
         $proposal->requirements = $validatedData->requirements;
         $proposal->benefits = $validatedData->benefits;
-        $proposal->contact = $validatedData->contact;
+        $proposal->email = $validatedData->email;
+        $proposal->subject = $validatedData->subject;
+        $proposal->phone = $validatedData->phone;
+        $proposal->other = $validatedData->other;
         $proposal->type = $validatedData->type;
         $proposal->approved_at = Carbon::now();
         $proposal->observation = $validatedData->observation;
@@ -221,7 +224,10 @@ class ProposalController extends Controller
         $proposal->description = $validatedData->description;
         $proposal->requirements = $validatedData->requirements;
         $proposal->benefits = $validatedData->benefits;
-        $proposal->contact = $validatedData->contact;
+        $proposal->email = $validatedData->email;
+        $proposal->subject = $validatedData->subject;
+        $proposal->phone = $validatedData->phone;
+        $proposal->other = $validatedData->other;
         $proposal->type = $validatedData->type;
         $proposal->approved_at = Carbon::now();
         $proposal->observation = $validatedData->observation;

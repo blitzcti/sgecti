@@ -23,13 +23,13 @@
 <div id="contactDiv">
     <p>Atenciosamente,</p>
     <div id="contact">
-        <span>Prof. {{ $user->name }}</span><br />
+        <span>Prof. {{ $user->name }}</span><br/>
 
         @if($user->isCoordinator(false))
-            <span>Coordenador de {{ $user->coordinator_courses_name }}</span><br />
+            <span>Coordenador de {{ $user->coordinator_courses_name }}</span><br/>
         @endif
 
-        <span>@if($user->phone != null){{ $user->formated_phone }} | @endif{{ $user->email }}</span><br /><br />
+        <span>@if($user->phone != null){{ $user->formatted_phone }} | @endif{{ $user->email }}</span><br/><br/>
     </div>
 </div>
 </body>

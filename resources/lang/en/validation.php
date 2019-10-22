@@ -231,6 +231,7 @@ return [
         'periods' => 'Periods',
         'internships' => 'Internships',
         'students' => 'Students',
-    ],
 
+        'subject' => 'Subject',
+    ],
 ];

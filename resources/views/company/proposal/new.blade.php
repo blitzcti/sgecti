@@ -96,18 +96,6 @@
                     </div>
                 </div>
 
-                <div class="form-group @if($errors->has('contact')) has-error @endif">
-                    <label for="inputContact" class="col-sm-2 control-label">Contato*</label>
-
-                    <div class="col-sm-10">
-                            <textarea class="form-control" rows="2" id="inputContact" name="contact"
-                                      style="resize: none"
-                                      placeholder="Como o aluno entrará em contato com a empresa">{{ old('contact') ?? '' }}</textarea>
-
-                        <span class="help-block">{{ $errors->first('contact') }}</span>
-                    </div>
-                </div>
-
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('deadline')) has-error @endif">
@@ -132,6 +120,72 @@
                                   placeholder="Observações adicionais">{{ old('observation') ?? '' }}</textarea>
 
                                 <span class="help-block">{{ $errors->first('observation') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Contato</h3>
+            </div>
+
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group @if($errors->has('email')) has-error @endif">
+                            <label for="inputEmail" class="col-sm-4 control-label">Email*</label>
+
+                            <div class="col-sm-8">
+                                <input type="email" class="form-control" id="inputEmail" name="email"
+                                       placeholder="andcastro28@gmail.com" value="{{ old('email') ?? '' }}"/>
+
+                                <span class="help-block">{{ $errors->first('email') }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group @if($errors->has('subject')) has-error @endif">
+                            <label for="inputSubject" class="col-sm-4 control-label">Assunto do email*</label>
+
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputSubject" name="subject"
+                                       placeholder="Estágio/CTI" value="{{ old('subject') ?? '' }}"/>
+
+                                <span class="help-block">{{ $errors->first('subject') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group @if($errors->has('phone')) has-error @endif">
+                            <label for="inputPhone" class="col-sm-4 control-label">Telefone</label>
+
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputPhone" name="phone"
+                                       placeholder="(14) 3103-6150"
+                                       data-inputmask="'mask': ['(99) 9999-9999', '(99) 99999-9999']"
+                                       value="{{ old('phone') ?? '' }}"/>
+
+                                <span class="help-block">{{ $errors->first('phone') }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group @if($errors->has('other')) has-error @endif">
+                            <label for="inputOther" class="col-sm-4 control-label">Outra forma</label>
+
+                            <div class="col-sm-8">
+                            <textarea class="form-control" rows="2" id="inputOther" name="other"
+                                      style="resize: none">{{ old('other') ?? '' }}</textarea>
+
+                                <span class="help-block">{{ $errors->first('other') }}</span>
                             </div>
                         </div>
                     </div>

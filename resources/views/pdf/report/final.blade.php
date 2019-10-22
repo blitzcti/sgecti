@@ -71,7 +71,7 @@
             <td class="text-right"><b>Período de estágio: </b></td>
             <td>
                 {{ $report->internship->start_date->format("d/m/Y") }} a {{ $report->end_date->format("d/m/Y") }}
-                - {{ $report->end_date->diff($report->internship->start_date)->d }} dias.
+                - {{ $report->end_date->diff($report->internship->start_date)->days }} dias.
             </td>
         </tr>
 

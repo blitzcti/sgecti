@@ -127,6 +127,83 @@
 
                 @endif
             </dl>
+
+            <hr/>
+            <h3>Horários</h3>
+
+            <dl class="row">
+                @if($internship->schedule->mon_s != null)
+                    <dt class="col-sm-2">Segunda</dt>
+                    <dd class="col-sm-10">
+                        {{ substr($internship->schedule->mon_s, 0, 5) }}
+                        às {{ substr($internship->schedule->mon_e, 0, 5) }}
+                        @if($internship->schedule2 != null && $internship->schedule2->mon_s != null)
+                            / {{ substr($internship->schedule2->mon_s, 0, 5) }}
+                            às {{ substr($internship->schedule2->mon_e, 0, 5) }}
+                        @endif
+                    </dd>
+                @endif
+
+                @if($internship->schedule->tue_s != null)
+                    <dt class="col-sm-2">Terça</dt>
+                    <dd class="col-sm-10">
+                        {{ substr($internship->schedule->tue_s, 0, 5) }}
+                        às {{ substr($internship->schedule->tue_e, 0, 5) }}
+                        @if($internship->schedule2 != null && $internship->schedule2->tue_s != null)
+                            / {{ substr($internship->schedule2->tue_s, 0, 5) }}
+                            às {{ substr($internship->schedule2->tue_e, 0, 5) }}
+                        @endif
+                    </dd>
+                @endif
+
+                @if($internship->schedule->wed_s != null)
+                    <dt class="col-sm-2">Quarta</dt>
+                    <dd class="col-sm-10">
+                        {{ substr($internship->schedule->wed_s, 0, 5) }}
+                        às {{ substr($internship->schedule->wed_e, 0, 5) }}
+                        @if($internship->schedule2 != null && $internship->schedule2->wed_s != null)
+                            / {{ substr($internship->schedule2->wed_s, 0, 5) }}
+                            às {{ substr($internship->schedule2->wed_e, 0, 5) }}
+                        @endif
+                    </dd>
+                @endif
+
+                @if($internship->schedule->thu_s != null)
+                    <dt class="col-sm-2">Quinta</dt>
+                    <dd class="col-sm-10">
+                        {{ substr($internship->schedule->thu_s, 0, 5) }}
+                        às {{ substr($internship->schedule->thu_e, 0, 5) }}
+                        @if($internship->schedule2 != null && $internship->schedule2->thu_s != null)
+                            / {{ substr($internship->schedule2->thu_s, 0, 5) }}
+                            às {{ substr($internship->schedule2->thu_e, 0, 5) }}
+                        @endif
+                    </dd>
+                @endif
+
+                @if($internship->schedule->fri_s != null)
+                    <dt class="col-sm-2">Sexta</dt>
+                    <dd class="col-sm-10">
+                        {{ substr($internship->schedule->fri_s, 0, 5) }}
+                        às {{ substr($internship->schedule->fri_e, 0, 5) }}
+                        @if($internship->schedule2 != null && $internship->schedule2->fri_s != null)
+                            / {{ substr($internship->schedule2->fri_s, 0, 5) }}
+                            às {{ substr($internship->schedule2->fri_e, 0, 5) }}
+                        @endif
+                    </dd>
+                @endif
+
+                @if($internship->schedule->sat_s != null)
+                    <dt class="col-sm-2">Sábado</dt>
+                    <dd class="col-sm-10">
+                        {{ substr($internship->schedule->sat_s, 0, 5) }}
+                        às {{ substr($internship->schedule->sat_e, 0, 5) }}
+                        @if($internship->schedule2 != null && $internship->schedule2->sat_s != null)
+                            / {{ substr($internship->schedule2->sat_s, 0, 5) }}
+                            às {{ substr($internship->schedule2->sat_e, 0, 5) }}
+                        @endif
+                    </dd>
+                @endif
+            </dl>
         </div>
         <!-- /.box-body -->
     </div>

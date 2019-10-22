@@ -81,6 +81,10 @@
             }
 
             let url = `{{ config('app.url') ?? '' }}/api/alunos?q=`;
+            if (cs.length > 0) {
+                url += cs;
+            }
+
             if (gs.length > 0) {
                 url += gs;
             }
@@ -89,8 +93,8 @@
                 url += ps;
             }
 
-            if (cs.length > 0) {
-                url += cs;
+            if (Cs.length > 0) {
+                url += Cs;
             }
 
             if (es.length > 0) {

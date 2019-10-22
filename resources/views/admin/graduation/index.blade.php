@@ -45,7 +45,7 @@
                         <td>
                             <a href="#"
                                onclick="graduateStudent('{{ $student->matricula }}'); studentName('{{ $student->nome }}'); return false;"
-                               data-toggle="modal" class="text-green" data-target="#graduateModal">Graudar</a>
+                               data-toggle="modal" class="text-green" data-target="#graduateModal">Graduar</a>
                         </td>
                     </tr>
 

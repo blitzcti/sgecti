@@ -46,7 +46,7 @@
                 <dd class="col-sm-10">{{ $proposal->company->name }}</dd>
 
                 <dt class="col-sm-2">Tipo de estágio</dt>
-                <dd class="col-sm-10">{{ ($proposal->type == 1) ? "Estágio padrão" : "Iniciação Científica" }}</dd>
+                <dd class="col-sm-10">{{ ($proposal->type == \App\Models\Proposal::INTERNSHIP) ? "Estágio padrão" : "Iniciação Científica" }}</dd>
 
                 <dt class="col-sm-2">Remuneração</dt>
                 <dd class="col-sm-10">{{ $proposal->remuneration > 0.0 ? 'R$' . number_format($proposal->remuneration, 2, ',', '.') : 'Sem' }}</dd>
@@ -86,54 +86,72 @@
                     @if($proposal->schedule->mon_s != null)
                         <dt class="col-sm-2">Segunda</dt>
                         <dd class="col-sm-10">
-                            {{ $proposal->schedule->mon_s }} às {{ $proposal->schedule->mon_e }}
-                            @if($proposal->schedule2 != null) / {{ $proposal->schedule2->mon_s }}
-                            às {{ $proposal->schedule2->mon_e }}@endif
+                            {{ substr($proposal->schedule->mon_s, 0, 5) }}
+                            às {{ substr($proposal->schedule->mon_e, 0, 5) }}
+                            @if($internship->schedule2 != null && $proposal->schedule2->mon_s != null)
+                                / {{ substr($proposal->schedule2->mon_s, 0, 5) }}
+                                às {{ substr($proposal->schedule2->mon_e, 0, 5) }}
+                            @endif
                         </dd>
                     @endif
 
                     @if($proposal->schedule->tue_s != null)
                         <dt class="col-sm-2">Terça</dt>
                         <dd class="col-sm-10">
-                            {{ $proposal->schedule->tue_s }} às {{ $proposal->schedule->tue_e }}
-                            @if($proposal->schedule2 != null) / {{ $proposal->schedule2->tue_s }}
-                            às {{ $proposal->schedule2->tue_e }}@endif
+                            {{ substr($proposal->schedule->tue_s, 0, 5) }}
+                            às {{ substr($proposal->schedule->tue_e, 0, 5) }}
+                            @if($internship->schedule2 != null && $proposal->schedule2->tue_s != null)
+                                / {{ substr($proposal->schedule2->tue_s, 0, 5) }}
+                                às {{ substr($proposal->schedule2->tue_e, 0, 5) }}
+                            @endif
                         </dd>
                     @endif
 
                     @if($proposal->schedule->wed_s != null)
                         <dt class="col-sm-2">Quarta</dt>
                         <dd class="col-sm-10">
-                            {{ $proposal->schedule->wed_s }} às {{ $proposal->schedule->wed_e }}
-                            @if($proposal->schedule2 != null) / {{ $proposal->schedule2->wed_s }}
-                            às {{ $proposal->schedule2->wed_e }}@endif
+                            {{ substr($proposal->schedule->wed_s, 0, 5) }}
+                            às {{ substr($proposal->schedule->wed_e, 0, 5) }}
+                            @if($internship->schedule2 != null && $proposal->schedule2->wed_s != null)
+                                / {{ substr($proposal->schedule2->wed_s, 0, 5) }}
+                                às {{ substr($proposal->schedule2->wed_e, 0, 5) }}
+                            @endif
                         </dd>
                     @endif
 
                     @if($proposal->schedule->thu_s != null)
                         <dt class="col-sm-2">Quinta</dt>
                         <dd class="col-sm-10">
-                            {{ $proposal->schedule->thu_s }} às {{ $proposal->schedule->thu_e }}
-                            @if($proposal->schedule2 != null) / {{ $proposal->schedule2->thu_s }}
-                            às {{ $proposal->schedule2->thu_e }}@endif
+                            {{ substr($proposal->schedule->thu_s, 0, 5) }}
+                            às {{ substr($proposal->schedule->thu_e, 0, 5) }}
+                            @if($internship->schedule2 != null && $proposal->schedule2->thu_s != null)
+                                / {{ substr($proposal->schedule2->thu_s, 0, 5) }}
+                                às {{ substr($proposal->schedule2->thu_e, 0, 5) }}
+                            @endif
                         </dd>
                     @endif
 
                     @if($proposal->schedule->fri_s != null)
                         <dt class="col-sm-2">Sexta</dt>
                         <dd class="col-sm-10">
-                            {{ $proposal->schedule->fri_s }} às {{ $proposal->schedule->fri_e }}
-                            @if($proposal->schedule2 != null) / {{ $proposal->schedule2->fri_s }}
-                            às {{ $proposal->schedule2->fri_e }}@endif
+                            {{ substr($proposal->schedule->fri_s, 0, 5) }}
+                            às {{ substr($proposal->schedule->fri_e, 0, 5) }}
+                            @if($internship->schedule2 != null && $proposal->schedule2->fri_s != null)
+                                / {{ substr($proposal->schedule2->fri_s, 0, 5) }}
+                                às {{ substr($proposal->schedule2->fri_e, 0, 5) }}
+                            @endif
                         </dd>
                     @endif
 
                     @if($proposal->schedule->sat_s != null)
                         <dt class="col-sm-2">Sábado</dt>
                         <dd class="col-sm-10">
-                            {{ $proposal->schedule->sat_s }} às {{ $proposal->schedule->sat_e }}
-                            @if($proposal->schedule2 != null) / {{ $proposal->schedule2->sat_s }}
-                            às {{ $proposal->schedule2->sat_e }}@endif
+                            {{ substr($proposal->schedule->sat_s, 0, 5) }}
+                            às {{ substr($proposal->schedule->sat_e, 0, 5) }}
+                            @if($internship->schedule2 != null && $proposal->schedule2->sat_s != null)
+                                / {{ substr($proposal->schedule2->sat_s, 0, 5) }}
+                                às {{ substr($proposal->schedule2->sat_e, 0, 5) }}
+                            @endif
                         </dd>
                     @endif
                 </dl>

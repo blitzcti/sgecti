@@ -157,6 +157,7 @@ class Student extends Model
         $internships = $this->finished_internships;
         $h = 0;
         $h += $internships->reduce(function ($a, $i) {
+            /* @var $i Internship */
             $a += $i->final_report->completed_hours;
             return $a;
         });
@@ -169,7 +170,9 @@ class Student extends Model
         $internships = $this->finished_internships;
         $h = 0;
         $h += $internships->reduce(function ($a, $i) {
-            $a += date_diff(date_create($i->start_date), date_create($i->final_report->end_date))->format("%m");
+            /* @var $i Internship */
+            $interval = $i->final_report->end_date->diff($i->start_date);
+            $a += $interval->m + $interval->y * 12;
             return $a;
         });
 

@@ -35,8 +35,7 @@
 
                                 <option
                                     value="{{ $company->id }}" {{ (old('company') ?? 1) == $company->id ? 'selected' : '' }}>
-                                    {{ $company->formatted_cpf_cnpj }}
-                                    - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
+                                    {{ $company->formatted_cpf_cnpj }} - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
                                 </option>
 
                             @endforeach

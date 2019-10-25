@@ -28,7 +28,6 @@
             <table id="courseConfigurations" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th>Ano mínimo</th>
                     <th>Semestre mínimo</th>
                     <th>Horas mínimas</th>
@@ -44,7 +43,6 @@
                 @foreach($configurations as $configuration)
 
                     <tr>
-                        <th scope="row">{{ $configuration->id }}</th>
                         <td>{{ $configuration->min_year }}</td>
                         <td>{{ $configuration->min_semester }}</td>
                         <td>{{ $configuration->min_hours }}</td>

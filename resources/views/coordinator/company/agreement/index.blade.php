@@ -32,7 +32,6 @@
             <table id="companies" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     @if(!isset($company))
                         <th>Empresa</th>
                     @endif
@@ -47,13 +46,8 @@
                 @foreach($agreements as $agreement)
 
                     <tr>
-                        <th scope="row">{{ $agreement->id }}</th>
-
                         @if(!isset($company))
-
-                            <td>{{ $agreement->company->formatted_cpf_cnpj }}
-                                - {{ $agreement->company->name }} {{ $agreement->company->fantasy_name != null ? "({$agreement->company->fantasy_name})" : '' }}</td>
-
+                            <td>{{ $agreement->company->formatted_cpf_cnpj }} - {{ $agreement->company->name }} {{ $agreement->company->fantasy_name != null ? "({$agreement->company->fantasy_name})" : '' }}</td>
                         @endif
 
                         <td>{{ $agreement->start_date->format("d/m/Y") }}</td>
@@ -87,12 +81,28 @@
 @section('js')
     <script type="text/javascript">
         jQuery(document).ready(function () {
+            jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+                'Empresa-pre': function (a) {
+                    return a.replace(/[\d]{2}\.[\d]{3}\.[\d]{3}\/[\d]{4}-[\d]{2} - /g, '').replace(/[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2}/g, '');
+                },
+
+                'Empresa-asc': function (a, b) {
+                    return a - b;
+                },
+
+                'Empresa-desc': function (a, b) {
+                    return b - a;
+                }
+            });
+
             let table = jQuery("#companies").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
                 responsive: true,
                 lengthChange: false,
+                aoColumns: [{sType: "Empresa"}, {sType: "Início"}, {sType: "Término"}, {sType: "Ações"}],
+                aaSorting: [[0, "asc"]],
                 buttons: [
                     {
                         extend: 'csv',

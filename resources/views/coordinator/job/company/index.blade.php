@@ -23,12 +23,11 @@
             <a id="addLink" href="{{ route('coordenador.trabalho.empresa.novo') }}"
                class="btn btn-success">Adicionar empresa</a>
 
-            <table id="jobCompanies" class="table table-bordered table-hover">
+            <table id="jobCompanies" class="table table-bordered table-hover" data-order="[[ 1, &quot;asc&quot; ]]">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th>CPF / CNPJ</th>
-                    <th>Nome</th>
+                    <th>Razão social</th>
                     <th>Ativo</th>
                     <th>Ações</th>
                 </tr>
@@ -38,7 +37,6 @@
                 @foreach($companies as $company)
 
                     <tr>
-                        <th scope="row">{{ $company->id }}</th>
                         <td>{{ $company->formatted_cpf_cnpj }}</td>
                         <td>{{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}</td>
                         <td>{{ ($company->active) ? 'Sim' : 'Não' }}</td>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Coordinator;
 
+use App\APIUtils;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Coordinator\StoreJobCompany;
 use App\Http\Requests\API\Coordinator\UpdateJobCompany;
@@ -18,43 +19,11 @@ class JobCompanyController extends Controller
         $this->middleware('permission:jobCompany-edit', ['only' => ['edit', 'update']]);
     }
 
-    /**
-     * Search for a string in a specific array column
-     *
-     * @param array $array
-     * @param string $q
-     * @param null|string|array $col
-     *
-     * @return array
-     */
-    function search($array, $q, $col = null)
-    {
-        $array = array_filter($array, function ($v, $k) use ($q, $col) {
-            if ($col == null) {
-                return (strpos(strtoupper($v), strtoupper($q)) !== false);
-            } else {
-                if (is_array($col)) {
-                    foreach ($col as $c) {
-                        if (strpos(strtoupper($v[$c]), strtoupper($q)) !== false) {
-                            return true;
-                        }
-                    }
-
-                    return false;
-                } else {
-                    return (strpos(strtoupper($v[$col]), strtoupper($q)) !== false);
-                }
-            }
-        }, ARRAY_FILTER_USE_BOTH);
-
-        return array_values($array);
-    }
-
     public function get(Request $request)
     {
         $companies = JobCompany::all()->sortBy('id');
         if (!empty($request->q)) {
-            $companies = $this->search($companies->toArray(), $request->q, ['name', 'fantasy_name', 'cpf_cnpj']);
+            $companies = APIUtils::search($companies->toArray(), $request->q, ['name', 'fantasy_name', 'cpf_cnpj']);
         }
 
         return response()->json(
@@ -91,7 +60,7 @@ class JobCompanyController extends Controller
         $company->cpf_cnpj = $validatedData->cpfCnpj;
         $company->ie = $validatedData->ie;
         $company->pj = $validatedData->pj;
-        $company->name = $validatedData->name;
+        $company->name = $validatedData->companyName;
         $company->fantasy_name = $validatedData->fantasyName;
         $company->representative_name = $validatedData->representativeName;
         $company->representative_role = $validatedData->representativeRole;
@@ -112,7 +81,7 @@ class JobCompanyController extends Controller
         $validatedData = (object)$request->validated();
 
         $company->ie = $validatedData->ie;
-        $company->name = $validatedData->name;
+        $company->name = $validatedData->companyName;
         $company->fantasy_name = $validatedData->fantasyName;
         $company->representative_name = $validatedData->representativeName;
         $company->representative_role = $validatedData->representativeRole;

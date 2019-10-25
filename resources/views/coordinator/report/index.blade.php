@@ -34,7 +34,6 @@
             <table id="bimestralReports" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th>Aluno</th>
                     <th>Data</th>
                     <th>Protocolo</th>
@@ -46,8 +45,6 @@
                 @foreach($bReports as $report)
 
                     <tr>
-                        <th scope="row">{{ $report->id }}</th>
-
                         <td>{{ $report->internship->ra }} - {{ $report->internship->student->nome }}</td>
 
                         <td>{{ $report->date->format("d/m/Y") }}</td>
@@ -75,7 +72,6 @@
             <table id="finalReports" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th>Aluno</th>
                     <th>Data</th>
                     <th>Nº de aprovação</th>
@@ -88,8 +84,6 @@
                 @foreach($fReports as $report)
 
                     <tr>
-                        <th scope="row">{{ $report->id }}</th>
-
                         <td>{{ $report->internship->ra }} - {{ $report->internship->student->nome }}</td>
 
                         <td>{{ $report->date->format("d/m/Y") }}</td>
@@ -123,12 +117,28 @@
         }
 
         jQuery(document).ready(function () {
+            jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+                'Aluno-pre': function (a) {
+                    return a.replace(/[\d]{7} - /g, '');
+                },
+
+                'Aluno-asc': function (a, b) {
+                    return a - b;
+                },
+
+                'Aluno-desc': function (a, b) {
+                    return b - a;
+                }
+            });
+
             let bimestralTable = jQuery("#bimestralReports").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
                 responsive: true,
                 lengthChange: false,
+                aoColumns: [{sType: "Aluno"}, {sType: "Data"}, {sType: "Protocolo"}, {sType: "Ações"}],
+                aaSorting: [[0, "asc"]],
                 buttons: [
                     {
                         extend: 'csv',
@@ -164,6 +174,8 @@
                 },
                 responsive: true,
                 lengthChange: false,
+                aoColumns: [{sType: "Aluno"}, {sType: "Data"}, {sType: "Nº de aprovação"}, {sType: "Horas"}, {sType: "Ações"}],
+                aaSorting: [[0, "asc"]],
                 buttons: [
                     {
                         extend: 'csv',

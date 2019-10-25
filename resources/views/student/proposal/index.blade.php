@@ -23,7 +23,6 @@
             <table id="proposals" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th>Empresa</th>
                     <th>Remuneração</th>
                     <th>Cursos</th>
@@ -36,7 +35,6 @@
                 @foreach($proposals as $proposal)
 
                     <tr>
-                        <th scope="row">{{ $proposal->id }}</th>
                         <td>{{ $proposal->company->name }} {{ $proposal->company->fantasy_name != null ? "({$proposal->company->fantasy_name})" : '' }}</td>
                         <td>{{ $proposal->remuneration > 0.0 ? 'R$' . number_format($proposal->remuneration, 2, ',', '.') : 'Sem' }}</td>
                         <td>{{ join(', ', $proposal->courses->map(function ($c) { return $c->name; })->toArray()) }}</td>

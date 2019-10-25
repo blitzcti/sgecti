@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\API\NSac;
 
+use App\APIUtils;
+use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Internship;
 use App\Models\NSac\Student;
 use App\Models\State;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -17,38 +18,6 @@ class StudentController extends Controller
     public function __construct()
     {
         $this->middleware('permission:student-list');
-    }
-
-    /**
-     * Search for a string in a specific array column
-     *
-     * @param array $array
-     * @param string $q
-     * @param null|string|array $col
-     *
-     * @return array
-     */
-    function search($array, $q, $col = null)
-    {
-        $array = array_filter($array, function ($v, $k) use ($q, $col) {
-            if ($col == null) {
-                return (strpos(strtoupper($v), strtoupper($q)) !== false);
-            } else {
-                if (is_array($col)) {
-                    foreach ($col as $c) {
-                        if (strpos(strtoupper($v[$c]), strtoupper($q)) !== false) {
-                            return true;
-                        }
-                    }
-
-                    return false;
-                } else {
-                    return (strpos(strtoupper($v[$col]), strtoupper($q)) !== false);
-                }
-            }
-        }, ARRAY_FILTER_USE_BOTH);
-
-        return array_values($array);
     }
 
     public function get(Request $request)
@@ -132,7 +101,7 @@ class StudentController extends Controller
             $students = array_values($students->toArray());
 
             if (!empty($request->q)) {
-                $students = $this->search($students, $request->q, 'nome');
+                $students = APIUtils::search($students, $request->q, 'nome');
             }
         } else {
             $students = null;
@@ -155,7 +124,7 @@ class StudentController extends Controller
             $students = array_values($students->toArray());
 
             if (!empty($request->q)) {
-                $students = $this->search($students, $request->q, 'nome');
+                $students = APIUtils::search($students, $request->q, 'nome');
             }
         } else {
             $students = null;

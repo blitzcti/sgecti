@@ -24,6 +24,16 @@ use Illuminate\Database\Eloquent\Collection;
  * @property int turma_periodo
  * @property int situacao_matricula
  * @property Carbon data_de_nascimento
+ * @property string rg
+ * @property string cpf
+ * @property string telefone
+ * @property string logradouro
+ * @property string numero
+ * @property string complemento
+ * @property string cep
+ * @property string bairro
+ * @property string cidade
+ * @property string estado
  *
  * @property-read int course_id
  * @property-read int year

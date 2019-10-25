@@ -26,7 +26,6 @@
             <table id="generalConfigurations" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th>Anos máximos</th>
                     <th>Ano mínimo</th>
                     <th>Semestre mínimo</th>
@@ -43,7 +42,6 @@
                 @foreach($configs as $config)
 
                     <tr>
-                        <th scope="row">{{ $config->id }}</th>
                         <td>{{ $config->max_years }}</td>
                         <td>{{ $config->min_year }}</td>
                         <td>{{ $config->min_semester }}</td>

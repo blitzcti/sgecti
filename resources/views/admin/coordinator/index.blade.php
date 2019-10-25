@@ -26,7 +26,6 @@
             <table id="coordinators" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th>Nome</th>
                     <th>Curso</th>
                     <th>Início</th>
@@ -39,7 +38,6 @@
                 @foreach($coordinators as $coordinator)
 
                     <tr>
-                        <th scope="row">{{ $coordinator->id }}</th>
                         <td>{{ $coordinator->user->name }}</td>
                         <td>{{ $coordinator->course->name }}</td>
                         <td>{{ $coordinator->start_date->format("d/m/Y") }}</td>

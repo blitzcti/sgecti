@@ -28,7 +28,7 @@ class UpdateJobCompany extends FormRequest
     {
         return [
             'ie' => ['nullable', new Integer, 'digits:10'],
-            'name' => ['required', 'max:191'],
+            'companyName' => ['required', 'max:191'],
             'fantasyName' => ['nullable', 'max:191'],
 
             'representativeName' => ['required', 'max:50'],

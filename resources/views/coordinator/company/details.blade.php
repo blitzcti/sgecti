@@ -26,7 +26,7 @@
                 <dt class="col-sm-2">{{ ($company->pj) ? 'CNPJ' : 'CPF' }}</dt>
                 <dd class="col-sm-10">{{ $company->formatted_cpf_cnpj }}</dd>
 
-                <dt class="col-sm-2">Nome</dt>
+                <dt class="col-sm-2">Razão social</dt>
                 <dd class="col-sm-10">{{ $company->name }}</dd>
 
                 <dt class="col-sm-2">Nome fantasia</dt>

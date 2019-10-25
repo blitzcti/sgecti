@@ -27,7 +27,6 @@
             <table id="proposals" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th>Descrição</th>
                     <th>Data limite</th>
                     <th>Estado</th>
@@ -39,7 +38,6 @@
                 @foreach($proposals as $proposal)
 
                     <tr>
-                        <th scope="row">{{ $proposal->id }}</th>
                         <td>{{ $proposal->description }}</td>
                         <td>{{ $proposal->deadline->format('d/m/Y') }}</td>
 

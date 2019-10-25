@@ -26,10 +26,9 @@
                 Adicionar supervisor
             </a>
 
-            <table id="supervisors" class="table table-bordered table-hover">
+            <table id="supervisors" class="table table-bordered table-hover" data-order="[[ 1, &quot;asc&quot; ]]">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     @if(!isset($company))
                         <th>Empresa</th>
                     @endif
@@ -43,13 +42,8 @@
                 @foreach($supervisors as $supervisor)
 
                     <tr>
-                        <th scope="row">{{ $supervisor->id }}</th>
-
                         @if(!isset($company))
-
-                            <td>{{ $supervisor->company->formatted_cpf_cnpj }}
-                                - {{ $supervisor->company->name }} {{ $supervisor->company->fantasy_name != null ? "({$supervisor->company->fantasy_name})" : '' }}</td>
-
+                            <td>{{ $supervisor->company->formatted_cpf_cnpj }} - {{ $supervisor->company->name }} {{ $supervisor->company->fantasy_name != null ? "({$supervisor->company->fantasy_name})" : '' }}</td>
                         @endif
 
                         <td>{{ $supervisor->name }}</td>
@@ -70,12 +64,27 @@
 @section('js')
     <script type="text/javascript">
         jQuery(document).ready(function () {
+            jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+                'Empresa-pre': function (a) {
+                    return a.replace(/[\d]{2}\.[\d]{3}\.[\d]{3}\/[\d]{4}-[\d]{2} - /g, '').replace(/[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2}/g, '');
+                },
+
+                'Empresa-asc': function (a, b) {
+                    return a - b;
+                },
+
+                'Empresa-desc': function (a, b) {
+                    return b - a;
+                }
+            });
+
             let table = jQuery("#supervisors").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
                 responsive: true,
                 lengthChange: false,
+                aoColumns: [{sType: "Empresa"}, {sType: "Nome"}, {sType: "Email"}, {sType: "Ações"}],
                 buttons: [
                     {
                         extend: 'csv',

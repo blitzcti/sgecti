@@ -105,7 +105,7 @@ class AppServiceProvider extends ServiceProvider
                 'text' => 'menu.message',
                 'route' => $user->isAdmin() ? 'admin.mensagem.index' : ($user->isCoordinator() ? 'coordenador.mensagem.index' : null),
                 'icon' => 'envelope',
-                'active' => ['admin/mensagem/', 'coordenador/mensagem']
+                'active' => ['admin/mensagem', 'coordenador/mensagem', 'coordenador/mensagem*']
             ]);
         }
 

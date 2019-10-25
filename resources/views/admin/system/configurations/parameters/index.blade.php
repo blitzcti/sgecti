@@ -26,7 +26,6 @@
             <table id="systemConfigurations" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th>Nome</th>
                     <th>CEP</th>
                     <th>UF</th>
@@ -43,7 +42,6 @@
                 @foreach($configs as $config)
 
                     <tr>
-                        <th scope="row">{{ $config->id }}</th>
                         <td>{{ $config->name }}</td>
                         <td>{{ $config->cep }}</td>
                         <td>{{ $config->uf }}</td>

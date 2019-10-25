@@ -33,7 +33,6 @@
             <table id="amendments" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     @if(!isset($internship))
                         <th>Aluno</th>
                     @endif
@@ -46,14 +45,11 @@
                 @foreach($amendments as $amendment)
 
                     <tr>
-                        <th scope="row">{{ $amendment->id }}</th>
-
                         @if(!isset($internship))
                             <td>{{ $amendment->internship->ra }} - {{ $amendment->internship->student->nome }}</td>
                         @endif
 
-                        <td>{{ $amendment->internship->company->formatted_cpf_cnpj }}
-                            - {{ $amendment->internship->company->name }} {{ $amendment->internship->company->fantasy_name != null ? "({$amendment->internship->company->fantasy_name})" : '' }}</td>
+                        <td>{{ $amendment->internship->company->formatted_cpf_cnpj }} - {{ $amendment->internship->company->name }} {{ $amendment->internship->company->fantasy_name != null ? "({$amendment->internship->company->fantasy_name})" : '' }}</td>
                         <td>
                             <a href="{{ route('coordenador.estagio.aditivo.editar', ['id' => $amendment->id]) }}">Editar</a>
                         </td>
@@ -69,12 +65,40 @@
 @section('js')
     <script type="text/javascript">
         jQuery(document).ready(function () {
+            jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+                'Aluno-pre': function (a) {
+                    return a.replace(/[\d]{7} - /g, '');
+                },
+
+                'Aluno-asc': function (a, b) {
+                    return a - b;
+                },
+
+                'Aluno-desc': function (a, b) {
+                    return b - a;
+                },
+
+                'Empresa-pre': function (a) {
+                    return a.replace(/[\d]{2}\.[\d]{3}\.[\d]{3}\/[\d]{4}-[\d]{2} - /g, '').replace(/[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2}/g, '');
+                },
+
+                'Empresa-asc': function (a, b) {
+                    return a - b;
+                },
+
+                'Empresa-desc': function (a, b) {
+                    return b - a;
+                }
+            });
+
             let table = jQuery("#amendments").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
                 responsive: true,
                 lengthChange: false,
+                aoColumns: [@if(!isset($internship)){sType: "Aluno"}, @endif{sType: "Empresa"}, {sType: "Ações"}],
+                aaSorting: [[0, "asc"]],
                 buttons: [
                     {
                         extend: 'csv',

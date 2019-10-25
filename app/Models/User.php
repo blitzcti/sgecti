@@ -28,6 +28,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon updated_at
  *
  * @property Collection|DatabaseNotification[] notifications
+ * @property Collection|DatabaseNotification[] readNotifications
+ * @property Collection|DatabaseNotification[] unreadNotifications
  * @property Collection|Coordinator[] coordinators
  * @property Company company
  * @property Student student

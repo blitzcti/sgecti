@@ -26,7 +26,6 @@
             <table id="sectors" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th>Nome</th>
                     <th>Ativo</th>
                     <th>Ações</th>
@@ -37,7 +36,6 @@
                 @foreach($sectors as $sector)
 
                     <tr>
-                        <th scope="row">{{ $sector->id }}</th>
                         <td>{{ $sector->name }}</td>
                         <td>{{ ($sector->active) ? 'Sim' : 'Não' }}</td>
 

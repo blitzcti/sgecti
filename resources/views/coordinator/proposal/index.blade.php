@@ -29,7 +29,6 @@
             <table id="proposals" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th>Empresa</th>
                     <th>Descrição</th>
                     <th>Data limite</th>
@@ -42,9 +41,7 @@
                 @foreach($proposals as $proposal)
 
                     <tr>
-                        <th scope="row">{{ $proposal->id }}</th>
-                        <td>{{ $proposal->company->formatted_cpf_cnpj }}
-                            - {{ $proposal->company->name }} {{ $proposal->company->fantasy_name != null ? "({$proposal->company->fantasy_name})" : '' }}</td>
+                        <td>{{ $proposal->company->formatted_cpf_cnpj }} - {{ $proposal->company->name }} {{ $proposal->company->fantasy_name != null ? "({$proposal->company->fantasy_name})" : '' }}</td>
                         <td>{{ $proposal->description }}</td>
                         <td>{{ $proposal->deadline->format('d/m/Y') }}</td>
 
@@ -102,12 +99,28 @@
 @section('js')
     <script type="text/javascript">
         jQuery(document).ready(function () {
+            jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+                'Empresa-pre': function (a) {
+                    return a.replace(/[\d]{2}\.[\d]{3}\.[\d]{3}\/[\d]{4}-[\d]{2} - /g, '').replace(/[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2}/g, '');
+                },
+
+                'Empresa-asc': function (a, b) {
+                    return a - b;
+                },
+
+                'Empresa-desc': function (a, b) {
+                    return b - a;
+                }
+            });
+
             let table = jQuery("#proposals").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
                 responsive: true,
                 lengthChange: false,
+                aoColumns: [{sType: "Empresa"}, {sType: "Descrição"}, {sType: "Data limite"}, {sType: "Estado"}, {sType: "Ações"}],
+                aaSorting: [[0, "asc"]],
                 buttons: [
                     {
                         extend: 'csv',

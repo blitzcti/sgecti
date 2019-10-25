@@ -29,7 +29,6 @@
             <table id="jobs" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th>Aluno</th>
                     <th>Empresa</th>
                     <th>Coordenador</th>
@@ -42,12 +41,9 @@
                 @foreach($jobs as $job)
 
                     <tr>
-                        <th scope="row">{{ $job->id }}</th>
-
                         <td>{{ $job->ra }} - {{ $job->student->nome }}</td>
 
-                        <td>{{ $job->company->formatted_cpf_cnpj }}
-                            - {{ $job->company->name }} {{ $job->company->fantasy_name != null ? "({$job->company->fantasy_name})" : '' }}</td>
+                        <td>{{ $job->company->formatted_cpf_cnpj }} - {{ $job->company->name }} {{ $job->company->fantasy_name != null ? "({$job->company->fantasy_name})" : '' }}</td>
                         <td>{{ $job->coordinator->user->name }}</td>
                         <td>{{ $job->state->description }}</td>
                         <td>
@@ -83,12 +79,40 @@
 @section('js')
     <script type="text/javascript">
         jQuery(document).ready(function () {
+            jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+                'Aluno-pre': function (a) {
+                    return a.replace(/[\d]{7} - /g, '');
+                },
+
+                'Aluno-asc': function (a, b) {
+                    return a - b;
+                },
+
+                'Aluno-desc': function (a, b) {
+                    return b - a;
+                },
+
+                'Empresa-pre': function (a) {
+                    return a.replace(/[\d]{2}\.[\d]{3}\.[\d]{3}\/[\d]{4}-[\d]{2} - /g, '').replace(/[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2}/g, '');
+                },
+
+                'Empresa-asc': function (a, b) {
+                    return a - b;
+                },
+
+                'Empresa-desc': function (a, b) {
+                    return b - a;
+                }
+            });
+
             let table = jQuery("#jobs").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
                 responsive: true,
                 lengthChange: false,
+                aoColumns: [{sType: "Aluno"}, {sType: "Empresa"}, {sType: "Coordenador"}, {sType: "Estado"}, {sType: "Ações"}],
+                aaSorting: [[0, "asc"]],
                 buttons: [
                     {
                         extend: 'csv',

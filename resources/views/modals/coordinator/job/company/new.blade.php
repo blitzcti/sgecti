@@ -70,10 +70,10 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="inputCompanyName" class="col-sm-2 control-label">Nome*</label>
+                        <label for="inputCompanyName" class="col-sm-2 control-label">Razão social*</label>
 
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputCompanyName" name="name"
+                            <input type="text" class="form-control" id="inputCompanyName" name="companyName"
                                    placeholder="MSTech"/>
                         </div>
                     </div>
@@ -153,7 +153,7 @@
                         cpfCnpj: jQuery('#inputCompanyCpfCnpj').inputmask('unmaskedvalue'),
                         ie: jQuery('#inputCompanyIE').inputmask('unmaskedvalue'),
                         pj: jQuery('#inputCompanyPj').val(),
-                        name: jQuery('#inputCompanyName').val(),
+                        companyName: jQuery('#inputCompanyName').val(),
                         fantasyName: jQuery('#inputCompanyFantasyName').val(),
                         representativeName: jQuery('#inputCompanyRepresentativeName').val(),
                         representativeRole: jQuery('#inputCompanyRepresentativeRole').val(),

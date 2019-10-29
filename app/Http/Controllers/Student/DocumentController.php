@@ -69,21 +69,28 @@ class DocumentController extends Controller
             $fileName = "Protocolo de inicio (1 via)";
         } else {
             $folder = "end";
-            $fileName = "Protocolo de finalizacao (1 via)";
+            $fileName = "Protocolo de finalização (1 via)";
         }
 
         $template = new TemplateProcessor(storage_path("app/public/docs/templates/$folder/protocol.docx"));
 
         $template->setValue('course_upper', mb_strtoupper($student->course->name));
-        $template->setValue('course', $student->course->name);
         $template->setValue('coordinator', $student->course->coordinator->user->name);
         $template->setValue('student', $student->nome);
+        $template->setValue('course', $student->course->name);
         $template->setValue('class', $student->turma);
         $template->setValue('period', ($student->turma_periodo == Student::MORNING) ? 'Diurno' : 'Noturno');
         $template->setValue('ra', $student->matricula);
-        $template->setValue('email', $student->email);
 
         $template->setValue('city', $sysConfig->city);
+
+        $template->setValue('address', $student->logradouro);
+        $template->setValue('complement', $student->complemento);
+        $template->setValue('s_city', $student->cidade);
+        $template->setValue('s_uf', $student->uf);
+        $template->setValue('cep', $student->cep);
+        $template->setValue('phone', $student->telefone);
+        $template->setValue('email', $student->email);
 
         return $this->download($template, $fileName);
     }
@@ -103,6 +110,14 @@ class DocumentController extends Controller
         $template->setValue('ra', $student->matricula);
         $template->setValue('student', $student->nome);
         $template->setValue('birth', $student->data_de_nascimento->format("d/m/Y"));
+
+        $template->setValue('address', $student->logradouro);
+        $template->setValue('phone', $student->telefone);
+        $template->setValue('cep', $student->cep);
+        $template->setValue('district', $student->bairro);
+        $template->setValue('s_city', $student->cidade);
+        $template->setValue('s_uf', $student->uf);
+
         $template->setValue('course', $student->course->name);
         $template->setValue('class', $student->turma);
         $template->setValue('year', $student->turma_ano);
@@ -255,6 +270,7 @@ class DocumentController extends Controller
         $template = new TemplateProcessor(storage_path("app/public/docs/templates/end/questionnaire.docx"));
 
         $template->setValue('student', $student->nome);
+        $template->setValue('student', $student->rg);
 
         $template->setValue('city', $sysConfig->city);
 
@@ -318,6 +334,7 @@ class DocumentController extends Controller
 
         $template->setValue('ra', $student->matricula);
         $template->setValue('student', $student->nome);
+        $template->setValue('student', $student->rg);
         $template->setValue('grade', $student->grade);
         $template->setValue('course', $student->course->name);
         $template->setValue('coordinator', $student->course->coordinator->user->name);

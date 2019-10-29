@@ -34,9 +34,9 @@ class CreateProposalsTable extends Migration
             $table->bigInteger('type')->nullable(false)->default(1);
             $table->text('observation')->nullable(true);
 
-            $table->text('email');
-            $table->text('subject');
-            $table->text('phone')->nullable(true);
+            $table->string('email');
+            $table->string('subject');
+            $table->string('phone', 11)->nullable(true);
             $table->text('other')->nullable(true);
 
             $table->timestamp('approved_at')->nullable(true);

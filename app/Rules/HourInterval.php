@@ -14,6 +14,8 @@ class HourInterval implements Rule
      * Create a new rule instance.
      *
      * @param $startDate
+     * @param $startDate2
+     * @param $endDate2
      */
     public function __construct($startDate, $startDate2, $endDate2)
     {
@@ -33,18 +35,9 @@ class HourInterval implements Rule
     {
         $diff = date_diff(date_create($this->startDate), date_create($value));
         $diff2 = date_diff(date_create($this->startDate2), date_create($this->endDate2));
-        $hDiff = $diff->format("%h") + $diff2->format("%h");
-        $mDiff = $diff->format("%m") + $diff2->format("%m");
+        $mDiff = $diff->h * 60 + $diff2->h * 60 + $diff->m + $diff2->m;
 
-        if ($hDiff == 6) {
-            if ($mDiff > 0) {
-                return false;
-            }
-
-            return false;
-        } else {
-            return $hDiff > 0 && $hDiff <= 6;
-        }
+        return $mDiff <= 6 * 60;
     }
 
     /**
@@ -54,6 +47,6 @@ class HourInterval implements Rule
      */
     public function message()
     {
-        return __('validation.minHours');
+        return __('validation.max_hours');
     }
 }

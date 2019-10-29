@@ -5,7 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 
 /**
- * Class SystemConfiguration
+ * Model for system_configurations table.
  *
  * @package App\Models
  * @property int id

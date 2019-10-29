@@ -3,6 +3,7 @@
 namespace App\Http\Requests\API\Coordinator;
 
 use App\Http\Requests\API\FormRequest;
+use App\Rules\Unique;
 
 class StoreSector extends FormRequest
 {
@@ -24,7 +25,7 @@ class StoreSector extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'max:50', 'unique:sectors,name'],
+            'name' => ['required', 'max:50', new Unique('sectors', 'name')],
             'description' => ['nullable', 'max:8000'],
             'active' => ['required', 'boolean'],
         ];

@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * Class Internship
+ * Model for internships table.
  *
  * @package App\Models
  * @property int id
@@ -189,7 +189,9 @@ class Internship extends Model
         if ($amendments != null) {
             /* @var $amendment Amendment */
             foreach ($amendments as $amendment) {
-                $h += $amendment->schedule->countHours($amendment->start_date, $amendment->end_date, $amendments);
+                if ($amendment->schedule != null) {
+                    $h += $amendment->schedule->countHours($amendment->start_date, $amendment->end_date, $amendments);
+                }
 
                 if ($amendment->schedule2 != null) {
                     $h += $amendment->schedule2->countHours($amendment->start_date, $amendment->end_date, $amendments);

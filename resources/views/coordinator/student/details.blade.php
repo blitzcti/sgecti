@@ -64,7 +64,7 @@
                     <dt class="col-sm-2">Horas necessárias</dt>
                     <dd class="col-sm-10">{{ $student->course_configuration->min_hours }}</dd>
 
-                    <dt class="col-sm-2">Horas concluídas</dt>
+                    <dt class="col-sm-2">Total em horas</dt>
                     <dd class="col-sm-10">{{ $student->completed_hours }}</dd>
 
                     <dt class="col-sm-2">Meses necessários</dt>
@@ -158,7 +158,7 @@
                     <dt class="col-sm-2">Data de término</dt>
                     <dd class="col-sm-10">{{ $internship->final_report->end_date->format("d/m/Y") }}</dd>
 
-                    <dt class="col-sm-2">Horas concluídas</dt>
+                    <dt class="col-sm-2">Total em horas</dt>
                     <dd class="col-sm-10">{{ $internship->final_report->completed_hours }}</dd>
 
                     <dt class="col-sm-2">Nota final</dt>
@@ -169,8 +169,8 @@
                 </dl>
 
                 <div class="btn-group">
-                    <a href="{{ route('coordenador.relatorio.final.pdf', ['id' => $internship->final_report->id]) }}"
-                       target="_blank" class="btn btn-default">Imprimir relatório</a>
+                    <a href="#" onclick="pdf({{ $internship->final_report->id }}); return false;" target="_blank"
+                       class="btn btn-default">Imprimir relatório</a>
                 </div>
 
                 <hr/>
@@ -214,6 +214,9 @@
 
 @section('js')
     <script type="text/javascript">
-
+        function pdf(id) {
+            window.open(`{{ config('app.url') }}/coordenador/relatorio/final/${id}/pdf`, '_blank');
+            window.open(`{{ config('app.url') }}/coordenador/relatorio/final/${id}/pdf2`, '_blank');
+        }
     </script>
 @endsection

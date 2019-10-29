@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * Class Course
+ * Model for courses table.
  *
  * @package App\Models
  * @property int id

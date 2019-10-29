@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * Class State
+ * Model for states table.
  *
  * @package App\Models
  * @property int id

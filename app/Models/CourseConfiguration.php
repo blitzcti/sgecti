@@ -5,7 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 
 /**
- * Class CourseConfiguration
+ * Model for course_configurations table.
  *
  * @package App\Models
  * @property int id

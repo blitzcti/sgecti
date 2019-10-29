@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * Class Supervisor
+ * Model for supervisors table.
  *
  * @package App\Models
  * @property int id

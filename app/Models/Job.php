@@ -6,7 +6,7 @@ use App\Models\NSac\Student;
 use Carbon\Carbon;
 
 /**
- * Class Job
+ * Model for jobs table.
  *
  * @package App\Models
  * @property int id

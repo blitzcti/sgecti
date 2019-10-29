@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * Class Sector
+ * Model for sectors table.
  *
  * @package App\Models
  * @property int id

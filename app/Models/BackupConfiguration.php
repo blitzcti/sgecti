@@ -5,7 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 
 /**
- * Class BackupConfiguration
+ * Model for backup_configurations table.
  *
  * @package App\Models
  * @property int id
@@ -72,5 +72,13 @@ class BackupConfiguration extends Model
     public function getHour()
     {
         return date("H:i", strtotime($this->hour));
+    }
+
+    /**
+     * @return static
+     */
+    public static function getCurrent()
+    {
+        return static::all()->sortBy('id')->last();
     }
 }

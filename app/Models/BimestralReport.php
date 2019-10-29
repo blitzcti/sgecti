@@ -5,7 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 
 /**
- * Class BimestralReport
+ * Model for bimestral_reports table.
  *
  * @package App\Models
  * @property int id

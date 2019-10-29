@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * Class Agreement
+ * Model for agreements table.
  *
  * @package App\Models
  * @property int id

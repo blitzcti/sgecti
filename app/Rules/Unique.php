@@ -36,7 +36,12 @@ class Unique implements Rule
     public function passes($attribute, $value)
     {
         try {
-            $query = DB::table($this->table)->whereRaw("LOWER({$this->column}) = {$value}");
+            if (is_string($value)) {
+                $query = DB::table($this->table)->whereRaw("LOWER({$this->column}) = '{$value}'");
+            } else {
+                $query = DB::table($this->table)->whereRaw("{$this->column} = {$value}");
+            }
+
             if ($this->ignore != null) {
                 $query->where('id', '<>', $this->ignore);
             }

@@ -314,7 +314,7 @@ class AppServiceProvider extends ServiceProvider
                         'text' => 'menu.new',
                         'route' => 'coordenador.estagio.novo',
                         'icon' => 'edit',
-                        'active' => ['coordenador/estagio/novo']
+                        'active' => ['coordenador/estagio/novo*']
                     ],
                 ];
 
@@ -360,7 +360,7 @@ class AppServiceProvider extends ServiceProvider
                         'text' => 'menu.new',
                         'route' => 'coordenador.trabalho.novo',
                         'icon' => 'edit',
-                        'active' => ['coordenador/trabalho/novo']
+                        'active' => ['coordenador/trabalho/novo*']
                     ],
                 ];
 
@@ -409,7 +409,7 @@ class AppServiceProvider extends ServiceProvider
                             'text' => 'menu.bimestral',
                             'route' => 'coordenador.relatorio.bimestral.novo',
                             'icon' => 'edit',
-                            'active' => ['coordenador/relatorio/bimestral/novo']
+                            'active' => ['coordenador/relatorio/bimestral/novo*']
                         ],
                         [
                             'text' => 'menu.final',

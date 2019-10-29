@@ -103,7 +103,7 @@
                     <dt class="col-sm-2">Data de término</dt>
                     <dd class="col-sm-10">{{ $internship->final_report->end_date->format("d/m/Y") }}</dd>
 
-                    <dt class="col-sm-2">Horas concluídas</dt>
+                    <dt class="col-sm-2">Total em horas</dt>
                     <dd class="col-sm-10">{{ $internship->final_report->completed_hours }}</dd>
 
                     <dt class="col-sm-2">Nota final</dt>

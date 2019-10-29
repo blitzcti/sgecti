@@ -5,7 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 
 /**
- * Class Address
+ * Model for addresses table.
  *
  * @package App\Models
  * @property int id

@@ -5,9 +5,12 @@ namespace App\Models;
 use Carbon\Carbon;
 
 /**
- * Class DatabaseNotification
+ * Model for notifications table (created for IDE Helper).
  *
  * @package App\Models
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin \Illuminate\Database\Query\Builder
+ *
  * @property string id
  * @property string type
  * @property string notifiable_type

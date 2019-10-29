@@ -112,7 +112,7 @@
                 <div class="row">
                     <div class="col-sm-8">
                         <div class="form-group @if($errors->has('email')) has-error @endif">
-                            <label for="inputEmail" class="col-sm-3 control-label">Email</label>
+                            <label id="labelEmail" for="inputEmail" class="col-sm-3 control-label">Email</label>
 
                             <div class="col-sm-9">
                                 <input type="email" class="form-control" id="inputEmail" name="email"
@@ -125,9 +125,9 @@
 
                     <div class="col-sm-4">
                         <div class="form-group @if($errors->has('phone')) has-error @endif">
-                            <label for="inputPhone" class="col-sm-2 control-label">Telefone</label>
+                            <label for="inputPhone" class="col-sm-3 control-label">Telefone</label>
 
-                            <div class="col-sm-10">
+                            <div class="col-sm-9">
                                 <input type="text" class="form-control" id="inputPhone" name="phone"
                                        placeholder="(14) 3103-6150"
                                        data-inputmask="'mask': ['(99) 9999-9999', '(99) 99999-9999']"
@@ -422,6 +422,7 @@
             jQuery('#fakeInputHasAgreement').on('ifChanged', function () {
                 jQuery('#div-agreement').toggle(this.checked);
                 jQuery('#inputHasAgreement').val(Number(this.checked));
+                jQuery('#labelEmail').text(this.checked ? 'Email*' : 'Email');
             }).trigger('ifChanged').iCheck({
                 checkboxClass: 'icheckbox_square-blue',
                 radioClass: 'iradio_square-blue',

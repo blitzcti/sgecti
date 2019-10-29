@@ -12,7 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * Class Student
+ * Model for students table.
  *
  * @package App\Models\NSac
  * @property string matricula

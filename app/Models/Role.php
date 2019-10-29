@@ -6,11 +6,12 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * Class Role
+ * Model for roles table (created for IDE Helper).
  *
  * @package App\Models
  * @mixin \Illuminate\Database\Eloquent\Builder
  * @mixin \Illuminate\Database\Query\Builder
+ *
  * @property int id
  * @property string name
  * @property string friendly_name

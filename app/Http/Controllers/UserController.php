@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ChangeUserPassword;
 use App\Auth;
+use App\Http\Requests\ChangeUserPassword;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -27,9 +27,10 @@ class UserController extends Controller
         $params = [];
         $validatedData = (object)$request->validated();
 
-        $log = "Alteração de senha de usuário";
-
         $user = Auth::user();
+        $log = "Alteração de senha de usuário";
+        $log .= "\nUsuário: {$user->name}";
+
         $user->password = Hash::make($validatedData->password);
         $user->password_change_at = Carbon::now();
 

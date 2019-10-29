@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * Class Proposal
+ * Model for proposals table.
  *
  * @package App\Models
  * @property int id
@@ -42,7 +42,7 @@ class Proposal extends Model
 
     protected $fillable = [
         'company_id', 'deadline', 'schedule_id', 'schedule_2_id', 'remuneration', 'description', 'requirements',
-        'benefits', 'contact', 'type', 'observation', 'approved_at', 'reason_to_reject'
+        'benefits', 'email', 'subject', 'phone', 'other', 'type', 'observation', 'approved_at', 'reason_to_reject'
     ];
 
     /**

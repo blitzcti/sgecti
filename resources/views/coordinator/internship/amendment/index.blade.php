@@ -35,8 +35,10 @@
                 <tr>
                     @if(!isset($internship))
                         <th>Aluno</th>
+                        <th>Empresa</th>
                     @endif
-                    <th>Empresa</th>
+                    <th>Alterou data de término</th>
+                    <th>Alterou horário</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
@@ -47,9 +49,10 @@
                     <tr>
                         @if(!isset($internship))
                             <td>{{ $amendment->internship->ra }} - {{ $amendment->internship->student->nome }}</td>
+                            <td>{{ $amendment->internship->company->formatted_cpf_cnpj }} - {{ $amendment->internship->company->name }} {{ $amendment->internship->company->fantasy_name != null ? "({$amendment->internship->company->fantasy_name})" : '' }}</td>
                         @endif
-
-                        <td>{{ $amendment->internship->company->formatted_cpf_cnpj }} - {{ $amendment->internship->company->name }} {{ $amendment->internship->company->fantasy_name != null ? "({$amendment->internship->company->fantasy_name})" : '' }}</td>
+                        <td>{{ $amendment->end_date != null ? 'Sim' : 'Não' }}</td>
+                        <td>{{ $amendment->schedule != null ? 'Sim' : 'Não' }}</td>
                         <td>
                             <a href="{{ route('coordenador.estagio.aditivo.editar', ['id' => $amendment->id]) }}">Editar</a>
                         </td>
@@ -97,7 +100,7 @@
                 },
                 responsive: true,
                 lengthChange: false,
-                aoColumns: [@if(!isset($internship)){sType: "Aluno"}, @endif{sType: "Empresa"}, {sType: "Ações"}],
+                aoColumns: [@if(!isset($internship)){sType: "Aluno"}, {sType: "Empresa"}, @endif {sType: "Alterou_data_de_término"}, {sType: "Alterou_horário"}, {sType: "Ações"}],
                 aaSorting: [[0, "asc"]],
                 buttons: [
                     {

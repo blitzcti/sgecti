@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use DateTime;
+use Illuminate\Support\Collection;
 
 /**
- * Class Schedule
+ * Model for schedules table.
  *
  * @package App\Models
  * @property int id
@@ -50,10 +50,9 @@ class Schedule extends Model
         return $this->hasOne(Proposal::class);
     }
 
-    public function countHours($startDate, $endDate, $amendments)
+    public function countHours(Carbon $startDate, Carbon $endDate, Collection $amendments)
     {
-        $startDate = new DateTime($startDate);
-        $endDate = (Carbon::now() <= new DateTime($endDate)) ? Carbon::now() : new DateTime($endDate);
+        $endDate = (Carbon::now() <= $endDate) ? Carbon::now() : $endDate;
         $h = 0.0;
 
         $days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -65,19 +64,21 @@ class Schedule extends Model
             }
 
             $amendments = $amendments->filter(function ($a) use ($i) {
+                /* @var $a Amendment */
                 $amendment = $this->amendment;
                 if ($amendment != null) {
-                    return $a->id != $this->amendment->id && $a->start_date == $i->format('Y-m-d');
+                    return $a->id != $this->amendment->id && $a->start_date == $i;
                 } else {
-                    return $a->start_date == $i->format('Y-m-d');
+                    return $a->start_date == $i;
                 }
             })->sortBy('end_date');
 
             if (sizeof($amendments) > 0) {
                 $amendment = $amendments->first();
-                $y = date("Y", strtotime($amendment->end_date));
-                $m = date("m", strtotime($amendment->end_date));
-                $d = date("d", strtotime($amendment->end_date));
+                /* @var $amendment Amendment */
+                $y = $amendment->end_date->year;
+                $m = $amendment->end_date->month;
+                $d = $amendment->end_date->day;
                 $i->setDate($y, $m, $d);
                 continue;
             }

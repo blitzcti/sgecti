@@ -5,7 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 
 /**
- * Class Amendment
+ * Model for amendments table.
  *
  * @package App\Models
  * @property int id

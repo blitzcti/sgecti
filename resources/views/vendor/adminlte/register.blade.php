@@ -72,7 +72,7 @@
             <small>Colégio Técnico Industrial "Prof. Isaac Portal Roldán" UNESP Bauru<br/>
                 Copyright © 2019 SGE
             </small>
-        </div>
+        </div>0
         <!-- /.box-footer -->
     </div><!-- /.register-box -->
 @stop

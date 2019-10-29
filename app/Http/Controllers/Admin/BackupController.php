@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\BackupConfiguration;
+use App\Models\Model;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
-use App\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -30,7 +31,7 @@ class BackupController extends Controller
 
     public function index()
     {
-        $backupConfig = BackupConfiguration::findOrFail(1);
+        $backupConfig = BackupConfiguration::getCurrent();
         $days = $backupConfig->days();
         $hour = $backupConfig->getHour();
         return view('admin.system.configurations.backup.index')->with(['days' => $days, 'hour' => $hour]);
@@ -85,8 +86,6 @@ class BackupController extends Controller
                         } catch (Exception $e) {
                             Log::error("Erro ao restaurar do arquivo de backup: {$e}");
                             Artisan::call('cache:forget', ['key' => 'spatie.permission.cache']);
-                            // artisan config:cache impede que as mensagens sejam enviadas para a session ($params[])
-                            Artisan::call('config:cache');
 
                             try {
                                 $zip->open(storage_path("app/backups/backup.zip"));
@@ -104,7 +103,6 @@ class BackupController extends Controller
                             } catch (Exception $e2) {
                                 Log::error("Erro ao restaurar do arquivo de backup: {$e2}");
                                 Artisan::call('cache:forget', ['key' => 'spatie.permission.cache']);
-                                Artisan::call('config:cache');
                                 Artisan::call('migrate:fresh', ['--seed' => true]);
                                 Log::info("Banco de dados reiniciado.");
 
@@ -213,7 +211,7 @@ class BackupController extends Controller
             'hour' => ['required', 'date_format:H:i'],
         ]);
 
-        $backupConfig = BackupConfiguration::findOrFail(1);
+        $backupConfig = BackupConfiguration::getCurrent();
 
         $allDays = [
             'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday',
@@ -248,7 +246,7 @@ class BackupController extends Controller
         return true;
     }
 
-    private function verifyData($data)
+    private function verifyData(string $data)
     {
         if (is_array($data)) {
             try {
@@ -311,10 +309,11 @@ class BackupController extends Controller
         file_put_contents($file, $data);
     }
 
-    private function getData($toFile = false)
+    private function getData(bool $toFile = false)
     {
         if ($toFile) {
             $dir = storage_path("app/backups/zip");
+            $data = null;
             foreach ($this->tables as $table => $class) {
                 if (config('broker.useSSO') && in_array($table, $this->sso_tables)) {
                     continue;
@@ -336,10 +335,13 @@ class BackupController extends Controller
         return $data;
     }
 
-    private function getTableData($table, $class)
+    private function getTableData(string $table, string $class)
     {
-        if ((new $class)->getKeyName() != null) {
-            $data = DB::table($table)->get()->sortBy((new $class)->getKeyName());
+        $instance = (new $class);
+        /* @var $instance Model */
+
+        if ($instance->getKeyName() != null) {
+            $data = DB::table($table)->get()->sortBy($instance->getKeyName());
         } else {
             $data = DB::table($table)->get();
         }
@@ -347,9 +349,12 @@ class BackupController extends Controller
         return array_values($data->toArray());
     }
 
-    private function setAutoIncrement($tableName)
+    private function setAutoIncrement(string $tableName)
     {
-        $primaryKey = (new $this->tables[$tableName])->getKeyName();
+        $instance = (new $this->tables[$tableName]);
+        /* @var $instance Model */
+
+        $primaryKey = $instance->getKeyName();
 
         if (DB::connection()->getDriverName() == 'pgsql') {
             DB::statement("SELECT setval('{$tableName}_{$primaryKey}_seq', (SELECT MAX({$primaryKey}) FROM {$tableName}));");
@@ -359,7 +364,7 @@ class BackupController extends Controller
         }
     }
 
-    private function restoreData($data)
+    private function restoreData(object $data)
     {
         foreach ($this->tables as $table => $class) {
             if (config('broker.useSSO') && in_array($table, $this->sso_tables)) {
@@ -370,13 +375,16 @@ class BackupController extends Controller
                 DB::table($table)->insert($innerData);
             }
 
-            if ((new $class)->getKeyName() != null && (new $class)->incrementing) {
+            $instance = (new $class);
+            /* @var $instance Model */
+
+            if ($instance->getKeyName() != null && $instance->incrementing) {
                 $this->setAutoIncrement($table);
             }
         }
     }
 
-    private function restoreDataFromZip($dir)
+    private function restoreDataFromZip(string $dir)
     {
         foreach ($this->tables as $table => $class) {
             $data = json_decode(file_get_contents("$dir/$table.json"), true);
@@ -384,7 +392,10 @@ class BackupController extends Controller
                 DB::table($table)->insert($innerData);
             }
 
-            if ((new $class)->getKeyName() != null && (new $class)->incrementing) {
+            $instance = (new $class);
+            /* @var $instance Model */
+
+            if ($instance->getKeyName() != null && $instance->incrementing) {
                 $this->setAutoIncrement($table);
             }
         }

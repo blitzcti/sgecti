@@ -5,7 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 
 /**
- * Class Coordinator
+ * Model for coordinators table.
  *
  * @package App\Models
  * @property int id

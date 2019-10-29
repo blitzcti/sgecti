@@ -14,7 +14,7 @@ class APIUtils
      * @param string $string
      * @return string
      */
-    public static function removeAccents($string)
+    public static function removeAccents(string $string)
     {
         if (!preg_match('/[\x80-\xff]/', $string))
             return $string;
@@ -128,7 +128,7 @@ class APIUtils
      *
      * @return array
      */
-    public static function search($array, $q, $col = null)
+    public static function search(array $array, string $q, $col = null)
     {
         $array = array_filter($array, function ($v) use ($q, $col) {
             if ($col == null) {
@@ -157,7 +157,7 @@ class APIUtils
      * @param $array
      * @param null|string $col
      */
-    public static function sort(&$array, $col = null)
+    public static function sort(array &$array, $col = null)
     {
         usort($array, function ($a, $b) use ($col) {
             if ($col == null) {
@@ -178,11 +178,11 @@ class APIUtils
      * Parses the URL
      *
      * @param string $config
-     * @param null $val
+     * @param null|mixed $val
      *
      * @return string
      */
-    public static function parseURL($config, $val = null)
+    public static function parseURL(string $config, $val = null)
     {
         $url = config($config);
         if ($val !== null) {
@@ -201,7 +201,7 @@ class APIUtils
      *
      * @return mixed|null
      */
-    public static function getData($url, $method = 'GET', $data = [])
+    public static function getData(string $url, string $method = 'GET', array $data = [])
     {
         try {
             $client = new Client();

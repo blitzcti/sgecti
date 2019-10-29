@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * Class Company
+ * Model for companies table.
  *
  * @package App\Models
  * @property int id

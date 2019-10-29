@@ -10,11 +10,12 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * Class User
+ * Model for users table.
  *
  * @package App\Models
  * @mixin \Illuminate\Database\Eloquent\Builder
  * @mixin \Illuminate\Database\Query\Builder
+ *
  * @property int id
  * @property string name
  * @property string email

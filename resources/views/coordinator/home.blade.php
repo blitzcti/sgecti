@@ -15,7 +15,6 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th>Aluno</th>
                     <th>Empresa</th>
                     <th>Ações</th>
@@ -26,9 +25,7 @@
                 @foreach($requiringFinish as $internship)
 
                     <tr>
-                        <th scope="row">{{ $internship->id }}</th>
                         <td>{{ $internship->ra }} - {{ $internship->student->nome }}</td>
-
                         <td>{{ $internship->company->formatted_cpf_cnpj }} - {{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "({$internship->company->fantasy_name})" : '' }}</td>
                         <td>
                             <a href="{{ route('coordenador.estagio.detalhes', ['id' => $internship->id]) }}">Detalhes</a>

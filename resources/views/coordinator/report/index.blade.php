@@ -112,8 +112,8 @@
 
     <script type="text/javascript">
         function pdf(id) {
-            window.open(`/coordenador/relatorio/final/${id}/pdf`, '_blank');
-            window.open(`/coordenador/relatorio/final/${id}/pdf2`, '_blank');
+            window.open(`{{ config('app.url') }}/coordenador/relatorio/final/${id}/pdf`, '_blank');
+            window.open(`{{ config('app.url') }}/coordenador/relatorio/final/${id}/pdf2`, '_blank');
         }
 
         jQuery(document).ready(function () {

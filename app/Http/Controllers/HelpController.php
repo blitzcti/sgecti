@@ -16,31 +16,39 @@ class HelpController extends Controller
             $content = [
                 'Configurações do sistema' => [
                     'Alterar senha' => [
-                        'desc' => "Utilize essa interface para alterar sua senha.",
+                        'desc' => "Utilize esta interface para alterar sua senha.",
                         'content' => [
                             [
                                 'img' => 'administrador/alterar_senha_admin.png',
-                                'text' => '',
+                                'text' => 'Insira a senha atual e insira e confirme a nova senha.',
                             ],
                         ]
                     ],
 
                     'Parâmetros do sistema' => [
-                        'desc' => 'Informações e dados sobre o local e a instituição atual.',
+                        'desc' => 'Informações e normas da instituição em que o sistema será utilizado.',
                         'content' => [
                             [
                                 'img' => 'administrador/parametros_admin.png',
-                                'text' => '',
+                                'text' => 'Utilize os campos editáveis para alterar informações e visualizar os dados já registrados.',
                             ],
                         ],
                     ],
 
                     'Backup do sistema' => [
-                        'desc' => 'Salvamento de arquivos que pode ser programado para que ocorra automaticamente e restaurar arquivos antigos.',
+                        'desc' => 'Essa interface possibilita a realização de backups de segurança do sistema.',
                         'content' => [
                             [
-                                'img' => 'administrador/backup_admin.png',
-                                'text' => '',
+                                'img' => 'administrador/realizar_backup_admin.png',
+                                'text' => 'Você pode fazer o download dos dados do sistema.',
+                            ],
+                            [
+                                'img' => 'administrador/restaurar_backup_admin.png',
+                                'text' => 'Você pode restaurar os dados a partir de um registro antigo',
+                            ],
+                            [
+                                'img' => 'administrador/programar_backup_admin.png',
+                                'text' => 'Você pode agendar a realização automática de backups, ajustando os dias da semana e o horário destes.',
                             ],
 
                         ],
@@ -48,11 +56,15 @@ class HelpController extends Controller
                     ],
 
                     'Configurações gerais do curso' => [
-                        'desc' => 'A interface disponibiliza os dados que todos os cursos possuem em comum.',
+                        'desc' => 'Nesta interface, o administrador pode ajustar as configurações que serviram de base quando um novo curso for criado.',
                         'content' => [
                             [
-                                'img' => 'administrador/conf_gerais_admin.png',
-                                'text' => '',
+                                'img' => 'administrador/visualizar_conf_gerais_admin.png',
+                                'text' => 'Visualize as configurações já registradas.',
+                            ],
+                            [
+                                'img' => 'administrador/editar_conf_gerais_admin.png',
+                                'text' => 'Adicione/edite configurações utilizando essa interface, que salva as normas por data de vigência e respeitando a retroatividade.',
                             ],
 
                         ],

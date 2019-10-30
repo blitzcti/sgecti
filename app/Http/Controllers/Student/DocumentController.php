@@ -270,7 +270,7 @@ class DocumentController extends Controller
         $template = new TemplateProcessor(storage_path("app/public/docs/templates/end/questionnaire.docx"));
 
         $template->setValue('student', $student->nome);
-        $template->setValue('student', $student->rg);
+        $template->setValue('rg', $student->rg);
 
         $template->setValue('city', $sysConfig->city);
 
@@ -334,7 +334,7 @@ class DocumentController extends Controller
 
         $template->setValue('ra', $student->matricula);
         $template->setValue('student', $student->nome);
-        $template->setValue('student', $student->rg);
+        $template->setValue('rg', $student->rg);
         $template->setValue('grade', $student->grade);
         $template->setValue('course', $student->course->name);
         $template->setValue('coordinator', $student->course->coordinator->user->name);

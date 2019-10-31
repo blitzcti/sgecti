@@ -113,7 +113,16 @@ h1 {
 }
 
 .hcontent img {
-    width: 100%;
+    width: 85%;
+}
+.hcontent p {
+    padding: 5px;
+    width: 85%;
+    box-sizing: border-box;
+}
+
+.hcontent h5 {
+    width: 85%;
 }
 
 .fixed .wrapper {

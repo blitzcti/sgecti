@@ -49,7 +49,7 @@
                                 <div class="hcontent">
                                     @if($icontent2 == [null])
 
-                                        <p>(TUTORIAL)</p>
+                                        <p>(EM DESENVOLVIMENTO)</p>
 
                                     @else
                                         @if($icontent2['desc'] != null)
@@ -65,7 +65,7 @@
 
                                                 @foreach($icontent3 as $icontent4)
 
-                                                    <img src="{{ asset("img/help/" . $icontent4['img']) }}" alt="" />
+                                                    <img src="{{ asset("img/help/" . $icontent4['img']) }}" alt=""/>
                                                     <p>{{ $icontent4['text'] }}</p>
                                                     <br />
 

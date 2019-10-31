@@ -69,6 +69,7 @@ class JobCompanyController extends Controller
         $saved = $company->save();
 
         $params['saved'] = $saved;
+        $params['id'] = $company->id;
 
         return response()->json($params);
     }

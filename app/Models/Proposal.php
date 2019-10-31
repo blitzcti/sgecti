@@ -103,4 +103,9 @@ class Proposal extends Model
     {
         return static::where('approved_at', '<>', null)->where('deadline', '>=', Carbon::today())->get();
     }
+
+    public static function pending()
+    {
+        return static::where('approved_at', '=', null)->where('deadline', '>=', Carbon::today())->where('reason_to_reject', '=', null)->get();
+    }
 }

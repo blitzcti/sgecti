@@ -161,6 +161,28 @@
                     },
                     method: 'POST',
                     success: function (data) {
+                        let formatted_cpf_cnpj;
+                        if (company.pj) {
+                            let p1 = company.cpf_cnpj.substring(0, 2);
+                            let p2 = company.cpf_cnpj.substring(2, 5);
+                            let p3 = company.cpf_cnpj.substring(5, 8);
+                            let p4 = company.cpf_cnpj.substring(8, 12);
+                            let p5 = company.cpf_cnpj.substring(12, 14);
+                            formatted_cpf_cnpj = `${p1}.${p2}.${p3}/${p4}-${p5}`;
+                        } else {
+                            let p1 = company.cpf_cnpj.substring(0, 3);
+                            let p2 = company.cpf_cnpj.substring(3, 6);
+                            let p3 = company.cpf_cnpj.substring(6, 9);
+                            let p4 = company.cpf_cnpj.substring(9, 11);
+                            formatted_cpf_cnpj = `${p1}.${p2}.${p3}-${p4}`;
+                        }
+
+                        let text = `${formatted_cpf_cnpj} - ${company.name}`;
+                        if (company.fantasy_name !== null) {
+                            text = `${text} (${company.fantasy_name})`;
+                        }
+                        jQuery('#inputCompany').append(new Option(text, `${data.id}`, false, true));
+
                         jQuery('#inputCompanyCpfCnpj').val('');
                         jQuery('#inputCompanyIE').val('');
                         jQuery('#inputCompanyPj').val('');
@@ -187,46 +209,65 @@
             });
 
             function loadCnpj() {
-                if (jQuery('#inputCompanyPj').val() === '1') {
-                    jQuery("#cnpjLoadingModal").modal({
-                        backdrop: "static",
-                        keyboard: false,
-                        show: true
-                    });
-
-                    jQuery.ajax({
-                        url: `{{ config('app.url') ?? '' }}/api/external/cnpj/${jQuery('#inputCompanyCpfCnpj').inputmask('unmaskedvalue')}`,
-                        dataType: 'json',
-                        type: 'GET',
-                        success: function (company) {
-                            jQuery("#cnpjLoadingModal").modal("hide");
-
-                            if (company.error) {
-                                jQuery("#cnpjErrorModal").modal({
-                                    backdrop: "static",
-                                    keyboard: false,
-                                    show: true
-                                });
-
-                                company.name = '';
-                                company.fantasyName = '';
-                            }
-
-                            jQuery('#inputCompanyName').val(company.name);
-                            jQuery('#inputCompanyFantasyName').val(company.fantasyName);
-                        },
-
-                        error: function () {
-                            jQuery("#cnpjLoadingModal").modal("hide");
-
-                            jQuery("#cnpjErrorModal").modal({
+                jQuery.ajax({
+                    url: `{{ config('app.url') }}/api/coordenador/trabalho/empresa?q=${jQuery('#inputCompanyCpfCnpj').inputmask('unmaskedvalue')}`,
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (companies) {
+                        if (companies.length > 0) {
+                            jQuery("#companyErrorModal").modal({
                                 backdrop: "static",
                                 keyboard: false,
                                 show: true
                             });
+
+                            jQuery('#inputCompanyCpfCnpj').val('');
+                        } else if (jQuery('#inputCompanyPj').val() === '1') {
+                            jQuery("#cnpjLoadingModal").modal({
+                                backdrop: "static",
+                                keyboard: false,
+                                show: true
+                            });
+
+                            jQuery.ajax({
+                                url: `{{ config('app.url') }}/api/external/cnpj/${jQuery('#inputCompanyCpfCnpj').inputmask('unmaskedvalue')}`,
+                                dataType: 'json',
+                                type: 'GET',
+                                success: function (company) {
+                                    jQuery("#cnpjLoadingModal").modal("hide");
+
+                                    if (company.error) {
+                                        jQuery("#cnpjErrorModal").modal({
+                                            backdrop: "static",
+                                            keyboard: false,
+                                            show: true
+                                        });
+
+                                        company.name = '';
+                                        company.fantasyName = '';
+                                    }
+
+                                    jQuery('#inputCompanyName').val(company.name);
+                                    jQuery('#inputCompanyFantasyName').val(company.fantasyName);
+                                },
+
+                                error: function () {
+                                    jQuery("#cnpjLoadingModal").modal("hide");
+
+                                    jQuery("#cnpjErrorModal").modal({
+                                        backdrop: "static",
+                                        keyboard: false,
+                                        show: true
+                                    });
+                                }
+                            });
                         }
-                    });
-                }
+                    },
+
+                    error: function () {
+
+                    }
+                });
             }
 
             jQuery('#inputCompanyCpfCnpj').blur(() => {

@@ -72,10 +72,10 @@
     @parent
 
     <script type="text/javascript">
-        let s = 0;
+        let s = 1;
 
         let courses = [
-                @foreach(App\Models\Course::all()->sortBy('id') as $course)
+            @foreach(App\Models\Course::all()->sortBy('id') as $course)
             {
                 name: '{{ $course->name }}'
             },
@@ -122,9 +122,9 @@
                 let val = (s === 0 || s === 2) ? jQuery('#inputSearch').inputmask('unmaskedvalue') : jQuery('#inputSearch').val().trim();
                 let filter = (s === 1 || s === 2) ? `${[{{ implode(', ', \App\Auth::user()->coordinator_courses_id) }}].map(a => `courses[]=${a}`).join('&')}` : undefined;
                 let url = (s === 0) ?
-                    `{{ config('app.url') ?? '' }}/api/alunos/${val}` : (s === 1) ?
-                        `{{ config('app.url') ?? '' }}/api/alunos?${filter}&q=${val}` :
-                        `{{ config('app.url') ?? '' }}/api/alunos/ano/${val}?${filter}`;
+                    `{{ config('app.url') }}/api/alunos/${val}` : (s === 1) ?
+                        `{{ config('app.url') }}/api/alunos?${filter}&q=${val}` :
+                        `{{ config('app.url') }}/api/alunos/ano/${val}?${filter}`;
 
                 if (s === 0 && val.length === 0) {
                     return;
@@ -137,6 +137,10 @@
                     success: function (students) {
                         let tbody = jQuery('#students tbody');
                         tbody.empty();
+
+                        if (s === 0) {
+                            students = [students];
+                        }
 
                         students.forEach(student => {
                             let row = document.createElement('tr');
@@ -163,6 +167,8 @@
                                 jQuery('#inputRA').val(student.matricula);
                                 jQuery('#inputStudentName').val(student.nome);
                                 jQuery('#searchStudentModal').modal("hide");
+
+                                jQuery('#inputRA').blur();
                             };
                             a.innerText = 'Selecionar';
                             col.appendChild(a);

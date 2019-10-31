@@ -20,14 +20,17 @@
 
     <div class="box box-default">
         <div class="box-body">
-                <a id="addLink" href="{{ (isset($course)) ? route('admin.coordenador.novo', ['c' => $course->id]) : route('admin.coordenador.novo') }}"
-                   class="btn btn-success">Adicionar coordenador</a>
+            <a id="addLink"
+               href="{{ (isset($course)) ? route('admin.coordenador.novo', ['c' => $course->id]) : route('admin.coordenador.novo') }}"
+               class="btn btn-success">Adicionar coordenador</a>
 
             <table id="coordinators" class="table table-bordered table-hover">
                 <thead>
                 <tr>
                     <th>Nome</th>
-                    <th>Curso</th>
+                    @if(!isset($course))
+                        <th>Curso</th>
+                    @endif
                     <th>Início</th>
                     <th>Término</th>
                     <th>Ações</th>
@@ -39,7 +42,9 @@
 
                     <tr>
                         <td>{{ $coordinator->user->name }}</td>
-                        <td>{{ $coordinator->course->name }}</td>
+                        @if(!isset($course))
+                            <td>{{ $coordinator->course->name }}</td>
+                        @endif
                         <td>{{ $coordinator->start_date->format("d/m/Y") }}</td>
                         <td>{{ $coordinator->end_date != null ? $coordinator->end_date->format("d/m/Y") : 'Indefinido' }}</td>
 

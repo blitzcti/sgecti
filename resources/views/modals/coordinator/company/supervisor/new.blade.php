@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <div class="form-group @if($errors->has('company')) has-error @endif">
+                    <div class="form-group">
                         <label for="inputSupervisorCompany" class="col-sm-3 control-label">Empresa*</label>
 
                         <div class="col-sm-9">
@@ -25,8 +25,8 @@
 
                                 @foreach($companies as $company)
 
-                                    <option value="{{ $company->id }}">{{ $company->formatted_cpf_cnpj }}
-                                        - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
+                                    <option value="{{ $company->id }}">
+                                        {{ $company->formatted_cpf_cnpj }} - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
                                     </option>
 
                                 @endforeach
@@ -35,7 +35,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group @if($errors->has('supervisorName')) has-error @endif">
+                    <div class="form-group">
                         <label for="inputSupervisorName" class="col-sm-3 control-label">Nome*</label>
 
                         <div class="col-sm-9">
@@ -44,7 +44,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group @if($errors->has('supervisorEmail')) has-error @endif">
+                    <div class="form-group">
                         <label for="inputSupervisorEmail" class="col-sm-3 control-label">Email*</label>
 
                         <div class="col-sm-9">
@@ -53,7 +53,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group @if($errors->has('supervisorPhone')) has-error @endif">
+                    <div class="form-group">
                         <label for="inputSupervisorPhone" class="col-sm-3 control-label">Telefone*</label>
 
                         <div class="col-sm-9">
@@ -96,6 +96,8 @@
                     },
                     method: 'POST',
                     success: function (data) {
+                        jQuery('#inputSupervisor').append(new Option(`${jQuery('#inputSupervisorName').val()}`, `${data.id}`, false, true));
+
                         jQuery('#inputSupervisorName').val('');
                         jQuery('#inputSupervisorEmail').val('');
                         jQuery('#inputSupervisorPhone').val('');

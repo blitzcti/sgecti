@@ -183,7 +183,7 @@
                     });
 
                     jQuery.ajax({
-                        url: `{{ config('app.url') ?? '' }}/api/external/cnpj/${jQuery('#inputCpfCnpj').inputmask('unmaskedvalue')}`,
+                        url: `{{ config('app.url') }}/api/external/cnpj/${jQuery('#inputCpfCnpj').inputmask('unmaskedvalue')}`,
                         dataType: 'json',
                         type: 'GET',
                         success: function (company) {

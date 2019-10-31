@@ -208,7 +208,7 @@
             jQuery('#inputUf').select2({
                 language: "pt-BR",
                 ajax: {
-                    url: `{{ config('app.url') ?? '' }}/api/external/ufs`,
+                    url: `{{ config('app.url') }}/api/external/ufs`,
                     dataType: 'json',
                     method: 'GET',
                     cache: true,
@@ -237,7 +237,7 @@
                 jQuery('#inputCity').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `{{ config('app.url') ?? '' }}/api/external/cities/${jQuery('#inputUf').val()}`,
+                        url: `{{ config('app.url') }}/api/external/cities/${jQuery('#inputUf').val()}`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -269,7 +269,7 @@
                 });
 
                 jQuery.ajax({
-                    url: `{{ config('app.url') ?? '' }}/api/external/cep/${jQuery('#inputCep').inputmask('unmaskedvalue')}`,
+                    url: `{{ config('app.url') }}/api/external/cep/${jQuery('#inputCep').inputmask('unmaskedvalue')}`,
                     dataType: 'json',
                     type: 'GET',
                     success: function (address) {

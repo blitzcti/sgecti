@@ -177,6 +177,7 @@ return [
         'minMonth' => 'Meses mínimos',
         'minMonthCTPS' => 'Meses mínimos (CTPS)',
         'minGrade' => 'Nota mínima',
+        'hasConfig' => 'Adicionar configuração?',
 
         'supervisorName' => 'Nome do supervisor',
         'supervisorEmail' => 'Email do supervisor',

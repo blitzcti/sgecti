@@ -208,7 +208,7 @@
         <!-- /.content-wrapper -->
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Versão</b> 0.9.9
+                <b>Versão</b> 1.0
             </div>
 
             <b>Copyright © 2019 Blitz.</b> Todos os direitos reservados.
@@ -244,7 +244,7 @@
 
         function markAsSeen(id, redir = true) {
             jQuery.ajax({
-                url: `{{ config('app.url') ?? '' }}/api/usuario/notificacao/${id}/lida`,
+                url: `{{ config('app.url') }}/api/usuario/notificacao/${id}/lida`,
                 method: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',

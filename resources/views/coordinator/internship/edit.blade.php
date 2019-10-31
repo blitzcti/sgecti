@@ -573,7 +573,7 @@
                 jQuery('#inputSector').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `{{ config('app.url') ?? '' }}/api/coordenador/empresa/{{ $internship->company->id }}/setor`,
+                        url: `{{ config('app.url') }}/api/coordenador/empresa/{{ $internship->company->id }}/setor`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -601,7 +601,7 @@
                 jQuery('#inputSupervisor').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `{{ config('app.url') ?? '' }}/api/coordenador/empresa/{{ $internship->company->id }}/supervisor`,
+                        url: `{{ config('app.url') }}/api/coordenador/empresa/{{ $internship->company->id }}/supervisor`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -626,6 +626,8 @@
                     }
                 });
             }
+
+            jQuery('#inputSupervisorCompany').val('{{ $internship->company->id }}').trigger('change');
 
             reloadSelect();
         });

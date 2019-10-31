@@ -9,6 +9,13 @@
 @section('content')
     <div class="box box-default">
         <div class="box-body">
+            @if($student->internship != null && $student->internship->needsFinalReport())
+                <div class="alert alert-info" role="alert">
+                    <p>Aviso: o estágio do aluno já foi finalizado segundo a data do plano de estágio/termo aditivo,
+                        o prazo de entrega do relatório final expirou e ainda não foi entregue.</p>
+                </div>
+            @endif
+
             <div class="btn-group" style="display: inline-flex; margin: 0">
                 @if($student->internship != null)
                     <a href="{{ route('coordenador.estagio.editar', $student->internship->id) }}"

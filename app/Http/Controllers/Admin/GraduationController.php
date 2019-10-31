@@ -26,6 +26,6 @@ class GraduationController extends Controller
 
     public function graduate($ra, Request $request)
     {
-        dd("Graduação do aluno de RA = ".$ra, "Parte resposnsável do sistema NSAC");
+        dd("Graduação do aluno de RA = {$ra}", "Parte resposnsável do sistema NSac");
     }
 }

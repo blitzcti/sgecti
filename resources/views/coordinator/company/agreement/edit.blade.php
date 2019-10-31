@@ -19,7 +19,7 @@
 
             <div class="box-body">
                 <div class="form-group @if($errors->has('companyName')) has-error @endif">
-                    <label for="inputCompanyName" class="col-sm-2 control-label">Empresa conveniada*</label>
+                    <label for="inputCompanyName" class="col-sm-2 control-label">Empresa*</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control input-info" id="inputCompanyName" name="companyName"

@@ -148,8 +148,10 @@ class StudentController extends Controller
             $student = null;
         }
 
+        $student->append(['internship_state', 'job_state']);
+
         return response()->json(
-            [$student],
+            $student,
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',

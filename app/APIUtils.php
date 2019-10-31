@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Carbon\Carbon;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
@@ -209,6 +211,22 @@ class APIUtils
             return json_decode($response->getBody(), true);
         } catch (GuzzleException $e) {
             return null;
+        }
+    }
+
+    /**
+     * Check if a string is a date-format
+     *
+     * @param string $date
+     * @return bool
+     */
+    public static function is_date(string $date)
+    {
+        try {
+            Carbon::createFromFormat("Y-m-d", $date);
+            return true;
+        } catch (Exception $e) {
+            return false;
         }
     }
 }

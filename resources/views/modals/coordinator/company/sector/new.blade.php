@@ -15,8 +15,8 @@
                 </div>
 
                 <div class="modal-body">
-                    <div class="form-group @if($errors->has('sectorName')) has-error @endif">
-                        <label for="inputSectorName" class="col-sm-3 control-label">Nome</label>
+                    <div class="form-group">
+                        <label for="inputSectorName" class="col-sm-3 control-label">Nome*</label>
 
                         <div class="col-sm-9">
                             <input type="text" class="form-control" id="inputSectorName" name="name"
@@ -24,7 +24,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group @if($errors->has('sectorDescription')) has-error @endif">
+                    <div class="form-group">
                         <label for="inputSectorDescription" class="col-sm-3 control-label">Descrição</label>
 
                         <div class="col-sm-9">
@@ -33,8 +33,8 @@
                         </div>
                     </div>
 
-                    <div class="form-group @if($errors->has('active')) has-error @endif">
-                        <label for="inputSectorActive" class="col-sm-3 control-label">Ativo</label>
+                    <div class="form-group">
+                        <label for="inputSectorActive" class="col-sm-3 control-label">Ativo*</label>
 
                         <div class="col-sm-9">
                             <select class="form-control selection" data-minimum-results-for-search="Infinity"
@@ -71,6 +71,8 @@
                     },
                     method: 'POST',
                     success: function (data) {
+                        jQuery('#inputSectors').append(new Option(`${jQuery('#inputSectorName').val()}`, `${data.id}`, false, true));
+
                         jQuery('#inputSectorName').val('');
                         jQuery('#inputSectorDescription').val('');
                         jQuery('#inputSectorActive').select2('val', '1');

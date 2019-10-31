@@ -86,7 +86,7 @@
                 Cs = [{{ implode(", ", \App\Auth::user()->coordinator_courses_id) }}].map(c => `&courses[]=${c}`);
             }
 
-            let url = `{{ config('app.url') ?? '' }}/api/alunos?q=`;
+            let url = `{{ config('app.url') }}/api/alunos?q=`;
             if (cs.length > 0) {
                 url += cs;
             }

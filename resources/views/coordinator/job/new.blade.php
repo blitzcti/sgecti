@@ -9,6 +9,10 @@
 @section('content')
     @include('modals.coordinator.job.company.new')
     @include('modals.coordinator.student.search')
+    @include('modals.coordinator.internship.studentError')
+    @include('modals.coordinator.job.studentError')
+    @include('modals.coordinator.student.error')
+    @include('modals.coordinator.job.company.error')
 
     <form class="form-horizontal" action="{{ route('coordenador.trabalho.salvar') }}" method="post">
         @csrf
@@ -27,7 +31,7 @@
                             <div class="col-sm-8">
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="inputRA" name="ra" placeholder="1757047"
-                                           data-inputmask="'mask': '9999999'" value="{{ old('ra') ?? $s }}" readonly>
+                                           data-inputmask="'mask': '9999999'" value="{{ old('ra') ?? $s }}">
 
                                     <div class="input-group-btn">
                                         <a href="#" data-toggle="modal" data-target="#searchStudentModal"
@@ -77,8 +81,7 @@
 
                                 <option
                                     value="{{ $company->id }}" {{ (old('company') ?? 1) == $company->id ? 'selected' : '' }}>
-                                    {{ $company->formatted_cpf_cnpj }}
-                                    - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
+                                    {{ $company->formatted_cpf_cnpj }} - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
                                 </option>
 
                             @endforeach
@@ -234,10 +237,57 @@
                 language: "pt-BR"
             });
 
+            function loadStudent() {
+                jQuery.ajax({
+                    url: `{{ config('app.url') }}/api/alunos/${jQuery('#inputRA').inputmask('unmaskedvalue')}`,
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (student) {
+                        jQuery('#inputStudentName').val(student.nome);
+
+                        if (student.internship_state === 0) {
+                            jQuery("#studentInternshipErrorModal").modal({
+                                backdrop: "static",
+                                keyboard: false,
+                                show: true
+                            });
+
+                            jQuery('#inputRA').val('');
+                            jQuery('#inputStudentName').val('');
+                        } else if (student.job_state === 0) {
+                            jQuery("#studentJobErrorModal").modal({
+                                backdrop: "static",
+                                keyboard: false,
+                                show: true
+                            });
+
+                            jQuery('#inputRA').val('');
+                            jQuery('#inputStudentName').val('');
+                        }
+                    },
+
+                    error: function () {
+                        jQuery("#studentErrorModal").modal({
+                            backdrop: "static",
+                            keyboard: false,
+                            show: true
+                        });
+
+                        jQuery('#inputRA').val('');
+                    }
+                });
+            }
+
+            jQuery('#inputRA').blur(() => {
+                if (jQuery('#inputCpfCnpj').val() !== "") {
+                    loadStudent();
+                }
+            });
+
             jQuery('#inputCompany').select2({
                 language: "pt-BR",
                 ajax: {
-                    url: `{{ config('app.url') ?? '' }}/api/coordenador/trabalho/empresa`,
+                    url: `{{ config('app.url') }}/api/coordenador/trabalho/empresa`,
                     dataType: 'json',
                     method: 'GET',
                     cache: true,
@@ -285,7 +335,7 @@
 
             jQuery('#inputCompany').on('change', e => {
                 jQuery.ajax({
-                    url: `{{ config('app.url') ?? '' }}/api/coordenador/trabalho/empresa/${jQuery('#inputCompany').val()}`,
+                    url: `{{ config('app.url') }}/api/coordenador/trabalho/empresa/${jQuery('#inputCompany').val()}`,
                     dataType: 'json',
                     method: 'GET',
                     success: function (data) {

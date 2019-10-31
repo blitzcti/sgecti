@@ -69,6 +69,9 @@
                 @endif
             </dl>
 
+            <a href="mailto:{{ $proposal->email }}?subject={{ str_replace('+', '%20', urlencode($proposal->subject)) }}"
+               class="btn btn-default"><i class="fa fa-send"></i> Enviar email</a>
+
             @if($proposal->schedule != null)
                 <hr/>
                 <h3>Horários</h3>

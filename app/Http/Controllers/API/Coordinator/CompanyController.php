@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Coordinator;
 use App\APIUtils;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -20,8 +21,16 @@ class CompanyController extends Controller
     public function get(Request $request)
     {
         $companies = Company::all()->sortBy('id');
+        if (!empty($request->agreement) && APIUtils::is_date($request->agreement)) {
+            $date = Carbon::createFromFormat("!Y-m-d", $request->agreement);
+
+            $companies = array_values($companies->filter(function (Company $company) use ($date) {
+                return $company->hasAgreementAt($date);
+            })->toArray());
+        }
+
         if (!empty($request->q)) {
-            $companies = APIUtils::search($companies->toArray(), $request->q, ['name', 'fantasy_name', 'cpf_cnpj']);
+            $companies = APIUtils::search(is_array($companies) ? $companies : $companies->toArray(), $request->q, ['name', 'fantasy_name', 'cpf_cnpj']);
         }
 
         return response()->json(

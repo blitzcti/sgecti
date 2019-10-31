@@ -979,7 +979,7 @@
 
             jQuery('#inputInternship').on('change', e => {
                 jQuery.ajax({
-                    url: `{{ config('app.url') ?? '' }}/api/coordenador/estagio/${jQuery('#inputInternship').val()}`,
+                    url: `{{ config('app.url') }}/api/coordenador/estagio/${jQuery('#inputInternship').val()}`,
                     dataType: 'json',
                     method: 'GET',
                     success: function (data) {

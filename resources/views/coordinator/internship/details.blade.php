@@ -12,6 +12,13 @@
 
     <div class="box box-default">
         <div class="box-body">
+            @if($internship->needsFinalReport())
+                <div class="alert alert-info" role="alert">
+                    <p>Aviso: este estágio já foi finalizado segundo a data do plano de estágio/termo aditivo,
+                        o prazo de entrega do relatório final expirou e ainda não foi entregue.</p>
+                </div>
+            @endif
+
             <div class="btn-group" style="display: inline-flex; margin: 0">
                 <a href="{{ route('coordenador.estagio.editar', $internship->id) }}"
                    class="btn btn-primary">Editar estágio</a>
@@ -115,7 +122,7 @@
                 @endif
 
                 <dt class="col-sm-2">Estado</dt>
-                <dd class="col-sm-10">{{ $internship->state->description }}</dd>
+                <dd class="col-sm-10">{{ ($internship->needsFinalReport()) ? 'Requer finalização' : $internship->state->description }}</dd>
 
                 @if($internship->state_id == 3)
 

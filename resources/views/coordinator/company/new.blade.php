@@ -15,6 +15,8 @@
 
     @include('modals.coordinator.company.sector.new')
 
+    @include('modals.coordinator.company.error')
+
     <form class="form-horizontal" action="{{ route('coordenador.empresa.salvar') }}" method="post">
         @csrf
 
@@ -460,7 +462,7 @@
             jQuery('#inputUf').select2({
                 language: "pt-BR",
                 ajax: {
-                    url: `{{ config('app.url') ?? '' }}/api/external/ufs`,
+                    url: `{{ config('app.url') }}/api/external/ufs`,
                     dataType: 'json',
                     method: 'GET',
                     cache: true,
@@ -489,7 +491,7 @@
                 jQuery('#inputCity').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `{{ config('app.url') ?? '' }}/api/external/cities/${jQuery('#inputUf').val()}`,
+                        url: `{{ config('app.url') }}/api/external/cities/${jQuery('#inputUf').val()}`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -514,67 +516,86 @@
             });
 
             function loadCnpj() {
-                if (jQuery('#inputPj').val() === '1') {
-                    jQuery("#cnpjLoadingModal").modal({
-                        backdrop: "static",
-                        keyboard: false,
-                        show: true
-                    });
-
-                    jQuery.ajax({
-                        url: `{{ config('app.url') ?? '' }}/api/external/cnpj/${jQuery('#inputCpfCnpj').inputmask('unmaskedvalue')}`,
-                        dataType: 'json',
-                        type: 'GET',
-                        success: function (company) {
-                            jQuery("#cnpjLoadingModal").modal("hide");
-
-                            if (company.error) {
-                                jQuery("#cnpjErrorModal").modal({
-                                    backdrop: "static",
-                                    keyboard: false,
-                                    show: true
-                                });
-
-                                company.name = '';
-                                company.fantasyName = '';
-                                company.email = '';
-                                company.phone = '';
-                                company.cep = '';
-                                company.uf = '';
-                                company.city = '';
-                                company.street = '';
-                                company.number = '';
-                                company.complement = '';
-                                company.district = '';
-                            }
-
-                            jQuery('#inputName').val(company.name);
-                            jQuery('#inputFantasyName').val(company.fantasyName);
-                            jQuery('#inputEmail').val(company.email);
-                            jQuery('#inputPhone').val(company.phone);
-                            jQuery('#inputCep').val(company.cep);
-
-                            loadCep({
-                                uf: company.uf,
-                                city: company.city,
-                                street: company.street,
-                                number: company.number,
-                                complement: company.complement,
-                                district: company.district
-                            });
-                        },
-
-                        error: function () {
-                            jQuery("#cnpjLoadingModal").modal("hide");
-
-                            jQuery("#cnpjErrorModal").modal({
+                jQuery.ajax({
+                    url: `{{ config('app.url') }}/api/coordenador/empresa?q=${jQuery('#inputCpfCnpj').inputmask('unmaskedvalue')}`,
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (companies) {
+                        if (companies.length > 0) {
+                            jQuery("#companyErrorModal").modal({
                                 backdrop: "static",
                                 keyboard: false,
                                 show: true
                             });
+
+                            jQuery('#inputCpfCnpj').val('');
+                        } else if (jQuery('#inputPj').val() === '1') {
+                            jQuery("#cnpjLoadingModal").modal({
+                                backdrop: "static",
+                                keyboard: false,
+                                show: true
+                            });
+
+                            jQuery.ajax({
+                                url: `{{ config('app.url') }}/api/external/cnpj/${jQuery('#inputCpfCnpj').inputmask('unmaskedvalue')}`,
+                                dataType: 'json',
+                                type: 'GET',
+                                success: function (company) {
+                                    jQuery("#cnpjLoadingModal").modal("hide");
+
+                                    if (company.error) {
+                                        jQuery("#cnpjErrorModal").modal({
+                                            backdrop: "static",
+                                            keyboard: false,
+                                            show: true
+                                        });
+
+                                        company.name = '';
+                                        company.fantasyName = '';
+                                        company.email = '';
+                                        company.phone = '';
+                                        company.cep = '';
+                                        company.uf = '';
+                                        company.city = '';
+                                        company.street = '';
+                                        company.number = '';
+                                        company.complement = '';
+                                        company.district = '';
+                                    }
+
+                                    jQuery('#inputName').val(company.name);
+                                    jQuery('#inputFantasyName').val(company.fantasyName);
+                                    jQuery('#inputEmail').val(company.email);
+                                    jQuery('#inputPhone').val(company.phone);
+                                    jQuery('#inputCep').val(company.cep);
+
+                                    loadCep({
+                                        uf: company.uf,
+                                        city: company.city,
+                                        street: company.street,
+                                        number: company.number,
+                                        complement: company.complement,
+                                        district: company.district
+                                    });
+                                },
+
+                                error: function () {
+                                    jQuery("#cnpjLoadingModal").modal("hide");
+
+                                    jQuery("#cnpjErrorModal").modal({
+                                        backdrop: "static",
+                                        keyboard: false,
+                                        show: true
+                                    });
+                                }
+                            });
                         }
-                    });
-                }
+                    },
+
+                    error: function () {
+
+                    }
+                });
             }
 
             function loadCep(data = null) {
@@ -585,7 +606,7 @@
                 });
 
                 jQuery.ajax({
-                    url: `{{ config('app.url') ?? '' }}/api/external/cep/${jQuery('#inputCep').inputmask('unmaskedvalue')}`,
+                    url: `{{ config('app.url') }}/api/external/cep/${jQuery('#inputCep').inputmask('unmaskedvalue')}`,
                     dataType: 'json',
                     type: 'GET',
                     success: function (address) {

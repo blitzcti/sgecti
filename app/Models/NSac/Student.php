@@ -2,6 +2,7 @@
 
 namespace App\Models\NSac;
 
+use App\APIUtils;
 use App\Models\Course;
 use App\Models\CourseConfiguration;
 use App\Models\GeneralConfiguration;
@@ -33,7 +34,9 @@ use Illuminate\Database\Eloquent\Collection;
  * @property string cep
  * @property string bairro
  * @property string cidade
+ * @property string codigo_ibge
  * @property string estado
+ * @property string uf
  *
  * @property-read int course_id
  * @property-read int year
@@ -42,6 +45,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @property-read int age
  * @property-read CourseConfiguration|GeneralConfiguration course_configuration
  * @property-read int internship_state
+ * @property-read int job_state
  * @property-read int completed_hours
  * @property-read int completed_months
  * @property-read int ctps_completed_months
@@ -104,8 +108,16 @@ class Student extends Model
      * @var array
      */
     protected $hidden = [
-        'internship', 'finished_internships',
+        'internship', 'finished_internships', 'job',
     ];
+
+    public function getUfAttribute()
+    {
+        $url = APIUtils::parseURL('apis.uf.url', $this->codigo_ibge);
+        $json = APIUtils::getData($url);
+
+        return $json['microrregiao']['mesorregiao']['UF']['sigla'];
+    }
 
     public function getCourseIdAttribute()
     {
@@ -141,7 +153,7 @@ class Student extends Model
 
     public function getAgeByDate($date)
     {
-        return date_diff(date_create($this->data_de_nascimento), date_create($date))->format("%y");
+        return $this->data_de_nascimento->diff($date)->y;
     }
 
     public function getCourseConfigurationAttribute()
@@ -159,6 +171,15 @@ class Student extends Model
             } else {
                 return 2;
             }
+        }
+    }
+
+    public function getJobStateAttribute()
+    {
+        if ($this->job != null) {
+            return 0;
+        } else {
+            return 1;
         }
     }
 
@@ -193,7 +214,8 @@ class Student extends Model
     {
         $h = 0;
         if ($this->job != null) {
-            $h += date_diff(date_create($this->job->start_date), date_create($this->job->end_date))->format("%m");
+            $interval = $this->job->start_date->diff($this->job->end_date);
+            $h += $interval->m + $interval->y * 12;
         }
 
         return $h;

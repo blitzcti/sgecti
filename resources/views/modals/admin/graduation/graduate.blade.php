@@ -15,7 +15,7 @@
                 @csrf
 
                 <div class="modal-body">
-                    <p>O aluno <span id="graduateModalStudentName" class="text-bold"></span> relamente colou grau?</p>
+                    <p>O aluno <span id="graduateModalStudentName" class="text-bold"></span> realmente colou grau?</p>
                     <p>Essa ação não poderá ser desfeita.</p>
                 </div>
 

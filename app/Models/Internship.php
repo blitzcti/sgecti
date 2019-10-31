@@ -45,6 +45,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @property-read Carbon a_end_date
  * @property-read int estimated_hours
  * @property-read string formatted_protocol
+ * @property-read boolean needsFinalReport
  */
 class Internship extends Model
 {

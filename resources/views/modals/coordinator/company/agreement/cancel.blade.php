@@ -35,7 +35,7 @@
 
     <script type="text/javascript">
         function agreementId(id) {
-            jQuery('#cancelForm').attr('action', `/coordenador/empresa/convenio/${id}/cancelar`);
+            jQuery('#cancelForm').attr('action', `{{ config('app.url') }}/coordenador/empresa/convenio/${id}/cancelar`);
         }
 
         function companyName(name) {

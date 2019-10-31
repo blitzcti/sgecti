@@ -82,6 +82,7 @@ class SectorController extends Controller
         $saved = $sector->save();
 
         $params['saved'] = $saved;
+        $params['id'] = $sector->id;
 
         return response()->json($params);
     }

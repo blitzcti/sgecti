@@ -8,15 +8,15 @@
 @stop
 
 @section('content')
-    <div class="box box-default">
-        <div class="box-header with-border">
-            <h3 class="box-title">Dados da configuração do curso</h3>
-        </div>
+    <form class="form-horizontal" method="post"
+          action="{{ route('admin.curso.configuracao.alterar', [$config->course_id, $config->id]) }}">
+        @method('PUT')
+        @csrf
 
-        <form class="form-horizontal" method="post"
-              action="{{ route('admin.curso.configuracao.alterar', [$config->course_id, $config->id]) }}">
-            @method('PUT')
-            @csrf
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Dados da configuração do curso</h3>
+            </div>
 
             <div class="box-body">
                 <div class="row">
@@ -125,17 +125,18 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
                 <button type="submit" class="btn btn-primary pull-right">Salvar</button>
 
                 <input type="hidden" id="inputPrevious" name="previous"
                        value="{{ old('previous') ?? url()->previous() }}">
                 <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
-            <!-- /.box-footer -->
-        </form>
-    </div>
+        </div>
+    </form>
 @endsection
 
 @section('js')

@@ -7,14 +7,14 @@
 @stop
 
 @section('content')
-    <div class="box box-default">
-        <div class="box-header with-border">
-            <h3 class="box-title">Dados do coordenador</h3>
-        </div>
+    <form class="form-horizontal" action="{{ route('admin.coordenador.alterar', $coordinator->id) }}" method="post">
+        @method('PUT')
+        @csrf
 
-        <form class="form-horizontal" action="{{ route('admin.coordenador.alterar', $coordinator->id) }}" method="post">
-            @method('PUT')
-            @csrf
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Dados do coordenador</h3>
+            </div>
 
             <div class="box-body">
                 <div class="form-group @if($errors->has('user')) has-error @endif">
@@ -25,7 +25,8 @@
 
                             @foreach($users as $user)
 
-                                <option value="{{ $user->id }}" {{ (old('user') ?? $coordinator->user->id) == $user->id ? 'selected=selected' : '' }}>
+                                <option
+                                    value="{{ $user->id }}" {{ (old('user') ?? $coordinator->user->id) == $user->id ? 'selected=selected' : '' }}>
                                     {{ __($user->name) }}
                                 </option>
 
@@ -45,7 +46,8 @@
 
                             @foreach($courses as $course)
 
-                                <option value="{{ $course->id }}" {{ (old('course') ?? $coordinator->course->id) == $course->id ? 'selected=selected' : '' }}>
+                                <option
+                                    value="{{ $course->id }}" {{ (old('course') ?? $coordinator->course->id) == $course->id ? 'selected=selected' : '' }}>
                                     {{ __($course->name) }}
                                 </option>
 
@@ -66,7 +68,8 @@
                             <option value="0">(Nenhum)</option>
                             @foreach((App\Models\Course::all()->find(old('course')) ?? $courses->first())->non_temp_coordinators as $coord)
 
-                                <option value="{{ $coord->id }}" {{ (old('tempOf') ?? $coordinator->temp_of ?? 0) == $coord->id ? 'selected=selected' : '' }}>
+                                <option
+                                    value="{{ $coord->id }}" {{ (old('tempOf') ?? $coordinator->temp_of ?? 0) == $coord->id ? 'selected=selected' : '' }}>
                                     {{ __($coord->user->name) }}
                                 </option>
 
@@ -123,19 +126,19 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
                 <button type="submit" class="btn btn-primary pull-right">Salvar</button>
 
                 <input type="hidden" id="inputPrevious" name="previous"
                        value="{{ old('previous') ?? url()->previous() }}">
                 <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
-            <!-- /.box-footer -->
-        </form>
-    </div>
+        </div>
+    </form>
 @endsection
 
 @section('js')
@@ -189,7 +192,7 @@
                 jQuery('#inputTempOf').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `{{ config('app.url') ?? '' }}/api/admin/coordenador/curso/${jQuery('#inputCourse').val()}`,
+                        url: `{{ config('app.url') }}/api/admin/coordenador/curso/${jQuery('#inputCourse').val()}`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,

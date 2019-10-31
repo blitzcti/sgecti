@@ -12,6 +12,8 @@
 
     @include('modals.coordinator.company.sector.new')
 
+    @include('modals.coordinator.job.company.error')
+
     <form class="form-horizontal" action="{{ route('coordenador.trabalho.empresa.salvar') }}" method="post">
         @csrf
 
@@ -151,6 +153,28 @@
 
 @section('js')
     <script type="text/javascript">
+        function pj(isPj) {
+            if (isPj) {
+                jQuery('#CpfCnpjOption').text('CNPJ');
+
+                jQuery("input[id*='inputCpfCnpj']").inputmask({
+                    mask: '99.999.999/9999-99',
+                    removeMaskOnSubmit: true
+                });
+
+                jQuery('#inputPj').val(1);
+            } else {
+                jQuery('#CpfCnpjOption').text('CPF');
+
+                jQuery("input[id*='inputCpfCnpj']").inputmask({
+                    mask: '999.999.999-99',
+                    removeMaskOnSubmit: true
+                });
+
+                jQuery('#inputPj').val(0);
+            }
+        }
+
         jQuery(document).ready(function () {
             jQuery('.selection').select2({
                 language: "pt-BR"
@@ -159,46 +183,65 @@
             jQuery(':input').inputmask({removeMaskOnSubmit: true});
 
             function loadCnpj() {
-                if (jQuery('#inputPj').val() === '1') {
-                    jQuery("#cnpjLoadingModal").modal({
-                        backdrop: "static",
-                        keyboard: false,
-                        show: true
-                    });
-
-                    jQuery.ajax({
-                        url: `{{ config('app.url') ?? '' }}/api/external/cnpj/${jQuery('#inputCpfCnpj').inputmask('unmaskedvalue')}`,
-                        dataType: 'json',
-                        type: 'GET',
-                        success: function (company) {
-                            jQuery("#cnpjLoadingModal").modal("hide");
-
-                            if (company.error) {
-                                jQuery("#cnpjErrorModal").modal({
-                                    backdrop: "static",
-                                    keyboard: false,
-                                    show: true
-                                });
-
-                                company.name = '';
-                                company.fantasyName = '';
-                            }
-
-                            jQuery('#inputName').val(company.name);
-                            jQuery('#inputFantasyName').val(company.fantasyName);
-                        },
-
-                        error: function () {
-                            jQuery("#cnpjLoadingModal").modal("hide");
-
-                            jQuery("#cnpjErrorModal").modal({
+                jQuery.ajax({
+                    url: `{{ config('app.url') }}/api/coordenador/trabalho/empresa?q=${jQuery('#inputCpfCnpj').inputmask('unmaskedvalue')}`,
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (companies) {
+                        if (companies.length > 0) {
+                            jQuery("#companyErrorModal").modal({
                                 backdrop: "static",
                                 keyboard: false,
                                 show: true
                             });
+
+                            jQuery('#inputCpfCnpj').val('');
+                        } else if (jQuery('#inputPj').val() === '1') {
+                            jQuery("#cnpjLoadingModal").modal({
+                                backdrop: "static",
+                                keyboard: false,
+                                show: true
+                            });
+
+                            jQuery.ajax({
+                                url: `{{ config('app.url') }}/api/external/cnpj/${jQuery('#inputCpfCnpj').inputmask('unmaskedvalue')}`,
+                                dataType: 'json',
+                                type: 'GET',
+                                success: function (company) {
+                                    jQuery("#cnpjLoadingModal").modal("hide");
+
+                                    if (company.error) {
+                                        jQuery("#cnpjErrorModal").modal({
+                                            backdrop: "static",
+                                            keyboard: false,
+                                            show: true
+                                        });
+
+                                        company.name = '';
+                                        company.fantasyName = '';
+                                    }
+
+                                    jQuery('#inputName').val(company.name);
+                                    jQuery('#inputFantasyName').val(company.fantasyName);
+                                },
+
+                                error: function () {
+                                    jQuery("#cnpjLoadingModal").modal("hide");
+
+                                    jQuery("#cnpjErrorModal").modal({
+                                        backdrop: "static",
+                                        keyboard: false,
+                                        show: true
+                                    });
+                                }
+                            });
                         }
-                    });
-                }
+                    },
+
+                    error: function () {
+
+                    }
+                });
             }
 
             jQuery('#inputCpfCnpj').blur(() => {

@@ -17,7 +17,7 @@
 
             <div class="box-body">
                 <div class="form-group @if($errors->has('company')) has-error @endif">
-                    <label for="inputCompany" class="col-sm-2 control-label">Empresa conveniada*</label>
+                    <label for="inputCompany" class="col-sm-2 control-label">Empresa*</label>
 
                     <div class="col-sm-10">
                         <select class="selection" name="company" id="inputCompany"
@@ -27,8 +27,7 @@
 
                                 <option
                                     value="{{ $company->id }}" {{ (old('company') ?? $c) == $company->id ? 'selected=selected' : '' }}>
-                                    {{ $company->formatted_cpf_cnpj }}
-                                    - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
+                                    {{ $company->formatted_cpf_cnpj }} - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
                                 </option>
 
                             @endforeach

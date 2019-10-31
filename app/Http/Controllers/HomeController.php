@@ -35,12 +35,12 @@ class HomeController extends Controller
             $cIds = Auth::user()->coordinator_courses_id;
 
             $data['strCourses'] = $strCourses;
-            $data['requiringFinish'] = Internship::requiringFinish();
-            $data['proposals'] = Proposal::all()
-                ->where('approved_at', '=', null)
-                ->where('reason_to_reject', '=', null)
-                ->where('deadline', '>=', Carbon::today())
-                ->filter(function ($proposal) use ($cIds) {
+            $data['requiringFinish'] = Internship::requiringFinish()->filter(function ($internship) use ($cIds) {
+                return in_array($internship->student->course_id, $cIds);
+            })->sortBy('student.nome');
+
+            $data['proposals'] = Proposal::pending()
+                ->filter(function (Proposal $proposal) use ($cIds) {
                     $ret = false;
 
                     /* @var $course Course */

@@ -61,7 +61,7 @@ class AppServiceProvider extends ServiceProvider
                         'text' => 'menu.courseConfig',
                         'route' => 'admin.configuracao.curso.index',
                         'icon' => 'wrench',
-                        'active' => ['admin/configuracao/curso'],
+                        'active' => ['admin/configuracao/curso', 'admin/configuracao/curso/novo'],
                     ],
                     [
                         'text' => 'menu.configurations',

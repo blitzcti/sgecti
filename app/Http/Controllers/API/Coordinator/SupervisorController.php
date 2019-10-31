@@ -83,6 +83,7 @@ class SupervisorController extends Controller
         $saved = $supervisor->save();
 
         $params['saved'] = $saved;
+        $params['id'] = $supervisor->id;
 
         return response()->json($params);
     }

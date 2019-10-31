@@ -26,13 +26,13 @@
             <table id="generalConfigurations" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th>Anos máximos</th>
-                    <th>Ano mínimo</th>
-                    <th>Semestre mínimo</th>
-                    <th>Horas mínimas</th>
-                    <th>Meses mínimos</th>
-                    <th>Meses mínimos (CTPS)</th>
-                    <th>Nota mínima</th>
+                    <th>Anos máx.</th>
+                    <th>Ano mín.</th>
+                    <th>Semestre mín.</th>
+                    <th>Horas mín.</th>
+                    <th>Meses mín.</th>
+                    <th>Meses mín. (CTPS)</th>
+                    <th>Nota mín.</th>
                     <th>Ações</th>
                 </tr>
                 </thead>

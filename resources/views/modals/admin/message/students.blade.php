@@ -80,7 +80,7 @@
                 jQuery('#messageStudentsModal').modal('show');
             }
 
-            let url = `{{ config('app.url') ?? '' }}/api/alunos?q=`;
+            let url = `{{ config('app.url') }}/api/alunos?q=`;
             if (cs.length > 0) {
                 url += cs;
             }

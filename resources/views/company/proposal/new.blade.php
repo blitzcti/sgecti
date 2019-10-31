@@ -112,9 +112,9 @@
 
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('observation')) has-error @endif">
-                            <label for="inputObservation" class="col-sm-2 control-label">Observações</label>
+                            <label for="inputObservation" class="col-sm-3 control-label">Observações</label>
 
-                            <div class="col-sm-10">
+                            <div class="col-sm-9">
                         <textarea class="form-control" rows="2" id="inputObservation" name="observation"
                                   style="resize: none"
                                   placeholder="Observações adicionais">{{ old('observation') ?? '' }}</textarea>

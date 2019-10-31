@@ -35,7 +35,7 @@
 
     <script type="text/javascript">
         function reactivateAgreementId(id) {
-            jQuery('#reactivateForm').attr('action', `/coordenador/empresa/convenio/${id}/reativar`);
+            jQuery('#reactivateForm').attr('action', `{{ config('app.url') }}/coordenador/empresa/convenio/${id}/reativar`);
         }
 
         function reactivateCompanyName(name) {

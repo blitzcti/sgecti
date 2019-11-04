@@ -22,6 +22,10 @@ class JobCompanyController extends Controller
     public function get(Request $request)
     {
         $companies = JobCompany::all()->sortBy('id');
+        if (!empty($request->cpf_cnpj) && ctype_digit($request->cpf_cnpj)) {
+            $companies = $companies->where('cpf_cnpj', '=', $request->cpf_cnpj);
+        }
+
         if (!empty($request->q)) {
             $companies = APIUtils::search($companies->toArray(), $request->q, ['name', 'fantasy_name', 'cpf_cnpj']);
         }

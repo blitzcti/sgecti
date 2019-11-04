@@ -12,7 +12,6 @@ class HelpController extends Controller
         $content = [];
 
         if ($user->isAdmin()) {
-
             $content = [
                 'Configurações do sistema' => [
                     'Alterar senha' => [
@@ -54,7 +53,9 @@ class HelpController extends Controller
                                 'img' => 'administrador/programar_backup_admin.png',
                                 'text' => 'Você pode agendar a realização automática de backups, ajustando os dias da semana e o horário destes.',
                             ],
-
+                            [
+                                'text' => 'A configuração do servidor de backup se encontra no arquivo <b>.env</b>, localizado no diretório de instalação do SGE no servidor, por questões de segurança.',
+                            ],
                         ],
 
                     ],
@@ -78,25 +79,25 @@ class HelpController extends Controller
                         'desc' => 'Nos Logs de sistema, o administrador pode visualizar, por data e horário, todas as ações realizadas no sistema, como cadastros, alterações e até mesmo aprovação de estágios e propostas.Atenção: mensalmente, os logs com mais de 30 dias são excluídos automaticamente.',
                         'content' => [
                             [
-                               'img' => '',
-                               'text' => 'Atenção! Mensalmente, os logs com mais de 30 dias são excluídos automaticamente.',
+                                'img' => '',
+                                'text' => 'Atenção! Mensalmente, os logs com mais de 30 dias são excluídos automaticamente.',
                             ],
                             [
                                 'img' => 'administrador/nav_log_admin.png',
                                 'text' => 'Utilize a barra lateral para navegar pelos arquivos de log de datas anteriores.',
                             ],
                             [
-                               'img' => 'administrador/baixar_log_admin.png',
-                               'text' => 'Apertando esse botão, você pode baixar o arquivo .log selecionado e todos os seus registros.',
+                                'img' => 'administrador/baixar_log_admin.png',
+                                'text' => 'Apertando esse botão, você pode baixar o arquivo .log selecionado e todos os seus registros.',
                             ],
                             [
-                               'img' => 'administrador/limpar_excluir_log_admin.png',
-                               'text' => 'Utilize o botão "Limpar log" para excluir os registros do arquivo .log selecionado.
+                                'img' => 'administrador/limpar_excluir_log_admin.png',
+                                'text' => 'Utilize o botão "Limpar log" para excluir os registros do arquivo .log selecionado.
                                Utilize o botão "Excluir log" para excluir o arquivo .log selecionado.',
                             ],
                             [
-                               'img' => 'administrador/exctudo_log_admin.png',
-                               'text' => 'Selecione "Excluir tudo" para excluir todos os arquivos .log do sistema (incluindo o selecionado).',
+                                'img' => 'administrador/exctudo_log_admin.png',
+                                'text' => 'Selecione "Excluir tudo" para excluir todos os arquivos .log do sistema (incluindo o selecionado).',
                             ],
 
                         ],
@@ -160,6 +161,7 @@ class HelpController extends Controller
                             ],
                         ]
                     ],
+
                     'Notificações' => [
                         'desc' => 'Visualize as notificações e atualizações do sistema, dos estágios, das coordenadorias, empresas, etc.',
                         'content' => [
@@ -176,7 +178,6 @@ class HelpController extends Controller
                 ],
 
                 'Funcionalidades do sistema' => [
-
                     'Mensagem' => [
                         'desc' => 'Envie mensagens para os alunos do Colégio, através do email.',
                         'content' => [
@@ -272,13 +273,18 @@ class HelpController extends Controller
                         ],
                     ],
 
+                    'Geração de documentos' => [
+                        'desc' => 'O SGE é capaz de gerar automaticamente todos os documentos necessários à realização do estágio. Desde o plano de estágio até o relatório final.',
+                        'content' => [
+                            [
+                                'img' => 'administrador/docs_estagio.png',
+                                'text' => 'Caso seja necessário, é possível acessar o servidor do SGE para realizar alterações nos templates da documentação de estágio. Os templates se localizam em <b>storage/app/public/docs/templates</b>.',
+                            ]
+                        ],
+                    ],
                 ]
             ];
-
-
-
         } else if ($user->isCoordinator()) {
-
             $content = [
                 'Configurações do sistema' => [
                     'Alterar senha' => [
@@ -344,6 +350,7 @@ class HelpController extends Controller
                             ],
                         ]
                     ],
+
                     'Notificações' => [
                         'desc' => 'Visualize as notificações e atualizações do sistema, dos estágios, das coordenadorias, empresas, etc.',
                         'content' => [
@@ -413,7 +420,6 @@ class HelpController extends Controller
                                     'img' => 'coordenador/add_setor_coordenadores.png',
                                     'text' => 'Ao clicar em "Adicionar setor", na página anterior, você tem a possibilidade de adicionar um novo setor ao sistema, o que também pode ser feito utilizando a interface de adição de nova empresa (subtópico "Adicionar empresa", no presente tópico).',
                                 ],
-
                             ],
 
                             'Supervisores' => [
@@ -425,7 +431,6 @@ class HelpController extends Controller
                                     'img' => 'coordenador/add_supervisor_coordenadores.png',
                                     'text' => 'Adicione um novo supervisor para uma empresa já cadastrada no sistema (para cadastrar uma nova empresa, leia o subtópico "Adicionar empresa", no presente tópico).',
                                 ],
-
                             ],
 
                             'Convênios' => [
@@ -437,7 +442,6 @@ class HelpController extends Controller
                                     'img' => 'coordenador/add_convenios_coordenadores.png',
                                     'text' => 'Crie um convênio para uma empresa já cadastrada no sistema e ainda não conveniada (para cadastrar uma nova empresa, leia o subtópico "Adicionar empresa", no presente tópico).',
                                 ],
-
                             ],
                         ],
                     ],
@@ -450,7 +454,6 @@ class HelpController extends Controller
                                     'img' => 'coordenador/visualizar_estagio_coordenadores.png',
                                     'text' => 'Visualize todos os estágios em andamento, cancelados ou finalizados em relação ao curso.',
                                 ],
-
                             ],
 
                             'Adicionar estágio' => [
@@ -462,7 +465,6 @@ class HelpController extends Controller
                                     'img' => 'coordenador/pg2_add_estagio.png',
                                     'text' => 'A opção destacada com a seta pode auxiliar no preenchimento de horários repetidos, pois replica automaticamente os horários e dias desejados.',
                                 ],
-
                             ],
 
                             'Termos Aditivos' => [
@@ -482,7 +484,6 @@ class HelpController extends Controller
                                     'img' => 'coordenador/pg3_add_termo.png',
                                     'text' => 'Ao selecionar "Alterar horário", você pode alterar os horários de realização do estágio pelo aluno, determinando uma data de início e de fim de vigência para alteração na agenda.',
                                 ],
-
                             ],
                         ]
                     ],
@@ -495,7 +496,6 @@ class HelpController extends Controller
                                     'img' => 'coordenador/visualizar_trabalho_coordenadores.png',
                                     'text' => 'Visualize todos os trabalhos registrados em relação ao curso.',
                                 ],
-
                             ],
 
                             'Adicionar trabalho' => [
@@ -503,20 +503,16 @@ class HelpController extends Controller
                                     'img' => 'coordenador/add_trabalho_coordenadores.png',
                                     'text' => 'Adicione um novo trabalho, associando-o com um aluno e outras informações da empresa e das atividades desenvolvidas.',
                                 ],
-
                             ],
-
                             'Empresas' => [
                                 [
                                     'img' => 'coordenador/visualizar_empresatrab_coordenadores.png',
                                     'text' => 'Visualize as empresas registradas exclusivamente para trabalhos CTPS, ou seja, sem relação com a oferta de estágios e/ou interesse por convênios.',
                                 ],
-
                                 [
                                     'img' => 'coordenador/add_empresatrab_coordenadores.png',
                                     'text' => 'Adicione uma nova empresa para futuros trabalhos CTPS.',
                                 ],
-
                             ],
                         ]
                     ],
@@ -529,7 +525,6 @@ class HelpController extends Controller
                                     'img' => 'coordenador/visualizar_relatorio_coordenadores.png',
                                     'text' => 'Visualize todos os relatórios bimestrais ou finais entregues e registrados em relação ao curso.',
                                 ],
-
                             ],
 
                             'Adicionar relatório bimestral' => [
@@ -537,7 +532,6 @@ class HelpController extends Controller
                                     'img' => 'coordenador/add_bimestral_coordenadores.png',
                                     'text' => 'Adicione um relatório bimestral protocolado por um aluno estagiando.',
                                 ],
-
                             ],
 
                             'Relatórios finais' => [
@@ -545,7 +539,6 @@ class HelpController extends Controller
                                     'img' => 'coordenador/add_final_coordenadores.png',
                                     'text' => 'Adicione um relatório final protocolado por um aluno que está finalizando o estágio, preenchendo o questionário e revisando os dados do estágio.',
                                 ],
-
                             ],
                         ]
                     ],
@@ -558,7 +551,6 @@ class HelpController extends Controller
                                     'img' => 'coordenador/visualizar_propostas.png',
                                     'text' => 'Visualize todas as propostas recebidas pelo curso, podendo as aprovar, rejeitar, editar ou divulgar (através do email).',
                                 ],
-
                             ],
 
                             'Adicionar proposta' => [
@@ -574,7 +566,6 @@ class HelpController extends Controller
                                     'img' => 'coordenador/pg3_add_proposta.png',
                                     'text' => 'Ao selecionar a opção "Horário pré-definido", o estagiário terá ciência de que deverá contemplar obrigatoriamente as horários pré-definidas na proposta.',
                                 ],
-
                             ],
 
                             'Enviar email' => [
@@ -586,7 +577,6 @@ class HelpController extends Controller
                                     'img' => 'coordenador/email_propostas.png',
                                     'text' => 'Na página de Mensagem (tópico 4.1), você pode selecionar, entre as propostas aprovadas, quais deseja divulgar para as turmas selecionadas através dos filtros.',
                                 ],
-
                             ],
                         ]
                     ],
@@ -599,7 +589,6 @@ class HelpController extends Controller
                                     'img' => 'coordenador/dados_alunos.png',
                                     'text' => 'Visualize todos os registros dos alunos do Colégio.',
                                 ],
-
                             ],
 
                             'Obter PDF dos alunos' => [
@@ -607,14 +596,12 @@ class HelpController extends Controller
                                     'img' => 'coordenador/relacao_alunos.png',
                                     'text' => 'Defina filtros para geração de relação em PDF com os alunos selecionados.',
                                 ],
-
                             ],
                         ]
                     ],
                 ]
             ];
         } else if ($user->isCompany()) {
-
             $content = [
                 'Configurações do sistema' => [
                     'Alterar senha' => [
@@ -626,7 +613,6 @@ class HelpController extends Controller
                             ],
                         ]
                     ],
-
                 ],
 
                 'Padronização de tabelas' => [
@@ -706,7 +692,6 @@ class HelpController extends Controller
                                     'img' => 'coordenador/visualizar_propostas.png',
                                     'text' => 'Visualize todas as propostas já enviadas e o estado destas (aprovadas, reprovadas ou pendentes).',
                                 ],
-
                             ],
 
                             'Adicionar proposta' => [
@@ -722,17 +707,12 @@ class HelpController extends Controller
                                     'img' => 'coordenador/pg3_add_proposta.png',
                                     'text' => 'Ao selecionar a opção "Horário pré-definido", o estagiário terá ciência de que deverá contemplar obrigatoriamente as horários pré-definidas na proposta.',
                                 ],
-
                             ],
                         ]
                     ],
                 ]
-
             ];
-
-
         } else if ($user->isStudent()) {
-
             $content = [
                 'Configurações do sistema' => [
                     'Alterar senha' => [
@@ -769,7 +749,6 @@ class HelpController extends Controller
                 ],
 
                 'Funcionalidades do sistema' => [
-
                     'Propostas' => [
                         'desc' => 'Acesse todas as propostas de estágio/IC disponíveis.',
                         'content' => [

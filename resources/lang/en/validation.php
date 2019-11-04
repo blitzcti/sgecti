@@ -96,10 +96,11 @@ return [
         'array' => 'The :attribute may not have more than :max items.',
     ],
     'max_years' => 'The :attribute contains a student that already passed the allowed years for internships.',
-    'min_semester' => 'The :attribute contains a student that is not in the required semester.',
-    'min_year' => 'The :attribute contains a student that is not in the required grade.',
     'mimes' => 'The :attribute must be a file of type: :values.',
     'mimetypes' => 'The :attribute must be a file of type: :values.',
+    'min_interval' => 'The :attribute must have an interval of at least :months months.',
+    'min_semester' => 'The :attribute contains a student that is not in the required semester.',
+    'min_year' => 'The :attribute contains a student that is not in the required grade.',
     'min' => [
         'numeric' => 'The :attribute must be at least :min.',
         'file' => 'The :attribute must be at least :min kilobytes.',

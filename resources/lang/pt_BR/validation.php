@@ -92,10 +92,11 @@ return [
         'array' => 'O campo :attribute não pode ter mais do que :max itens.',
     ],
     'max_years' => 'O campo :attribute é de um aluno que já passou do limite de anos para estágio.',
-    'min_semester' => 'O campo :attribute é de um aluno que não está no semestre mínimo.',
-    'min_year' => 'O campo :attribute é de um aluno que não está no ano mínimo.',
     'mimes' => 'O campo :attribute deve ser um arquivo do tipo: :values.',
     'mimetypes' => 'O campo :attribute deve ser um arquivo do tipo: :values.',
+    'min_interval' => 'O campo :attribute deve ter um intervalo de pelo menos :months meses.',
+    'min_semester' => 'O campo :attribute é de um aluno que não está no semestre mínimo.',
+    'min_year' => 'O campo :attribute é de um aluno que não está no ano mínimo.',
     'min' => [
         'numeric' => 'O campo :attribute deve ser pelo menos :min.',
         'file' => 'O campo :attribute deve ter pelo menos :min kilobytes.',

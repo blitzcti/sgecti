@@ -84,7 +84,7 @@ class DocumentController extends Controller
 
         $template->setValue('city', $sysConfig->city);
 
-        $template->setValue('address', $student->logradouro);
+        $template->setValue('address', $student->address);
         $template->setValue('complement', $student->complemento);
         $template->setValue('s_city', $student->cidade);
         $template->setValue('s_uf', $student->uf);
@@ -111,7 +111,7 @@ class DocumentController extends Controller
         $template->setValue('student', $student->nome);
         $template->setValue('birth', $student->data_de_nascimento->format("d/m/Y"));
 
-        $template->setValue('address', $student->logradouro);
+        $template->setValue('address', $student->address);
         $template->setValue('phone', $student->telefone);
         $template->setValue('cep', $student->cep);
         $template->setValue('district', $student->bairro);

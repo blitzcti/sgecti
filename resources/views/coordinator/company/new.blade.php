@@ -517,7 +517,7 @@
 
             function loadCnpj() {
                 jQuery.ajax({
-                    url: `{{ config('app.url') }}/api/coordenador/empresa?q=${jQuery('#inputCpfCnpj').inputmask('unmaskedvalue')}`,
+                    url: `{{ config('app.url') }}/api/coordenador/empresa?cpf_cnpj=${jQuery('#inputCpfCnpj').inputmask('unmaskedvalue')}`,
                     dataType: 'json',
                     type: 'GET',
                     success: function (companies) {

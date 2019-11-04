@@ -4,6 +4,7 @@ namespace App\Http\Requests\Coordinator;
 
 use App\Models\JobCompany;
 use App\Rules\Active;
+use App\Rules\DateInterval;
 use App\Rules\Integer;
 use App\Rules\RA;
 use App\Rules\StudentHasInternship;
@@ -37,7 +38,7 @@ class StoreJob extends FormRequest
             'company' => ['required', 'integer', 'min:1', 'exists:job_companies,id', new Active(JobCompany::class)],
 
             'startDate' => ['required', 'date', 'before:endDate'],
-            'endDate' => ['required', 'date', 'after:startDate'],
+            'endDate' => ['required', 'date', 'after:startDate', new DateInterval($this->get('start_date'), 6)],
 
             'protocol' => ['required', new Integer, 'digits:7'],
             'activities' => ['nullable', 'max:8000'],

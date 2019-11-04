@@ -36,8 +36,9 @@ use Illuminate\Database\Eloquent\Collection;
  * @property string cidade
  * @property string codigo_ibge
  * @property string estado
- * @property string uf
  *
+ * @property-read string uf
+ * @property-read string address
  * @property-read int course_id
  * @property-read int year
  * @property-read int grade
@@ -117,6 +118,15 @@ class Student extends Model
         $json = APIUtils::getData($url);
 
         return $json['microrregiao']['mesorregiao']['UF']['sigla'];
+    }
+
+    public function getAddressAttribute()
+    {
+        if ($this->numero != null && !stripos($this->logradouro, "Nº")) {
+            return trim($this->logradouro) . ", Nº {$this->numero}";
+        }
+
+        return trim($this->logradouro);
     }
 
     public function getCourseIdAttribute()

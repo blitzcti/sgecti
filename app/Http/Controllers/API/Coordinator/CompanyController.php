@@ -21,6 +21,10 @@ class CompanyController extends Controller
     public function get(Request $request)
     {
         $companies = Company::all()->sortBy('id');
+        if (!empty($request->cpf_cnpj) && ctype_digit($request->cpf_cnpj)) {
+            $companies = $companies->where('cpf_cnpj', '=', $request->cpf_cnpj);
+        }
+
         if (!empty($request->agreement) && APIUtils::is_date($request->agreement)) {
             $date = Carbon::createFromFormat("!Y-m-d", $request->agreement);
 

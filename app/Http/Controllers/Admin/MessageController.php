@@ -80,8 +80,12 @@ class MessageController extends Controller
                             return $i->ra;
                         })->toArray();
 
-                        $students2 = $students2->merge($students->filter(function ($s) use ($is, $fis) {
-                            return !in_array($s->matricula, $is) && !in_array($s->matricula, $fis);
+                        $iis = Internship::where('state_id', '=', State::INVALID)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) {
+                            return $i->ra;
+                        })->toArray();
+
+                        $students2 = $students2->merge($students->filter(function ($s) use ($is, $fis, $iis) {
+                            return !in_array($s->matricula, $is) && !in_array($s->matricula, $fis) && !in_array($s->matricula, $iis);
                         }));
                     }
 
@@ -141,6 +145,6 @@ class MessageController extends Controller
             $params['message'] = 'Erro ao enviar email.';
         }
 
-        return redirect()->route('coordenador.mensagem.index')->with($params);
+        return redirect()->route('admin.mensagem.index')->with($params);
     }
 }

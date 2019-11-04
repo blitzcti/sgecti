@@ -101,6 +101,29 @@
                     </div>
                 </div>
 
+                <div class="form-group @if($errors->has('supervisor')) has-error @endif">
+                    <label for="inputSupervisor" class="col-sm-2 control-label">Supervisor*</label>
+
+                    <div class="col-sm-10">
+                        <select class="selection" name="supervisor"
+                                id="inputSupervisor"
+                                style="width: 100%">
+
+                            @foreach($internship->company->supervisors as $supervisor)
+
+                                <option
+                                    value="{{ $supervisor->id }}" {{ (old('supervisor') ?? $internship->supervisor->id) == $supervisor->id ? "selected" : "" }}>
+                                    {{ $supervisor->name }}
+                                </option>
+
+                            @endforeach
+
+                        </select>
+
+                        <span class="help-block">{{ $errors->first('supervisor') }}</span>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('startDate')) has-error @endif">
@@ -153,6 +176,14 @@
                     </div>
                 </div>
             </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <div class="btn-group pull-right">
+                    <a href="#" class="btn btn-success" id="aAddSupervisor" data-toggle="modal"
+                       data-target="#newInternshipSupervisorModal">Novo supervisor</a>
+                </div>
+            </div>
+            <!-- /.box-footer -->
         </div>
 
         <div class="box box-default">
@@ -470,67 +501,22 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="box box-default">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Dados da secretaria</h3>
-                    </div>
-
-                    <div class="box-body">
-                        <div class="form-group @if($errors->has('protocol')) has-error @endif">
-                            <label for="inputProtocol" class="col-sm-4 control-label">Protocolo*</label>
-
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="inputProtocol" name="protocol"
-                                       placeholder="001/2019" data-inputmask="'mask': '999/9999'"
-                                       value="{{ old('protocol') ?? $internship->protocol }}"/>
-
-                                <span class="help-block">{{ $errors->first('protocol') }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Dados da secretaria</h3>
             </div>
 
-            <div class="col-sm-6">
-                <div class="box box-default">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Supervisor</h3>
+            <div class="box-body">
+                <div class="form-group @if($errors->has('protocol')) has-error @endif">
+                    <label for="inputProtocol" class="col-sm-2 control-label">Protocolo*</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputProtocol" name="protocol"
+                               placeholder="001/2019" data-inputmask="'mask': '999/9999'"
+                               value="{{ old('protocol') ?? $internship->protocol }}"/>
+
+                        <span class="help-block">{{ $errors->first('protocol') }}</span>
                     </div>
-
-                    <div class="box-body">
-                        <div class="form-group @if($errors->has('supervisor')) has-error @endif">
-                            <label for="inputSupervisor" class="col-sm-4 control-label">Supervisor*</label>
-
-                            <div class="col-sm-8">
-                                <select class="selection" name="supervisor"
-                                        id="inputSupervisor"
-                                        style="width: 100%">
-
-                                    @foreach($internship->company->supervisors as $supervisor)
-
-                                        <option
-                                            value="{{ $supervisor->id }}" {{ (old('supervisor') ?? $internship->supervisor->id) == $supervisor->id ? "selected" : "" }}>
-                                            {{ $supervisor->name }}
-                                        </option>
-
-                                    @endforeach
-
-                                </select>
-
-                                <span class="help-block">{{ $errors->first('supervisor') }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-                        <div class="btn-group pull-right">
-                            <a href="#" class="btn btn-success" id="aAddSupervisor" data-toggle="modal"
-                               data-target="#newInternshipSupervisorModal">Novo supervisor</a>
-                        </div>
-                    </div>
-                    <!-- /.box-footer -->
                 </div>
             </div>
         </div>

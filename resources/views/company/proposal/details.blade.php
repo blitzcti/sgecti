@@ -21,7 +21,9 @@
 
             <div class="btn-group" style="display: inline-flex; margin: 0">
                 <a href="{{ route('empresa.proposta.editar', $proposal->id) }}"
-                   class="btn btn-primary">Editar proposta</a>
+                   class="btn btn-primary">
+                    {{ $proposal->reason_to_reject != null ? 'Reenviar proposta' : 'Editar proposta' }}
+                </a>
 
                 <a href="#"
                    onclick="deleteProposalId('{{ $proposal->id }}'); return false;"

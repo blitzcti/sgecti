@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Coordinator;
 
+use App\Models\Job;
 use App\Rules\DateInterval;
 use App\Rules\Integer;
 use Illuminate\Foundation\Http\FormRequest;
@@ -25,11 +26,14 @@ class UpdateJob extends FormRequest
      */
     public function rules()
     {
+        $job = Job::findOrFail($this->route('id'));
+        $months = $job->student->course_configuration->min_months_ctps;
+
         return [
             'active' => ['required', 'boolean'],
 
             'startDate' => ['required', 'date', 'before:endDate'],
-            'endDate' => ['required', 'date', 'after:startDate', new DateInterval($this->get('start_date'), 6)],
+            'endDate' => ['required', 'date', 'after:startDate', new DateInterval($this->get('start_date'), $months)],
 
             'protocol' => ['required', new Integer, 'digits:7'],
             'activities' => ['nullable', 'max:8000'],

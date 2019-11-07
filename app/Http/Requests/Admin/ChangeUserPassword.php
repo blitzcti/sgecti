@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
-use App\Auth;
 use App\Rules\CurrentPassword;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -26,7 +25,7 @@ class ChangeUserPassword extends FormRequest
     public function rules()
     {
         return [
-            'current_password' => [(Auth::user()->password_change_at != null) ? 'required' : '', new CurrentPassword],
+            'current_password' => ['required', new CurrentPassword],
             'password' => ['required', 'confirmed', 'min:8'],
         ];
     }

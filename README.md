@@ -5,7 +5,7 @@ Desenvolvido pela equipe Blitz, o projeto tem como finalidade gerenciar os está
 <p align="center">
 <a href="https://travis-ci.org/blitzcti/sgecti"><img src="https://travis-ci.org/blitzcti/sgecti.svg?branch=master" alt="Build Status"></a>
 <a href="https://github.com/laravel/laravel"><img src="https://img.shields.io/badge/Laravel-6.4.1-red.svg" alt="Laravel Version"></a>
-<a href="https://github.com/ColorlibHQ/AdminLTE"><img src="https://img.shields.io/badge/AdminLTE-3.0-blue.svg" alt="AdminLTE Version"></a>
+<a href="https://github.com/ColorlibHQ/AdminLTE"><img src="https://img.shields.io/badge/AdminLTE-2.4.18-blue.svg" alt="AdminLTE Version"></a>
 </p>
 
 ## Instalação e configuração inicial

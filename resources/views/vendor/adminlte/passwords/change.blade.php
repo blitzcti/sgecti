@@ -18,16 +18,19 @@
                 {{ csrf_field() }}
                 {{ method_field('PUT') }}
 
-                <div class="form-group has-feedback {{ $errors->has('current_password') ? 'has-error' : '' }}">
-                    <input type="password" name="current_password" class="form-control"
-                           placeholder="{{ __('adminlte.current_password') }}">
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                    @if ($errors->has('current_password'))
-                        <span class="help-block">
+                @if(\App\Auth::user()->password_change_at != null)
+                    <div class="form-group has-feedback {{ $errors->has('current_password') ? 'has-error' : '' }}">
+                        <input type="password" name="current_password" class="form-control"
+                               placeholder="{{ __('adminlte.current_password') }}">
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        @if ($errors->has('current_password'))
+                            <span class="help-block">
                             <strong>{{ $errors->first('current_password') }}</strong>
                         </span>
-                    @endif
-                </div>
+                        @endif
+                    </div>
+                @endif
+
                 <div class="form-group has-feedback {{ $errors->has('password') ? 'has-error' : '' }}">
                     <input type="password" name="password" class="form-control"
                            placeholder="{{ __('adminlte.new_password') }}">

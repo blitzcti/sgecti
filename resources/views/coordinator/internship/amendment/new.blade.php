@@ -561,7 +561,7 @@
         function endDate(id) {
             switch (id) {
                 case -1:
-                    if (jQuery('#inputEndDate').val() !== '') {
+                    if (jQuery('#inputEndDate').val() !== '' && jQuery('#inputEndDate').val() !== jQuery('#internshipEndDate').text().trim().split("/").reverse().join("-")) {
                         jQuery('#EndDateToggle').text('Personalizado');
                         break;
                     }

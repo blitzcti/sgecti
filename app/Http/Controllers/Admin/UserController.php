@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ChangeUserPassword;
 use App\Http\Requests\Admin\DestroyUser;
 use App\Http\Requests\Admin\StoreUser;
 use App\Http\Requests\Admin\UpdateUser;
-use App\Http\Requests\ChangeUserPassword;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;

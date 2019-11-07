@@ -3,7 +3,7 @@
 @section('title', 'Detalhes do curso - SGE CTI')
 
 @section('content_header')
-    <h1>Detalhes do curso <a href="{{ route('admin.curso.editar', ['id' => $course->id]) }}">{{ $course->name }}</a>
+    <h1>Detalhes do curso {{ $course->name }}
     </h1>
 @stop
 

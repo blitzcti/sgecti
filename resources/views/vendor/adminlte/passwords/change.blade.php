@@ -23,7 +23,7 @@
                         <input type="password" name="current_password" class="form-control"
                                placeholder="{{ __('adminlte.current_password') }}">
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                        @if ($errors->has('current_password'))
+                        @if($errors->has('current_password'))
                             <span class="help-block">
                             <strong>{{ $errors->first('current_password') }}</strong>
                         </span>
@@ -35,7 +35,7 @@
                     <input type="password" name="password" class="form-control"
                            placeholder="{{ __('adminlte.new_password') }}">
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                    @if ($errors->has('password'))
+                    @if($errors->has('password'))
                         <span class="help-block">
                             <strong>{{ $errors->first('password') }}</strong>
                         </span>
@@ -45,7 +45,7 @@
                     <input type="password" name="password_confirmation" class="form-control"
                            placeholder="{{ __('adminlte.retype_password') }}">
                     <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-                    @if ($errors->has('password_confirmation'))
+                    @if($errors->has('password_confirmation'))
                         <span class="help-block">
                             <strong>{{ $errors->first('password_confirmation') }}</strong>
                         </span>

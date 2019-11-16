@@ -44,7 +44,8 @@
                         <td>
                             <a href="{{ route('coordenador.trabalho.empresa.detalhes', ['id' => $company->id]) }}">Detalhes</a>
                             |
-                            <a href="{{ route('coordenador.trabalho.empresa.editar', ['id' => $company->id]) }}">Editar</a>
+                            <a class="text-aqua"
+                               href="{{ route('coordenador.trabalho.empresa.editar', ['id' => $company->id]) }}">Editar</a>
                         </td>
                     </tr>
 

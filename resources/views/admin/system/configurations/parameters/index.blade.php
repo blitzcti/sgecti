@@ -51,7 +51,8 @@
                         <td>{{ $config->email }}</td>
 
                         <td>
-                            <a href="{{ route('admin.configuracao.parametros.editar', ['id' => $config->id]) }}">Editar</a>
+                            <a class="text-aqua"
+                                href="{{ route('admin.configuracao.parametros.editar', ['id' => $config->id]) }}">Editar</a>
                         </td>
                     </tr>
 

@@ -50,7 +50,8 @@
                         <td>{{ $report->date->format("d/m/Y") }}</td>
                         <td>{{ $report->formatted_protocol }}</td>
                         <td>
-                            <a href="{{ route('coordenador.relatorio.bimestral.editar', ['id' => $report->id]) }}">Editar</a>
+                            <a class="text-aqua"
+                               href="{{ route('coordenador.relatorio.bimestral.editar', ['id' => $report->id]) }}">Editar</a>
                         </td>
                     </tr>
 
@@ -90,7 +91,8 @@
                         <td>{{ $report->approval_number }}</td>
                         <td>{{ $report->completed_hours }}</td>
                         <td>
-                            <a href="{{ route('coordenador.relatorio.final.editar', ['id' => $report->id]) }}">Editar</a>
+                            <a class="text-aqua"
+                               href="{{ route('coordenador.relatorio.final.editar', ['id' => $report->id]) }}">Editar</a>
                             |
                             <a href="#" onclick="pdf({{ $report->id }}); return false;" target="_blank">PDF</a>
                         </td>

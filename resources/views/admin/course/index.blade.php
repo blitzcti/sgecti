@@ -49,11 +49,12 @@
                         <td>
                             <a href="{{ route('admin.curso.detalhes', ['id' => $course->id]) }}">Detalhes</a>
                             |
-                            <a href="{{ route('admin.curso.editar', ['id' => $course->id]) }}">Editar</a>
-                            |
                             <a href="{{ route('admin.curso.coordenador', ['id' => $course->id]) }}">Coordenadores</a>
                             |
                             <a href="{{ route('admin.curso.configuracao.index', ['id' => $course->id]) }}">Configurações</a>
+                            |
+                            <a class="text-aqua"
+                               href="{{ route('admin.curso.editar', ['id' => $course->id]) }}">Editar</a>
 
                             @if(\App\Auth::user()->can('course-delete'))
                                 |

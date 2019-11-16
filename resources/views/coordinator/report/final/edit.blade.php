@@ -34,22 +34,21 @@
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control input-info" id="inputInternship"
-                                       name="internship"
-                                       readonly
+                                       name="internship" readonly
                                        value="{{ $report->internship->ra }} - {{ $report->internship->student->nome }}"/>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-sm-6">
-                        <div class="form-group @if($errors->has('date')) has-error @endif">
-                            <label for="inputDate" class="col-sm-4 control-label">Data do relatório*</label>
+                        <div class="form-group @if($errors->has('reportDate')) has-error @endif">
+                            <label for="inputReportDate" class="col-sm-4 control-label">Data do relatório*</label>
 
                             <div class="col-sm-8">
-                                <input type="date" class="form-control" id="inputDate" name="date"
-                                       value="{{ old('date') ?? $report->date->format("Y-m-d") }}"/>
+                                <input type="date" class="form-control" id="inputReportDate" name="reportDate"
+                                       value="{{ old('reportDate') ?? $report->date->format("Y-m-d") }}"/>
 
-                                <span class="help-block">{{ $errors->first('date') }}</span>
+                                <span class="help-block">{{ $errors->first('reportDate') }}</span>
                             </div>
                         </div>
                     </div>
@@ -946,7 +945,7 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
+                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
 
                 <input type="hidden" id="inputPrevious" name="previous"
                        value="{{ old('previous') ?? url()->previous() }}">

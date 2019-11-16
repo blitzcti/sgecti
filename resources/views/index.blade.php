@@ -81,14 +81,14 @@
         <div id="particles-js"></div>
 
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
+            @if(Route::has('login'))
                 <div class="top-right links">
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
                     @else
                         <a href="{{ route('login') }}">{{ __("Login") }}</a>
 
-                        @if (config('adminlte.register_url', 'register'))
+                        @if(config('adminlte.register_url', 'register'))
                             <a href="{{ route('register') }}">{{ __("Register") }}</a>
                         @endif
                     @endauth

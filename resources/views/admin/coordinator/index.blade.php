@@ -49,7 +49,8 @@
                         <td>{{ $coordinator->end_date != null ? $coordinator->end_date->format("d/m/Y") : 'Indefinido' }}</td>
 
                         <td>
-                            <a href="{{ route('admin.coordenador.editar', ['id' => $coordinator->id]) }}">Editar</a>
+                            <a class="text-aqua"
+                               href="{{ route('admin.coordenador.editar', ['id' => $coordinator->id]) }}">Editar</a>
                         </td>
                     </tr>
 

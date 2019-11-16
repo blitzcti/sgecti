@@ -46,7 +46,7 @@ class StoreInternship extends FormRequest
             'has2Schedules' => ['required', 'boolean'],
             'dilation' => ['required', 'boolean'],
 
-            'ra' => ['required', new Integer, 'min:1', new RA, new StudentHasInternship, new StudentHasJob, new StudentSameCoordinatorCourse, new CompanyHasStudentCourse($this->get('company')), new StudentAge($this->get('startDate')), (!$this->get('delation')) ? new StudentMaxYears($this->get('startDate')) : '', new MinimalYear, new MinimalSemester($this->get('startDate'))],
+            'ra' => ['required', new Integer, 'min:1', new RA, new StudentHasInternship, new StudentHasJob, new StudentSameCoordinatorCourse, new CompanyHasStudentCourse($this->get('company')), new StudentAge($this->get('startDate')), (!$this->get('dilation')) ? new StudentMaxYears($this->get('startDate'), $this->get('endDate')) : '', new MinimalYear, new MinimalSemester($this->get('startDate'))],
             'active' => ['required', 'boolean'],
             'company' => ['required', 'integer', 'min:1', 'exists:companies,id', new CompanyHasCoordinatorCourse, new CompanyHasAgreement($this->get('startDate')), new Active(Company::class)],
             'sector' => ['required', 'integer', 'min:1', 'exists:sectors,id', new CompanyHasSector($this->get('company')), new Active(Sector::class)],

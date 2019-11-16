@@ -48,7 +48,8 @@
                             |
                             <a href="{{ route('coordenador.empresa.convenio', ['id' => $company->id]) }}">Convênios</a>
                             |
-                            <a href="{{ route('coordenador.empresa.editar', ['id' => $company->id]) }}">Editar</a>
+                            <a class="text-aqua"
+                               href="{{ route('coordenador.empresa.editar', ['id' => $company->id]) }}">Editar</a>
                         </td>
                     </tr>
 

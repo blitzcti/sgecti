@@ -58,14 +58,16 @@
                         <td>
                             <a href="{{ route('coordenador.proposta.detalhes', ['id' => $proposal->id]) }}">Detalhes</a>
                             |
-                            <a href="{{ route('coordenador.proposta.editar', ['id' => $proposal->id]) }}">Editar</a>
-                            |
 
                             @if($proposal->deadline >= \Carbon\Carbon::now() && $proposal->approved_at != null)
                                 <a href="{{ route('coordenador.mensagem.index', ['p' => $proposal->id]) }}"
                                    class="text-green">Enviar email</a>
                                 |
                             @endif
+
+                            |
+                            <a class="text-aqua"
+                               href="{{ route('coordenador.proposta.editar', ['id' => $proposal->id]) }}">Editar</a>
 
                             @if($proposal->deadline >= \Carbon\Carbon::now() && $proposal->approved_at == null && $proposal->reason_to_reject == null)
 

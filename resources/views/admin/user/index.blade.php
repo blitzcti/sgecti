@@ -46,7 +46,8 @@
 
                         <td>
                             @if($user->hasRole('teacher') || $user->hasRole('admin'))
-                                <a href="{{ route('admin.usuario.editar', ['id' => $user->id]) }}">Editar</a>
+                                <a class="text-aqua"
+                                   href="{{ route('admin.usuario.editar', ['id' => $user->id]) }}">Editar</a>
                             @endif
 
                             @if($user->can('user-changePassword'))

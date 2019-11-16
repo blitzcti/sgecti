@@ -54,7 +54,8 @@
                         <td>
                             <a href="{{ route('empresa.proposta.detalhes', ['id' => $proposal->id]) }}">Detalhes</a>
                             |
-                            <a href="{{ route('empresa.proposta.editar', ['id' => $proposal->id]) }}">Editar</a>
+                            <a class="text-aqua"
+                               href="{{ route('empresa.proposta.editar', ['id' => $proposal->id]) }}">Editar</a>
                             |
                             <a href="#"
                                onclick="deleteProposalId('{{ $proposal->id }}'); return false;"

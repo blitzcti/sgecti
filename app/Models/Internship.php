@@ -42,6 +42,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @property Collection|Amendment[] not_empty_amendments
  * @property Collection|BimestralReport[] bimestral_reports
  * @property FinalReport final_report
+ * @property-read boolean dilation
  * @property-read Carbon a_end_date
  * @property-read int estimated_hours
  * @property-read string formatted_protocol
@@ -162,6 +163,15 @@ class Internship extends Model
     public function final_report()
     {
         return $this->hasOne(FinalReport::class);
+    }
+
+    public function getDilationAttribute()
+    {
+        $dateS = date_create("{$this->student->year}-01-01");
+        $max_years = GeneralConfiguration::getMaxYears($dateS);
+        $limitDate = $dateS->modify("+{$max_years} year")->modify("-1 day");
+
+        return $this->start_date > $limitDate || $this->end_date > $limitDate;
     }
 
     public function getAEndDateAttribute()

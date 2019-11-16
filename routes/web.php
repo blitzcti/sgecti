@@ -35,10 +35,7 @@ Route::prefix('usuario')->name('usuario.')->middleware('auth')->group(function (
 });
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
-    Route::get('logs', [
-        'middleware' => 'role:admin',
-        'uses' => '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index'
-    ])->name('logs');
+    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('logs');
 
     Route::prefix('usuario')->name('usuario.')->group(function () {
         Route::get('', 'Admin\UserController@index')->name('index');

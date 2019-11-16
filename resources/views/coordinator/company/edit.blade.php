@@ -37,11 +37,19 @@
                                 <div class="input-group">
                                     <div class="input-group-btn">
                                         <button type="button" class="btn btn-default">
-                                            <span id="CpfCnpjOption"></span></button>
+                                            <span id="CpfCnpjOption"></span>
+                                        </button>
                                     </div>
 
                                     <input type="text" class="form-control" id="inputCpfCnpj" name="cpfCnpj"
                                            value="{{ old('cpfCnpj') ?? $company->cpf_cnpj }}" readonly>
+
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default"
+                                                onclick="jQuery('#inputCpfCnpj').blur();">
+                                            <i class="fa fa-refresh"></i>
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <span class="help-block">{{ $errors->first('cpfCnpj') }}</span>
@@ -110,7 +118,8 @@
 
                             <div class="col-sm-9">
                                 <input type="email" class="form-control" id="inputEmail" name="email"
-                                       placeholder="dir_cti@feb.unesp.com.br" value="{{ old('email') ?? $company->email }}"/>
+                                       placeholder="dir_cti@feb.unesp.com.br"
+                                       value="{{ old('email') ?? $company->email }}"/>
 
                                 <span class="help-block">{{ $errors->first('email') }}</span>
                             </div>

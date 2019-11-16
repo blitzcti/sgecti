@@ -49,7 +49,8 @@
                         <td>
                             <a href="{{ route('coordenador.trabalho.detalhes', ['id' => $job->id]) }}">Detalhes</a>
                             |
-                            <a href="{{ route('coordenador.trabalho.editar', ['id' => $job->id]) }}">Editar</a>
+                            <a class="text-aqua"
+                               href="{{ route('coordenador.trabalho.editar', ['id' => $job->id]) }}">Editar</a>
 
                             @if($job->state->id == \App\Models\State::FINISHED)
 

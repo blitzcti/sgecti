@@ -48,14 +48,16 @@
                         <td>{{ ($internship->needsFinalReport()) ? 'Requer finalização' : $internship->state->description }}</td>
                         <td>
                             <a href="{{ route('coordenador.estagio.detalhes', ['id' => $internship->id]) }}">Detalhes</a>
-                            |
-                            <a href="{{ route('coordenador.estagio.editar', ['id' => $internship->id]) }}">Editar</a>
 
                             @if(\App\Auth::user()->can('internshipAmendment-list'))
                                 |
                                 <a href="{{ route('coordenador.estagio.aditivo', ['id' => $internship->id]) }}">Termos
                                     aditivos</a>
                             @endif
+
+                            |
+                            <a class="text-aqua"
+                               href="{{ route('coordenador.estagio.editar', ['id' => $internship->id]) }}">Editar</a>
 
                             @if($internship->state->id == \App\Models\State::OPEN)
 

@@ -10,6 +10,7 @@ use App\Rules\Integer;
 use App\Rules\RA;
 use App\Rules\StudentHasInternship;
 use App\Rules\StudentHasJob;
+use App\Rules\StudentMaxYears;
 use App\Rules\StudentSameCoordinatorCourse;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -35,7 +36,9 @@ class StoreJob extends FormRequest
         $months = Student::find($this->get('ra'))->course_configuration->min_months_ctps ?? 6;
 
         return [
-            'ra' => ['required', 'integer', 'min:1', new RA, new StudentHasInternship, new StudentHasJob, new StudentSameCoordinatorCourse],
+            'dilation' => ['required', 'boolean'],
+
+            'ra' => ['required', 'integer', 'min:1', new RA, new StudentHasInternship, new StudentHasJob, new StudentSameCoordinatorCourse, (!$this->get('dilation')) ? new StudentMaxYears($this->get('startDate'), $this->get('endDate')) : ''],
             'active' => ['required', 'boolean'],
 
             'company' => ['required', 'integer', 'min:1', 'exists:job_companies,id', new Active(JobCompany::class)],

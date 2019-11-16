@@ -40,7 +40,8 @@
                         <td>{{ ($sector->active) ? 'Sim' : 'Não' }}</td>
 
                         <td>
-                            <a href="{{ route('coordenador.empresa.setor.editar', ['id' => $sector->id]) }}">Editar</a>
+                            <a class="text-aqua"
+                               href="{{ route('coordenador.empresa.setor.editar', ['id' => $sector->id]) }}">Editar</a>
                         </td>
                     </tr>
 

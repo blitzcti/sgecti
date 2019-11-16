@@ -53,7 +53,8 @@
                         <td>{{ $agreement->start_date->format("d/m/Y") }}</td>
                         <td>{{ $agreement->end_date->format("d/m/Y") }}</td>
                         <td>
-                            <a href="{{ route('coordenador.empresa.convenio.editar', ['id' => $agreement->id]) }}">Editar</a>
+                            <a class="text-aqua"
+                               href="{{ route('coordenador.empresa.convenio.editar', ['id' => $agreement->id]) }}">Editar</a>
 
                             @if($agreement->active)
                                 |

@@ -7,7 +7,6 @@
 @stop
 
 @section('content')
-
     @include('modals.coordinator.company.supervisor.new')
     @include('modals.coordinator.cloneSchedule')
 
@@ -23,16 +22,22 @@
             <div class="box-body">
                 <input type="hidden" id="inputHas2Schedules" name="has2Schedules"
                        value="{{ (old('has2Schedules') ?? $internship->schedule2 != null) ? '1' : '0' }}">
+                <input type="hidden" id="inputDilation" name="dilation"
+                       value="{{ (old('dilation') ?? $internship->dilation) ? '1' : '0' }}">
+                <input type="hidden" id="inputRA" name="ra" value="{{ $internship->ra }}">
+                <input type="hidden" id="inputCompany" name="company" value="{{ $internship->company->id }}">
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <div class="form-group">
+                        <div class="form-group @if($errors->has('ra')) has-error @endif">
                             <label for="inputStudentName" class="col-sm-4 control-label">Aluno*</label>
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control input-info" id="inputStudentName" name="student"
                                        readonly
                                        value="{{ $internship->ra }} - {{ $internship->student->nome }}"/>
+
+                                <span class="help-block">{{ $errors->first('ra') }}</span>
                             </div>
                         </div>
                     </div>
@@ -59,13 +64,15 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="inputCompany" class="col-sm-2 control-label">Empresa*</label>
+                <div class="form-group @if($errors->has('company')) has-error @endif">
+                    <label for="inputCompanyName" class="col-sm-2 control-label">Empresa*</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control input-info" id="inputCompany"
-                               name="company" readonly
+                        <input type="text" class="form-control input-info" id="inputCompanyName"
+                               name="companyName" readonly
                                value="{{ $internship->company->formatted_cpf_cnpj }} - {{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "(". $internship->company->fantasy_name . ")" : '' }}"/>
+
+                        <span class="help-block">{{ $errors->first('company') }}</span>
                     </div>
                 </div>
 
@@ -518,6 +525,16 @@
                         <span class="help-block">{{ $errors->first('protocol') }}</span>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label for="fakeInputDilation" class="col-sm-2 control-label" style="padding-top: 0">Dilação
+                        de prazo</label>
+
+                    <div class="col-sm-10">
+                        <input type="checkbox" id="fakeInputDilation" name="fakeDilation"
+                            {{ old('dilation') ?? $internship->dilation ? 'checked="checked"' : '' }}>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -549,6 +566,14 @@
             jQuery('#fakeInputHas2Schedules').on('ifChanged', function () {
                 jQuery('#weekDays2').toggle(this.checked);
                 jQuery('#inputHas2Schedules').val(Number(this.checked));
+            }).trigger('ifChanged').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
+
+            jQuery('#fakeInputDilation').on('ifChanged', function () {
+                jQuery('#inputDilation').val(Number(this.checked));
             }).trigger('ifChanged').iCheck({
                 checkboxClass: 'icheckbox_square-blue',
                 radioClass: 'iradio_square-blue',

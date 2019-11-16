@@ -174,6 +174,7 @@ return [
         'active' => 'Active',
         'startDate' => 'Start Date',
         'endDate' => 'End Date',
+        'date' => 'Date',
 
         'current_password' => 'Current Password',
         'password' => 'Password',
@@ -260,5 +261,7 @@ return [
         'satE' => 'Saturday (End)',
         'satS2' => 'Saturday (Start - 2nd schedule)',
         'satE2' => 'Saturday (End - 2nd schedule)',
+
+        'reportDate' => 'Report Date',
     ],
 ];

@@ -28,9 +28,8 @@
                                             <button type="button" class="btn btn-default dropdown-toggle"
                                                     data-toggle="dropdown">
                                                 <span id="CpfCnpjOption"></span>
-
-
-                                                <span class="fa fa-caret-down"></span></button>
+                                                <span class="fa fa-caret-down"></span>
+                                            </button>
 
                                             <ul class="dropdown-menu">
                                                 <li><a href="#" onclick="pj(true); return false;">CNPJ</a></li>

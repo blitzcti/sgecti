@@ -51,7 +51,8 @@
                         <td>{{ $config->min_grade }}</td>
 
                         <td>
-                            <a href="{{ route('admin.configuracao.curso.editar', ['id' => $config->id]) }}">Editar</a>
+                            <a class="text-aqua"
+                               href="{{ route('admin.configuracao.curso.editar', ['id' => $config->id]) }}">Editar</a>
                         </td>
                     </tr>
 

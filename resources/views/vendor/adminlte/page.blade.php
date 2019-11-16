@@ -74,7 +74,7 @@
                             <nav class="navbar navbar-static-top" role="navigation">
                                 <!-- Sidebar toggle button-->
                                 <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-                                    <span class="sr-only">{{ trans('adminlte.toggle_navigation') }}</span>
+                                    <span class="sr-only">{{ __('adminlte.toggle_navigation') }}</span>
                                 </a>
                             @endif
                             <!-- Navbar Right Menu -->
@@ -134,30 +134,26 @@
                                         </li>
 
                                         <li>
-                                            @if(config('adminlte.logout_method') == 'GET' || !config('adminlte.logout_method') && version_compare(\Illuminate\Foundation\Application::VERSION, '5.3.0', '<'))
-                                                <a href="{{ url(config('adminlte.logout_url', 'auth/logout')) }}">
-                                                    <i class="fa fa-fw fa-power-off"></i>
-                                                    <b>{{ trans('adminlte.log_out') }}</b>
-                                                    ({{ strtok(\App\Auth::user()->name, " ") }})
-                                                </a>
-                                            @else
-                                                <a href="#"
-                                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                                                >
-                                                    <i class="fa fa-fw fa-power-off"></i>
-                                                    <b>{{ trans('adminlte.log_out') }}</b>
-                                                    ({{ strtok(\App\Auth::user()->name, " ") }})
-                                                </a>
-                                                <form id="logout-form"
-                                                      action="{{ url(config('adminlte.logout_url', 'auth/logout')) }}"
-                                                      method="POST" style="display: none;">
-                                                    @if(config('adminlte.logout_method'))
-                                                        {{ method_field(config('adminlte.logout_method')) }}
-                                                    @endif
-                                                    {{ csrf_field() }}
-                                                </form>
-                                            @endif
+                                            <a href="#"
+                                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                <i class="fa fa-fw fa-power-off"></i>
+                                                {{ __('adminlte.log_out') }} ({{ strtok(\App\Auth::user()->name, " ") }})
+                                            </a>
+                                            <form id="logout-form"
+                                                  action="{{ url(config('adminlte.logout_url', 'auth/logout')) }}"
+                                                  method="POST" style="display: none;">
+                                                {{ csrf_field() }}
+                                            </form>
                                         </li>
+                                    @if(config('adminlte.right_sidebar') and (config('adminlte.layout') != 'top-nav'))
+                                        <!-- Control Sidebar Toggle Button -->
+                                            <li>
+                                                <a href="#" data-toggle="control-sidebar"
+                                                   @if(!config('adminlte.right_sidebar_slide')) data-controlsidebar-slide="false" @endif>
+                                                    <i class="{{config('adminlte.right_sidebar_icon')}}"></i>
+                                                </a>
+                                            </li>
+                                        @endif
                                     </ul>
                                 </div>
                             @if(config('adminlte.layout') == 'top-nav')
@@ -172,6 +168,7 @@
 
                 <!-- sidebar: style can be found in sidebar.less -->
                 <section class="sidebar">
+
                     <!-- Sidebar Menu -->
                     <ul class="sidebar-menu" data-widget="tree">
                         @each('adminlte::partials.menu-item', $adminlte->menu(), 'item')
@@ -213,6 +210,16 @@
 
             <b>Copyright © 2019 Blitz.</b> Todos os direitos reservados.
         </footer>
+
+        @if(config('adminlte.right_sidebar') and (config('adminlte.layout') != 'top-nav'))
+            <aside class="control-sidebar control-sidebar-{{config('adminlte.right_sidebar_theme')}}">
+                @yield('right-sidebar')
+            </aside>
+            <!-- /.control-sidebar -->
+            <!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
+            <div class="control-sidebar-bg"></div>
+        @endif
+
     </div>
     <!-- ./wrapper -->
 

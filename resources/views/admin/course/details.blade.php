@@ -21,7 +21,7 @@
 
                 <a href="{{ route('admin.curso.configuracao.index', $course->id) }}" class="btn btn-default">Configurações</a>
 
-                @if ($config != null && !isset($config->max_years))
+                @if($config != null && !isset($config->max_years))
 
                     <a href="{{ route('admin.curso.configuracao.editar', ['id' => $course->id, 'id_config' => $config->id]) }}"
                        class="btn btn-primary">Editar configuração</a>
@@ -35,7 +35,7 @@
 
                 <a href="{{ route('admin.curso.coordenador', ['id' => $course->id]) }}" class="btn btn-default">Coordenadores</a>
 
-                @if ($coordinator != null)
+                @if($coordinator != null)
 
                     <a href="{{ route('admin.coordenador.editar', ['id' => $coordinator->id]) }}"
                        class="btn btn-primary">Editar coordenador</a>
@@ -87,7 +87,7 @@
             <hr/>
             <h3>Configuração ativa do curso</h3>
 
-            @if ($config != null)
+            @if($config != null)
 
                 <dl class="row">
                     <dt class="col-sm-2">Ano mínimo</dt>
@@ -121,7 +121,7 @@
             <hr/>
             <h3>Coordenador do curso</h3>
 
-            @if ($coordinator != null)
+            @if($coordinator != null)
 
                 <dl class="row">
                     <dt class="col-sm-2">Nome</dt>
@@ -130,7 +130,7 @@
                     <dt class="col-sm-2">Início da vigência</dt>
                     <dd class="col-sm-10">{{ $coordinator->start_date->format("d/m/Y") }}</dd>
 
-                    @if ($coordinator->end_date != null)
+                    @if($coordinator->end_date != null)
 
                         <dt class="col-sm-2">Fim da vigência</dt>
                         <dd class="col-sm-10">{{ $coordinator->end_date->format("d/m/Y") }}</dd>

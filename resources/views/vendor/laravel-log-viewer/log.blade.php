@@ -42,13 +42,13 @@
                                             <span class="fa fa-folder"></span> {{ $folder }}
                                         </a>
 
-                                        @if ($current_folder == $folder)
+                                        @if($current_folder == $folder)
 
                                             <div class="list-group folder">
 
                                                 @foreach($folder_files as $file)
                                                     <a href="?l={{ \Illuminate\Support\Facades\Crypt::encrypt($file) }}&f={{ \Illuminate\Support\Facades\Crypt::encrypt($folder) }}"
-                                                       class="list-group-item @if ($current_file == $file) llv-active @endif">
+                                                       class="list-group-item @if($current_file == $file) llv-active @endif">
                                                         {{ $file }}
                                                     </a>
 
@@ -63,7 +63,7 @@
                                 @foreach($files as $file)
 
                                     <a href="?l={{ \Illuminate\Support\Facades\Crypt::encrypt($file) }}"
-                                       class="list-group-item @if ($current_file == $file) llv-active @endif">
+                                       class="list-group-item @if($current_file == $file) llv-active @endif">
                                         {{ $file }}
                                     </a>
 
@@ -76,7 +76,7 @@
 
                     <div class="{{ (sizeof($logs) > 0) ? 'col-sm-10' : '' }} table-container">
 
-                        @if ($logs === null)
+                        @if($logs === null)
 
                             <div>
                                 Log >50M, por favor baixe-o.
@@ -89,7 +89,7 @@
                                 <thead>
                                 <tr>
 
-                                    @if ($standardFormat)
+                                    @if($standardFormat)
 
                                         <th>Data / hora</th>
                                         <th>Nível</th>
@@ -112,7 +112,7 @@
 
                                         <td class="date">{{  date("d/m/Y H:i:s", strtotime($log['date'])) }}</td>
 
-                                        @if ($standardFormat)
+                                        @if($standardFormat)
 
                                             <td class="nowrap text-{{ $log['level_class'] }}">
                                             <span class="fa fa-{{ $log['level_img'] }}"
@@ -120,7 +120,7 @@
                                             </td>
 
                                             <td class="text">
-                                                @if ($log['stack'] && preg_match('/Usuário: (.*?)\n.*/s', $log['stack']))
+                                                @if($log['stack'] && preg_match('/Usuário: (.*?)\n.*/s', $log['stack']))
 
                                                     {{ preg_replace('/Usuário: (.*?)\n.*/s', '$1', $log['stack']) }}
 
@@ -135,7 +135,7 @@
 
                                         <td class="text">
 
-                                            @if (trim(preg_replace('/(.*)Usuário: .*?(\n.*)/s', '$1$2', $log['stack'])))
+                                            @if(trim(preg_replace('/(.*)Usuário: .*?(\n.*)/s', '$1$2', $log['stack'])))
 
                                                 <button type="button"
                                                         class="float-right expand btn btn-outline-dark btn-sm mb-2 ml-2"
@@ -147,13 +147,13 @@
 
                                             {{ $log['text'] }}
 
-                                            @if (isset($log['in_file']))
+                                            @if(isset($log['in_file']))
 
                                                 <br/>{{ $log['in_file'] }}
 
                                             @endif
 
-                                            @if (trim(preg_replace('/(.*)Usuário: .*?(\n.*)/s', '$1$2', $log['stack'])))
+                                            @if(trim(preg_replace('/(.*)Usuário: .*?(\n.*)/s', '$1$2', $log['stack'])))
 
                                                 <div class="stack" id="stack{{ $key }}"
                                                      style="display: none; white-space: pre-wrap;">{{ trim(preg_replace('/(.*)Usuário: .*?(\n.*)/s', '$1$2', $log['stack'])) }}</div>

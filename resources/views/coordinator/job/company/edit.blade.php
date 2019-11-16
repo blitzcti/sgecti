@@ -33,11 +33,19 @@
                                 <div class="input-group">
                                     <div class="input-group-btn">
                                         <button type="button" class="btn btn-default">
-                                            <span id="CpfCnpjOption"></span></button>
+                                            <span id="CpfCnpjOption"></span>
+                                        </button>
                                     </div>
 
                                     <input type="text" class="form-control" id="inputCpfCnpj" name="cpfCnpj"
                                            value="{{ old('cpfCnpj') ?? $company->cpf_cnpj }}" readonly>
+
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default"
+                                                onclick="jQuery('#inputCpfCnpj').blur();">
+                                            <i class="fa fa-refresh"></i>
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <span class="help-block">{{ $errors->first('cpfCnpj') }}</span>

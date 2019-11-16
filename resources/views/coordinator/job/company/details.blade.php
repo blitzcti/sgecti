@@ -40,9 +40,6 @@
             <h3>Dados de trabalho</h3>
 
             <dl class="row">
-                <dt class="col-sm-2">Alunos trabalhanho</dt>
-                <dd class="col-sm-10">{{ sizeof($company->jobs->filter(function ($i) {return $i->state->id == 1;})) }}</dd>
-
                 <dt class="col-sm-2">Trabalhos concluídos</dt>
                 <dd class="col-sm-10">{{ sizeof($company->jobs->filter(function ($i) {return $i->state->id == 2;})) }}</dd>
 

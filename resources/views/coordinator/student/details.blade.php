@@ -94,7 +94,7 @@
             <hr/>
             <h3>Estágio ativo do aluno</h3>
 
-            @if ($student->internship != null)
+            @if($student->internship != null)
 
                 <dl class="row">
                     <dt class="col-sm-2">CPF / CNPJ da empresa</dt>
@@ -186,7 +186,7 @@
 
             <h3>Trabalho do aluno</h3>
 
-            @if ($student->job != null)
+            @if($student->job != null)
 
                 <dl class="row">
                     <dt class="col-sm-2">CPF / CNPJ da empresa</dt>

@@ -15,8 +15,10 @@
 @stop
 
 @section('content')
+    @include('modals.coordinator.report.final.warning')
 
-    <form class="form-horizontal" action="{{ route('coordenador.relatorio.final.salvar') }}" method="post">
+    <form id="formReport" class="form-horizontal" action="{{ route('coordenador.relatorio.final.salvar') }}"
+          method="post">
         @csrf
 
         <div class="box box-default">
@@ -34,12 +36,10 @@
                                 <select class="form-control selection" id="inputInternship" name="internship">
 
                                     @foreach($internships as $internship)
-
                                         <option value="{{ $internship->id }}"
                                             {{ (old('internship') ?? $i) == $internship->id ? 'selected=selected' : '' }}>
                                             {{ $internship->student->matricula }} - {{ $internship->student->nome }}
                                         </option>
-
                                     @endforeach
 
                                 </select>
@@ -50,14 +50,14 @@
                     </div>
 
                     <div class="col-sm-6">
-                        <div class="form-group @if($errors->has('date')) has-error @endif">
-                            <label for="inputDate" class="col-sm-4 control-label">Data do relatório*</label>
+                        <div class="form-group @if($errors->has('reportDate')) has-error @endif">
+                            <label for="inputReportDate" class="col-sm-4 control-label">Data do relatório*</label>
 
                             <div class="col-sm-8">
-                                <input type="date" class="form-control" id="inputDate" name="date"
-                                       value="{{ old('date') ?? '' }}"/>
+                                <input type="date" class="form-control" id="inputReportDate" name="reportDate"
+                                       value="{{ old('reportDate') ?? '' }}"/>
 
-                                <span class="help-block">{{ $errors->first('date') }}</span>
+                                <span class="help-block">{{ $errors->first('reportDate') }}</span>
                             </div>
                         </div>
                     </div>
@@ -95,7 +95,6 @@
         </div>
 
         @if((App\Models\Internship::find($i) ?? $internships->first()) != null)
-
             <div class="box box-default">
                 <div class="box-header with-border">
                     <h3 class="box-title">Dados do estágio</h3>
@@ -147,7 +146,6 @@
                     </dl>
                 </div>
             </div>
-
         @endif
 
         <div class="box box-default">
@@ -970,11 +968,46 @@
 
 @section('js')
     <script type="text/javascript">
+        let ignore = false;
+
+        let hours = {{ (App\Models\Internship::find($i) ?? $internships->first())->student->completed_hours }};
+        let months = {{ (App\Models\Internship::find($i) ?? $internships->first())->student->completed_months }};
+        let minHours = {{ (App\Models\Internship::find($i) ?? $internships->first())->student->course_configuration->min_hours }};
+        let minMonths = {{ (App\Models\Internship::find($i) ?? $internships->first())->student->course_configuration->min_months }};
+
         jQuery(document).ready(function () {
             jQuery(':input').inputmask({removeMaskOnSubmit: true});
 
             jQuery('.selection').select2({
                 language: "pt-BR"
+            });
+
+            jQuery('#formReport').submit(e => {
+                let tHours = hours + jQuery('#inputHoursCompleted').val();
+                let startDate = new Date(`${jQuery('#internshipStartDate').text().trim().split("/").reverse().join("-")} `);
+                let endDate = new Date(`${jQuery('#inputEndDate').val()} `);
+
+                let mDiff = Math.abs((endDate - startDate) / (30 * 24 * 60 * 60 * 1000));
+                let tMonths = months + mDiff;
+                if (ignore || tHours < minHours || tMonths < minMonths) {
+                    e.preventDefault();
+
+                    if (tHours < minHours) {
+                        warningMessage(`O aluno ainda precisa de ${minHours - tHours}h para atingir o mínimo.`);
+
+                        if (tMonths < minMonths) {
+                            warningMessage(`O aluno ainda precisa de ${minHours - tHours}h  e ${minMonths - tMonths} meses para o mínimo.`);
+                        }
+                    } else if (tMonths < minMonths) {
+                        warningMessage(`O aluno ainda precisa de ${minMonths - tMonths} meses para atingir o mínimo.`);
+                    }
+
+                    jQuery("#reportWarningModal").modal({
+                        backdrop: "static",
+                        keyboard: false,
+                        show: true
+                    });
+                }
             });
 
             jQuery('#inputInternship').on('change', e => {
@@ -989,6 +1022,9 @@
                         jQuery('#internshipStartDate').text(new Date(`${data.start_date} `).toLocaleDateString());
                         jQuery('#internshipEndDate').text(new Date(`${data.end_date} `).toLocaleDateString());
                         jQuery('#internshipEstimatedHours').text(data.estimated_hours.toFixed(0));
+
+                        hours = data.completed_hours;
+                        months = data.completed_months;
                     },
                     error: function () {
 

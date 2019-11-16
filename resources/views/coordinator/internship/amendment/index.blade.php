@@ -54,7 +54,8 @@
                         <td>{{ $amendment->end_date != null ? 'Sim' : 'Não' }}</td>
                         <td>{{ $amendment->schedule != null ? 'Sim' : 'Não' }}</td>
                         <td>
-                            <a href="{{ route('coordenador.estagio.aditivo.editar', ['id' => $amendment->id]) }}">Editar</a>
+                            <a class="text-aqua"
+                               href="{{ route('coordenador.estagio.aditivo.editar', ['id' => $amendment->id]) }}">Editar</a>
                         </td>
                     </tr>
 

@@ -6,10 +6,21 @@ use App\Models\Internship;
 use App\Models\Sector;
 use App\Models\Supervisor;
 use App\Rules\Active;
+use App\Rules\CompanyHasAgreement;
+use App\Rules\CompanyHasCoordinatorCourse;
 use App\Rules\CompanyHasSector;
+use App\Rules\CompanyHasStudentCourse;
 use App\Rules\CompanyHasSupervisor;
 use App\Rules\HourInterval;
 use App\Rules\Integer;
+use App\Rules\MinimalSemester;
+use App\Rules\MinimalYear;
+use App\Rules\RA;
+use App\Rules\StudentAge;
+use App\Rules\StudentHasInternship;
+use App\Rules\StudentHasJob;
+use App\Rules\StudentMaxYears;
+use App\Rules\StudentSameCoordinatorCourse;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateInternship extends FormRequest
@@ -35,8 +46,11 @@ class UpdateInternship extends FormRequest
 
         return [
             'has2Schedules' => ['required', 'boolean'],
+            'dilation' => ['required', 'boolean'],
 
+            'ra' => ['required', new Integer, 'min:1', new RA, new StudentHasInternship($internship->id), new StudentHasJob, new StudentSameCoordinatorCourse, new CompanyHasStudentCourse($this->get('company')), new StudentAge($this->get('startDate')), (!$this->get('dilation')) ? new StudentMaxYears($this->get('startDate'), $this->get('endDate')) : '', new MinimalYear, new MinimalSemester($this->get('startDate'))],
             'active' => ['required', 'boolean'],
+            'company' => ['required', 'integer', 'min:1', 'exists:companies,id', new CompanyHasCoordinatorCourse, new CompanyHasAgreement($this->get('startDate'))],
             'sector' => ['required', 'integer', 'min:1', 'exists:sectors,id', new CompanyHasSector($internship->company->id), new Active(Sector::class, $internship->sector_id)],
             'startDate' => ['required', 'date', 'before:endDate'],
             'endDate' => ['required', 'date', 'after:startDate'],

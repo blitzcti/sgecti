@@ -138,7 +138,7 @@ class ReportController extends Controller
         $log .= "\nUsuário: {$user->name}";
 
         $report->internship_id = $validatedData->internship;
-        $report->date = $validatedData->date;
+        $report->date = $validatedData->reportDate;
 
         $course_id = $report->internship->student->course_id;
 
@@ -225,7 +225,7 @@ class ReportController extends Controller
         $log .= "\nUsuário: {$user->name}";
         $log .= "\nDados antigos: " . json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        $report->date = $validatedData->date;
+        $report->date = $validatedData->reportDate;
 
         $report->grade_1_a = $validatedData->grade_1_a;
         $report->grade_1_b = $validatedData->grade_1_b;

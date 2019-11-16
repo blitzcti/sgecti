@@ -78,7 +78,7 @@
             </div>
         </div>
 
-        @if ($internships->first() != null)
+        @if($internships->first() != null)
 
             <div class="box box-default">
                 <div class="box-header with-border">

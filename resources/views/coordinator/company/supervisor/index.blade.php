@@ -50,7 +50,8 @@
                         <td>{{ $supervisor->email }}</td>
 
                         <td>
-                            <a href="{{ route('coordenador.empresa.supervisor.editar', ['id' => $supervisor->id]) }}">Editar</a>
+                            <a class="text-aqua"
+                               href="{{ route('coordenador.empresa.supervisor.editar', ['id' => $supervisor->id]) }}">Editar</a>
                         </td>
                     </tr>
 

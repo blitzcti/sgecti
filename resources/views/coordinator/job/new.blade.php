@@ -23,6 +23,9 @@
             </div>
 
             <div class="box-body">
+                <input type="hidden" id="inputDilation" name="dilation"
+                       value="{{ (old('dilation') ?? 0) ? '1' : '0' }}">
+
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('ra')) has-error @endif">
@@ -183,6 +186,16 @@
                         <span class="help-block">{{ $errors->first('observation') }}</span>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label for="fakeInputDilation" class="col-sm-2 control-label" style="padding-top: 0">Dilação
+                        de prazo</label>
+
+                    <div class="col-sm-10">
+                        <input type="checkbox" id="fakeInputDilation" name="fakeDilation"
+                            {{ old('dilation') ?? 0 ? 'checked="checked"' : '' }}>
+                    </div>
+                </div>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
@@ -235,6 +248,14 @@
 
             jQuery('.selection').select2({
                 language: "pt-BR"
+            });
+
+            jQuery('#fakeInputDilation').on('ifChanged', function () {
+                jQuery('#inputDilation').val(Number(this.checked));
+            }).trigger('ifChanged').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
             });
 
             function loadStudent() {

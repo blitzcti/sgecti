@@ -152,7 +152,7 @@ class StudentController extends Controller
             $student = null;
         }
 
-        $student->append(['internship_state', 'job_state']);
+        $student->append(['internship_state', 'job_state', 'completed_hours', 'completed_months', 'ctps_completed_months', 'course_configuration']);
 
         return response()->json(
             $student,

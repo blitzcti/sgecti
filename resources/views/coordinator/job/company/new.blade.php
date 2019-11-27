@@ -12,6 +12,8 @@
 
     @include('modals.coordinator.company.sector.new')
 
+    @include('modals.coordinator.job.company.error')
+
     <form class="form-horizontal" action="{{ route('coordenador.trabalho.empresa.salvar') }}" method="post">
         @csrf
 
@@ -34,9 +36,8 @@
                                         <button type="button" class="btn btn-default dropdown-toggle"
                                                 data-toggle="dropdown">
                                             <span id="CpfCnpjOption"></span>
-
-
-                                            <span class="fa fa-caret-down"></span></button>
+                                            <span class="fa fa-caret-down"></span>
+                                        </button>
 
                                         <ul class="dropdown-menu">
                                             <li><a href="#" onclick="pj(true); return false;">CNPJ</a></li>
@@ -82,14 +83,14 @@
                     </div>
                 </div>
 
-                <div class="form-group @if($errors->has('name')) has-error @endif">
-                    <label for="inputName" class="col-sm-2 control-label">Nome*</label>
+                <div class="form-group @if($errors->has('companyName')) has-error @endif">
+                    <label for="inputName" class="col-sm-2 control-label">Razão social*</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputName" name="name" placeholder="MSTech"
-                               value="{{ old('name') ?? '' }}"/>
+                        <input type="text" class="form-control" id="inputName" name="companyName" placeholder="MSTech"
+                               value="{{ old('companyName') ?? '' }}"/>
 
-                        <span class="help-block">{{ $errors->first('name') }}</span>
+                        <span class="help-block">{{ $errors->first('companyName') }}</span>
                     </div>
                 </div>
 
@@ -135,15 +136,16 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
                 <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
 
                 <input type="hidden" id="inputPrevious" name="previous"
                        value="{{ old('previous') ?? url()->previous() }}">
                 <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
-            <!-- /.box-footer -->
         </div>
     </form>
 @endsection
@@ -180,67 +182,65 @@
             jQuery(':input').inputmask({removeMaskOnSubmit: true});
 
             function loadCnpj() {
-                if (jQuery('#inputPj').val() === '1') {
-                    jQuery("#cnpjLoadingModal").modal({
-                        backdrop: "static",
-                        keyboard: false,
-                        show: true
-                    });
-
-                    jQuery.ajax({
-                        url: `/api/external/cnpj/${jQuery('#inputCpfCnpj').inputmask('unmaskedvalue')}`,
-                        dataType: 'json',
-                        type: 'GET',
-                        success: function (company) {
-                            jQuery("#cnpjLoadingModal").modal("hide");
-
-                            if (company.error) {
-                                jQuery("#cnpjErrorModal").modal({
-                                    backdrop: "static",
-                                    keyboard: false,
-                                    show: true
-                                });
-
-                                company.name = '';
-                                company.fantasyName = '';
-                                company.email = '';
-                                company.phone = '';
-                                company.cep = '';
-                                company.uf = '';
-                                company.city = '';
-                                company.street = '';
-                                company.number = '';
-                                company.complement = '';
-                                company.district = '';
-                            }
-
-                            jQuery('#inputName').val(company.name);
-                            jQuery('#inputFantasyName').val(company.fantasyName);
-                            jQuery('#inputEmail').val(company.email);
-                            jQuery('#inputPhone').val(company.phone);
-                            jQuery('#inputCep').val(company.cep);
-
-                            loadCep({
-                                uf: company.uf,
-                                city: company.city,
-                                street: company.street,
-                                number: company.number,
-                                complement: company.complement,
-                                district: company.district
-                            });
-                        },
-
-                        error: function () {
-                            jQuery("#cnpjLoadingModal").modal("hide");
-
-                            jQuery("#cnpjErrorModal").modal({
+                jQuery.ajax({
+                    url: `{{ config('app.url') }}/api/coordenador/trabalho/empresa?cpf_cnpj=${jQuery('#inputCpfCnpj').inputmask('unmaskedvalue')}`,
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (companies) {
+                        if (companies.length > 0) {
+                            jQuery("#companyErrorModal").modal({
                                 backdrop: "static",
                                 keyboard: false,
                                 show: true
                             });
+
+                            jQuery('#inputCpfCnpj').val('');
+                        } else if (jQuery('#inputPj').val() === '1') {
+                            jQuery("#cnpjLoadingModal").modal({
+                                backdrop: "static",
+                                keyboard: false,
+                                show: true
+                            });
+
+                            jQuery.ajax({
+                                url: `{{ config('app.url') }}/api/external/cnpj/${jQuery('#inputCpfCnpj').inputmask('unmaskedvalue')}`,
+                                dataType: 'json',
+                                type: 'GET',
+                                success: function (company) {
+                                    jQuery("#cnpjLoadingModal").modal("hide");
+
+                                    if (company.error) {
+                                        jQuery("#cnpjErrorModal").modal({
+                                            backdrop: "static",
+                                            keyboard: false,
+                                            show: true
+                                        });
+
+                                        company.name = '';
+                                        company.fantasyName = '';
+                                    }
+
+                                    jQuery('#inputName').val(company.name);
+                                    jQuery('#inputFantasyName').val(company.fantasyName);
+                                },
+
+                                error: function () {
+                                    jQuery("#cnpjLoadingModal").modal("hide");
+
+                                    jQuery("#cnpjErrorModal").modal({
+                                        backdrop: "static",
+                                        keyboard: false,
+                                        show: true
+                                    });
+                                }
+                            });
                         }
-                    });
-                }
+                    },
+
+                    error: function () {
+
+                    }
+                });
             }
 
             jQuery('#inputCpfCnpj').blur(() => {

@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * Class Proposal
+ * Model for proposals table.
  *
  * @package App\Models
  * @property int id
@@ -18,7 +18,10 @@ use Illuminate\Database\Eloquent\Collection;
  * @property string description
  * @property string requirements
  * @property string benefits
- * @property string contact
+ * @property string email
+ * @property string subject
+ * @property string phone
+ * @property string other
  * @property int type
  * @property string observation
  * @property Carbon approved_at
@@ -30,6 +33,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @property Schedule schedule
  * @property Schedule schedule2
  * @property Collection|Course[] courses
+ * @property-read string formatted_phone
  */
 class Proposal extends Model
 {
@@ -38,7 +42,7 @@ class Proposal extends Model
 
     protected $fillable = [
         'company_id', 'deadline', 'schedule_id', 'schedule_2_id', 'remuneration', 'description', 'requirements',
-        'benefits', 'contact', 'type', 'observation', 'approved_at', 'reason_to_reject'
+        'benefits', 'email', 'subject', 'phone', 'other', 'type', 'observation', 'approved_at', 'reason_to_reject'
     ];
 
     /**
@@ -82,8 +86,26 @@ class Proposal extends Model
         $this->courses()->sync($courses);
     }
 
+    public function getFormattedPhoneAttribute()
+    {
+        $phone = $this->phone;
+        if ($phone == null) {
+            return null;
+        }
+
+        $ddd = substr($phone, 0, 2);
+        $p1 = (strlen($phone) == 10) ? substr($phone, 2, 4) : substr($phone, 2, 5);
+        $p2 = (strlen($phone) == 10) ? substr($phone, 6, 4) : substr($phone, 7, 4);
+        return "($ddd) $p1-$p2";
+    }
+
     public static function approved()
     {
         return static::where('approved_at', '<>', null)->where('deadline', '>=', Carbon::today())->get();
+    }
+
+    public static function pending()
+    {
+        return static::where('approved_at', '=', null)->where('deadline', '>=', Carbon::today())->where('reason_to_reject', '=', null)->get();
     }
 }

@@ -6,7 +6,6 @@ return [
     'changePassword' => 'Change Password',
 
 
-
     'accountSettings' => 'ACCOUNT SETTINGS',
     'profile' => 'Profile',
 
@@ -31,7 +30,6 @@ return [
     'administration' => 'ADMINISTRATION',
     'courses' => 'Courses',
     'coordinators' => 'Coordinators',
-
 
 
     'companies' => 'Companies',
@@ -59,5 +57,6 @@ return [
 
     'documentation' => 'Documentation',
 
-];
+    'graduation' => 'Graduation',
 
+];

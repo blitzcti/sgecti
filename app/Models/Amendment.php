@@ -5,7 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 
 /**
- * Class Amendment
+ * Model for amendments table.
  *
  * @package App\Models
  * @property int id
@@ -23,7 +23,7 @@ use Carbon\Carbon;
  * @property Internship internship
  * @property Schedule schedule
  * @property Schedule schedule2
- * @property string formatted_protocol
+ * @property-read string formatted_protocol
  */
 class Amendment extends Model
 {

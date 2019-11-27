@@ -7,7 +7,6 @@
 @stop
 
 @section('content')
-
     @include('modals.coordinator.company.supervisor.new')
     @include('modals.coordinator.cloneSchedule')
 
@@ -23,16 +22,22 @@
             <div class="box-body">
                 <input type="hidden" id="inputHas2Schedules" name="has2Schedules"
                        value="{{ (old('has2Schedules') ?? $internship->schedule2 != null) ? '1' : '0' }}">
+                <input type="hidden" id="inputDilation" name="dilation"
+                       value="{{ (old('dilation') ?? $internship->dilation) ? '1' : '0' }}">
+                <input type="hidden" id="inputRA" name="ra" value="{{ $internship->ra }}">
+                <input type="hidden" id="inputCompany" name="company" value="{{ $internship->company->id }}">
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <div class="form-group">
+                        <div class="form-group @if($errors->has('ra')) has-error @endif">
                             <label for="inputStudentName" class="col-sm-4 control-label">Aluno*</label>
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control input-info" id="inputStudentName" name="student"
                                        readonly
                                        value="{{ $internship->ra }} - {{ $internship->student->nome }}"/>
+
+                                <span class="help-block">{{ $errors->first('ra') }}</span>
                             </div>
                         </div>
                     </div>
@@ -59,13 +64,15 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="inputCompany" class="col-sm-2 control-label">Empresa*</label>
+                <div class="form-group @if($errors->has('company')) has-error @endif">
+                    <label for="inputCompanyName" class="col-sm-2 control-label">Empresa*</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control input-info" id="inputCompany"
-                               name="company" readonly
-                               value="{{ $internship->company->cpf_cnpj }} - {{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "(". $internship->company->fantasy_name . ")" : '' }}"/>
+                        <input type="text" class="form-control input-info" id="inputCompanyName"
+                               name="companyName" readonly
+                               value="{{ $internship->company->formatted_cpf_cnpj }} - {{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "(". $internship->company->fantasy_name . ")" : '' }}"/>
+
+                        <span class="help-block">{{ $errors->first('company') }}</span>
                     </div>
                 </div>
 
@@ -98,6 +105,29 @@
                         </select>
 
                         <span class="help-block">{{ $errors->first('sector') }}</span>
+                    </div>
+                </div>
+
+                <div class="form-group @if($errors->has('supervisor')) has-error @endif">
+                    <label for="inputSupervisor" class="col-sm-2 control-label">Supervisor*</label>
+
+                    <div class="col-sm-10">
+                        <select class="selection" name="supervisor"
+                                id="inputSupervisor"
+                                style="width: 100%">
+
+                            @foreach($internship->company->supervisors as $supervisor)
+
+                                <option
+                                    value="{{ $supervisor->id }}" {{ (old('supervisor') ?? $internship->supervisor->id) == $supervisor->id ? "selected" : "" }}>
+                                    {{ $supervisor->name }}
+                                </option>
+
+                            @endforeach
+
+                        </select>
+
+                        <span class="help-block">{{ $errors->first('supervisor') }}</span>
                     </div>
                 </div>
 
@@ -153,6 +183,14 @@
                     </div>
                 </div>
             </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <div class="btn-group pull-right">
+                    <a href="#" class="btn btn-success" id="aAddSupervisor" data-toggle="modal"
+                       data-target="#newInternshipSupervisorModal">Novo supervisor</a>
+                </div>
+            </div>
+            <!-- /.box-footer -->
         </div>
 
         <div class="box box-default">
@@ -161,6 +199,23 @@
             </div>
 
             <div class="box-body">
+                @foreach($fields as $field)
+                    @if($errors->has("{$field}S") || $errors->has("{$field}E") || $errors->has("{$field}S2") || $errors->has("{$field}E2"))
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            @foreach($fields as $f)
+                                <p>{{ $errors->first("{$f}S") }}</p>
+                                <p>{{ $errors->first("{$f}E") }}</p>
+                                <p>{{ $errors->first("{$f}S2") }}</p>
+                                <p>{{ $errors->first("{$f}E2") }}</p>
+                            @endforeach
+                        </div>
+                        @break
+                    @endif
+                @endforeach
+
                 <div class="form-group">
                     <label for="inputWeekDays" class="col-sm-2 control-label">Horário*</label>
 
@@ -453,73 +508,43 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="box box-default">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Dados da secretaria</h3>
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Dados da secretaria</h3>
+            </div>
+
+            <div class="box-body">
+                <div class="form-group @if($errors->has('protocol')) has-error @endif">
+                    <label for="inputProtocol" class="col-sm-2 control-label">Protocolo*</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputProtocol" name="protocol"
+                               placeholder="001/2019" data-inputmask="'mask': '999/9999'"
+                               value="{{ old('protocol') ?? $internship->protocol }}"/>
+
+                        <span class="help-block">{{ $errors->first('protocol') }}</span>
                     </div>
+                </div>
 
-                    <div class="box-body">
-                        <div class="form-group @if($errors->has('protocol')) has-error @endif">
-                            <label for="inputProtocol" class="col-sm-4 control-label">Protocolo*</label>
+                <div class="form-group">
+                    <label for="fakeInputDilation" class="col-sm-2 control-label" style="padding-top: 0">Dilação
+                        de prazo</label>
 
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="inputProtocol" name="protocol"
-                                       placeholder="001/2019" data-inputmask="'mask': '999/9999'"
-                                       value="{{ old('protocol') ?? $internship->protocol }}"/>
-
-                                <span class="help-block">{{ $errors->first('protocol') }}</span>
-                            </div>
-                        </div>
+                    <div class="col-sm-10">
+                        <input type="checkbox" id="fakeInputDilation" name="fakeDilation"
+                            {{ old('dilation') ?? $internship->dilation ? 'checked="checked"' : '' }}>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="col-sm-6">
-                <div class="box box-default">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Supervisor</h3>
-                    </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
 
-                    <div class="box-body">
-                        <div class="form-group @if($errors->has('supervisor')) has-error @endif">
-                            <label for="inputSupervisor" class="col-sm-4 control-label">Supervisor*</label>
-
-                            <div class="col-sm-8">
-                                <select class="selection" name="supervisor"
-                                        id="inputSupervisor"
-                                        style="width: 100%">
-
-                                    @foreach($internship->company->supervisors as $supervisor)
-
-                                        <option
-                                            value="{{ $supervisor->id }}" {{ (old('supervisor') ?? $internship->supervisor->id) == $supervisor->id ? "selected" : "" }}>
-                                            {{ $supervisor->name }}
-                                        </option>
-
-                                    @endforeach
-
-                                </select>
-
-                                <span class="help-block">{{ $errors->first('supervisor') }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-                        <div class="btn-group pull-right">
-                            <a href="#" class="btn btn-success" id="aAddSupervisor" data-toggle="modal"
-                               data-target="#newInternshipSupervisorModal">Novo supervisor</a>
-                            <button type="submit" class="btn btn-primary">Salvar</button>
-                        </div>
-
-                        <input type="hidden" id="inputPrevious" name="previous"
-                               value="{{ old('previous') ?? url()->previous() }}">
-                        <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
-                    </div>
-                    <!-- /.box-footer -->
-                </div>
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
         </div>
     </form>
@@ -547,11 +572,19 @@
                 increaseArea: '20%' // optional
             });
 
+            jQuery('#fakeInputDilation').on('ifChanged', function () {
+                jQuery('#inputDilation').val(Number(this.checked));
+            }).trigger('ifChanged').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
+
             function reloadSelect() {
                 jQuery('#inputSector').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `/api/coordenador/empresa/{{ $internship->company->id }}/setor`,
+                        url: `{{ config('app.url') }}/api/coordenador/empresa/{{ $internship->company->id }}/setor`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -579,7 +612,7 @@
                 jQuery('#inputSupervisor').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `/api/coordenador/empresa/{{ $internship->company->id }}/supervisor`,
+                        url: `{{ config('app.url') }}/api/coordenador/empresa/{{ $internship->company->id }}/supervisor`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -604,6 +637,8 @@
                     }
                 });
             }
+
+            jQuery('#inputSupervisorCompany').val('{{ $internship->company->id }}').trigger('change');
 
             reloadSelect();
         });

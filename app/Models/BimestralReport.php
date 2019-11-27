@@ -5,7 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 
 /**
- * Class BimestralReport
+ * Model for bimestral_reports table.
  *
  * @package App\Models
  * @property int id
@@ -16,7 +16,7 @@ use Carbon\Carbon;
  * @property Carbon updated_at
  *
  * @property Internship internship
- * @property string formatted_protocol
+ * @property-read string formatted_protocol
  */
 class BimestralReport extends Model
 {

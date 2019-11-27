@@ -18,7 +18,7 @@ class CreateJobsTable extends Migration
 
             $table->string('ra', 7);
 
-            $table->string('ctps', 13)->nullable(true)->default(null);
+            $table->string('ctps', 13)->nullable(true);
 
             $table->bigInteger('company_id')->nullable(false)->unsigned();
             $table->foreign('company_id')->references('id')->on('job_companies')->onDelete('cascade');
@@ -34,10 +34,10 @@ class CreateJobsTable extends Migration
 
             $table->string('protocol', 7);
 
-            $table->text('activities')->nullable(true)->default(null);
-            $table->text('observation')->nullable(true)->default(null);
-            $table->text('reason_to_cancel')->nullable(true)->default(null);
-            $table->date('canceled_at')->nullable(true)->default(null);
+            $table->text('activities')->nullable(true);
+            $table->text('observation')->nullable(true);
+            $table->text('reason_to_cancel')->nullable(true);
+            $table->date('canceled_at')->nullable(true);
 
             $table->boolean('active')->default(true);
 

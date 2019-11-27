@@ -5,7 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 
 /**
- * Class SystemConfiguration
+ * Model for system_configurations table.
  *
  * @package App\Models
  * @property int id
@@ -24,9 +24,9 @@ use Carbon\Carbon;
  * @property Carbon created_at
  * @property Carbon updated_at
  *
- * @property string formatted_phone
- * @property string formatted_fax
- * @property string formatted_cep
+ * @property-read string formatted_phone
+ * @property-read string formatted_fax
+ * @property-read string formatted_cep
  */
 class SystemConfiguration extends Model
 {
@@ -47,6 +47,10 @@ class SystemConfiguration extends Model
     public function getFormattedPhoneAttribute()
     {
         $phone = $this->phone;
+        if ($phone == null) {
+            return null;
+        }
+
         $ddd = substr($phone, 0, 2);
         $p1 = (strlen($phone) == 10) ? substr($phone, 2, 4) : substr($phone, 2, 5);
         $p2 = (strlen($phone) == 10) ? substr($phone, 6, 4) : substr($phone, 7, 4);

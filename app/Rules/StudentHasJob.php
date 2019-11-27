@@ -8,14 +8,16 @@ use Illuminate\Contracts\Validation\Rule;
 
 class StudentHasJob implements Rule
 {
+    private $ignore;
+
     /**
      * Create a new rule instance.
      *
-     * @return void
+     * @param null $ignore
      */
-    public function __construct()
+    public function __construct($ignore = null)
     {
-        //
+        $this->ignore = $ignore;
     }
 
     /**
@@ -29,8 +31,12 @@ class StudentHasJob implements Rule
     {
         try {
             $student = Student::findOrFail($value);
+            $ret = $student->job == null;
+            if (!$ret && $this->ignore != null) {
+                $ret = $student->job->id == $this->ignore;
+            }
 
-            return $student->job == null;
+            return $ret;
         } catch (Exception $e) {
             return false;
         }

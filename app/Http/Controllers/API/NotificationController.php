@@ -11,8 +11,12 @@ class NotificationController
         $user = Auth::user();
         $notifications = $user->notifications;
 
+        if (!is_array($notifications)) {
+            $notifications = array_values($notifications->toArray());
+        }
+
         return response()->json(
-            array_values($notifications->toArray()),
+            $notifications,
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',

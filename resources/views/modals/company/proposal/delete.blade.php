@@ -35,7 +35,7 @@
 
     <script type="text/javascript">
         function deleteProposalId(id) {
-            jQuery('#deleteForm').attr('action', `/empresa/proposta/${id}`);
+            jQuery('#deleteForm').attr('action', `{{ config('app.url') }}/empresa/proposta/${id}`);
         }
     </script>
 @endsection

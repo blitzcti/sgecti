@@ -21,20 +21,12 @@
     <p>Você está conectado como {{ $user->roles->pluck('friendly_name')[0] }}.</p>
 
     @if($user->isCoordinator())
-
         @include('coordinator.home')
-
     @elseif($user->isAdmin())
-
         @include('admin.home')
-
     @elseif($user->isCompany())
-
         @include('company.home')
-
     @elseif($user->isStudent())
-
         @include('student.home')
-
     @endif
 @stop

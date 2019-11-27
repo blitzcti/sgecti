@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests\Company;
 
+use App\Auth;
 use App\Models\Course;
 use App\Rules\Active;
 use App\Rules\CompanyHasCourse;
 use App\Rules\HourInterval;
 use Illuminate\Foundation\Http\FormRequest;
-use App\Auth;
 
 class StoreProposal extends FormRequest
 {
@@ -47,17 +47,17 @@ class StoreProposal extends FormRequest
             'satS' => ['required_with:satE', 'nullable', 'date_format:H:i', 'before:satE'],
             'satE' => ['required_with:satS', 'nullable', 'date_format:H:i', 'after:satS', new HourInterval($this->get('satS'), $this->get('satE2'), $this->get('satS2'))],
 
-            'monS2' => [($this->get('startDate') != null && $this->get('has2Schedules')) ? 'required_without_all:tueS2,wedS2,thuS2,friS2,satS2' : '', 'required_with:monE2', 'nullable', 'date_format:H:i', 'before:monE2'],
+            'monS2' => [($this->get('startDate') != null && $this->get('has2Schedules')) ? 'required_without_all:tueS2,wedS2,thuS2,friS2,satS2' : '', 'required_with:monE2', 'nullable', 'date_format:H:i', 'after:monE', 'before:monE2'],
             'monE2' => ['required_with:monS2', 'nullable', 'date_format:H:i', 'after:monS2'],
-            'tueS2' => ['required_with:tueE2', 'nullable', 'date_format:H:i', 'before:tueE2'],
+            'tueS2' => ['required_with:tueE2', 'nullable', 'date_format:H:i', 'after:tueE', 'before:tueE2'],
             'tueE2' => ['required_with:tueS2', 'nullable', 'date_format:H:i', 'after:tueS2'],
-            'wedS2' => ['required_with:wedE2', 'nullable', 'date_format:H:i', 'before:wedE2'],
+            'wedS2' => ['required_with:wedE2', 'nullable', 'date_format:H:i', 'after:wedE', 'before:wedE2'],
             'wedE2' => ['required_with:wedS2', 'nullable', 'date_format:H:i', 'after:wedS2'],
-            'thuS2' => ['required_with:thuE2', 'nullable', 'date_format:H:i', 'before:thuE2'],
+            'thuS2' => ['required_with:thuE2', 'nullable', 'date_format:H:i', 'after:thuE', 'before:thuE2'],
             'thuE2' => ['required_with:thuS2', 'nullable', 'date_format:H:i', 'after:thuS2'],
-            'friS2' => ['required_with:friE2', 'nullable', 'date_format:H:i', 'before:friE2'],
+            'friS2' => ['required_with:friE2', 'nullable', 'date_format:H:i', 'after:friE', 'before:friE2'],
             'friE2' => ['required_with:friS2', 'nullable', 'date_format:H:i', 'after:friS2'],
-            'satS2' => ['required_with:satE2', 'nullable', 'date_format:H:i', 'before:satE2'],
+            'satS2' => ['required_with:satE2', 'nullable', 'date_format:H:i', 'after:satE', 'before:satE2'],
             'satE2' => ['required_with:satS2', 'nullable', 'date_format:H:i', 'after:satS2'],
 
             'type' => ['required', 'integer', 'min:0', 'max:1'],
@@ -65,9 +65,13 @@ class StoreProposal extends FormRequest
             'description' => ['required', 'max:8000'],
             'requirements' => ['required', 'max:8000'],
             'benefits' => ['nullable', 'max:8000'],
-            'contact' => ['required', 'max:8000'],
             'deadline' => ['required', 'date'],
             'observation' => ['nullable', 'max:8000'],
+
+            'email' => ['required', 'max:8000'],
+            'subject' => ['required', 'max:8000'],
+            'phone' => ['nullable', 'max:8000'],
+            'other' => ['nullable', 'max:8000'],
 
             'courses' => ['required', 'array', 'min:1'],
             'courses.*' => ['required', 'integer', 'distinct', 'min:1', 'exists:courses,id', new Active(Course::class), new CompanyHasCourse($company->id)],

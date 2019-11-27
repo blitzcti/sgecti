@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ChangeUserPassword;
 use App\Http\Requests\Admin\DestroyUser;
 use App\Http\Requests\Admin\StoreUser;
 use App\Http\Requests\Admin\UpdateUser;
-use App\Http\Requests\ChangeUserPassword;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
@@ -42,6 +42,10 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
+        if ($user->hasRole('company') || $user->hasRole('student')) {
+            abort(404);
+        }
+
         $roles = Role::all()->where('name', '<>', 'company')->where('name', '<>', 'student')->merge($user->roles)->sortBy('id');
 
         return view('admin.user.edit')->with(['user' => $user, 'roles' => $roles]);

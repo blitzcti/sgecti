@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
+use App\Auth;
 use App\Models\Course;
 use Illuminate\Contracts\Events\Dispatcher;
-use App\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
@@ -48,7 +48,7 @@ class AppServiceProvider extends ServiceProvider
             'text' => 'menu.changePassword',
             'route' => 'usuario.senha.editar',
             'icon' => 'lock',
-            'active' => ['usuario/senha/']
+            'active' => ['usuario/senha']
         ]);
 
         $menu->add('menu.system');
@@ -61,25 +61,25 @@ class AppServiceProvider extends ServiceProvider
                         'text' => 'menu.courseConfig',
                         'route' => 'admin.configuracao.curso.index',
                         'icon' => 'wrench',
-                        'active' => ['admin/configuracao/curso/'],
+                        'active' => ['admin/configuracao/curso', 'admin/configuracao/curso/novo'],
                     ],
                     [
                         'text' => 'menu.configurations',
                         'route' => 'admin.configuracao.parametros.index',
                         'icon' => 'wrench',
-                        'active' => ['admin/configuracao/parametros/'],
+                        'active' => ['admin/configuracao/parametros'],
                     ],
                     [
                         'text' => 'menu.backup',
                         'route' => 'admin.configuracao.backup.index',
                         'icon' => 'floppy-o',
-                        'active' => ['admin/configuracao/backup/'],
+                        'active' => ['admin/configuracao/backup'],
                     ],
                 ],
             ]);
         }
 
-        if ($user->can('user-list')) {
+        if ($user->can('user-list') && !config('broker.useSSO')) {
             $menu->add([
                 'text' => 'menu.users',
                 'icon' => 'user',
@@ -88,7 +88,7 @@ class AppServiceProvider extends ServiceProvider
                         'text' => 'menu.view',
                         'route' => 'admin.usuario.index',
                         'icon' => 'th-list',
-                        'active' => ['admin/usuario/']
+                        'active' => ['admin/usuario']
                     ],
                     [
                         'text' => 'menu.new',
@@ -105,7 +105,7 @@ class AppServiceProvider extends ServiceProvider
                 'text' => 'menu.message',
                 'route' => $user->isAdmin() ? 'admin.mensagem.index' : ($user->isCoordinator() ? 'coordenador.mensagem.index' : null),
                 'icon' => 'envelope',
-                'active' => ['admin/mensagem/', 'coordenador/mensagem']
+                'active' => ['admin/mensagem', 'coordenador/mensagem', 'coordenador/mensagem*']
             ]);
         }
 
@@ -122,14 +122,14 @@ class AppServiceProvider extends ServiceProvider
             'text' => 'menu.help',
             'route' => 'ajuda.index',
             'icon' => 'question-circle',
-            'active' => ['ajuda/']
+            'active' => ['ajuda']
         ]);
 
         $menu->add([
             'text' => 'menu.about',
             'route' => 'sobre.index',
             'icon' => 'bolt',
-            'active' => ['sobre/']
+            'active' => ['sobre']
         ]);
 
         if ($user->isAdmin()) {
@@ -140,7 +140,7 @@ class AppServiceProvider extends ServiceProvider
                         'text' => 'menu.view',
                         'route' => 'admin.curso.index',
                         'icon' => 'th-list',
-                        'active' => ['admin/curso/']
+                        'active' => ['admin/curso']
                     ],
                     [
                         'text' => 'menu.new',
@@ -152,7 +152,7 @@ class AppServiceProvider extends ServiceProvider
 
                 $menu->add([
                     'text' => 'menu.courses',
-                    'icon' => 'graduation-cap',
+                    'icon' => 'institution',
                     'submenu' => $submenu,
                 ]);
             }
@@ -163,13 +163,13 @@ class AppServiceProvider extends ServiceProvider
                         'text' => 'menu.view',
                         'route' => 'admin.coordenador.index',
                         'icon' => 'th-list',
-                        'active' => ['admin/coordenador/']
+                        'active' => ['admin/coordenador', 'admin/curso/*/coordenador']
                     ],
                     [
                         'text' => 'menu.new',
                         'route' => 'admin.coordenador.novo',
                         'icon' => 'edit',
-                        'active' => ['admin/coordenador/novo']
+                        'active' => ['admin/coordenador/novo*']
                     ],
                 ];
 
@@ -180,8 +180,20 @@ class AppServiceProvider extends ServiceProvider
                 ]);
             }
 
+            $menu->add('SECRETARIA');
+            if ($user->can('graduation-list')) {
+                $menu->add([
+                    'text' => 'menu.graduation',
+                    'route' => 'admin.colacao.index',
+                    'icon' => 'graduation-cap',
+                    'active' => ['admin/colacao']
+                ]);
+            }
+
             //Cursos tab
             $menu->add('CURSOS');
+
+            /* @var $course Course */
             foreach ($courses as $course) {
                 if ($course->active) {
                     $color = $course->color;
@@ -204,7 +216,7 @@ class AppServiceProvider extends ServiceProvider
                         'text' => 'menu.view',
                         'route' => 'coordenador.empresa.index',
                         'icon' => 'th-list',
-                        'active' => ['coordenador/empresa/']
+                        'active' => ['coordenador/empresa']
                     ],
                     [
                         'text' => 'menu.new',
@@ -223,7 +235,7 @@ class AppServiceProvider extends ServiceProvider
                                 'text' => 'menu.view',
                                 'route' => 'coordenador.empresa.setor.index',
                                 'icon' => 'th-list',
-                                'active' => ['coordenador/empresa/setor/']
+                                'active' => ['coordenador/empresa/setor']
                             ],
                             [
                                 'text' => 'menu.new',
@@ -246,13 +258,13 @@ class AppServiceProvider extends ServiceProvider
                                 'text' => 'menu.view',
                                 'route' => 'coordenador.empresa.supervisor.index',
                                 'icon' => 'th-list',
-                                'active' => ['coordenador/empresa/supervisor/']
+                                'active' => ['coordenador/empresa/supervisor', 'coordenador/empresa/*/supervisor']
                             ],
                             [
                                 'text' => 'menu.new',
                                 'route' => 'coordenador.empresa.supervisor.novo',
                                 'icon' => 'edit',
-                                'active' => ['coordenador/empresa/supervisor/novo']
+                                'active' => ['coordenador/empresa/supervisor/novo*']
                             ],
                         ]
                     ];
@@ -269,13 +281,13 @@ class AppServiceProvider extends ServiceProvider
                                 'text' => 'menu.view',
                                 'route' => 'coordenador.empresa.convenio.index',
                                 'icon' => 'th-list',
-                                'active' => ['coordenador/empresa/convenio/']
+                                'active' => ['coordenador/empresa/convenio', 'coordenador/empresa/*/convenio']
                             ],
                             [
                                 'text' => 'menu.new',
                                 'route' => 'coordenador.empresa.convenio.novo',
                                 'icon' => 'edit',
-                                'active' => ['coordenador/empresa/convenio/novo']
+                                'active' => ['coordenador/empresa/convenio/novo*']
                             ],
                         ]
                     ];
@@ -296,13 +308,13 @@ class AppServiceProvider extends ServiceProvider
                         'text' => 'menu.view',
                         'route' => 'coordenador.estagio.index',
                         'icon' => 'th-list',
-                        'active' => ['coordenador/estagio/']
+                        'active' => ['coordenador/estagio']
                     ],
                     [
                         'text' => 'menu.new',
                         'route' => 'coordenador.estagio.novo',
                         'icon' => 'edit',
-                        'active' => ['coordenador/estagio/novo']
+                        'active' => ['coordenador/estagio/novo*']
                     ],
                 ];
 
@@ -315,13 +327,13 @@ class AppServiceProvider extends ServiceProvider
                                 'text' => 'menu.view',
                                 'route' => 'coordenador.estagio.aditivo.index',
                                 'icon' => 'th-list',
-                                'active' => ['coordenador/estagio/aditivo/']
+                                'active' => ['coordenador/estagio/aditivo', 'coordenador/estagio/*/aditivo']
                             ],
                             [
                                 'text' => 'menu.new',
                                 'route' => 'coordenador.estagio.aditivo.novo',
                                 'icon' => 'edit',
-                                'active' => ['coordenador/estagio/aditivo/novo']
+                                'active' => ['coordenador/estagio/aditivo/novo*']
                             ],
                         ],
                     ];
@@ -348,7 +360,7 @@ class AppServiceProvider extends ServiceProvider
                         'text' => 'menu.new',
                         'route' => 'coordenador.trabalho.novo',
                         'icon' => 'edit',
-                        'active' => ['coordenador/trabalho/novo']
+                        'active' => ['coordenador/trabalho/novo*']
                     ],
                 ];
 
@@ -361,7 +373,7 @@ class AppServiceProvider extends ServiceProvider
                                 'text' => 'menu.view',
                                 'route' => 'coordenador.trabalho.empresa.index',
                                 'icon' => 'th-list',
-                                'active' => ['coordenador/trabalho/empresa/']
+                                'active' => ['coordenador/trabalho/empresa']
                             ],
                             [
                                 'text' => 'menu.new',
@@ -391,19 +403,19 @@ class AppServiceProvider extends ServiceProvider
                             'text' => 'menu.view',
                             'route' => 'coordenador.relatorio.index',
                             'icon' => 'th-list',
-                            'active' => ['coordenador/relatorio/']
+                            'active' => ['coordenador/relatorio']
                         ],
                         [
                             'text' => 'menu.bimestral',
                             'route' => 'coordenador.relatorio.bimestral.novo',
                             'icon' => 'edit',
-                            'active' => ['coordenador/relatorio/bimestral/novo']
+                            'active' => ['coordenador/relatorio/bimestral/novo*']
                         ],
                         [
                             'text' => 'menu.final',
                             'route' => 'coordenador.relatorio.final.novo',
                             'icon' => 'edit',
-                            'active' => ['coordenador/relatorio/final/novo']
+                            'active' => ['coordenador/relatorio/final/novo*']
                         ],
                     ]
                 ]);
@@ -418,7 +430,7 @@ class AppServiceProvider extends ServiceProvider
                         'text' => 'menu.view',
                         'route' => 'coordenador.proposta.index',
                         'icon' => 'th-list',
-                        'active' => ['coordenador/proposta/']
+                        'active' => ['coordenador/proposta']
                     ],
                     [
                         'text' => 'menu.new',
@@ -438,7 +450,7 @@ class AppServiceProvider extends ServiceProvider
                         'text' => 'menu.data',
                         'route' => 'coordenador.aluno.index',
                         'icon' => 'file-text-o',
-                        'active' => ['coordenador/aluno/']
+                        'active' => ['coordenador/aluno']
                     ],
                     [
                         'text' => 'menu.pdf',
@@ -460,7 +472,7 @@ class AppServiceProvider extends ServiceProvider
                         'text' => 'menu.view',
                         'route' => 'empresa.proposta.index',
                         'icon' => 'th-list',
-                        'active' => ['empresa/proposta/']
+                        'active' => ['empresa/proposta']
                     ],
                     [
                         'text' => 'menu.new',
@@ -472,13 +484,13 @@ class AppServiceProvider extends ServiceProvider
             ]);
         }
 
-        if($user->isStudent()) {
+        if ($user->isStudent()) {
             $menu->add('ESTÁGIOS');
             $menu->add([
                 'text' => 'menu.proposals',
                 'icon' => 'bullhorn',
                 'route' => 'aluno.proposta.index',
-                'active' => ['aluno/proposta/']
+                'active' => ['aluno/proposta']
             ]);
 
             $menu->add('DOCUMENTOS');
@@ -486,7 +498,7 @@ class AppServiceProvider extends ServiceProvider
                 'text' => 'menu.documentation',
                 'route' => 'aluno.documento.index',
                 'icon' => 'book',
-                'active' => ['aluno/documento/']
+                'active' => ['aluno/documento']
             ]);
         }
     }

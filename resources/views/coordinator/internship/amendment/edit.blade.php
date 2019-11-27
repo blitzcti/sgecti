@@ -69,15 +69,6 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-
-                <input type="hidden" id="inputPrevious" name="previous"
-                       value="{{ old('previous') ?? url()->previous() }}">
-                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
 
         <div class="box box-default">
@@ -149,6 +140,23 @@
 
             <div id="schedule">
                 <div class="box-body">
+                    @foreach($fields as $field)
+                        @if($errors->has("{$field}S") || $errors->has("{$field}E") || $errors->has("{$field}S2") || $errors->has("{$field}E2"))
+                            <div class="alert alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                @foreach($fields as $f)
+                                    <p>{{ $errors->first("{$f}S") }}</p>
+                                    <p>{{ $errors->first("{$f}E") }}</p>
+                                    <p>{{ $errors->first("{$f}S2") }}</p>
+                                    <p>{{ $errors->first("{$f}E2") }}</p>
+                                @endforeach
+                            </div>
+                            @break
+                        @endif
+                    @endforeach
+
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group @if($errors->has('startDate')) has-error @endif">
@@ -156,7 +164,7 @@
 
                                 <div class="col-sm-8">
                                     <input type="date" class="form-control" id="inputStartDate" name="startDate"
-                                           value="{{ old('startDate') ?? $amendment->start_date->format("Y-m-d") }}"/>
+                                           value="{{ old('startDate') ?? $amendment->start_date != null ? $amendment->start_date->format("Y-m-d") : '' }}"/>
 
                                     <span class="help-block">{{ $errors->first('startDate') }}</span>
                                 </div>
@@ -173,8 +181,6 @@
                                             <button type="button" class="btn btn-default dropdown-toggle"
                                                     data-toggle="dropdown">
                                                 <span id="EndDateToggle"></span>
-
-
                                                 <span class="fa fa-caret-down"></span></button>
 
                                             <ul class="dropdown-menu">
@@ -185,7 +191,7 @@
                                         </div>
 
                                         <input type="date" class="form-control" id="inputEndDate" name="endDate"
-                                               value="{{ old('endDate') ?? $amendment->end_date->format("Y-m-d") }}"/>
+                                               value="{{ old('endDate') ?? $amendment->end_date != null ? $amendment->end_date->format("Y-m-d") : '' }}"/>
                                     </div>
 
                                     <span class="help-block">{{ $errors->first('endDate') }}</span>
@@ -508,12 +514,16 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.box-body -->
-                <div class="box-footer">
-                    <button type="submit" class="btn btn-primary pull-right">Salvar</button>
-                    <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
-                </div>
-                <!-- /.box-footer -->
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
         </div>
     </form>
@@ -538,7 +548,7 @@
         function endDate(id) {
             switch (id) {
                 case -1:
-                    if (jQuery('#inputEndDate').val() !== '') {
+                    if (jQuery('#inputEndDate').val() !== '' && jQuery('#inputEndDate').val() !== jQuery('#internshipEndDate').text().trim().split("/").reverse().join("-")) {
                         jQuery('#EndDateToggle').text('Personalizado');
                         break;
                     }
@@ -568,6 +578,10 @@
             jQuery('.input-time').inputmask('hh:mm', {
                 removeMaskOnSubmit: false
             }).parent().css('margin', '0');
+
+            jQuery('#inputEndDate').on('change', e => {
+                endDate(-1);
+            });
 
             jQuery('#fakeInputHasSchedule').on('ifChanged', function () {
                 jQuery('#schedule').toggle(this.checked);

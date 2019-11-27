@@ -5,7 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 
 /**
- * Class FinalReport
+ * Model for final_reports table.
  *
  * @package App\Models
  * @property int id

@@ -24,9 +24,9 @@
 
             <dl class="row">
                 <dt class="col-sm-2">{{ ($company->pj) ? 'CNPJ' : 'CPF' }}</dt>
-                <dd class="col-sm-10">{{ $company->cpf_cnpj }}</dd>
+                <dd class="col-sm-10">{{ $company->formatted_cpf_cnpj }}</dd>
 
-                <dt class="col-sm-2">Nome</dt>
+                <dt class="col-sm-2">Razão social</dt>
                 <dd class="col-sm-10">{{ $company->name }}</dd>
 
                 <dt class="col-sm-2">Nome fantasia</dt>
@@ -39,7 +39,7 @@
                 <dd class="col-sm-10">{{ $company->email ?? '(Não informado)' }}</dd>
 
                 <dt class="col-sm-2">Telefone</dt>
-                <dd class="col-sm-10">{{ $company->phone ?? '(Não informado)' }}</dd>
+                <dd class="col-sm-10">{{ $company->formatted_phone ?? '(Não informado)' }}</dd>
 
                 <dt class="col-sm-2">Representante</dt>
                 <dd class="col-sm-10">{{ $company->representative_name }}</dd>
@@ -53,7 +53,7 @@
 
             <dl class="row">
                 <dt class="col-sm-2">CEP</dt>
-                <dd class="col-sm-10">{{ $address->cep }}</dd>
+                <dd class="col-sm-10">{{ $address->formatted_cep }}</dd>
 
                 <dt class="col-sm-2">UF</dt>
                 <dd class="col-sm-10">{{ $address->uf }}</dd>

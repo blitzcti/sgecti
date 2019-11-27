@@ -15,12 +15,12 @@
 
         <div class="box box-default">
             <div class="box-header with-border">
-                <h3 class="box-title">Dados do parâmetro</h3>
+                <h3 class="box-title">Dados do colégio</h3>
             </div>
 
             <div class="box-body">
                 <div class="form-group @if($errors->has('name')) has-error @endif">
-                    <label for="inputName" class="col-sm-2 control-label">Nome do colégio*</label>
+                    <label for="inputName" class="col-sm-2 control-label">Nome*</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputName" name="name"
@@ -128,7 +128,7 @@
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" id="inputPhone" name="phone"
                                        placeholder="(14) 3103-6150"
-                                       data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
+                                       data-inputmask="'mask': ['(99) 9999-9999', '(99) 99999-9999']"
                                        value="{{ old('phone') ?? '' }}"/>
 
                                 <span class="help-block">{{ $errors->first('phone') }}</span>
@@ -186,15 +186,16 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
 
                 <input type="hidden" id="inputPrevious" name="previous"
                        value="{{ old('previous') ?? url()->previous() }}">
                 <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
-            <!-- /.box-footer -->
         </div>
     </form>
 @endsection
@@ -207,7 +208,7 @@
             jQuery('#inputUf').select2({
                 language: "pt-BR",
                 ajax: {
-                    url: '/api/external/ufs',
+                    url: `{{ config('app.url') }}/api/external/ufs`,
                     dataType: 'json',
                     method: 'GET',
                     cache: true,
@@ -236,7 +237,7 @@
                 jQuery('#inputCity').select2({
                     language: "pt-BR",
                     ajax: {
-                        url: `/api/external/cities/${jQuery('#inputUf').val()}`,
+                        url: `{{ config('app.url') }}/api/external/cities/${jQuery('#inputUf').val()}`,
                         dataType: 'json',
                         method: 'GET',
                         cache: true,
@@ -268,7 +269,7 @@
                 });
 
                 jQuery.ajax({
-                    url: `/api/external/cep/${jQuery('#inputCep').inputmask('unmaskedvalue')}`,
+                    url: `{{ config('app.url') }}/api/external/cep/${jQuery('#inputCep').inputmask('unmaskedvalue')}`,
                     dataType: 'json',
                     type: 'GET',
                     success: function (address) {

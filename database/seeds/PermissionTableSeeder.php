@@ -56,6 +56,8 @@ class PermissionTableSeeder extends Seeder
             'coordinator-edit',
             //'coordinator-delete',
 
+            'graduation-list',
+
             'company-list',
             'company-create',
             'company-edit',

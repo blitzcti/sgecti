@@ -6,7 +6,7 @@ use App\Models\NSac\Student;
 use Carbon\Carbon;
 
 /**
- * Class Job
+ * Model for jobs table.
  *
  * @package App\Models
  * @property int id
@@ -29,8 +29,9 @@ use Carbon\Carbon;
  * @property Company company
  * @property Coordinator coordinator
  * @property State state
- * @property string formatted_protocol
- * @property string formatted_ctps
+ * @property-read boolean dilation
+ * @property-read string formatted_protocol
+ * @property-read string formatted_ctps
  */
 class Job extends Model
 {
@@ -74,6 +75,15 @@ class Job extends Model
     public function state()
     {
         return $this->belongsTo(State::class);
+    }
+
+    public function getDilationAttribute()
+    {
+        $dateS = date_create("{$this->student->year}-01-01");
+        $max_years = GeneralConfiguration::getMaxYears($dateS);
+        $limitDate = $dateS->modify("+{$max_years} year")->modify("-1 day");
+
+        return $this->start_date > $limitDate || $this->end_date > $limitDate;
     }
 
     public function getFormattedProtocolAttribute()

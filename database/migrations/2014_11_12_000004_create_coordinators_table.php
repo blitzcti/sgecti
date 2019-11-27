@@ -22,9 +22,9 @@ class CreateCoordinatorsTable extends Migration
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
 
             $table->date('start_date')->nullable(false);
-            $table->date('end_date')->nullable(true)->default(null);
+            $table->date('end_date')->nullable(true);
 
-            $table->bigInteger('temp_of')->nullable(true)->default(null)->unsigned();
+            $table->bigInteger('temp_of')->nullable(true)->unsigned();
             $table->foreign('temp_of')->references('id')->on('coordinators')->onDelete('cascade');
 
             $table->timestamps();

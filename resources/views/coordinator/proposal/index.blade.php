@@ -29,7 +29,6 @@
             <table id="proposals" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th>Empresa</th>
                     <th>Descrição</th>
                     <th>Data limite</th>
@@ -42,13 +41,14 @@
                 @foreach($proposals as $proposal)
 
                     <tr>
-                        <th scope="row">{{ $proposal->id }}</th>
-                        <td>{{ $proposal->company->name }}</td>
+                        <td>{{ $proposal->company->formatted_cpf_cnpj }} - {{ $proposal->company->name }} {{ $proposal->company->fantasy_name != null ? "({$proposal->company->fantasy_name})" : '' }}</td>
                         <td>{{ $proposal->description }}</td>
                         <td>{{ $proposal->deadline->format('d/m/Y') }}</td>
 
-                        @if($proposal->approved_at != null)
-                            <td>Aprovado</td>
+                        @if($proposal->deadline < \Carbon\Carbon::now())
+                            <td>Expirada</td>
+                        @elseif($proposal->approved_at != null)
+                            <td>Aprovada</td>
                         @elseif($proposal->reason_to_reject != null)
                             <td>Requer alterações</td>
                         @else
@@ -58,16 +58,18 @@
                         <td>
                             <a href="{{ route('coordenador.proposta.detalhes', ['id' => $proposal->id]) }}">Detalhes</a>
                             |
-                            <a href="{{ route('coordenador.proposta.editar', ['id' => $proposal->id]) }}">Editar</a>
-                            |
 
-                            @if($proposal->approved_at != null)
+                            @if($proposal->deadline >= \Carbon\Carbon::now() && $proposal->approved_at != null)
                                 <a href="{{ route('coordenador.mensagem.index', ['p' => $proposal->id]) }}"
                                    class="text-green">Enviar email</a>
                                 |
                             @endif
 
-                            @if($proposal->approved_at == null && $proposal->reason_to_reject == null)
+                            |
+                            <a class="text-aqua"
+                               href="{{ route('coordenador.proposta.editar', ['id' => $proposal->id]) }}">Editar</a>
+
+                            @if($proposal->deadline >= \Carbon\Carbon::now() && $proposal->approved_at == null && $proposal->reason_to_reject == null)
 
                                 <a href="#"
                                    onclick="approveProposalId('{{ $proposal->id }}'); return false;"
@@ -99,12 +101,28 @@
 @section('js')
     <script type="text/javascript">
         jQuery(document).ready(function () {
+            jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+                'Empresa-pre': function (a) {
+                    return a.replace(/[\d]{2}\.[\d]{3}\.[\d]{3}\/[\d]{4}-[\d]{2} - /g, '').replace(/[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2}/g, '');
+                },
+
+                'Empresa-asc': function (a, b) {
+                    return a - b;
+                },
+
+                'Empresa-desc': function (a, b) {
+                    return b - a;
+                }
+            });
+
             let table = jQuery("#proposals").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
                 responsive: true,
                 lengthChange: false,
+                aoColumns: [{sType: "Empresa"}, {sType: "Descrição"}, {sType: "Data limite"}, {sType: "Estado"}, {sType: "Ações"}],
+                aaSorting: [[0, "asc"]],
                 buttons: [
                     {
                         extend: 'csv',

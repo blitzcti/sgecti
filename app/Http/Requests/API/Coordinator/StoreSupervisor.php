@@ -26,9 +26,9 @@ class StoreSupervisor extends FormRequest
     {
         return [
             'company' => ['required', 'integer', 'min:1', 'exists:companies,id'],
-            'supervisorName' => ['required', 'max:50'],
-            'supervisorEmail' => ['required', 'max:50'],
-            'supervisorPhone' => ['required', new Integer, 'digits_between:10,11'],
+            'name' => ['required', 'max:50'],
+            'email' => ['required', 'max:50'],
+            'phone' => ['required', new Integer, 'digits_between:10,11'],
         ];
     }
 }

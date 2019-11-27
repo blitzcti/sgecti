@@ -7,15 +7,15 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Auth;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * Class User
+ * Model for users table.
  *
  * @package App\Models
  * @mixin \Illuminate\Database\Eloquent\Builder
  * @mixin \Illuminate\Database\Query\Builder
+ *
  * @property int id
  * @property string name
  * @property string email
@@ -29,14 +29,16 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon updated_at
  *
  * @property Collection|DatabaseNotification[] notifications
+ * @property Collection|DatabaseNotification[] readNotifications
+ * @property Collection|DatabaseNotification[] unreadNotifications
  * @property Collection|Coordinator[] coordinators
  * @property Company company
  * @property Student student
- * @property Collection|Course[] coordinator_of
- * @property Collection|Course[] non_temp_coordinator_of
- * @property int[] coordinator_courses_id
- * @property string coordinator_courses_name
- * @property string formatted_phone
+ * @property-read Collection|Course[] coordinator_of
+ * @property-read Collection|Course[] non_temp_coordinator_of
+ * @property-read int[] coordinator_courses_id
+ * @property-read string coordinator_courses_name
+ * @property-read string formatted_phone
  */
 class User extends Authenticatable
 {
@@ -97,7 +99,7 @@ class User extends Authenticatable
         if ($temp) {
             return sizeof($this->coordinators) > 0;
         } else {
-            return sizeof($this->coordinators->where('temp_of', '<>', null)) > 0;
+            return sizeof($this->coordinators->where('temp_of', '=', null)) > 0;
         }
     }
 
@@ -177,6 +179,10 @@ class User extends Authenticatable
     public function getFormattedPhoneAttribute()
     {
         $phone = $this->phone;
+        if ($phone == null) {
+            return null;
+        }
+
         $ddd = substr($phone, 0, 2);
         $p1 = (strlen($phone) == 10) ? substr($phone, 2, 4) : substr($phone, 2, 5);
         $p2 = (strlen($phone) == 10) ? substr($phone, 6, 4) : substr($phone, 7, 4);

@@ -21,7 +21,7 @@ class CourseConfigurationController extends Controller
         $this->middleware('permission:course-delete', ['only' => ['destroy']]);
     }
 
-    public function index($id)
+    public function index(int $id)
     {
         $course = Course::findOrFail($id);
         $configurations = $course->configurations->sortByDesc('id');
@@ -37,10 +37,6 @@ class CourseConfigurationController extends Controller
 
     public function edit($id, $id_config)
     {
-        if (!ctype_digit($id_config)) {
-            return redirect()->route('admin.curso.configuracao.index');
-        }
-
         $course = Course::findOrFail($id);
         $config = CourseConfiguration::findOrFail($id_config);
 

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\API\Coordinator;
 
+use App\APIUtils;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\Coordinator\StoreJobCompany;
+use App\Http\Requests\API\Coordinator\UpdateJobCompany;
 use App\Models\JobCompany;
 use Illuminate\Http\Request;
 
@@ -16,37 +19,23 @@ class JobCompanyController extends Controller
         $this->middleware('permission:jobCompany-edit', ['only' => ['edit', 'update']]);
     }
 
-    /**
-     * Search for a string in a specific array column
-     *
-     * @param array $array
-     * @param string $q
-     * @param null|string $col
-     *
-     * @return array
-     */
-    function search($array, $q, $col = null)
-    {
-        $array = array_filter($array, function ($v, $k) use ($q, $col) {
-            if ($col == null) {
-                return (strpos(strtoupper($v), strtoupper($q)) !== false);
-            } else {
-                return (strpos(strtoupper($v[$col]), strtoupper($q)) !== false);
-            }
-        }, ARRAY_FILTER_USE_BOTH);
-
-        return array_values($array);
-    }
-
     public function get(Request $request)
     {
-        $companies = JobCompany::all()->sortBy('id');
+        $companies = JobCompany::all()->sortBy('name');
+        if (!empty($request->cpf_cnpj) && ctype_digit($request->cpf_cnpj)) {
+            $companies = $companies->where('cpf_cnpj', '=', $request->cpf_cnpj);
+        }
+
+        if (!is_array($companies)) {
+            $companies = $companies->toArray();
+        }
+
         if (!empty($request->q)) {
-            $companies = $this->search($companies->toArray(), $request->q, 'name');
+            $companies = APIUtils::search($companies, $request->q, ['name', 'fantasy_name', 'cpf_cnpj']);
         }
 
         return response()->json(
-            $companies,
+            array_values($companies),
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',
@@ -67,5 +56,50 @@ class JobCompanyController extends Controller
                 'charset' => 'utf-8'
             ],
             JSON_UNESCAPED_UNICODE);
+    }
+
+    public function store(StoreJobCompany $request)
+    {
+        $company = new JobCompany();
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $company->cpf_cnpj = $validatedData->cpfCnpj;
+        $company->ie = $validatedData->ie;
+        $company->pj = $validatedData->pj;
+        $company->name = $validatedData->companyName;
+        $company->fantasy_name = $validatedData->fantasyName;
+        $company->representative_name = $validatedData->representativeName;
+        $company->representative_role = $validatedData->representativeRole;
+        $company->active = $validatedData->active;
+
+        $saved = $company->save();
+
+        $params['saved'] = $saved;
+        $params['id'] = $company->id;
+
+        return response()->json($params);
+    }
+
+    public function update($id, UpdateJobCompany $request)
+    {
+        $company = JobCompany::findOrFail($id);
+        $params = [];
+
+        $validatedData = (object)$request->validated();
+
+        $company->ie = $validatedData->ie;
+        $company->name = $validatedData->companyName;
+        $company->fantasy_name = $validatedData->fantasyName;
+        $company->representative_name = $validatedData->representativeName;
+        $company->representative_role = $validatedData->representativeRole;
+        $company->active = $validatedData->active;
+
+        $saved = $company->save();
+
+        $params['saved'] = $saved;
+
+        return response()->json($params);
     }
 }

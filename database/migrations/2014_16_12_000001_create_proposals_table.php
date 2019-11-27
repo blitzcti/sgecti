@@ -30,10 +30,14 @@ class CreateProposalsTable extends Migration
             $table->float('remuneration')->default(0);
             $table->text('description');
             $table->text('requirements');
-            $table->text('benefits');
-            $table->text('contact');
+            $table->text('benefits')->nullable(true);
             $table->bigInteger('type')->nullable(false)->default(1);
             $table->text('observation')->nullable(true);
+
+            $table->string('email');
+            $table->string('subject');
+            $table->string('phone', 11)->nullable(true);
+            $table->text('other')->nullable(true);
 
             $table->timestamp('approved_at')->nullable(true);
             $table->text('reason_to_reject')->nullable(true);

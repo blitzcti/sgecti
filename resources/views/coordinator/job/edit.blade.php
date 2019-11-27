@@ -19,15 +19,20 @@
             </div>
 
             <div class="box-body">
+                <input type="hidden" id="inputDilation" name="dilation"
+                       value="{{ (old('dilation') ?? $job->dilation) ? '1' : '0' }}">
+                <input type="hidden" id="inputRA" name="ra" value="{{ $job->ra }}">
+
                 <div class="row">
                     <div class="col-sm-6">
-                        <div class="form-group">
+                        <div class="form-group @if($errors->has('ra')) has-error @endif">
                             <label for="inputStudentName" class="col-sm-4 control-label">Aluno*</label>
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control input-info" id="inputStudentName" name="student"
-                                       readonly
-                                       value="{{ $job->ra }} - {{ $job->student->nome ?? '' }}"/>
+                                       readonly value="{{ $job->ra }} - {{ $job->student->nome ?? '' }}"/>
+
+                                <span class="help-block">{{ $errors->first('ra') }}</span>
                             </div>
                         </div>
                     </div>
@@ -60,7 +65,7 @@
                     <div class="col-sm-10">
                         <input type="text" class="form-control input-info" id="inputCompany"
                                name="company" readonly
-                               value="{{ $job->company->cpf_cnpj }} - {{ $job->company->name }} {{ $job->company->fantasy_name != null ? "(". $job->company->fantasy_name. ")" : '' }}"/>
+                               value="{{ $job->company->formatted_cpf_cnpj }} - {{ $job->company->name }} {{ $job->company->fantasy_name != null ? "(". $job->company->fantasy_name. ")" : '' }}"/>
                     </div>
                 </div>
 
@@ -70,7 +75,7 @@
                     <div class="col-sm-10">
                         <input type="text" class="form-control input-info" id="inputCompanyRepresentative"
                                name="representative" readonly
-                               value="{{ (App\Models\JobCompany::find(old('company')) ?? $job->company)->representative_name }}"/>
+                               value="{{ $job->company->representative_name }}"/>
                     </div>
                 </div>
 
@@ -123,7 +128,8 @@
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputCTPS" name="ctps"
-                                       data-inputmask="'mask': '999999/99999'" value="{{ old('ctps') ?? $job->ctps }}"/>
+                                       placeholder="123321/22222" data-inputmask="'mask': '999999/99999'"
+                                       value="{{ old('ctps') ?? $job->ctps }}"/>
 
                                 <span class="help-block">{{ $errors->first('ctps') }}</span>
                             </div>
@@ -154,16 +160,27 @@
                         <span class="help-block">{{ $errors->first('observation') }}</span>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label for="fakeInputDilation" class="col-sm-2 control-label" style="padding-top: 0">Dilação
+                        de prazo</label>
+
+                    <div class="col-sm-10">
+                        <input type="checkbox" id="fakeInputDilation" name="fakeDilation"
+                            {{ old('dilation') ?? $job->dilation ? 'checked="checked"' : '' }}>
+                    </div>
+                </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
                 <button type="submit" class="btn btn-primary pull-right">Salvar</button>
 
                 <input type="hidden" id="inputPrevious" name="previous"
                        value="{{ old('previous') ?? url()->previous() }}">
                 <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
-            <!-- /.box-footer -->
         </div>
     </form>
 @endsection
@@ -175,6 +192,14 @@
 
             jQuery('.selection').select2({
                 language: "pt-BR"
+            });
+
+            jQuery('#fakeInputDilation').on('ifChanged', function () {
+                jQuery('#inputDilation').val(Number(this.checked));
+            }).trigger('ifChanged').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
             });
         });
     </script>

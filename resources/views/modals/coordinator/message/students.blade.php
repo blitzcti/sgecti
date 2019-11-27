@@ -70,11 +70,11 @@
         }
 
         function loadStudents() {
-            let cs = getClasses().map(c => `&classes[]=${c}`);
-            let gs = getGrades().map(g => `&grades[]=${g}`);
-            let ps = getPeriods().map(p => `&periods[]=${p}`);
-            let Cs = getCourses().map(C => `&courses[]=${C}`);
-            let es = getInternshipState().map(e => `&istates[]=${e}`);
+            let cs = getClasses().map(c => `&classes[]=${c}`).join('');
+            let gs = getGrades().map(g => `&grades[]=${g}`).join('');
+            let ps = getPeriods().map(p => `&periods[]=${p}`).join('');
+            let Cs = getCourses().map(C => `&courses[]=${C}`).join('');
+            let es = getInternshipState().map(e => `&istates[]=${e}`).join('');
 
             if (cs.length === gs.length && gs.length === ps.length && ps.length === Cs.length && Cs.length === es.length && es.length === 0) {
                 return;
@@ -86,7 +86,7 @@
                 Cs = [{{ implode(", ", \App\Auth::user()->coordinator_courses_id) }}].map(c => `&courses[]=${c}`);
             }
 
-            let url = `/api/alunos?q=`;
+            let url = `{{ config('app.url') }}/api/alunos?q=`;
             if (cs.length > 0) {
                 url += cs;
             }

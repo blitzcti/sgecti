@@ -272,7 +272,6 @@
                     <table id="proposals" class="table table-bordered table-striped">
                         <thead>
                         <tr>
-                            <th scope="col">ID</th>
                             <th>Empresa</th>
                             <th>Descrição</th>
                             <th>Data limite</th>
@@ -284,7 +283,6 @@
                         @foreach($proposals as $proposal)
 
                             <tr>
-                                <th scope="row">{{ $proposal->id }}</th>
                                 <td>{{ $proposal->company->name }} {{ $proposal->company->fantasy_name != null ? "({$proposal->company->fantasy_name})" : '' }}</td>
                                 <td>{{ $proposal->description }}</td>
                                 <td>{{ $proposal->deadline->format('d/m/Y') }}</td>

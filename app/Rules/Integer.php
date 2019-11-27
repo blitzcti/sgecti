@@ -35,6 +35,6 @@ class Integer implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return __('validation.integer');
     }
 }

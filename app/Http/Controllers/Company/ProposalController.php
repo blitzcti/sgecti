@@ -7,9 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\DestroyProposal;
 use App\Http\Requests\Company\StoreProposal;
 use App\Http\Requests\Company\UpdateProposal;
+use App\Models\Course;
 use App\Models\Proposal;
 use App\Models\Schedule;
 use App\Notifications\WebNotification;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class ProposalController extends Controller
@@ -23,12 +25,16 @@ class ProposalController extends Controller
         $this->middleware('permission:proposal-delete', ['only' => ['destroy']]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $company = Auth::user()->company;
         $proposals = $company->proposals;
+        $s = $request->s;
 
-        return view('company.proposal.index')->with(['proposals' => $proposals]);
+        return view('company.proposal.index')->with([
+            'proposals' => $proposals,
+            's' => $s,
+        ]);
     }
 
     public function show($id)
@@ -44,7 +50,10 @@ class ProposalController extends Controller
         $company = Auth::user()->company;
         $courses = $company->courses->where('active', '=', true)->sortBy('id');
 
-        return view('company.proposal.new')->with(['courses' => $courses]);
+        return view('company.proposal.new')->with([
+            'courses' => $courses,
+            'fields' => ['mon', 'tue', 'wed', 'thu', 'fri', 'sat']
+        ]);
     }
 
     public function edit($id)
@@ -53,7 +62,11 @@ class ProposalController extends Controller
         $proposal = $company->proposals()->findOrFail($id);
         $courses = $company->courses->where('active', '=', true)->sortBy('id');
 
-        return view('company.proposal.edit')->with(['proposal' => $proposal, 'courses' => $courses]);
+        return view('company.proposal.edit')->with([
+            'proposal' => $proposal,
+            'courses' => $courses,
+            'fields' => ['mon', 'tue', 'wed', 'thu', 'fri', 'sat']
+        ]);
     }
 
     public function store(StoreProposal $request)
@@ -113,7 +126,10 @@ class ProposalController extends Controller
         $proposal->description = $validatedData->description;
         $proposal->requirements = $validatedData->requirements;
         $proposal->benefits = $validatedData->benefits;
-        $proposal->contact = $validatedData->contact;
+        $proposal->email = $validatedData->email;
+        $proposal->subject = $validatedData->subject;
+        $proposal->phone = $validatedData->phone;
+        $proposal->other = $validatedData->other;
         $proposal->type = $validatedData->type;
         $proposal->observation = $validatedData->observation;
 
@@ -134,8 +150,11 @@ class ProposalController extends Controller
                 'url' => route('coordenador.proposta.detalhes', ['id' => $proposal->id]),
             ]);
 
+            /* @var $course Course */
             foreach ($proposal->courses as $course) {
-                $course->coordinator->user->notify($notification);
+                if ($course->coordinator != null) {
+                    $course->coordinator->user->notify($notification);
+                }
             }
         } else {
             Log::error("Erro ao salvar proposta de estágio");
@@ -210,7 +229,10 @@ class ProposalController extends Controller
         $proposal->description = $validatedData->description;
         $proposal->requirements = $validatedData->requirements;
         $proposal->benefits = $validatedData->benefits;
-        $proposal->contact = $validatedData->contact;
+        $proposal->email = $validatedData->email;
+        $proposal->subject = $validatedData->subject;
+        $proposal->phone = $validatedData->phone;
+        $proposal->other = $validatedData->other;
         $proposal->type = $validatedData->type;
         $proposal->observation = $validatedData->observation;
 
@@ -235,8 +257,11 @@ class ProposalController extends Controller
                     'url' => route('coordenador.proposta.detalhes', ['id' => $proposal->id]),
                 ]);
 
+                /* @var $course Course */
                 foreach ($proposal->courses as $course) {
-                    $course->coordinator->user->notify($notification);
+                    if ($course->coordinator != null) {
+                        $course->coordinator->user->notify($notification);
+                    }
                 }
             } else {
                 $proposal->approved_at = null;
@@ -250,6 +275,7 @@ class ProposalController extends Controller
                     'url' => route('coordenador.proposta.detalhes', ['id' => $proposal->id]),
                 ]);
 
+                /* @var $course Course */
                 foreach ($proposal->courses as $course) {
                     $course->coordinator->user->notify($notification);
                 }

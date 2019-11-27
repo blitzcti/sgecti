@@ -35,10 +35,7 @@ Route::prefix('usuario')->name('usuario.')->middleware('auth')->group(function (
 });
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
-    Route::get('logs', [
-        'middleware' => 'role:admin',
-        'uses' => '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index'
-    ])->name('logs');
+    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('logs');
 
     Route::prefix('usuario')->name('usuario.')->group(function () {
         Route::get('', 'Admin\UserController@index')->name('index');
@@ -132,6 +129,14 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::prefix('mensagem')->name('mensagem.')->group(function () {
         Route::get('', 'Admin\MessageController@index')->name('index');
         Route::post('enviar', 'Admin\MessageController@sendEmail')->name('enviar');
+    });
+
+    Route::prefix('colacao')->name('colacao.')->group(function () {
+        Route::get('', 'Admin\GraduationController@index')->name('index');
+
+        Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
+            Route::put('graduar', 'Admin\GraduationController@graduate')->name('graduar');
+        });
     });
 });
 
@@ -366,10 +371,10 @@ Route::prefix('empresa')->name('empresa.')->middleware('auth')->group(function (
     });
 });
 
-Route::prefix('ajuda')->name('ajuda.')->group(function () {
+Route::prefix('ajuda')->name('ajuda.')->middleware('auth')->group(function () {
     Route::get('', 'HelpController@index')->name('index');
 });
 
-Route::prefix('sobre')->name('sobre.')->group(function () {
+Route::prefix('sobre')->name('sobre.')->middleware('auth')->group(function () {
     Route::get('', 'AboutController@index')->name('index');
 });

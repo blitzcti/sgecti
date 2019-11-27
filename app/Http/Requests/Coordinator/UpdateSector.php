@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Coordinator;
 
+use App\Models\Sector;
+use App\Rules\Unique;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateSector extends FormRequest
@@ -23,8 +25,10 @@ class UpdateSector extends FormRequest
      */
     public function rules()
     {
+        $sector = Sector::findOrFail($this->route('id'));
+
         return [
-            'name' => ['required', 'max:50'],
+            'name' => ['required', 'max:50', new Unique('sectors', 'name', $sector->id)],
             'description' => ['nullable', 'max:8000'],
             'active' => ['required', 'boolean'],
         ];

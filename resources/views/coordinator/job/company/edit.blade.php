@@ -33,11 +33,19 @@
                                 <div class="input-group">
                                     <div class="input-group-btn">
                                         <button type="button" class="btn btn-default">
-                                            <span id="CpfCnpjOption"></span></button>
+                                            <span id="CpfCnpjOption"></span>
+                                        </button>
                                     </div>
 
                                     <input type="text" class="form-control" id="inputCpfCnpj" name="cpfCnpj"
                                            value="{{ old('cpfCnpj') ?? $company->cpf_cnpj }}" readonly>
+
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default"
+                                                onclick="jQuery('#inputCpfCnpj').blur();">
+                                            <i class="fa fa-refresh"></i>
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <span class="help-block">{{ $errors->first('cpfCnpj') }}</span>
@@ -77,14 +85,14 @@
                     </div>
                 </div>
 
-                <div class="form-group @if($errors->has('name')) has-error @endif">
-                    <label for="inputName" class="col-sm-2 control-label">Nome*</label>
+                <div class="form-group @if($errors->has('companyName')) has-error @endif">
+                    <label for="inputName" class="col-sm-2 control-label">Razão social*</label>
 
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputName" name="name" placeholder="MSTech"
-                               value="{{ old('name') ?? $company->name }}"/>
+                        <input type="text" class="form-control" id="inputName" name="companyName" placeholder="MSTech"
+                               value="{{ old('companyName') ?? $company->name }}"/>
 
-                        <span class="help-block">{{ $errors->first('name') }}</span>
+                        <span class="help-block">{{ $errors->first('companyName') }}</span>
                     </div>
                 </div>
 
@@ -129,15 +137,16 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
                 <button type="submit" class="btn btn-primary pull-right">Salvar</button>
 
                 <input type="hidden" id="inputPrevious" name="previous"
                        value="{{ old('previous') ?? url()->previous() }}">
                 <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
-            <!-- /.box-footer -->
         </div>
     </form>
 @endsection
@@ -182,7 +191,7 @@
                     });
 
                     jQuery.ajax({
-                        url: `/api/external/cnpj/${jQuery('#inputCpfCnpj').inputmask('unmaskedvalue')}`,
+                        url: `{{ config('app.url') }}/api/external/cnpj/${jQuery('#inputCpfCnpj').inputmask('unmaskedvalue')}`,
                         dataType: 'json',
                         type: 'GET',
                         success: function (company) {
@@ -197,31 +206,10 @@
 
                                 company.name = '';
                                 company.fantasyName = '';
-                                company.email = '';
-                                company.phone = '';
-                                company.cep = '';
-                                company.uf = '';
-                                company.city = '';
-                                company.street = '';
-                                company.number = '';
-                                company.complement = '';
-                                company.district = '';
                             }
 
                             jQuery('#inputName').val(company.name);
                             jQuery('#inputFantasyName').val(company.fantasyName);
-                            jQuery('#inputEmail').val(company.email);
-                            jQuery('#inputPhone').val(company.phone);
-                            jQuery('#inputCep').val(company.cep);
-
-                            loadCep({
-                                uf: company.uf,
-                                city: company.city,
-                                street: company.street,
-                                number: company.number,
-                                complement: company.complement,
-                                district: company.district
-                            });
                         },
 
                         error: function () {

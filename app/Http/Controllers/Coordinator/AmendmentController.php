@@ -53,13 +53,20 @@ class AmendmentController extends Controller
             });
 
         $i = request()->i;
-        return view('coordinator.internship.amendment.new')->with(['internships' => $internships, 'i' => $i]);
+        return view('coordinator.internship.amendment.new')->with([
+            'internships' => $internships,
+            'i' => $i,
+            'fields' => ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'],
+        ]);
     }
 
     public function edit($id)
     {
         $amendment = Amendment::findOrFail($id);
-        return view('coordinator.internship.amendment.edit')->with(['amendment' => $amendment]);
+        return view('coordinator.internship.amendment.edit')->with([
+            'amendment' => $amendment,
+            'fields' => ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'],
+        ]);
     }
 
     public function store(StoreAmendment $request)

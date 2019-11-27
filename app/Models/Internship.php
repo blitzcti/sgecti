@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * Class Internship
+ * Model for internships table.
  *
  * @package App\Models
  * @property int id
@@ -42,9 +42,11 @@ use Illuminate\Database\Eloquent\Collection;
  * @property Collection|Amendment[] not_empty_amendments
  * @property Collection|BimestralReport[] bimestral_reports
  * @property FinalReport final_report
- * @property Carbon a_end_date
- * @property int estimated_hours
- * @property string formatted_protocol
+ * @property-read boolean dilation
+ * @property-read Carbon a_end_date
+ * @property-read int estimated_hours
+ * @property-read string formatted_protocol
+ * @property-read boolean needsFinalReport
  */
 class Internship extends Model
 {
@@ -137,7 +139,11 @@ class Internship extends Model
 
     public function getNotEmptyAmendmentsAttribute()
     {
-        return $this->hasMany(Amendment::class)->get()->filter(function ($a) {
+        return $this->amendments->filter(function ($a) {
+            if ($a->schedule == null) {
+                return false;
+            }
+
             $days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
             foreach ($days as $day) {
                 if ($a->schedule->{$day . "_s"} != null || $a->schedule->{$day . "_e"} != null) {
@@ -159,9 +165,20 @@ class Internship extends Model
         return $this->hasOne(FinalReport::class);
     }
 
+    public function getDilationAttribute()
+    {
+        $dateS = date_create("{$this->student->year}-01-01");
+        $max_years = GeneralConfiguration::getMaxYears($dateS);
+        $limitDate = $dateS->modify("+{$max_years} year")->modify("-1 day");
+
+        return $this->start_date > $limitDate || $this->end_date > $limitDate;
+    }
+
     public function getAEndDateAttribute()
     {
         $endDate = $this->end_date;
+
+        /* @var $amendment Amendment */
         foreach ($this->amendments->sortByDesc('id') as $amendment) {
             if ($amendment->new_end_date !== null) {
                 $endDate = $amendment->new_end_date;
@@ -181,8 +198,11 @@ class Internship extends Model
         }
 
         if ($amendments != null) {
+            /* @var $amendment Amendment */
             foreach ($amendments as $amendment) {
-                $h += $amendment->schedule->countHours($amendment->start_date, $amendment->end_date, $amendments);
+                if ($amendment->schedule != null) {
+                    $h += $amendment->schedule->countHours($amendment->start_date, $amendment->end_date, $amendments);
+                }
 
                 if ($amendment->schedule2 != null) {
                     $h += $amendment->schedule2->countHours($amendment->start_date, $amendment->end_date, $amendments);
@@ -205,9 +225,20 @@ class Internship extends Model
         return "$n/$y";
     }
 
+    public function needsFinalReport()
+    {
+        return $this->state_id == State::OPEN && $this->a_end_date <= Carbon::today()->modify('-20 day');
+    }
+
+    public static function finishedToday()
+    {
+        $today = Carbon::today();
+        return static::where('state_id', '=', State::OPEN)->where('active', '=', true)->get()->where('a_end_date', '=', $today);
+    }
+
     public static function requiringFinish()
     {
         $today = Carbon::today()->modify('-20 day');
-        return static::where('state_id', '=', State::OPEN)->where('active', '=', true)->get()->where('new_end_date', '<=', $today);
+        return static::where('state_id', '=', State::OPEN)->where('active', '=', true)->get()->where('a_end_date', '<=', $today);
     }
 }

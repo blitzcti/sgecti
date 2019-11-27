@@ -4,7 +4,7 @@ Desenvolvido pela equipe Blitz, o projeto tem como finalidade gerenciar os está
 
 <p align="center">
 <a href="https://travis-ci.org/blitzcti/sgecti"><img src="https://travis-ci.org/blitzcti/sgecti.svg?branch=master" alt="Build Status"></a>
-<a href="https://github.com/laravel/laravel"><img src="https://img.shields.io/badge/Laravel-6.0.4-red.svg" alt="Laravel Version"></a>
+<a href="https://github.com/laravel/laravel"><img src="https://img.shields.io/badge/Laravel-6.5.1-red.svg" alt="Laravel Version"></a>
 <a href="https://github.com/ColorlibHQ/AdminLTE"><img src="https://img.shields.io/badge/AdminLTE-2.4.18-blue.svg" alt="AdminLTE Version"></a>
 </p>
 
@@ -22,7 +22,7 @@ Caso esteja em um ambiente Linux, siga as instruções abaixo para instalar o Ap
 Para o Ubuntu, rode o seguinte comando:
 
     ```console
-    sudo apt install apache2 php php-json php-mbstring php-pgsql php-xml php-gd postgresql postgresql-contrib
+    sudo apt install apache2 php php-gd php-json php-mbstring php-pgsql php-xml php-zip postgresql postgresql-contrib
     ```
 
 2. Habilite e inicie os serviços do Apache e do PostgreSQL. Para o Ubuntu, execute os comandos a seguir:

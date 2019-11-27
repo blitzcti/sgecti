@@ -138,7 +138,7 @@ class ReportController extends Controller
         $log .= "\nUsuário: {$user->name}";
 
         $report->internship_id = $validatedData->internship;
-        $report->date = $validatedData->date;
+        $report->date = $validatedData->reportDate;
 
         $course_id = $report->internship->student->course_id;
 
@@ -168,9 +168,10 @@ class ReportController extends Controller
         $saved = $report->save();
         $log .= "\nNovos dados: " . json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
+        $minGrade = $report->internship->student->course_configuration->min_grade;
         if ($saved) {
             Log::info($log);
-            $report->internship->state_id = 2;
+            $report->internship->state_id = ($report->final_grade >= $minGrade) ? State::FINISHED : State::INVALID;
             $report->internship->save();
         } else {
             Log::error("Erro ao salvar relatório final");
@@ -224,7 +225,7 @@ class ReportController extends Controller
         $log .= "\nUsuário: {$user->name}";
         $log .= "\nDados antigos: " . json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        $report->date = $validatedData->date;
+        $report->date = $validatedData->reportDate;
 
         $report->grade_1_a = $validatedData->grade_1_a;
         $report->grade_1_b = $validatedData->grade_1_b;
@@ -247,9 +248,11 @@ class ReportController extends Controller
         $saved = $report->save();
         $log .= "\nNovos dados: " . json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
+        $minGrade = $report->internship->student->course_configuration->min_grade;
+
         if ($saved) {
             Log::info($log);
-            $report->internship->state_id = 2;
+            $report->internship->state_id = ($report->final_grade >= $minGrade) ? State::FINISHED : State::INVALID;
             $report->internship->save();
         } else {
             Log::error("Erro ao salvar relatório final");
@@ -332,6 +335,8 @@ class ReportController extends Controller
 
         $students = Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->get()->filter(function ($i) use ($startDate, $endDate) {
             $reports = $i->bimestral_reports;
+
+            /* @var $report BimestralReport */
             foreach ($reports as $report) {
                 if ($report->date->between($startDate, $endDate)) {
                     return false;
@@ -425,6 +430,7 @@ class ReportController extends Controller
 
         $reports = FinalReport::whereYear('date', '=', $year)->get();
 
+        /* @var $report FinalReport */
         foreach ($reports as $report) {
             if ($report->internship->student->course_id == $course_id) {
                 $no++;

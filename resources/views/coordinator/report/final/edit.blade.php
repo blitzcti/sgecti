@@ -34,22 +34,21 @@
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control input-info" id="inputInternship"
-                                       name="internship"
-                                       readonly
+                                       name="internship" readonly
                                        value="{{ $report->internship->ra }} - {{ $report->internship->student->nome }}"/>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-sm-6">
-                        <div class="form-group @if($errors->has('date')) has-error @endif">
-                            <label for="inputDate" class="col-sm-4 control-label">Data do relatório*</label>
+                        <div class="form-group @if($errors->has('reportDate')) has-error @endif">
+                            <label for="inputReportDate" class="col-sm-4 control-label">Data do relatório*</label>
 
                             <div class="col-sm-8">
-                                <input type="date" class="form-control" id="inputDate" name="date"
-                                       value="{{ old('date') ?? $report->date->format("Y-m-d") }}"/>
+                                <input type="date" class="form-control" id="inputReportDate" name="reportDate"
+                                       value="{{ old('reportDate') ?? $report->date->format("Y-m-d") }}"/>
 
-                                <span class="help-block">{{ $errors->first('date') }}</span>
+                                <span class="help-block">{{ $errors->first('reportDate') }}</span>
                             </div>
                         </div>
                     </div>
@@ -71,7 +70,7 @@
 
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('completedHours')) has-error @endif">
-                            <label for="inputHoursCompleted" class="col-sm-4 control-label">Horas Cumpridas*</label>
+                            <label for="inputHoursCompleted" class="col-sm-4 control-label">Horas cumpridas*</label>
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputHoursCompleted" name="completedHours"
@@ -117,14 +116,14 @@
                     <dt class="col-sm-2">Data de início</dt>
                     <dd class="col-sm-10">
                         <span id="internshipStartDate">
-                            {{ $report->internship->start_date->format("Y-m-d") }}
+                            {{ $report->internship->start_date->format("d/m/Y") }}
                         </span>
                     </dd>
 
                     <dt class="col-sm-2">Data de término</dt>
                     <dd class="col-sm-10">
                         <span id="internshipEndDate">
-                            {{ $report->internship->end_date->format("Y-m-d") }}
+                            {{ $report->internship->end_date->format("d/m/Y") }}
                         </span>
                     </dd>
 
@@ -926,7 +925,7 @@
 
         <div class="box box-default">
             <div class="box-header with-border">
-                <h3 class="box-title">Dados administrativos</h3>
+                <h3 class="box-title">V - Informações que julgar útil</h3>
             </div>
 
             <div class="box-body">
@@ -942,15 +941,16 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
                 <button type="submit" class="btn btn-primary pull-right">Salvar</button>
 
                 <input type="hidden" id="inputPrevious" name="previous"
                        value="{{ old('previous') ?? url()->previous() }}">
                 <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
-            <!-- /.box-footer -->
         </div>
     </form>
 @endsection

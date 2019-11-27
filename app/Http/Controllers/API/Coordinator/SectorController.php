@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Coordinator;
 
+use App\APIUtils;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Coordinator\StoreSector;
 use App\Http\Requests\API\Coordinator\UpdateSector;
@@ -19,36 +20,20 @@ class SectorController extends Controller
         $this->middleware('permission:companySector-edit', ['only' => ['edit', 'update']]);
     }
 
-    /**
-     * Search for a string in a specific array column
-     *
-     * @param array $array
-     * @param string $q
-     * @param null|string $col
-     *
-     * @return array
-     */
-    function search($array, $q, $col = null)
-    {
-        $array = array_filter($array, function ($v, $k) use ($q, $col) {
-            if ($col == null) {
-                return (strpos(strtoupper($v), strtoupper($q)) !== false);
-            } else {
-                return (strpos(strtoupper($v[$col]), strtoupper($q)) !== false);
-            }
-        }, ARRAY_FILTER_USE_BOTH);
-        return array_values($array);
-    }
-
     public function get(Request $request)
     {
-        $sectors = Sector::all()->sortBy('id');
+        $sectors = Sector::all()->sortBy('name');
+
+        if (!is_array($sectors)) {
+            $sectors = $sectors->toArray();
+        }
+
         if (!empty($request->q)) {
-            $sectors = $this->search($sectors->toArray(), $request->q, 'name');
+            $sectors = APIUtils::search($sectors, $request->q, 'name');
         }
 
         return response()->json(
-            $sectors,
+            array_values($sectors),
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',
@@ -73,13 +58,18 @@ class SectorController extends Controller
 
     public function getFromCompany($id, Request $request)
     {
-        $sectors = Company::findOrFail($id)->sectors;
+        $sectors = Company::findOrFail($id)->sectors->sortBy('name');
+
+        if (!is_array($sectors)) {
+            $sectors = $sectors->toArray();
+        }
+
         if (!empty($request->q)) {
-            $sectors = $this->search($sectors->toArray(), $request->q, 'name');
+            $sectors = APIUtils::search($sectors, $request->q, 'name');
         }
 
         return response()->json(
-            $sectors,
+            array_values($sectors),
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',
@@ -93,13 +83,16 @@ class SectorController extends Controller
         $sector = new Sector();
         $params = [];
 
-        $sector->name = $request->input('name');
-        $sector->description = $request->input('description');
-        $sector->active = $request->input('active');
+        $validatedData = (object)$request->validated();
+
+        $sector->name = $validatedData->name;
+        $sector->description = $validatedData->description;
+        $sector->active = $validatedData->active;
 
         $saved = $sector->save();
 
         $params['saved'] = $saved;
+        $params['id'] = $sector->id;
 
         return response()->json($params);
     }
@@ -109,9 +102,11 @@ class SectorController extends Controller
         $sector = Sector::findOrFail($id);
         $params = [];
 
-        $sector->name = $request->input('name');
-        $sector->description = $request->input('description');
-        $sector->active = $request->input('active');
+        $validatedData = (object)$request->validated();
+
+        $sector->name = $validatedData->name;
+        $sector->description = $validatedData->description;
+        $sector->active = $validatedData->active;
 
         $saved = $sector->save();
 

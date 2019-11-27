@@ -7,14 +7,14 @@
 @stop
 
 @section('content')
-    <div class="box box-default">
-        <div class="box-header with-border">
-            <h3 class="box-title">Dados do curso</h3>
-        </div>
+    <form class="form-horizontal" action="{{ route('admin.curso.alterar', $course->id) }}" method="post">
+        @method('PUT')
+        @csrf
 
-        <form class="form-horizontal" action="{{ route('admin.curso.alterar', $course->id) }}" method="post">
-            @method('PUT')
-            @csrf
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Dados do curso</h3>
+            </div>
 
             <div class="box-body">
                 <div class="form-group @if($errors->has('name')) has-error @endif">
@@ -39,7 +39,7 @@
                                     @foreach($colors as $color)
 
                                         <option value="{{ $color->id }}"
-                                                {{ (old('color') ?? $course->color_id) == $color->id ? 'selected=selected' : '' }}>
+                                            {{ (old('color') ?? $course->color_id) == $color->id ? 'selected=selected' : '' }}>
                                             {{ __("colors.{$color->name}") }}
                                         </option>
 
@@ -60,9 +60,11 @@
                                 <select class="form-control selection" data-minimum-results-for-search="Infinity"
                                         id="inputActive" name="active">
                                     <option value="1"
-                                            {{ (old('active') ?? $course->active) ? 'selected=selected' : '' }}>Sim</option>
+                                        {{ (old('active') ?? $course->active) ? 'selected=selected' : '' }}>Sim
+                                    </option>
                                     <option value="0"
-                                            {{ !(old('active') ?? $course->active) ? 'selected=selected' : '' }}>Não</option>
+                                        {{ !(old('active') ?? $course->active) ? 'selected=selected' : '' }}>Não
+                                    </option>
                                 </select>
 
                                 <span class="help-block">{{ $errors->first('active') }}</span>
@@ -71,17 +73,18 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
                 <button type="submit" class="btn btn-primary pull-right">Salvar</button>
 
                 <input type="hidden" id="inputPrevious" name="previous"
                        value="{{ old('previous') ?? url()->previous() }}">
                 <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
-            <!-- /.box-footer -->
-        </form>
-    </div>
+        </div>
+    </form>
 @endsection
 
 @section('js')

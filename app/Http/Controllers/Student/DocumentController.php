@@ -19,7 +19,8 @@ class DocumentController extends Controller
         $this->middleware('student');
         $this->middleware('permission:documents-list');
         $this->middleware('intern', ['only' => ['generateCertificate', 'generateEvaluation', 'generatePresentation', 'generateContent', 'generateQuestionnaire', 'generateReport', 'generateAditive']]);
-        $this->middleware('non_intern', ['only' => ['generatePlan', 'generateTerm', 'generateAgreement', 'generateSituation']]);
+        $this->middleware('non_intern', ['only' => ['generatePlan', 'generateTerm', 'generateAgreement']]);
+        $this->middleware('never_intern', ['only' => ['generateSituation']]);
     }
 
     public function index()
@@ -68,21 +69,28 @@ class DocumentController extends Controller
             $fileName = "Protocolo de inicio (1 via)";
         } else {
             $folder = "end";
-            $fileName = "Protocolo de finalizacao (1 via)";
+            $fileName = "Protocolo de finalização (1 via)";
         }
 
         $template = new TemplateProcessor(storage_path("app/public/docs/templates/$folder/protocol.docx"));
 
         $template->setValue('course_upper', mb_strtoupper($student->course->name));
-        $template->setValue('course', $student->course->name);
         $template->setValue('coordinator', $student->course->coordinator->user->name);
         $template->setValue('student', $student->nome);
+        $template->setValue('course', $student->course->name);
         $template->setValue('class', $student->turma);
         $template->setValue('period', ($student->turma_periodo == Student::MORNING) ? 'Diurno' : 'Noturno');
         $template->setValue('ra', $student->matricula);
-        $template->setValue('email', $student->email);
 
         $template->setValue('city', $sysConfig->city);
+
+        $template->setValue('address', $student->address);
+        $template->setValue('complement', $student->complemento);
+        $template->setValue('s_city', $student->cidade);
+        $template->setValue('s_uf', $student->uf);
+        $template->setValue('cep', $student->cep);
+        $template->setValue('phone', $student->telefone);
+        $template->setValue('email', $student->email);
 
         return $this->download($template, $fileName);
     }
@@ -102,12 +110,19 @@ class DocumentController extends Controller
         $template->setValue('ra', $student->matricula);
         $template->setValue('student', $student->nome);
         $template->setValue('birth', $student->data_de_nascimento->format("d/m/Y"));
+
+        $template->setValue('address', $student->address);
+        $template->setValue('phone', $student->telefone);
+        $template->setValue('cep', $student->cep);
+        $template->setValue('district', $student->bairro);
+        $template->setValue('s_city', $student->cidade);
+        $template->setValue('s_uf', $student->uf);
+
         $template->setValue('course', $student->course->name);
         $template->setValue('class', $student->turma);
+        $template->setValue('year', $student->turma_ano);
 
         $template->setValue('city', $sysConfig->city);
-
-        $template->setValue('year', Carbon::now()->year);
 
         return $this->download($template, $fileName);
     }
@@ -124,15 +139,13 @@ class DocumentController extends Controller
 
         $template->setValue('student', $student->nome);
         $template->setValue('ra', $student->matricula);
-        $template->setValue('grade', $student->turma);
+        $template->setValue('grade', $student->grade);
         $template->setValue('course', $student->course->name);
         $template->setValue('birth', $student->data_de_nascimento->format("d/m/Y"));
         $template->setValue('coordinator', $student->course->coordinator->user->name);
 
         $template->setValue('college', $sysConfig->name);
         $template->setValue('city', $sysConfig->city);
-
-        $template->setValue('date', Carbon::now()->formatLocalized("%d de %B de %Y"));
 
         return $this->download($template, $fileName);
     }
@@ -141,7 +154,7 @@ class DocumentController extends Controller
     {
         $sysConfig = SystemConfiguration::getCurrent();
 
-        $fileName = "Convenio de Estágio (2 vias)";
+        $fileName = "convenio de Estágio (2 vias)";
 
         $template = new TemplateProcessor(storage_path("app/public/docs/templates/new/agreement.docx"));
 
@@ -218,12 +231,12 @@ class DocumentController extends Controller
         $template->setValue('ra', $student->matricula);
         $template->setValue('student', $student->nome);
         $template->setValue('course', $student->course->name);
-        $template->setValue('class', $student->turma);
+        $template->setValue('grade', $student->grade);
         $template->setValue('coordinator', $student->course->coordinator->user->name);
 
         $template->setValue('company', $internship->company->name);
         $template->setValue('sector', $internship->sector->name);
-        $template->setValue('address', $internship->company->address->getFormattedAddress());
+        $template->setValue('address', $internship->company->address->formatted_address);
         $template->setValue('company_city', $internship->company->address->city);
         $template->setValue('uf', $internship->company->address->uf);
         $template->setValue('phone', $internship->company->formatted_phone);
@@ -257,6 +270,7 @@ class DocumentController extends Controller
         $template = new TemplateProcessor(storage_path("app/public/docs/templates/end/questionnaire.docx"));
 
         $template->setValue('student', $student->nome);
+        $template->setValue('rg', $student->rg);
 
         $template->setValue('city', $sysConfig->city);
 
@@ -282,7 +296,7 @@ class DocumentController extends Controller
         $template->setValue('coordinator', $student->course->coordinator->user->name);
 
         $template->setValue('company', $internship->company->name);
-        $template->setValue('address', $internship->company->address->getFormattedAddress());
+        $template->setValue('address', $internship->company->address->formatted_address);
         $template->setValue('company_city', $internship->company->address->city);
         $template->setValue('uf', $internship->company->address->uf);
         $template->setValue('phone', $internship->company->formatted_phone);
@@ -320,13 +334,13 @@ class DocumentController extends Controller
 
         $template->setValue('ra', $student->matricula);
         $template->setValue('student', $student->nome);
-        $template->setValue('grade', $student->turma);
+        $template->setValue('rg', $student->rg);
+        $template->setValue('grade', $student->grade);
         $template->setValue('course', $student->course->name);
-        $template->setValue('class', $student->turma);
         $template->setValue('coordinator', $student->course->coordinator->user->name);
 
         $template->setValue('company', $internship->company->name);
-        $template->setValue('address', $internship->company->address->getFormattedAddress());
+        $template->setValue('address', $internship->company->address->formatted_address);
         $template->setValue('company_city', $internship->company->address->city);
         $template->setValue('uf', $internship->company->address->uf);
         $template->setValue('phone', $internship->company->formatted_phone);
@@ -340,9 +354,17 @@ class DocumentController extends Controller
 
     public function generateSituation()
     {
+        $user = Auth::user();
+        $student = $user->student;
+        $sysConfig = SystemConfiguration::getCurrent();
+
         $fileName = "Declaração de situação funcional (1 via)";
 
         $template = new TemplateProcessor(storage_path("app/public/docs/templates/etc/job.docx"));
+
+        $template->setValue('student', $student->nome);
+
+        $template->setValue('city', $sysConfig->city);
 
         return $this->download($template, $fileName);
     }

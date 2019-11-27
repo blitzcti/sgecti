@@ -33,11 +33,12 @@
             <table id="amendments" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
-                    <th>Aluno</th>
-                    <th>Empresa</th>
-                    <th>Data de início</th>
-                    <th>Data de término</th>
+                    @if(!isset($internship))
+                        <th>Aluno</th>
+                        <th>Empresa</th>
+                    @endif
+                    <th>Alterou data de término</th>
+                    <th>Alterou horário</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
@@ -46,15 +47,15 @@
                 @foreach($amendments as $amendment)
 
                     <tr>
-                        <th scope="row">{{ $amendment->id }}</th>
-
-                        <td>{{ $amendment->internship->ra }} - {{ $amendment->internship->student->nome }}</td>
-
-                        <td>{{ $amendment->internship->company->name }} {{ $amendment->internship->company->fantasy_name != null ? "({$amendment->internship->company->fantasy_name})" : '' }}</td>
-                        <td>{{ $amendment->start_date->format("d/m/Y") }}</td>
-                        <td>{{ $amendment->end_date->format("d/m/Y") }}</td>
+                        @if(!isset($internship))
+                            <td>{{ $amendment->internship->ra }} - {{ $amendment->internship->student->nome }}</td>
+                            <td>{{ $amendment->internship->company->formatted_cpf_cnpj }} - {{ $amendment->internship->company->name }} {{ $amendment->internship->company->fantasy_name != null ? "({$amendment->internship->company->fantasy_name})" : '' }}</td>
+                        @endif
+                        <td>{{ $amendment->end_date != null ? 'Sim' : 'Não' }}</td>
+                        <td>{{ $amendment->schedule != null ? 'Sim' : 'Não' }}</td>
                         <td>
-                            <a href="{{ route('coordenador.estagio.aditivo.editar', ['id' => $amendment->id]) }}">Editar</a>
+                            <a class="text-aqua"
+                               href="{{ route('coordenador.estagio.aditivo.editar', ['id' => $amendment->id]) }}">Editar</a>
                         </td>
                     </tr>
 
@@ -68,12 +69,40 @@
 @section('js')
     <script type="text/javascript">
         jQuery(document).ready(function () {
+            jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+                'Aluno-pre': function (a) {
+                    return a.replace(/[\d]{7} - /g, '');
+                },
+
+                'Aluno-asc': function (a, b) {
+                    return a - b;
+                },
+
+                'Aluno-desc': function (a, b) {
+                    return b - a;
+                },
+
+                'Empresa-pre': function (a) {
+                    return a.replace(/[\d]{2}\.[\d]{3}\.[\d]{3}\/[\d]{4}-[\d]{2} - /g, '').replace(/[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2}/g, '');
+                },
+
+                'Empresa-asc': function (a, b) {
+                    return a - b;
+                },
+
+                'Empresa-desc': function (a, b) {
+                    return b - a;
+                }
+            });
+
             let table = jQuery("#amendments").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
                 responsive: true,
                 lengthChange: false,
+                aoColumns: [@if(!isset($internship)){sType: "Aluno"}, {sType: "Empresa"}, @endif {sType: "Alterou_data_de_término"}, {sType: "Alterou_horário"}, {sType: "Ações"}],
+                aaSorting: [[0, "asc"]],
                 buttons: [
                     {
                         extend: 'csv',

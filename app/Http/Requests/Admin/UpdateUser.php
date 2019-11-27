@@ -15,7 +15,9 @@ class UpdateUser extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $user = User::findOrFail($this->route('id'));
+
+        return $user->hasRole('admin') || $user->hasRole('teacher');
     }
 
     /**

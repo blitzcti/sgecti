@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use PDOException;
 
 /**
- * Class Model
+ * This Model Class is for IDE helper, use it in every Model in the project.
  *
  * @package App\Models
  * @mixin \Illuminate\Database\Eloquent\Builder

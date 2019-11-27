@@ -67,6 +67,12 @@
         let isDown = false;
 
         function artisanDown() {
+            if (isDown) {
+                jQuery('#maintenance').addClass('fa-toggle-on').removeClass('fa-toggle-off');
+            } else {
+                jQuery('#maintenance').addClass('fa-toggle-off').removeClass('fa-toggle-on');
+            }
+
             jQuery.ajax({
                 url: (isDown) ? `api/admin/up` : `api/admin/down`,
                 dataType: 'json',

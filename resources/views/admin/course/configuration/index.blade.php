@@ -3,8 +3,7 @@
 @section('title', 'Configurações do curso - SGE CTI')
 
 @section('content_header')
-    <h1>Configurações do curso <a
-                href="{{ route('admin.curso.detalhes', ['id' => $course->id]) }}">{{ $course->name }}</a></h1>
+    <h1>Configurações do curso {{ $course->name }}</h1>
 @stop
 
 @section('content')
@@ -28,13 +27,12 @@
             <table id="courseConfigurations" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
-                    <th>Ano mínimo</th>
-                    <th>Semestre mínimo</th>
-                    <th>Horas mínimas</th>
-                    <th>Meses mínimos</th>
-                    <th>Meses mínimos (CTPS)</th>
-                    <th>Nota mínima</th>
+                    <th>Ano mín.</th>
+                    <th>Semestre mín.</th>
+                    <th>Horas mín.</th>
+                    <th>Meses mín.</th>
+                    <th>Meses mín. (CTPS)</th>
+                    <th>Nota mín.</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
@@ -44,7 +42,6 @@
                 @foreach($configurations as $configuration)
 
                     <tr>
-                        <th scope="row">{{ $configuration->id }}</th>
                         <td>{{ $configuration->min_year }}</td>
                         <td>{{ $configuration->min_semester }}</td>
                         <td>{{ $configuration->min_hours }}</td>
@@ -53,7 +50,8 @@
                         <td>{{ $configuration->min_grade }}</td>
 
                         <td>
-                            <a href="{{ route('admin.curso.configuracao.editar', ['id' => $course->id, 'id_config' => $configuration->id]) }}">Editar</a>
+                            <a class="text-aqua"
+                               href="{{ route('admin.curso.configuracao.editar', ['id' => $course->id, 'id_config' => $configuration->id]) }}">Editar</a>
                         </td>
                     </tr>
 

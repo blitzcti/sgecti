@@ -53,6 +53,10 @@ return [
         'district' => 'bairro',
     ],
 
+    'uf' => [
+        'url' => 'https://servicodados.ibge.gov.br/api/v1/localidades/municipios/{val}',
+    ],
+
     'ufs' => [
         'url' => 'https://servicodados.ibge.gov.br/api/v1/localidades/estados',
         'column' => 'sigla',

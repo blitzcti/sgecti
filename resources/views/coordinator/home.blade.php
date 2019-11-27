@@ -8,14 +8,13 @@
 
     <div class="box box-default">
         <div class="box-header with-border">
-            <h3 class="box-title">Estágios finalizados sem relatório final</h3>
+            <h3 class="box-title">Estágios finalizados há +20 dias (sem relatório final)</h3>
         </div>
 
-        <div class="box-body">
+        <div class="box-body no-padding">
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th>Aluno</th>
                     <th>Empresa</th>
                     <th>Ações</th>
@@ -26,10 +25,8 @@
                 @foreach($requiringFinish as $internship)
 
                     <tr>
-                        <th scope="row">{{ $internship->id }}</th>
                         <td>{{ $internship->ra }} - {{ $internship->student->nome }}</td>
-
-                        <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "({$internship->company->fantasy_name})" : '' }}</td>
+                        <td>{{ $internship->company->formatted_cpf_cnpj }} - {{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "({$internship->company->fantasy_name})" : '' }}</td>
                         <td>
                             <a href="{{ route('coordenador.estagio.detalhes', ['id' => $internship->id]) }}">Detalhes</a>
                         </td>
@@ -54,7 +51,7 @@
             <h3 class="box-title">Propostas de estágio pendentes</h3>
         </div>
 
-        <div class="box-body">
+        <div class="box-body no-padding">
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>

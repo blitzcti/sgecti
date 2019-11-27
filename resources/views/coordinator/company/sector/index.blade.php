@@ -26,9 +26,7 @@
             <table id="sectors" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th>Nome</th>
-                    <th>Descrição</th>
                     <th>Ativo</th>
                     <th>Ações</th>
                 </tr>
@@ -38,13 +36,12 @@
                 @foreach($sectors as $sector)
 
                     <tr>
-                        <th scope="row">{{ $sector->id }}</th>
                         <td>{{ $sector->name }}</td>
-                        <td>{{ $sector->description }}</td>
                         <td>{{ ($sector->active) ? 'Sim' : 'Não' }}</td>
 
                         <td>
-                            <a href="{{ route('coordenador.empresa.setor.editar', ['id' => $sector->id]) }}">Editar</a>
+                            <a class="text-aqua"
+                               href="{{ route('coordenador.empresa.setor.editar', ['id' => $sector->id]) }}">Editar</a>
                         </td>
                     </tr>
 

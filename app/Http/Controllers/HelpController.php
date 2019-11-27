@@ -12,907 +12,645 @@ class HelpController extends Controller
         $content = [];
 
         if ($user->isAdmin()) {
-
             $content = [
                 'Configurações do sistema' => [
                     'Alterar senha' => [
-                        'desc' => null,
+                        'desc' => "Utilize esta interface para alterar a sua senha de entrada.",
                         'content' => [
                             [
-                                'img' => 'alterar_senha/altera_senha_barra.png',
-                                'text' => 'Nesses campos, você altera a senha.',
-                            ],
-                            [
-                                'img' => 'alterar_senha/altera_senha_cancelar.png',
-                                'text' => 'Clicando aqui, você tem a possibilidade de cancelar a alteração de senha.',
-                            ],
-                            [
-                                'img' => 'alterar_senha/altera_senha_salvar.png',
-                                'text' => 'Clicando aqui, você tem a possibilidade de salvar a nova senha.',
+                                'img' => 'administrador/alterar_senha_admin.png',
+                                'text' => 'Insira a senha em uso em "Senha atual" e a nova senha desejada em "Nova senha", confirmando a nova senha em "Repita a senha".',
                             ],
                         ]
                     ],
 
                     'Parâmetros do sistema' => [
-                        'desc' => 'Dados e informações sobre a Instituição, com funções de download de planilhas e impressão.',
+                        'desc' => 'Informações e normas da instituição em que o sistema será utilizado. Os parâmetros serão exibidos nos documentos gerados automaticamente pelo sistema.',
                         'content' => [
                             [
-                                'img' => 'parametros_sist/conf_parametros_adicionar.png',
-                                'text' => 'A opção “Adicionar parâmetros” permite que você cadastre uma nova instituição no sistema.',
+                                'img' => 'administrador/parametros_admin.png',
+                                'text' => 'Utilize os campos editáveis para alterar informações e visualizar os dados já registrados.',
                             ],
                             [
-                                'img' => 'parametros_sist/new_parametros_dados.png',
-                                'text' => 'Para realizar o cadastro, utilize os campos em “Dados do parâmetro” para adicionar informações sobre a nova instituição.',
-                            ],
-                            [
-                                'img' => 'parametros_sist/new_parametros_adicionar.png',
-                                'text' => 'Após preencher, clique em “Adicionar” para salvar a nova instituição no banco de dados.',
-                            ],
-                            [
-                                'img' => 'parametros_sist/conf_parametros_CSV.png',
-                                'text' => 'Clicando na opção “CSV”, você pode realizar o download da planilha, que poderá ser visualizada e manipulada utilizando softwares como o libre office calc ou excel.',
-                            ],
-                            [
-                                'img' => 'parametros_sist/conf_parametros_imprimir.png',
-                                'text' => 'Clicando na opção “Imprimir” você pode imprimir a planilha de parâmetros do sistema.',
-                            ],
-                            [
-                                'img' => 'parametros_sist/conf_parametros_barra.png',
-                                'text' => 'Nessa tabela, você visualiza os parâmetros já cadastrados no banco de dados.',
-                            ],
-                            [
-                                'img' => 'parametros_sist/conf_parametros_antProx.png',
-                                'text' => 'Os botões “Anterior” e “Próxima” permitem trocar as páginas quando determinado número de registros for atingido.',
-                            ],
-                            [
-                                'img' => 'parametros_sist/conf_parametros_pesquisar.png',
-                                'text' => 'Para explorar os registros, você pode utilizar a barra de pesquisa ou a navegação por páginas.',
+                                'img' => 'administrador/convenio_parametros_admin.png',
+                                'text' => 'A validade se refere ao prazo dos convênios com as empresas cadastradas.',
                             ],
                         ],
                     ],
 
                     'Backup do sistema' => [
-                        'desc' => 'Salvamento de arquivos que pode ser programado para que ocorra automaticamente e restaurar arquivos antigos .JSON.',
+                        'desc' => 'Essa interface possibilita a realização de backups de segurança do sistema.',
                         'content' => [
                             [
-                                'img' => 'backup/conf_backup_fazerBackup.png',
-                                'text' => 'Ao clicar em “Fazer backup”, o usuário tem a possibilidade de baixar o conteúdo do banco de dados em formato JSON.',
+                                'img' => 'administrador/realizar_backup_admin.png',
+                                'text' => 'Você pode fazer o download dos dados do sistema.',
                             ],
                             [
-                                'img' => 'backup/agendar_backup.png',
-                                'text' => 'Na opção “Agendar Backup”, o usuário tem a possibilidade de escolher os dias da semana e horário em que o salvamento de dados será feito.',
+                                'img' => 'administrador/restaurar_backup_admin.png',
+                                'text' => 'Você pode restaurar os dados a partir de um registro antigo',
                             ],
                             [
-                                'img' => 'backup/conf_backup_salvar.png',
-                                'text' => 'Em “Salvar”, a operação é concluída.',
+                                'img' => 'administrador/programar_backup_admin.png',
+                                'text' => 'Você pode agendar a realização automática de backups, ajustando os dias da semana e o horário destes.',
                             ],
                             [
-                                'img' => 'backup/conf_backup_restaurar.png',
-                                'text' => 'Em “Restaurar”, o usuário poderá restaurar a estrutura de dados para um backup anterior já salvo.',
-                            ],
-                            [
-                                'img' => 'backup/restaurar_backup.png',
-                                'text' => 'A opção “Escolher arquivo” permite que um arquivo de backup seja carregado diretamente da pasta de arquivos.',
-                            ],
-                            [
-                                'img' => 'backup/restaurar_backup_restaurar.png',
-                                'text' => 'O botão “Restaurar” completa a operação.',
+                                'text' => 'A configuração do servidor de backup se encontra no arquivo <b>.env</b>, localizado no diretório de instalação do SGE no servidor, por questões de segurança.',
                             ],
                         ],
 
                     ],
 
                     'Configurações gerais do curso' => [
-                        'desc' => null,
+                        'desc' => 'As configurações gerais servem de base para o cadastro de novos cursos no sistema,definindo os parâmetros de acordo com as normas do Colégio ou da legislação.',
                         'content' => [
                             [
-                                'img' => 'configurações_curso/conf_gerais_barra.png',
-                                'text' => 'Essa tabela disponibiliza dados que todos os cursos possuem em comum.',
+                                'img' => 'administrador/visualizar_conf_gerais_admin.png',
+                                'text' => 'Visualize as configurações já registradas, ordenadas por data de vigência.',
                             ],
                             [
-                                'img' => 'configurações_curso/conf_gerais_antProx.png',
-                                'text' => 'Os botões “Anterior” e “Próxima” permitem trocar as páginas quando determinado número de registros for atingido.',
+                                'img' => 'administrador/editar_conf_gerais_admin.png',
+                                'text' => 'Adicione/edite configurações utilizando essa interface, que salva as normas por data de vigência e respeitando a retroatividade.',
                             ],
-                            [
-                                'img' => 'configurações_curso/conf_gerais_CSV.png',
-                                'text' => 'Neste campo destacado, o usuário poderá fazer o download de uma planilha que contém informações em comum à todos os cursos.',
-                            ],
-                            [
-                                'img' => 'configurações_curso/conf_gerais_imprimir.png',
-                                'text' => 'Neste campo destacado, o usuário poderá imprimir a planilha que contém informações em comum à todos os cursos.',
-                            ],
-                            [
-                                'img' => 'configurações_curso/conf_gerais_pesquisar.png',
-                                'text' => 'Na opção “Pesquisar” você pode pesquisar alguma informação específica.',
-                            ],
-                        ],
-                    ]
-                ],
 
-                'Funcionalidades extras' => [
-                    'Mensagem' => [
-                        'desc' => null,
-                        'content' => [
-                            [
-                                'img' => 'mensagem/mensagem_visualizar.png',
-                                'text' => '    Ao clicar nesse botão você visualizará os alunos que se encaixam nos filtros pré selecionados. ',
-                            ],
-                            [
-                                'img' => 'mensagem/mensagem_enviar.png',
-                                'text' => '  Ao clicar nesse botão você enviará a mensagem aos alunos selecionados.  ',
-                            ],
-                            [
-                                'img' => 'mensagem/mensagem_tipos.png',
-                                'text' => ' Nesse campo você poderá utilizar esses parametros para editar o texto da sua mensagem.    ',
-                            ],
-                            [
-                                'img' => 'mensagem/mensagem_alunos.png',
-                                'text' => '   Nesse campo você poderá escolher um aluno especifico. ',
-                            ],
-                        ]
+                        ],
                     ],
 
                     'Logs' => [
-                        'desc' => null,
+                        'desc' => 'Nos Logs de sistema, o administrador pode visualizar, por data e horário, todas as ações realizadas no sistema, como cadastros, alterações e até mesmo aprovação de estágios e propostas.Atenção: mensalmente, os logs com mais de 30 dias são excluídos automaticamente.',
                         'content' => [
                             [
-                                'img' => 'logs/logs_barra.png',
-                                'text' => 'Essa tabela disponibiliza o monitoramento de todas as funções desempenhadas no sistema, que serão registradas no banco de dados por segurança e chance de recuperação de dados excluídos por engano.',
+                                'text' => 'Atenção! Mensalmente, os logs com mais de 30 dias são excluídos automaticamente.',
                             ],
                             [
-                                'img' => 'logs/logs_baixar.png',
-                                'text' => '    Na opção “Baixar Log” você consegue baixar toda a planilha de logs.',
+                                'img' => 'administrador/nav_log_admin.png',
+                                'text' => 'Utilize a barra lateral para navegar pelos arquivos de log de datas anteriores.',
                             ],
                             [
-                                'img' => 'logs/logs_limpar.png',
-                                'text' => '    Na opção “Limpar Log” você limpa toda a tabela de logs, porém os dados continuam no servidor.',
+                                'img' => 'administrador/baixar_log_admin.png',
+                                'text' => 'Apertando esse botão, você pode baixar o arquivo .log selecionado e todos os seus registros.',
                             ],
                             [
-                                'img' => 'logs/logs_excluir.png',
-                                'text' => '    Na opção “Excluir Log” você limpa toda a tabela de logs, e também exclui os dados do servidor.',
+                                'img' => 'administrador/limpar_excluir_log_admin.png',
+                                'text' => 'Utilize o botão "Limpar log" para excluir os registros do arquivo .log selecionado.
+                               Utilize o botão "Excluir log" para excluir o arquivo .log selecionado.',
                             ],
                             [
-                                'img' => 'logs/logs_pesquisar.png',
-                                'text' => '    Na opção “Pesquisar” você pode pesquisar algum log em específico.',
-                            ],
-                        ]
-                    ],
-                ],
-
-                'Página inicial' => [
-                    'Notificações' => [
-                        'desc' => null,
-                        'content' => [
-                            [
-                                'img' => 'configurações_curso/notificações.png',
-                                'text' => 'Nesse espaço aparecerão ao usuário notificações relativas a mensagens de coordenadores, vagas de estágio, novidades e informações.',
-                            ],
-                        ]
-                    ],
-                ],
-
-                'Funcionalidades do sistema' => [
-                    'Estágio' => [
-                        null
-                    ],
-
-                    'Cursos' => [
-                        'desc' => null,
-                        'content' => [
-                            'Visualizar cursos' => [
-                                [
-                                    'img' => 'cursos/cursos.png',
-                                    'text' => 'Nessa página o usuário terá a possibilidade de observar os detalhes, fazer edições, adicionar coordenadores e encaminha para a página de configurações do curso selecionado.',
-                                ],
-                                [
-                                    'img' => 'cursos/cursos_anteProx.png',
-                                    'text' => 'Os botões “Anterior” e “Próxima” permitem trocar as páginas quando determinado número de registros for atingido.',
-                                ],
-                                [
-                                    'img' => 'cursos/down_curso.png',
-                                    'text' => 'Neste campo destacado, o usuário poderá fazer o download de uma planilha que contém os nome de todos os coordenadores,informando os cursos correspondentes, assim como a data do seu ingresso na coordenadoria e do seu egresso.',
-                                ],
-                                [
-                                    'img' => 'cursos/imprimi_curso.png',
-                                    'text' => 'Através deste campo destacado, o usuário poderá imprimir e até mesmo criar um arquivo PDF em formato de planilha, assim como salvar no Google Drive tais informações.',
-                                ],
-                                [
-                                    'img' => 'cursos/pesquisar_curso.png',
-                                    'text' => 'Na barra pesquisa, o usuário poderá pesquisar o curso que deseja encontrar, podendo colocar o nome inteiro ou parcialmente.',
-                                ],
+                                'img' => 'administrador/exctudo_log_admin.png',
+                                'text' => 'Selecione "Excluir tudo" para excluir todos os arquivos .log do sistema (incluindo o selecionado).',
                             ],
 
-                            'Novo curso' => [
-                                [
-                                    'img' => 'cursos/add_curso.png',
-                                    'text' => 'Neste campo, há a possibilidade de adicionar um novo curso à tabela.',
-                                ],
-                                [
-                                    'img' => 'cursos/curso_new_barra.png',
-                                    'text' => 'Nesse campo o usuário poderá adicionar as informações básicas do curso.',
-                                ],
-                                [
-                                    'img' => 'cursos/curso_new_cancelar.png',
-                                    'text' => 'Este campo trará a possibilidade do usuário cancelar a ação ”adicionar novo curso”, caso tenha ocorrido algum contratempo.',
-                                ],
-                                [
-                                    'img' => 'cursos/curso_new_add.png',
-                                    'text' => 'Este campo é a confirmação do ato “Adicionar novo Curso”, na qual salvará os dados no Banco.',
-                                ],
-                            ],
-                        ]
-                    ],
-
-                    'Usuários' => [
-                        'desc' => null,
-                        'content' => [
-                            'Visualizar usuário' => [
-                                [
-                                    'img' => 'usuarios/user_view_barra.png',
-                                    'text' => 'Nesta tabela, é possível visualizar  o id dos usuários, nome, email, cargo e também há a possibilidade de editar as informações.',
-                                ],
-                                [
-                                    'img' => 'usuarios/user_view_antProx.png',
-                                    'text' => 'Os botões “Anterior” e “Próxima” permitem trocar as páginas quando determinado número de registros for atingido.',
-                                ],
-                                [
-                                    'img' => 'usuarios/user_view_CSV.png',
-                                    'text' => 'Nesta opção, o usuário tem a opção de baixar a planilha de usuários.',
-                                ],
-                                [
-                                    'img' => 'usuarios/user_view_imprimir.png',
-                                    'text' => 'Nesta área é possível imprimir as informações apresentadas na tabela de usuários.',
-                                ],
-                                [
-                                    'img' => 'usuarios/user_view_pesquisar.png',
-                                    'text' => 'A área de pesquisa permite pesquisar informações sobre usuários.',
-                                ],
-                            ],
-
-                            'Novo usuário' => [
-                                [
-                                    'img' => 'usuarios/user_view_add.png',
-                                    'text' => 'Neste campo, há a possibilidade de adicionar um novo usuário à tabela.',
-                                ],
-                                [
-                                    'img' => 'usuarios/user_new_barra.png',
-                                    'text' => 'Neste campo, Você insere os dados relativos ao novo usuário que será cadastrado.',
-                                ],
-                                [
-                                    'img' => 'usuarios/user_new_cancelar.png',
-                                    'text' => 'Este campo trará a possibilidade do usuário cancelar o cadastro do novo usuário, caso tenha ocorrido algum contratempo.',
-                                ],
-                                [
-                                    'img' => 'usuarios/user_new_add.png',
-                                    'text' => 'Este campo permite que seja efetuado o cadastro de usuário.',
-                                ],
-                            ]
-                        ]
-                    ],
-
-                    'Coordenadores' => [
-                        'desc' => null,
-                        'content' => [
-                            'Visualizar coordenadores' => [
-                                [
-                                    'img' => 'coordenadores/coord_view_barra.png',
-                                    'text' => 'Neste campo será possível observar os coordenadores que foram adicionados . Caso não haja nenhum coordenador cadastrado, apresentará a mensagem “Nenhum registro encontrado”.',
-                                ],
-                                [
-                                    'img' => 'coordenadores/coord_view_antProx.png',
-                                    'text' => 'Através destes campos destacados, o usuário poderá navegar pelas páginas anteriores dos coordenadores cadastrados e até mesmo ver as próximas.',
-                                ],
-                                [
-                                    'img' => 'coordenadores/coord_view_CSV.png',
-                                    'text' => 'Neste campo destacado, o usuário poderá fazer o download de uma planilha que contém os nome de todos os coordenadores,informando os cursos correspondentes, assim como a data do seu ingresso na coordenadoria e do seu egresso.',
-                                ],
-                                [
-                                    'img' => 'coordenadores/coord_view_imprimir.png',
-                                    'text' => 'Através deste campo destacado, o usuário poderá imprimir e até mesmo criar um arquivo PDF em formato de planilha, assim como salvar no Google Drive tais informações.',
-                                ],
-                                [
-                                    'img' => 'coordenadores/coord_view_pesquisar.png',
-                                    'text' => 'Neste campo o usuário poderá realizar uma pesquisa por nome, a fim de encontrar o coordenador desejado com maior facilidade e agilidade.',
-                                ],
-                            ],
-
-                            'Novo coordenador' => [
-                                [
-                                    'img' => 'coordenadores/coord_new_barra.png',
-                                    'text' => 'Neste campo será possível adicionar um novo coordenador, visto que pode haver troca de profissionais e até mesmo criação de novos curso no colégio.',
-                                ],
-                                [
-                                    'img' => 'coordenadores/coord_new_cancelar.png',
-                                    'text' => 'Este campo trará a possibilidade do usuário cancelar a ação “adicionar novo Coordenador”, caso tenha ocorrido algum contratempo.',
-                                ],
-                                [
-                                    'img' => 'coordenadores/coord_new_adicionar.png',
-                                    'text' => 'Este campo é a confirmação do ato “Adicionar novo Coordenador”, na qual salvará os dados no Banco.',
-                                ],
-                            ],
-                        ]
-                    ],
-
-                    'Alunos' => [
-                        null
-                    ],
-
-                    'Empresas' => [
-                        'desc' => null,
-                        'content' => [
-                            'Visualizar empresa' => [
-                                [
-                                    'img' => 'empresas/view/dados_new_empresa.png',
-                                    'text' => 'Nesta área é possível visualizar os dados das empresas associadas em formato de tabela.',
-                                ],
-                                [
-                                    'img' => 'empresas/view/empresa_new_anteProx.png',
-                                    'text' => 'Através destes campos destacados, o usuário poderá navegar pelas páginas anteriores das empresas cadastradas e até mesmo ver as próximas.',
-                                ],
-                                [
-                                    'img' => 'empresas/view/down_new_empresa.png',
-                                    'text' => 'Neste campo destacado, o usuário poderá fazer o download de uma planilha que contém os nome de todas as empresas,informando dados específicos das empresas, assim como a CNPJ, responsável e telefones.',
-                                ],
-                                [
-                                    'img' => 'empresas/view/impri_new_empresa.png',
-                                    'text' => 'Através deste campo destacado, o usuário poderá imprimir e até mesmo criar um arquivo PDF em formato de planilha, assim como salvar no Google Drive tais informações.',
-                                ],
-                                [
-                                    'img' => 'empresas/view/pesq_new_empresa.png',
-                                    'text' => 'Na barra pesquisa, o usuário poderá pesquisar as empresas que deseja encontrar, podendo colocar o nome inteiro ou parcialmente.',
-                                ],
-                            ],
-
-                            'Nova empresa' => [
-                                [
-                                    'img' => 'empresas/new/add_new_empresa.png',
-                                    'text' => 'Em “Adicionar empresa” você pode fazer um novo registro de empresas.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/dados_da_nova_empresa.png',
-                                    'text' => 'Nos campos da tabela, é possível registrar os dados da empresa.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/cancel_da_nova_empresa.png',
-                                    'text' => 'Nesse campo é possível cancelar as ações de cadastramento de uma nova empresa.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/add_da_nova_empresa.png',
-                                    'text' => 'Nesse campo você irá adicionar uma nova empresa, após o preenchimento de todos os campos de cadastramento.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/dados_do_repre_nova_empresa.png',
-                                    'text' => 'Nesse campo você irá informar o nome e o cargo que exerce o representante da empresa.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/cancel_do_repre_nova_empresa.png',
-                                    'text' => 'Nesse campo é possível cancelar as ações de cadastramento dos dados do representante da empresa.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/add_do_repre_nova_empresa.png',
-                                    'text' => 'Nesse campo você irá adicionar uma nova empresa, após o preenchimento de todos os campos de cadastramento do representante da empresa.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/dados_do_endereco_nova_empresa.png',
-                                    'text' => 'Nos campos da tabela, você irá adicionar os dados da empresa como: cep, bairro e estado.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/cancel_do_endereço_nova_empresa.png',
-                                    'text' => 'Nesse campo é possível cancelar as ações de cadastramento dos dados de localização da empresa.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/add_do_endereço_nova_empresa.png',
-                                    'text' => 'Nesse campo você irá adicionar uma nova empresa, após o preenchimento de todos os campos de cadastramento do endereço da empresa.',
-                                ],
-                            ],
-
-                            'Setores' => [
-                                [
-                                    'img' => 'empresas/new/setores/dados_setores_nova_empresa.png',
-                                    'text' => 'Nesse campo, você irá adicionar os setores e quais cursos a empresa se interessa na busca de um estagiário.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/setores/add_setores_nova_empresa.png',
-                                    'text' => 'Ao clicar, você poderá adicionar um novo setor no qual a empresa trabalha.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/setores/add2_setores_nova_empresa.png',
-                                    'text' => 'Ao clicar em adicionar, conclui - se a operação.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/setores/cancel_setores_nova_empresa.png',
-                                    'text' => 'Ao clicar em cancelar, a operação será desfeita.',
-                                ],
-                            ],
-
-                            'Convênios' => [
-                                [
-                                    'img' => 'empresas/new/convenio/registro_convenio_empresa.png',
-                                    'text' => 'Nesta área, é possível registrar um novo convênio.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/convenio/cancel_registro_convenio_empresa.png',
-                                    'text' => 'Ao clicar em cancelar, a operação será desfeita.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/convenio/add_registro_convenio_empresa.png',
-                                    'text' => 'Ao clicar em adicionar, conclui - se a operação',
-                                ],
-                            ],
                         ],
                     ]
-                ]
-            ];
-
-
-        } else if ($user->isCoordinator()) {
-
-            $content = [
-                'Configurações do sistema' => [
-                    'Alterar senha' => [
-                        'desc' => null,
-                        'content' => [
-                            [
-                                'img' => 'alterar_senha/altera_senha_barra.png',
-                                'text' => 'Nesses campos, você altera a senha.',
-                            ],
-                            [
-                                'img' => 'alterar_senha/altera_senha_cancelar.png',
-                                'text' => 'Clicando aqui, você tem a possibilidade de cancelar a alteração de senha.',
-                            ],
-                            [
-                                'img' => 'alterar_senha/altera_senha_salvar.png',
-                                'text' => 'Clicando aqui, você tem a possibilidade de salvar a nova senha.',
-                            ],
-                        ]
-                    ],
-
-                    'Parâmetros do sistema' => [
-                        'desc' => 'Dados e informações sobre a Instituição, com funções de download de planilhas e impressão.',
-                        'content' => [
-                            [
-                                'img' => 'parametros_sist/conf_parametros_adicionar.png',
-                                'text' => 'A opção “Adicionar parâmetros” permite que você cadastre uma nova instituição no sistema.',
-                            ],
-                            [
-                                'img' => 'parametros_sist/new_parametros_dados.png',
-                                'text' => 'Para realizar o cadastro, utilize os campos em “Dados do parâmetro” para adicionar informações sobre a nova instituição.',
-                            ],
-                            [
-                                'img' => 'parametros_sist/new_parametros_adicionar.png',
-                                'text' => 'Após preencher, clique em “Adicionar” para salvar a nova instituição no banco de dados.',
-                            ],
-                            [
-                                'img' => 'parametros_sist/conf_parametros_CSV.png',
-                                'text' => 'Clicando na opção “CSV”, você pode realizar o download da planilha, que poderá ser visualizada e manipulada utilizando softwares como o libre office calc ou excel.',
-                            ],
-                            [
-                                'img' => 'parametros_sist/conf_parametros_imprimir.png',
-                                'text' => 'Clicando na opção “Imprimir” você pode imprimir a planilha de parâmetros do sistema.',
-                            ],
-                            [
-                                'img' => 'parametros_sist/conf_parametros_barra.png',
-                                'text' => 'Nessa tabela, você visualiza os parâmetros já cadastrados no banco de dados.',
-                            ],
-                            [
-                                'img' => 'parametros_sist/conf_parametros_antProx.png',
-                                'text' => 'Os botões “Anterior” e “Próxima” permitem trocar as páginas quando determinado número de registros for atingido.',
-                            ],
-                            [
-                                'img' => 'parametros_sist/conf_parametros_pesquisar.png',
-                                'text' => 'Para explorar os registros, você pode utilizar a barra de pesquisa ou a navegação por páginas.',
-                            ],
-                        ],
-                    ],
-
-                    'Backup do sistema' => [
-                        'desc' => 'Salvamento de arquivos que pode ser programado para que ocorra automaticamente e restaurar arquivos antigos .JSON.',
-                        'content' => [
-                            [
-                                'img' => 'backup/conf_backup_fazerBackup.png',
-                                'text' => 'Ao clicar em “Fazer backup”, o usuário tem a possibilidade de baixar o conteúdo do banco de dados em formato JSON.',
-                            ],
-                            [
-                                'img' => 'backup/agendar_backup.png',
-                                'text' => 'Na opção “Agendar Backup”, o usuário tem a possibilidade de escolher os dias da semana e horário em que o salvamento de dados será feito.',
-                            ],
-                            [
-                                'img' => 'backup/conf_backup_salvar.png',
-                                'text' => 'Em “Salvar”, a operação é concluída.',
-                            ],
-                            [
-                                'img' => 'backup/conf_backup_restaurar.png',
-                                'text' => 'Em “Restaurar”, o usuário poderá restaurar a estrutura de dados para um backup anterior já salvo.',
-                            ],
-                            [
-                                'img' => 'backup/restaurar_backup.png',
-                                'text' => 'A opção “Escolher arquivo” permite que um arquivo de backup seja carregado diretamente da pasta de arquivos.',
-                            ],
-                            [
-                                'img' => 'backup/restaurar_backup_restaurar.png',
-                                'text' => 'O botão “Restaurar” completa a operação.',
-                            ],
-                        ],
-
-                    ],
-
-                    'Configurações gerais do curso' => [
-                        'desc' => null,
-                        'content' => [
-                            [
-                                'img' => 'configurações_curso/conf_gerais_barra.png',
-                                'text' => 'Essa tabela disponibiliza dados que todos os cursos possuem em comum.',
-                            ],
-                            [
-                                'img' => 'configurações_curso/conf_gerais_antProx.png',
-                                'text' => 'Os botões “Anterior” e “Próxima” permitem trocar as páginas quando determinado número de registros for atingido.',
-                            ],
-                            [
-                                'img' => 'configurações_curso/conf_gerais_CSV.png',
-                                'text' => 'Neste campo destacado, o usuário poderá fazer o download de uma planilha que contém informações em comum à todos os cursos.',
-                            ],
-                            [
-                                'img' => 'configurações_curso/conf_gerais_imprimir.png',
-                                'text' => 'Neste campo destacado, o usuário poderá imprimir a planilha que contém informações em comum à todos os cursos.',
-                            ],
-                            [
-                                'img' => 'configurações_curso/conf_gerais_pesquisar.png',
-                                'text' => 'Na opção “Pesquisar” você pode pesquisar alguma informação específica.',
-                            ],
-                        ],
-                    ]
-                ],
-
-                'Funcionalidades extras' => [
-                    'Mensagem' => [
-                        'desc' => null,
-                        'content' => [
-                            [
-                                'img' => 'mensagem/mensagem_visualizar.png',
-                                'text' => '    Ao clicar nesse botão você visualizará os alunos que se encaixam nos filtros pré selecionados. ',
-                            ],
-                            [
-                                'img' => 'mensagem/mensagem_enviar.png',
-                                'text' => '  Ao clicar nesse botão você enviará a mensagem aos alunos selecionados.  ',
-                            ],
-                            [
-                                'img' => 'mensagem/mensagem_tipos.png',
-                                'text' => ' Nesse campo você poderá utilizar esses parametros para editar o texto da sua mensagem.    ',
-                            ],
-                            [
-                                'img' => 'mensagem/mensagem_alunos.png',
-                                'text' => '   Nesse campo você poderá escolher um aluno especifico. ',
-                            ],
-                        ]
-                    ],
-
-                    'Logs' => [
-                        'desc' => null,
-                        'content' => [
-                            [
-                                'img' => 'logs/logs_barra.png',
-                                'text' => 'Essa tabela disponibiliza o monitoramento de todas as funções desempenhadas no sistema, que serão registradas no banco de dados por segurança e chance de recuperação de dados excluídos por engano.',
-                            ],
-                            [
-                                'img' => 'logs/logs_baixar.png',
-                                'text' => '    Na opção “Baixar Log” você consegue baixar toda a planilha de logs.',
-                            ],
-                            [
-                                'img' => 'logs/logs_limpar.png',
-                                'text' => '    Na opção “Limpar Log” você limpa toda a tabela de logs, porém os dados continuam no servidor.',
-                            ],
-                            [
-                                'img' => 'logs/logs_excluir.png',
-                                'text' => '    Na opção “Excluir Log” você limpa toda a tabela de logs, e também exclui os dados do servidor.',
-                            ],
-                            [
-                                'img' => 'logs/logs_pesquisar.png',
-                                'text' => '    Na opção “Pesquisar” você pode pesquisar algum log em específico.',
-                            ],
-                        ]
-                    ],
-                ],
-
-                'Página inicial' => [
-                    'Notificações' => [
-                        'desc' => null,
-                        'content' => [
-                            [
-                                'img' => 'configurações_curso/notificações.png',
-                                'text' => 'Nesse espaço aparecerão ao usuário notificações relativas a mensagens de coordenadores, vagas de estágio, novidades e informações.',
-                            ],
-                        ]
-                    ],
-                ],
-
-                'Funcionalidades do sistema' => [
-                    'Estágio' => [
-                        null
-                    ],
-
-                    'Cursos' => [
-                        'desc' => null,
-                        'content' => [
-                            'Visualizar cursos' => [
-                                [
-                                    'img' => 'cursos/cursos.png',
-                                    'text' => 'Nessa página o usuário terá a possibilidade de observar os detalhes, fazer edições, adicionar coordenadores e encaminha para a página de configurações do curso selecionado.',
-                                ],
-                                [
-                                    'img' => 'cursos/cursos_anteProx.png',
-                                    'text' => 'Os botões “Anterior” e “Próxima” permitem trocar as páginas quando determinado número de registros for atingido.',
-                                ],
-                                [
-                                    'img' => 'cursos/down_curso.png',
-                                    'text' => 'Neste campo destacado, o usuário poderá fazer o download de uma planilha que contém os nome de todos os coordenadores,informando os cursos correspondentes, assim como a data do seu ingresso na coordenadoria e do seu egresso.',
-                                ],
-                                [
-                                    'img' => 'cursos/imprimi_curso.png',
-                                    'text' => 'Através deste campo destacado, o usuário poderá imprimir e até mesmo criar um arquivo PDF em formato de planilha, assim como salvar no Google Drive tais informações.',
-                                ],
-                                [
-                                    'img' => 'cursos/pesquisar_curso.png',
-                                    'text' => 'Na barra pesquisa, o usuário poderá pesquisar o curso que deseja encontrar, podendo colocar o nome inteiro ou parcialmente.',
-                                ],
-                            ],
-
-                            'Novo curso' => [
-                                [
-                                    'img' => 'cursos/add_curso.png',
-                                    'text' => 'Neste campo, há a possibilidade de adicionar um novo curso à tabela.',
-                                ],
-                                [
-                                    'img' => 'cursos/curso_new_barra.png',
-                                    'text' => 'Nesse campo o usuário poderá adicionar as informações básicas do curso.',
-                                ],
-                                [
-                                    'img' => 'cursos/curso_new_cancelar.png',
-                                    'text' => 'Este campo trará a possibilidade do usuário cancelar a ação ”adicionar novo curso”, caso tenha ocorrido algum contratempo.',
-                                ],
-                                [
-                                    'img' => 'cursos/curso_new_add.png',
-                                    'text' => 'Este campo é a confirmação do ato “Adicionar novo Curso”, na qual salvará os dados no Banco.',
-                                ],
-                            ],
-                        ]
-                    ],
-
-                    'Usuários' => [
-                        'desc' => null,
-                        'content' => [
-                            'Visualizar usuário' => [
-                                [
-                                    'img' => 'usuarios/user_view_barra.png',
-                                    'text' => 'Nesta tabela, é possível visualizar  o id dos usuários, nome, email, cargo e também há a possibilidade de editar as informações.',
-                                ],
-                                [
-                                    'img' => 'usuarios/user_view_antProx.png',
-                                    'text' => 'Os botões “Anterior” e “Próxima” permitem trocar as páginas quando determinado número de registros for atingido.',
-                                ],
-                                [
-                                    'img' => 'usuarios/user_view_CSV.png',
-                                    'text' => 'Nesta opção, o usuário tem a opção de baixar a planilha de usuários.',
-                                ],
-                                [
-                                    'img' => 'usuarios/user_view_imprimir.png',
-                                    'text' => 'Nesta área é possível imprimir as informações apresentadas na tabela de usuários.',
-                                ],
-                                [
-                                    'img' => 'usuarios/user_view_pesquisar.png',
-                                    'text' => 'A área de pesquisa permite pesquisar informações sobre usuários.',
-                                ],
-                            ],
-
-                            'Novo usuário' => [
-                                [
-                                    'img' => 'usuarios/user_view_add.png',
-                                    'text' => 'Neste campo, há a possibilidade de adicionar um novo usuário à tabela.',
-                                ],
-                                [
-                                    'img' => 'usuarios/user_new_barra.png',
-                                    'text' => 'Neste campo, Você insere os dados relativos ao novo usuário que será cadastrado.',
-                                ],
-                                [
-                                    'img' => 'usuarios/user_new_cancelar.png',
-                                    'text' => 'Este campo trará a possibilidade do usuário cancelar o cadastro do novo usuário, caso tenha ocorrido algum contratempo.',
-                                ],
-                                [
-                                    'img' => 'usuarios/user_new_add.png',
-                                    'text' => 'Este campo permite que seja efetuado o cadastro de usuário.',
-                                ],
-                            ]
-                        ]
-                    ],
-
-                    'Coordenadores' => [
-                        'desc' => null,
-                        'content' => [
-                            'Visualizar coordenadores' => [
-                                [
-                                    'img' => 'coordenadores/coord_view_barra.png',
-                                    'text' => 'Neste campo será possível observar os coordenadores que foram adicionados . Caso não haja nenhum coordenador cadastrado, apresentará a mensagem “Nenhum registro encontrado”.',
-                                ],
-                                [
-                                    'img' => 'coordenadores/coord_view_antProx.png',
-                                    'text' => 'Através destes campos destacados, o usuário poderá navegar pelas páginas anteriores dos coordenadores cadastrados e até mesmo ver as próximas.',
-                                ],
-                                [
-                                    'img' => 'coordenadores/coord_view_CSV.png',
-                                    'text' => 'Neste campo destacado, o usuário poderá fazer o download de uma planilha que contém os nome de todos os coordenadores,informando os cursos correspondentes, assim como a data do seu ingresso na coordenadoria e do seu egresso.',
-                                ],
-                                [
-                                    'img' => 'coordenadores/coord_view_imprimir.png',
-                                    'text' => 'Através deste campo destacado, o usuário poderá imprimir e até mesmo criar um arquivo PDF em formato de planilha, assim como salvar no Google Drive tais informações.',
-                                ],
-                                [
-                                    'img' => 'coordenadores/coord_view_pesquisar.png',
-                                    'text' => 'Neste campo o usuário poderá realizar uma pesquisa por nome, a fim de encontrar o coordenador desejado com maior facilidade e agilidade.',
-                                ],
-                            ],
-
-                            'Novo coordenador' => [
-                                [
-                                    'img' => 'coordenadores/coord_new_barra.png',
-                                    'text' => 'Neste campo será possível adicionar um novo coordenador, visto que pode haver troca de profissionais e até mesmo criação de novos curso no colégio.',
-                                ],
-                                [
-                                    'img' => 'coordenadores/coord_new_cancelar.png',
-                                    'text' => 'Este campo trará a possibilidade do usuário cancelar a ação “adicionar novo Coordenador”, caso tenha ocorrido algum contratempo.',
-                                ],
-                                [
-                                    'img' => 'coordenadores/coord_new_adicionar.png',
-                                    'text' => 'Este campo é a confirmação do ato “Adicionar novo Coordenador”, na qual salvará os dados no Banco.',
-                                ],
-                            ],
-                        ]
-                    ],
-
-                    'Alunos' => [
-                        null
-                    ],
-
-                    'Empresas' => [
-                        'desc' => null,
-                        'content' => [
-                            'Visualizar empresa' => [
-                                [
-                                    'img' => 'empresas/view/dados_new_empresa.png',
-                                    'text' => 'Nesta área é possível visualizar os dados das empresas associadas em formato de tabela.',
-                                ],
-                                [
-                                    'img' => 'empresas/view/empresa_new_anteProx.png',
-                                    'text' => 'Através destes campos destacados, o usuário poderá navegar pelas páginas anteriores das empresas cadastradas e até mesmo ver as próximas.',
-                                ],
-                                [
-                                    'img' => 'empresas/view/down_new_empresa.png',
-                                    'text' => 'Neste campo destacado, o usuário poderá fazer o download de uma planilha que contém os nome de todas as empresas,informando dados específicos das empresas, assim como a CNPJ, responsável e telefones.',
-                                ],
-                                [
-                                    'img' => 'empresas/view/impri_new_empresa.png',
-                                    'text' => 'Através deste campo destacado, o usuário poderá imprimir e até mesmo criar um arquivo PDF em formato de planilha, assim como salvar no Google Drive tais informações.',
-                                ],
-                                [
-                                    'img' => 'empresas/view/pesq_new_empresa.png',
-                                    'text' => 'Na barra pesquisa, o usuário poderá pesquisar as empresas que deseja encontrar, podendo colocar o nome inteiro ou parcialmente.',
-                                ],
-                            ],
-
-                            'Nova empresa' => [
-                                [
-                                    'img' => 'empresas/new/add_new_empresa.png',
-                                    'text' => 'Em “Adicionar empresa” você pode fazer um novo registro de empresas.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/dados_da_nova_empresa.png',
-                                    'text' => 'Nos campos da tabela, é possível registrar os dados da empresa.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/cancel_da_nova_empresa.png',
-                                    'text' => 'Nesse campo é possível cancelar as ações de cadastramento de uma nova empresa.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/add_da_nova_empresa.png',
-                                    'text' => 'Nesse campo você irá adicionar uma nova empresa, após o preenchimento de todos os campos de cadastramento.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/dados_do_repre_nova_empresa.png',
-                                    'text' => 'Nesse campo você irá informar o nome e o cargo que exerce o representante da empresa.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/cancel_do_repre_nova_empresa.png',
-                                    'text' => 'Nesse campo é possível cancelar as ações de cadastramento dos dados do representante da empresa.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/add_do_repre_nova_empresa.png',
-                                    'text' => 'Nesse campo você irá adicionar uma nova empresa, após o preenchimento de todos os campos de cadastramento do representante da empresa.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/dados_do_endereco_nova_empresa.png',
-                                    'text' => 'Nos campos da tabela, você irá adicionar os dados da empresa como: cep, bairro e estado.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/cancel_do_endereço_nova_empresa.png',
-                                    'text' => 'Nesse campo é possível cancelar as ações de cadastramento dos dados de localização da empresa.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/add_do_endereço_nova_empresa.png',
-                                    'text' => 'Nesse campo você irá adicionar uma nova empresa, após o preenchimento de todos os campos de cadastramento do endereço da empresa.',
-                                ],
-                            ],
-
-                            'Setores' => [
-                                [
-                                    'img' => 'empresas/new/setores/dados_setores_nova_empresa.png',
-                                    'text' => 'Nesse campo, você irá adicionar os setores e quais cursos a empresa se interessa na busca de um estagiário.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/setores/add_setores_nova_empresa.png',
-                                    'text' => 'Ao clicar, você poderá adicionar um novo setor no qual a empresa trabalha.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/setores/add2_setores_nova_empresa.png',
-                                    'text' => 'Ao clicar em adicionar, conclui - se a operação.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/setores/cancel_setores_nova_empresa.png',
-                                    'text' => 'Ao clicar em cancelar, a operação será desfeita.',
-                                ],
-                            ],
-
-                            'Convênios' => [
-                                [
-                                    'img' => 'empresas/new/convenio/registro_convenio_empresa.png',
-                                    'text' => 'Nesta área, é possível registrar um novo convênio.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/convenio/cancel_registro_convenio_empresa.png',
-                                    'text' => 'Ao clicar em cancelar, a operação será desfeita.',
-                                ],
-                                [
-                                    'img' => 'empresas/new/convenio/add_registro_convenio_empresa.png',
-                                    'text' => 'Ao clicar em adicionar, conclui - se a operação',
-                                ],
-                            ],
-                        ],
-                    ]
-                ]
-            ];
-
-
-        } else if ($user->isCompany()) {
-
-            $content = [
-                'Configurações do sistema' => [
-                    'Alterar senha' => [
-                        'desc' => null,
-                        'content' => [
-                            [
-                                'img' => 'empresa/alterar_senha_empresa.png',
-                                'text' => 'Escreve aqui Tevinho',
-                            ],
-                        ]
-                    ],
 
                 ],
 
                 'Padronização de tabelas' => [
                     'CSV' => [
-                        'desc' => null,
+                        'desc' => 'Selecionando a opção "CSV", você pode fazer o download da tabela em formato de planilha (.csv), para visualização em Excel, Calc ou Google Planilhas.',
                         'content' => [
                             [
-                                'img' => 'empresa/csv_empresa.png',
-                                'text' => 'Escreve aqui Tevinho',
+                                'img' => 'administrador/csv_admin.png',
+                                'text' => 'A opção estará disponível em todas as tabelas do sistema.',
                             ],
-
                         ]
                     ],
 
                     'Imprimir' => [
-                        'desc' => null,
+                        'desc' => 'Selecionando a opção "Imprimir", você pode fazer imprimir a tabela ou gerar um arquivo PDF com todos os dados contidos nela.',
                         'content' => [
                             [
-                                'img' => 'empresa/imprimir_empresa.png',
-                                'text' => 'Escreve aqui Tevinho',
+                                'img' => 'administrador/imprimir_admin.png',
+                                'text' => 'A opção estará disponível em todas as tabelas do sistema.',
+                            ],
+                        ]
+                    ],
+
+                    'Pesquisar' => [
+                        'desc' => 'Pesquise registros específicos inserindo palavras ou termos relacionados. Ex.: para encontrar um registro do curso de Mecânica, você pode digitar "mec", e serão exibidas todas as linhas que possuem algum campo com essas letras.',
+                        'content' => [
+                            [
+                                'img' => 'administrador/pesquisa_admin.png',
+                                'text' => 'A opção estará disponível em todas as tabelas do sistema.',
+                            ],
+                        ]
+                    ],
+
+                    'Anterior/Próximo' => [
+                        'desc' => 'Navegue pelas diferentes páginas da tabela, que serão geradas automaticamente de acordo com o número de registros.',
+                        'content' => [
+                            [
+                                'img' => 'administrador/ant_prox_admin.png',
+                                'text' => 'A opção estará disponível em todas as tabelas do sistema.',
+                            ],
+                        ]
+                    ],
+                ],
+
+                'Página inicial' => [
+                    'Dashboard' => [
+                        'desc' => 'No início, o administrador pode visualizar a Dashboard, que exibe informações do servidor e as notificações (descritas em outro tópico)',
+                        'content' => [
+                            [
+                                'img' => 'administrador/pagina_inicial.png',
+                                'text' => 'Visualize estatísticas de uso do servidor e de seu poder de processamento.',
+                            ],
+                            [
+                                'img' => 'administrador/manutencao_inicio.png',
+                                'text' => 'Ative a opção "Manutenção" somente nos casos de manutenção técnica, correção de erros ou incremento de funcionalidades. Ao ser ativada, todos os acessos serão restritos, com exceção do próprio endereço de IP sendo utilizado.',
+                            ],
+                        ]
+                    ],
+
+                    'Notificações' => [
+                        'desc' => 'Visualize as notificações e atualizações do sistema, dos estágios, das coordenadorias, empresas, etc.',
+                        'content' => [
+                            [
+                                'img' => 'administrador/notifica_admin.png',
+                                'text' => 'Selecione o sino para visualizar as notificações.',
+                            ],
+                            [
+                                'img' => 'administrador/notificacoes_admin.png',
+                                'text' => 'Clique em "Ver todas" para abrir uma tabela com todas as notificações ainda não lidas.',
+                            ],
+                        ]
+                    ],
+                ],
+
+                'Funcionalidades do sistema' => [
+                    'Mensagem' => [
+                        'desc' => 'Envie mensagens para os alunos do Colégio, através do email.',
+                        'content' => [
+                            'Filtros' => [
+                                [
+                                    'img' => 'administrador/filtro_mensagem_admin.png',
+                                    'text' => 'Selecione turmas, períodos e outros filtros para especificar os alunos que devem receber a mensagem a ser escrita. Utilizando a aba "Alunos específicos", você pode enviar a mensagem para um ou mais alunos específicos, que podem ser selecionados através de RA e nome.',
+                                ],
+                            ],
+
+                            'Conteúdo' => [
+                                [
+                                    'img' => 'administrador/content_mensagem_admin.png',
+                                    'text' => 'Você pode redigir mensagens com alto grau de personalização, editando tamanho de texto, inserindo conteúdo em negrito, sublinhado ou itálico e até imagens.',
+                                ],
+                            ],
+                        ],
+                    ],
+
+                    'Usuários' => [
+                        'desc' => "Os usuários são todos aqueles que têm acesso ao sistema, seja como administrador, professor, empresa ou aluno.",
+                        'content' => [
+                            'Visualizar usuários' => [
+                                [
+                                    'img' => 'administrador/visualizar_usuario_admin.png',
+                                    'text' => 'Visualize todos os usuários cadastrados, podendo editar seus registros e visualizar a que grupo pertencem.',
+                                ],
+                            ],
+
+                            'Adicionar usuário' => [
+                                [
+                                    'img' => 'administrador/add_usuario_admin.png',
+                                    'text' => 'Adicione um novo usuário. Atenção! Todos os coordenadores, para serem registrados, devem primeiramente serem cadastrados no grupo de Professores, para que fiquem disponíveis à escolha na página de Coordenadores (descrita em outro tópico).',
+                                ],
+                            ],
+                        ],
+                    ],
+
+                    'Cursos' => [
+                        'desc' => "São todos os cursos atualmente ativos ou que em algum momento já foram oferecidos pelo Colégio.",
+                        'content' => [
+                            'Visualizar cursos' => [
+                                [
+                                    'img' => 'administrador/visualizar_curso_admin.png',
+                                    'text' => 'Visualize todos os cursos relacionados à instituição, podendo visualizar os respectivos coordenadores e outras configurações.',
+                                ],
+                            ],
+
+                            'Adicionar curso' => [
+                                [
+                                    'img' => 'administrador/add_curso_admin.png',
+                                    'text' => 'Adicione um novo curso ao sistema. Selecione a opção "Adicionar configuração" caso deseje adicionar configurações personalizadas ao curso (diferentes das opções gerais de curso, já explicadas no tópico "Configurações do sistema").',
+                                ],
+                                [
+                                    'img' => 'administrador/conf_add_curso_admin.png',
+                                    'text' => 'Determine normas exclusivas ao novo curso, alterando por exemplo as horas mínimas de estágio ou outras regras, ou seja, que sejam diferentes das opções gerais de curso definidas nas "Confirações do sistema".',
+                                ],
+                            ],
+
+                            'Adicionar configuração' => [
+                                [
+                                    'img' => 'administrador/conf_visualizar_curso_admin.png',
+                                    'text' => 'Ao visualizar todos os cursos cadastrados, você pode selecionar um deles para realizar a alteração ou adição de suas opções de curso.',
+                                ],
+                                [
+                                    'img' => 'administrador/add_conf_curso_admin.png',
+                                    'text' => 'Ao ser direcionado a essa página, clique em "Adicionar configuração" para adicionar uma nova configuração do curso selecionado, ou edite alguma das opções já cadastradas.',
+                                ],
+                            ],
+                        ],
+                    ],
+
+                    'Coordenadores' => [
+                        'desc' => "Os coordenadores têm acesso a uma interface específica do sistema, e podem trabalhar com propostas e estágios, enviar mensagens e administrar a entrega de relatórios.",
+                        'content' => [
+                            'Visualizar coordenadores' => [
+                                [
+                                    'img' => 'administrador/visualizar_coordenador_admin.png',
+                                    'text' => 'Visualize todos os coordenadores registrados e as datas de vigência de suas coordenadorias, sejam essas atuais ou anteriores.',
+                                ],
+                            ],
+
+                            'Adicionar coordenador' => [
+                                [
+                                    'img' => 'administrador/add_coordenador_admin.png',
+                                    'text' => 'Você pode adicionar um novo coordenador de curso, que deve obrigatoriamente estar registrado como usuário Professor.',
+                                ],
+                                [
+                                    'img' => 'administrador/temp_add_coordenador_admin.png',
+                                    'text' => 'Em épocas de férias ou recesso, um novo coordenador pode ser registrado apenas como temporário de outro coordenador já ativo, ao selecionar a opção indicada. Um coordenador temporário poderá usufruir das mesmas permissões de qualquer outro coordenador (restrito ao seu respectivo curso).',
+                                ],
+                            ],
+                        ],
+                    ],
+
+                    'Geração de documentos' => [
+                        'desc' => 'O SGE é capaz de gerar automaticamente todos os documentos necessários à realização do estágio. Desde o plano de estágio até o relatório final.',
+                        'content' => [
+                            [
+                                'img' => 'administrador/docs_estagio.png',
+                                'text' => 'Caso seja necessário, é possível acessar o servidor do SGE para realizar alterações nos templates da documentação de estágio. Os templates se localizam em <b>storage/app/public/docs/templates</b>.',
+                            ]
+                        ],
+                    ],
+                ]
+            ];
+        } else if ($user->isCoordinator()) {
+            $content = [
+                'Configurações do sistema' => [
+                    'Alterar senha' => [
+                        'desc' => "Utilize esta interface para alterar a sua senha de entrada.",
+                        'content' => [
+                            [
+                                'img' => 'coordenador/alterar_senha_coordenadores.png',
+                                'text' => 'Insira a senha em uso em "Senha atual" e a nova senha desejada em "Nova senha", confirmando a nova senha em "Repita a senha".',
+                            ],
+                        ]
+                    ],
+                ],
+
+                'Padronização de tabelas' => [
+                    'CSV' => [
+                        'desc' => 'Selecionando a opção "CSV", você pode fazer o download da tabela em formato de planilha (.csv), para visualização em Excel, Calc ou Google Planilhas.',
+                        'content' => [
+                            [
+                                'img' => 'coordenador/csv_coordenadores.png',
+                                'text' => 'A opção estará disponível em todas as tabelas do sistema.',
+                            ],
+                        ]
+                    ],
+
+                    'Imprimir' => [
+                        'desc' => 'Selecionando a opção "Imprimir", você pode fazer imprimir a tabela ou gerar um arquivo PDF com todos os dados contidos nela.',
+                        'content' => [
+                            [
+                                'img' => 'coordenador/imprimir_coordenadores.png',
+                                'text' => 'A opção estará disponível em todas as tabelas do sistema.',
+                            ],
+                        ]
+                    ],
+
+                    'Pesquisar' => [
+                        'desc' => 'Pesquise registros específicos inserindo palavras ou termos relacionados. Ex.: para encontrar um registro do curso de Mecânica, você pode digitar "mec", e serão exibidas todas as linhas que possuem algum campo com essas letras.',
+                        'content' => [
+                            [
+                                'img' => 'coordenador/pesquisa_coordenadores.png',
+                                'text' => 'A opção estará disponível em todas as tabelas do sistema.',
+                            ],
+                        ]
+                    ],
+
+                    'Anterior/Próximo' => [
+                        'desc' => 'Navegue pelas diferentes páginas da tabela, que serão geradas automaticamente de acordo com o número de registros.',
+                        'content' => [
+                            [
+                                'img' => 'coordenador/ant_prox_coordenadores.png',
+                                'text' => 'A opção estará disponível em todas as tabelas do sistema.',
+                            ],
+                        ]
+                    ],
+                ],
+
+                'Página inicial' => [
+                    'Dashboard' => [
+                        'desc' => 'No início, o administrador pode visualizar a Dashboard, que exibe informações da sua coordenadoria e as notificações (descritas em outro tópico)',
+                        'content' => [
+                            [
+                                'img' => 'coordenador/pagina_inicial_coordenadores.png',
+                                'text' => 'Visualize relatórios atrasados e outros assuntos de importância.',
+                            ],
+                        ]
+                    ],
+
+                    'Notificações' => [
+                        'desc' => 'Visualize as notificações e atualizações do sistema, dos estágios, das coordenadorias, empresas, etc.',
+                        'content' => [
+                            [
+                                'img' => 'coordenador/notifica_coordenadores.png',
+                                'text' => 'Selecione o sino para visualizar as notificações.',
+                            ],
+                            [
+                                'img' => 'coordenador/notificacao_coordenadores.png',
+                                'text' => 'Clique em "Ver todas" para abrir uma tabela com todas as notificações ainda não lidas.',
+                            ],
+                        ]
+                    ],
+                ],
+
+                'Funcionalidades do sistema' => [
+                    'Mensagem' => [
+                        'desc' => 'Envie mensagens para os alunos do Colégio, através do email.',
+                        'content' => [
+                            'Filtros' => [
+                                [
+                                    'img' => 'coordenador/filtro_mensagem_coordenadores.png',
+                                    'text' => 'Selecione turmas, períodos e outros filtros para especificar os alunos que devem receber a mensagem a ser escrita. Utilizando a aba "Alunos específicos", você pode enviar a mensagem para um ou mais alunos específicos, que podem ser selecionados através de RA e nome. Aviso: cada coordenador está restrito aos alunos do curso que coordena para o envio de emails.',
+                                ],
+                            ],
+
+                            'Conteúdo' => [
+                                [
+                                    'img' => 'coordenador/content_mensagem_coordenadores.png',
+                                    'text' => 'Você pode redigir mensagens com alto grau de personalização, editando tamanho de texto, inserindo conteúdo em negrito, sublinhado ou itálico e até imagens. Selecione alguma das opções como "Aviso importante" ou "Relatório bimestral" para automatizar a escrita e ganhar tempo.',
+                                ],
+                            ],
+                        ],
+                    ],
+
+                    'Empresas' => [
+                        'desc' => 'As empresas cadastradas pelos coordenadores passam a estar disponíveis no registro de novos estágios de alunos do Colégio.',
+                        'content' => [
+                            'Visualizar empresa' => [
+                                [
+                                    'img' => 'coordenador/visualizar_empresa_coordenadores.png',
+                                    'text' => 'Visualize todas as empresas cadastradas em relação ao seu curso.',
+                                ],
+                            ],
+
+                            'Adicionar empresa' => [
+                                [
+                                    'img' => 'coordenador/pg1_add_empresa.png',
+                                    'text' => 'Ao adicionar o CNPJ da empresa ou o CPF do responsável, o sistema busca automaticamente outras informações disponíveis sobre o Cadastro no banco de dados da Receita Federal.',
+                                ],
+                                [
+                                    'img' => 'coordenador/pg2_add_empresa.png',
+                                    'text' => 'Ao adicionar o CEP do endereço da empresa, o sistema busca automaticamente o resto do endereço no banco de dados dos Correios.',
+                                ],
+                                [
+                                    'img' => 'coordenador/pg3_add_empresa.png',
+                                    'text' => 'Caso selecione a opção "Registrar convênio", um convênio será automaticamente registrado com referência à nova empresa.',
+                                ],
+                            ],
+
+                            'Setores' => [
+                                [
+                                    'img' => 'coordenador/visualizar_setor_coordenadores.png',
+                                    'text' => 'Visualize todos os setores possíveis já registrados em relação ao seu curso.',
+                                ],
+                                [
+                                    'img' => 'coordenador/add_setor_coordenadores.png',
+                                    'text' => 'Ao clicar em "Adicionar setor", na página anterior, você tem a possibilidade de adicionar um novo setor ao sistema, o que também pode ser feito utilizando a interface de adição de nova empresa (subtópico "Adicionar empresa", no presente tópico).',
+                                ],
+                            ],
+
+                            'Supervisores' => [
+                                [
+                                    'img' => 'coordenador/visualizar_supervisor_coordenadores.png',
+                                    'text' => 'Visualize todos os supervisores já registrados e associados às empresas registradas.',
+                                ],
+                                [
+                                    'img' => 'coordenador/add_supervisor_coordenadores.png',
+                                    'text' => 'Adicione um novo supervisor para uma empresa já cadastrada no sistema (para cadastrar uma nova empresa, leia o subtópico "Adicionar empresa", no presente tópico).',
+                                ],
+                            ],
+
+                            'Convênios' => [
+                                [
+                                    'img' => 'coordenador/visualizar_convenios_ccoordenadores.png',
+                                    'text' => 'Visualize todos os convênios de estágios com empresas já registrados.',
+                                ],
+                                [
+                                    'img' => 'coordenador/add_convenios_coordenadores.png',
+                                    'text' => 'Crie um convênio para uma empresa já cadastrada no sistema e ainda não conveniada (para cadastrar uma nova empresa, leia o subtópico "Adicionar empresa", no presente tópico).',
+                                ],
+                            ],
+                        ],
+                    ],
+
+                    'Estágios' => [
+                        'desc' => 'Os estágios dos alunos podem ser adicionados e administrados através desta interface.',
+                        'content' => [
+                            'Visualizar estágio' => [
+                                [
+                                    'img' => 'coordenador/visualizar_estagio_coordenadores.png',
+                                    'text' => 'Visualize todos os estágios em andamento, cancelados ou finalizados em relação ao curso.',
+                                ],
+                            ],
+
+                            'Adicionar estágio' => [
+                                [
+                                    'img' => 'coordenador/pg1_add_estagio.png',
+                                    'text' => 'Adicione um novo estágio associando um aluno a uma empresa, selecionando representante, setor, datas e descrição das atividades. O estágio só poderá ser registrado caso siga as opções do seu curso, como os anos mínimos e o semestre do aluno.',
+                                ],
+                                [
+                                    'img' => 'coordenador/pg2_add_estagio.png',
+                                    'text' => 'A opção destacada com a seta pode auxiliar no preenchimento de horários repetidos, pois replica automaticamente os horários e dias desejados.',
+                                ],
+                            ],
+
+                            'Termos Aditivos' => [
+                                [
+                                    'img' => 'coordenador/visualizar_termoadd_coordenadores.png',
+                                    'text' => 'Visualize todos os termos aditivos criados para estágios registrados em relação ao curso, desempenhando a função de promover mudanças temporárias ou não de datas ou horários e outros parâmetros do estágio.',
+                                ],
+                                [
+                                    'img' => 'coordenador/pg1_add_termo.png',
+                                    'text' => 'Adicione um novo termo aditivo associado a um estágio já cadastrado.',
+                                ],
+                                [
+                                    'img' => 'coordenador/pg2_add_termo.png',
+                                    'text' => 'Selecionando essa opção, você tem a possibilidade de alterar a data de término do estágio.',
+                                ],
+                                [
+                                    'img' => 'coordenador/pg3_add_termo.png',
+                                    'text' => 'Ao selecionar "Alterar horário", você pode alterar os horários de realização do estágio pelo aluno, determinando uma data de início e de fim de vigência para alteração na agenda.',
+                                ],
+                            ],
+                        ]
+                    ],
+
+                    'Trabalhos' => [
+                        'desc' => 'Registros dos trabalhos CTPS realizados por alunos do Colégio.',
+                        'content' => [
+                            'Visualizar trabalhos' => [
+                                [
+                                    'img' => 'coordenador/visualizar_trabalho_coordenadores.png',
+                                    'text' => 'Visualize todos os trabalhos registrados em relação ao curso.',
+                                ],
+                            ],
+
+                            'Adicionar trabalho' => [
+                                [
+                                    'img' => 'coordenador/add_trabalho_coordenadores.png',
+                                    'text' => 'Adicione um novo trabalho, associando-o com um aluno e outras informações da empresa e das atividades desenvolvidas.',
+                                ],
+                            ],
+                            'Empresas' => [
+                                [
+                                    'img' => 'coordenador/visualizar_empresatrab_coordenadores.png',
+                                    'text' => 'Visualize as empresas registradas exclusivamente para trabalhos CTPS, ou seja, sem relação com a oferta de estágios e/ou interesse por convênios.',
+                                ],
+                                [
+                                    'img' => 'coordenador/add_empresatrab_coordenadores.png',
+                                    'text' => 'Adicione uma nova empresa para futuros trabalhos CTPS.',
+                                ],
+                            ],
+                        ]
+                    ],
+
+                    'Relatórios' => [
+                        'desc' => 'Relatórios bimestrais e finais entregues por alunos que possuem estágio em andamento ou finalizado.',
+                        'content' => [
+                            'Visualizar relatórios' => [
+                                [
+                                    'img' => 'coordenador/visualizar_relatorio_coordenadores.png',
+                                    'text' => 'Visualize todos os relatórios bimestrais ou finais entregues e registrados em relação ao curso.',
+                                ],
+                            ],
+
+                            'Adicionar relatório bimestral' => [
+                                [
+                                    'img' => 'coordenador/add_bimestral_coordenadores.png',
+                                    'text' => 'Adicione um relatório bimestral protocolado por um aluno estagiando.',
+                                ],
+                            ],
+
+                            'Relatórios finais' => [
+                                [
+                                    'img' => 'coordenador/add_final_coordenadores.png',
+                                    'text' => 'Adicione um relatório final protocolado por um aluno que está finalizando o estágio, preenchendo o questionário e revisando os dados do estágio.',
+                                ],
+                            ],
+                        ]
+                    ],
+
+                    'Propostas' => [
+                        'desc' => 'Recebidas das empresas registradas no SGE, podem ser aprovadas, rejeitadas ou divulgadas aos alunos do seu curso.',
+                        'content' => [
+                            'Visualizar propostas' => [
+                                [
+                                    'img' => 'coordenador/visualizar_propostas.png',
+                                    'text' => 'Visualize todas as propostas recebidas pelo curso, podendo as aprovar, rejeitar, editar ou divulgar (através do email).',
+                                ],
+                            ],
+
+                            'Adicionar proposta' => [
+                                [
+                                    'img' => 'coordenador/pg1_add_proposta.png',
+                                    'text' => 'Toda proposta adicionada por um coordenador será automaticamente aprovada ao ser registrada. Deve estar obrigatoriamente associada a uma empresa.',
+                                ],
+                                [
+                                    'img' => 'coordenador/pg2_add_proposta.png',
+                                    'text' => 'O coordenador pode inserir propostas que abranjam mais que apenas seu próprio curso.',
+                                ],
+                                [
+                                    'img' => 'coordenador/pg3_add_proposta.png',
+                                    'text' => 'Ao selecionar a opção "Horário pré-definido", o estagiário terá ciência de que deverá contemplar obrigatoriamente as horários pré-definidas na proposta.',
+                                ],
+                            ],
+
+                            'Enviar email' => [
+                                [
+                                    'img' => 'coordenador/email_visualizar_propostas.png',
+                                    'text' => 'Ao selecionar a opção "Enviar email", você é redirecionado para a página de Mensagem (leia mais sobre no tópico 4.1 "Mensagem").',
+                                ],
+                                [
+                                    'img' => 'coordenador/email_propostas.png',
+                                    'text' => 'Na página de Mensagem (tópico 4.1), você pode selecionar, entre as propostas aprovadas, quais deseja divulgar para as turmas selecionadas através dos filtros.',
+                                ],
+                            ],
+                        ]
+                    ],
+
+                    'Alunos' => [
+                        'desc' => 'Integração com o banco de dados do NSac do Colégio.',
+                        'content' => [
+                            'Visualizar dados dos alunos' => [
+                                [
+                                    'img' => 'coordenador/dados_alunos.png',
+                                    'text' => 'Visualize todos os registros dos alunos do Colégio.',
+                                ],
+                            ],
+
+                            'Obter PDF dos alunos' => [
+                                [
+                                    'img' => 'coordenador/relacao_alunos.png',
+                                    'text' => 'Defina filtros para geração de relação em PDF com os alunos selecionados.',
+                                ],
+                            ],
+                        ]
+                    ],
+                ]
+            ];
+        } else if ($user->isCompany()) {
+            $content = [
+                'Configurações do sistema' => [
+                    'Alterar senha' => [
+                        'desc' => "Utilize esta interface para alterar a sua senha de entrada.",
+                        'content' => [
+                            [
+                                'img' => 'empresa/alterar_senha.png',
+                                'text' => 'Insira a senha em uso em "Senha atual" e a nova senha desejada em "Nova senha", confirmando a nova senha em "Repita a senha".',
+                            ],
+                        ]
+                    ],
+                ],
+
+                'Padronização de tabelas' => [
+                    'CSV' => [
+                        'desc' => 'Selecionando a opção "CSV", você pode fazer o download da tabela em formato de planilha (.csv), para visualização em Excel, Calc ou Google Planilhas.',
+                        'content' => [
+                            [
+                                'img' => 'empresa/csv.png',
+                                'text' => 'A opção estará disponível em todas as tabelas do sistema.',
+                            ],
+                        ]
+                    ],
+
+                    'Imprimir' => [
+                        'desc' => 'Selecionando a opção "Imprimir", você pode fazer imprimir a tabela ou gerar um arquivo PDF com todos os dados contidos nela.',
+                        'content' => [
+                            [
+                                'img' => 'empresa/imprimir.png',
+                                'text' => 'A opção estará disponível em todas as tabelas do sistema.',
+                            ],
+                        ]
+                    ],
+
+                    'Pesquisar' => [
+                        'desc' => 'Pesquise registros específicos inserindo palavras ou termos relacionados. Ex.: para encontrar um registro do curso de Mecânica, você pode digitar "mec", e serão exibidas todas as linhas que possuem algum campo com essas letras.',
+                        'content' => [
+                            [
+                                'img' => 'empresa/pesquisa.png',
+                                'text' => 'A opção estará disponível em todas as tabelas do sistema.',
+                            ],
+                        ]
+                    ],
+
+                    'Anterior/Próximo' => [
+                        'desc' => 'Navegue pelas diferentes páginas da tabela, que serão geradas automaticamente de acordo com o número de registros.',
+                        'content' => [
+                            [
+                                'img' => 'empresa/ant_prox.png',
+                                'text' => 'A opção estará disponível em todas as tabelas do sistema.',
                             ],
                         ]
                     ],
@@ -920,75 +658,76 @@ class HelpController extends Controller
 
                 'Página inicial' => [
                     'Notificações' => [
-                        'desc' => null,
+                        'desc' => 'Nesse local apareceram as novas notificações e alertas sobre as propostas de estágio solicitadas, se foram aceitas ou não pelo coordenador.',
                         'content' => [
+                            [
+                                'img' => 'empresa/notifica_empresa.png',
+                                'text' => 'Selecione o sino para visualizar as notificações disponíveis',
+                            ],
                             [
                                 'img' => 'empresa/notificacao_empresa.png',
-                                'text' => 'Escreve aqui Tevinho',
+                                'text' => 'Clique em "Ver todas" para abrir uma tabela com todas as notificações ainda não lidas.',
                             ],
                         ]
                     ],
 
                     'Propostas' => [
-                        'desc' => null,
+                        'desc' => 'Na página inicial, você pode visualizar estatísticas sobre as propostas enviadas por sua empresa ao Colégio.',
                         'content' => [
                             [
-                                'img' => 'empresa/inicio_empresa.png',
-                                'text' => 'Escreve aqui Tevinho',
-                            ],
-                        ]
-                    ],
-                ],
-
-                'Funcionalidades do sistema' => [
-
-                    'Propostas' => [
-                        'desc' => null,
-                        'content' => [
-                            'Visualizar Proposta' => [
-                                [
-                                    'img' => 'empresa/visualizar_propostas_empresa.png',
-                                    'text' => 'Escreve aqui Tevinho',
-                                ],
-                            ],
-
-                            'Adicionar Proposta' => [
-                                [
-                                    'img' => 'empresa/adicionar_proposta_empresa.png',
-                                    'text' => 'Escreve aqui Tevinho',
-                                ],
-                                [
-                                    'img' => 'empresa/adicionar_proposta_empresa2.png',
-                                    'text' => 'Escreve aqui Tevinho',
-                                ],
-
-                            ],
-                        ]
-                    ],
-
-                ]
-
-            ];
-
-
-        } else if ($user->isStudent()) {
-
-            $content = [
-                'Configurações do sistema' => [
-                    'Alterar senha' => [
-                        'desc' => 'Utilize essa interface para alterar sua senha.',
-                        'content' => [
-                            [
-                                'img' => 'aluno/alterar_senha_aluno.png',
+                                'img' => 'empresa/dashboard.png',
                                 'text' => '',
                             ],
                         ]
                     ],
                 ],
 
+                'Funcionalidades do sistema' => [
+                    'Propostas' => [
+                        'desc' => 'Propostas enviadas por sua empresa ao Colégio.',
+                        'content' => [
+                            'Visualizar propostas' => [
+                                [
+                                    'img' => 'coordenador/visualizar_propostas.png',
+                                    'text' => 'Visualize todas as propostas já enviadas e o estado destas (aprovadas, reprovadas ou pendentes).',
+                                ],
+                            ],
+
+                            'Adicionar proposta' => [
+                                [
+                                    'img' => 'coordenador/pg1_add_proposta.png',
+                                    'text' => 'Toda proposta enviada estará associada à sua empresa.',
+                                ],
+                                [
+                                    'img' => 'coordenador/pg2_add_proposta.png',
+                                    'text' => 'Sua proposta pode abranger mais de um curso.',
+                                ],
+                                [
+                                    'img' => 'coordenador/pg3_add_proposta.png',
+                                    'text' => 'Ao selecionar a opção "Horário pré-definido", o estagiário terá ciência de que deverá contemplar obrigatoriamente as horários pré-definidas na proposta.',
+                                ],
+                            ],
+                        ]
+                    ],
+                ]
+            ];
+        } else if ($user->isStudent()) {
+            $content = [
+                'Configurações do sistema' => [
+                    'Alterar senha' => [
+                        'desc' => "Utilize esta interface para alterar a sua senha de entrada.",
+                        'content' => [
+                            [
+                                'img' => 'aluno/alterar_senha.png',
+                                'text' => 'Insira a senha em uso em "Senha atual" e a nova senha desejada em "Nova senha", confirmando a nova senha em "Repita a senha".',
+                            ],
+                        ]
+                    ],
+                ],
+
                 'Página inicial' => [
                     'Notificações' => [
-                        'desc' => 'Nesse local apareceram as novas notificações e alertas sobre sua documentação ou propostas de estágio.',
+                        'desc' => 'Neste local aparecerão as novas notificações e alertas sobre sua documentação ou propostas de estágio.',
                         'content' => [
                             [
                                 'img' => 'aluno/notificacao_aluno.png',
@@ -1009,21 +748,27 @@ class HelpController extends Controller
                 ],
 
                 'Funcionalidades do sistema' => [
-
                     'Propostas' => [
-                        'desc' => 'Utilize essa interface para visualizar todas as propostas de estágio disponíveis.',
+                        'desc' => 'Acesse todas as propostas de estágio/IC disponíveis.',
                         'content' => [
-                            '' => [
+                            'Visualizar' => [
                                 [
                                     'img' => 'aluno/propostas_aluno.png',
-                                    'text' => '',
+                                    'text' => 'Visualize as propostas recebidas e aprovadas de empresas relacionadas ao Colégio.',
+                                ],
+                            ],
+
+                            'Detalhes' => [
+                                [
+                                    'img' => 'aluno/detalhes_proposta.png',
+                                    'text' => 'Veja mais detalhes sobre a proposta selecionada, como o contato para que você possa enviar seu currículo e outras informações.',
                                 ],
                             ],
                         ],
                     ],
 
                     'Documentação de estágio' => [
-                        'desc' => null,
+                        'desc' => "Você pode utilizar essa interface para gerar automaticamente todos os documentos necessários à realização do estágio. Desde o plano de estágio até o relatório final.",
                         'content' => [
                             '' => [
                                 [

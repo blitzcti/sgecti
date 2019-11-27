@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Auth;
+use App\Models\Course;
 use App\Models\Internship;
 use App\Models\Proposal;
+use Carbon\Carbon;
 use Illuminate\Contracts\Support\Renderable;
 
 class HomeController extends Controller
@@ -33,12 +35,15 @@ class HomeController extends Controller
             $cIds = Auth::user()->coordinator_courses_id;
 
             $data['strCourses'] = $strCourses;
-            $data['requiringFinish'] = Internship::requiringFinish();
-            $data['proposals'] = Proposal::all()
-                ->where('approved_at', '=', null)
-                ->where('reason_to_reject', '=', null)
-                ->filter(function ($proposal) use ($cIds) {
+            $data['requiringFinish'] = Internship::requiringFinish()->filter(function ($internship) use ($cIds) {
+                return in_array($internship->student->course_id, $cIds);
+            })->sortBy('student.nome');
+
+            $data['proposals'] = Proposal::pending()
+                ->filter(function (Proposal $proposal) use ($cIds) {
                     $ret = false;
+
+                    /* @var $course Course */
                     foreach ($proposal->courses as $course) {
                         if (!$ret) {
                             $ret = in_array($course->id, $cIds);
@@ -49,8 +54,15 @@ class HomeController extends Controller
                 })->sortBy('id');
         } else if ($user->isCompany()) {
             $company = $user->company;
-            $data['proposals'] = $company->proposals;
-            $data['proposalsApproved'] = $company->proposals->where('approved_at', '<>', null);
+            $data['proposals'] = $company->proposals
+                ->where('approved_at', '=', null)
+                ->where('reason_to_reject', '=', null)
+                ->where('deadline', '>=', Carbon::today());
+            $data['proposalsApproved'] = $company->proposals
+                ->where('approved_at', '<>', null);
+            $data['propalsRejected'] = $company->proposals
+                ->where('reason_to_reject', '<>', null)
+                ->where('approved_at', '=', null);
         } else if ($user->isStudent()) {
             $data['proposals'] = Proposal::approved();
         }

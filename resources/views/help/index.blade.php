@@ -39,9 +39,9 @@
                         @foreach($icontent as $c2 => $icontent2)
 
                             <section class="accordion">
-                                <input type="checkbox" name="collapse" id="handle{{ "$i1.$i2" }}">
+                                <input type="checkbox" name="collapse" id="handle{{ "{$i1}.{$i2}" }}">
                                 <h4 class="handle">
-                                    <label for="handle{{ "$i1.$i2" }}"><b>{{ "$i1.$i2" }}. </b>
+                                    <label for="handle{{ "{$i1}.{$i2}" }}"><b>{{ "{$i1}.{$i2}" }}. </b>
                                         {{ $c2 }}
                                     </label>
                                 </h4>
@@ -49,7 +49,7 @@
                                 <div class="hcontent">
                                     @if($icontent2 == [null])
 
-                                        <p>(TUTORIAL)</p>
+                                        <p>(EM DESENVOLVIMENTO)</p>
 
                                     @else
                                         @if($icontent2['desc'] != null)
@@ -65,18 +65,22 @@
 
                                                 @foreach($icontent3 as $icontent4)
 
-                                                    <img src="{{ asset("img/help/" . $icontent4['img']) }}" alt="" />
-                                                    <p>{{ $icontent4['text'] }}</p>
-                                                    <br />
+                                                    @if(array_key_exists('img', $icontent4))
+                                                        <img src="{{ asset("img/help/{$icontent4['img']}") }}" alt=""/>
+                                                    @endif
+                                                    <p>{!! $icontent4['text'] !!}</p>
+                                                    <br/>
 
                                                 @endforeach
                                             @endforeach
                                         @else
                                             @foreach($icontent2['content'] as $c3 => $icontent3)
 
-                                                <img src="{{ asset("img/help/" . $icontent3['img']) }}" alt="" />
-                                                <p>{{ $icontent3['text'] }}</p>
-                                                <br />
+                                                @if(array_key_exists('img', $icontent3))
+                                                    <img src="{{ asset("img/help/{$icontent3['img']}") }}" alt=""/>
+                                                @endif
+                                                <p>{!! $icontent3['text'] !!}</p>
+                                                <br/>
 
                                             @endforeach
                                         @endif

@@ -47,6 +47,10 @@
             @endforeach
         ];
 
+        function getClasses() {
+            return jQuery('#inputClasses').val();
+        }
+
         function getGrades() {
             return jQuery('#inputGrades').val();
         }
@@ -64,18 +68,23 @@
         }
 
         function loadStudents() {
-            let gs = getGrades().map(g => `&grades[]=${g}`);
-            let ps = getPeriods().map(p => `&periods[]=${p}`);
-            let cs = getCourses().map(c => `&courses[]=${c}`);
-            let es = getInternshipState().map(e => `&istates[]=${e}`);
+            let cs = getClasses().map(c => `&classes[]=${c}`).join('');
+            let gs = getGrades().map(g => `&grades[]=${g}`).join('');
+            let ps = getPeriods().map(p => `&periods[]=${p}`).join('');
+            let Cs = getCourses().map(C => `&courses[]=${C}`).join('');
+            let es = getInternshipState().map(e => `&istates[]=${e}`).join('');
 
-            if (gs.length === ps.length && ps.length === cs.length && cs.length === es.length && es.length === 0) {
+            if (cs.length === gs.length && gs.length === ps.length && ps.length === Cs.length && Cs.length === es.length && es.length === 0) {
                 return;
             } else {
                 jQuery('#messageStudentsModal').modal('show');
             }
 
-            let url = `/api/alunos?q=`;
+            let url = `{{ config('app.url') }}/api/alunos?q=`;
+            if (cs.length > 0) {
+                url += cs;
+            }
+
             if (gs.length > 0) {
                 url += gs;
             }
@@ -84,8 +93,8 @@
                 url += ps;
             }
 
-            if (cs.length > 0) {
-                url += cs;
+            if (Cs.length > 0) {
+                url += Cs;
             }
 
             if (es.length > 0) {

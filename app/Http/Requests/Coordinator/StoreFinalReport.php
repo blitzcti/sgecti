@@ -29,7 +29,7 @@ class StoreFinalReport extends FormRequest
     {
         return [
             'internship' => ['required', 'integer', 'min:1', 'exists:internships,id', new InternshipIsOpen, new Active(Internship::class)],
-            'date' => ['required', 'date'],
+            'reportDate' => ['required', 'date'],
 
             'grade_1_a' => ['required', 'integer', 'min:1', 'max:6'],
             'grade_1_b' => ['required', 'integer', 'min:1', 'max:6'],

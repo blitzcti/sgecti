@@ -76,18 +76,9 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-
-                <input type="hidden" id="inputPrevious" name="previous"
-                       value="{{ old('previous') ?? url()->previous() }}">
-                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
-            </div>
-            <!-- /.box-footer -->
         </div>
 
-        @if ($internships->first() != null)
+        @if($internships->first() != null)
 
             <div class="box box-default">
                 <div class="box-header with-border">
@@ -160,6 +151,23 @@
 
             <div id="schedule">
                 <div class="box-body">
+                    @foreach($fields as $field)
+                        @if($errors->has("{$field}S") || $errors->has("{$field}E") || $errors->has("{$field}S2") || $errors->has("{$field}E2"))
+                            <div class="alert alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                @foreach($fields as $f)
+                                    <p>{{ $errors->first("{$f}S") }}</p>
+                                    <p>{{ $errors->first("{$f}E") }}</p>
+                                    <p>{{ $errors->first("{$f}S2") }}</p>
+                                    <p>{{ $errors->first("{$f}E2") }}</p>
+                                @endforeach
+                            </div>
+                            @break
+                        @endif
+                    @endforeach
+
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group @if($errors->has('startDate')) has-error @endif">
@@ -184,8 +192,6 @@
                                             <button type="button" class="btn btn-default dropdown-toggle"
                                                     data-toggle="dropdown">
                                                 <span id="EndDateToggle"></span>
-
-
                                                 <span class="fa fa-caret-down"></span></button>
 
                                             <ul class="dropdown-menu">
@@ -519,15 +525,18 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.box-body -->
-                <div class="box-footer">
-                    <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
-                    <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
-                </div>
-                <!-- /.box-footer -->
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
+            </div>
+        </div>
     </form>
 @endsection
 
@@ -550,7 +559,7 @@
         function endDate(id) {
             switch (id) {
                 case -1:
-                    if (jQuery('#inputEndDate').val() !== '') {
+                    if (jQuery('#inputEndDate').val() !== '' && jQuery('#inputEndDate').val() !== jQuery('#internshipEndDate').text().trim().split("/").reverse().join("-")) {
                         jQuery('#EndDateToggle').text('Personalizado');
                         break;
                     }
@@ -581,6 +590,10 @@
                 removeMaskOnSubmit: false
             }).parent().css('margin', '0');
 
+            jQuery('#inputEndDate').on('change', e => {
+                endDate(-1);
+            });
+
             jQuery('#fakeInputHasSchedule').on('ifChanged', function () {
                 jQuery('#schedule').toggle(this.checked);
                 jQuery('#inputHasSchedule').val(Number(this.checked));
@@ -601,7 +614,7 @@
 
             jQuery('#inputInternship').on('change', e => {
                 jQuery.ajax({
-                    url: `/api/coordenador/estagio/${jQuery('#inputInternship').val()}`,
+                    url: `{{ config('app.url') }}/api/coordenador/estagio/${jQuery('#inputInternship').val()}`,
                     dataType: 'json',
                     method: 'GET',
                     success: function (data) {

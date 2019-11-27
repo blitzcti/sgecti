@@ -33,6 +33,8 @@ class ProposalController extends Controller
         $cIds = Auth::user()->coordinator_courses_id;
         $proposals = Proposal::all()->filter(function ($proposal) use ($cIds) {
             $ret = false;
+
+            /* @var $course Course */
             foreach ($proposal->courses as $course) {
                 if (!$ret) {
                     $ret = in_array($course->id, $cIds);
@@ -57,7 +59,11 @@ class ProposalController extends Controller
         $companies = Company::all()->where('active', '=', true)->sortBy('id');
         $courses = Course::all()->where('active', '=', true)->sortBy('id');
 
-        return view('coordinator.proposal.new')->with(['companies' => $companies, 'courses' => $courses]);
+        return view('coordinator.proposal.new')->with([
+            'companies' => $companies,
+            'courses' => $courses,
+            'fields' => ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'],
+        ]);
     }
 
     public function edit($id)
@@ -66,7 +72,12 @@ class ProposalController extends Controller
         $companies = Company::all()->where('active', '=', true)->sortBy('id');
         $courses = Course::all()->where('active', '=', true)->sortBy('id');
 
-        return view('coordinator.proposal.edit')->with(['proposal' => $proposal, 'companies' => $companies, 'courses' => $courses]);
+        return view('coordinator.proposal.edit')->with([
+            'proposal' => $proposal,
+            'companies' => $companies,
+            'courses' => $courses,
+            'fields' => ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'],
+        ]);
     }
 
     public function store(StoreProposal $request)
@@ -126,7 +137,10 @@ class ProposalController extends Controller
         $proposal->description = $validatedData->description;
         $proposal->requirements = $validatedData->requirements;
         $proposal->benefits = $validatedData->benefits;
-        $proposal->contact = $validatedData->contact;
+        $proposal->email = $validatedData->email;
+        $proposal->subject = $validatedData->subject;
+        $proposal->phone = $validatedData->phone;
+        $proposal->other = $validatedData->other;
         $proposal->type = $validatedData->type;
         $proposal->approved_at = Carbon::now();
         $proposal->observation = $validatedData->observation;
@@ -210,7 +224,10 @@ class ProposalController extends Controller
         $proposal->description = $validatedData->description;
         $proposal->requirements = $validatedData->requirements;
         $proposal->benefits = $validatedData->benefits;
-        $proposal->contact = $validatedData->contact;
+        $proposal->email = $validatedData->email;
+        $proposal->subject = $validatedData->subject;
+        $proposal->phone = $validatedData->phone;
+        $proposal->other = $validatedData->other;
         $proposal->type = $validatedData->type;
         $proposal->approved_at = Carbon::now();
         $proposal->observation = $validatedData->observation;

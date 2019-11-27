@@ -95,7 +95,7 @@ class CompanyController extends Controller
         $company->cpf_cnpj = $validatedData->cpfCnpj;
         $company->ie = $validatedData->ie;
         $company->pj = $validatedData->pj;
-        $company->name = $validatedData->name;
+        $company->name = $validatedData->companyName;
         $company->fantasy_name = $validatedData->fantasyName;
         $company->email = $validatedData->email;
         $company->phone = $validatedData->phone;
@@ -165,7 +165,7 @@ class CompanyController extends Controller
         $log .= "\nDados antigos: " . json_encode($company, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $company->ie = $validatedData->ie;
-        $company->name = $validatedData->name;
+        $company->name = $validatedData->companyName;
         $company->fantasy_name = $validatedData->fantasyName;
         $company->email = $validatedData->email;
         $company->phone = $validatedData->phone;
@@ -196,8 +196,11 @@ class CompanyController extends Controller
         if ($saved) {
             Log::info($log);
 
-            $cUser->email = $company->email;
-            $cUser->save();
+            if ($cUser != null) {
+                $cUser->name = $company->representative_name;
+                $cUser->email = $company->email;
+                $cUser->save();
+            }
         } else {
             Log::error("Erro ao salvar empresa");
         }

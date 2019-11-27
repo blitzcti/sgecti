@@ -110,6 +110,8 @@ class AgreementController extends Controller
             if ($agreement->end_date < Carbon::now()) {
                 // O convênio está expirado, logo o usuário deve ser removido
                 $agreement->deleteUser();
+            } else if ($agreement->company->user == null) {
+                $agreement->createUser();
             }
         } else {
             Log::error("Erro ao salvar convênio");
@@ -207,6 +209,8 @@ class AgreementController extends Controller
     public function deleteUsers()
     {
         $agreements = Agreement::expiredToday();
+
+        /* @var $agreement Agreement */
         foreach ($agreements as $agreement) {
             $agreement->deleteUser();
         }

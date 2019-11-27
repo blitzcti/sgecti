@@ -26,14 +26,13 @@
             <table id="generalConfigurations" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
-                    <th>Anos máximos</th>
-                    <th>Ano mínimo</th>
-                    <th>Semestre mínimo</th>
-                    <th>Horas mínimas</th>
-                    <th>Meses mínimos</th>
-                    <th>Meses mínimos (CTPS)</th>
-                    <th>Nota mínima</th>
+                    <th>Anos máx.</th>
+                    <th>Ano mín.</th>
+                    <th>Semestre mín.</th>
+                    <th>Horas mín.</th>
+                    <th>Meses mín.</th>
+                    <th>Meses mín. (CTPS)</th>
+                    <th>Nota mín.</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
@@ -43,7 +42,6 @@
                 @foreach($configs as $config)
 
                     <tr>
-                        <th scope="row">{{ $config->id }}</th>
                         <td>{{ $config->max_years }}</td>
                         <td>{{ $config->min_year }}</td>
                         <td>{{ $config->min_semester }}</td>
@@ -53,7 +51,8 @@
                         <td>{{ $config->min_grade }}</td>
 
                         <td>
-                            <a href="{{ route('admin.configuracao.curso.editar', ['id' => $config->id]) }}">Editar</a>
+                            <a class="text-aqua"
+                               href="{{ route('admin.configuracao.curso.editar', ['id' => $config->id]) }}">Editar</a>
                         </td>
                     </tr>
 

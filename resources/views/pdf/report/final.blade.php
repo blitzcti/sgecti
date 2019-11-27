@@ -71,7 +71,7 @@
             <td class="text-right"><b>Período de estágio: </b></td>
             <td>
                 {{ $report->internship->start_date->format("d/m/Y") }} a {{ $report->end_date->format("d/m/Y") }}
-                - {{ $report->end_date->diff($report->internship->start_date)->d }} dias.
+                - {{ $report->end_date->diff($report->internship->start_date)->days }} dias.
             </td>
         </tr>
 
@@ -90,7 +90,7 @@
     <br/><br/>
 
     @if($student->canGraduate())
-        <span><b>Aluno Habilitado a colar grau no curso técnico em Informática.</b></span><br/>
+        <span><b>Aluno habilitado a colar grau no curso técnico em Informática.</b></span><br/>
     @endif
 
     <span class="pull-right">{{ $sysConfig->city }}, {{ \Carbon\Carbon::now()->formatLocalized('%02d de %B de %Y') }}.</span>

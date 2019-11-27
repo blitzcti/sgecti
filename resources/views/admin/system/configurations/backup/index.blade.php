@@ -79,15 +79,14 @@
         </div>
     </div>
 
-    <div class="box box-default">
-        <div class="box-header with-border">
-            <h3 class="box-title">Agendar backup</h3>
-        </div>
+    <form action="{{ route('admin.configuracao.backup.salvarConfig') }}" method="post">
+        @csrf
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Agendar backup</h3>
+            </div>
 
-        <div class="box-body">
-            <form action="{{ route('admin.configuracao.backup.salvarConfig') }}" method="post">
-                @csrf
-
+            <div class="box-body">
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group  @if($errors->has('days')) has-error @endif">
@@ -181,11 +180,17 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <div class="box-footer">
                 <button type="submit" class="btn btn-primary pull-right" name="save">Salvar</button>
-            </form>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
+            </div>
         </div>
-    </div>
+    </form>
 @endsection
 
 @section('js')

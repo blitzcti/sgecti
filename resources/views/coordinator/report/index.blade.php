@@ -34,7 +34,6 @@
             <table id="bimestralReports" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th>Aluno</th>
                     <th>Data</th>
                     <th>Protocolo</th>
@@ -46,14 +45,13 @@
                 @foreach($bReports as $report)
 
                     <tr>
-                        <th scope="row">{{ $report->id }}</th>
-
                         <td>{{ $report->internship->ra }} - {{ $report->internship->student->nome }}</td>
 
                         <td>{{ $report->date->format("d/m/Y") }}</td>
                         <td>{{ $report->formatted_protocol }}</td>
                         <td>
-                            <a href="{{ route('coordenador.relatorio.bimestral.editar', ['id' => $report->id]) }}">Editar</a>
+                            <a class="text-aqua"
+                               href="{{ route('coordenador.relatorio.bimestral.editar', ['id' => $report->id]) }}">Editar</a>
                         </td>
                     </tr>
 
@@ -75,7 +73,6 @@
             <table id="finalReports" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th>Aluno</th>
                     <th>Data</th>
                     <th>Nº de aprovação</th>
@@ -88,15 +85,14 @@
                 @foreach($fReports as $report)
 
                     <tr>
-                        <th scope="row">{{ $report->id }}</th>
-
                         <td>{{ $report->internship->ra }} - {{ $report->internship->student->nome }}</td>
 
                         <td>{{ $report->date->format("d/m/Y") }}</td>
                         <td>{{ $report->approval_number }}</td>
                         <td>{{ $report->completed_hours }}</td>
                         <td>
-                            <a href="{{ route('coordenador.relatorio.final.editar', ['id' => $report->id]) }}">Editar</a>
+                            <a class="text-aqua"
+                               href="{{ route('coordenador.relatorio.final.editar', ['id' => $report->id]) }}">Editar</a>
                             |
                             <a href="#" onclick="pdf({{ $report->id }}); return false;" target="_blank">PDF</a>
                         </td>
@@ -118,17 +114,33 @@
 
     <script type="text/javascript">
         function pdf(id) {
-            window.open(`/coordenador/relatorio/final/${id}/pdf`, '_blank');
-            window.open(`/coordenador/relatorio/final/${id}/pdf2`, '_blank');
+            window.open(`{{ config('app.url') }}/coordenador/relatorio/final/${id}/pdf`, '_blank');
+            window.open(`{{ config('app.url') }}/coordenador/relatorio/final/${id}/pdf2`, '_blank');
         }
 
         jQuery(document).ready(function () {
+            jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+                'Aluno-pre': function (a) {
+                    return a.replace(/[\d]{7} - /g, '');
+                },
+
+                'Aluno-asc': function (a, b) {
+                    return a - b;
+                },
+
+                'Aluno-desc': function (a, b) {
+                    return b - a;
+                }
+            });
+
             let bimestralTable = jQuery("#bimestralReports").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
                 responsive: true,
                 lengthChange: false,
+                aoColumns: [{sType: "Aluno"}, {sType: "Data"}, {sType: "Protocolo"}, {sType: "Ações"}],
+                aaSorting: [[0, "asc"]],
                 buttons: [
                     {
                         extend: 'csv',
@@ -164,6 +176,8 @@
                 },
                 responsive: true,
                 lengthChange: false,
+                aoColumns: [{sType: "Aluno"}, {sType: "Data"}, {sType: "Nº de aprovação"}, {sType: "Horas"}, {sType: "Ações"}],
+                aaSorting: [[0, "asc"]],
                 buttons: [
                     {
                         extend: 'csv',

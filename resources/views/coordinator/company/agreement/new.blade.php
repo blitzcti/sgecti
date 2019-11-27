@@ -7,17 +7,17 @@
 @stop
 
 @section('content')
-    <div class="box box-default">
-        <div class="box-header with-border">
-            <h3 class="box-title">Dados do convênio</h3>
-        </div>
+    <form class="form-horizontal" action="{{ route('coordenador.empresa.convenio.salvar') }}" method="post">
+        @csrf
 
-        <form class="form-horizontal" action="{{ route('coordenador.empresa.convenio.salvar') }}" method="post">
-            @csrf
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Dados do convênio</h3>
+            </div>
 
             <div class="box-body">
                 <div class="form-group @if($errors->has('company')) has-error @endif">
-                    <label for="inputCompany" class="col-sm-2 control-label">Empresa conveniada*</label>
+                    <label for="inputCompany" class="col-sm-2 control-label">Empresa*</label>
 
                     <div class="col-sm-10">
                         <select class="selection" name="company" id="inputCompany"
@@ -27,8 +27,7 @@
 
                                 <option
                                     value="{{ $company->id }}" {{ (old('company') ?? $c) == $company->id ? 'selected=selected' : '' }}>
-                                    {{ $company->cpf_cnpj }}
-                                    - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
+                                    {{ $company->formatted_cpf_cnpj }} - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
                                 </option>
 
                             @endforeach
@@ -62,17 +61,18 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
                 <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
 
                 <input type="hidden" id="inputPrevious" name="previous"
                        value="{{ old('previous') ?? url()->previous() }}">
                 <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
-            <!-- /.box-footer -->
-        </form>
-    </div>
+        </div>
+    </form>
 @endsection
 
 @section('js')

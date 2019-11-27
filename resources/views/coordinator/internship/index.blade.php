@@ -29,7 +29,6 @@
             <table id="internships" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th>Aluno</th>
                     <th>Empresa</th>
                     <th>Coordenador</th>
@@ -41,24 +40,24 @@
                 <tbody>
                 @foreach($internships as $internship)
 
-                    <tr>
-                        <th scope="row">{{ $internship->id }}</th>
-
+                    <tr class="{{ ($internship->needsFinalReport()) ? 'text-red' : '' }}">
                         <td>{{ $internship->ra }} - {{ $internship->student->nome }}</td>
 
-                        <td>{{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "({$internship->company->fantasy_name})" : '' }}</td>
+                        <td>{{ $internship->company->formatted_cpf_cnpj }} - {{ $internship->company->name }} {{ $internship->company->fantasy_name != null ? "({$internship->company->fantasy_name})" : '' }}</td>
                         <td>{{ $internship->coordinator->user->name }}</td>
-                        <td>{{ $internship->state->description }}</td>
+                        <td>{{ ($internship->needsFinalReport()) ? 'Requer finalização' : $internship->state->description }}</td>
                         <td>
                             <a href="{{ route('coordenador.estagio.detalhes', ['id' => $internship->id]) }}">Detalhes</a>
-                            |
-                            <a href="{{ route('coordenador.estagio.editar', ['id' => $internship->id]) }}">Editar</a>
 
                             @if(\App\Auth::user()->can('internshipAmendment-list'))
                                 |
                                 <a href="{{ route('coordenador.estagio.aditivo', ['id' => $internship->id]) }}">Termos
                                     aditivos</a>
                             @endif
+
+                            |
+                            <a class="text-aqua"
+                               href="{{ route('coordenador.estagio.editar', ['id' => $internship->id]) }}">Editar</a>
 
                             @if($internship->state->id == \App\Models\State::OPEN)
 
@@ -89,12 +88,40 @@
 @section('js')
     <script type="text/javascript">
         jQuery(document).ready(function () {
+            jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+                'Aluno-pre': function (a) {
+                    return a.replace(/[\d]{7} - /g, '');
+                },
+
+                'Aluno-asc': function (a, b) {
+                    return a - b;
+                },
+
+                'Aluno-desc': function (a, b) {
+                    return b - a;
+                },
+
+                'Empresa-pre': function (a) {
+                    return a.replace(/[\d]{2}\.[\d]{3}\.[\d]{3}\/[\d]{4}-[\d]{2} - /g, '').replace(/[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2}/g, '');
+                },
+
+                'Empresa-asc': function (a, b) {
+                    return a - b;
+                },
+
+                'Empresa-desc': function (a, b) {
+                    return b - a;
+                }
+            });
+
             let table = jQuery("#internships").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
                 responsive: true,
                 lengthChange: false,
+                aoColumns: [{sType: "Aluno"}, {sType: "Empresa"}, {sType: "Coordenador"}, {sType: "Estado"}, {sType: "Ações"}],
+                aaSorting: [[0, "asc"]],
                 buttons: [
                     {
                         extend: 'csv',

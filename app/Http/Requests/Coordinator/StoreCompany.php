@@ -36,7 +36,7 @@ class StoreCompany extends FormRequest
             'cpfCnpj' => ['required', new Integer, 'unique:companies,cpf_cnpj', ($this->get('pj')) ? new CNPJ : new CPF],
             'ie' => ['nullable', new Integer, 'digits:10'],
             'active' => ['required', 'boolean'],
-            'name' => ['required', 'max:191'],
+            'companyName' => ['required', 'max:191'],
             'fantasyName' => ['nullable', 'max:191'],
             'email' => ['required_if:hasAgreement,1', 'nullable', 'email', 'max:191', 'unique:companies,email'],
             'phone' => ['nullable', new Integer, 'digits_between:10,11'],

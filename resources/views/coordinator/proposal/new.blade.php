@@ -35,8 +35,7 @@
 
                                 <option
                                     value="{{ $company->id }}" {{ (old('company') ?? 1) == $company->id ? 'selected' : '' }}>
-                                    {{ $company->cpf_cnpj }}
-                                    - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
+                                    {{ $company->formatted_cpf_cnpj }} - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
                                 </option>
 
                             @endforeach
@@ -119,18 +118,6 @@
                     </div>
                 </div>
 
-                <div class="form-group @if($errors->has('contact')) has-error @endif">
-                    <label for="inputContact" class="col-sm-2 control-label">Contato*</label>
-
-                    <div class="col-sm-10">
-                            <textarea class="form-control" rows="2" id="inputContact" name="contact"
-                                      style="resize: none"
-                                      placeholder="Como o aluno entrará em contato com a empresa">{{ old('contact') ?? '' }}</textarea>
-
-                        <span class="help-block">{{ $errors->first('contact') }}</span>
-                    </div>
-                </div>
-
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('deadline')) has-error @endif">
@@ -147,9 +134,9 @@
 
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('observation')) has-error @endif">
-                            <label for="inputObservation" class="col-sm-2 control-label">Observações</label>
+                            <label for="inputObservation" class="col-sm-3 control-label">Observações</label>
 
-                            <div class="col-sm-10">
+                            <div class="col-sm-9">
                         <textarea class="form-control" rows="2" id="inputObservation" name="observation"
                                   style="resize: none"
                                   placeholder="Observações adicionais">{{ old('observation') ?? '' }}</textarea>
@@ -160,15 +147,72 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
+        </div>
 
-                <input type="hidden" id="inputPrevious" name="previous"
-                       value="{{ old('previous') ?? url()->previous() }}">
-                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Contato</h3>
             </div>
-            <!-- /.box-footer -->
+
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group @if($errors->has('email')) has-error @endif">
+                            <label for="inputEmail" class="col-sm-4 control-label">Email*</label>
+
+                            <div class="col-sm-8">
+                                <input type="email" class="form-control" id="inputEmail" name="email"
+                                       placeholder="andcastro28@gmail.com" value="{{ old('email') ?? '' }}"/>
+
+                                <span class="help-block">{{ $errors->first('email') }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group @if($errors->has('subject')) has-error @endif">
+                            <label for="inputSubject" class="col-sm-4 control-label">Assunto do email*</label>
+
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputSubject" name="subject"
+                                       placeholder="Estágio/CTI" value="{{ old('subject') ?? '' }}"/>
+
+                                <span class="help-block">{{ $errors->first('subject') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group @if($errors->has('phone')) has-error @endif">
+                            <label for="inputPhone" class="col-sm-4 control-label">Telefone</label>
+
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputPhone" name="phone"
+                                       placeholder="(14) 3103-6150"
+                                       data-inputmask="'mask': ['(99) 9999-9999', '(99) 99999-9999']"
+                                       value="{{ old('phone') ?? '' }}"/>
+
+                                <span class="help-block">{{ $errors->first('phone') }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group @if($errors->has('other')) has-error @endif">
+                            <label for="inputOther" class="col-sm-4 control-label">Outra forma</label>
+
+                            <div class="col-sm-8">
+                            <textarea class="form-control" rows="2" id="inputOther" name="other"
+                                      style="resize: none">{{ old('other') ?? '' }}</textarea>
+
+                                <span class="help-block">{{ $errors->first('other') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="box box-default">
@@ -212,6 +256,23 @@
 
             <div id="schedule">
                 <div class="box-body">
+                    @foreach($fields as $field)
+                        @if($errors->has("{$field}S") || $errors->has("{$field}E") || $errors->has("{$field}S2") || $errors->has("{$field}E2"))
+                            <div class="alert alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                @foreach($fields as $f)
+                                    <p>{{ $errors->first("{$f}S") }}</p>
+                                    <p>{{ $errors->first("{$f}E") }}</p>
+                                    <p>{{ $errors->first("{$f}S2") }}</p>
+                                    <p>{{ $errors->first("{$f}E2") }}</p>
+                                @endforeach
+                            </div>
+                            @break
+                        @endif
+                    @endforeach
+
                     <div class="form-group">
                         <label for="inputWeekDays" class="col-sm-2 control-label">Horário</label>
 
@@ -526,6 +587,16 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
+
+                <input type="hidden" id="inputPrevious" name="previous"
+                       value="{{ old('previous') ?? url()->previous() }}">
+                <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
         </div>
     </form>

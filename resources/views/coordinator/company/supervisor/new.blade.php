@@ -7,13 +7,13 @@
 @stop
 
 @section('content')
-    <div class="box box-default">
-        <div class="box-header with-border">
-            <h3 class="box-title">Dados do supervisor</h3>
-        </div>
+    <form class="form-horizontal" action="{{ route('coordenador.empresa.supervisor.salvar') }}" method="post">
+        @csrf
 
-        <form class="form-horizontal" action="{{ route('coordenador.empresa.supervisor.salvar') }}" method="post">
-            @csrf
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Dados do supervisor</h3>
+            </div>
 
             <div class="box-body">
                 <div class="form-group @if($errors->has('company')) has-error @endif">
@@ -27,8 +27,7 @@
 
                                 <option
                                     value="{{ $company->id }}" {{ (old('company') ?? $c) == $company->id ? 'selected' : '' }}>
-                                    {{ $company->cpf_cnpj }}
-                                    - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
+                                    {{ $company->formatted_cpf_cnpj }} - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
                                 </option>
 
                             @endforeach
@@ -48,41 +47,48 @@
                     </div>
                 </div>
 
-                <div class="form-group @if($errors->has('supervisorEmail')) has-error @endif">
-                    <label for="inputSupervisorEmail" class="col-sm-2 control-label">Email*</label>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group @if($errors->has('supervisorEmail')) has-error @endif">
+                            <label for="inputSupervisorEmail" class="col-sm-3 control-label">Email*</label>
 
-                    <div class="col-sm-10">
-                        <input type="email" class="form-control" id="inputSupervisorEmail" name="supervisorEmail"
-                               placeholder="andcastro28@gmail.com" value="{{ old('supervisorEmail') ?? '' }}"/>
+                            <div class="col-sm-9">
+                                <input type="email" class="form-control" id="inputSupervisorEmail" name="supervisorEmail"
+                                       placeholder="andcastro28@gmail.com" value="{{ old('supervisorEmail') ?? '' }}"/>
 
-                        <span class="help-block">{{ $errors->first('supervisorEmail') }}</span>
+                                <span class="help-block">{{ $errors->first('supervisorEmail') }}</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group @if($errors->has('supervisorPhone')) has-error @endif">
-                    <label for="inputSupervisorPhone" class="col-sm-2 control-label">Telefone*</label>
+                    <div class="col-sm-4">
+                        <div class="form-group @if($errors->has('supervisorPhone')) has-error @endif">
+                            <label for="inputSupervisorPhone" class="col-sm-3 control-label">Telefone*</label>
 
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputSupervisorPhone" name="supervisorPhone"
-                               placeholder="(14) 93103-6150"
-                               data-inputmask="'mask': ['(99) 9999-9999', '(99) 9 9999-9999']"
-                               value="{{ old('supervisorPhone') ?? '' }}"/>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="inputSupervisorPhone" name="supervisorPhone"
+                                       placeholder="(14) 93103-6150"
+                                       data-inputmask="'mask': ['(99) 9999-9999', '(99) 99999-9999']"
+                                       value="{{ old('supervisorPhone') ?? '' }}"/>
 
-                        <span class="help-block">{{ $errors->first('supervisorPhone') }}</span>
+                                <span class="help-block">{{ $errors->first('supervisorPhone') }}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
                 <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
 
                 <input type="hidden" id="inputPrevious" name="previous"
                        value="{{ old('previous') ?? url()->previous() }}">
                 <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
-            <!-- /.box-footer -->
-        </form>
-    </div>
+        </div>
+    </form>
 @endsection
 
 @section('js')

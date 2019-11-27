@@ -2,6 +2,7 @@
 
 namespace App\Models\NSac;
 
+use App\APIUtils;
 use App\Models\Course;
 use App\Models\CourseConfiguration;
 use App\Models\GeneralConfiguration;
@@ -12,7 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * Class Student
+ * Model for students table.
  *
  * @package App\Models\NSac
  * @property string matricula
@@ -24,17 +25,31 @@ use Illuminate\Database\Eloquent\Collection;
  * @property int turma_periodo
  * @property int situacao_matricula
  * @property Carbon data_de_nascimento
+ * @property string rg
+ * @property string cpf
+ * @property string telefone
+ * @property string logradouro
+ * @property string numero
+ * @property string complemento
+ * @property string cep
+ * @property string bairro
+ * @property string cidade
+ * @property string codigo_ibge
+ * @property string estado
  *
- * @property int course_id
- * @property int year
- * @property int grade
- * @property int class
- * @property int age
- * @property CourseConfiguration|GeneralConfiguration course_configuration
- * @property int internship_state
- * @property int completed_hours
- * @property int completed_months
- * @property int ctps_completed_months
+ * @property-read string uf
+ * @property-read string address
+ * @property-read int course_id
+ * @property-read int year
+ * @property-read int grade
+ * @property-read int class
+ * @property-read int age
+ * @property-read CourseConfiguration|GeneralConfiguration course_configuration
+ * @property-read int internship_state
+ * @property-read int job_state
+ * @property-read int completed_hours
+ * @property-read int completed_months
+ * @property-read int ctps_completed_months
  *
  * @property Internship internship
  * @property Collection|Internship[] finished_internships
@@ -94,8 +109,25 @@ class Student extends Model
      * @var array
      */
     protected $hidden = [
-        'internship', 'finished_internships',
+        'internship', 'finished_internships', 'job',
     ];
+
+    public function getUfAttribute()
+    {
+        $url = APIUtils::parseURL('apis.uf.url', $this->codigo_ibge);
+        $json = APIUtils::getData($url);
+
+        return $json['microrregiao']['mesorregiao']['UF']['sigla'];
+    }
+
+    public function getAddressAttribute()
+    {
+        if ($this->numero != null && !stripos($this->logradouro, "Nº")) {
+            return trim($this->logradouro) . ", Nº {$this->numero}";
+        }
+
+        return trim($this->logradouro);
+    }
 
     public function getCourseIdAttribute()
     {
@@ -131,7 +163,7 @@ class Student extends Model
 
     public function getAgeByDate($date)
     {
-        return date_diff(date_create($this->data_de_nascimento), date_create($date))->format("%y");
+        return $this->data_de_nascimento->diff($date)->y;
     }
 
     public function getCourseConfigurationAttribute()
@@ -152,11 +184,21 @@ class Student extends Model
         }
     }
 
+    public function getJobStateAttribute()
+    {
+        if ($this->job != null) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
     public function getCompletedHoursAttribute()
     {
         $internships = $this->finished_internships;
         $h = 0;
         $h += $internships->reduce(function ($a, $i) {
+            /* @var $i Internship */
             $a += $i->final_report->completed_hours;
             return $a;
         });
@@ -169,7 +211,9 @@ class Student extends Model
         $internships = $this->finished_internships;
         $h = 0;
         $h += $internships->reduce(function ($a, $i) {
-            $a += date_diff(date_create($i->start_date), date_create($i->final_report->end_date))->format("%m");
+            /* @var $i Internship */
+            $interval = $i->final_report->end_date->diff($i->start_date);
+            $a += $interval->m + $interval->y * 12;
             return $a;
         });
 
@@ -180,7 +224,8 @@ class Student extends Model
     {
         $h = 0;
         if ($this->job != null) {
-            $h += date_diff(date_create($this->job->start_date), date_create($this->job->end_date))->format("%m");
+            $interval = $this->job->start_date->diff($this->job->end_date);
+            $h += $interval->m + $interval->y * 12;
         }
 
         return $h;
@@ -208,9 +253,7 @@ class Student extends Model
 
     public function canGraduate()
     {
-        if ($this->situacao_matricula == 5) {
-            return true;
-        } else if ($this->situacao_matricula == 0) {
+        if ($this->situacao_matricula == 0) {
             if (($this->completed_hours >= $this->course_configuration->min_hours && $this->completed_months >= $this->course_configuration->min_months)
                 || $this->ctps_completed_months >= $this->course_configuration->min_months_ctps) {
                 return true;
@@ -222,6 +265,6 @@ class Student extends Model
 
     public static function actives()
     {
-        return Student::where('situacao_matricula', '=', 0)->orWhere('situacao_matricula', '=', 5)->get();
+        return static::where('situacao_matricula', '=', 0)->orWhere('situacao_matricula', '=', 5)->get();
     }
 }

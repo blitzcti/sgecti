@@ -18,9 +18,9 @@
 
             <dl class="row">
                 <dt class="col-sm-2">{{ ($company->pj) ? 'CNPJ' : 'CPF' }}</dt>
-                <dd class="col-sm-10">{{ $company->cpf_cnpj }}</dd>
+                <dd class="col-sm-10">{{ $company->formatted_cpf_cnpj }}</dd>
 
-                <dt class="col-sm-2">Nome</dt>
+                <dt class="col-sm-2">Razão social</dt>
                 <dd class="col-sm-10">{{ $company->name }}</dd>
 
                 <dt class="col-sm-2">Nome fantasia</dt>
@@ -40,9 +40,6 @@
             <h3>Dados de trabalho</h3>
 
             <dl class="row">
-                <dt class="col-sm-2">Alunos trabalhanho</dt>
-                <dd class="col-sm-10">{{ sizeof($company->jobs->filter(function ($i) {return $i->state->id == 1;})) }}</dd>
-
                 <dt class="col-sm-2">Trabalhos concluídos</dt>
                 <dd class="col-sm-10">{{ sizeof($company->jobs->filter(function ($i) {return $i->state->id == 2;})) }}</dd>
 

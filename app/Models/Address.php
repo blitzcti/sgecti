@@ -5,7 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 
 /**
- * Class Address
+ * Model for addresses table.
  *
  * @package App\Models
  * @property int id
@@ -20,7 +20,8 @@ use Carbon\Carbon;
  * @property Carbon updated_at
  *
  * @property Company company
- * @property string formatted_cep
+ * @property-read string formatted_cep
+ * @property-read string formatted_address
  */
 class Address extends Model
 {
@@ -41,7 +42,7 @@ class Address extends Model
         return "$p1-$p2";
     }
 
-    public function getFormattedAddress()
+    public function getFormattedAddressAttribute()
     {
         return "{$this->street}, Nº {$this->number}";
     }

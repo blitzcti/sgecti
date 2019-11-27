@@ -7,7 +7,12 @@
 @stop
 
 @section('content')
+    @include('modals.coordinator.job.company.new')
     @include('modals.coordinator.student.search')
+    @include('modals.coordinator.internship.studentError')
+    @include('modals.coordinator.job.studentError')
+    @include('modals.coordinator.student.error')
+    @include('modals.coordinator.job.company.error')
 
     <form class="form-horizontal" action="{{ route('coordenador.trabalho.salvar') }}" method="post">
         @csrf
@@ -18,6 +23,9 @@
             </div>
 
             <div class="box-body">
+                <input type="hidden" id="inputDilation" name="dilation"
+                       value="{{ (old('dilation') ?? 0) ? '1' : '0' }}">
+
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group @if($errors->has('ra')) has-error @endif">
@@ -26,7 +34,7 @@
                             <div class="col-sm-8">
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="inputRA" name="ra" placeholder="1757047"
-                                           data-inputmask="'mask': '9999999'" value="{{ old('ra') ?? $s }}" readonly>
+                                           data-inputmask="'mask': '9999999'" value="{{ old('ra') ?? $s }}">
 
                                     <div class="input-group-btn">
                                         <a href="#" data-toggle="modal" data-target="#searchStudentModal"
@@ -76,8 +84,7 @@
 
                                 <option
                                     value="{{ $company->id }}" {{ (old('company') ?? 1) == $company->id ? 'selected' : '' }}>
-                                    {{ $company->cpf_cnpj }}
-                                    - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
+                                    {{ $company->formatted_cpf_cnpj }} - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
                                 </option>
 
                             @endforeach
@@ -147,7 +154,8 @@
 
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="inputCTPS" name="ctps"
-                                       data-inputmask="'mask': '999999/99999'" value="{{ old('ctps') ?? '' }}"/>
+                                       placeholder="123321/22222" data-inputmask="'mask': '999999/99999'"
+                                       value="{{ old('ctps') ?? '' }}"/>
 
                                 <span class="help-block">{{ $errors->first('ctps') }}</span>
                             </div>
@@ -178,16 +186,35 @@
                         <span class="help-block">{{ $errors->first('observation') }}</span>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label for="fakeInputDilation" class="col-sm-2 control-label" style="padding-top: 0">Dilação
+                        de prazo</label>
+
+                    <div class="col-sm-10">
+                        <input type="checkbox" id="fakeInputDilation" name="fakeDilation"
+                            {{ old('dilation') ?? 0 ? 'checked="checked"' : '' }}>
+                    </div>
+                </div>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
+                <div class="btn-group pull-right">
+                    <a href="#" class="btn btn-success" id="aAddCompany" data-toggle="modal"
+                       data-target="#newJobCompanyModal">Nova empresa</a>
+                </div>
+            </div>
+            <!-- /.box-footer -->
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
                 <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
 
                 <input type="hidden" id="inputPrevious" name="previous"
                        value="{{ old('previous') ?? url()->previous() }}">
                 <a href="{{ old('previous') ?? url()->previous() }}" class="btn btn-default">Cancelar</a>
             </div>
-            <!-- /.box-footer -->
         </div>
     </form>
 @endsection
@@ -223,9 +250,113 @@
                 language: "pt-BR"
             });
 
+            jQuery('#fakeInputDilation').on('ifChanged', function () {
+                jQuery('#inputDilation').val(Number(this.checked));
+            }).trigger('ifChanged').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
+
+            function loadStudent() {
+                jQuery.ajax({
+                    url: `{{ config('app.url') }}/api/alunos/${jQuery('#inputRA').inputmask('unmaskedvalue')}`,
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (student) {
+                        jQuery('#inputStudentName').val(student.nome);
+
+                        if (student.internship_state === 0) {
+                            jQuery("#studentInternshipErrorModal").modal({
+                                backdrop: "static",
+                                keyboard: false,
+                                show: true
+                            });
+
+                            jQuery('#inputRA').val('');
+                            jQuery('#inputStudentName').val('');
+                        } else if (student.job_state === 0) {
+                            jQuery("#studentJobErrorModal").modal({
+                                backdrop: "static",
+                                keyboard: false,
+                                show: true
+                            });
+
+                            jQuery('#inputRA').val('');
+                            jQuery('#inputStudentName').val('');
+                        }
+                    },
+
+                    error: function () {
+                        jQuery("#studentErrorModal").modal({
+                            backdrop: "static",
+                            keyboard: false,
+                            show: true
+                        });
+
+                        jQuery('#inputRA').val('');
+                    }
+                });
+            }
+
+            jQuery('#inputRA').blur(() => {
+                if (jQuery('#inputCpfCnpj').val() !== "") {
+                    loadStudent();
+                }
+            });
+
+            jQuery('#inputCompany').select2({
+                language: "pt-BR",
+                ajax: {
+                    url: `{{ config('app.url') }}/api/coordenador/trabalho/empresa`,
+                    dataType: 'json',
+                    method: 'GET',
+                    cache: true,
+                    data: function (params) {
+                        return {
+                            q: params.term // search term
+                        };
+                    },
+
+                    processResults: function (response) {
+                        companies = [];
+                        response.forEach(company => {
+                            if (company.active) {
+                                let formatted_cpf_cnpj;
+                                if (company.pj) {
+                                    let p1 = company.cpf_cnpj.substring(0, 2);
+                                    let p2 = company.cpf_cnpj.substring(2, 5);
+                                    let p3 = company.cpf_cnpj.substring(5, 8);
+                                    let p4 = company.cpf_cnpj.substring(8, 12);
+                                    let p5 = company.cpf_cnpj.substring(12, 14);
+                                    formatted_cpf_cnpj = `${p1}.${p2}.${p3}/${p4}-${p5}`;
+                                } else {
+                                    let p1 = company.cpf_cnpj.substring(0, 3);
+                                    let p2 = company.cpf_cnpj.substring(3, 6);
+                                    let p3 = company.cpf_cnpj.substring(6, 9);
+                                    let p4 = company.cpf_cnpj.substring(9, 11);
+                                    formatted_cpf_cnpj = `${p1}.${p2}.${p3}-${p4}`;
+                                }
+
+                                let text = `${formatted_cpf_cnpj} - ${company.name}`;
+                                if (company.fantasy_name !== null) {
+                                    text = `${text} (${company.fantasy_name})`;
+                                }
+
+                                companies.push({id: company.id, text: text});
+                            }
+                        });
+
+                        return {
+                            results: companies
+                        };
+                    },
+                }
+            });
+
             jQuery('#inputCompany').on('change', e => {
                 jQuery.ajax({
-                    url: `/api/coordenador/trabalho/empresa/${jQuery('#inputCompany').val()}`,
+                    url: `{{ config('app.url') }}/api/coordenador/trabalho/empresa/${jQuery('#inputCompany').val()}`,
                     dataType: 'json',
                     method: 'GET',
                     success: function (data) {

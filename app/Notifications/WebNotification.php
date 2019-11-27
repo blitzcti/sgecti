@@ -19,6 +19,10 @@ class WebNotification extends Notification
      */
     public function __construct($details)
     {
+        if (!isset($details['url'])) {
+            $details['url'] = null;
+        }
+
         $this->details = $details;
     }
 

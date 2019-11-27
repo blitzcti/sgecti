@@ -79,7 +79,6 @@ class HelpController extends Controller
                         'desc' => 'Nos Logs de sistema, o administrador pode visualizar, por data e horário, todas as ações realizadas no sistema, como cadastros, alterações e até mesmo aprovação de estágios e propostas.Atenção: mensalmente, os logs com mais de 30 dias são excluídos automaticamente.',
                         'content' => [
                             [
-                                'img' => '',
                                 'text' => 'Atenção! Mensalmente, os logs com mais de 30 dias são excluídos automaticamente.',
                             ],
                             [

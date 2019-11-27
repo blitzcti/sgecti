@@ -5,7 +5,7 @@
     @yield('css')
     @stack('css')
 
-    <link rel="stylesheet" href="{{ asset('vendor/adminlte/vendor/bootstrap/dist/css/bootstrap.pdf.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/bootstrap/dist/css/bootstrap.pdf.min.css') }}">
 
     <style type="text/css">
         html, body {
@@ -71,21 +71,29 @@
 
 <header>
     <div>
-        <div class="header-content" style="float: left">
-            <img src="{{ asset('img/cti.png') }}" style="width: 2.39cm" alt="">
-        </div>
-
-        <div class="header-content" style="float: right">
-            <img src="{{ asset('img/unesp.png') }}" style="width: 4.02cm" alt="">
-        </div>
-
-        <div>
-            <div class="header-content" style="text-align: center">
-                <p><b>UNIVERSIDADE ESTADUAL PAULISTA</b></p>
-                <p>COLÉGIO TÉCNICO INDUSTRIAL</p>
-                <p>“PROF. ISAAC PORTAL ROLDÁN”</p>
+        @if($img ?? true)
+            <div class="header-content" style="float: left">
+                <img src="{{ asset('img/cti.png') }}" style="width: 2.39cm" alt="">
             </div>
-        </div>
+
+            <div class="header-content" style="float: right">
+                <img src="{{ asset('img/unesp.png') }}" style="width: 4.02cm" alt="">
+            </div>
+
+            <div>
+                <div class="header-content" style="text-align: center">
+                    <p><b>UNIVERSIDADE ESTADUAL PAULISTA</b></p>
+                    <p>COLÉGIO TÉCNICO INDUSTRIAL</p>
+                    <p>“PROF. ISAAC PORTAL ROLDÁN”</p>
+                </div>
+            </div>
+        @else
+            <div class="header-content" style="text-align: center">
+                <p><b>UNIVERSIDADE ESTADUAL PAULISTA "JÚLIO DE MESQUITA FILHO"</b></p>
+                <p><b>CÂMPUS DE BAURU</b></p>
+                <p>COLÉGIO TÉCNICO INDUSTRIAL “PROF. ISAAC PORTAL ROLDÁN”</p>
+            </div>
+        @endif
     </div>
 </header>
 

@@ -181,8 +181,6 @@
                                             <button type="button" class="btn btn-default dropdown-toggle"
                                                     data-toggle="dropdown">
                                                 <span id="EndDateToggle"></span>
-
-
                                                 <span class="fa fa-caret-down"></span></button>
 
                                             <ul class="dropdown-menu">
@@ -580,6 +578,10 @@
             jQuery('.input-time').inputmask('hh:mm', {
                 removeMaskOnSubmit: false
             }).parent().css('margin', '0');
+
+            jQuery('#inputEndDate').on('change', e => {
+                endDate(-1);
+            });
 
             jQuery('#fakeInputHasSchedule').on('ifChanged', function () {
                 jQuery('#schedule').toggle(this.checked);

@@ -1,4 +1,4 @@
-@extends('pdf.noimg')
+@extends('pdf.master', ['img' => false])
 
 @section('title', 'Relação de estagiários')
 

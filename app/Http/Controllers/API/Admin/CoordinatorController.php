@@ -19,23 +19,14 @@ class CoordinatorController extends Controller
     public function get(Request $request)
     {
         $coordinators = Coordinator::all()->sortBy('id');
-        if (!empty($request->q)) {
-            $coordinators = APIUtils::search($coordinators->toArray(), $request->q, 'name');
+
+        if (!is_array($coordinators)) {
+            $coordinators = array_values($coordinators->toArray());
         }
 
-        return response()->json(
-            array_values($coordinators->toArray()),
-            200,
-            [
-                'Content-Type' => 'application/json; charset=UTF-8',
-                'charset' => 'utf-8'
-            ],
-            JSON_UNESCAPED_UNICODE);
-    }
-
-    public function getById($id)
-    {
-        $coordinators = Coordinator::findOrFail($id);
+        if (!empty($request->q)) {
+            $coordinators = APIUtils::search($coordinators, $request->q, 'name');
+        }
 
         return response()->json(
             $coordinators,
@@ -47,15 +38,34 @@ class CoordinatorController extends Controller
             JSON_UNESCAPED_UNICODE);
     }
 
+    public function getById($id)
+    {
+        $coordinator = Coordinator::findOrFail($id);
+
+        return response()->json(
+            $coordinator,
+            200,
+            [
+                'Content-Type' => 'application/json; charset=UTF-8',
+                'charset' => 'utf-8'
+            ],
+            JSON_UNESCAPED_UNICODE);
+    }
+
     public function getByCourse($id, Request $request)
     {
         $coordinators = Coordinator::with('user')->whereNull('temp_of')->where('course_id', '=', $id)->get();
+
+        if (!is_array($coordinators)) {
+            $coordinators = array_values($coordinators->toArray());
+        }
+
         if (!empty($request->q)) {
-            $coordinators = APIUtils::search($coordinators->toArray(), $request->q, 'name');
+            $coordinators = APIUtils::search($coordinators, $request->q, 'name');
         }
 
         return response()->json(
-            array_values($coordinators->toArray()),
+            array_values($coordinators),
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',

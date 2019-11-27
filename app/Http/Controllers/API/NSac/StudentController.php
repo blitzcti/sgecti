@@ -102,7 +102,9 @@ class StudentController extends Controller
                 });
             }
 
-            $students = array_values($students->toArray());
+            if (!is_array($students)) {
+                $students = array_values($students->toArray());
+            }
 
             if (!empty($request->q)) {
                 $students = APIUtils::search($students, $request->q, 'nome');
@@ -125,7 +127,10 @@ class StudentController extends Controller
     {
         if ((new Student())->isConnected()) {
             $students = Student::actives()->where('course_id', '=', $course)->sortBy('matricula');
-            $students = array_values($students->toArray());
+
+            if (!is_array($students)) {
+                $students = array_values($students->toArray());
+            }
 
             if (!empty($request->q)) {
                 $students = APIUtils::search($students, $request->q, 'nome');
@@ -176,7 +181,9 @@ class StudentController extends Controller
                 });
             }
 
-            $students = array_values($students->toArray());
+            if (!is_array($students)) {
+                $students = array_values($students->toArray());
+            }
         } else {
             $students = null;
         }
@@ -208,7 +215,9 @@ class StudentController extends Controller
                 });
             }
 
-            $students = array_values($students->toArray());
+            if (!is_array($students)) {
+                $students = array_values($students->toArray());
+            }
         } else {
             $students = null;
         }

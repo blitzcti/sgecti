@@ -22,13 +22,18 @@ class SupervisorController extends Controller
 
     public function get(Request $request)
     {
-        $supervisors = Supervisor::all()->sortBy('id');
+        $supervisors = Supervisor::all()->sortBy('name');
+
+        if (!is_array($supervisors)) {
+            $supervisors = $supervisors->toArray();
+        }
+
         if (!empty($request->q)) {
-            $supervisors = APIUtils::search($supervisors->toArray(), $request->q, 'name');
+            $supervisors = APIUtils::search($supervisors, $request->q, 'name');
         }
 
         return response()->json(
-            $supervisors,
+            array_values($supervisors),
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',
@@ -53,13 +58,18 @@ class SupervisorController extends Controller
 
     public function getFromCompany($id, Request $request)
     {
-        $supervisors = Company::findOrFail($id)->supervisors;
+        $supervisors = Company::findOrFail($id)->supervisors->sortBy('name');
+
+        if (!is_array($supervisors)) {
+            $supervisors = $supervisors->toArray();
+        }
+
         if (!empty($request->q)) {
-            $supervisors = APIUtils::search($supervisors->toArray(), $request->q, 'name');
+            $supervisors = APIUtils::search($supervisors, $request->q, 'name');
         }
 
         return response()->json(
-            $supervisors,
+            array_values($supervisors),
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',

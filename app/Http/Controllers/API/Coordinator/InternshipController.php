@@ -19,13 +19,18 @@ class InternshipController extends Controller
 
     public function get(Request $request)
     {
-        $internships = Internship::all()->sortBy('id');
+        $internships = Internship::all()->sortBy('student.nome');
+
+        if (!is_array($internships)) {
+            $internships = $internships->toArray();
+        }
+
         if (!empty($request->q)) {
-            $internships = APIUtils::search($internships->toArray(), $request->q, 'state_id');
+            $internships = APIUtils::search($internships, $request->q, 'state_id');
         }
 
         return response()->json(
-            $internships,
+            array_values($internships),
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',

@@ -21,17 +21,21 @@ class JobCompanyController extends Controller
 
     public function get(Request $request)
     {
-        $companies = JobCompany::all()->sortBy('id');
+        $companies = JobCompany::all()->sortBy('name');
         if (!empty($request->cpf_cnpj) && ctype_digit($request->cpf_cnpj)) {
             $companies = $companies->where('cpf_cnpj', '=', $request->cpf_cnpj);
         }
 
+        if (!is_array($companies)) {
+            $companies = $companies->toArray();
+        }
+
         if (!empty($request->q)) {
-            $companies = APIUtils::search($companies->toArray(), $request->q, ['name', 'fantasy_name', 'cpf_cnpj']);
+            $companies = APIUtils::search($companies, $request->q, ['name', 'fantasy_name', 'cpf_cnpj']);
         }
 
         return response()->json(
-            $companies,
+            array_values($companies),
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',

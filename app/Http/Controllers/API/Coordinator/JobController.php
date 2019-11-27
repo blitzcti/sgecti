@@ -19,13 +19,18 @@ class JobController extends Controller
 
     public function get(Request $request)
     {
-        $jobs = Job::all()->sortBy('id');
+        $jobs = Job::all()->sortBy('student.nome');
+
+        if (!is_array($jobs)) {
+            $jobs = $jobs->toArray();
+        }
+
         if (!empty($request->q)) {
-            $jobs = APIUtils::search($jobs->toArray(), $request->q, 'state_id');
+            $jobs = APIUtils::search($jobs, $request->q, 'state_id');
         }
 
         return response()->json(
-            $jobs,
+            array_values($jobs),
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',

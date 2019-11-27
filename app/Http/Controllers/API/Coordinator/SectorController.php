@@ -22,13 +22,18 @@ class SectorController extends Controller
 
     public function get(Request $request)
     {
-        $sectors = Sector::all()->sortBy('id');
+        $sectors = Sector::all()->sortBy('name');
+
+        if (!is_array($sectors)) {
+            $sectors = $sectors->toArray();
+        }
+
         if (!empty($request->q)) {
-            $sectors = APIUtils::search($sectors->toArray(), $request->q, 'name');
+            $sectors = APIUtils::search($sectors, $request->q, 'name');
         }
 
         return response()->json(
-            $sectors,
+            array_values($sectors),
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',
@@ -53,13 +58,18 @@ class SectorController extends Controller
 
     public function getFromCompany($id, Request $request)
     {
-        $sectors = Company::findOrFail($id)->sectors;
+        $sectors = Company::findOrFail($id)->sectors->sortBy('name');
+
+        if (!is_array($sectors)) {
+            $sectors = $sectors->toArray();
+        }
+
         if (!empty($request->q)) {
-            $sectors = APIUtils::search($sectors->toArray(), $request->q, 'name');
+            $sectors = APIUtils::search($sectors, $request->q, 'name');
         }
 
         return response()->json(
-            $sectors,
+            array_values($sectors),
             200,
             [
                 'Content-Type' => 'application/json; charset=UTF-8',

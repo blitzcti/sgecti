@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Auth;
+use App\Broker;
 use App\Http\Requests\ChangeUserPassword;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -17,9 +19,15 @@ class UserController extends Controller
 
     public function editPassword()
     {
-        $user = Auth::user();
+        if (config('broker.useSSO')) {
+            $broker = new Broker;
 
-        return view('auth.passwords.change')->with(['user' => $user]);
+            return redirect($broker->serverPasswordPage());
+        } else {
+            $user = Auth::user();
+
+            return view('auth.passwords.change')->with(['user' => $user]);
+        }
     }
 
     public function updatePassword(ChangeUserPassword $request)

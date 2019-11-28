@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Novo convênio - SGE CTI')
+@section('title', 'Novo convênio')
 
 @section('content_header')
     <h1>Adicionar novo conênio</h1>

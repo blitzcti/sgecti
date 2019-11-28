@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Coordenadores - SGE CTI')
+@section('title', 'Coordenadores')
 
 @section('content_header')
     <h1>Coordenadores @if(isset($course)) de {{ $course->name }} @endif</h1>

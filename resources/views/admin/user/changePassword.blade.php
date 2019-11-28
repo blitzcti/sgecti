@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Alterar senha - SGE CTI')
+@section('title', 'Alterar senha')
 
 @section('content_header')
     <h1>Alterar senha</h1>

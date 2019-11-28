@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Editar relatório bimestral - SGE CTI')
+@section('title', 'Editar relatório bimestral')
 
 @section('content_header')
     <h1>Editar relatório bimestral</h1>

@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Parâmetros do sistema - SGE CTI')
+@section('title', 'Parâmetros do sistema')
 
 @section('content_header')
     <h1>Parâmetros do sistema</h1>

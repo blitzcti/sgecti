@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard - SGE CTI')
+@section('title', 'Dashboard')
 
 @section('content_header')
     <h1>Bem vindo, {{ $user->name }}.</h1>

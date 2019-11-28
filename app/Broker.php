@@ -5,6 +5,7 @@ namespace App;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 class Broker extends \Jasny\SSO\Broker
@@ -32,6 +33,17 @@ class Broker extends \Jasny\SSO\Broker
         return $this->generateCommandUrl('loginForm', $parameters);
     }
 
+    public function serverPasswordPage()
+    {
+        $parameters = [
+            'return_url' => $this->getPreviousUrl(),
+            'broker' => $this->broker,
+            'session_id' => $this->getSessionId(),
+        ];
+
+        return $this->generateCommandUrl('passwordForm', $parameters);
+    }
+
     /**
      * Attach client session to broker session in SSO server.
      *
@@ -44,7 +56,7 @@ class Broker extends \Jasny\SSO\Broker
             'return_url' => $this->getCurrentUrl(),
             'broker' => $this->broker,
             'token' => $this->token,
-            'checksum' => hash('sha256', 'attach' . $this->token . $this->secret)
+            'checksum' => hash('sha256', "attach{$this->token}{$this->secret}")
         ];
 
         $attachUrl = $this->generateCommandUrl('attach', $parameters);
@@ -116,11 +128,11 @@ class Broker extends \Jasny\SSO\Broker
             $query = '?' . http_build_query($parameters);
         }
 
-        if ($command == 'loginForm') {
-            return $this->url . '/loginForm' . $query;
+        if ($command == 'loginForm' || $command == 'passwordForm') {
+            return "{$this->url}/{$command}{$query}";
         }
 
-        return $this->url . '/api/sso/' . $command . $query;
+        return "{$this->url}/api/sso/{$command}{$query}";
     }
 
     /**
@@ -184,7 +196,7 @@ class Broker extends \Jasny\SSO\Broker
 
         $headers = [
             'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $this->getSessionId(),
+            'Authorization' => "Bearer {$this->getSessionId()}",
         ];
 
         switch ($method) {
@@ -239,6 +251,20 @@ class Broker extends \Jasny\SSO\Broker
     protected function getCurrentUrl()
     {
         return url()->full();
+    }
+
+    /**
+     * Getting previous url which can be used as return to url.
+     *
+     * @return string
+     */
+    protected function getPreviousUrl()
+    {
+        if (!Session::previousUrl()) {
+            return url()->previous();
+        }
+
+        return Session::previousUrl();
     }
 
     /**

@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Ajuda - SGE CTI')
+@section('title', 'Ajuda')
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/help.css') }}">

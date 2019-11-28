@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Relatório PDF - SGE CTI')
+@section('title', 'Relatório PDF')
 
 @section('css')
     <style type="text/css">

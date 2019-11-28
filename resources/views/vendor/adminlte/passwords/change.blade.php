@@ -15,8 +15,8 @@
         <div class="login-box-body">
             <p class="login-box-msg">{{ __('adminlte.password_change_message') }}</p>
             <form action="{{ route('usuario.senha.alterar') }}" method="post">
-                {{ csrf_field() }}
-                {{ method_field('PUT') }}
+                @csrf
+                @method('PUT')
 
                 @if(\App\Auth::user()->password_change_at != null)
                     <div class="form-group has-feedback {{ $errors->has('current_password') ? 'has-error' : '' }}">
@@ -58,10 +58,12 @@
                 <input type="hidden" id="inputPrevious" name="previous"
                        value="{{ old('previous') ?? url()->previous() }}">
             </form>
-            <div class="auth-links">
-                <a href="{{ old('previous') ?? url()->previous() }}"
-                   class="text-center"><i class="fa fa-fw fa-arrow-left"></i>{{ trans('pagination.back') }}</a>
-            </div>
+            @if(\App\Auth::user()->password_change_at != null)
+                <div class="auth-links">
+                    <a href="{{ old('previous') ?? url()->previous() }}"
+                       class="text-center"><i class="fa fa-fw fa-arrow-left"></i>{{ trans('pagination.back') }}</a>
+                </div>
+            @endif
         </div>
         <!-- /.login-box-body -->
         <div class="box-footer" style="text-align: center;">

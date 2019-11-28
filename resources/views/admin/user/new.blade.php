@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Novo usuário - SGE CTI')
+@section('title', 'Novo usuário')
 
 @section('content_header')
     <h1>Adicionar novo usuário</h1>

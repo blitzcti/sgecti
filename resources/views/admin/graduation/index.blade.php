@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Alunos que colaram ou não grau - SGE CTI')
+@section('title', 'Alunos que colaram ou não grau')
 
 @section('content_header')
     <h1>Alunos que colaram ou não grau</h1>

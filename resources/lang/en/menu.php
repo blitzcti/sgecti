@@ -13,6 +13,7 @@ return [
     'system' => 'SYSTEM',
     'configuration' => 'Configuration',
 
+    'sso' => 'SSO',
     'users' => 'Users',
 
     'courseConfig' => 'General course configurations',

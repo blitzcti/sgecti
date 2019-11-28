@@ -14,7 +14,7 @@ return [
      |
      */
 
-    'url' => env('SSO_SERVER_URL', '127.0.0.1'),
+    'url' => env('SSO_SERVER_URL', 'http://127.0.0.1'),
     'name' => env('SSO_BROKER_NAME', 'sge'),
     'secret' => env('SSO_BROKER_SECRET', null),
 ];

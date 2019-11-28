@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Nova proposta - SGE CTI')
+@section('title', 'Nova proposta')
 
 @section('content_header')
     <h1>Adicionar nova proposta de estágio</h1>

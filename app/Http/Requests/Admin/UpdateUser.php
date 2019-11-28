@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Models\Role;
 use App\Models\User;
 use App\Rules\Integer;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateUser extends FormRequest
 {
@@ -17,7 +19,7 @@ class UpdateUser extends FormRequest
     {
         $user = User::findOrFail($this->route('id'));
 
-        return $user->hasRole('admin') || $user->hasRole('teacher');
+        return $user->isAdmin() || $user->isTeacher();
     }
 
     /**
@@ -33,7 +35,7 @@ class UpdateUser extends FormRequest
             'name' => ['required', 'max:191'],
             'email' => ['required', 'email', 'max:191', "unique:users,email,{$user->id}"],
             'phone' => ['nullable', new Integer, 'digits_between:10,11'],
-            'role' => ['required', 'integer', 'min:1', 'exists:roles,id'],
+            'role' => ['required', 'integer', 'min:1', 'exists:roles,id', Rule::in([Role::ADMIN, Role::TEACHER])],
         ];
     }
 }

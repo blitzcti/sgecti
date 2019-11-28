@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Editar supervisor - SGE CTI')
+@section('title', 'Editar supervisor')
 
 @section('content_header')
     <h1>Editar supervisor</h1>

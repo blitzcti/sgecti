@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Nova empresa (CTPS) - SGE CTI')
+@section('title', 'Nova empresa (CTPS)')
 
 @section('content_header')
     <h1>Adicionar nova empresa (CTPS)</h1>

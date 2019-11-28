@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Documentação de estágio - SGE CTI')
+@section('title', 'Documentação de estágio')
 
 @section('css')
     <style type="text/css">

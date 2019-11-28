@@ -79,6 +79,14 @@ class AppServiceProvider extends ServiceProvider
             ]);
         }
 
+        if ($user->isAdmin() && config('broker.useSSO')) {
+            $menu->add([
+                'text' => 'menu.sso',
+                'icon' => 'server',
+                'url' => config('broker.url') . '/home',
+            ]);
+        }
+
         if ($user->can('user-list') && !config('broker.useSSO')) {
             $menu->add([
                 'text' => 'menu.users',

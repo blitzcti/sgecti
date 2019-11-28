@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Setores empresariais - SGE CTI')
+@section('title', 'Setores empresariais')
 
 @section('content_header')
     <h1>Setores empresariais</h1>

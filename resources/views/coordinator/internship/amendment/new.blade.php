@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Novo termo aditivo - SGE CTI')
+@section('title', 'Novo termo aditivo')
 
 @section('content_header')
     <h1>Adicionar termo aditivo</h1>

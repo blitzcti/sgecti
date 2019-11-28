@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Configurações do curso - SGE CTI')
+@section('title', 'Configurações do curso')
 
 @section('content_header')
     <h1>Configurações do curso {{ $course->name }}</h1>

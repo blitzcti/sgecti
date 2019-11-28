@@ -18,6 +18,10 @@ class UserController extends Controller
 {
     public function __construct()
     {
+        if (config('broker.useSSO')) {
+            abort(404);
+        }
+
         $this->middleware('permission:user-list');
         $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);

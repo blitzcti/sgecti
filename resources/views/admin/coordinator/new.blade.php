@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Novo coordenador - SGE CTI')
+@section('title', 'Novo coordenador')
 
 @section('content_header')
     <h1>Adicionar novo Coordenador</h1>

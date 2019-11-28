@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Convênios - SGE CTI')
+@section('title', 'Convênios')
 
 @section('content_header')
     <h1>Convênios com o CTI @if(isset($company))

@@ -48,7 +48,6 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     *
      * @var array
      */
     protected $fillable = [
@@ -94,6 +93,16 @@ class User extends Authenticatable
             ->orWhereNull('end_date')->where('user_id', '=', $this->id);
     }
 
+    public function isAdmin()
+    {
+        return $this->hasRole('admin');
+    }
+
+    public function isTeacher()
+    {
+        return $this->hasRole('teacher');
+    }
+
     public function isCoordinator($temp = true)
     {
         if ($temp) {
@@ -101,11 +110,6 @@ class User extends Authenticatable
         } else {
             return sizeof($this->coordinators->where('temp_of', '=', null)) > 0;
         }
-    }
-
-    public function isAdmin()
-    {
-        return $this->hasRole('admin');
     }
 
     public function isCompany()

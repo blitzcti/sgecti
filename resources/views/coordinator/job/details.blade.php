@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Detalhes do trabalho - SGE CTI')
+@section('title', 'Detalhes do trabalho')
 
 @section('content_header')
     <h1>Detalhes do trabalho</h1>

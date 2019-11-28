@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Termos aditivos - SGE CTI')
+@section('title', 'Termos aditivos')
 
 @section('content_header')
     <h1>Termos aditivos @if(isset($internship)) de {{ $internship->student->nome }} @endif</h1>

@@ -19,25 +19,25 @@ class CreateInternshipsTable extends Migration
             $table->string('ra', 7);
 
             $table->bigInteger('company_id')->nullable(false)->unsigned();
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onUpdate('cascade')->onDelete('cascade');
 
             $table->bigInteger('sector_id')->nullable(false)->unsigned();
-            $table->foreign('sector_id')->references('id')->on('sectors')->onDelete('cascade');
+            $table->foreign('sector_id')->references('id')->on('sectors')->onUpdate('cascade')->onDelete('cascade');
 
             $table->bigInteger('coordinator_id')->nullable(false)->unsigned();
             $table->foreign('coordinator_id')->references('id')->on('coordinators')->onDelete('cascade');
 
             $table->bigInteger('schedule_id')->nullable(false)->unsigned();
-            $table->foreign('schedule_id')->references('id')->on('schedules')->onDelete('cascade');
+            $table->foreign('schedule_id')->references('id')->on('schedules')->onUpdate('cascade')->onDelete('cascade');
 
             $table->bigInteger('schedule_2_id')->nullable(true)->unsigned();
-            $table->foreign('schedule_2_id')->references('id')->on('schedules')->onDelete('cascade');
+            $table->foreign('schedule_2_id')->references('id')->on('schedules')->onUpdate('cascade')->onDelete('cascade');
 
             $table->bigInteger('state_id')->nullable(false)->unsigned();
-            $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
+            $table->foreign('state_id')->references('id')->on('states')->onUpdate('cascade')->onDelete('cascade');
 
             $table->bigInteger('supervisor_id')->nullable(false)->unsigned();
-            $table->foreign('supervisor_id')->references('id')->on('supervisors')->onDelete('cascade');
+            $table->foreign('supervisor_id')->references('id')->on('supervisors')->onUpdate('cascade')->onDelete('cascade');
 
             $table->date('start_date');
             $table->date('end_date');

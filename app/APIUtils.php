@@ -156,7 +156,7 @@ class APIUtils
     /**
      * Properly sorts an array
      *
-     * @param $array
+     * @param array $array
      * @param null|string $col
      */
     public static function sort(array &$array, $col = null)

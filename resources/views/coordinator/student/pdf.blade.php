@@ -136,13 +136,11 @@
                                             multiple>
 
                                         @foreach($courses as $course)
-
                                             <option
                                                 value="{{ $course->id }}"
                                                 {{ in_array($course->id, (old('courses') ?? [])) ? "selected" : "" }}>
                                                 {{ $course->name }}
                                             </option>
-
                                         @endforeach
 
                                     </select>

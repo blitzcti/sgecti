@@ -17,7 +17,7 @@ class CreateCompaniesTable extends Migration
             $table->bigIncrements('id');
 
             $table->string('cpf_cnpj', 15)->nullable(false)->unique();
-            $table->string('ie', 10)->nullable(true)->unique();
+            $table->string('ie', 20)->nullable(true)->unique();
             $table->boolean('pj')->nullable(false)->default(true);
 
             $table->string('name')->nullable(false);
@@ -31,7 +31,7 @@ class CreateCompaniesTable extends Migration
             $table->boolean('active')->nullable(false)->default(true);
 
             $table->bigInteger('address_id')->nullable(false)->unsigned();
-            $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
+            $table->foreign('address_id')->references('id')->on('addresses')->onUpdate('cascade')->onDelete('cascade');
 
             $table->timestamps();
         });

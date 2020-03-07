@@ -34,7 +34,7 @@ class CNPJ implements Rule
 
         if (strlen($value) != 14) {
             return false;
-        } else if ($value == '00000000000000' ||
+        } elseif ($value == '00000000000000' ||
             $value == '11111111111111' ||
             $value == '22222222222222' ||
             $value == '33333333333333' ||

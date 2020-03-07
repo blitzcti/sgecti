@@ -21,7 +21,7 @@
             <div class="info-box-content">
                 <span class="info-box-text">Uso de RAM</span>
                 <span class="info-box-number"><span id="memoryUsage">0</span><small>%</small></span>
-                <span class="info-box-more"><span id="memoryFree">0</span>M / <span id="memoryTotal">0</span>M</span>
+                <span class="info-box-more"><span id="memoryUsed">0</span>M / <span id="memoryTotal">0</span>M</span>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
             <div class="info-box-content">
                 <span class="info-box-text">HDD</span>
                 <span class="info-box-number"><span id="diskUsage">0</span><small>%</small></span>
-                <span class="info-box-more"><span id="diskFree">0</span> GB / <span id="diskTotal">0</span> GB</span>
+                <span class="info-box-more"><span id="diskUsed">0</span> GB / <span id="diskTotal">0</span> GB</span>
             </div>
         </div>
     </div>
@@ -90,11 +90,11 @@
                         jQuery('#cpuUsage').text(Math.round(data.cpu));
 
                         jQuery('#memoryUsage').text(Math.round(100 - data.memory.free * 100 / data.memory.total));
-                        jQuery('#memoryFree').text(Math.round((data.memory.total - data.memory.free) / (1024 * 1024)));
+                        jQuery('#memoryUsed').text(Math.round((data.memory.total - data.memory.free) / (1024 * 1024)));
                         jQuery('#memoryTotal').text(Math.round(data.memory.total / (1024 * 1024)));
 
                         jQuery('#diskUsage').text(Math.round(100 - data.disk.free * 100 / data.disk.total));
-                        jQuery('#diskFree').text(Math.round(data.disk.free / (1024 * 1024 * 1024)));
+                        jQuery('#diskUsed').text(Math.round((data.disk.total - data.disk.free) / (1024 * 1024 * 1024)));
                         jQuery('#diskTotal').text(Math.round(data.disk.total / (1024 * 1024 * 1024)));
 
                         isDown = data.maintenance.isDown;

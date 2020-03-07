@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    <form class="form-horizontal" action="{{ route('admin.usuario.alterar', $user->id) }}" method="post">
+    <form class="form-horizontal" action="{{ route('admin.usuario.alterar', ['id' => $user->id]) }}" method="post">
         @method('PUT')
         @csrf
 
@@ -41,12 +41,10 @@
                                 <select class="form-control selection" id="inputRole" name="role">
 
                                     @foreach($roles as $role)
-
                                         <option value="{{ $role->id }}"
                                             {{ (old('role') ?? $user->roles->pluck('id')[0]) == $role->id ? 'selected' : '' }}>
                                             {{ $role->friendly_name }}
                                         </option>
-
                                     @endforeach
 
                                 </select>

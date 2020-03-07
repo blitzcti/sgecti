@@ -20,7 +20,7 @@
             @endif
 
             <div class="btn-group" style="display: inline-flex; margin: 0">
-                <a href="{{ route('empresa.proposta.editar', $proposal->id) }}"
+                <a href="{{ route('empresa.proposta.editar', ['id' => $proposal->id]) }}"
                    class="btn btn-primary">
                     {{ $proposal->reason_to_reject != null ? 'Reenviar proposta' : 'Editar proposta' }}
                 </a>
@@ -47,20 +47,16 @@
                 <dd class="col-sm-10">{{ $proposal->requirements }}</dd>
 
                 @if($proposal->benefits != null)
-
                     <dt class="col-sm-2">Benefícios</dt>
                     <dd class="col-sm-10">{{ $proposal->benefits }}</dd>
-
                 @endif
 
                 <dt class="col-sm-2">Data limite</dt>
                 <dd class="col-sm-10">{{ $proposal->deadline->format('d/m/Y') }}</dd>
 
                 @if($proposal->observation != null)
-
                     <dt class="col-sm-2">Observação</dt>
                     <dd class="col-sm-10">{{ $proposal->observation }}</dd>
-
                 @endif
             </dl>
 
@@ -75,17 +71,13 @@
                 <dd class="col-sm-10">{{ $proposal->subject }}</dd>
 
                 @if($proposal->phone != null)
-
                     <dt class="col-sm-2">Telefone</dt>
                     <dd class="col-sm-10">{{ $proposal->formatted_phone }}</dd>
-
                 @endif
 
                 @if($proposal->other != null)
-
                     <dt class="col-sm-2">Outra forma</dt>
                     <dd class="col-sm-10">{{ $proposal->other }}</dd>
-
                 @endif
             </dl>
 
@@ -173,10 +165,8 @@
 
             <dl class="row">
                 @foreach($proposal->courses as $course)
-
                     <dt class="col-sm-12">{{ $course->name }}</dt>
                     <dd class="col-sm-0"></dd>
-
                 @endforeach
             </dl>
         </div>

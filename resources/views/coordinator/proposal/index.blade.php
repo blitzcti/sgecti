@@ -39,7 +39,6 @@
 
                 <tbody>
                 @foreach($proposals as $proposal)
-
                     <tr>
                         <td>{{ $proposal->company->formatted_cpf_cnpj }} - {{ $proposal->company->name }} {{ $proposal->company->fantasy_name != null ? "({$proposal->company->fantasy_name})" : '' }}</td>
                         <td>{{ $proposal->description }}</td>
@@ -65,12 +64,11 @@
                                 |
                             @endif
 
-                            |
                             <a class="text-aqua"
                                href="{{ route('coordenador.proposta.editar', ['id' => $proposal->id]) }}">Editar</a>
+                            |
 
                             @if($proposal->deadline >= \Carbon\Carbon::now() && $proposal->approved_at == null && $proposal->reason_to_reject == null)
-
                                 <a href="#"
                                    onclick="approveProposalId('{{ $proposal->id }}'); return false;"
                                    data-toggle="modal" class="text-green"
@@ -81,7 +79,6 @@
                                    data-toggle="modal" class="text-red"
                                    data-target="#proposalRejectModal">Rejeitar</a>
                                 |
-
                             @endif
 
                             <a href="#"
@@ -90,7 +87,6 @@
                                data-target="#proposalDeleteModal">Excluir</a>
                         </td>
                     </tr>
-
                 @endforeach
                 </tbody>
             </table>
@@ -103,7 +99,7 @@
         jQuery(document).ready(function () {
             jQuery.extend(jQuery.fn.dataTableExt.oSort, {
                 'Empresa-pre': function (a) {
-                    return a.replace(/[\d]{2}\.[\d]{3}\.[\d]{3}\/[\d]{4}-[\d]{2} - /g, '').replace(/[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2}/g, '');
+                    return a.replace(/[\d]{2}\.[\d]{3}\.[\d]{3}\/[\d]{4}-[\d]{2} - /g, '').replace(/[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2} - /g, '');
                 },
 
                 'Empresa-asc': function (a, b) {

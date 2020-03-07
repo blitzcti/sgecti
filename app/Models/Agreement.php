@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Utils\Active;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
@@ -22,6 +23,13 @@ use Illuminate\Support\Facades\Hash;
  */
 class Agreement extends Model
 {
+    use Active;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'company_id', 'start_date', 'end_date', 'observation', 'active',
     ];
@@ -48,13 +56,17 @@ class Agreement extends Model
     public function createUser()
     {
         $user = new User();
-        $user->password = Hash::make('123456789');
+        $user->name = $this->company->representative_name;
         $user->email = $this->company->email;
         $user->phone = null;
-        $user->name = $this->company->representative_name;
-        $user->assignRole('company');
-        $user->delete();
-        return $user->save();
+        $user->password = Hash::make('123456789');
+
+        $saved = $user->save();
+        if ($saved) {
+            $user->assignRole('company');
+        }
+
+        return $saved;
     }
 
     public function deleteUser()
@@ -68,6 +80,6 @@ class Agreement extends Model
 
     public static function expiredToday()
     {
-        return static::where('end_date', '=', Carbon::today()->toDateString())->orderBy('id')->get();
+        return static::whereDate('end_date', '=', Carbon::today())->orderBy('id')->get();
     }
 }

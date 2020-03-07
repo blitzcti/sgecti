@@ -27,9 +27,9 @@ class UpdateGeneralConfiguration extends FormRequest
             'maxYears' => ['required', 'integer', 'min:1'],
             'minYear' => ['required', 'integer', 'min:1', 'max:3'],
             'minSemester' => ['required', 'integer', 'min:1', 'max:2'],
-            'minHour' => ['required', 'integer', 'min:1'],
-            'minMonth' => ['required', 'integer', 'min:1', 'max:24'],
-            'minMonthCTPS' => ['required', 'integer', 'min:1'],
+            'minHours' => ['required', 'integer', 'min:1'],
+            'minMonths' => ['required', 'integer', 'min:1', 'max:24'],
+            'minMonthsCTPS' => ['required', 'integer', 'min:1'],
             'minGrade' => ['required', 'numeric', 'min:0', 'max:10'],
         ];
     }

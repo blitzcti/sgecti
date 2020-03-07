@@ -4,8 +4,8 @@ namespace App\Rules;
 
 use App\Models\Company;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Contracts\Validation\Rule;
+use Throwable;
 
 class CompanyHasAgreement implements Rule
 {
@@ -38,7 +38,7 @@ class CompanyHasAgreement implements Rule
             $company = Company::find($value);
 
             return $company->hasAgreementAt($this->date);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return false;
         }
     }

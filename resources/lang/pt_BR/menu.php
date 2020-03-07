@@ -33,6 +33,10 @@ return [
     'coordinators' => 'Coordenadores',
 
 
+    'secretary' => 'SECRETARIA',
+    'graduation' => 'Colação de grau',
+
+
     'companies' => 'Empresas',
     'agreements' => 'Convênios',
     'sectors' => 'Setores',
@@ -58,7 +62,5 @@ return [
     'pdf' => 'PDF',
 
     'documentation' => 'Documentação de estágio',
-
-    'graduation' => 'Colação de grau'
 
 ];

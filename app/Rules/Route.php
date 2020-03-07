@@ -2,7 +2,6 @@
 
 namespace App\Rules;
 
-use Exception;
 use Illuminate\Contracts\Validation\Rule;
 
 class Route implements Rule

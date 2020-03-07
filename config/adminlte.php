@@ -126,7 +126,441 @@ return [
     */
 
     'menu' => [
+        ['header' => 'user'],
+        [
+            'text' => 'changePassword',
+            'route' => 'usuario.senha.editar',
+            'icon' => 'lock',
+            'active' => ['usuario/senha'],
+        ],
 
+        ['header' => 'system'],
+        [
+            'text' => 'configuration',
+            'icon' => 'gear',
+            'role' => 'admin',
+            'submenu' => [
+                [
+                    'text' => 'courseConfig',
+                    'route' => 'admin.configuracao.curso.index',
+                    'icon' => 'wrench',
+                    'active' => ['admin/configuracao/curso', 'admin/configuracao/curso/novo'],
+                    'can' => 'generalConfiguration-list',
+                ],
+                [
+                    'text' => 'configurations',
+                    'route' => 'admin.configuracao.parametros.index',
+                    'icon' => 'wrench',
+                    'active' => ['admin/configuracao/parametros'],
+                    'can' => 'systemConfiguration-list',
+                ],
+                [
+                    'text' => 'backup',
+                    'route' => 'admin.configuracao.backup.index',
+                    'icon' => 'floppy-o',
+                    'active' => ['admin/configuracao/backup'],
+                    'can' => 'db-backup',
+                ],
+            ],
+        ],
+        [
+            'text' => 'sso',
+            'icon' => 'server',
+            'url' => env('SSO_SERVER_URL', 'http://127.0.0.1') . '/home',
+            'sso' => true,
+            'role' => 'admin',
+        ],
+        [
+            'text' => 'users',
+            'icon' => 'user',
+            'can' => 'user-list',
+            'sso' => false,
+            'submenu' => [
+                [
+                    'text' => 'view',
+                    'route' => 'admin.usuario.index',
+                    'icon' => 'th-list',
+                    'active' => ['admin/usuario'],
+                ],
+                [
+                    'text' => 'new',
+                    'route' => 'admin.usuario.novo',
+                    'icon' => 'edit',
+                    'active' => ['admin/usuario/novo'],
+                ],
+            ]
+        ],
+        [
+            'text' => 'message',
+            'route' => 'admin.mensagem.index',
+            'icon' => 'envelope',
+            'active' => ['admin/mensagem'],
+            'role' => 'admin',
+        ],
+        [
+            'text' => 'message',
+            'route' => 'coordenador.mensagem.index',
+            'icon' => 'envelope',
+            'active' => ['coordenador/mensagem', 'coordenador/mensagem*'],
+            'role' => 'coordinator',
+        ],
+        [
+            'text' => 'logs',
+            'icon' => 'calendar',
+            'route' => 'admin.logs',
+            'active' => ['admin/logs*'],
+            'role' => 'admin',
+        ],
+        [
+            'text' => 'help',
+            'route' => 'ajuda.index',
+            'icon' => 'question-circle',
+            'active' => ['ajuda'],
+        ],
+        [
+            'text' => 'about',
+            'route' => 'sobre.index',
+            'icon' => 'bolt',
+            'active' => ['sobre'],
+        ],
+
+        ['header' => 'administration', 'role' => 'admin'],
+        [
+            'text' => 'courses',
+            'icon' => 'institution',
+            'role' => 'admin',
+            'submenu' => [
+                [
+                    'text' => 'view',
+                    'route' => 'admin.curso.index',
+                    'icon' => 'th-list',
+                    'active' => ['admin/curso'],
+                    'can' => 'course-list',
+                ],
+                [
+                    'text' => 'new',
+                    'route' => 'admin.curso.novo',
+                    'icon' => 'edit',
+                    'active' => ['admin/curso/novo'],
+                    'can' => 'course-create',
+                ],
+            ],
+        ],
+        [
+            'text' => 'coordinators',
+            'icon' => 'black-tie',
+            'role' => 'admin',
+            'submenu' => [
+                [
+                    'text' => 'view',
+                    'route' => 'admin.coordenador.index',
+                    'icon' => 'th-list',
+                    'active' => ['admin/coordenador', 'admin/curso/*/coordenador'],
+                    'can' => 'coordinator-list',
+                ],
+                [
+                    'text' => 'new',
+                    'route' => 'admin.coordenador.novo',
+                    'icon' => 'edit',
+                    'active' => ['admin/coordenador/novo*'],
+                    'can' => 'coordinator-create',
+                ],
+            ],
+        ],
+
+        ['header' => 'secretary', 'role' => 'admin'],
+        [
+            'text' => 'graduation',
+            'route' => 'admin.colacao.index',
+            'icon' => 'graduation-cap',
+            'active' => ['admin/colacao'],
+            'can' => 'graduation-list',
+        ],
+
+
+        ['header' => 'COORDENAÇÃO DE ESTÁGIO', 'role' => 'coordinator'],
+        [
+            'text' => 'companies',
+            'icon' => 'building',
+            'role' => 'coordinator',
+            'submenu' => [
+                [
+                    'text' => 'view',
+                    'route' => 'coordenador.empresa.index',
+                    'icon' => 'th-list',
+                    'active' => ['coordenador/empresa'],
+                    'can' => 'company-list',
+                ],
+                [
+                    'text' => 'new',
+                    'route' => 'coordenador.empresa.novo',
+                    'icon' => 'edit',
+                    'active' => ['coordenador/empresa/novo'],
+                    'can' => 'company-create',
+                ],
+                [
+                    'text' => 'sectors',
+                    'icon' => 'balance-scale',
+                    'submenu' => [
+                        [
+                            'text' => 'view',
+                            'route' => 'coordenador.empresa.setor.index',
+                            'icon' => 'th-list',
+                            'active' => ['coordenador/empresa/setor'],
+                            'can' => 'companySector-list',
+                        ],
+                        [
+                            'text' => 'new',
+                            'route' => 'coordenador.empresa.setor.novo',
+                            'icon' => 'edit',
+                            'active' => ['coordenador/empresa/setor/novo'],
+                            'can' => 'companySector-create',
+                        ]
+                    ]
+                ],
+                [
+                    'text' => 'supervisors',
+                    'icon' => 'user',
+                    'submenu' => [
+                        [
+                            'text' => 'view',
+                            'route' => 'coordenador.empresa.supervisor.index',
+                            'icon' => 'th-list',
+                            'active' => ['coordenador/empresa/supervisor', 'coordenador/empresa/*/supervisor'],
+                            'can' => 'companySupervisor-list',
+                        ],
+                        [
+                            'text' => 'new',
+                            'route' => 'coordenador.empresa.supervisor.novo',
+                            'icon' => 'edit',
+                            'active' => ['coordenador/empresa/supervisor/novo*'],
+                            'can' => 'companySupervisor-create',
+                        ],
+                    ]
+                ],
+                [
+                    'text' => 'agreements',
+                    'icon' => 'exchange',
+                    'submenu' => [
+                        [
+                            'text' => 'view',
+                            'route' => 'coordenador.empresa.convenio.index',
+                            'icon' => 'th-list',
+                            'active' => ['coordenador/empresa/convenio', 'coordenador/empresa/*/convenio'],
+                            'can' => 'companyAgreement-list',
+                        ],
+                        [
+                            'text' => 'new',
+                            'route' => 'coordenador.empresa.convenio.novo',
+                            'icon' => 'edit',
+                            'active' => ['coordenador/empresa/convenio/novo*'],
+                            'can' => 'companyAgreement-create',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        [
+            'text' => 'internships',
+            'icon' => 'id-badge',
+            'role' => 'coordinator',
+            'submenu' => [
+                [
+                    'text' => 'view',
+                    'route' => 'coordenador.estagio.index',
+                    'icon' => 'th-list',
+                    'active' => ['coordenador/estagio'],
+                    'can' => 'internship-list',
+                ],
+                [
+                    'text' => 'new',
+                    'route' => 'coordenador.estagio.novo',
+                    'icon' => 'edit',
+                    'active' => ['coordenador/estagio/novo*'],
+                    'can' => 'internship-create',
+                ],
+                [
+                    'text' => 'amendments',
+                    'icon' => 'plus',
+                    'submenu' => [
+                        [
+                            'text' => 'view',
+                            'route' => 'coordenador.estagio.aditivo.index',
+                            'icon' => 'th-list',
+                            'active' => ['coordenador/estagio/aditivo', 'coordenador/estagio/*/aditivo'],
+                            'can' => 'internshipAmendment-list',
+                        ],
+                        [
+                            'text' => 'new',
+                            'route' => 'coordenador.estagio.aditivo.novo',
+                            'icon' => 'edit',
+                            'active' => ['coordenador/estagio/aditivo/novo*'],
+                            'can' => 'internshipAmendment-create',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        [
+            'text' => 'jobs',
+            'icon' => 'briefcase',
+            'role' => 'coordinator',
+            'submenu' => [
+                [
+                    'text' => 'view',
+                    'route' => 'coordenador.trabalho.index',
+                    'icon' => 'th-list',
+                    'active' => ['coordenador/trabalho'],
+                    'can' => 'job-list',
+                ],
+                [
+                    'text' => 'new',
+                    'route' => 'coordenador.trabalho.novo',
+                    'icon' => 'edit',
+                    'active' => ['coordenador/trabalho/novo*'],
+                    'can' => 'job-create',
+                ],
+                [
+                    'text' => 'companies',
+                    'icon' => 'building',
+                    'submenu' => [
+                        [
+                            'text' => 'view',
+                            'route' => 'coordenador.trabalho.empresa.index',
+                            'icon' => 'th-list',
+                            'active' => ['coordenador/trabalho/empresa'],
+                            'can' => 'jobCompany-list',
+                        ],
+                        [
+                            'text' => 'new',
+                            'route' => 'coordenador.trabalho.empresa.novo',
+                            'icon' => 'edit',
+                            'active' => ['coordenador/trabalho/empresa/novo'],
+                            'can' => 'jobCompany-create',
+                        ],
+                    ],
+                ]
+            ],
+        ],
+        [
+            'text' => 'reports',
+            'icon' => 'book',
+            'role' => 'coordinator',
+            'submenu' => [
+                [
+                    'text' => 'view',
+                    'route' => 'coordenador.relatorio.index',
+                    'icon' => 'th-list',
+                    'active' => ['coordenador/relatorio'],
+                    'can' => 'report-list',
+                ],
+                [
+                    'text' => 'bimestral',
+                    'route' => 'coordenador.relatorio.bimestral.novo',
+                    'icon' => 'edit',
+                    'active' => ['coordenador/relatorio/bimestral/novo*'],
+                    'can' => 'report-create',
+                ],
+                [
+                    'text' => 'final',
+                    'route' => 'coordenador.relatorio.final.novo',
+                    'icon' => 'edit',
+                    'active' => ['coordenador/relatorio/final/novo*'],
+                    'can' => 'report-create',
+                ],
+            ]
+        ],
+
+        ['header' => 'EMPRESAS', 'role' => 'coordinator'],
+        [
+            'text' => 'proposals',
+            'icon' => 'bullhorn',
+            'role' => 'coordinator',
+            'submenu' => [
+                [
+                    'text' => 'view',
+                    'route' => 'coordenador.proposta.index',
+                    'icon' => 'th-list',
+                    'active' => ['coordenador/proposta'],
+                    'can' => 'proposal-list',
+                ],
+                [
+                    'text' => 'new',
+                    'route' => 'coordenador.proposta.novo',
+                    'icon' => 'edit',
+                    'active' => ['coordenador/proposta/novo'],
+                    'can' => 'proposal-create',
+                ],
+            ],
+        ],
+
+        ['header' => 'ALUNOS', 'role' => 'coordinator'],
+        [
+            'text' => 'students',
+            'icon' => 'users',
+            'role' => 'coordinator',
+            'submenu' => [
+                [
+                    'text' => 'data',
+                    'route' => 'coordenador.aluno.index',
+                    'icon' => 'file-text-o',
+                    'active' => ['coordenador/aluno'],
+                    'can' => 'student-list',
+                ],
+                [
+                    'text' => 'pdf',
+                    'route' => 'coordenador.aluno.pdf',
+                    'icon' => 'file-pdf-o',
+                    'active' => ['coordenador/aluno/pdf'],
+                    'can' => 'student-list',
+                ],
+            ]
+        ],
+
+
+        ['header' => 'ESTÁGIO', 'role' => 'company'],
+        [
+            'text' => 'proposals',
+            'icon' => 'bullhorn',
+            'role' => 'company',
+            'submenu' => [
+                [
+                    'text' => 'view',
+                    'route' => 'empresa.proposta.index',
+                    'icon' => 'th-list',
+                    'active' => ['empresa/proposta'],
+                    'can' => 'proposal-list',
+                ],
+                [
+                    'text' => 'new',
+                    'route' => 'empresa.proposta.novo',
+                    'icon' => 'edit',
+                    'active' => ['empresa/proposta/novo'],
+                    'can' => 'proposal-create',
+                ],
+            ],
+        ],
+
+
+        ['header' => 'ESTÁGIOS', 'role' => 'student'],
+        [
+            'text' => 'proposals',
+            'icon' => 'bullhorn',
+            'route' => 'aluno.proposta.index',
+            'active' => ['aluno/proposta'],
+            'role' => 'student',
+            'can' => 'proposal-list',
+        ],
+
+        ['header' => 'DOCUMENTOS', 'role' => 'student'],
+        [
+            'text' => 'documentation',
+            'route' => 'aluno.documento.index',
+            'icon' => 'book',
+            'active' => ['aluno/documento'],
+            'role' => 'student',
+            'can' => 'documents-list',
+        ]
     ],
 
     /*
@@ -148,7 +582,9 @@ return [
         JeroenNoten\LaravelAdminLte\Menu\Filters\SubmenuFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\ClassesFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class,
-        JeroenNoten\LaravelAdminLte\Menu\Filters\LangFilter::class,
+        App\AdminLTE\LangFilter::class,
+        App\AdminLTE\RoleFilter::class,
+        App\AdminLTE\SSOFilter::class,
     ],
 
     /*

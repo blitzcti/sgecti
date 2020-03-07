@@ -10,7 +10,7 @@
     <div class="box box-default">
         <div class="box-body">
             <div class="btn-group" style="display: inline-flex; margin: 0">
-                <a href="{{ route('coordenador.trabalho.empresa.editar', $company->id) }}"
+                <a href="{{ route('coordenador.trabalho.empresa.editar', ['id' => $company->id]) }}"
                    class="btn btn-primary">Editar empresa</a>
             </div>
 
@@ -49,7 +49,7 @@
                 <dt class="col-sm-12">Alunos de:</dt>
                 <dl class="col-sm-0"></dl>
 
-                @foreach(App\Models\Course::all()->where('active', '=', true) as $course)
+                @foreach(App\Models\Course::getActives() as $course)
 
                     <dt class="col-sm-2"> {{ $course->name }}</dt>
                     <dd class="col-sm-10">{{ sizeof($company->jobs->filter(function ($i) use ($course) {return $i->student->course->id == $course->id;})) }}</dd>

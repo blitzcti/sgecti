@@ -13,5 +13,5 @@ class ProposalCourse extends Model
      *
      * @var string
      */
-    protected $table = "proposal_has_courses";
+    protected $table = 'proposal_has_courses';
 }

@@ -26,9 +26,9 @@ class StoreCourseConfiguration extends FormRequest
         return [
             'minYear' => ['required', 'integer', 'min:1', 'max:3'],
             'minSemester' => ['required', 'integer', 'min:1', 'max:2'],
-            'minHour' => ['required', 'integer', 'min:1', 'max:9999'],
-            'minMonth' => ['required', 'integer', 'min:1', 'max:24'],
-            'minMonthCTPS' => ['required', 'integer', 'min:1', 'max:999'],
+            'minHours' => ['required', 'integer', 'min:1', 'max:9999'],
+            'minMonths' => ['required', 'integer', 'min:1', 'max:24'],
+            'minMonthsCTPS' => ['required', 'integer', 'min:1', 'max:999'],
             'minGrade' => ['required', 'numeric', 'min:0', 'max:10'],
         ];
     }

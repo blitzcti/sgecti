@@ -208,9 +208,7 @@
         });
 
         @foreach($days as $day)
-
         jQuery('#input{{ ucfirst($day) }}').iCheck('check');
-
         @endforeach
     </script>
 @endsection

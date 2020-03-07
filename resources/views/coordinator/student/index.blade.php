@@ -36,7 +36,6 @@
                 <tbody>
 
                 @foreach($students as $student)
-
                     <tr>
                         <th scope="row">{{ $student->matricula }}</th>
                         <td>{{ $student->nome }}</td>
@@ -49,7 +48,6 @@
                             <a href="{{ route('coordenador.aluno.detalhes', ['ra' => $student->matricula]) }}">Detalhes</a>
                         </td>
                     </tr>
-
                 @endforeach
 
                 </tbody>

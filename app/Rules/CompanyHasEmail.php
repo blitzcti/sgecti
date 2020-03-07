@@ -3,8 +3,8 @@
 namespace App\Rules;
 
 use App\Models\Company;
-use Exception;
 use Illuminate\Contracts\Validation\Rule;
+use Throwable;
 
 class CompanyHasEmail implements Rule
 {
@@ -31,7 +31,7 @@ class CompanyHasEmail implements Rule
             $company = Company::find($value);
 
             return $company->email != null;
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return false;
         }
     }

@@ -33,6 +33,10 @@ return [
     'coordinators' => 'Coordinators',
 
 
+    'secretary' => 'SECRETARY',
+    'graduation' => 'Graduation',
+
+
     'companies' => 'Companies',
     'agreements' => 'Agreements',
     'sectors' => 'Sectors',
@@ -57,7 +61,5 @@ return [
     'pdf' => 'PDF',
 
     'documentation' => 'Documentation',
-
-    'graduation' => 'Graduation',
 
 ];

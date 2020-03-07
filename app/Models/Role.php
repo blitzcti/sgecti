@@ -27,12 +27,13 @@ class Role extends \Spatie\Permission\Models\Role
 {
     public const ADMIN = 1;
     public const TEACHER = 2;
-    public const COMPANY = 3;
-    public const STUDENT = 4;
+    public const COORDINATOR = 3;
+    public const COMPANY = 4;
+    public const STUDENT = 5;
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->connection = config('database.default');
+        $this->connection = config('broker.useSSO') ? config('database.sso') : config('database.default');
     }
 }

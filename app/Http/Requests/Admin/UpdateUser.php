@@ -29,11 +29,12 @@ class UpdateUser extends FormRequest
      */
     public function rules()
     {
+        $usersDB = config('broker.useSSO') ? config('database.sso') : config('database.default');
         $user = User::findOrFail($this->route('id'));
 
         return [
             'name' => ['required', 'max:191'],
-            'email' => ['required', 'email', 'max:191', "unique:users,email,{$user->id}"],
+            'email' => ['required', 'email', 'max:191', "unique:{$usersDB}.users,email,{$user->id}"],
             'phone' => ['nullable', new Integer, 'digits_between:10,11'],
             'role' => ['required', 'integer', 'min:1', 'exists:roles,id', Rule::in([Role::ADMIN, Role::TEACHER])],
         ];

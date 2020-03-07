@@ -84,6 +84,6 @@
         Se interessou pela vaga? Envie um email para <b>{{ $proposal->email }}</b> com o assunto
         <b>{{ $proposal->subject }}</b> até dia {{ $proposal->deadline->format("d/m/Y") }}<!--
         -->@if($proposal->phone != null), ou via telefone para {{ $proposal->formatted_phone }}@endif<!--
-        -->@if($proposal->other != null)ou {{ $proposal->other }}@endif.
+        -->@if($proposal->other != null) ou {{ $proposal->other }}@endif.
     </p>
 @endsection

@@ -22,6 +22,11 @@ use Carbon\Carbon;
  */
 class BackupConfiguration extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'hour',
     ];

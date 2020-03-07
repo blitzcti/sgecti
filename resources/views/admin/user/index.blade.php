@@ -36,7 +36,6 @@
 
                 <tbody>
                 @foreach($users as $user)
-
                     <tr>
                         <th scope="row">{{ $user->id }}</th>
                         <td>{{ $user->name }}</td>
@@ -57,7 +56,6 @@
                             @endif
                         </td>
                     </tr>
-
                 @endforeach
                 </tbody>
             </table>

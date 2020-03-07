@@ -9,10 +9,9 @@ namespace App\Models\ManyToMany;
 abstract class Model extends \App\Models\Model
 {
     /**
-     * primaryKey
+     * The primary key for the model.
      *
      * @var string
-     * @access protected
      */
     protected $primaryKey = null;
 

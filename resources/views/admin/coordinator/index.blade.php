@@ -39,7 +39,6 @@
 
                 <tbody>
                 @foreach($coordinators as $coordinator)
-
                     <tr>
                         <td>{{ $coordinator->user->name }}</td>
                         @if(!isset($course))
@@ -53,7 +52,6 @@
                                href="{{ route('admin.coordenador.editar', ['id' => $coordinator->id]) }}">Editar</a>
                         </td>
                     </tr>
-
                 @endforeach
                 </tbody>
             </table>

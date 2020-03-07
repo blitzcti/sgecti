@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Utils\Active;
+use App\Models\Utils\Phone;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -20,9 +22,18 @@ use Illuminate\Database\Eloquent\Collection;
  *
  * @property Company company
  * @property Collection|Internship[] internships
+ * @property-read string formatted_phone
  */
 class Supervisor extends Model
 {
+    use Active;
+    use Phone;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'name', 'email', 'phone', 'active', 'company_id',
     ];

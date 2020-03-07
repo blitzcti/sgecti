@@ -111,6 +111,7 @@ class LoginController extends Controller
             $broker = new Broker;
 
             $broker->logout();
+            return redirect('/');
         }
 
         $this->guard()->logout();

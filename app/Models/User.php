@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Models\NSac\Student;
+use App\Models\Utils\Phone;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -28,6 +30,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon created_at
  * @property Carbon updated_at
  *
+ * @property Collection|Permission[] permissions
+ * @property Collection|Role[] roles
  * @property Collection|DatabaseNotification[] notifications
  * @property Collection|DatabaseNotification[] readNotifications
  * @property Collection|DatabaseNotification[] unreadNotifications
@@ -37,6 +41,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read Collection|Course[] coordinator_of
  * @property-read Collection|Course[] non_temp_coordinator_of
  * @property-read int[] coordinator_courses_id
+ * @property-read int[] non_temp_coordinator_courses_id
  * @property-read string coordinator_courses_name
  * @property-read string formatted_phone
  */
@@ -44,6 +49,7 @@ class User extends Authenticatable
 {
     use HasRoles;
     use Notifiable;
+    use Phone;
 
     /**
      * The attributes that are mass assignable.
@@ -76,9 +82,7 @@ class User extends Authenticatable
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        if (config('broker.useSSO')) {
-            $this->connection = config('database.sso');
-        }
+        $this->connection = config('broker.useSSO') ? config('database.sso') : config('database.default');
     }
 
     public function notifications()
@@ -89,8 +93,10 @@ class User extends Authenticatable
     public function coordinators()
     {
         return $this->hasMany(Coordinator::class)
-            ->WhereDate('end_date', '>', Carbon::today()->toDateString())
-            ->orWhereNull('end_date')->where('user_id', '=', $this->id);
+            ->where(function (Builder $query) {
+                return $query->whereDate('end_date', '>', Carbon::today())
+                    ->orWhereNull('end_date');
+            });
     }
 
     public function isAdmin()
@@ -105,11 +111,11 @@ class User extends Authenticatable
 
     public function isCoordinator($temp = true)
     {
-        if ($temp) {
-            return sizeof($this->coordinators) > 0;
-        } else {
-            return sizeof($this->coordinators->where('temp_of', '=', null)) > 0;
+        if (!$temp) {
+            return sizeof($this->non_temp_coordinator_of) > 0;
         }
+
+        return $this->hasRole('coordinator');
     }
 
     public function isCompany()
@@ -119,11 +125,11 @@ class User extends Authenticatable
 
     public function company()
     {
-        if ($this->isCompany()) {
-            return $this->belongsTo(Company::class, 'email', 'email');
+        if (!$this->isCompany()) {
+            return null;
         }
 
-        return null;
+        return $this->belongsTo(Company::class, 'email', 'email');
     }
 
     public function isStudent()
@@ -133,44 +139,44 @@ class User extends Authenticatable
 
     public function student()
     {
-        if ($this->isStudent()) {
-            return $this->belongsTo(Student::class, 'email', 'email2');
+        if (!$this->isStudent()) {
+            return null;
         }
 
-        return null;
+        return $this->belongsTo(Student::class, 'email', 'email2');
     }
 
     public function getCoordinatorOfAttribute()
     {
-        return $this->coordinators()->groupBy('course_id')->get('course_id')->map(function ($c) {
+        return $this->coordinators()->groupBy('course_id')->get('course_id')->map(function (Coordinator $c) {
             return $c->course;
         });
     }
 
     public function getNonTempCoordinatorOfAttribute()
     {
-        return $this->coordinators()->where('temp_of', '<>', null)->groupBy('course_id')->get('course_id')->map(function ($c) {
+        return $this->coordinators()->whereNull('temp_of')->groupBy('course_id')->get('course_id')->map(function (Coordinator $c) {
             return $c->course;
         });
     }
 
     public function getCoordinatorCoursesIdAttribute()
     {
-        return $this->coordinator_of->map(function ($course) {
+        return $this->coordinator_of->map(function (Course $course) {
             return $course->id;
         })->toArray();
     }
 
     public function getNonTempCoordinatorCoursesIdAttribute()
     {
-        return $this->non_temp_coordinator_of->map(function ($course) {
+        return $this->non_temp_coordinator_of->map(function (Course $course) {
             return $course->id;
         })->toArray();
     }
 
     public function getCoordinatorCoursesNameAttribute()
     {
-        $array = $this->non_temp_coordinator_of->map(function ($c) {
+        $array = $this->coordinator_of->map(function (Course $c) {
             return $c->name;
         })->toArray();
 
@@ -178,18 +184,5 @@ class User extends Authenticatable
         $first = join(', ', array_slice($array, 0, -1));
         $both = array_filter(array_merge([$first], $last), 'strlen');
         return join(' e ', $both);
-    }
-
-    public function getFormattedPhoneAttribute()
-    {
-        $phone = $this->phone;
-        if ($phone == null) {
-            return null;
-        }
-
-        $ddd = substr($phone, 0, 2);
-        $p1 = (strlen($phone) == 10) ? substr($phone, 2, 4) : substr($phone, 2, 5);
-        $p2 = (strlen($phone) == 10) ? substr($phone, 6, 4) : substr($phone, 7, 4);
-        return "($ddd) $p1-$p2";
     }
 }

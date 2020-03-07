@@ -56,13 +56,13 @@ return [
     ],
 
     /*
-        |--------------------------------------------------------------------------
-        | Tables to ignore
-        |--------------------------------------------------------------------------
-        |
-        | This option controls the tables to ignore when doing backup.
-        |
-        */
+    |--------------------------------------------------------------------------
+    | Tables to ignore
+    |--------------------------------------------------------------------------
+    |
+    | This option controls the tables to ignore when doing backup.
+    |
+    */
 
     'sso_tables' => ['users', 'password_resets', 'roles', 'model_has_roles'],
 

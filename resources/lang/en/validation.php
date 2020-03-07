@@ -37,11 +37,12 @@ return [
     'boolean' => 'The :attribute field must be true or false.',
     'cnpj' => 'The :attribute should be a valid CNPJ.',
     'cpf' => 'The :attribute should be a valid CPF.',
+    'company_has_coordinator_course' => 'The company from :attribute does not have a coordinator course.',
     'company_has_course' => 'The course from :attribute is not from a course the company covers.',
     'company_has_email' => 'The company from :attribute does not have an email.',
     'company_has_student_course' => 'The student from :attribute is not from a course the company covers.',
     'company_has_sector' => 'The sector from :attribute is not from a sector the company covers.',
-    'company_has_supervisor' => 'The supervisor from :attribute is not from a supervisor that the company has.',
+    'company_has_supervisor' => 'The supervisor from :attribute is not from this company.',
     'confirmed' => 'The :attribute confirmation does not match.',
     'current_password' => 'The :attribute should be the current password for the user.',
     'date' => 'The :attribute is not a valid date.',
@@ -185,9 +186,9 @@ return [
         'maxYears' => 'Maximum Years',
         'minYear' => 'Minimum Year',
         'minSemester' => 'Minimum Semester',
-        'minHour' => 'Minimum Hours',
-        'minMonth' => 'Minimum Months',
-        'minMonthCTPS' => 'Minimum Months (CTPS)',
+        'minHours' => 'Minimum Hours',
+        'minMonths' => 'Minimum Months',
+        'minMonthsCTPS' => 'Minimum Months (CTPS)',
         'minGrade' => 'Minimum Grade',
         'hasConfig' => 'Add Config?',
 
@@ -263,5 +264,6 @@ return [
         'satE2' => 'Saturday (End - 2nd schedule)',
 
         'reportDate' => 'Report Date',
+        'completedHours' => 'Completed Hours',
     ],
 ];

@@ -153,7 +153,7 @@
                 <h3 class="box-title">I - Exigências do trabalho</h3>
             </div>
 
-            <div class="box-body">
+            <div class="box-body no-padding">
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
@@ -347,7 +347,7 @@
                 <h3 class="box-title">II - Formação Educacional</h3>
             </div>
 
-            <div class="box-body">
+            <div class="box-body no-padding">
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
@@ -607,7 +607,7 @@
                 <h3 class="box-title">III - Formação Profissional</h3>
             </div>
 
-            <div class="box-body">
+            <div class="box-body no-padding">
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
@@ -742,7 +742,7 @@
                 <h3 class="box-title">IV - Formação Completa</h3>
             </div>
 
-            <div class="box-body">
+            <div class="box-body no-padding">
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
@@ -983,13 +983,18 @@
             });
 
             jQuery('#formReport').submit(e => {
+                if (ignore) {
+                    jQuery("#reportWarningModal").modal('hide');
+                    return;
+                }
+
                 let tHours = hours + jQuery('#inputHoursCompleted').val();
                 let startDate = new Date(`${jQuery('#internshipStartDate').text().trim().split("/").reverse().join("-")} `);
                 let endDate = new Date(`${jQuery('#inputEndDate').val()} `);
 
                 let mDiff = Math.abs((endDate - startDate) / (30 * 24 * 60 * 60 * 1000));
                 let tMonths = months + mDiff;
-                if (ignore || tHours < minHours || tMonths < minMonths) {
+                if (tHours < minHours || tMonths < minMonths) {
                     e.preventDefault();
 
                     if (tHours < minHours) {

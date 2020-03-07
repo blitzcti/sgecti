@@ -35,7 +35,10 @@ Route::prefix('usuario')->name('usuario.')->middleware('auth')->group(function (
 });
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
-    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->name('logs');
+    Route::get('logs', [
+        'middleware' => 'role:admin',
+        'uses' => '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index'
+    ])->name('logs');
 
     Route::prefix('usuario')->name('usuario.')->group(function () {
         Route::get('', 'Admin\UserController@index')->name('index');
@@ -233,6 +236,7 @@ Route::prefix('coordenador')->name('coordenador.')->middleware('auth')->group(fu
 
         Route::prefix('{id}')->where(['id' => '[0-9]+'])->group(function () {
             Route::get('', 'Coordinator\JobController@show')->name('detalhes');
+            Route::get('pdf', 'Coordinator\JobController@pdf')->name('pdf');
             Route::get('editar', 'Coordinator\JobController@edit')->name('editar');
             Route::put('', 'Coordinator\JobController@update')->name('alterar');
             Route::delete('', 'Coordinator\JobController@destroy')->name('excluir');

@@ -64,7 +64,7 @@
 
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="inputCompanyIE" name="ie"
-                                   placeholder="02.232.3355-6" data-inputmask="'mask': '99.999.9999-9'"/>
+                                   placeholder="02.232.3355-6" data-inputmask="'mask': '99999999999999999999'"/>
                         </div>
                     </div>
 

@@ -1,5 +1,7 @@
 <?php
+
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Validation Language Lines
@@ -10,6 +12,7 @@ return [
     | as the size rules. Feel free to tweak each of these messages here.
     |
     */
+
     'accepted' => 'O campo :attribute deve ser aceito.',
     'active' => 'O campo :attribute não está definido como ativo.',
     'active_url' => 'O campo :attribute não é uma URL válida.',
@@ -23,7 +26,7 @@ return [
     'already_has_internship' => 'O campo :attribute contém um RA de um aluno que já está fazendo estágio.',
     'already_has_job' => 'O campo :attribute contém um RA de um aluno que já está trabalhando.',
     'array' => 'O campo :attribute deve ser uma matriz.',
-    'before' => 'O campo :attribute deve ser uma data anterior :date.',
+    'before' => 'O campo :attribute deve ser uma data anterior a :date.',
     'before_or_equal' => 'O campo :attribute deve ser uma data anterior ou igual a :date.',
     'between' => [
         'numeric' => 'O campo :attribute deve ser entre :min e :max.',
@@ -34,11 +37,12 @@ return [
     'boolean' => 'O campo :attribute deve ser verdadeiro ou falso.',
     'cnpj' => 'O campo :attribute deve ser um CNPJ válido.',
     'cpf' => 'O campo :attribute deve ser um CPF válido.',
+    'company_has_coordinator_course' => 'A empresa do campo :attribute não aborda um curso do coordenador.',
     'company_has_course' => 'O curso do campo :attribute não é de um curso que a empresa aborda.',
     'company_has_email' => 'A empresa do campo :attribute não possui um email.',
     'company_has_student_course' => 'O aluno do campo :attribute não é de um curso que a empresa aborda.',
     'company_has_sector' => 'O setor do campo :attribute não é de um setor que a empresa aborda.',
-    'company_has_supervisor' => 'O supervisor do campo :attribute não é de um supervisor que a empresa possui.',
+    'company_has_supervisor' => 'O supervisor do campo :attribute não é desta empresa.',
     'confirmed' => 'O campo :attribute de confirmação não confere.',
     'current_password' => 'O campo :attribute deve ser a senha atual do usuário.',
     'date' => 'O campo :attribute não é uma data válida.',
@@ -133,6 +137,7 @@ return [
     'unique' => 'O campo :attribute já está sendo utilizado.',
     'uploaded' => 'Ocorreu uma falha no upload do campo :attribute.',
     'url' => 'O campo :attribute tem um formato inválido.',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
@@ -143,11 +148,13 @@ return [
     | specify a specific custom language line for a given attribute rule.
     |
     */
+
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
     ],
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Attributes
@@ -158,6 +165,7 @@ return [
     | of "email". This simply helps us make messages a little cleaner.
     |
     */
+
     'attributes' => [
         'name' => 'Nome',
         'color' => 'Cor',
@@ -175,9 +183,9 @@ return [
         'maxYears' => 'Anos máximos',
         'minYear' => 'Ano mínimo',
         'minSemester' => 'Semestre mínimo',
-        'minHour' => 'Horas mínimas',
-        'minMonth' => 'Meses mínimos',
-        'minMonthCTPS' => 'Meses mínimos (CTPS)',
+        'minHours' => 'Horas mínimas',
+        'minMonths' => 'Meses mínimos',
+        'minMonthsCTPS' => 'Meses mínimos (CTPS)',
         'minGrade' => 'Nota mínima',
         'hasConfig' => 'Adicionar configuração?',
 
@@ -253,5 +261,6 @@ return [
         'satE2' => 'Sábado (saída - 2º horário)',
 
         'reportDate' => 'Data do relatório',
+        'completedHours' => 'Horas cumpridas',
     ],
 ];

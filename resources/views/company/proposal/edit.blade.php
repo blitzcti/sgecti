@@ -9,7 +9,7 @@
 @section('content')
     @include('modals.coordinator.cloneSchedule')
 
-    <form class="form-horizontal" action="{{ route('empresa.proposta.alterar', $proposal->id) }}" method="post">
+    <form class="form-horizontal" action="{{ route('empresa.proposta.alterar', ['id' => $proposal->id]) }}" method="post">
         @csrf
         @method('PUT')
 
@@ -212,12 +212,10 @@
                                 style="width: 100%">
 
                             @foreach($courses as $course)
-
                                 <option
                                     value="{{ $course->id }}" {{ in_array($course->id, old('courses') ?? array_column($proposal->courses->toArray(), 'id')) ? "selected" : "" }}>
                                     {{ $course->name }}
                                 </option>
-
                             @endforeach
 
                         </select>

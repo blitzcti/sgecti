@@ -10,13 +10,23 @@
     <div class="box box-default">
         <div class="box-body">
             <div class="btn-group" style="display: inline-flex; margin: 0">
-                <a href="{{ route('coordenador.empresa.editar', $company->id) }}"
+                <a href="{{ route('coordenador.empresa.editar', ['id' => $company->id]) }}"
                    class="btn btn-primary">Editar empresa</a>
 
-                <a href="{{ route('coordenador.empresa.supervisor', $company->id) }}"
+                <a href="{{ route('coordenador.empresa.supervisor', ['id' => $company->id]) }}"
                    class="btn btn-default">Supervisores</a>
 
-                <a href="{{ route('coordenador.empresa.convenio', $company->id) }}"
+                @if($company->active)
+                    @if($company->hasAgreementAt())
+                        <a href="{{ route('coordenador.empresa.convenio.editar', ['id' => $company->AgreementAt()->id]) }}"
+                           class="btn btn-primary">Editar convênio</a>
+                    @else
+                        <a href="{{ route('coordenador.empresa.convenio.novo', ['c' => $company->id]) }}"
+                           class="btn btn-success">Adicionar convênio</a>
+                    @endif
+                @endif
+
+                <a href="{{ route('coordenador.empresa.convenio', ['id' => $company->id]) }}"
                    class="btn btn-default">Convênios</a>
             </div>
 
@@ -75,7 +85,7 @@
             </dl>
 
             <hr/>
-            <h3>Dados de estágio</h3>
+            <h3>Estagiários</h3>
 
             <dl class="row">
                 <dt class="col-sm-2">Alunos estagiando</dt>
@@ -88,10 +98,8 @@
                 <dl class="col-sm-0"></dl>
 
                 @foreach($company->courses as $course)
-
                     <dt class="col-sm-2"> {{ $course->name }}</dt>
                     <dd class="col-sm-10">{{ sizeof($company->internships->filter(function ($i) use ($course) {return $i->student->course->id == $course->id;})) }}</dd>
-
                 @endforeach
             </dl>
 

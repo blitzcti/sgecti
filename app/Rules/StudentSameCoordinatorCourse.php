@@ -2,10 +2,10 @@
 
 namespace App\Rules;
 
-use App\Models\NSac\Student;
-use Exception;
-use Illuminate\Contracts\Validation\Rule;
 use App\Auth;
+use App\Models\NSac\Student;
+use Illuminate\Contracts\Validation\Rule;
+use Throwable;
 
 class StudentSameCoordinatorCourse implements Rule
 {
@@ -30,12 +30,9 @@ class StudentSameCoordinatorCourse implements Rule
     {
         try {
             $student = Student::find($value);
-            $cIds = Auth::user()->coordinator_of->map(function ($course) {
-                return $course->id;
-            })->toArray();
 
-            return in_array($student->course_id, $cIds);
-        } catch (Exception $e) {
+            return Auth::user()->coordinator_of->contains($student->course);
+        } catch (Throwable $e) {
             return false;
         }
     }

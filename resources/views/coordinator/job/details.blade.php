@@ -13,21 +13,17 @@
     <div class="box box-default">
         <div class="box-body">
             <div class="btn-group" style="display: inline-flex; margin: 0">
-                <a href="{{ route('coordenador.trabalho.editar', $job->id) }}"
+                <a href="{{ route('coordenador.trabalho.editar', ['id' => $job->id]) }}"
                    class="btn btn-primary">Editar trabalho</a>
 
                 @if($job->state->id == \App\Models\State::FINISHED)
-
                     <a href="#"
                        onclick="jobId('{{ $job->id }}'); studentName('{{ $job->student->nome }}'); return false;"
                        data-toggle="modal" class="btn btn-danger" data-target="#jobCancelModal">Cancelar</a>
-
                 @elseif($job->state->id == \App\Models\State::CANCELED && $job->student->job == null)
-
                     <a href="#"
                        onclick="reactivateJobId('{{ $job->id }}'); reactivateStudentName('{{ $job->student->nome }}'); return false;"
                        data-toggle="modal" class="btn btn-default" data-target="#jobReactivateModal">Reativar</a>
-
                 @endif
             </div>
 
@@ -67,7 +63,7 @@
                 <dd class="col-sm-10">{{ $job->company->name }}</dd>
 
                 <dt class="col-sm-2">Nome fantasia</dt>
-                <dd class="col-sm-10">{{ $job->company->fantasy_name }}</dd>
+                <dd class="col-sm-10">{{ $job->company->fantasy_name ?? '(Não informado)' }}</dd>
 
                 <dt class="col-sm-2">Data de início</dt>
                 <dd class="col-sm-10">{{ $job->start_date->format("d/m/Y") }}</dd>
@@ -82,15 +78,20 @@
                 <dd class="col-sm-10">{{ $job->state->description }}</dd>
 
                 @if($job->state_id == 3)
-
                     <dt class="col-sm-2">Motivo do cancelamento</dt>
                     <dd class="col-sm-10">{{ $job->reason_to_cancel }}</dd>
 
                     <dt class="col-sm-2">Data do cancelamento</dt>
                     <dd class="col-sm-10">{{ $job->canceled_at->format("d/m/Y") }}</dd>
-
                 @endif
             </dl>
+
+            @if($job->state_id == \App\Models\State::FINISHED)
+                <div class="btn-group">
+                    <a href="{{ route('coordenador.trabalho.pdf', ['id' => $job->id]) }}" target="_blank"
+                       class="btn btn-default">Imprimir relatório</a>
+                </div>
+            @endif
         </div>
         <!-- /.box-body -->
     </div>

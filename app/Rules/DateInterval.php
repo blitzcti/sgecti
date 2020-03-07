@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
 
 class DateInterval implements Rule
@@ -30,7 +31,7 @@ class DateInterval implements Rule
      */
     public function passes($attribute, $value)
     {
-        $diff = date_diff(date_create($this->startDate), date_create($value));
+        $diff = Carbon::createFromFormat("!Y-m-d", $this->startDate)->diff(Carbon::createFromFormat("!Y-m-d", $value));
         $mDiff = $diff->y * 12 + $diff->m;
 
         return $mDiff >= $this->months;

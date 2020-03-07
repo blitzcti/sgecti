@@ -302,7 +302,7 @@
 
 @section('footer')
     <div style="font-size: 7pt; text-align: center;">
-        <span>{{ $sysConfig->name }} - Coordenadoria de Estágio</span><br/>
+        <span>{{ $sysConfig->name }} - Coordenadoria de {{ $report->coordinator->course->name }}</span><br/>
         <span>{{ $sysConfig->street }}, {{ $sysConfig->number }} - CEP {{ $sysConfig->formatted_cep }} {{ $sysConfig->city }}, {{ $sysConfig->uf }} Brasil.</span><br/>
         <span>Tel {{ $sysConfig->formatted_phone }} Fax {{ $sysConfig->formatted_fax }}</span>
     </div>

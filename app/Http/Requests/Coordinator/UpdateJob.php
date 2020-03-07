@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Coordinator;
 
 use App\Models\Job;
+use App\Models\Sector;
+use App\Rules\Active;
 use App\Rules\DateInterval;
 use App\Rules\Integer;
 use App\Rules\RA;
@@ -40,8 +42,12 @@ class UpdateJob extends FormRequest
             'ra' => ['required', 'integer', 'min:1', new RA, new StudentHasInternship, new StudentHasJob($job->id), new StudentSameCoordinatorCourse, (!$this->get('dilation')) ? new StudentMaxYears($this->get('startDate'), $this->get('endDate')) : ''],
             'active' => ['required', 'boolean'],
 
+            'sector' => ['required', 'integer', 'min:1', 'exists:sectors,id', new Active(Sector::class, $job->sector_id)],
+
             'startDate' => ['required', 'date', 'before:endDate'],
-            'endDate' => ['required', 'date', 'after:startDate', new DateInterval($this->get('start_date'), $months)],
+            'endDate' => ['required', 'date', 'after:startDate', new DateInterval($this->get('startDate'), $months)],
+
+            'planDate' => ['required', 'date'],
 
             'protocol' => ['required', new Integer, 'digits:7'],
             'activities' => ['nullable', 'max:8000'],

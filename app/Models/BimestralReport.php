@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Utils\Protocol;
 use Carbon\Carbon;
 
 /**
@@ -20,6 +21,13 @@ use Carbon\Carbon;
  */
 class BimestralReport extends Model
 {
+    use Protocol;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'internship_id', 'date', 'protocol',
     ];
@@ -38,13 +46,5 @@ class BimestralReport extends Model
     public function internship()
     {
         return $this->belongsTo(Internship::class);
-    }
-
-    public function getFormattedProtocolAttribute()
-    {
-        $protocol = $this->protocol;
-        $n = substr($protocol, 0, 3);
-        $y = substr($protocol, 3, 4);
-        return "$n/$y";
     }
 }

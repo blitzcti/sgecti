@@ -55,7 +55,7 @@ class InternshipController extends Controller
 
     public function getByRA($ra)
     {
-        $internships = Internship::where('ra', '=', $ra)->get()->sortBy('id');
+        $internships = Internship::where('ra', '=', $ra)->orderBy('id')->get();
 
         return response()->json(
             $internships,

@@ -2,8 +2,16 @@
     "name": "blitzcti/sgecti",
     "type": "project",
     "description": "Sistema de Gerenciamento de Estágio - Blitz - CTI.",
-    "keywords": [],
+    "keywords": [
+        "laravel",
+        "laravel-framework",
+        "mvc",
+        "php",
+        "php7",
+        "adminlte"
+    ],
     "license": "proprietary",
+    "version": "1.0.1",
     "require": {
         "php": "^7.2",
         "ext-gd": "*",
@@ -42,6 +50,9 @@
         }
     },
     "autoload": {
+        "files": [
+            "app/helpers.php"
+        ],
         "psr-4": {
             "App\\": "app/"
         },

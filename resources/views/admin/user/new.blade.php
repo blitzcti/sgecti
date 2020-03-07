@@ -38,12 +38,10 @@
                                 <select class="form-control selection" id="inputRole" name="role">
 
                                     @foreach($roles as $role)
-
                                         <option value="{{ $role->id }}"
                                             {{ (old('role') ?? 1) == $role->id ? 'selected' : '' }}>
                                             {{ $role->friendly_name }}
                                         </option>
-
                                     @endforeach
 
                                 </select>

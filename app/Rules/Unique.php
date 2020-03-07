@@ -2,9 +2,9 @@
 
 namespace App\Rules;
 
-use Exception;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class Unique implements Rule
 {
@@ -47,7 +47,7 @@ class Unique implements Rule
             }
 
             return sizeof($query->get()) == 0;
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return false;
         }
     }

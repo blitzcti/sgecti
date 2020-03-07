@@ -3,8 +3,8 @@
 namespace App\Rules;
 
 use App\Models\NSac\Student;
-use Exception;
 use Illuminate\Contracts\Validation\Rule;
+use Throwable;
 
 class RA implements Rule
 {
@@ -29,10 +29,10 @@ class RA implements Rule
     {
         if ((new Student())->isConnected()) {
             try {
-                $s = Student::find($value)->get();
+                $s = Student::find($value);
 
-                return sizeof($s) > 0;
-            } catch (Exception $e) {
+                return $s != null;
+            } catch (Throwable $e) {
                 return false;
             }
         }

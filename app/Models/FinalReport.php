@@ -38,6 +38,11 @@ use Carbon\Carbon;
  */
 class FinalReport extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'internship_id', 'coordinator_id', 'date', 'grade_1_a', 'grade_1_b', 'grade_1_c', 'grade_1_d', 'grade_2_a',
         'grade_2_b', 'grade_2_c', 'grade_2_d', 'grade_3_a', 'grade_3_b', 'grade_4_a', 'grade_4_b', 'grade_4_c',
@@ -70,20 +75,21 @@ class FinalReport extends Model
         return $this->belongsTo(Coordinator::class);
     }
 
-    public function gradeExplanation($grade)
+    public function gradeExplanation(int $grade)
     {
-        if ($grade == 6) {
-            return "Excelente";
-        } else if ($grade == 5) {
-            return "Ótimo";
-        } else if ($grade == 4) {
-            return "Bom";
-        } else if ($grade == 3) {
-            return "Médio";
-        } else if ($grade == 2) {
-            return "Regular";
-        } else {
-            return "Fraco";
+        switch ($grade) {
+            case 6:
+                return "Excelente";
+            case 5:
+                return "Ótimo";
+            case 4:
+                return "Bom";
+            case 3:
+                return "Médio";
+            case 2:
+                return "Regular";
+            default:
+                return "Fraco";
         }
     }
 
@@ -92,15 +98,15 @@ class FinalReport extends Model
         $finalGrade = $this->final_grade;
         if ($finalGrade >= 8.5) {
             return "Excelente";
-        } else if ($finalGrade >= 7.2) {
+        } elseif ($finalGrade >= 7.2) {
             return "Ótimo";
-        } else if ($finalGrade >= 5.8) {
+        } elseif ($finalGrade >= 5.8) {
             return "Bom";
-        } else if ($finalGrade >= 4.3) {
+        } elseif ($finalGrade >= 4.3) {
             return "Médio";
-        } else if ($finalGrade >= 2.9) {
+        } elseif ($finalGrade >= 2.9) {
             return "Regular";
-        } else if ($finalGrade >= 1.4) {
+        } elseif ($finalGrade >= 1.4) {
             return "Fraco";
         } else {
             return "Negativo";

@@ -4,8 +4,8 @@ namespace App\Rules;
 
 use App\Models\Company;
 use App\Models\Sector;
-use Exception;
 use Illuminate\Contracts\Validation\Rule;
+use Throwable;
 
 class CompanyHasSector implements Rule
 {
@@ -34,10 +34,8 @@ class CompanyHasSector implements Rule
             $company = Company::find($this->company_id);
             $sector = Sector::find($value);
 
-            return in_array($sector->id, $company->sectors->map(function ($s) {
-                return $s->id;
-            })->toArray());
-        } catch (Exception $e) {
+            return $company->sectors->contains($sector);
+        } catch (Throwable $e) {
             return false;
         }
     }

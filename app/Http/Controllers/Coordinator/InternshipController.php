@@ -30,10 +30,10 @@ class InternshipController extends Controller
 
     public function index()
     {
-        $cIds = Auth::user()->coordinator_courses_id;
+        $courses = Auth::user()->coordinator_of;
 
-        $internships = Internship::all()->filter(function ($internship) use ($cIds) {
-            return in_array($internship->student->course_id, $cIds);
+        $internships = Internship::all()->filter(function (Internship $internship) use ($courses) {
+            return $courses->contains($internship->student->course);
         });
 
         return view('coordinator.internship.index')->with(['internships' => $internships]);
@@ -41,7 +41,7 @@ class InternshipController extends Controller
 
     public function create()
     {
-        $companies = Company::all()->where('active', '=', true)->sortBy('id');
+        $companies = Company::actives()->orderBy('id')->get();
         $s = request()->s;
 
         return view('coordinator.internship.new')->with([
@@ -53,14 +53,12 @@ class InternshipController extends Controller
 
     public function edit($id)
     {
-        $cIds = Auth::user()->coordinator_courses_id;
-
         $internship = Internship::findOrFail($id);
-        if (!in_array($internship->student->course_id, $cIds)) {
+        if (!Auth::user()->coordinator_of->contains($internship->student->course)) {
             abort(404);
         }
 
-        $companies = Company::all()->where('active', '=', true)->merge([$internship->company])->sortBy('id');
+        $companies = Company::getActives()->merge([$internship->company])->sortBy('id');
 
         return view('coordinator.internship.edit')->with([
             'internship' => $internship,
@@ -71,10 +69,8 @@ class InternshipController extends Controller
 
     public function show($id)
     {
-        $cIds = Auth::user()->coordinator_courses_id;
-
         $internship = Internship::findOrFail($id);
-        if (!in_array($internship->student->course_id, $cIds)) {
+        if (!Auth::user()->coordinator_of->contains($internship->student->course)) {
             abort(404);
         }
 
@@ -318,7 +314,6 @@ class InternshipController extends Controller
     {
         $internships = Internship::finishedToday();
 
-        /* @var $internship Internship */
         foreach ($internships as $internship) {
             Mail::to($internship->student->email)->send(new FinalReportMail($internship->student));
         }

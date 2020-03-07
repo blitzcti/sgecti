@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    <form class="form-horizontal" action="{{ route('admin.coordenador.alterar', $coordinator->id) }}" method="post">
+    <form class="form-horizontal" action="{{ route('admin.coordenador.alterar', ['id' => $coordinator->id]) }}" method="post">
         @method('PUT')
         @csrf
 
@@ -24,12 +24,10 @@
                         <select class="form-control selection" id="inputUser" name="user">
 
                             @foreach($users as $user)
-
                                 <option
                                     value="{{ $user->id }}" {{ (old('user') ?? $coordinator->user->id) == $user->id ? 'selected=selected' : '' }}>
                                     {{ __($user->name) }}
                                 </option>
-
                             @endforeach
 
                         </select>
@@ -45,12 +43,10 @@
                         <select class="form-control selection" id="inputCourse" name="course">
 
                             @foreach($courses as $course)
-
                                 <option
                                     value="{{ $course->id }}" {{ (old('course') ?? $coordinator->course->id) == $course->id ? 'selected=selected' : '' }}>
                                     {{ __($course->name) }}
                                 </option>
-
                             @endforeach
 
                         </select>

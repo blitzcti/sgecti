@@ -22,7 +22,7 @@ class CreateSupervisorsTable extends Migration
             $table->boolean('active')->nullable(false)->default(true);
 
             $table->bigInteger('company_id')->nullable(false)->unsigned();
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onUpdate('cascade')->onDelete('cascade');
 
             $table->timestamps();
         });

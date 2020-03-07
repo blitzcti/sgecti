@@ -36,7 +36,12 @@ class CourseController extends Controller
         $config = $course->configuration();
         $coordinator = $course->coordinator;
 
-        return view('admin.course.details')->with(['course' => $course, 'config' => $config, 'coordinator' => $coordinator, 'color' => $color]);
+        return view('admin.course.details')->with([
+            'course' => $course,
+            'config' => $config,
+            'coordinator' => $coordinator,
+            'color' => $color
+        ]);
     }
 
     public function create()
@@ -48,10 +53,6 @@ class CourseController extends Controller
 
     public function edit($id)
     {
-        if (!ctype_digit($id)) {
-            return redirect()->route('admin.curso.index');
-        }
-
         $course = Course::findOrFail($id);
         $colors = Color::all()->sortBy('id');
 
@@ -82,9 +83,9 @@ class CourseController extends Controller
             $config->course_id = $course->id;
             $config->min_year = $validatedData->minYear;
             $config->min_semester = $validatedData->minSemester;
-            $config->min_hours = $validatedData->minHour;
-            $config->min_months = $validatedData->minMonth;
-            $config->min_months_ctps = $validatedData->minMonthCTPS;
+            $config->min_hours = $validatedData->minHours;
+            $config->min_months = $validatedData->minMonths;
+            $config->min_months_ctps = $validatedData->minMonthsCTPS;
             $config->min_grade = $validatedData->minGrade;
 
             $saved = $config->save();

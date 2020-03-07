@@ -34,12 +34,10 @@
                                 <select class="form-control selection" id="inputInternship" name="internship">
 
                                     @foreach($internships as $internship)
-
                                         <option value="{{ $internship->id }}"
                                             {{ (old('internship') ?? $i) == $internship->id ? 'selected=selected' : '' }}>
                                             {{ $internship->ra }} - {{ $internship->student->nome }}
                                         </option>
-
                                     @endforeach
 
                                 </select>

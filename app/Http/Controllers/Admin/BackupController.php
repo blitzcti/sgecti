@@ -10,7 +10,6 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -25,8 +24,8 @@ class BackupController extends Controller
     {
         $this->middleware('permission:db-backup', ['only' => ['index', 'backup']]);
         $this->middleware('permission:db-restore', ['only' => ['restore']]);
-        $this->tables = Config::get('backup.tables');
-        $this->sso_tables = Config::get('backup.sso_tables');
+        $this->tables = config('backup.tables');
+        $this->sso_tables = config('backup.sso_tables');
     }
 
     public function index()
@@ -34,6 +33,7 @@ class BackupController extends Controller
         $backupConfig = BackupConfiguration::getCurrent();
         $days = $backupConfig->days();
         $hour = $backupConfig->getHour();
+
         return view('admin.system.configurations.backup.index')->with(['days' => $days, 'hour' => $hour]);
     }
 
@@ -85,7 +85,6 @@ class BackupController extends Controller
                             Log::info("Backup restaurado!");
                         } catch (Exception $e) {
                             Log::error("Erro ao restaurar do arquivo de backup: {$e}");
-                            Artisan::call('cache:forget', ['key' => 'spatie.permission.cache']);
 
                             try {
                                 $zip->open(storage_path("app/backups/backup.zip"));
@@ -119,7 +118,7 @@ class BackupController extends Controller
                 }
 
                 Storage::disk('local')->delete(array_diff(Storage::disk('local')->files('backups/uploaded/'), ['backups/uploaded/.gitignore']));
-            } else if ($request->file->extension() === "txt") {
+            } elseif ($request->file->extension() === "txt") {
                 $file = $request->file;
                 $data = file_get_contents($file);
                 $data = json_decode($data, true);
@@ -142,10 +141,9 @@ class BackupController extends Controller
                         Log::info("Backup restaurado!");
                     } catch (Exception $e) {
                         Log::error("Erro ao restaurar do arquivo de backup: {$e}");
-                        Artisan::call('cache:forget', ['key' => 'spatie.permission.cache']);
-                        Artisan::call('config:cache');
 
                         try {
+                            Artisan::call('cache:forget', ['key' => 'spatie.permission.cache']);
                             Artisan::call('migrate:fresh');
 
                             $this->restoreData($data2);
@@ -155,7 +153,6 @@ class BackupController extends Controller
                         } catch (Exception $e2) {
                             Log::error("Erro ao restaurar do arquivo de backup: {$e2}");
                             Artisan::call('cache:forget', ['key' => 'spatie.permission.cache']);
-                            Artisan::call('config:cache');
                             Artisan::call('migrate:fresh', ['--seed' => true]);
                             Log::info("Banco de dados reiniciado.");
 
@@ -229,6 +226,35 @@ class BackupController extends Controller
         return redirect()->route('admin.configuracao.backup.index')->with($params);
     }
 
+    private function verifyData(string $data)
+    {
+        if (is_array($data)) {
+            try {
+                foreach ($this->tables as $table => $class) {
+                    if (config('broker.useSSO') && in_array($table, $this->sso_tables)) {
+                        continue;
+                    }
+
+                    $innerData = $data[$table];
+                    $this->verifyInnerData($innerData, $class);
+                }
+
+                return true;
+            } catch (Exception $e) {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $data
+     * @param $class
+     *
+     * @return bool
+     * @throws Exception
+     */
     private function verifyInnerData($data, $class)
     {
         try {
@@ -246,29 +272,15 @@ class BackupController extends Controller
         return true;
     }
 
-    private function verifyData(string $data)
-    {
-        if (is_array($data)) {
-            try {
-                foreach ($this->tables as $table => $class) {
-                    $innerData = $data[$table];
-                    $this->verifyInnerData($innerData, $class);
-                }
-
-                return true;
-            } catch (Exception $e) {
-                return false;
-            }
-        }
-
-        return false;
-    }
-
     private function verifyZipFile(ZipArchive $zipFile)
     {
         try {
             foreach ($this->tables as $table => $class) {
-                $content = $zipFile->getFromName("$table.json");
+                if (config('broker.useSSO') && in_array($table, $this->sso_tables)) {
+                    continue;
+                }
+
+                $content = $zipFile->getFromName("{$table}.json");
                 if (!$content) {
                     return false;
                 }
@@ -293,7 +305,11 @@ class BackupController extends Controller
 
         if ($zip->open($file, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
             foreach ($this->tables as $table => $class) {
-                $zip->addFile(storage_path("app/backups/zip/$table.json"), "$table.json");
+                if (config('broker.useSSO') && in_array($table, $this->sso_tables)) {
+                    continue;
+                }
+
+                $zip->addFile(storage_path("app/backups/zip/{$table}.json"), "{$table}.json");
             }
 
             $zip->close();
@@ -321,7 +337,7 @@ class BackupController extends Controller
 
                 $data = $this->getTableData($table, $class);
 
-                $f = fopen("$dir/$table.json", "w+");
+                $f = fopen("{$dir}/{$table}.json", "w+");
                 fwrite($f, json_encode($data, JSON_UNESCAPED_UNICODE));
                 fclose($f);
             }
@@ -337,8 +353,8 @@ class BackupController extends Controller
 
     private function getTableData(string $table, string $class)
     {
-        $instance = (new $class);
         /* @var $instance Model */
+        $instance = (new $class);
 
         if ($instance->getKeyName() != null) {
             $data = DB::table($table)->get()->sortBy($instance->getKeyName());
@@ -351,14 +367,14 @@ class BackupController extends Controller
 
     private function setAutoIncrement(string $tableName)
     {
-        $instance = (new $this->tables[$tableName]);
         /* @var $instance Model */
+        $instance = (new $this->tables[$tableName]);
 
         $primaryKey = $instance->getKeyName();
 
         if (DB::connection()->getDriverName() == 'pgsql') {
             DB::statement("SELECT setval('{$tableName}_{$primaryKey}_seq', (SELECT MAX({$primaryKey}) FROM {$tableName}));");
-        } else if (DB::connection()->getDriverName() == 'mysql') {
+        } elseif (DB::connection()->getDriverName() == 'mysql') {
             $max = DB::table($tableName)->max($primaryKey) + 1;
             DB::statement("ALTER TABLE {$tableName} AUTO_INCREMENT={$max}");
         }
@@ -375,8 +391,8 @@ class BackupController extends Controller
                 DB::table($table)->insert($innerData);
             }
 
-            $instance = (new $class);
             /* @var $instance Model */
+            $instance = (new $class);
 
             if ($instance->getKeyName() != null && $instance->incrementing) {
                 $this->setAutoIncrement($table);
@@ -387,13 +403,17 @@ class BackupController extends Controller
     private function restoreDataFromZip(string $dir)
     {
         foreach ($this->tables as $table => $class) {
-            $data = json_decode(file_get_contents("$dir/$table.json"), true);
+            if (config('broker.useSSO') && in_array($table, $this->sso_tables)) {
+                continue;
+            }
+
+            $data = json_decode(file_get_contents("{$dir}/{$table}.json"), true);
             foreach ($data as $innerData) {
                 DB::table($table)->insert($innerData);
             }
 
-            $instance = (new $class);
             /* @var $instance Model */
+            $instance = (new $class);
 
             if ($instance->getKeyName() != null && $instance->incrementing) {
                 $this->setAutoIncrement($table);

@@ -2,8 +2,13 @@
 
 namespace App\Models\ManyToMany;
 
-class CompanyCourse extends Model
+class CompanyHasCourse extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'company_id', 'course_id',
     ];
@@ -13,5 +18,5 @@ class CompanyCourse extends Model
      *
      * @var string
      */
-    protected $table = "company_has_courses";
+    protected $table = 'company_has_courses';
 }

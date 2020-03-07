@@ -24,12 +24,10 @@
                                 style="width: 100%">
 
                             @foreach($companies as $company)
-
                                 <option
                                     value="{{ $company->id }}" {{ (old('company') ?? $c) == $company->id ? 'selected' : '' }}>
                                     {{ $company->formatted_cpf_cnpj }} - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
                                 </option>
-
                             @endforeach
 
                         </select>

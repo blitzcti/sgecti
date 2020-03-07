@@ -5,12 +5,11 @@ namespace App;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 class Broker extends \Jasny\SSO\Broker
 {
-    public function __construct($cookie_lifetime = 3600)
+    public function __construct(int $cookie_lifetime = 3600)
     {
         $url = config('broker.url');
         $broker = config('broker.name');
@@ -20,6 +19,11 @@ class Broker extends \Jasny\SSO\Broker
         $this->token = null;
 
         $this->saveToken();
+    }
+
+    public function createUser($data)
+    {
+        $data;
     }
 
     public function serverLoginPage()
@@ -47,7 +51,7 @@ class Broker extends \Jasny\SSO\Broker
     /**
      * Attach client session to broker session in SSO server.
      *
-     * @param null $returnUrl
+     * @param null|string $returnUrl
      * @return void
      */
     public function attach($returnUrl = null)
@@ -82,14 +86,14 @@ class Broker extends \Jasny\SSO\Broker
     /**
      * Login client to SSO server with user credentials.
      *
-     * @param string $email
-     * @param string $password
+     * @param null|string $email
+     * @param null|string $password
      * @param bool $remember
      *
      * @return bool
      * @throws GuzzleException
      */
-    public function login($email = null, $password = null, $remember = false)
+    public function login($email = null, $password = null, bool $remember = false)
     {
         $this->userinfo = $this->makeRequest('POST', 'login', ["email" => $email, "password" => $password, "remember" => $remember]);
 
@@ -142,7 +146,7 @@ class Broker extends \Jasny\SSO\Broker
      */
     protected function getSessionId()
     {
-        $checksum = hash('sha256', 'session' . $this->token . $this->secret);
+        $checksum = hash('sha256', "session{$this->token}{$this->secret}");
         return "SSO-{$this->broker}-{$this->token}-$checksum";
     }
 
@@ -240,7 +244,7 @@ class Broker extends \Jasny\SSO\Broker
             $query .= http_build_query($parameters);
         }
 
-        app()->abort($httpResponseCode, '', ['Location' => $url . $query]);
+        app()->abort($httpResponseCode, '', ['Location' => "{$url}{$query}"]);
     }
 
     /**
@@ -260,11 +264,7 @@ class Broker extends \Jasny\SSO\Broker
      */
     protected function getPreviousUrl()
     {
-        if (!Session::previousUrl()) {
-            return url()->previous();
-        }
-
-        return Session::previousUrl();
+        return url()->previous();
     }
 
     /**

@@ -16,7 +16,7 @@
 
 @section('content')
 
-    <form class="form-horizontal" action="{{ route('coordenador.relatorio.final.alterar', $report->id) }}"
+    <form class="form-horizontal" action="{{ route('coordenador.relatorio.final.alterar', ['id' => $report->id]) }}"
           method="post">
         @csrf
         @method('PUT')
@@ -142,7 +142,7 @@
                 <h3 class="box-title">I - Exigências do trabalho</h3>
             </div>
 
-            <div class="box-body">
+            <div class="box-body no-padding">
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
@@ -336,7 +336,7 @@
                 <h3 class="box-title">II - Formação Educacional</h3>
             </div>
 
-            <div class="box-body">
+            <div class="box-body no-padding">
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
@@ -596,7 +596,7 @@
                 <h3 class="box-title">III - Formação Profissional</h3>
             </div>
 
-            <div class="box-body">
+            <div class="box-body no-padding">
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>
@@ -731,7 +731,7 @@
                 <h3 class="box-title">IV - Formação Completa</h3>
             </div>
 
-            <div class="box-body">
+            <div class="box-body no-padding">
                 <table class="table table-bordered table-striped notas">
                     <thead>
                     <tr>

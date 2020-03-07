@@ -20,7 +20,7 @@
                 </div>
             @endif
             <form action="{{ url(config('adminlte.password_email_url', 'password/email')) }}" method="post">
-                {{ csrf_field() }}
+                @csrf
 
                 <div class="form-group has-feedback {{ $errors->has('email') ? 'has-error' : '' }}">
                     <input type="email" name="email" class="form-control" value="{{ isset($email) ? $email : old('email') }}"
@@ -40,7 +40,7 @@
         <!-- /.login-box-body -->
         <div class="box-footer" style="text-align: center;">
             <small>Colégio Técnico Industrial "Prof. Isaac Portal Roldán" UNESP Bauru<br/>
-                Copyright © 2019 SGE
+                Copyright © {{ \Carbon\Carbon::now()->year }} SGE
             </small>
         </div>
         <!-- /.box-footer -->

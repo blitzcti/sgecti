@@ -36,7 +36,7 @@ class SendMail extends FormRequest
             'courses' => [($this->get('useFilters')) ? 'required_without_all:grades,periods,classes,internships' : '', 'nullable', 'array'],
             'courses.*' => ['nullable', 'integer', 'distinct', 'min:1', 'exists:courses,id'],
             'internships' => [($this->get('useFilters')) ? 'required_without_all:grades,periods,classes,courses' : '', 'nullable', 'array'],
-            'internships.*' => ['nullable', 'integer', 'distinct', 'min:0', 'max:2'],
+            'internships.*' => ['nullable', 'integer', 'distinct', 'min:0', 'max:3'],
 
             'students' => ['required_if:useFilters,0', 'nullable', 'array'],
             'students.*' => ['numeric', 'distinct', 'min:1', new RA],

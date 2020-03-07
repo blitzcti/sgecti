@@ -17,7 +17,7 @@ class Company
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::user()->isCompany()) {
+        if (Auth::user()->isCompany() && Auth::user()->company->hasAgreementAt()) {
             return $next($request);
         }
 

@@ -20,14 +20,13 @@
             @endif
 
             <div class="btn-group" style="display: inline-flex; margin: 0">
-                <a href="{{ route('coordenador.estagio.editar', $internship->id) }}"
+                <a href="{{ route('coordenador.estagio.editar', ['id' => $internship->id]) }}"
                    class="btn btn-primary">Editar estágio</a>
 
                 <a href="{{ route('coordenador.estagio.aditivo', ['id' => $internship->id]) }}"
                    class="btn btn-default">Termos aditivos</a>
 
                 @if($internship->state->id == \App\Models\State::OPEN)
-
                     <a href="{{ route('coordenador.relatorio.bimestral.novo', ['i' => $internship->id]) }}"
                        class="btn btn-success">Adicionar relatório bimestral</a>
 
@@ -37,13 +36,10 @@
                     <a href="#"
                        onclick="internshipId('{{ $internship->id }}'); studentName('{{ $internship->student->nome }}'); return false;"
                        data-toggle="modal" class="btn btn-danger" data-target="#internshipCancelModal">Cancelar</a>
-
                 @elseif($internship->state->id == \App\Models\State::CANCELED && $internship->student->internship == null)
-
                     <a href="#"
                        onclick="reactivateInternshipId('{{ $internship->id }}'); reactivateStudentName('{{ $internship->student->nome }}'); return false;"
                        data-toggle="modal" class="btn btn-default" data-target="#internshipReactivateModal">Reativar</a>
-
                 @endif
             </div>
 
@@ -91,11 +87,13 @@
                 <dt class="col-sm-2">Supervisor</dt>
                 <dd class="col-sm-10">{{ $internship->supervisor->name }}</dd>
 
+                <dt class="col-sm-2">Telefone do supervisor</dt>
+                <dd class="col-sm-10">{{ $internship->supervisor->formatted_phone ?? '(Não informado)' }}</dd>
+
                 <dt class="col-sm-2">Data de início</dt>
                 <dd class="col-sm-10">{{ $internship->start_date->format("d/m/Y") }}</dd>
 
                 @if($internship->final_report == null)
-
                     <dt class="col-sm-2">Data de término</dt>
                     <dd class="col-sm-10">
                         {{ $internship->a_end_date->format('d/m/Y') }}
@@ -104,9 +102,7 @@
 
                     <dt class="col-sm-2">Horas estimadas</dt>
                     <dd class="col-sm-10">{{ $internship->estimated_hours }}</dd>
-
                 @else
-
                     <dt class="col-sm-2">Data de término</dt>
                     <dd class="col-sm-10">{{ $internship->final_report->end_date->format("d/m/Y") }}</dd>
 
@@ -118,22 +114,28 @@
 
                     <dt class="col-sm-2">Número de aprovação</dt>
                     <dd class="col-sm-10">{{ $internship->final_report->approval_number }}</dd>
-
                 @endif
 
                 <dt class="col-sm-2">Estado</dt>
                 <dd class="col-sm-10">{{ ($internship->needsFinalReport()) ? 'Requer finalização' : $internship->state->description }}</dd>
 
-                @if($internship->state_id == 3)
-
+                @if($internship->state_id == \App\Models\State::CANCELED)
                     <dt class="col-sm-2">Motivo do cancelamento</dt>
                     <dd class="col-sm-10">{{ $internship->reason_to_cancel }}</dd>
 
                     <dt class="col-sm-2">Data do cancelamento</dt>
                     <dd class="col-sm-10">{{ $internship->canceled_at->format("d/m/Y") }}</dd>
-
                 @endif
             </dl>
+
+            <p>* Data modificada por termo aditivo</p>
+
+            @if($internship->state_id == \App\Models\State::FINISHED || $internship->state_id == \App\Models\State::INVALID)
+                <div class="btn-group">
+                    <a href="#" onclick="pdf({{ $internship->final_report->id }}); return false;" target="_blank"
+                       class="btn btn-default">Imprimir relatório</a>
+                </div>
+            @endif
 
             <hr/>
             <h3>Horários</h3>
@@ -218,6 +220,9 @@
 
 @section('js')
     <script type="text/javascript">
-
+        function pdf(id) {
+            window.open(`{{ config('app.url') }}/coordenador/relatorio/final/${id}/pdf`, '_blank');
+            window.open(`{{ config('app.url') }}/coordenador/relatorio/final/${id}/pdf2`, '_blank');
+        }
     </script>
 @endsection

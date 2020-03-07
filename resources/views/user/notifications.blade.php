@@ -36,7 +36,6 @@
 
                 <tbody>
                 @foreach($notifications as $notification)
-
                     <tr>
                         <td>{{ $notification->toArray()['data']['description'] }}</td>
                         <td>{{ $notification->toArray()['data']['text'] }}</td>
@@ -44,13 +43,10 @@
 
                         <td>
                             @if($notification->read_at == null)
-
                             <a href="#" onclick="markAsSeen('{{ $notification->id }}', false); (function (e) {e.parentNode.removeChild(e)})(this); return false;">Marcar como lida</a>
-
                             @endif
                         </td>
                     </tr>
-
                 @endforeach
                 </tbody>
             </table>

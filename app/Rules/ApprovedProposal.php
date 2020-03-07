@@ -3,9 +3,8 @@
 namespace App\Rules;
 
 use App\Models\Proposal;
-use Exception;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Collection;
+use Throwable;
 
 class ApprovedProposal implements Rule
 {
@@ -32,7 +31,7 @@ class ApprovedProposal implements Rule
             $proposal = Proposal::find($value);
 
             return $proposal->approved_at != null;
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return false;
         }
     }

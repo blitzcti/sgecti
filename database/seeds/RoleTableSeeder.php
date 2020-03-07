@@ -16,7 +16,7 @@ class RoleTableSeeder extends Seeder
         $role = Role::create([
             'name' => 'admin',
             'friendly_name' => 'Administrador',
-            'description' => 'Administra o sistema (root)'
+            'description' => 'Administra o sistema (root)',
         ]);
 
         $permissions = Permission::where('name', 'like', 'sysUsage')
@@ -36,7 +36,13 @@ class RoleTableSeeder extends Seeder
         $role = Role::create([
             'name' => 'teacher',
             'friendly_name' => 'Professor',
-            'description' => 'Professor de uma disciplina técnica'
+            'description' => 'Professor de uma disciplina técnica',
+        ]);
+
+        $role = Role::create([
+            'name' => 'coordinator',
+            'friendly_name' => 'Coordenador',
+            'description' => 'Coordenador de uma disciplina técnica',
         ]);
 
         $permissions = Permission::where('name', 'like', 'company-%')
@@ -56,7 +62,7 @@ class RoleTableSeeder extends Seeder
         $role = Role::create([
             'name' => 'company',
             'friendly_name' => 'Empresa',
-            'description' => 'Empresas conveniadas com o colégio'
+            'description' => 'Empresas conveniadas com o colégio',
         ]);
 
         $permissions = Permission::where('name', 'like', 'proposal-%')
@@ -66,7 +72,7 @@ class RoleTableSeeder extends Seeder
         $role = Role::create([
             'name' => 'student',
             'friendly_name' => 'Aluno',
-            'description' => 'Alunos do NSac'
+            'description' => 'Alunos do NSac',
         ]);
 
         $permissions = Permission::where('name', 'like', 'proposal-list')

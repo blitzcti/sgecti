@@ -4,6 +4,7 @@ namespace App\Http\Requests\Coordinator;
 
 use App\Models\JobCompany;
 use App\Models\NSac\Student;
+use App\Models\Sector;
 use App\Rules\Active;
 use App\Rules\DateInterval;
 use App\Rules\Integer;
@@ -42,9 +43,12 @@ class StoreJob extends FormRequest
             'active' => ['required', 'boolean'],
 
             'company' => ['required', 'integer', 'min:1', 'exists:job_companies,id', new Active(JobCompany::class)],
+            'sector' => ['required', 'integer', 'min:1', 'exists:sectors,id', new Active(Sector::class)],
 
             'startDate' => ['required', 'date', 'before:endDate'],
-            'endDate' => ['required', 'date', 'after:startDate', new DateInterval($this->get('start_date'), $months)],
+            'endDate' => ['required', 'date', 'after:startDate', new DateInterval($this->get('startDate'), $months)],
+
+            'planDate' => ['required', 'date'],
 
             'protocol' => ['required', new Integer, 'digits:7'],
             'activities' => ['nullable', 'max:8000'],

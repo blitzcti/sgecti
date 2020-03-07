@@ -8,15 +8,9 @@ use App\Http\Requests\ChangeUserPassword;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-
-    }
-
     public function editPassword()
     {
         if (config('broker.useSSO')) {

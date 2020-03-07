@@ -8,7 +8,7 @@
 @stop
 
 @section('content')
-    <form class="form-horizontal" action="{{ route('admin.curso.configuracao.salvar', $course->id) }}"
+    <form class="form-horizontal" action="{{ route('admin.curso.configuracao.salvar', ['id' => $course->id]) }}"
           method="post">
         @csrf
 
@@ -65,27 +65,27 @@
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <div class="form-group @if($errors->has('minHour')) has-error @endif">
-                            <label for="inputMinHour" class="col-sm-4 control-label">Horas mínimas*</label>
+                        <div class="form-group @if($errors->has('minHours')) has-error @endif">
+                            <label for="inputMinHours" class="col-sm-4 control-label">Horas mínimas*</label>
 
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="inputMinHour" name="minHour"
-                                       placeholder="420" value="{{ old('minHour') ?? '' }}"/>
+                                <input type="number" class="form-control" id="inputMinHours" name="minHours"
+                                       placeholder="420" value="{{ old('minHours') ?? '' }}"/>
 
-                                <span class="help-block">{{ $errors->first('minHour') }}</span>
+                                <span class="help-block">{{ $errors->first('minHours') }}</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-sm-6">
-                        <div class="form-group @if($errors->has('minMonth')) has-error @endif">
-                            <label for="inputMinMonth" class="col-sm-4 control-label">Meses mínimos*</label>
+                        <div class="form-group @if($errors->has('minMonths')) has-error @endif">
+                            <label for="inputMinMonths" class="col-sm-4 control-label">Meses mínimos*</label>
 
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="inputMinMonth" name="minMonth"
-                                       placeholder="6" value="{{ old('minMonth') ?? '' }}"/>
+                                <input type="number" class="form-control" id="inputMinMonths" name="minMonths"
+                                       placeholder="6" value="{{ old('minMonths') ?? '' }}"/>
 
-                                <span class="help-block">{{ $errors->first('minMonth') }}</span>
+                                <span class="help-block">{{ $errors->first('minMonths') }}</span>
                             </div>
                         </div>
                     </div>
@@ -93,14 +93,14 @@
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <div class="form-group @if($errors->has('minMonthCTPS')) has-error @endif">
-                            <label for="inputMinMonthCTPS" class="col-sm-4 control-label">Meses mínimos (CTPS)*</label>
+                        <div class="form-group @if($errors->has('minMonthsCTPS')) has-error @endif">
+                            <label for="inputMinMonthsCTPS" class="col-sm-4 control-label">Meses mínimos (CTPS)*</label>
 
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="inputMinMonth" name="minMonthCTPS"
-                                       placeholder="6" value="{{ old('minMonthCTPS') ?? '' }}"/>
+                                <input type="number" class="form-control" id="inputMinMonthsCTPS" name="minMonthsCTPS"
+                                       placeholder="6" value="{{ old('minMonthsCTPS') ?? '' }}"/>
 
-                                <span class="help-block">{{ $errors->first('minMonthCTPS') }}</span>
+                                <span class="help-block">{{ $errors->first('minMonthsCTPS') }}</span>
                             </div>
                         </div>
                     </div>

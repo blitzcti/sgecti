@@ -34,7 +34,6 @@
 
                 <tbody>
                 @foreach($sectors as $sector)
-
                     <tr>
                         <td>{{ $sector->name }}</td>
                         <td>{{ ($sector->active) ? 'Sim' : 'Não' }}</td>
@@ -44,7 +43,6 @@
                                href="{{ route('coordenador.empresa.setor.editar', ['id' => $sector->id]) }}">Editar</a>
                         </td>
                     </tr>
-
                 @endforeach
                 </tbody>
             </table>

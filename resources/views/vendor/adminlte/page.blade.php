@@ -142,7 +142,7 @@
                                             <form id="logout-form"
                                                   action="{{ url(config('adminlte.logout_url', 'auth/logout')) }}"
                                                   method="POST" style="display: none;">
-                                                {{ csrf_field() }}
+                                                @csrf
                                             </form>
                                         </li>
                                     @if(config('adminlte.right_sidebar') and (config('adminlte.layout') != 'top-nav'))
@@ -215,10 +215,10 @@
         <!-- /.content-wrapper -->
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Versão</b> 1.0
+                <b>Versão</b> {{ config('app.version') }}
             </div>
 
-            <b>Copyright © 2019 Blitz.</b> Todos os direitos reservados.
+            <b>Copyright © {{ \Carbon\Carbon::now()->year }} Blitz.</b> Todos os direitos reservados.
         </footer>
 
         @if(config('adminlte.right_sidebar') and (config('adminlte.layout') != 'top-nav'))

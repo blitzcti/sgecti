@@ -39,7 +39,6 @@
 
                 <tbody>
                 @foreach($courses as $course)
-
                     <tr>
                         <th scope="row">{{ $course->id }}</th>
                         <td>{{ $course->name }}</td>
@@ -64,7 +63,6 @@
                             @endif
                         </td>
                     </tr>
-
                 @endforeach
                 </tbody>
             </table>

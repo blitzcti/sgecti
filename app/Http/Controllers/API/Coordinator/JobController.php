@@ -55,7 +55,7 @@ class JobController extends Controller
 
     public function getByRA($ra)
     {
-        $jobs = Job::where('ra', '=', $ra)->get()->sortBy('id');
+        $jobs = Job::where('ra', '=', $ra)->orderBy('id')->get();
 
         return response()->json(
             $jobs,

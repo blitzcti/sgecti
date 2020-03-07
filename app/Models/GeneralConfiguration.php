@@ -21,6 +21,11 @@ use Carbon\Carbon;
  */
 class GeneralConfiguration extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'max_years', 'min_year', 'min_semester', 'min_hours', 'min_months', 'min_months_ctps', 'min_grade',
     ];
@@ -42,7 +47,7 @@ class GeneralConfiguration extends Model
 
     public static function getMaxYears($date)
     {
-        $configs = static::whereDate('created_at', '<=', $date)->get()->sortBy('id');
-        return $configs->last()->max_years;
+        $config = static::whereDate('created_at', '<=', $date)->orderBy('id')->get()->last();
+        return $config->max_years;
     }
 }

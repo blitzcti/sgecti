@@ -17,7 +17,7 @@ class CreateCourseConfigurationsTable extends Migration
             $table->bigIncrements('id');
 
             $table->bigInteger('course_id')->nullable(false)->unsigned();
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+            $table->foreign('course_id')->references('id')->on('courses')->onUpdate('cascade')->onDelete('cascade');
 
             $table->integer('min_year')->nullable(false);
             $table->integer('min_semester')->nullable(false);

@@ -2,7 +2,6 @@
 
 namespace App\Console;
 
-use App\Models\Agreement;
 use App\Models\BackupConfiguration;
 use App\Models\Coordinator;
 use App\Models\FinalReport;
@@ -45,19 +44,13 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         if ($this->isConnected()) {
-            $backupConfig = new BackupConfiguration();
-            if (Schema::hasTable($backupConfig->getTable())) {
+            if (Schema::hasTable((new BackupConfiguration())->getTable())) {
                 $backupConfig = BackupConfiguration::findOrFail(1);
                 $days = $backupConfig->cronDays();
                 $hour = $backupConfig->getHour();
 
                 $schedule->call('App\Http\Controllers\Admin\BackupController@scheduledBackup')->days($days)->at($hour);
                 $schedule->call('App\Http\Controllers\Admin\LogController@clearLogs')->monthly()->at('00:00');
-            }
-
-            if (Schema::hasTable((new User())->getTable())
-                && Schema::hasTable((new Agreement())->getTable())) {
-                $schedule->call('App\Http\Controllers\Coordinator\AgreementController@deleteUsers')->daily()->at('00:00');
             }
 
             if (Schema::hasTable((new User())->getTable())

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Auth;
-use App\Models\Course;
 use App\Models\Internship;
 use App\Models\Proposal;
 use Carbon\Carbon;
@@ -32,27 +31,27 @@ class HomeController extends Controller
 
         if ($user->isCoordinator()) {
             $strCourses = $user->coordinator_courses_name;
-            $cIds = Auth::user()->coordinator_courses_id;
+            $courses = $user->coordinator_of;
 
             $data['strCourses'] = $strCourses;
-            $data['requiringFinish'] = Internship::requiringFinish()->filter(function ($internship) use ($cIds) {
-                return in_array($internship->student->course_id, $cIds);
-            })->sortBy('student.nome');
+            $data['requiringFinish'] = Internship::requiringFinish()
+                ->filter(function (Internship $internship) use ($courses) {
+                    return $courses->contains($internship->student->course);
+                })->sortBy('student.nome');
 
             $data['proposals'] = Proposal::pending()
-                ->filter(function (Proposal $proposal) use ($cIds) {
+                ->filter(function (Proposal $proposal) use ($courses) {
                     $ret = false;
 
-                    /* @var $course Course */
                     foreach ($proposal->courses as $course) {
                         if (!$ret) {
-                            $ret = in_array($course->id, $cIds);
+                            $ret = $courses->contains($course);
                         }
                     }
 
                     return $ret;
                 })->sortBy('id');
-        } else if ($user->isCompany()) {
+        } elseif ($user->isCompany()) {
             $company = $user->company;
             $data['proposals'] = $company->proposals
                 ->where('approved_at', '=', null)
@@ -63,7 +62,7 @@ class HomeController extends Controller
             $data['propalsRejected'] = $company->proposals
                 ->where('reason_to_reject', '<>', null)
                 ->where('approved_at', '=', null);
-        } else if ($user->isStudent()) {
+        } elseif ($user->isStudent()) {
             $data['proposals'] = Proposal::approved();
         }
 

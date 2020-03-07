@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\NSac\Student;
+use App\Models\Utils\Active;
+use App\Models\Utils\Protocol;
 use Carbon\Carbon;
 
 /**
@@ -13,11 +15,15 @@ use Carbon\Carbon;
  * @property string ra
  * @property string ctps
  * @property int company_id
+ * @property int sector_id
  * @property int coordinator_id
  * @property int state_id
  * @property Carbon start_date
  * @property Carbon end_date
+ * @property Carbon plan_date
  * @property string protocol
+ * @property string approval_number
+ * @property string activities
  * @property string observation
  * @property string reason_to_cancel
  * @property Carbon canceled_at
@@ -27,6 +33,7 @@ use Carbon\Carbon;
  *
  * @property Student student
  * @property Company company
+ * @property Sector sector
  * @property Coordinator coordinator
  * @property State state
  * @property-read boolean dilation
@@ -35,6 +42,14 @@ use Carbon\Carbon;
  */
 class Job extends Model
 {
+    use Active;
+    use Protocol;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'ra', 'ctps', 'company_id', 'coordinator_id', 'state_id', 'start_date', 'end_date', 'protocol', 'observation',
         'reason_to_cancel', 'canceled_at', 'active',
@@ -52,6 +67,7 @@ class Job extends Model
 
         'start_date' => 'date',
         'end_date' => 'date',
+        'plan_date' => 'date',
         'canceled_at' => 'datetime',
 
         'active' => 'boolean',
@@ -67,6 +83,11 @@ class Job extends Model
         return $this->belongsTo(JobCompany::class, 'company_id');
     }
 
+    public function sector()
+    {
+        return $this->belongsTo(Sector::class);
+    }
+
     public function coordinator()
     {
         return $this->belongsTo(Coordinator::class);
@@ -79,19 +100,11 @@ class Job extends Model
 
     public function getDilationAttribute()
     {
-        $dateS = date_create("{$this->student->year}-01-01");
+        $dateS = Carbon::createFromFormat("!Y-m-d", "{$this->student->year}-01-01");
         $max_years = GeneralConfiguration::getMaxYears($dateS);
         $limitDate = $dateS->modify("+{$max_years} year")->modify("-1 day");
 
         return $this->start_date > $limitDate || $this->end_date > $limitDate;
-    }
-
-    public function getFormattedProtocolAttribute()
-    {
-        $protocol = $this->protocol;
-        $n = substr($protocol, 0, 3);
-        $y = substr($protocol, 3, 4);
-        return "$n/$y";
     }
 
     public function getFormattedCtpsAttribute()
@@ -99,6 +112,6 @@ class Job extends Model
         $ctps = $this->ctps;
         $p1 = substr($ctps, 0, 6);
         $p2 = substr($ctps, 6, 5);
-        return "$p1/$p2";
+        return "{$p1}/{$p2}";
     }
 }

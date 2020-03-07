@@ -38,7 +38,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $roles = Role::all()->where('name', '<>', 'company')->where('name', '<>', 'student')->sortBy('id');
+        $roles = Role::whereNotIn('name', ['coordinator', 'company', 'student'])->orderBy('id')->get();
 
         return view('admin.user.new')->with(['roles' => $roles]);
     }
@@ -46,11 +46,11 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        if ($user->hasRole('company') || $user->hasRole('student')) {
+        if ($user->isCompany() || $user->isStudent()) {
             abort(404);
         }
 
-        $roles = Role::all()->where('name', '<>', 'company')->where('name', '<>', 'student')->merge($user->roles)->sortBy('id');
+        $roles = Role::whereNotIn('name', ['coordinator', 'company', 'student'])->get()->merge($user->roles)->sortBy('id');
 
         return view('admin.user.edit')->with(['user' => $user, 'roles' => $roles]);
     }
@@ -112,7 +112,12 @@ class UserController extends Controller
         $saved = $user->save();
         $log .= "\nNovos dados: " . json_encode($user, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-        $user->syncRoles([Role::findOrFail($validatedData->role)->name]);
+        $roles = [Role::findOrFail($validatedData->role)->name];
+        if ($user->isCoordinator()) {
+            array_push($roles, Role::findOrFail(Role::COORDINATOR)->name);
+        }
+
+        $user->syncRoles($roles);
 
         if ($saved) {
             Log::info($log);

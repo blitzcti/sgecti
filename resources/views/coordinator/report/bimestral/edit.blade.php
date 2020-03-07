@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    <form class="form-horizontal" action="{{ route('coordenador.relatorio.bimestral.alterar', $report->id) }}"
+    <form class="form-horizontal" action="{{ route('coordenador.relatorio.bimestral.alterar', ['id' => $report->id]) }}"
           method="post">
         @csrf
         @method('PUT')

@@ -3,7 +3,6 @@
 @section('title', 'Relação de alunos')
 
 @section('css')
-
     <style type="text/css">
         @page {
             margin: 2.9cm 1cm 0.75cm 1cm !important;
@@ -13,11 +12,9 @@
             top: -72.5px !important;
         }
     </style>
-
 @endsection
 
 @section('content')
-
     @if(sizeof($students) > 0)
         <h3>Alunos que não entregaram relatório bimestral até {{ $endDate->format('d/m/Y') }}</h3>
         @foreach($courses as $course)
@@ -26,7 +23,6 @@
 
                 @foreach($grades as $grade)
                     @if(sizeof($students->filter(function ($s) use ($course, $grade) { return $s->course_id == $course->id && $s->grade == $grade; })) > 0)
-
                         @foreach($classes as $class)
                             @if(sizeof($students->filter(function ($s) use ($course, $grade, $class) { return $s->course_id == $course->id && $s->grade == $grade && $s->class == $class; })) > 0)
                                 <h4>
@@ -48,25 +44,19 @@
 
                                     <tbody>
                                     @foreach($students->filter(function ($s) use ($course, $grade, $class) { return $s->course_id == $course->id && $s->grade == $grade && $s->class == $class; }) as $student)
-
                                         <tr>
                                             <td>{{ $student->matricula }}</td>
                                             <td>{{ $student->nome }}</td>
                                             <td>{{ $student->turma }}</td>
                                         </tr>
-
                                     @endforeach
                                     </tbody>
                                 </table>
                             @endif
                         @endforeach
-
                     @endif
                 @endforeach
-
             @endif
         @endforeach
-
     @endif
-
 @endsection

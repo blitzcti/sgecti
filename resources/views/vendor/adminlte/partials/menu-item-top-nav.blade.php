@@ -4,7 +4,7 @@
            @if(isset($item['submenu'])) class="dropdown-toggle" data-toggle="dropdown" @endif
            @if(isset($item['target'])) target="{{ $item['target'] }}" @endif>
             <i class="{{ $item['icon'] ?? 'fa fa-fw fa-circle' }} {{ isset($item['icon_color']) ? 'text-' . $item['icon_color'] : '' }}"></i>
-			{{ __($item['text']) }}
+			{{ $item['text'] }}
 
             @if(isset($item['label']))
                 <span class="label label-{{ $item['label_color'] ?? 'primary' }}">{{ $item['label'] }}</span>
@@ -26,7 +26,7 @@
                         <a href="{{ $subitem['href'] }}">
 
                             <i class="fa fa-{{ $subitem['icon'] ?? 'circle-o' }} {{ isset($subitem['icon_color']) ? 'text-' . $subitem['icon_color'] : '' }}"></i>
-                            {{ __($subitem['text']) }}
+                            {{ $subitem['text'] }}
 
                             @if(isset($subitem['label']))
                                 <span class="label label-{{ $subitem['label_color'] ?? 'primary' }}">{{ $subitem['label'] }}</span>

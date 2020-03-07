@@ -39,7 +39,6 @@
 
                 <tbody>
                 @foreach($internships as $internship)
-
                     <tr class="{{ ($internship->needsFinalReport()) ? 'text-red' : '' }}">
                         <td>{{ $internship->ra }} - {{ $internship->student->nome }}</td>
 
@@ -60,24 +59,19 @@
                                href="{{ route('coordenador.estagio.editar', ['id' => $internship->id]) }}">Editar</a>
 
                             @if($internship->state->id == \App\Models\State::OPEN)
-
                                 |
                                 <a href="#"
                                    onclick="internshipId('{{ $internship->id }}'); studentName('{{ $internship->student->nome }}'); return false;"
                                    data-toggle="modal" class="text-red"
                                    data-target="#internshipCancelModal">Cancelar</a>
-
                             @elseif($internship->state->id == \App\Models\State::CANCELED && $internship->student->internship == null)
-
                                 |
                                 <a href="#"
                                    onclick="reactivateInternshipId('{{ $internship->id }}'); reactivateStudentName('{{ $internship->student->nome }}'); return false;"
                                    data-toggle="modal" data-target="#internshipReactivateModal">Reativar</a>
-
                             @endif
                         </td>
                     </tr>
-
                 @endforeach
                 </tbody>
             </table>
@@ -102,7 +96,7 @@
                 },
 
                 'Empresa-pre': function (a) {
-                    return a.replace(/[\d]{2}\.[\d]{3}\.[\d]{3}\/[\d]{4}-[\d]{2} - /g, '').replace(/[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2}/g, '');
+                    return a.replace(/[\d]{2}\.[\d]{3}\.[\d]{3}\/[\d]{4}-[\d]{2} - /g, '').replace(/[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2} - /g, '');
                 },
 
                 'Empresa-asc': function (a, b) {

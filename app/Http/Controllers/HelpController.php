@@ -283,7 +283,7 @@ class HelpController extends Controller
                     ],
                 ]
             ];
-        } else if ($user->isCoordinator()) {
+        } elseif ($user->isCoordinator()) {
             $content = [
                 'Configurações do sistema' => [
                     'Alterar senha' => [
@@ -600,7 +600,7 @@ class HelpController extends Controller
                     ],
                 ]
             ];
-        } else if ($user->isCompany()) {
+        } elseif ($user->isCompany()) {
             $content = [
                 'Configurações do sistema' => [
                     'Alterar senha' => [
@@ -711,7 +711,7 @@ class HelpController extends Controller
                     ],
                 ]
             ];
-        } else if ($user->isStudent()) {
+        } elseif ($user->isStudent()) {
             $content = [
                 'Configurações do sistema' => [
                     'Alterar senha' => [

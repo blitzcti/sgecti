@@ -21,7 +21,7 @@ class CourseConfigurationController extends Controller
         $this->middleware('permission:course-delete', ['only' => ['destroy']]);
     }
 
-    public function index(int $id)
+    public function index($id)
     {
         $course = Course::findOrFail($id);
         $configurations = $course->configurations->sortByDesc('id');
@@ -57,9 +57,9 @@ class CourseConfigurationController extends Controller
         $config->course_id = $courseId;
         $config->min_year = $validatedData->minYear;
         $config->min_semester = $validatedData->minSemester;
-        $config->min_hours = $validatedData->minHour;
-        $config->min_months = $validatedData->minMonth;
-        $config->min_months_ctps = $validatedData->minMonthCTPS;
+        $config->min_hours = $validatedData->minHours;
+        $config->min_months = $validatedData->minMonths;
+        $config->min_months_ctps = $validatedData->minMonthsCTPS;
         $config->min_grade = $validatedData->minGrade;
 
         $saved = $config->save();
@@ -74,7 +74,7 @@ class CourseConfigurationController extends Controller
         $params['saved'] = $saved;
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
-        return redirect()->route('admin.curso.configuracao.index', $courseId)->with($params);
+        return redirect()->route('admin.curso.configuracao.index', ['id' => $courseId])->with($params);
     }
 
     public function update($courseId, $id, UpdateCourseConfiguration $request)
@@ -92,9 +92,9 @@ class CourseConfigurationController extends Controller
         $config->course_id = $courseId;
         $config->min_year = $validatedData->minYear;
         $config->min_semester = $validatedData->minSemester;
-        $config->min_hours = $validatedData->minHour;
-        $config->min_months = $validatedData->minMonth;
-        $config->min_months_ctps = $validatedData->minMonthCTPS;
+        $config->min_hours = $validatedData->minHours;
+        $config->min_months = $validatedData->minMonths;
+        $config->min_months_ctps = $validatedData->minMonthsCTPS;
         $config->min_grade = $validatedData->minGrade;
 
         $saved = $config->save();

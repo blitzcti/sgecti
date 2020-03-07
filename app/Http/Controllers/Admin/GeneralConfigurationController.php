@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Auth;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\DestroyCoordinator;
 use App\Http\Requests\Admin\DestroyGeneralConfiguration;
 use App\Http\Requests\Admin\StoreGeneralConfiguration;
 use App\Http\Requests\Admin\UpdateGeneralConfiguration;
@@ -52,9 +51,9 @@ class GeneralConfigurationController extends Controller
         $config->max_years = $validatedData->maxYears;
         $config->min_year = $validatedData->minYear;
         $config->min_semester = $validatedData->minSemester;
-        $config->min_hours = $validatedData->minHour;
-        $config->min_months = $validatedData->minMonth;
-        $config->min_months_ctps = $validatedData->minMonthCTPS;
+        $config->min_hours = $validatedData->minHours;
+        $config->min_months = $validatedData->minMonths;
+        $config->min_months_ctps = $validatedData->minMonthsCTPS;
         $config->min_grade = $validatedData->minGrade;
 
         $saved = $config->save();
@@ -87,9 +86,9 @@ class GeneralConfigurationController extends Controller
         $config->max_years = $validatedData->maxYears;
         $config->min_year = $validatedData->minYear;
         $config->min_semester = $validatedData->minSemester;
-        $config->min_hours = $validatedData->minHour;
-        $config->min_months = $validatedData->minMonth;
-        $config->min_months_ctps = $validatedData->minMonthCTPS;
+        $config->min_hours = $validatedData->minHours;
+        $config->min_months = $validatedData->minMonths;
+        $config->min_months_ctps = $validatedData->minMonthsCTPS;
         $config->min_grade = $validatedData->minGrade;
 
         $saved = $config->save();

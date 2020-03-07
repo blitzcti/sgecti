@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Utils\Protocol;
 use Carbon\Carbon;
 
 /**
@@ -27,6 +28,13 @@ use Carbon\Carbon;
  */
 class Amendment extends Model
 {
+    use Protocol;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'internship_id', 'start_date', 'end_date', 'new_end_date', 'schedule_id', 'schedule_2_id', 'protocol', 'observation',
     ];
@@ -59,13 +67,5 @@ class Amendment extends Model
     public function schedule2()
     {
         return $this->belongsTo(Schedule::class, 'schedule_2_id');
-    }
-
-    public function getFormattedProtocolAttribute()
-    {
-        $protocol = $this->protocol;
-        $n = substr($protocol, 0, 3);
-        $y = substr($protocol, 3, 4);
-        return "$n/$y";
     }
 }

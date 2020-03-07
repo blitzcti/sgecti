@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Utils\Phone;
 use Carbon\Carbon;
 
 /**
@@ -30,6 +31,13 @@ use Carbon\Carbon;
  */
 class SystemConfiguration extends Model
 {
+    use Phone;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'name', 'cep', 'uf', 'city', 'street', 'number', 'district', 'phone', 'extension', 'fax', 'email',
         'agreement_expiration',
@@ -44,26 +52,13 @@ class SystemConfiguration extends Model
         'agreement_expiration' => 'integer',
     ];
 
-    public function getFormattedPhoneAttribute()
-    {
-        $phone = $this->phone;
-        if ($phone == null) {
-            return null;
-        }
-
-        $ddd = substr($phone, 0, 2);
-        $p1 = (strlen($phone) == 10) ? substr($phone, 2, 4) : substr($phone, 2, 5);
-        $p2 = (strlen($phone) == 10) ? substr($phone, 6, 4) : substr($phone, 7, 4);
-        return "($ddd) $p1-$p2";
-    }
-
     public function getFormattedFaxAttribute()
     {
         $phone = $this->phone;
         $ddd = substr($phone, 0, 2);
         $p1 = substr($phone, 2, 4);
         $p2 = substr($phone, 6, 4);
-        return "($ddd) $p1-$p2";
+        return "({$ddd}) {$p1}-{$p2}";
     }
 
     public function getFormattedCepAttribute()
@@ -71,13 +66,14 @@ class SystemConfiguration extends Model
         $cep = $this->cep;
         $p1 = substr($cep, 0, 5);
         $p2 = substr($cep, 5, 3);
-        return "$p1-$p2";
+        return "{$p1}-{$p2}";
     }
 
     public static function getAgreementExpiration(Carbon $date)
     {
-        $configs = static::all()->sortBy('id');
-        return $date->modify("+" . $configs->last()->agreement_expiration . " year")->format("Y-m-d");
+        $config = static::getCurrent();
+
+        return $date->modify("+{$config->agreement_expiration} year")->format("Y-m-d");
     }
 
     /**

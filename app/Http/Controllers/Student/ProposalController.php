@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Student;
 
-use App\Models\Proposal;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Auth;
+use App\Models\Proposal;
 
 class ProposalController extends Controller
 {

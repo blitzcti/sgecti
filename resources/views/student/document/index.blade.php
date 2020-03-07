@@ -45,7 +45,6 @@
             </div>
 
             @if($student->internship == null)
-
                 <div class="col-sm-4">
                     <div class="small-box bg-yellow">
                         <div class="inner">
@@ -60,9 +59,7 @@
                             Gerar documento <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-
             @else
-
                 <div class="col-sm-4">
                     <div class="small-box bg-yellow">
                         <div class="inner">
@@ -77,13 +74,11 @@
                             Gerar documento <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-
             @endif
         </div>
     </div>
 
     @if($student->internship == null)
-
         <div class="box box-default">
             <div class="box-header with-border">
                 <h3 class="box-title">Início de estágio</h3>
@@ -142,9 +137,7 @@
                 </div>
             </div>
         </div>
-
     @else
-
         <div class="box box-default">
             <div class="box-header with-border">
                 <h3 class="box-title">Finalização de estágio</h3>
@@ -241,11 +234,9 @@
                 </div>
             </div>
         </div>
-
     @endif
 
     @if(($student->internship != null) || (sizeof($student->finished_internships) == 0))
-
         <div class="box box-default">
             <div class="box-header with-border">
                 <h3 class="box-title">Outros documentos</h3>
@@ -253,7 +244,6 @@
 
             <div class="box-body">
                 @if($student->internship != null)
-
                     <div class="col-sm-4">
                         <div class="small-box bg-blue">
                             <div class="inner">
@@ -274,7 +264,7 @@
                             <div class="inner">
                                 <h3>Termo<br>aditivo</h3>
 
-                                <p>As regras para fazer estágio</p>
+                                <p>Altere termos do estágio</p>
                             </div>
                             <div class="icon">
                                 <i class="fa fa-plus"></i>
@@ -283,9 +273,7 @@
                                data-target="#documentAditive">Gerar <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
-
                 @elseif(sizeof($student->finished_internships) == 0)
-
                     <div class="col-sm-4">
                         <div class="small-box bg-aqua">
                             <div class="inner">
@@ -300,12 +288,9 @@
                                 Gerar documento <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
-
                 @endif
-
             </div>
         </div>
-
     @endif
 @endsection
 

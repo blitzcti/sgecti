@@ -2,9 +2,9 @@
 
 namespace App\Rules;
 
-use Exception;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Collection;
+use Throwable;
 
 class Active implements Rule
 {
@@ -40,7 +40,7 @@ class Active implements Rule
             if (in_array($value, $this->except)) {
                 return true;
             }
-        } else if ($value == $this->except) {
+        } elseif ($value == $this->except) {
             return true;
         }
 
@@ -48,7 +48,7 @@ class Active implements Rule
             $m = $this->model::find($value);
 
             return $m->active;
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return false;
         }
     }

@@ -15,14 +15,11 @@
                 <div class="modal-body">
                     <p>Qual tipo de termo aditivo você precisa?</p>
 
-                    <p><b>Mudança da Data Final:</b> adiantar ou prorrogar o tempo de estágio.</p>
-                    <p><b>Outros fins:</b> outros motivos, como mudar os horarios em que você vai fazer estágio.</p>
-
-                    <br>
-
-                    <input type="radio" name="id" value="0" checked> Nova Data Final
-                    &nbsp;
-                    <input type="radio" name="id" value="1"> Outros fins
+                    <p><input type="radio" class="radio" name="id" value="0" checked> Adiantar ou prorrogar o tempo de
+                        estágio.</p>
+                    <p><input type="radio" class="radio" name="id" value="1"> Altere os dias e horários que você fará
+                        estágio.</p>
+                    <p><input type="radio" class="radio" name="id" value="2"> Outros motivos.</p>
                 </div>
 
                 <div class="modal-footer">
@@ -43,6 +40,12 @@
         jQuery(document).ready(function () {
             jQuery('#aditiveForm').on('submit', () => {
                 jQuery('#documentAditive').modal('hide');
+            });
+
+            jQuery('.radio').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
             });
         })
     </script>

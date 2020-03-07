@@ -40,7 +40,6 @@
 
                 <tbody>
                 @foreach($supervisors as $supervisor)
-
                     <tr>
                         @if(!isset($company))
                             <td>{{ $supervisor->company->formatted_cpf_cnpj }} - {{ $supervisor->company->name }} {{ $supervisor->company->fantasy_name != null ? "({$supervisor->company->fantasy_name})" : '' }}</td>
@@ -54,7 +53,6 @@
                                href="{{ route('coordenador.empresa.supervisor.editar', ['id' => $supervisor->id]) }}">Editar</a>
                         </td>
                     </tr>
-
                 @endforeach
                 </tbody>
             </table>
@@ -67,7 +65,7 @@
         jQuery(document).ready(function () {
             jQuery.extend(jQuery.fn.dataTableExt.oSort, {
                 'Empresa-pre': function (a) {
-                    return a.replace(/[\d]{2}\.[\d]{3}\.[\d]{3}\/[\d]{4}-[\d]{2} - /g, '').replace(/[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2}/g, '');
+                    return a.replace(/[\d]{2}\.[\d]{3}\.[\d]{3}\/[\d]{4}-[\d]{2} - /g, '').replace(/[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2} - /g, '');
                 },
 
                 'Empresa-asc': function (a, b) {
@@ -85,7 +83,7 @@
                 },
                 responsive: true,
                 lengthChange: false,
-                aoColumns: [{sType: "Empresa"}, {sType: "Nome"}, {sType: "Email"}, {sType: "Ações"}],
+                aoColumns: [@if(!isset($company)){sType: "Empresa"}, @endif{sType: "Nome"}, {sType: "Email"}, {sType: "Ações"}],
                 buttons: [
                     {
                         extend: 'csv',

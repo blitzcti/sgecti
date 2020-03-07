@@ -23,16 +23,12 @@
                         <select class="form-control selection" id="inputUser" name="user">
 
                             @foreach($users as $user)
-
                                 @if($user->hasRole('teacher'))
-
                                     <option value="{{ $user->id }}"
                                         {{ (old('user') ?? 1) == $user->id ? 'selected=selected' : '' }}>
                                         {{ __($user->name) }}
                                     </option>
-
                                 @endif
-
                             @endforeach
 
                         </select>
@@ -48,12 +44,10 @@
                         <select class="form-control selection" id="inputCourse" name="course">
 
                             @foreach($courses as $course)
-
                                 <option
                                     value="{{ $course->id }}" {{ ((old('course') ?? $c) == $course->id) ? 'selected' : '' }}>
                                     {{ __($course->name) }}
                                 </option>
-
                             @endforeach
 
                         </select>

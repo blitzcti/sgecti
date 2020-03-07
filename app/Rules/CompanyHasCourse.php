@@ -4,9 +4,8 @@ namespace App\Rules;
 
 use App\Models\Company;
 use App\Models\Course;
-use App\Models\NSac\Student;
-use Exception;
 use Illuminate\Contracts\Validation\Rule;
+use Throwable;
 
 class CompanyHasCourse implements Rule
 {
@@ -35,10 +34,8 @@ class CompanyHasCourse implements Rule
             $company = Company::find($this->company_id);
             $course = Course::find($value);
 
-            return in_array($course->id, $company->courses->map(function ($c) {
-                return $c->id;
-            })->toArray());
-        } catch (Exception $e) {
+            return $company->courses->contains($course);
+        } catch (Throwable $e) {
             return false;
         }
     }

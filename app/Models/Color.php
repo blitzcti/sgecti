@@ -18,6 +18,11 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class Color extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'name',
     ];

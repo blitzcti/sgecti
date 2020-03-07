@@ -9,10 +9,14 @@ use App\Http\Requests\Coordinator\DestroyJob;
 use App\Http\Requests\Coordinator\ReactivateJob;
 use App\Http\Requests\Coordinator\StoreJob;
 use App\Http\Requests\Coordinator\UpdateJob;
+use App\Models\Course;
 use App\Models\Job;
 use App\Models\JobCompany;
 use App\Models\State;
+use App\Models\SystemConfiguration;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use PDF;
 
 class JobController extends Controller
 {
@@ -27,12 +31,10 @@ class JobController extends Controller
 
     public function index()
     {
-        $cIds = Auth::user()->coordinator_of->map(function ($course) {
-            return $course->id;
-        })->toArray();
+        $courses = Auth::user()->coordinator_of;
 
-        $jobs = Job::all()->filter(function ($job) use ($cIds) {
-            return in_array($job->student->course_id, $cIds);
+        $jobs = Job::all()->filter(function (Job $job) use ($courses) {
+            return $courses->contains($job->student->course);
         });
 
         return view('coordinator.job.index')->with(['jobs' => $jobs]);
@@ -40,7 +42,7 @@ class JobController extends Controller
 
     public function create()
     {
-        $companies = JobCompany::all()->where('active', '=', true)->sortBy('id');
+        $companies = JobCompany::actives()->orderBy('id')->get();
         $s = request()->s;
 
         return view('coordinator.job.new')->with([
@@ -50,16 +52,12 @@ class JobController extends Controller
 
     public function edit($id)
     {
-        $cIds = Auth::user()->coordinator_of->map(function ($course) {
-            return $course->id;
-        })->toArray();
-
         $job = Job::findOrFail($id);
-        if (!in_array($job->student->course_id, $cIds)) {
+        if (!Auth::user()->coordinator_of->contains($job->student->course)) {
             abort(404);
         }
 
-        $companies = JobCompany::all()->where('active', '=', true)->merge([$job->company])->sortBy('id');
+        $companies = JobCompany::getActives()->merge([$job->company])->sortBy('id');
 
         return view('coordinator.job.edit')->with([
             'job' => $job, 'companies' => $companies,
@@ -68,12 +66,8 @@ class JobController extends Controller
 
     public function show($id)
     {
-        $cIds = Auth::user()->coordinator_of->map(function ($course) {
-            return $course->id;
-        })->toArray();
-
         $job = Job::findOrFail($id);
-        if (!in_array($job->student->course_id, $cIds)) {
+        if (!Auth::user()->coordinator_of->contains($job->student->course)) {
             abort(404);
         }
 
@@ -93,19 +87,24 @@ class JobController extends Controller
 
         $job->ra = $validatedData->ra;
         $job->company_id = $validatedData->company;
+        $job->sector_id = $validatedData->sector;
 
-        $coordinator = Auth::user()->coordinators->where('course_id', '=', $job->student->course_id)->last();
-        $coordinator_id = $coordinator->temporary_of->id ?? $coordinator->id;
-        $job->coordinator_id = $coordinator_id;
+        $course = $job->student->course;
 
         $job->state_id = State::FINISHED;
         $job->start_date = $validatedData->startDate;
         $job->end_date = $validatedData->endDate;
+        $job->plan_date = $validatedData->planDate;
         $job->protocol = $validatedData->protocol;
+        $job->approval_number = $this->generateApprovalNumber($course);
         $job->activities = $validatedData->activities;
         $job->observation = $validatedData->observation;
         $job->active = $validatedData->active;
         $job->ctps = $validatedData->ctps;
+
+        $coordinator = Auth::user()->coordinators->where('course_id', '=', $course->id)->last();
+        $coordinator_id = $coordinator->temporary_of->id ?? $coordinator->id;
+        $job->coordinator_id = $coordinator_id;
 
         $saved = $job->save();
         $log .= "\nNovos dados: " . json_encode($job, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
@@ -134,6 +133,8 @@ class JobController extends Controller
         $log .= "\nUsuário: {$user->name}";
         $log .= "\nDados antigos: " . json_encode($job, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
+        $job->sector_id = $validatedData->sector;
+        $job->plan_date = $validatedData->planDate;
         $job->start_date = $validatedData->startDate;
         $job->end_date = $validatedData->endDate;
         $job->protocol = $validatedData->protocol;
@@ -234,5 +235,55 @@ class JobController extends Controller
         $params['message'] = ($saved) ? 'Salvo com sucesso' : 'Erro ao salvar!';
 
         return redirect()->route('coordenador.trabalho.index')->with($params);
+    }
+
+    public function pdf($id)
+    {
+        ini_set('max_execution_time', 300);
+
+        $job = Job::findOrFail($id);
+        $student = $job->student;
+        $sysConfig = SystemConfiguration::getCurrent();
+
+        $data = [
+            'job' => $job,
+            'student' => $student,
+            'sysConfig' => $sysConfig,
+        ];
+
+        $pdf = PDF::loadView('pdf.report.job', $data);
+        $pdf->getDomPDF()->setHttpContext(stream_context_create([
+            'http' => [
+                'method' => 'GET',
+                'header' => 'Cookie: ' . implode("; ", array_map(
+                        function ($k, $v) {
+                            return "{$k}={$v}";
+                        },
+                        array_keys($_COOKIE),
+                        array_values($_COOKIE)
+                    )),
+            ],
+        ]));
+        $pdf->setPaper('a4', 'portrait');
+        return $pdf->stream('relatorioFinal.pdf');
+    }
+
+    private function generateApprovalNumber(Course $course)
+    {
+        $no = 1;
+        $year = Carbon::now()->year;
+
+        $jobs = Job::whereYear('date', '=', $year)->get();
+
+        foreach ($jobs as $job) {
+            if ($job->student->course_id == $course->id) {
+                $no++;
+            }
+        }
+
+        while (strlen($no) < 3) {
+            $no = "0{$no}";
+        }
+        return "{$no}/{$year}";
     }
 }

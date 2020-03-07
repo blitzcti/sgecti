@@ -23,6 +23,11 @@ use Carbon\Carbon;
  */
 class CourseConfiguration extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'course_id', 'min_year', 'min_semester', 'min_hours', 'min_months', 'min_months_ctps', 'min_grade',
     ];

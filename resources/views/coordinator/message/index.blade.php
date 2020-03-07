@@ -144,13 +144,11 @@
                                             multiple>
 
                                         @foreach($courses as $course)
-
                                             <option
                                                 value="{{ $course->id }}"
                                                 {{ in_array($course->id, (old('courses') ?? [])) ? "selected" : "" }}>
                                                 {{ $course->name }}
                                             </option>
-
                                         @endforeach
 
                                     </select>
@@ -212,12 +210,10 @@
                                     multiple>
 
                                 @foreach($students as $student)
-
                                     <option value="{{ $student->matricula }}"
                                         {{ in_array($student->matricula, (old('students') ?? [])) ? 'selected=selected' : '' }}>
                                         {{ $student->matricula }} - {{ $student->nome }}
                                     </option>
-
                                 @endforeach
                             </select>
 
@@ -281,7 +277,6 @@
 
                         <tbody>
                         @foreach($proposals as $proposal)
-
                             <tr>
                                 <td>{{ $proposal->company->name }} {{ $proposal->company->fantasy_name != null ? "({$proposal->company->fantasy_name})" : '' }}</td>
                                 <td>{{ $proposal->description }}</td>
@@ -294,7 +289,6 @@
                                     <span class="selected text-green" style="display: none;">Selecionado</span>
                                 </td>
                             </tr>
-
                         @endforeach
                         </tbody>
                     </table>

@@ -6,7 +6,6 @@ use App\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\NSac\Student;
 use App\Models\SystemConfiguration;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use PhpOffice\PhpWord\IOFactory;
@@ -72,7 +71,7 @@ class DocumentController extends Controller
             $fileName = "Protocolo de finalização (1 via)";
         }
 
-        $template = new TemplateProcessor(storage_path("app/public/docs/templates/$folder/protocol.docx"));
+        $template = new TemplateProcessor(storage_path("app/public/docs/templates/{$folder}/protocol.docx"));
 
         $template->setValue('course_upper', mb_strtoupper($student->course->name));
         $template->setValue('coordinator', $student->course->coordinator->user->name);
@@ -325,12 +324,17 @@ class DocumentController extends Controller
                 break;
 
             case 1:
+                $file = "aditive_schedule";
+                $fileName = "Aditivo para horário (1 via)";
+                break;
+
+            case 2:
                 $file = "aditive_other";
                 $fileName = "Aditivo para outros fins (1 via)";
                 break;
         }
 
-        $template = new TemplateProcessor(storage_path("app/public/docs/templates/etc/$file.docx"));
+        $template = new TemplateProcessor(storage_path("app/public/docs/templates/etc/{$file}.docx"));
 
         $template->setValue('ra', $student->matricula);
         $template->setValue('student', $student->nome);

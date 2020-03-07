@@ -39,11 +39,11 @@
 
                 <tbody>
                 @foreach($jobs as $job)
-
                     <tr>
                         <td>{{ $job->ra }} - {{ $job->student->nome }}</td>
 
-                        <td>{{ $job->company->formatted_cpf_cnpj }} - {{ $job->company->name }} {{ $job->company->fantasy_name != null ? "({$job->company->fantasy_name})" : '' }}</td>
+                        <td>{{ $job->company->formatted_cpf_cnpj }}
+                            - {{ $job->company->name }} {{ $job->company->fantasy_name != null ? "({$job->company->fantasy_name})" : '' }}</td>
                         <td>{{ $job->coordinator->user->name }}</td>
                         <td>{{ $job->state->description }}</td>
                         <td>
@@ -53,23 +53,20 @@
                                href="{{ route('coordenador.trabalho.editar', ['id' => $job->id]) }}">Editar</a>
 
                             @if($job->state->id == \App\Models\State::FINISHED)
-
                                 |
                                 <a href="#"
                                    onclick="jobId('{{ $job->id }}'); studentName('{{ $job->student->nome }}'); return false;"
                                    data-toggle="modal" class="text-red" data-target="#jobCancelModal">Cancelar</a>
-
+                                |
+                                <a href="{{ route('coordenador.trabalho.pdf', ['id' => $job->id]) }}" target="_blank">PDF</a>
                             @elseif($job->state->id == \App\Models\State::CANCELED && $job->student->job == null)
-
                                 |
                                 <a href="#"
                                    onclick="reactivateJobId('{{ $job->id }}'); reactivateStudentName('{{ $job->student->nome }}'); return false;"
                                    data-toggle="modal" data-target="#jobReactivateModal">Reativar</a>
-
                             @endif
                         </td>
                     </tr>
-
                 @endforeach
                 </tbody>
             </table>
@@ -94,7 +91,7 @@
                 },
 
                 'Empresa-pre': function (a) {
-                    return a.replace(/[\d]{2}\.[\d]{3}\.[\d]{3}\/[\d]{4}-[\d]{2} - /g, '').replace(/[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2}/g, '');
+                    return a.replace(/[\d]{2}\.[\d]{3}\.[\d]{3}\/[\d]{4}-[\d]{2} - /g, '').replace(/[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2} - /g, '');
                 },
 
                 'Empresa-asc': function (a, b) {

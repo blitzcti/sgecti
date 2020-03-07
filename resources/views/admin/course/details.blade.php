@@ -16,43 +16,33 @@
     <div class="box box-default">
         <div class="box-body">
             <div class="btn-group" style="display: inline-flex; margin: 0">
-                <a href="{{ route('admin.curso.editar', $course->id) }}"
+                <a href="{{ route('admin.curso.editar', ['id' => $course->id]) }}"
                    class="btn btn-primary">Editar curso</a>
 
-                <a href="{{ route('admin.curso.configuracao.index', $course->id) }}" class="btn btn-default">Configurações</a>
+                <a href="{{ route('admin.curso.configuracao.index', ['id' => $course->id]) }}" class="btn btn-default">Configurações</a>
 
                 @if($config != null && !isset($config->max_years))
-
                     <a href="{{ route('admin.curso.configuracao.editar', ['id' => $course->id, 'id_config' => $config->id]) }}"
                        class="btn btn-primary">Editar configuração</a>
-
                 @else
-
                     <a href="{{ route('admin.curso.configuracao.novo', ['id' => $course->id]) }}"
                        class="btn btn-success">Adicionar configuração</a>
-
                 @endif
 
                 <a href="{{ route('admin.curso.coordenador', ['id' => $course->id]) }}" class="btn btn-default">Coordenadores</a>
 
                 @if($coordinator != null)
-
                     <a href="{{ route('admin.coordenador.editar', ['id' => $coordinator->id]) }}"
                        class="btn btn-primary">Editar coordenador</a>
-
                 @else
-
                     <a href="{{ route('admin.coordenador.novo', ['c' => $course->id]) }}"
                        class="btn btn-success">Adicionar coordenador</a>
-
                 @endif
 
                 @if(\App\Auth::user()->can('course-delete'))
-
                     <a href="#"
                        onclick="deleteCourseId('{{ $course->id }}'); courseName('{{ $course->name }}'); return false;"
                        data-toggle="modal" data-target="#courseDeleteModal" class="btn btn-danger">Excluir curso</a>
-
                 @endif
             </div>
 
@@ -88,7 +78,6 @@
             <h3>Configuração ativa do curso</h3>
 
             @if($config != null)
-
                 <dl class="row">
                     <dt class="col-sm-2">Ano mínimo</dt>
                     <dd class="col-sm-10">{{ $config->min_year }}º ano</dd>
@@ -111,18 +100,14 @@
                     <dt class="col-sm-2">Ativo desde</dt>
                     <dd class="col-sm-10">{{ date_format($config->created_at, "d/m/Y") }} {{ isset($config->max_years) ? ' (Configuração geral)' : '' }}</dd>
                 </dl>
-
             @else
-
                 <p>Não há configurações para este curso!</p>
-
             @endif
 
             <hr/>
             <h3>Coordenador do curso</h3>
 
             @if($coordinator != null)
-
                 <dl class="row">
                     <dt class="col-sm-2">Nome</dt>
                     <dd class="col-sm-10">{{ $coordinator->user->name }}</dd>
@@ -131,17 +116,12 @@
                     <dd class="col-sm-10">{{ $coordinator->start_date->format("d/m/Y") }}</dd>
 
                     @if($coordinator->end_date != null)
-
                         <dt class="col-sm-2">Fim da vigência</dt>
                         <dd class="col-sm-10">{{ $coordinator->end_date->format("d/m/Y") }}</dd>
-
                     @endif
                 </dl>
-
             @else
-
                 <p>Não há um coordenador ativo para este curso!</p>
-
             @endif
 
         </div>

@@ -33,7 +33,6 @@
 
                 <tbody>
                 @foreach($proposals as $proposal)
-
                     <tr>
                         <td>{{ $proposal->company->name }} {{ $proposal->company->fantasy_name != null ? "({$proposal->company->fantasy_name})" : '' }}</td>
                         <td>{{ $proposal->remuneration > 0.0 ? 'R$' . number_format($proposal->remuneration, 2, ',', '.') : 'Sem' }}</td>
@@ -43,7 +42,6 @@
                             <a href="{{ route('aluno.proposta.detalhes', ['id' => $proposal->id]) }}">Detalhes</a>
                         </td>
                     </tr>
-
                 @endforeach
                 </tbody>
             </table>

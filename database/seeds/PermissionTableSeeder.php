@@ -10,10 +10,11 @@ class PermissionTableSeeder extends Seeder
      * Run the database seeds.
      *
      * @return void
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function run()
     {
-        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+        app()->make(PermissionRegistrar::class)->forgetCachedPermissions();
 
         $permissions = [
             'sysUsage',

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Course;
-use App\Models\Internship;
 use App\Models\NSac\Student;
 use Illuminate\Http\Request;
 
@@ -17,7 +15,7 @@ class GraduationController extends Controller
 
     public function index()
     {
-        $students = Student::actives()->filter(function (Student $s) {
+        $students = Student::getActives()->filter(function (Student $s) {
             return $s->canGraduate();
         });
 

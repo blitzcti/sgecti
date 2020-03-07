@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Utils\Active;
+use App\Models\Utils\Phone;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -28,6 +30,14 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class JobCompany extends Model
 {
+    use Active;
+    use Phone;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'cpf_cnpj', 'ie', 'pj', 'name', 'fantasy_name', 'email', 'phone', 'representative_name', 'representative_role',
         'active',
@@ -58,13 +68,13 @@ class JobCompany extends Model
             $p3 = substr($cpf_cnpj, 5, 3);
             $p4 = substr($cpf_cnpj, 8, 4);
             $p5 = substr($cpf_cnpj, 12, 2);
-            return "$p1.$p2.$p3/$p4-$p5";
+            return "{$p1}.{$p2}.{$p3}/{$p4}-{$p5}";
         } else {
             $p1 = substr($cpf_cnpj, 0, 3);
             $p2 = substr($cpf_cnpj, 3, 3);
             $p3 = substr($cpf_cnpj, 6, 3);
             $p4 = substr($cpf_cnpj, 9, 2);
-            return "$p1.$p2.$p3-$p4";
+            return "{$p1}.{$p2}.{$p3}-{$p4}";
         }
     }
 }

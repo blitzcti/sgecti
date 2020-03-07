@@ -23,48 +23,54 @@ class StudentController extends Controller
     public function get(Request $request)
     {
         if ((new Student())->isConnected()) {
-            $students = Student::actives()->sortBy('matricula');
+            $students = Student::actives()->orderBy('matricula')->get();
 
             if (is_array($request->istates)) {
                 $students2 = collect();
 
                 $istates = $request->istates;
                 if (in_array(0, $istates)) { // Estagiando
-                    $students2 = $students2->merge(Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) use ($students) {
-                        return $students->find($i->ra);
-                    }));
+                    $students2 = $students2->merge(Internship::actives()->where('state_id', '=', State::OPEN)->orderBy('id')->get()
+                        ->map(function (Internship $i) use ($students) {
+                            return $students->find($i->ra);
+                        }));
                 }
 
                 if (in_array(1, $istates)) { // Estágio finalizado
-                    $students2 = $students2->merge(Internship::where('state_id', '=', State::FINISHED)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) use ($students) {
-                        return $students->find($i->ra);
-                    }));
+                    $students2 = $students2->merge(Internship::actives()->where('state_id', '=', State::FINISHED)->orderBy('id')->get()
+                        ->map(function (Internship $i) use ($students) {
+                            return $students->find($i->ra);
+                        }));
                 }
 
                 if (in_array(2, $istates)) { // Não estagiando
-                    $is = Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) {
-                        return $i->ra;
-                    })->toArray();
+                    $is = Internship::actives()->where('state_id', '=', State::OPEN)->orderBy('id')->get()
+                        ->map(function (Internship $i) {
+                            return $i->ra;
+                        })->toArray();
 
-                    $students2 = $students2->merge($students->filter(function ($s) use ($is) {
+                    $students2 = $students2->merge($students->filter(function (Student $s) use ($is) {
                         return !in_array($s->matricula, $is);
                     }));
                 }
 
                 if (in_array(3, $istates)) { // Nunca estagiaram
-                    $is = Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) {
-                        return $i->ra;
-                    })->toArray();
+                    $is = Internship::actives()->where('state_id', '=', State::OPEN)->orderBy('id')->get()
+                        ->map(function (Internship $i) {
+                            return $i->ra;
+                        })->toArray();
 
-                    $fis = Internship::where('state_id', '=', State::FINISHED)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) {
-                        return $i->ra;
-                    })->toArray();
+                    $fis = Internship::actives()->where('state_id', '=', State::FINISHED)->orderBy('id')->get()
+                        ->map(function (Internship $i) {
+                            return $i->ra;
+                        })->toArray();
 
-                    $iis = Internship::where('state_id', '=', State::INVALID)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) {
-                        return $i->ra;
-                    })->toArray();
+                    $iis = Internship::actives()->where('state_id', '=', State::INVALID)->orderBy('id')->get()
+                        ->map(function (Internship $i) {
+                            return $i->ra;
+                        })->toArray();
 
-                    $students2 = $students2->merge($students->filter(function ($s) use ($is, $fis, $iis) {
+                    $students2 = $students2->merge($students->filter(function (Student $s) use ($is, $fis, $iis) {
                         return !in_array($s->matricula, $is) && !in_array($s->matricula, $fis) && !in_array($s->matricula, $iis);
                     }));
                 }
@@ -75,29 +81,28 @@ class StudentController extends Controller
 
             if (is_array($request->courses)) {
                 $courses = $request->courses;
-                $students = $students->filter(function ($student) use ($courses) {
+                $students = $students->filter(function (Student $student) use ($courses) {
                     return in_array($student->course_id, $courses);
                 });
             }
 
             if (is_array($request->periods)) {
                 $periods = $request->periods;
-                $students = $students->filter(function ($student) use ($periods) {
+                $students = $students->filter(function (Student $student) use ($periods) {
                     return in_array($student->turma_periodo, $periods);
                 });
             }
 
             if (is_array($request->grades)) {
                 $grades = $request->grades;
-                $students = $students->filter(function ($student) use ($grades) {
+                $students = $students->filter(function (Student $student) use ($grades) {
                     return in_array($student->grade, $grades);
                 });
             }
 
             if (is_array($request->classes)) {
                 $classes = $request->classes;
-                //dd($classes);
-                $students = $students->filter(function ($student) use ($classes) {
+                $students = $students->filter(function (Student $student) use ($classes) {
                     return in_array($student->class, $classes);
                 });
             }
@@ -126,7 +131,7 @@ class StudentController extends Controller
     public function getByCourse($course, Request $request)
     {
         if ((new Student())->isConnected()) {
-            $students = Student::actives()->where('course_id', '=', $course)->sortBy('matricula');
+            $students = Student::actives()->orderBy('matricula')->get()->where('course_id', '=', $course);
 
             if (!is_array($students)) {
                 $students = array_values($students->toArray());
@@ -172,11 +177,11 @@ class StudentController extends Controller
     public function getByYear($year, Request $request)
     {
         if ((new Student())->isConnected()) {
-            $students = Student::actives()->where('year', '=', $year)->sortBy('matricula');
+            $students = Student::actives()->orderBy('matricula')->get()->where('year', '=', $year);
 
             if (is_array($request->courses)) {
                 $courses = $request->courses;
-                $students = $students->filter(function ($student) use ($courses) {
+                $students = $students->filter(function (Student $student) use ($courses) {
                     return in_array($student->course_id, $courses);
                 });
             }
@@ -206,11 +211,11 @@ class StudentController extends Controller
                 $year = $request->year;
             }
 
-            $students = Student::actives()->where('turma', '=', $class)->where('turma_ano', '=', $year);
+            $students = Student::actives()->where('turma', '=', $class)->where('turma_ano', '=', $year)->orderBy('matricula')->get();
 
             if (is_array($request->get('courses'))) {
                 $courses = $request->get('courses');
-                $students = $students->filter(function ($student) use ($courses) {
+                $students = $students->filter(function (Student $student) use ($courses) {
                     return in_array($student->course_id, $courses);
                 });
             }
@@ -234,26 +239,22 @@ class StudentController extends Controller
 
     public function getPhoto($ra, Request $request)
     {
-        $cIds = Auth::user()->coordinator_of->map(function ($course) {
-            return $course->id;
-        })->toArray();
-
         $student = Student::findOrFail($ra);
-        if (!in_array($student->course->id, $cIds)) {
+        if (!Auth::user()->coordinator_of->contains($student->course)) {
             abort(404);
         }
 
-        if (!Storage::disk('local')->exists("students/$student->matricula.jpg")) {
+        if (!Storage::disk('local')->exists("students/{$student->matricula}.jpg")) {
             abort(404);
         }
 
         if ($request->has('w') && $request->has('h') && ctype_digit($request->get('w')) && ctype_digit($request->get('h'))) {
             $w = $request->get('w');
             $h = $request->get('h');
-            Image::make(storage_path("app/students/$student->matricula.jpg"))->resize($w, $h)->save(storage_path("app/students/img.jpg"));
+            Image::make(storage_path("app/students/{$student->matricula}.jpg"))->resize($w, $h)->save(storage_path("app/students/img.jpg"));
             return response()->file(storage_path("app/students/img.jpg"));
         } else {
-            return response()->file(storage_path("app/students/$student->matricula.jpg"));
+            return response()->file(storage_path("app/students/{$student->matricula}.jpg"));
         }
     }
 }

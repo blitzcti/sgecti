@@ -42,10 +42,10 @@ class CoordinatorController extends Controller
 
     public function create()
     {
-        $courses = Course::all()->where('active', '=', true)->sortBy('id');
+        $courses = Course::actives()->orderBy('id')->get();
         $users = User::whereHas("roles", function (Builder $q) {
             $q->where("name", "teacher");
-        })->get()->sortBy('id');
+        })->orderBy('id')->get();
 
         $c = request()->c;
 
@@ -55,10 +55,10 @@ class CoordinatorController extends Controller
     public function edit($id)
     {
         $coordinator = Coordinator::findOrFail($id);
-        $courses = Course::all()->where('active', '=', true)->merge([$coordinator->course])->sortBy('id');
+        $courses = Course::getActives()->merge([$coordinator->course])->sortBy('id');
         $users = User::whereHas("roles", function (Builder $q) {
             $q->where("name", "teacher");
-        })->get()->sortBy('id');
+        })->orderBy('id')->get();
 
         return view('admin.coordinator.edit')->with(['coordinator' => $coordinator, 'users' => $users, 'courses' => $courses]);
     }
@@ -88,6 +88,8 @@ class CoordinatorController extends Controller
         $log .= "\nNovos dados: " . json_encode($coordinator, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         if ($saved) {
+            $coordinator->user->assignRole('coordinator');
+
             if ($coordinator->temporary_of == null && sizeof($coordinator->course->non_temp_coordinators) > 1) {
                 $c = $coordinator->course->non_temp_coordinators->where('id', '<>', $coordinator->id)->last();
                 $c->end_date = Carbon::today();
@@ -95,9 +97,8 @@ class CoordinatorController extends Controller
             }
 
             Log::info($log);
-            $cName = $coordinator->course->name;
-            $notification = $coordinator->temporary_of == null ? new WebNotification(['description' => "Coordenadoria de {$cName}", 'text' => "Você agora é coordenador de {$cName}.", 'icon' => 'black-tie'])
-                : new WebNotification(['description' => "Coordenadoria de {$cName}", 'text' => "Você agora é coordenador temporário de {$cName}.", 'icon' => 'black-tie']);
+            $notification = $coordinator->temporary_of == null ? new WebNotification(['description' => "Coordenadoria de {$coordinator->course->name}", 'text' => "Você agora é coordenador de {$coordinator->course->name}.", 'icon' => 'black-tie'])
+                : new WebNotification(['description' => "Coordenadoria de {$coordinator->course->name}", 'text' => "Você agora é coordenador temporário de {$coordinator->course->name}.", 'icon' => 'black-tie']);
             $coordinator->user->notify($notification);
         } else {
             Log::error("Erro ao salvar coordenador");
@@ -135,12 +136,13 @@ class CoordinatorController extends Controller
         $log .= "\nNovos dados: " . json_encode($coordinator, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         if ($saved) {
+            $coordinator->user->assignRole('coordinator');
+
             Log::info($log);
 
-            $cName = $coordinator->course->name;
             $user = Auth::user();
             $endDate = ($coordinator->end_date != null) ? $coordinator->end_date->format("d/m/Y") : 'Indeterminado';
-            $notification = new WebNotification(['description' => "Coordenadoria de {$cName}", 'text' => "O usuário $user->name alterou sua data de vigência para {$endDate}.", 'icon' => 'black-tie']);
+            $notification = new WebNotification(['description' => "Coordenadoria de {$coordinator->course->name}", 'text' => "O usuário {$user->name} alterou sua data de vigência para {$endDate}.", 'icon' => 'black-tie']);
             $coordinator->user->notify($notification);
         } else {
             Log::error("Erro ao salvar coordenador");
@@ -167,6 +169,10 @@ class CoordinatorController extends Controller
         $saved = $coordinator->delete();
 
         if ($saved) {
+            if (sizeof($coordinator->user->coordinators) != 0) {
+                $coordinator->user->removeRole('coordinator');
+            }
+
             Log::info($log);
         } else {
             Log::error("Erro ao excluir coordenador");
@@ -181,23 +187,23 @@ class CoordinatorController extends Controller
     {
         $coordinators = Coordinator::expiredToday();
 
-        /* @var $coordinator Coordinator */
         foreach ($coordinators as $coordinator) {
-            $cName = $coordinator->course->name;
-            $notification = new WebNotification(['description' => "Coordenadoria de {$cName}", 'text' => "Seu cargo de coordenador expirou.", 'icon' => 'calendar']);
+            if (sizeof($coordinator->user->coordinators) != 0) {
+                $coordinator->user->removeRole('coordinator');
+            }
+
+            $notification = new WebNotification(['description' => "Coordenadoria de {$coordinator->course->name}", 'text' => "Seu cargo de coordenador expirou.", 'icon' => 'calendar']);
             $coordinator->user->notify($notification);
         }
 
-        $coordinators = Coordinator::actives();
+        $coordinators = Coordinator::getActives();
 
-        /* @var $coordinator Coordinator */
         foreach ($coordinators as $coordinator) {
             $endDate = $coordinator->end_date;
             $max = Carbon::now()->modify('-30 day');
             if ($endDate < $max) {
                 $period = $max->diff($endDate)->format("%a");
-                $cName = $coordinator->course->name;
-                $notification = new WebNotification(['description' => "Coordenadoria de {$cName}", 'text' => "Seu cargo de coordenador expira em {$period} dias.", 'icon' => 'calendar']);
+                $notification = new WebNotification(['description' => "Coordenadoria de {$coordinator->course->name}", 'text' => "Seu cargo de coordenador expira em {$period} dias.", 'icon' => 'calendar']);
                 $coordinator->user->notify($notification);
             }
         }

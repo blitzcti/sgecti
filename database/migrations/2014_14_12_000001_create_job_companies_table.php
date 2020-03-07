@@ -17,7 +17,7 @@ class CreateJobCompaniesTable extends Migration
             $table->bigIncrements('id');
 
             $table->string('cpf_cnpj', 15)->nullable(false)->unique();
-            $table->string('ie', 10)->nullable(true)->unique();
+            $table->string('ie', 20)->nullable(true)->unique();
             $table->boolean('pj')->nullable(false)->default(true);
             $table->string('name')->nullable(false);
             $table->string('fantasy_name')->nullable(true);

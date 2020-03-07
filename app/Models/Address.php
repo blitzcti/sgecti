@@ -25,6 +25,11 @@ use Carbon\Carbon;
  */
 class Address extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'cep', 'uf', 'city', 'street', 'complement', 'number', 'district',
     ];
@@ -39,7 +44,7 @@ class Address extends Model
         $cep = $this->cep;
         $p1 = substr($cep, 0, 5);
         $p2 = substr($cep, 5, 3);
-        return "$p1-$p2";
+        return "{$p1}-{$p2}";
     }
 
     public function getFormattedAddressAttribute()

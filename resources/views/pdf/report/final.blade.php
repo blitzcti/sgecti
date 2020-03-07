@@ -90,7 +90,7 @@
     <br/><br/>
 
     @if($student->canGraduate())
-        <span><b>Aluno habilitado a colar grau no curso técnico em Informática.</b></span><br/>
+        <span><b>Aluno habilitado a colar grau no curso técnico em {{ $student->course->name }}.</b></span><br/>
     @endif
 
     <span class="pull-right">{{ $sysConfig->city }}, {{ \Carbon\Carbon::now()->formatLocalized('%02d de %B de %Y') }}.</span>
@@ -99,7 +99,7 @@
 
 @section('footer')
     <div style="font-size: 7pt; text-align: center;">
-        <span>{{ $sysConfig->name }} - Coordenadoria de Estágio</span><br/>
+        <span>{{ $sysConfig->name }} - Coordenadoria de {{ $report->coordinator->course->name }}</span><br/>
         <span>{{ $sysConfig->street }}, {{ $sysConfig->number }} - CEP {{ $sysConfig->formatted_cep }} {{ $sysConfig->city }}, {{ $sysConfig->uf }} Brasil.</span><br/>
         <span>Tel {{ $sysConfig->formatted_phone }} Fax {{ $sysConfig->formatted_fax }}</span>
     </div>

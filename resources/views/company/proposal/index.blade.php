@@ -36,7 +36,6 @@
 
                 <tbody>
                 @foreach($proposals as $proposal)
-
                     <tr>
                         <td>{{ $proposal->description }}</td>
                         <td>{{ $proposal->deadline->format('d/m/Y') }}</td>
@@ -63,7 +62,6 @@
                                data-target="#proposalDeleteModal">Excluir</a>
                         </td>
                     </tr>
-
                 @endforeach
                 </tbody>
             </table>

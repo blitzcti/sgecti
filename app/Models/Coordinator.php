@@ -23,6 +23,11 @@ use Carbon\Carbon;
  */
 class Coordinator extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'user_id', 'course_id', 'start_date', 'end_date', 'temp_of',
     ];
@@ -56,13 +61,13 @@ class Coordinator extends Model
         return $this->belongsTo(Coordinator::class, 'temp_of');
     }
 
-    public static function actives()
+    public static function getActives()
     {
-        return static::where('end_date', '>', Carbon::today()->toDateString())->orderBy('id')->get();
+        return static::whereDate('end_date', '>', Carbon::today())->orderBy('id')->get();
     }
 
     public static function expiredToday()
     {
-        return static::where('end_date', '=', Carbon::today()->toDateString())->orderBy('id')->get();
+        return static::whereDate('end_date', '=', Carbon::today())->orderBy('id')->get();
     }
 }

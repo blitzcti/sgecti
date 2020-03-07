@@ -18,7 +18,7 @@
 
             <div class="btn-group" style="display: inline-flex; margin: 0">
                 @if($student->internship != null)
-                    <a href="{{ route('coordenador.estagio.editar', $student->internship->id) }}"
+                    <a href="{{ route('coordenador.estagio.editar', ['id' => $student->internship->id]) }}"
                        class="btn btn-primary">Editar estágio</a>
 
                     <a href="{{ route('coordenador.relatorio.bimestral.novo', ['i' => $student->internship->id]) }}"
@@ -26,19 +26,15 @@
 
                     <a href="{{ route('coordenador.relatorio.final.novo', ['i' => $student->internship->id]) }}"
                        class="btn btn-success">Adicionar relatório final</a>
-
                 @elseif($student->job == null)
-
                     <a href="{{ route('coordenador.estagio.novo', ['s' => $student->matricula]) }}"
                        class="btn btn-success">Novo estágio</a>
 
                     <a href="{{ route('coordenador.trabalho.novo', ['s' => $student->matricula]) }}"
                        class="btn btn-success">Novo trabalho</a>
-
                 @else
-                    <a href="{{ route('coordenador.trabalho.editar', $student->job->id) }}"
+                    <a href="{{ route('coordenador.trabalho.editar', ['id' => $student->job->id]) }}"
                        class="btn btn-primary">Editar trabalho</a>
-
                 @endif
             </div>
 
@@ -67,7 +63,6 @@
                 <dd class="col-sm-10">{{ $student->email2 }}</dd>
 
                 @if($student->job == null)
-
                     <dt class="col-sm-2">Horas necessárias</dt>
                     <dd class="col-sm-10">{{ $student->course_configuration->min_hours }}</dd>
 
@@ -79,15 +74,12 @@
 
                     <dt class="col-sm-2">Meses concluídos</dt>
                     <dd class="col-sm-10">{{ $student->completed_months }}</dd>
-
                 @else
-
                     <dt class="col-sm-2">Meses necessários</dt>
                     <dd class="col-sm-10">{{ $student->course_configuration->min_months_ctps }}</dd>
 
                     <dt class="col-sm-2">Meses concluídos</dt>
                     <dd class="col-sm-10">{{ $student->ctps_completed_months }}</dd>
-
                 @endif
             </dl>
 
@@ -95,7 +87,6 @@
             <h3>Estágio ativo do aluno</h3>
 
             @if($student->internship != null)
-
                 <dl class="row">
                     <dt class="col-sm-2">CPF / CNPJ da empresa</dt>
                     <dd class="col-sm-10">{{ $student->internship->company->formatted_cpf_cnpj }}</dd>
@@ -112,6 +103,9 @@
                     <dt class="col-sm-2">Supervisor</dt>
                     <dd class="col-sm-10">{{ $student->internship->supervisor->name }}</dd>
 
+                    <dt class="col-sm-2">Telefone do supervisor</dt>
+                    <dd class="col-sm-10">{{ $internship->supervisor->formatted_phone ?? '(Não informado)' }}</dd>
+
                     <dt class="col-sm-2">Data de início</dt>
                     <dd class="col-sm-10">{{ $student->internship->start_date->format("d/m/Y") }}</dd>
 
@@ -125,24 +119,20 @@
                     <dd class="col-sm-10">{{ $student->internship->estimated_hours }}</dd>
                 </dl>
 
+                <p>* Data modificada por termo aditivo</p>
             @else
-
                 <p>Este aluno não possui um estágio ativo no momento.</p>
-
             @endif
 
             <hr/>
             <h3>Estágios finalizados do aluno</h3>
 
             @if(sizeof($student->finished_internships) == 0)
-
                 <p>O aluno ainda não concluiu um estágio.</p>
                 <hr/>
-
             @endif
 
             @foreach($student->finished_internships as $internship)
-
                 <dl class="row">
                     <dt class="col-sm-2">CPF / CNPJ da empresa</dt>
                     <dd class="col-sm-10">{{ $internship->company->formatted_cpf_cnpj }}</dd>
@@ -158,6 +148,9 @@
 
                     <dt class="col-sm-2">Supervisor</dt>
                     <dd class="col-sm-10">{{ $internship->supervisor->name }}</dd>
+
+                    <dt class="col-sm-2">Telefone do supervisor</dt>
+                    <dd class="col-sm-10">{{ $internship->supervisor->formatted_phone ?? '(Não informado)' }}</dd>
 
                     <dt class="col-sm-2">Data de início</dt>
                     <dd class="col-sm-10">{{ $internship->start_date->format("d/m/Y") }}</dd>
@@ -181,13 +174,11 @@
                 </div>
 
                 <hr/>
-
             @endforeach
 
             <h3>Trabalho do aluno</h3>
 
             @if($student->job != null)
-
                 <dl class="row">
                     <dt class="col-sm-2">CPF / CNPJ da empresa</dt>
                     <dd class="col-sm-10">{{ $student->job->company->formatted_cpf_cnpj }}</dd>
@@ -196,7 +187,7 @@
                     <dd class="col-sm-10">{{ $student->job->company->name }}</dd>
 
                     <dt class="col-sm-2">Nome fantasia</dt>
-                    <dd class="col-sm-10">{{ $student->job->company->fantasy_name }}</dd>
+                    <dd class="col-sm-10">{{ $student->job->company->fantasy_name ?? '(Não informado)' }}</dd>
 
                     <dt class="col-sm-2">Data de início</dt>
                     <dd class="col-sm-10">{{ $student->job->start_date->format("d/m/Y") }}</dd>
@@ -208,11 +199,15 @@
                     <dd class="col-sm-10">{{ $student->job->ctps }}</dd>
                 </dl>
 
+                @if($job->state_id == \App\Models\State::FINISHED)
+                    <div class="btn-group">
+                        <a href="{{ route('coordenador.trabalho.pdf', ['id' => $job->id]) }}" target="_blank"
+                           class="btn btn-default">Imprimir relatório</a>
+                    </div>
+                @endif
             @else
-
                 <p>Este aluno não possui um trabalho no momento.</p>
                 <hr/>
-
             @endif
         </div>
         <!-- /.box-body -->

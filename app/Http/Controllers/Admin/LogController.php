@@ -18,7 +18,7 @@ class LogController extends Controller
         $f = fopen(storage_path("app/backups/logs.zip"), "r+");
 
         try {
-            Storage::disk('sftp')->writeStream("logs/$fileName", $f);
+            Storage::disk('sftp')->writeStream("logs/{$fileName}", $f);
             Log::info("Logs enviados para o servidor.\nNome: {$fileName}");
         } catch (Exception $e) {
             Log::error("Erro ao enviar os logs para o servidor: {$e->getMessage()}");
@@ -36,14 +36,14 @@ class LogController extends Controller
 
         if ($zip->open($file, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
             foreach ($logs as $log) {
-                $zip->addFile(storage_path("logs/$log"), $log);
+                $zip->addFile(storage_path("logs/{$log}"), $log);
             }
 
             $zip->close();
         }
 
         foreach ($logs as $log) {
-            unlink(storage_path("logs/$log"));
+            unlink(storage_path("logs/{$log}"));
         }
     }
 }

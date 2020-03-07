@@ -3,8 +3,9 @@
 namespace App\Rules;
 
 use App\Models\Internship;
-use Exception;
+use App\Models\State;
 use Illuminate\Contracts\Validation\Rule;
+use Throwable;
 
 class InternshipIsOpen implements Rule
 {
@@ -30,8 +31,8 @@ class InternshipIsOpen implements Rule
         try {
             $internship = Internship::find($value);
 
-            return $internship->state->id == 1;
-        } catch (Exception $e) {
+            return $internship->state->id == State::OPEN;
+        } catch (Throwable $e) {
             return false;
         }
     }

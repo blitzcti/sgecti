@@ -43,7 +43,6 @@
 
                 <tbody>
                 @foreach($bReports as $report)
-
                     <tr>
                         <td>{{ $report->internship->ra }} - {{ $report->internship->student->nome }}</td>
 
@@ -54,7 +53,6 @@
                                href="{{ route('coordenador.relatorio.bimestral.editar', ['id' => $report->id]) }}">Editar</a>
                         </td>
                     </tr>
-
                 @endforeach
                 </tbody>
             </table>
@@ -83,7 +81,6 @@
 
                 <tbody>
                 @foreach($fReports as $report)
-
                     <tr>
                         <td>{{ $report->internship->ra }} - {{ $report->internship->student->nome }}</td>
 
@@ -97,7 +94,6 @@
                             <a href="#" onclick="pdf({{ $report->id }}); return false;" target="_blank">PDF</a>
                         </td>
                     </tr>
-
                 @endforeach
                 </tbody>
             </table>

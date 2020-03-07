@@ -15,7 +15,7 @@
         <div class="login-box-body">
             <p class="login-box-msg">{{ __('adminlte.password_reset_message') }}</p>
             <form action="{{ url(config('adminlte.password_reset_url', 'password/reset')) }}" method="post">
-                {{ csrf_field() }}
+                @csrf
 
                 <input type="hidden" name="token" value="{{ $token }}">
 
@@ -57,7 +57,7 @@
         <!-- /.login-box-body -->
         <div class="box-footer" style="text-align: center;">
             <small>Colégio Técnico Industrial "Prof. Isaac Portal Roldán" UNESP Bauru<br/>
-                Copyright © 2019 SGE
+                Copyright © {{ \Carbon\Carbon::now()->year }} SGE
             </small>
         </div>
         <!-- /.box-footer -->

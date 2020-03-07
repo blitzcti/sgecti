@@ -31,6 +31,11 @@ use Illuminate\Support\Collection;
  */
 class Schedule extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'mon_s', 'mon_e', 'tue_s', 'tue_e', 'wed_s', 'wed_e', 'thu_s', 'thu_e', 'fri_s', 'fri_e', 'sat_s', 'sat_e',
     ];
@@ -63,8 +68,7 @@ class Schedule extends Model
                 continue;
             }
 
-            $amendments = $amendments->filter(function ($a) use ($i) {
-                /* @var $a Amendment */
+            $amendments = $amendments->filter(function (Amendment $a) use ($i) {
                 $amendment = $this->amendment;
                 if ($amendment != null) {
                     return $a->id != $this->amendment->id && $a->start_date == $i;
@@ -74,8 +78,9 @@ class Schedule extends Model
             })->sortBy('end_date');
 
             if (sizeof($amendments) > 0) {
-                $amendment = $amendments->first();
                 /* @var $amendment Amendment */
+                $amendment = $amendments->first();
+
                 $y = $amendment->end_date->year;
                 $m = $amendment->end_date->month;
                 $d = $amendment->end_date->day;
@@ -83,10 +88,10 @@ class Schedule extends Model
                 continue;
             }
 
-            $hs = substr($this->{$days[$weekDay] . '_s'}, 0, 2);
-            $ms = substr($this->{$days[$weekDay] . '_s'}, 3, 2);
-            $he = substr($this->{$days[$weekDay] . '_e'}, 0, 2);
-            $me = substr($this->{$days[$weekDay] . '_e'}, 3, 2);
+            $hs = substr($this->{"{$days[$weekDay]}_s"}, 0, 2);
+            $ms = substr($this->{"{$days[$weekDay]}_s"}, 3, 2);
+            $he = substr($this->{"{$days[$weekDay]}_e"}, 0, 2);
+            $me = substr($this->{"{$days[$weekDay]}_e"}, 3, 2);
 
             $mDiff = (intval($me) - intval($ms));
             $hDiff = (intval($he) - intval($hs));
@@ -97,7 +102,7 @@ class Schedule extends Model
 
             $mDiff = 100 * $mDiff / 60.0;
 
-            $h += floatval("$hDiff.$mDiff");
+            $h += floatval("{$hDiff}.{$mDiff}");
         }
 
         return $h;

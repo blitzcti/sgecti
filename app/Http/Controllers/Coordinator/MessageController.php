@@ -25,15 +25,14 @@ class MessageController extends Controller
 
     public function index(Request $request)
     {
-        $cIds = Auth::user()->coordinator_courses_id;
         $courses = Auth::user()->coordinator_of;
         $p = $request->p;
         if (!ctype_digit($p)) {
             $p = null;
         }
 
-        $students = Student::actives()->filter(function ($student) use ($cIds) {
-            return in_array($student->course_id, $cIds);
+        $students = Student::getActives()->filter(function (Student $student) use ($courses) {
+            return $courses->contains($student->course);
         });
 
         $proposals = Proposal::approved();
@@ -48,22 +47,22 @@ class MessageController extends Controller
 
     public function sendBimestralReportMail(Student $student)
     {
-        return Mail::to($student->email)->send(new BimestralReportMail($student));
+        return Mail::to($student->email2)->send(new BimestralReportMail($student));
     }
 
     public function sendInternshipProposalMail(Proposal $proposal, Student $student)
     {
-        return Mail::to($student->email)->send(new InternshipProposalMail($student, $proposal));
+        return Mail::to($student->email2)->send(new InternshipProposalMail($student, $proposal));
     }
 
     public function sendImportantMail($messageBody, Student $student)
     {
-        return Mail::to($student->email)->send(new ImportantMail($student, $messageBody));
+        return Mail::to($student->email2)->send(new ImportantMail($student, $messageBody));
     }
 
     public function sendFreeMail($subject, $messageBody, Student $student)
     {
-        return Mail::to($student->email)->send(new FreeMail($subject, $messageBody));
+        return Mail::to($student->email2)->send(new FreeMail($subject, $messageBody));
     }
 
     public function sendEmail(SendMail $request)
@@ -94,48 +93,54 @@ class MessageController extends Controller
             }
         } else {
             if ($validatedData->useFilters) {
-                $students = Student::actives()->sortBy('matricula');
+                $students = Student::actives()->orderBy('matricula')->get();
 
                 if (isset($validatedData->internships)) {
                     $students2 = collect();
 
                     $istates = $validatedData->internships;
                     if (in_array(0, $istates)) { // Estagiando
-                        $students2 = $students2->merge(Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) use ($students) {
-                            return $students->find($i->ra);
-                        }));
+                        $students2 = $students2->merge(Internship::actives()->where('state_id', '=', State::OPEN)->orderBy('id')->get()
+                            ->map(function (Internship $i) use ($students) {
+                                return $students->find($i->ra);
+                            }));
                     }
 
                     if (in_array(1, $istates)) { // Estágio finalizado
-                        $students2 = $students2->merge(Internship::where('state_id', '=', State::FINISHED)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) use ($students) {
-                            return $students->find($i->ra);
-                        }));
+                        $students2 = $students2->merge(Internship::actives()->where('state_id', '=', State::FINISHED)->orderBy('id')->get()
+                            ->map(function (Internship $i) use ($students) {
+                                return $students->find($i->ra);
+                            }));
                     }
 
                     if (in_array(2, $istates)) { // Não estagiando
-                        $is = Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) {
-                            return $i->ra;
-                        })->toArray();
+                        $is = Internship::actives()->where('state_id', '=', State::OPEN)->orderBy('id')->get()
+                            ->map(function (Internship $i) {
+                                return $i->ra;
+                            })->toArray();
 
-                        $students2 = $students2->merge($students->filter(function ($s) use ($is) {
+                        $students2 = $students2->merge($students->filter(function (Student $s) use ($is) {
                             return !in_array($s->matricula, $is);
                         }));
                     }
 
                     if (in_array(3, $istates)) { // Nunca estagiaram
-                        $is = Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) {
-                            return $i->ra;
-                        })->toArray();
+                        $is = Internship::actives()->where('state_id', '=', State::OPEN)->orderBy('id')->get()
+                            ->map(function (Internship $i) {
+                                return $i->ra;
+                            })->toArray();
 
-                        $fis = Internship::where('state_id', '=', State::FINISHED)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) {
-                            return $i->ra;
-                        })->toArray();
+                        $fis = Internship::actives()->where('state_id', '=', State::FINISHED)->orderBy('id')->get()
+                            ->map(function (Internship $i) {
+                                return $i->ra;
+                            })->toArray();
 
-                        $iis = Internship::where('state_id', '=', State::INVALID)->where('active', '=', true)->orderBy('id')->get()->map(function ($i) {
-                            return $i->ra;
-                        })->toArray();
+                        $iis = Internship::actives()->where('state_id', '=', State::INVALID)->orderBy('id')->get()
+                            ->map(function (Internship $i) {
+                                return $i->ra;
+                            })->toArray();
 
-                        $students2 = $students2->merge($students->filter(function ($s) use ($is, $fis, $iis) {
+                        $students2 = $students2->merge($students->filter(function (Student $s) use ($is, $fis, $iis) {
                             return !in_array($s->matricula, $is) && !in_array($s->matricula, $fis) && !in_array($s->matricula, $iis);
                         }));
                     }
@@ -145,36 +150,37 @@ class MessageController extends Controller
                 }
 
                 if (Auth::user()->isCoordinator()) {
-                    $cIds = Auth::user()->coordinator_courses_id;
-                    $students = $students->filter(function ($s) use ($cIds) {
-                        return in_array($s->course_id, $cIds);
+                    $courses = Auth::user()->coordinator_of;
+
+                    $students = $students->filter(function (Student $s) use ($courses) {
+                        return $courses->contains($s->course);
                     })->sortBy('matricula');
                 }
 
                 if (isset($validatedData->courses)) {
                     $courses = $validatedData->courses;
-                    $students = $students->filter(function ($student) use ($courses) {
+                    $students = $students->filter(function (Student $student) use ($courses) {
                         return in_array($student->course_id, $courses);
                     });
                 }
 
                 if (isset($validatedData->periods)) {
                     $periods = $validatedData->periods;
-                    $students = $students->filter(function ($student) use ($periods) {
+                    $students = $students->filter(function (Student $student) use ($periods) {
                         return in_array($student->turma_periodo, $periods);
                     });
                 }
 
                 if (isset($validatedData->grades)) {
                     $grades = $validatedData->grades;
-                    $students = $students->filter(function ($student) use ($grades) {
+                    $students = $students->filter(function (Student $student) use ($grades) {
                         return in_array($student->grade, $grades);
                     });
                 }
 
                 if (isset($validatedData->classes)) {
                     $classes = $validatedData->classes;
-                    $students = $students->filter(function ($student) use ($classes) {
+                    $students = $students->filter(function (Student $student) use ($classes) {
                         return in_array($student->class, $classes);
                     });
                 }

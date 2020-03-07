@@ -29,7 +29,7 @@
                 Adicionar convênio
             </a>
 
-            <table id="companies" class="table table-bordered table-hover">
+            <table id="agreements" class="table table-bordered table-hover">
                 <thead>
                 <tr>
                     @if(!isset($company))
@@ -44,7 +44,6 @@
                 <tbody>
 
                 @foreach($agreements as $agreement)
-
                     <tr>
                         @if(!isset($company))
                             <td>{{ $agreement->company->formatted_cpf_cnpj }} - {{ $agreement->company->name }} {{ $agreement->company->fantasy_name != null ? "({$agreement->company->fantasy_name})" : '' }}</td>
@@ -70,7 +69,6 @@
                             @endif
                         </td>
                     </tr>
-
                 @endforeach
 
                 </tbody>
@@ -84,7 +82,7 @@
         jQuery(document).ready(function () {
             jQuery.extend(jQuery.fn.dataTableExt.oSort, {
                 'Empresa-pre': function (a) {
-                    return a.replace(/[\d]{2}\.[\d]{3}\.[\d]{3}\/[\d]{4}-[\d]{2} - /g, '').replace(/[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2}/g, '');
+                    return a.replace(/[\d]{2}\.[\d]{3}\.[\d]{3}\/[\d]{4}-[\d]{2} - /g, '').replace(/[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2} - /g, '');
                 },
 
                 'Empresa-asc': function (a, b) {
@@ -96,13 +94,13 @@
                 }
             });
 
-            let table = jQuery("#companies").DataTable({
+            let table = jQuery("#agreements").DataTable({
                 language: {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                 },
                 responsive: true,
                 lengthChange: false,
-                aoColumns: [{sType: "Empresa"}, {sType: "Início"}, {sType: "Término"}, {sType: "Ações"}],
+                aoColumns: [@if(!isset($company)){sType: "Empresa"}, @endif{sType: "Início"}, {sType: "Término"}, {sType: "Ações"}],
                 aaSorting: [[0, "asc"]],
                 buttons: [
                     {
@@ -126,7 +124,7 @@
                     }
                 ],
                 initComplete: function () {
-                    table.buttons().container().appendTo(jQuery('#companies_wrapper .col-sm-6:eq(0)'));
+                    table.buttons().container().appendTo(jQuery('#agreements_wrapper .col-sm-6:eq(0)'));
                     table.buttons().container().addClass('btn-group');
                     jQuery('#addLink').prependTo(table.buttons().container());
                 },

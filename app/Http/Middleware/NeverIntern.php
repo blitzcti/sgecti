@@ -21,6 +21,6 @@ class NeverIntern
             return $next($request);
         }
 
-        throw new UnauthorizedException(403, 'User already was an intern.');
+        throw new UnauthorizedException(403, 'User already is/was an intern.');
     }
 }

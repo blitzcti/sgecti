@@ -26,10 +26,10 @@ class AmendmentController extends Controller
 
     public function index()
     {
-        $cIds = Auth::user()->coordinator_courses_id;
+        $courses = Auth::user()->coordinator_of;
 
-        $amendments = Amendment::all()->filter(function ($amendment) use ($cIds) {
-            return in_array($amendment->internship->student->course_id, $cIds);
+        $amendments = Amendment::all()->filter(function (Amendment $amendment) use ($courses) {
+            return $courses->contains($amendment->internship->student->course);
         });
 
         return view('coordinator.internship.amendment.index')->with(['amendments' => $amendments]);
@@ -45,11 +45,11 @@ class AmendmentController extends Controller
 
     public function create()
     {
-        $cIds = Auth::user()->coordinator_courses_id;
+        $courses = Auth::user()->coordinator_of;
 
-        $internships = Internship::where('state_id', '=', State::OPEN)->where('active', '=', true)->orderBy('id')->get()
-            ->filter(function ($internship) use ($cIds) {
-                return in_array($internship->student->course_id, $cIds);
+        $internships = Internship::actives()->where('state_id', '=', State::OPEN)->orderBy('id')->get()
+            ->filter(function (Internship $internship) use ($courses) {
+                return $courses->contains($internship->student->course);
             });
 
         $i = request()->i;

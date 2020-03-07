@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Model for permissions table (created for IDE Helper).
@@ -27,5 +28,15 @@ class Permission extends \Spatie\Permission\Models\Permission
     {
         parent::__construct($attributes);
         $this->connection = config('database.default');
+    }
+
+    public function getRolesAttribute()
+    {
+        if (!config('broker.useSSO')) {
+            return $this->roles()->get();
+        }
+
+        $roles = array_column(DB::table(config('permission.table_names.role_has_permissions'))->where('permission_id', $this->id)->get('role_id')->toArray(), 'role_id');
+        return Role::whereIn('id', $roles)->get();
     }
 }

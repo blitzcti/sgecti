@@ -61,14 +61,14 @@
             @if(\App\Auth::user()->password_change_at != null)
                 <div class="auth-links">
                     <a href="{{ old('previous') ?? url()->previous() }}"
-                       class="text-center"><i class="fa fa-fw fa-arrow-left"></i>{{ trans('pagination.back') }}</a>
+                       class="text-center"><i class="fa fa-fw fa-arrow-left"></i>{{ __('pagination.back') }}</a>
                 </div>
             @endif
         </div>
         <!-- /.login-box-body -->
         <div class="box-footer" style="text-align: center;">
             <small>Colégio Técnico Industrial "Prof. Isaac Portal Roldán" UNESP Bauru<br/>
-                Copyright © 2019 SGE
+                Copyright © {{ \Carbon\Carbon::now()->year }} SGE
             </small>
         </div>
         <!-- /.box-footer -->

@@ -4,22 +4,19 @@ namespace App\Models;
 
 class PasswordReset extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'email', 'token',
     ];
 
     /**
-     * The table associated with the model.
+     * The primary key for the model.
      *
      * @var string
-     */
-    protected $table = 'password_resets';
-
-    /**
-     * primaryKey
-     *
-     * @var integer
-     * @access protected
      */
     protected $primaryKey = null;
 

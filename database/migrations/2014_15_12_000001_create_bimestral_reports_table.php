@@ -17,7 +17,7 @@ class CreateBimestralReportsTable extends Migration
             $table->bigIncrements('id');
 
             $table->bigInteger('internship_id')->nullable(false)->unsigned();
-            $table->foreign('internship_id')->references('id')->on('internships')->onDelete('cascade');
+            $table->foreign('internship_id')->references('id')->on('internships')->onUpdate('cascade')->onDelete('cascade');
 
             $table->date('date');
 

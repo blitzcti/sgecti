@@ -30,14 +30,13 @@ class ProposalController extends Controller
 
     public function index()
     {
-        $cIds = Auth::user()->coordinator_courses_id;
-        $proposals = Proposal::all()->filter(function ($proposal) use ($cIds) {
+        $courses = Auth::user()->coordinator_of;
+        $proposals = Proposal::all()->filter(function (Proposal $proposal) use ($courses) {
             $ret = false;
 
-            /* @var $course Course */
             foreach ($proposal->courses as $course) {
                 if (!$ret) {
-                    $ret = in_array($course->id, $cIds);
+                    $ret = $courses->contains($course);
                 }
             }
 
@@ -56,8 +55,8 @@ class ProposalController extends Controller
 
     public function create()
     {
-        $companies = Company::all()->where('active', '=', true)->sortBy('id');
-        $courses = Course::all()->where('active', '=', true)->sortBy('id');
+        $companies = Company::actives()->orderBy('id')->get();
+        $courses = Course::actives()->orderBy('id')->get();
 
         return view('coordinator.proposal.new')->with([
             'companies' => $companies,
@@ -69,8 +68,8 @@ class ProposalController extends Controller
     public function edit($id)
     {
         $proposal = Proposal::findOrFail($id);
-        $companies = Company::all()->where('active', '=', true)->sortBy('id');
-        $courses = Course::all()->where('active', '=', true)->sortBy('id');
+        $companies = Company::actives()->orderBy('id')->get();
+        $courses = Course::actives()->orderBy('id')->get();
 
         return view('coordinator.proposal.edit')->with([
             'proposal' => $proposal,

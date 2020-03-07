@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\NSac\Student;
+use App\Models\Utils\Active;
+use App\Models\Utils\Protocol;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -50,6 +52,14 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class Internship extends Model
 {
+    use Active;
+    use Protocol;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'ra', 'company_id', 'sector_id', 'coordinator_id', 'schedule_id', 'schedule_2_id', 'supervisor_id', 'state_id',
         'start_date', 'end_date', 'protocol', 'activities', 'observation', 'reason_to_cancel', 'canceled_at', 'active',
@@ -81,7 +91,9 @@ class Internship extends Model
      *
      * @var array
      */
-    protected $appends = ['estimated_hours'];
+    protected $appends = [
+        'estimated_hours',
+    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -139,14 +151,14 @@ class Internship extends Model
 
     public function getNotEmptyAmendmentsAttribute()
     {
-        return $this->amendments->filter(function ($a) {
+        return $this->amendments->filter(function (Amendment $a) {
             if ($a->schedule == null) {
                 return false;
             }
 
             $days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
             foreach ($days as $day) {
-                if ($a->schedule->{$day . "_s"} != null || $a->schedule->{$day . "_e"} != null) {
+                if ($a->schedule->{"{$day}_s"} != null || $a->schedule->{"{$day}_e"} != null) {
                     return true;
                 }
             }
@@ -167,7 +179,7 @@ class Internship extends Model
 
     public function getDilationAttribute()
     {
-        $dateS = date_create("{$this->student->year}-01-01");
+        $dateS = Carbon::createFromFormat("!Y-m-d", "{$this->student->year}-01-01");
         $max_years = GeneralConfiguration::getMaxYears($dateS);
         $limitDate = $dateS->modify("+{$max_years} year")->modify("-1 day");
 
@@ -198,7 +210,6 @@ class Internship extends Model
         }
 
         if ($amendments != null) {
-            /* @var $amendment Amendment */
             foreach ($amendments as $amendment) {
                 if ($amendment->schedule != null) {
                     $h += $amendment->schedule->countHours($amendment->start_date, $amendment->end_date, $amendments);
@@ -208,21 +219,13 @@ class Internship extends Model
                     $h += $amendment->schedule2->countHours($amendment->start_date, $amendment->end_date, $amendments);
                 }
 
-                $amendments = $amendments->filter(function ($a) use ($amendment) {
+                $amendments = $amendments->filter(function (Amendment $a) use ($amendment) {
                     return $a->id != $amendment->id;
                 });
             }
         }
 
         return $h;
-    }
-
-    public function getFormattedProtocolAttribute()
-    {
-        $protocol = $this->protocol;
-        $n = substr($protocol, 0, 3);
-        $y = substr($protocol, 3, 4);
-        return "$n/$y";
     }
 
     public function needsFinalReport()
@@ -233,12 +236,12 @@ class Internship extends Model
     public static function finishedToday()
     {
         $today = Carbon::today();
-        return static::where('state_id', '=', State::OPEN)->where('active', '=', true)->get()->where('a_end_date', '=', $today);
+        return static::actives()->where('state_id', '=', State::OPEN)->get()->where('a_end_date', '=', $today);
     }
 
     public static function requiringFinish()
     {
         $today = Carbon::today()->modify('-20 day');
-        return static::where('state_id', '=', State::OPEN)->where('active', '=', true)->get()->where('a_end_date', '<=', $today);
+        return static::actives()->where('state_id', '=', State::OPEN)->get()->where('a_end_date', '<=', $today);
     }
 }

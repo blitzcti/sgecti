@@ -3,8 +3,8 @@
 namespace App\Rules;
 
 use App\Models\NSac\Student;
-use Exception;
 use Illuminate\Contracts\Validation\Rule;
+use Throwable;
 
 class StudentHasJob implements Rule
 {
@@ -37,7 +37,7 @@ class StudentHasJob implements Rule
             }
 
             return $ret;
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return false;
         }
     }

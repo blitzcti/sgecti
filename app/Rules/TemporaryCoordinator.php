@@ -5,8 +5,8 @@ namespace App\Rules;
 use App\Models\Coordinator;
 use App\Models\Course;
 use App\Models\User;
-use Exception;
 use Illuminate\Contracts\Validation\Rule;
+use Throwable;
 
 class TemporaryCoordinator implements Rule
 {
@@ -44,7 +44,7 @@ class TemporaryCoordinator implements Rule
             $coordinator = Coordinator::find($value);
 
             return $coordinator->course_id == $course->id && $coordinator->user_id != $user->id;
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return false;
         }
     }

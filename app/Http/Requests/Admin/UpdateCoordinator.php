@@ -24,8 +24,10 @@ class UpdateCoordinator extends FormRequest
      */
     public function rules()
     {
+        $usersDB = config('broker.useSSO') ? config('database.sso') : config('database.default');
+
         return [
-            'user' => ['required', 'integer', 'min:1', 'exists:users,id'],
+            'user' => ['required', 'integer', 'min:1', "exists:{$usersDB}.users,id"],
             'course' => ['required', 'integer', 'min:1', 'exists:courses,id'],
             'tempOf' => ['required', 'integer', 'min:0', new TemporaryCoordinator($this->get('user'), $this->get('course')), ($this->get('tempOf') > 0) ? 'exists:coordinators,id' : ''],
             'startDate' => ['required', 'date'],

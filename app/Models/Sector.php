@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Utils\Active;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -21,6 +22,13 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class Sector extends Model
 {
+    use Active;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'name', 'description', 'active',
     ];

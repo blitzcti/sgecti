@@ -9,7 +9,7 @@
 @section('content')
     @include('modals.coordinator.cloneSchedule')
 
-    <form class="form-horizontal" action="{{ route('coordenador.estagio.aditivo.alterar', $amendment->id) }}"
+    <form class="form-horizontal" action="{{ route('coordenador.estagio.aditivo.alterar', ['id' => $amendment->id]) }}"
           method="post">
         @method('PUT')
         @csrf

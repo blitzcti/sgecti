@@ -41,7 +41,7 @@ class AgreementController extends Controller
 
     public function create()
     {
-        $companies = Company::all()->where('active', '=', true)->sortBy('id');
+        $companies = Company::actives()->orderBy('id')->get();
         $c = request()->c;
         return view('coordinator.company.agreement.new')->with(['companies' => $companies, 'c' => $c]);
     }
@@ -107,10 +107,7 @@ class AgreementController extends Controller
         if ($saved) {
             Log::info($log);
 
-            if ($agreement->end_date < Carbon::now()) {
-                // O convênio está expirado, logo o usuário deve ser removido
-                $agreement->deleteUser();
-            } else if ($agreement->company->user == null) {
+            if (!$agreement->company->user) {
                 $agreement->createUser();
             }
         } else {
@@ -166,7 +163,6 @@ class AgreementController extends Controller
 
         if ($saved) {
             Log::info($log);
-            $agreement->deleteUser();
         } else {
             Log::error("Erro ao cancelar convênio");
         }
@@ -195,7 +191,10 @@ class AgreementController extends Controller
 
         if ($saved) {
             Log::info($log);
-            $agreement->createUser();
+
+            if (!$agreement->company->user) {
+                $agreement->createUser();
+            }
         } else {
             Log::error("Erro ao reativar convênio");
         }
@@ -210,7 +209,6 @@ class AgreementController extends Controller
     {
         $agreements = Agreement::expiredToday();
 
-        /* @var $agreement Agreement */
         foreach ($agreements as $agreement) {
             $agreement->deleteUser();
         }

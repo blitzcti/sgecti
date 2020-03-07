@@ -3,8 +3,8 @@
 namespace App\Rules;
 
 use App\Models\Company;
-use Exception;
 use Illuminate\Contracts\Validation\Rule;
+use Throwable;
 
 class CompanyHasNoAgreement implements Rule
 {
@@ -31,7 +31,7 @@ class CompanyHasNoAgreement implements Rule
             $company = Company::find($value);
 
             return !$company->hasAgreementAt();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return false;
         }
     }

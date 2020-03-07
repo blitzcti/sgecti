@@ -4,17 +4,25 @@ namespace App\Http\Controllers\API;
 
 use App\APIUtils;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ExternalAPISController extends Controller
 {
     public function getUFS(Request $request)
     {
-        $url = APIUtils::parseURL('apis.ufs.url');
-        $column = config('apis.ufs.column');
-        $json = APIUtils::getData($url);
-        $json = array_column($json, $column);
-        APIUtils::sort($json);
+        if (Cache::has('extapi.ufs')) {
+            $json = Cache::get('extapi.ufs');
+        } else {
+            $url = APIUtils::parseURL('apis.ufs.url');
+            $column = config('apis.ufs.column');
+            $json = APIUtils::getData($url);
+            $json = array_column($json, $column);
+            APIUtils::sort($json);
+
+            Cache::put('extapi.ufs', $json, Carbon::now()->addDay());
+        }
 
         if (!empty($request->q)) {
             $json = APIUtils::search($json, $request->q);
@@ -48,10 +56,17 @@ class ExternalAPISController extends Controller
             );
         }
 
-        $url = APIUtils::parseURL('apis.ufs.url');
-        $column = config('apis.ufs.column');
-        $json = APIUtils::getData($url);
-        $json = array_column($json, 'id', $column);
+        if (Cache::has('extapi.ufsid')) {
+            $json = Cache::get('extapi.ufsid');
+        } else {
+            $url = APIUtils::parseURL('apis.ufs.url');
+            $column = config('apis.ufs.column');
+            $json = APIUtils::getData($url);
+            $json = array_column($json, 'id', $column);
+
+            Cache::put('extapi.ufsid', $json, Carbon::now()->addDay());
+        }
+
 
         $ufId = 0;
         foreach ($json as $data => $id) {
@@ -74,11 +89,18 @@ class ExternalAPISController extends Controller
             );
         }
 
-        $url = APIUtils::parseURL('apis.cities.url', $ufId);
-        $column = config('apis.cities.column');
-        $json = APIUtils::getData($url);
-        $json = array_column($json, $column);
-        APIUtils::sort($json);
+        if (Cache::has("extapi.cities_{$ufId}")) {
+            $json = Cache::get("extapi.cities_{$ufId}");
+        } else {
+            $url = APIUtils::parseURL('apis.cities.url', $ufId);
+            $column = config('apis.cities.column');
+            $json = APIUtils::getData($url);
+            $json = array_column($json, $column);
+            APIUtils::sort($json);
+
+            Cache::put("extapi.cities_{$ufId}", $json, Carbon::now()->addDay());
+        }
+
 
         if (!empty($request->q)) {
             $json = APIUtils::search($json, $request->q);

@@ -82,7 +82,7 @@
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputIE" name="ie" placeholder="02.232.3355-6"
-                               data-inputmask="'mask': '99.999.9999-9'" value="{{ old('ie') ?? '' }}"/>
+                               data-inputmask="'mask': '99999999999999999999'" value="{{ old('ie') ?? '' }}"/>
 
                         <span class="help-block">{{ $errors->first('ie') }}</span>
                     </div>
@@ -285,11 +285,9 @@
                                 style="width: 100%">
 
                             @foreach($sectors as $sector)
-
                                 <option
                                     value="{{ $sector->id }}" {{ in_array($sector->id, (old('sectors') ?? [])) ? "selected" : "" }}>
                                     {{ $sector->name }}</option>
-
                             @endforeach
 
                         </select>
@@ -307,11 +305,9 @@
                                 style="width: 100%">
 
                             @foreach($courses as $course)
-
                                 <option
                                     value="{{ $course->id }}" {{ in_array($course->id, (old('courses') ?? [])) ? "selected" : "" }}>
                                     {{ $course->name }}</option>
-
                             @endforeach
 
                         </select>
@@ -560,6 +556,8 @@
                                         company.number = '';
                                         company.complement = '';
                                         company.district = '';
+
+                                        return;
                                     }
 
                                     jQuery('#inputName').val(company.name);

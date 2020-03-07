@@ -35,7 +35,6 @@
 
                 <tbody>
                 @foreach($students as $student)
-
                     <tr>
                         <th scope="row">{{ $student->matricula }}</th>
                         <td>{{ $student->nome }}</td>
@@ -48,7 +47,6 @@
                                data-toggle="modal" class="text-green" data-target="#graduateModal">Graduar</a>
                         </td>
                     </tr>
-
                 @endforeach
                 </tbody>
             </table>

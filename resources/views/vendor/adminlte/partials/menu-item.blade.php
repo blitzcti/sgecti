@@ -1,12 +1,12 @@
 @if(is_string($item))
-    <li class="header">{{ __($item) }}</li>
+    <li class="header">{{ $item }}</li>
 @elseif (isset($item['header']))
-    <li class="header">{{ __($item['header']) }}</li>
+    <li class="header">{{ $item['header'] }}</li>
 @elseif (isset($item['search']) && $item['search'])
     <form action="{{ $item['href'] }}" method="{{ $item['method'] }}" class="sidebar-form">
         <div class="input-group">
             <input type="text" name="{{ $item['input_name'] }}" class="form-control"
-                   placeholder="{{ __($item['text']) }}">
+                   placeholder="{{ $item['text'] }}">
             <span class="input-group-btn">
                 <button type="submit" name="search" id="search-btn" class="btn btn-flat">
                   <i class="fa fa-search"></i>
@@ -18,7 +18,7 @@
     <li class="{{ $item['class'] }}">
         <a href="{{ $item['href'] }}" @if(isset($item['target'])) target="{{ $item['target'] }}" @endif>
             <i class="fa fa-fw fa-{{ $item['icon'] ?? 'circle-o' }} {{ isset($item['icon_color']) ? 'text-' . $item['icon_color'] : '' }}"></i>
-            <span>{{ __($item['text']) }}</span>
+            <span>{{ $item['text'] }}</span>
 
             @if(isset($item['label']))
                 <span class="pull-right-container">

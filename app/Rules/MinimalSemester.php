@@ -4,8 +4,8 @@ namespace App\Rules;
 
 use App\Models\NSac\Student;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Contracts\Validation\Rule;
+use Throwable;
 
 class MinimalSemester implements Rule
 {
@@ -39,7 +39,7 @@ class MinimalSemester implements Rule
             $semester = ($this->date->month < 7) ? 1 : 2;
 
             return $semester >= $student->course_configuration->min_semester;
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return false;
         }
     }

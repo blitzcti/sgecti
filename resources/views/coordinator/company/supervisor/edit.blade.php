@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    <form class="form-horizontal" action="{{ route('coordenador.empresa.supervisor.alterar', $supervisor->id) }}"
+    <form class="form-horizontal" action="{{ route('coordenador.empresa.supervisor.alterar', ['id' => $supervisor->id]) }}"
           method="post">
         @method('PUT')
         @csrf
@@ -25,12 +25,10 @@
                                 style="width: 100%">
 
                             @foreach($companies as $company)
-
                                 <option
                                     value="{{ $company->id }}" {{ (old('company') ?? $supervisor->company_id) == $company->id ? 'selected' : '' }}>
                                     {{ $company->formatted_cpf_cnpj }} - {{ $company->name }} {{ $company->fantasy_name != null ? " ($company->fantasy_name)" : '' }}
                                 </option>
-
                             @endforeach
 
                         </select>

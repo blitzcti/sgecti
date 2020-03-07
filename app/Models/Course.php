@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\NSac\Student;
+use App\Models\Utils\Active;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -28,6 +29,13 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class Course extends Model
 {
+    use Active;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'name', 'color_id', 'active',
     ];
@@ -45,7 +53,7 @@ class Course extends Model
 
     public function getStudentsAttribute()
     {
-        return Student::actives()->where('course_id', '=', $this->id);
+        return Student::getActives()->where('course_id', '=', $this->id);
     }
 
     public function coordinators()
@@ -75,25 +83,23 @@ class Course extends Model
 
     public function coordinatorAt($date)
     {
-        $coordinator = $this->coordinators->where('end_date', $date != null ? '>' : '=', $date)->where('temp_of', '=', null)->sortBy('id');
-        return $coordinator->last();
+        return $this->coordinators->where('end_date', ($date != null) ? '>' : '=', $date)->where('temp_of', '=', null)->sortBy('id')->last();
     }
 
     public function getCoordinatorAttribute()
     {
-        $coordinator = $this->coordinatorAt(Carbon::today()->toDateString()) ?? $this->coordinatorAt(null);
-        return $coordinator;
+        return $this->coordinatorAt(Carbon::today()->toDateString()) ?? $this->coordinatorAt(null);
     }
 
     public function getNonTempCoordinatorsAttribute()
     {
-        return $this->coordinators->where('temporary_of', '=', null)->sortBy('id');
+        return $this->coordinators->where('temp_of', '=', null)->sortBy('id');
     }
 
     public function configurationAt($dateTime)
     {
-        $config = $this->configurations->where('created_at', '<=', $dateTime)->sortBy('id');
-        return $config->last() ?? GeneralConfiguration::all()->where('created_at', '<=', $dateTime)->sortBy('id')->last();
+        $config = $this->configurations()->whereDate('created_at', '<=', $dateTime)->orderBy('id')->get()->last();
+        return $config ?? GeneralConfiguration::where('created_at', '<=', $dateTime)->orderBy('id')->get()->last();
     }
 
     public function configuration()

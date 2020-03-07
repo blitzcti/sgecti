@@ -36,8 +36,8 @@ class CompanyController extends Controller
 
     public function create()
     {
-        $sectors = Sector::all()->where('active', '=', true)->sortBy('id');
-        $courses = Course::all()->where('active', '=', true)->sortBy('id');
+        $sectors = Sector::actives()->orderBy('id')->get();
+        $courses = Course::actives()->orderBy('id')->get();
 
         return view('coordinator.company.new')->with(['sectors' => $sectors, 'courses' => $courses]);
     }
@@ -46,8 +46,8 @@ class CompanyController extends Controller
     {
         $company = Company::findOrFail($id);
         $address = $company->address;
-        $sectors = Sector::all()->where('active', '=', true)->merge($company->sectors)->sortBy('id');
-        $courses = Course::all()->where('active', '=', true)->merge($company->courses)->sortBy('id');
+        $sectors = Sector::getActives()->merge($company->sectors)->sortBy('id');
+        $courses = Course::getActives()->merge($company->courses)->sortBy('id');
 
         return view('coordinator.company.edit')->with([
             'company' => $company, 'address' => $address, 'sectors' => $sectors, 'courses' => $courses,
@@ -66,14 +66,13 @@ class CompanyController extends Controller
     {
         ini_set('max_execution_time', 300);
 
-        $cIds = Auth::user()->coordinator_courses_id;
         $company = Company::findOrFail($id);
 
         $data = [
             'company' => $company,
             'internships' => $company->internships->where('state_id', '=', State::OPEN)->sortBy('student.nome'),
             'finished_internships' => $company->internships->where('state_id', '=', State::FINISHED)->sortBy('student.nome'),
-            'courses' => Course::findOrFail($cIds),
+            'courses' => Auth::user()->coordinator_of,
         ];
 
         $pdf = PDF::loadView('pdf.company.students', $data);

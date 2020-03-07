@@ -77,7 +77,7 @@
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="inputIE" name="ie" placeholder="02.232.3355-6"
-                               data-inputmask="'mask': '99.999.9999-9'" value="{{ old('ie') ?? '' }}"/>
+                               data-inputmask="'mask': '99999999999999999999'" value="{{ old('ie') ?? '' }}"/>
 
                         <span class="help-block">{{ $errors->first('ie') }}</span>
                     </div>

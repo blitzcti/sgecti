@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Utils\Phone;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -37,9 +38,16 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class Proposal extends Model
 {
+    use Phone;
+
     public const INTERNSHIP = 0;
     public const IC = 1;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'company_id', 'deadline', 'schedule_id', 'schedule_2_id', 'remuneration', 'description', 'requirements',
         'benefits', 'email', 'subject', 'phone', 'other', 'type', 'observation', 'approved_at', 'reason_to_reject'
@@ -86,26 +94,13 @@ class Proposal extends Model
         $this->courses()->sync($courses);
     }
 
-    public function getFormattedPhoneAttribute()
-    {
-        $phone = $this->phone;
-        if ($phone == null) {
-            return null;
-        }
-
-        $ddd = substr($phone, 0, 2);
-        $p1 = (strlen($phone) == 10) ? substr($phone, 2, 4) : substr($phone, 2, 5);
-        $p2 = (strlen($phone) == 10) ? substr($phone, 6, 4) : substr($phone, 7, 4);
-        return "($ddd) $p1-$p2";
-    }
-
     public static function approved()
     {
-        return static::where('approved_at', '<>', null)->where('deadline', '>=', Carbon::today())->get();
+        return static::whereNotNull('approved_at')->whereDate('deadline', '>=', Carbon::today())->get();
     }
 
     public static function pending()
     {
-        return static::where('approved_at', '=', null)->where('deadline', '>=', Carbon::today())->where('reason_to_reject', '=', null)->get();
+        return static::whereNull('approved_at')->whereDate('deadline', '>=', Carbon::today())->whereNull('reason_to_reject')->get();
     }
 }

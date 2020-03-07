@@ -37,7 +37,7 @@ class SupervisorController extends Controller
 
     public function create()
     {
-        $companies = Company::all()->where('active', '=', true)->sortBy('id');
+        $companies = Company::actives()->orderBy('id')->get();
         $c = request()->c;
         return view('coordinator.company.supervisor.new')->with(['companies' => $companies, 'c' => $c]);
     }
@@ -45,7 +45,7 @@ class SupervisorController extends Controller
     public function edit($id)
     {
         $supervisor = Supervisor::findOrFail($id);
-        $companies = Company::all()->where('active', '=', true)->merge([$supervisor->company])->sortBy('id');
+        $companies = Company::getActives()->merge([$supervisor->company])->sortBy('id');
 
         return view('coordinator.company.supervisor.edit')->with([
             'supervisor' => $supervisor, 'companies' => $companies,

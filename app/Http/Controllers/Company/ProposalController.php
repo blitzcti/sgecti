@@ -52,7 +52,7 @@ class ProposalController extends Controller
 
         return view('company.proposal.new')->with([
             'courses' => $courses,
-            'fields' => ['mon', 'tue', 'wed', 'thu', 'fri', 'sat']
+            'fields' => ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'],
         ]);
     }
 
@@ -65,7 +65,7 @@ class ProposalController extends Controller
         return view('company.proposal.edit')->with([
             'proposal' => $proposal,
             'courses' => $courses,
-            'fields' => ['mon', 'tue', 'wed', 'thu', 'fri', 'sat']
+            'fields' => ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'],
         ]);
     }
 
@@ -145,12 +145,11 @@ class ProposalController extends Controller
             $company = Auth::user()->company;
             $notification = new WebNotification([
                 'description' => "Proposta de estágio",
-                'text' => "A empresa $company->name acabou de enviar uma nova proposta de estágio.",
+                'text' => "A empresa {$company->name} acabou de enviar uma nova proposta de estágio.",
                 'icon' => 'bullhorn',
                 'url' => route('coordenador.proposta.detalhes', ['id' => $proposal->id]),
             ]);
 
-            /* @var $course Course */
             foreach ($proposal->courses as $course) {
                 if ($course->coordinator != null) {
                     $course->coordinator->user->notify($notification);
@@ -169,6 +168,8 @@ class ProposalController extends Controller
     public function update($id, UpdateProposal $request)
     {
         $company = Auth::user()->company;
+
+        /* @var $proposal Proposal */
         $proposal = $company->proposals()->findOrFail($id);
         $params = [];
 
@@ -252,12 +253,11 @@ class ProposalController extends Controller
                 $company = Auth::user()->company;
                 $notification = new WebNotification([
                     'description' => "Proposta de estágio",
-                    'text' => "A empresa $company->name reenviou uma proposta de estágio rejeitada.",
+                    'text' => "A empresa {$company->name} reenviou uma proposta de estágio rejeitada.",
                     'icon' => 'bullhorn',
                     'url' => route('coordenador.proposta.detalhes', ['id' => $proposal->id]),
                 ]);
 
-                /* @var $course Course */
                 foreach ($proposal->courses as $course) {
                     if ($course->coordinator != null) {
                         $course->coordinator->user->notify($notification);
@@ -270,12 +270,11 @@ class ProposalController extends Controller
                 $company = Auth::user()->company;
                 $notification = new WebNotification([
                     'description' => "Proposta de estágio",
-                    'text' => "A empresa $company->name editou uma proposta de estágio.",
+                    'text' => "A empresa {$company->name} editou uma proposta de estágio.",
                     'icon' => 'bullhorn',
                     'url' => route('coordenador.proposta.detalhes', ['id' => $proposal->id]),
                 ]);
 
-                /* @var $course Course */
                 foreach ($proposal->courses as $course) {
                     $course->coordinator->user->notify($notification);
                 }

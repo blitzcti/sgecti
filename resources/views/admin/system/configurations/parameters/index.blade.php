@@ -40,7 +40,6 @@
                 <tbody>
 
                 @foreach($configs as $config)
-
                     <tr>
                         <td>{{ $config->name }}</td>
                         <td>{{ $config->cep }}</td>
@@ -55,7 +54,6 @@
                                 href="{{ route('admin.configuracao.parametros.editar', ['id' => $config->id]) }}">Editar</a>
                         </td>
                     </tr>
-
                 @endforeach
 
                 </tbody>

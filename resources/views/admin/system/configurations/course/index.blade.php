@@ -40,7 +40,6 @@
                 <tbody>
 
                 @foreach($configs as $config)
-
                     <tr>
                         <td>{{ $config->max_years }}</td>
                         <td>{{ $config->min_year }}</td>
@@ -55,7 +54,6 @@
                                href="{{ route('admin.configuracao.curso.editar', ['id' => $config->id]) }}">Editar</a>
                         </td>
                     </tr>
-
                 @endforeach
 
                 </tbody>

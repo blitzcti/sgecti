@@ -4,8 +4,8 @@ namespace App\Rules;
 
 use App\Models\Company;
 use App\Models\Supervisor;
-use Exception;
 use Illuminate\Contracts\Validation\Rule;
+use Throwable;
 
 class CompanyHasSupervisor implements Rule
 {
@@ -34,10 +34,8 @@ class CompanyHasSupervisor implements Rule
             $company = Company::find($this->company_id);
             $supervisor = Supervisor::find($value);
 
-            return in_array($supervisor->id, $company->supervisors->map(function ($s) {
-                return $s->id;
-            })->toArray());
-        } catch (Exception $e) {
+            return $supervisor->company->id == $company->id;
+        } catch (Throwable $e) {
             return false;
         }
     }

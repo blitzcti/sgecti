@@ -66,15 +66,14 @@ class Student extends Model
      *
      * @var string
      */
-    protected $table = "alunos_view";
+    protected $table = 'alunos_view';
 
     /**
-     * primaryKey
+     * The primary key for the model.
      *
      * @var string
-     * @access protected
      */
-    protected $primaryKey = "matricula";
+    protected $primaryKey = 'matricula';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -101,7 +100,9 @@ class Student extends Model
      *
      * @var array
      */
-    protected $appends = ['course_id', 'year', 'grade', 'class', 'age'];
+    protected $appends = [
+        'course_id', 'year', 'grade', 'class', 'age',
+    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -138,7 +139,7 @@ class Student extends Model
     public function getYearAttribute()
     {
         $y = substr($this->matricula, 0, 2);
-        $y = (intval($y) < 82) ? "20$y" : "19$y";
+        $y = (intval($y) < 82) ? "20{$y}" : "19{$y}";
         return intval($y);
     }
 
@@ -196,28 +197,20 @@ class Student extends Model
     public function getCompletedHoursAttribute()
     {
         $internships = $this->finished_internships;
-        $h = 0;
-        $h += $internships->reduce(function ($a, $i) {
-            /* @var $i Internship */
+        return $internships->reduce(function ($a, Internship $i) {
             $a += $i->final_report->completed_hours;
             return $a;
         });
-
-        return $h;
     }
 
     public function getCompletedMonthsAttribute()
     {
         $internships = $this->finished_internships;
-        $h = 0;
-        $h += $internships->reduce(function ($a, $i) {
-            /* @var $i Internship */
+        return $internships->reduce(function ($a, Internship $i) {
             $interval = $i->final_report->end_date->diff($i->start_date);
             $a += $interval->m + $interval->y * 12;
             return $a;
         });
-
-        return $h;
     }
 
     public function getCtpsCompletedMonthsAttribute()
@@ -265,6 +258,11 @@ class Student extends Model
 
     public static function actives()
     {
-        return static::where('situacao_matricula', '=', 0)->orWhere('situacao_matricula', '=', 5)->get();
+        return static::whereIn('situacao_matricula', [0, 5]);
+    }
+
+    public static function getActives()
+    {
+        return static::actives()->get();
     }
 }

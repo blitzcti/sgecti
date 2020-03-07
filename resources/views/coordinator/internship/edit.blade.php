@@ -10,7 +10,7 @@
     @include('modals.coordinator.company.supervisor.new')
     @include('modals.coordinator.cloneSchedule')
 
-    <form class="form-horizontal" action="{{ route('coordenador.estagio.alterar', $internship->id) }}" method="post">
+    <form class="form-horizontal" action="{{ route('coordenador.estagio.alterar', ['id' => $internship->id]) }}" method="post">
         @method('PUT')
         @csrf
 
@@ -94,12 +94,10 @@
                                 style="width: 100%">
 
                             @foreach($internship->company->sectors as $sector)
-
                                 <option
                                     value="{{ $sector->id }}" {{ (old('sector') ?? $internship->sector->id) == $sector->id ? "selected" : "" }}>
                                     {{ $sector->name }}
                                 </option>
-
                             @endforeach
 
                         </select>
@@ -117,12 +115,10 @@
                                 style="width: 100%">
 
                             @foreach($internship->company->supervisors as $supervisor)
-
                                 <option
                                     value="{{ $supervisor->id }}" {{ (old('supervisor') ?? $internship->supervisor->id) == $supervisor->id ? "selected" : "" }}>
                                     {{ $supervisor->name }}
                                 </option>
-
                             @endforeach
 
                         </select>

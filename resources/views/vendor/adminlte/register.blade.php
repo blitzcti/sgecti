@@ -15,7 +15,7 @@
         <div class="register-box-body">
             <p class="login-box-msg">{{ __('adminlte.register_message') }}</p>
             <form action="{{ url(config('adminlte.register_url', 'register')) }}" method="post">
-                {{ csrf_field() }}
+                @csrf
 
                 <div class="form-group has-feedback {{ $errors->has('name') ? 'has-error' : '' }}">
                     <input type="text" name="name" class="form-control" value="{{ old('name') }}"
@@ -69,7 +69,7 @@
         <!-- /.form-box -->
         <div class="box-footer" style="text-align: center;">
             <small>Colégio Técnico Industrial "Prof. Isaac Portal Roldán" UNESP Bauru<br/>
-                Copyright © 2019 SGE
+                Copyright © {{ \Carbon\Carbon::now()->year }} SGE
             </small>
         </div>0
         <!-- /.box-footer -->

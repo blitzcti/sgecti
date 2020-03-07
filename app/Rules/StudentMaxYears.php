@@ -4,8 +4,9 @@ namespace App\Rules;
 
 use App\Models\GeneralConfiguration;
 use App\Models\NSac\Student;
-use Exception;
+use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
+use Throwable;
 
 class StudentMaxYears implements Rule
 {
@@ -36,14 +37,15 @@ class StudentMaxYears implements Rule
         try {
             $student = Student::find($value);
 
-            $dateS = date_create("{$student->year}-01-01");
+            $dateS = Carbon::createFromFormat("!Y-m-d", "{$student->year}-01-01");
             $max_years = GeneralConfiguration::getMaxYears($dateS);
-            $d1 = date_create($this->startDate);
-            $d2 = date_create($this->endDate);
+
+            $d1 = Carbon::createFromFormat("!Y-m-d", $this->startDate);
+            $d2 = Carbon::createFromFormat("!Y-m-d", $this->endDate);
             $limitDate = $dateS->modify("+{$max_years} year")->modify("-1 day");
 
             return $d1 <= $limitDate && $d2 <= $limitDate;
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return false;
         }
     }

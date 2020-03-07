@@ -24,6 +24,11 @@ class State extends Model
     public const CANCELED = 3;
     public const INVALID = 4;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'description',
     ];
